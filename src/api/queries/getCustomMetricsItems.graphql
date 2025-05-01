@@ -1,0 +1,7 @@
+query GetCustomMetricsItems($metricsId: Int!) {
+  getCustomMetricsItems(metricsId: $metricsId) {
+    id
+    date
+    value
+  }
+}

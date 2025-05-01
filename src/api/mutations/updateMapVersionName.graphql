@@ -1,0 +1,5 @@
+mutation UpdateMapVersionName($updateMapVersionInput: UpdateMapVersionInput!){
+    updateMapVersionName(updateMapVersionInput: $updateMapVersionInput){
+        id
+    }
+}

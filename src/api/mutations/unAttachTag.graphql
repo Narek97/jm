@@ -1,0 +1,5 @@
+mutation UnAttachTag($unAttachTagInput: UnAttachTagInput!) {
+  unAttachTag(unAttachTagInput: $unAttachTagInput) {
+  id
+  }
+}

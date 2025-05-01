@@ -1,0 +1,31 @@
+query GetPersonasInfinite($getPersonasInput: GetPersonasInput!) {
+  getPersonas(getPersonasInput: $getPersonasInput) {
+    count
+    personas {
+      id
+      type
+      name
+      color
+      isSelected
+      journeys
+      personaGroupId
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
+      attachment {
+        id
+        url
+        key
+        croppedArea {
+          width
+          height
+          x
+          y
+        }
+      }
+    }
+  }
+}

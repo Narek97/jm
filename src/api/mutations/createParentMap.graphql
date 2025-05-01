@@ -1,0 +1,5 @@
+mutation CreateParentMap($createParentMapInput: CreateParentMapInput!) {
+  createParentMap(createParentMapInput: $createParentMapInput) {
+    id
+  }
+}

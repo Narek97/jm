@@ -1,0 +1,9 @@
+mutation UpdateLayer($updateLayerInput: UpdateLayerInput!) {
+  updateLayer(updateLayerInput: $updateLayerInput) {
+    id
+    columnIds
+    rowIds
+    tagIds
+    columnSelectedStepIds
+  }
+}

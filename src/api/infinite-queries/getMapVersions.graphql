@@ -1,0 +1,13 @@
+query GetMapVersions($getMapVersionsInput: GetMapVersionsInput!) {
+    getMapVersions(getMapVersionsInput: $getMapVersionsInput) {
+        count
+        mapVersions{
+            id
+            mapId
+            versionName
+            s3ObjectUrl
+            createdAt
+            updatedAt
+        }
+    }
+}

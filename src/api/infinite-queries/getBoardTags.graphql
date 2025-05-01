@@ -1,0 +1,10 @@
+query GetBoardTags($getBoardTagsInput: GetBoardTagsInput!) {
+  getBoardTags(getBoardTagsInput: $getBoardTagsInput) {
+    count
+    tags {
+      color
+      id
+      name
+    }
+  }
+}

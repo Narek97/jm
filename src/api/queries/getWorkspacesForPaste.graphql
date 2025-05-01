@@ -1,0 +1,6 @@
+query GetWorkspacesForPast($orgId: Int!) {
+  getWorkspaces(orgId:$orgId) {
+    id
+    name
+  }
+}

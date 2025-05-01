@@ -1,0 +1,5 @@
+mutation CompareJourneyMapJson($compareJourneyMapJsonInput: CompareJourneyMapJsonInput!) {
+  compareJourneyMapJson(compareJourneyMapJsonInput: $compareJourneyMapJsonInput) {
+    id
+  }
+}

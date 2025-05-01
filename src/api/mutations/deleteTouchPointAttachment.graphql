@@ -1,0 +1,7 @@
+mutation DeleteTouchPointAttachment(
+  $deleteTouchPointAttachmentTypeInput: DeleteTouchPointAttachmentTypeInput!
+) {
+  deleteTouchPointAttachment(
+    deleteTouchPointAttachmentTypeInput: $deleteTouchPointAttachmentTypeInput
+  )
+}

@@ -1,0 +1,31 @@
+query GetPersonaSections($getPersonaSectionsInput: GetPersonaSectionsInput!){
+    getPersonaSections(getPersonaSectionsInput: $getPersonaSectionsInput){
+        id
+        w
+        h
+        x
+        y
+        i
+        key
+        color
+        content
+        isPinned
+        isHidden
+    }
+}
+
+query GetPinPersonaSections($getPersonaSectionsInput: GetPersonaSectionsInput!){
+    getPersonaSections(getPersonaSectionsInput: $getPersonaSectionsInput){
+        id
+        w
+        h
+        x
+        y
+        i
+        key
+        color
+        content
+        isPinned
+        isHidden
+    }
+}

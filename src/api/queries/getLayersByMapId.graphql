@@ -1,0 +1,12 @@
+query GetLayersByMapId($getLayersInput: GetLayersInput!) {
+  getLayersByMapId(getLayersInput: $getLayersInput) {
+    layers {
+      columnIds
+      columnSelectedStepIds
+      id
+      name
+      rowIds
+      tagIds
+    }
+  }
+}

@@ -1,0 +1,15 @@
+mutation CopyMap($copyMapInput: CopyMapInput!) {
+  copyMap(copyMapInput: $copyMapInput){
+    title
+    id
+    type
+    createdAt
+    updatedAt
+    boardId
+    owner {
+      firstName
+      lastName
+      emailAddress
+    }
+  }
+}

@@ -1,0 +1,31 @@
+query GetPersonaById($getPersonaByIdInput: GetPersonaByIdInput!) {
+  getPersonaById(getPersonaByIdInput: $getPersonaByIdInput) {
+    id
+    name
+    type
+    color
+    journeys
+    workspaceId
+    workspaceName
+    personaGroupId
+    personaGroupName
+    croppedArea {
+      width
+      height
+      x
+      y
+    }
+    attachment {
+      id
+      key
+      url
+      hasResizedVersions
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
+    }
+  }
+}

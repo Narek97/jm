@@ -1,0 +1,5 @@
+mutation RetrieveRow($id: Int!){
+    retrieveRow(id: $id){
+        id
+    }
+}

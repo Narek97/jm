@@ -1,0 +1,3 @@
+mutation DeletePersonaGroup($id: Int!) {
+  deletePersonaGroup(id: $id)
+}

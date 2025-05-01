@@ -1,0 +1,5 @@
+mutation CreateLayer($createLayerInput: CreateLayerInput!) {
+  createLayer(createLayerInput: $createLayerInput) {
+    id
+  }
+}

@@ -1,0 +1,6 @@
+mutation UpdateLinkBGColor($updateLinkBGColor: UpdateLinkBGColor!) {
+  updateLinkBGColor(updateLinkBGColor: $updateLinkBGColor) {
+    id
+    bgColor
+  }
+}

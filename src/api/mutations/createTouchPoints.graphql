@@ -1,0 +1,20 @@
+mutation CreateTouchPoints($createTouchPointInput: CreateTouchPointInput!) {
+  createTouchPoints(createTouchPointInput: $createTouchPointInput) {
+    deletedAttachments
+    createdTouchpoints{
+      id
+      iconUrl
+      title
+      boxId
+      rowId
+      columnId
+      bgColor
+      commentsCount
+      flippedText
+      persona {
+        id
+      }
+    }
+
+  }
+}

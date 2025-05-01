@@ -1,0 +1,3 @@
+mutation DeleteMapVersion($id: Int!) {
+    deleteMapVersion(id: $id)
+}

@@ -1,0 +1,18 @@
+query GetJourneyMap($getJourneyMapInput: GetJourneyMapInput!) {
+  getJourneyMap(getJourneyMapInput: $getJourneyMapInput) {
+    map {
+      title
+      boardId
+      rowCount
+      columnCount
+    }
+    columns {
+      id
+      bgColor
+      label
+      size
+      isMerged
+      isNextColumnMerged
+    }
+  }
+}

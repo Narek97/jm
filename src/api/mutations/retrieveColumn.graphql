@@ -1,0 +1,5 @@
+mutation RetrieveColumn($id: Int!){
+    retrieveColumn(id: $id){
+        id
+    }
+}

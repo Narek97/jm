@@ -1,0 +1,17 @@
+query GetParentMapsByBoardId($getParentMapByBoardIdInput: GetParentMapByBoardIdInput!) {
+  getParentMapsByBoardId(getParentMapByBoardIdInput: $getParentMapByBoardIdInput) {
+    count
+    maps {
+      title
+      id
+      type
+      createdAt
+      updatedAt
+      owner {
+        firstName
+        lastName
+        emailAddress
+      }
+    }
+  }
+}

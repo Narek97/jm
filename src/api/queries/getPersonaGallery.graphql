@@ -1,0 +1,18 @@
+query GetPersonaGallery($getPersonaGalleryInput: GetPersonaGalleryInput!) {
+  getPersonaGallery(getPersonaGalleryInput: $getPersonaGalleryInput) {
+    count
+    attachments {
+      id
+      url
+      key
+      name
+      hasResizedVersions
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
+    }
+  }
+}

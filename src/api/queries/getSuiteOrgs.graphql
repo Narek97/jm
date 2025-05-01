@@ -1,0 +1,10 @@
+query GetSuiteOrgs($getSuiteOrgsInput: GetSuiteOrgsInput!) {
+  getSuiteOrgs(getSuiteOrgsInput: $getSuiteOrgsInput) {
+    acc_id
+    acc_date_added
+    acc_name
+    qp_org_id
+    acc_status
+  }
+}
+

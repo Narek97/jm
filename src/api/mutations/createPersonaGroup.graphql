@@ -1,0 +1,6 @@
+mutation CreatePersonaGroup($createPersonaGroupInput: CreatePersonaGroupInput!){
+    createPersonaGroup(createPersonaGroupInput: $createPersonaGroupInput){
+        id,
+        name,
+    }
+}

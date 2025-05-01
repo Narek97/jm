@@ -1,0 +1,10 @@
+query GetMapDetails($mapId: Int!) {
+  getMapDetails(mapId: $mapId) {
+    isChildMap
+    isParentMap
+    parentMap {
+    id
+    title
+    }
+  }
+}

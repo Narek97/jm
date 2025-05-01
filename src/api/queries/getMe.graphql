@@ -1,0 +1,20 @@
+query GetMe {
+  getMe {
+    emailAddress
+    firstName
+    lastName
+    userID
+    orgID
+    isAdmin
+    primaryUserAPIKey
+    orgLanguage
+    apiToken
+    userAPIKey
+    accountLanguage
+    businessType {
+      value
+    }
+    debugMode
+    superAdmin
+  }
+}

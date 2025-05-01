@@ -1,0 +1,3 @@
+mutation DeleteAllDemographicInfoFields($personaId: Int!) {
+  deleteAllDemographicInfoFields(personaId: $personaId)
+}

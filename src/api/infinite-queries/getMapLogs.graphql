@@ -1,0 +1,22 @@
+query GetMapLogs($mapId: Int!, $paginationInput: PaginationInput!) {
+    getMapLogs(mapId: $mapId, paginationInput: $paginationInput) {
+        count
+        mapLogs{
+            id
+            action
+            subAction
+            model
+            to
+            from
+            createdAt
+            updatedAt
+            member{
+                id
+                firstName
+                lastName
+                emailAddress
+                color
+            }
+        }
+    }
+}

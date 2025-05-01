@@ -1,0 +1,6 @@
+mutation MergeJourneyMapColumn($mergeColumnInput: MergeColumnInput!) {
+  mergeJourneyMapColumn(mergeColumnInput: $mergeColumnInput) {
+    endBoxId
+    startBoxId
+  }
+}

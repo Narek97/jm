@@ -1,0 +1,8 @@
+query GetCardAttachedTags($cardId: Int!) {
+  getCardAttachedTags(cardId: $cardId) {
+    id
+    name
+    color
+  }
+}
+

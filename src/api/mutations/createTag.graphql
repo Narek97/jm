@@ -1,0 +1,7 @@
+mutation createTag($createTagInput: CreateTagInput!) {
+  createTag(createTagInput: $createTagInput) {
+    id
+    name
+    color
+  }
+}

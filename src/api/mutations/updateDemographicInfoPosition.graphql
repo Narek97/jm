@@ -1,0 +1,9 @@
+mutation UpdateDemographicInfoPosition(
+  $updateDemographicInfoPositionInput: UpdateDemographicInfoPositionInput!
+) {
+  updateDemographicInfoPosition(
+    updateDemographicInfoPositionInput: $updateDemographicInfoPositionInput
+  ) {
+    success
+  }
+}

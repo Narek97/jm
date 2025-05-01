@@ -1,0 +1,37 @@
+query GetPersonaDemographicInfos(
+  $getPersonaDemographicInfosInput: GetPersonaDemographicInfosInput!
+) {
+  getPersonaDemographicInfos(getPersonaDemographicInfosInput: $getPersonaDemographicInfosInput) {
+    demographicInfoFields {
+      id
+      key
+      personaId
+      value
+      type
+      isPinned
+      isHidden
+      isDefault
+    }
+    personaFieldSections {
+      id
+      key
+      personaId
+      value
+      type
+      height
+      isPinned
+      isHidden
+      isDefault
+      attachment {
+        url
+        key
+        croppedArea {
+          width
+          height
+          x
+          y
+        }
+      }
+    }
+  }
+}

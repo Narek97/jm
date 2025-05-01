@@ -1,0 +1,3 @@
+mutation MapsBulkDelete($mapsBulkDeleteInput: MapsBulkDeleteInput!) {
+  mapsBulkDelete(mapsBulkDeleteInput: $mapsBulkDeleteInput)
+}

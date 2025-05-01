@@ -1,0 +1,48 @@
+query GetJourneys($getMapsInput: GetMapsInput!) {
+  getMaps(getMapsInput: $getMapsInput) {
+    count
+    maps {
+      title
+      id
+      type
+      createdAt
+      updatedAt
+      owner {
+        firstName
+        lastName
+        emailAddress
+      }
+      selectedPersonas {
+        croppedArea {
+          width
+          height
+          x
+          y
+        }
+        attachment {
+          url
+          key
+          croppedArea {
+            width
+            height
+            x
+            y
+          }
+        }
+        type
+        name
+        color
+        id
+      }
+      parentMaps {
+        parentMap {
+          title
+        }
+      }
+      childMaps {
+        childId
+        id
+      }
+    }
+  }
+}

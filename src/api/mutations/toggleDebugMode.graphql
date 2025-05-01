@@ -1,0 +1,5 @@
+mutation ToggleDebugMode($debugMode: Boolean!) {
+  toggleDebugMode(debugMode: $debugMode) {
+    id
+  }
+}

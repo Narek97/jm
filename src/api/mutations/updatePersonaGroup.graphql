@@ -1,0 +1,6 @@
+mutation UpdatePersonaGroup($updatePersonaGroupInput: UpdatePersonaGroupInput!){
+    updatePersonaGroup(updatePersonaGroupInput: $updatePersonaGroupInput){
+        id
+        name
+    }
+}

@@ -1,0 +1,5 @@
+mutation UpdateAttachmentName(
+  $updateAttachmentNameInput: UpdateAttachmentNameInput!
+) {
+  updateAttachmentName(updateAttachmentNameInput: $updateAttachmentNameInput)
+}

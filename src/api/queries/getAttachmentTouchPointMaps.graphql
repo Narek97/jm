@@ -1,0 +1,17 @@
+query GetAttachmentTouchPointMaps(
+  $getAttachmentTouchPointMapsInput: GetAttachmentTouchPointMapsInput!
+) {
+  getAttachmentTouchPointMaps(getAttachmentTouchPointMapsInput: $getAttachmentTouchPointMapsInput) {
+    id
+    name
+    touchpoints {
+      id
+      title
+      map {
+        id
+        boardId
+        title
+      }
+    }
+  }
+}

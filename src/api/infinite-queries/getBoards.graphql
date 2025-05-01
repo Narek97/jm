@@ -1,0 +1,56 @@
+query getMyBoards($getMyBoardsInput: GetMyBoardsInput!) {
+  getMyBoards(getMyBoardsInput: $getMyBoardsInput) {
+    limit
+    offset
+    count
+    workspace {
+      id
+      name
+    }
+    boards {
+      id
+      name
+      workspaceId
+      createdAt
+      updatedAt
+      defaultMapId
+      journeyMapCount
+      personasCount
+      pinnedOutcomeGroupCount
+      outcomeGroupWithOutcomeCounts {
+        count
+        icon
+        id
+      }
+      maps {
+        title
+        id
+        type
+        createdAt
+        updatedAt
+        selectedPersonas {
+          croppedArea {
+            width
+            height
+            x
+            y
+          }
+          attachment {
+            url
+            key
+            croppedArea {
+              width
+              height
+              x
+              y
+            }
+          }
+          type
+          name
+          color
+          id
+        }
+      }
+    }
+  }
+}

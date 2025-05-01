@@ -1,0 +1,6 @@
+query GetParentMapChildren($parentMapId: Int!) {
+  getParentMapChildren(parentMapId: $parentMapId) {
+    id
+    title
+  }
+}

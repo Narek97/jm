@@ -1,0 +1,9 @@
+query GetOrgs($getOrgsInput: GetOrgsInput) {
+  getOrgs(getOrgsInput: $getOrgsInput) {
+    id
+    businessTypeId
+    orgId
+    name
+  }
+}
+

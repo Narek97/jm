@@ -1,0 +1,5 @@
+mutation ToggleUserSuperAdminMode($superAdminInput: SuperAdminInput!) {
+  toggleUserSuperAdminMode(superAdminInput: $superAdminInput) {
+    id
+  }
+}

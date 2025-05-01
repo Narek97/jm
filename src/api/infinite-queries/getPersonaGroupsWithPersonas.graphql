@@ -1,0 +1,31 @@
+query GetPersonaGroupsWithPersonas($getPersonaGroupsWithPersonasInput: GetPersonaGroupsWithPersonasInput!) {
+    getPersonaGroupsWithPersonas(
+        getPersonaGroupsWithPersonasInput: $getPersonaGroupsWithPersonasInput
+    ) {
+        offset
+        limit
+        count
+        personaGroups {
+            id
+            name
+            persona {
+                id
+                name
+                type
+                personaGroupId
+                croppedArea {
+                    width
+                    height
+                    x
+                    y
+                }         
+                attachment{
+                    id
+                    key
+                    url
+                    name
+                }
+            }
+        }
+    }
+}

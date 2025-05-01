@@ -1,0 +1,13 @@
+mutation CreateInterview($createInterviewInput: CreateInterviewInput!){
+    createInterview(createInterviewInput: $createInterviewInput){
+        id
+        boardId
+        name
+        journeyType
+        text
+        mapId
+        createdAt
+        updatedAt
+        aiJourneyModelId
+    }
+}

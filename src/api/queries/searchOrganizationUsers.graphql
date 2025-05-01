@@ -1,0 +1,10 @@
+query SearchOrganizationUsers($searchOrganizationUserInput: SearchOrganizationUserInput!) {
+  searchOrganizationUsers(searchOrganizationUserInput:$searchOrganizationUserInput) {
+    id
+    userId
+    firstName
+    lastName
+    emailAddress
+    superAdmin
+  }
+}

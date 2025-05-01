@@ -1,0 +1,10 @@
+mutation UnMergeJourneyMapColumn($unmergeColumnInput: UnmergeColumnInput!) {
+  unMergeJourneyMapColumn(unmergeColumnInput: $unmergeColumnInput) {
+    endColumnIsMerged
+    endStepIsMerged
+    nextColumnMergedCandidateIds
+    nextColumnUnMergedCandidateIds
+    startColumnIsMerged
+    startStepIsMerged
+  }
+}

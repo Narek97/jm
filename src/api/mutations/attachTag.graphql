@@ -1,0 +1,5 @@
+mutation AttachTag($attachTagInput: AttachTagInput!) {
+  attachTag(attachTagInput: $attachTagInput) {
+  id
+  }
+}

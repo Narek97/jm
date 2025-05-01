@@ -1,0 +1,13 @@
+mutation CreateDefaultDemographicInfoFields(
+  $createDefaultDemographicInfoFieldsInput: CreateDefaultDemographicInfoFieldsInput!
+) {
+  createDefaultDemographicInfoFields(createDefaultDemographicInfoFieldsInput: $createDefaultDemographicInfoFieldsInput) {
+    id
+    key
+    personaId
+    value
+    type
+    isHidden
+    isDefault
+  }
+}

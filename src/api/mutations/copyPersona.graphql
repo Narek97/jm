@@ -1,0 +1,4 @@
+mutation CopyPersona($copyPersonaInput: CopyPersonaInput!) {
+    copyPersona(copyPersonaInput: $copyPersonaInput)
+}
+

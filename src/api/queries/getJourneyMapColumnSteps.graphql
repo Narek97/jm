@@ -1,0 +1,5 @@
+query GetJourneyMapColumnSteps($getJourneyMapColumnStepsInput: GetJourneyMapColumnStepsInput!) {
+  getJourneyMapColumnSteps(getJourneyMapColumnStepsInput: $getJourneyMapColumnStepsInput) {
+    stepsByColumnId
+  }
+}

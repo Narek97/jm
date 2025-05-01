@@ -1,0 +1,5 @@
+mutation RetrieveColumnStep($id: Int!){
+    retrieveColumnStep(id: $id){
+        id
+    }
+}

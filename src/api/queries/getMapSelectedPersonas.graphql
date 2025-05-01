@@ -1,0 +1,29 @@
+query GetMapSelectedPersonas($mapId: Int!) {
+  getMapSelectedPersonas(mapId: $mapId) {
+    id
+    name
+    type
+    color
+    attachmentId
+    isSelected
+    journeys
+    personaGroupId
+    croppedArea {
+      width
+      height
+      x
+      y
+    }
+    attachment {
+      key
+      url
+      hasResizedVersions
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
+    }
+  }
+}

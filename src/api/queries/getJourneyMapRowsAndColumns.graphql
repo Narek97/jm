@@ -1,0 +1,15 @@
+query GetJourneyMapRowsAndColumns(
+  $getJourneyMapRowsAndColumnsInput: GetJourneyMapRowsAndColumnsInput!
+) {
+  getJourneyMapRowsAndColumns(getJourneyMapRowsAndColumnsInput: $getJourneyMapRowsAndColumnsInput) {
+    columns {
+      id
+      label
+      mergedIds
+    }
+    rows {
+      id
+      label
+    }
+  }
+}

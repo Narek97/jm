@@ -1,0 +1,10 @@
+query GetPersonaGroupsModel($getPersonaGroupsInput: GetPersonaGroupsInput!) {
+    getPersonaGroups(
+        getPersonaGroupsInput: $getPersonaGroupsInput
+    ) {
+        personaGroups {
+            id
+            name
+        }
+    }
+}
