@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
-  { ignores: ["dist", "src/api/*"] },
+  { ignores: ["dist", "src/api/*", "src/routeTree.gen.ts"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

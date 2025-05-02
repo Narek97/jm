@@ -1,7 +1,7 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  schema: `${process.env.VITE_BASE_URL}`,
+  schema: `${process.env.VITE_BASE_URL}/graphql`,
   watch: false,
   overwrite: true,
   generates: {

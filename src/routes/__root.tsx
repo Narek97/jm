@@ -1,29 +1,31 @@
-import * as React from "react";
+import React from "react";
 
-import { Outlet, createRootRoute, Link } from "@tanstack/react-router";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-export const Route = createRootRoute({
+// eslint-disable-next-line react-refresh/only-export-components
+export const rootRoute = createRootRoute({
   component: RootComponent,
+  errorComponent: ErrorRootComponent,
 });
+
+// Export Route for compatibility with routeTree.gen.ts
+export const Route = rootRoute;
 
 function RootComponent() {
   return (
     <React.Fragment>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-        <Link to="/posts" className="[&.active]:font-bold">
-          Posts
-        </Link>
-      </div>
-      <hr />
       <Outlet />
       <TanStackRouterDevtools />
     </React.Fragment>
+  );
+}
+
+function ErrorRootComponent({ error }: { error: unknown }) {
+  return (
+    <div>
+      <h1>Something went wrong</h1>
+      <p>{String(error)}</p>
+    </div>
   );
 }

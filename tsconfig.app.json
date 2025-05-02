@@ -24,8 +24,14 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
+    "paths": {
+      "@/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"]
+    },
+
     /* Test */
     "types": ["vitest/globals"]
   },
-  "include": ["src", "./src/test/setup.ts"]
+  "include": ["src", "./src/test/setup.ts"],
+  "exclude": ["src/routeTree.gen.ts"]
 }

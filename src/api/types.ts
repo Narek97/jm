@@ -207,7 +207,7 @@ export type BoxElement = {
   index: Scalars['Int']['output'];
   isDisabled: Scalars['Boolean']['output'];
   mapId: Scalars['Int']['output'];
-  note: Note;
+  note?: Maybe<Note>;
   persona?: Maybe<Personas>;
   personaId?: Maybe<Scalars['Int']['output']>;
   rowId: Scalars['Int']['output'];

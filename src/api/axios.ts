@@ -1,9 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { TOKEN_NAME } from "../constants";
 import { getCookie, deleteCookie } from "../utils/cookieHelper.ts";
+import { TOKEN_NAME } from "@/constants";
 
 const $apiClient = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: `${import.meta.env.VITE_BASE_URL}/graphql`,
 });
 
 const handleError = (error: Error | AxiosError) => {
@@ -52,26 +52,26 @@ export const axiosRequest =
           query,
           variables,
         },
-        { headers: headers },
+        { headers },
       )
-      .then((res) => {
-        if (res.data.errors) {
-          throw res.data;
+      .then((res: any) => {
+        if (res.errors?.length) {
+          throw {
+            message: res.errors[0]?.message,
+            status: res.errors[0]?.status,
+            query,
+            variables,
+          };
         }
-        return res.data.data;
+        if (!res.data) {
+        }
+        return res.data;
       })
       .catch((error) => {
         if (error.message) {
           throw {
             message: error.message,
             status: error.status,
-            query,
-            variables,
-          };
-        } else if (error.errors?.length && error.errors[0]?.message) {
-          throw {
-            message: error.errors[0]?.message,
-            status: error.errors[0]?.status,
             query,
             variables,
           };

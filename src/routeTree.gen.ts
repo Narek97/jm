@@ -8,130 +8,139 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as PostsImport } from './routes/posts'
-import { Route as appUsersImport } from './routes/(app)/users'
-
-// Create Virtual Routes
-
-const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
+import { Route as rootRoute } from "./routes/__root";
+import { Route as AuthenticatedImport } from "./routes/_authenticated";
+import { Route as IndexImport } from "./routes/index";
+import { Route as AuthorizationCallbackImport } from "./routes/authorization/callback";
+import { Route as AuthenticatedWorkspacesImport } from "./routes/_authenticated/workspaces";
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: "/_authenticated",
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any);
 
-const PostsRoute = PostsImport.update({
-  id: '/posts',
-  path: '/posts',
+const IndexRoute = IndexImport.update({
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
-const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
+const AuthorizationCallbackRoute = AuthorizationCallbackImport.update({
+  id: "/authorization/callback",
+  path: "/authorization/callback",
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any);
 
-const appUsersRoute = appUsersImport.update({
-  id: '/(app)/users',
-  path: '/users',
-  getParentRoute: () => rootRoute,
-} as any)
+const AuthenticatedWorkspacesRoute = AuthenticatedWorkspacesImport.update({
+  id: "/workspaces",
+  path: "/workspaces",
+  getParentRoute: () => AuthenticatedRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/(app)/users': {
-      id: '/(app)/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof appUsersImport
-      parentRoute: typeof rootRoute
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_authenticated": {
+      id: "/_authenticated";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AuthenticatedImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_authenticated/workspaces": {
+      id: "/_authenticated/workspaces";
+      path: "/workspaces";
+      fullPath: "/workspaces";
+      preLoaderRoute: typeof AuthenticatedWorkspacesImport;
+      parentRoute: typeof AuthenticatedImport;
+    };
+    "/authorization/callback": {
+      id: "/authorization/callback";
+      path: "/authorization/callback";
+      fullPath: "/authorization/callback";
+      preLoaderRoute: typeof AuthorizationCallbackImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute;
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
+};
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+);
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
-  '/users': typeof appUsersRoute
+  "/": typeof IndexRoute;
+  "": typeof AuthenticatedRouteWithChildren;
+  "/workspaces": typeof AuthenticatedWorkspacesRoute;
+  "/authorization/callback": typeof AuthorizationCallbackRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
-  '/users': typeof appUsersRoute
+  "/": typeof IndexRoute;
+  "": typeof AuthenticatedRouteWithChildren;
+  "/workspaces": typeof AuthenticatedWorkspacesRoute;
+  "/authorization/callback": typeof AuthorizationCallbackRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
-  '/(app)/users': typeof appUsersRoute
+  __root__: typeof rootRoute;
+  "/": typeof IndexRoute;
+  "/_authenticated": typeof AuthenticatedRouteWithChildren;
+  "/_authenticated/workspaces": typeof AuthenticatedWorkspacesRoute;
+  "/authorization/callback": typeof AuthorizationCallbackRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts' | '/about' | '/users'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts' | '/about' | '/users'
-  id: '__root__' | '/' | '/posts' | '/about' | '/(app)/users'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: "/" | "" | "/workspaces" | "/authorization/callback";
+  fileRoutesByTo: FileRoutesByTo;
+  to: "/" | "" | "/workspaces" | "/authorization/callback";
+  id:
+    | "__root__"
+    | "/"
+    | "/_authenticated"
+    | "/_authenticated/workspaces"
+    | "/authorization/callback";
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  PostsRoute: typeof PostsRoute
-  AboutLazyRoute: typeof AboutLazyRoute
-  appUsersRoute: typeof appUsersRoute
+  IndexRoute: typeof IndexRoute;
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
+  AuthorizationCallbackRoute: typeof AuthorizationCallbackRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  PostsRoute: PostsRoute,
-  AboutLazyRoute: AboutLazyRoute,
-  appUsersRoute: appUsersRoute,
-}
+  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthorizationCallbackRoute: AuthorizationCallbackRoute,
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {
@@ -140,22 +149,25 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/posts",
-        "/about",
-        "/(app)/users"
+        "/_authenticated",
+        "/authorization/callback"
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
-    "/posts": {
-      "filePath": "posts.tsx"
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/workspaces"
+      ]
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/_authenticated/workspaces": {
+      "filePath": "_authenticated/workspaces.tsx",
+      "parent": "/_authenticated"
     },
-    "/(app)/users": {
-      "filePath": "(app)/users.tsx"
+    "/authorization/callback": {
+      "filePath": "authorization/callback.tsx"
     }
   }
 }
