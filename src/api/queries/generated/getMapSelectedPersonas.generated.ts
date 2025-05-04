@@ -1,15 +1,45 @@
-import * as Types from '../../types';
+import * as Types from "../../types";
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { axiosRequest } from '../../axios';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { axiosRequest } from "../../axios";
 export type GetMapSelectedPersonasQueryVariables = Types.Exact<{
-  mapId: Types.Scalars['Int']['input'];
+  mapId: Types.Scalars["Int"]["input"];
 }>;
 
-
-export type GetMapSelectedPersonasQuery = { __typename?: 'Query', getMapSelectedPersonas: Array<{ __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachmentId?: number | null, isSelected: boolean, journeys: number, personaGroupId: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', key: string, url: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> };
-
-
+export type GetMapSelectedPersonasQuery = {
+  __typename?: "Query";
+  getMapSelectedPersonas: Array<{
+    __typename?: "personas";
+    id: number;
+    name: string;
+    type: string;
+    color?: string | null;
+    attachmentId?: number | null;
+    isSelected: boolean;
+    journeys: number;
+    personaGroupId: number;
+    croppedArea?: {
+      __typename?: "Position";
+      width?: number | null;
+      height?: number | null;
+      x?: number | null;
+      y?: number | null;
+    } | null;
+    attachment?: {
+      __typename?: "Attachment";
+      key: string;
+      url: string;
+      hasResizedVersions?: boolean | null;
+      croppedArea?: {
+        __typename?: "Position";
+        width?: number | null;
+        height?: number | null;
+        x?: number | null;
+        y?: number | null;
+      } | null;
+    } | null;
+  }>;
+};
 
 export const GetMapSelectedPersonasDocument = `
     query GetMapSelectedPersonas($mapId: Int!) {
@@ -44,19 +74,31 @@ export const GetMapSelectedPersonasDocument = `
     `;
 
 export const useGetMapSelectedPersonasQuery = <
-      TData = GetMapSelectedPersonasQuery,
-      TError = unknown
-    >(
-      variables: GetMapSelectedPersonasQueryVariables,
-      options?: Omit<UseQueryOptions<GetMapSelectedPersonasQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetMapSelectedPersonasQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetMapSelectedPersonasQuery, TError, TData>(
-      {
-    queryKey: ['GetMapSelectedPersonas', variables],
-    queryFn: axiosRequest<GetMapSelectedPersonasQuery, GetMapSelectedPersonasQueryVariables>(GetMapSelectedPersonasDocument).bind(null, variables),
-    ...options
-  }
-    )};
+  TData = GetMapSelectedPersonasQuery,
+  TError = unknown,
+>(
+  variables: GetMapSelectedPersonasQueryVariables,
+  options?: Omit<
+    UseQueryOptions<GetMapSelectedPersonasQuery, TError, TData>,
+    "queryKey"
+  > & {
+    queryKey?: UseQueryOptions<
+      GetMapSelectedPersonasQuery,
+      TError,
+      TData
+    >["queryKey"];
+  },
+) => {
+  return useQuery<GetMapSelectedPersonasQuery, TError, TData>({
+    queryKey: ["GetMapSelectedPersonas", variables],
+    queryFn: axiosRequest<
+      GetMapSelectedPersonasQuery,
+      GetMapSelectedPersonasQueryVariables
+    >(GetMapSelectedPersonasDocument).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetMapSelectedPersonasQuery.getKey = (variables: GetMapSelectedPersonasQueryVariables) => ['GetMapSelectedPersonas', variables];
+useGetMapSelectedPersonasQuery.getKey = (
+  variables: GetMapSelectedPersonasQueryVariables,
+) => ["GetMapSelectedPersonas", variables];

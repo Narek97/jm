@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-import { User } from "../api/types.ts";
+import { UserType } from "@/types";
 
 type UserStore = {
-  user: User | null;
-  setUser: (user: User | null) => void;
-  updateUser: (updates: Partial<User>) => void;
+  user: UserType | null;
+  setUser: (user: UserType | null) => void;
+  updateUser: (updates: Partial<UserType>) => void;
   clearUser: () => void;
 };
 

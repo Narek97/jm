@@ -1,12 +1,11 @@
-@import './variables.scss';
-@import './mixins.scss';
-
+@import "./variables.scss";
+@import "./mixins.scss";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: "Fira Sans", sans-serif;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
@@ -18,7 +17,7 @@
 
 html,
 body,
-input[type='checkbox'] {
+input[type="checkbox"] {
   width: 100%;
 }
 

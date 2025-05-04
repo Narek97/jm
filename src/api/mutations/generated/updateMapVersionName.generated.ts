@@ -1,15 +1,15 @@
-import * as Types from '../../types';
+import * as Types from "../../types";
 
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { axiosRequest } from '../../axios';
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { axiosRequest } from "../../axios";
 export type UpdateMapVersionNameMutationVariables = Types.Exact<{
   updateMapVersionInput: Types.UpdateMapVersionInput;
 }>;
 
-
-export type UpdateMapVersionNameMutation = { __typename?: 'Mutation', updateMapVersionName: { __typename?: 'MapVersion', id: number } };
-
-
+export type UpdateMapVersionNameMutation = {
+  __typename?: "Mutation";
+  updateMapVersionName: { __typename?: "MapVersion"; id: number };
+};
 
 export const UpdateMapVersionNameDocument = `
     mutation UpdateMapVersionName($updateMapVersionInput: UpdateMapVersionInput!) {
@@ -20,16 +20,29 @@ export const UpdateMapVersionNameDocument = `
     `;
 
 export const useUpdateMapVersionNameMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateMapVersionNameMutation, TError, UpdateMapVersionNameMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateMapVersionNameMutation, TError, UpdateMapVersionNameMutationVariables, TContext>(
-      {
-    mutationKey: ['UpdateMapVersionName'],
-    mutationFn: axiosRequest<UpdateMapVersionNameMutation, UpdateMapVersionNameMutationVariables>(UpdateMapVersionNameDocument),
-    ...options
-  }
-    )};
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    UpdateMapVersionNameMutation,
+    TError,
+    UpdateMapVersionNameMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdateMapVersionNameMutation,
+    TError,
+    UpdateMapVersionNameMutationVariables,
+    TContext
+  >({
+    mutationKey: ["UpdateMapVersionName"],
+    mutationFn: axiosRequest<
+      UpdateMapVersionNameMutation,
+      UpdateMapVersionNameMutationVariables
+    >(UpdateMapVersionNameDocument),
+    ...options,
+  });
+};
 
-useUpdateMapVersionNameMutation.getKey = () => ['UpdateMapVersionName'];
+useUpdateMapVersionNameMutation.getKey = () => ["UpdateMapVersionName"];

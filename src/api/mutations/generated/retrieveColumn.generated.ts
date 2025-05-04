@@ -1,15 +1,15 @@
-import * as Types from '../../types';
+import * as Types from "../../types";
 
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { axiosRequest } from '../../axios';
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { axiosRequest } from "../../axios";
 export type RetrieveColumnMutationVariables = Types.Exact<{
-  id: Types.Scalars['Int']['input'];
+  id: Types.Scalars["Int"]["input"];
 }>;
 
-
-export type RetrieveColumnMutation = { __typename?: 'Mutation', retrieveColumn: { __typename?: 'MapColumn', id: number } };
-
-
+export type RetrieveColumnMutation = {
+  __typename?: "Mutation";
+  retrieveColumn: { __typename?: "MapColumn"; id: number };
+};
 
 export const RetrieveColumnDocument = `
     mutation RetrieveColumn($id: Int!) {
@@ -19,17 +19,27 @@ export const RetrieveColumnDocument = `
 }
     `;
 
-export const useRetrieveColumnMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RetrieveColumnMutation, TError, RetrieveColumnMutationVariables, TContext>) => {
-    
-    return useMutation<RetrieveColumnMutation, TError, RetrieveColumnMutationVariables, TContext>(
-      {
-    mutationKey: ['RetrieveColumn'],
-    mutationFn: axiosRequest<RetrieveColumnMutation, RetrieveColumnMutationVariables>(RetrieveColumnDocument),
-    ...options
-  }
-    )};
+export const useRetrieveColumnMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    RetrieveColumnMutation,
+    TError,
+    RetrieveColumnMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    RetrieveColumnMutation,
+    TError,
+    RetrieveColumnMutationVariables,
+    TContext
+  >({
+    mutationKey: ["RetrieveColumn"],
+    mutationFn: axiosRequest<
+      RetrieveColumnMutation,
+      RetrieveColumnMutationVariables
+    >(RetrieveColumnDocument),
+    ...options,
+  });
+};
 
-useRetrieveColumnMutation.getKey = () => ['RetrieveColumn'];
+useRetrieveColumnMutation.getKey = () => ["RetrieveColumn"];

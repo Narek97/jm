@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 @mixin flex-center-center {
   display: flex;
@@ -474,7 +474,7 @@
           stroke: #545e6b;
         }
 
-        &:hover:not([class*='ql-custom']) {
+        &:hover:not([class*="ql-custom"]) {
           background-color: #eeeeee;
           stroke: #1b3380 !important;
 
@@ -489,7 +489,7 @@
         }
       }
 
-      button[class*='ql-custom'] {
+      button[class*="ql-custom"] {
         width: 2rem;
         height: 2rem;
         position: relative;
@@ -502,7 +502,7 @@
         }
 
         &::before {
-          content: '';
+          content: "";
           width: 0.0625rem;
           height: 1rem;
           position: absolute;
@@ -571,7 +571,7 @@
 @mixin quill-styles {
   /* Set default font-family */
   #container {
-    font-family: 'Impact', serif;
+    font-family: "Impact", serif;
     font-size: 1.125rem;
     height: 23.4375rem;
   }
@@ -590,57 +590,57 @@
   }
 
   /* Set dropdown font-families */
-  .ql-font span[data-value='impact']::before,
-  .ql-font span[data-label='Impact']::before {
-    font-family: 'Impact', serif;
-    content: 'Impact' !important;
+  .ql-font span[data-value="impact"]::before,
+  .ql-font span[data-label="Impact"]::before {
+    font-family: "Impact", serif;
+    content: "Impact" !important;
   }
-  .ql-font span[data-value='courier new']::before,
-  .ql-font span[data-label='Courier New']::before {
-    font-family: 'Courier New', serif !important;
-    content: 'Courier New' !important;
-  }
-
-  .ql-font span[data-value='comic sans ms']::before,
-  .ql-font span[data-label='Comic Sans MS']::before {
-    font-family: 'Comic Sans MS', serif;
-    content: 'Comic Sans' !important;
+  .ql-font span[data-value="courier new"]::before,
+  .ql-font span[data-label="Courier New"]::before {
+    font-family: "Courier New", serif !important;
+    content: "Courier New" !important;
   }
 
-  .ql-font span[data-value='arial']::before,
-  .ql-font span[data-label='Arial']::before {
-    font-family: 'Arial', serif;
-    content: 'Arial' !important;
+  .ql-font span[data-value="comic sans ms"]::before,
+  .ql-font span[data-label="Comic Sans MS"]::before {
+    font-family: "Comic Sans MS", serif;
+    content: "Comic Sans" !important;
   }
 
-  .ql-font span[data-value='courier']::before,
-  .ql-font span[data-label='Courier New']::before {
-    font-family: 'Courier', serif;
-    content: 'Courier New' !important;
+  .ql-font span[data-value="arial"]::before,
+  .ql-font span[data-label="Arial"]::before {
+    font-family: "Arial", serif;
+    content: "Arial" !important;
   }
 
-  .ql-font span[data-value='georgia']::before,
-  .ql-font span[data-label='Georgia']::before {
-    font-family: 'Georgia', serif;
-    content: 'Georgia' !important;
+  .ql-font span[data-value="courier"]::before,
+  .ql-font span[data-label="Courier New"]::before {
+    font-family: "Courier", serif;
+    content: "Courier New" !important;
   }
 
-  .ql-font span[data-value='lucida sans unicode']::before,
-  .ql-font span[data-label='Lucida Sans Unicode']::before {
-    font-family: 'Lucida Sans Unicode', serif;
-    content: 'Lucida Sans Unicode' !important;
+  .ql-font span[data-value="georgia"]::before,
+  .ql-font span[data-label="Georgia"]::before {
+    font-family: "Georgia", serif;
+    content: "Georgia" !important;
   }
 
-  .ql-font span[data-value='tahoma']::before,
-  .ql-font span[data-label='Tahoma']::before {
-    font-family: 'Tahoma', serif;
-    content: 'Tahoma' !important;
+  .ql-font span[data-value="lucida sans unicode"]::before,
+  .ql-font span[data-label="Lucida Sans Unicode"]::before {
+    font-family: "Lucida Sans Unicode", serif;
+    content: "Lucida Sans Unicode" !important;
   }
 
-  .ql-font span[data-value='times-new-roman']::before,
-  .ql-font span[data-label='Times New Roman']::before {
-    font-family: 'Times New Roman', serif;
-    content: 'Times New Roman' !important;
+  .ql-font span[data-value="tahoma"]::before,
+  .ql-font span[data-label="Tahoma"]::before {
+    font-family: "Tahoma", serif;
+    content: "Tahoma" !important;
+  }
+
+  .ql-font span[data-value="times-new-roman"]::before,
+  .ql-font span[data-label="Times New Roman"]::before {
+    font-family: "Times New Roman", serif;
+    content: "Times New Roman" !important;
   }
 }
 

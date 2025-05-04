@@ -1,15 +1,278 @@
-import * as Types from '../../types';
+import * as Types from "../../types";
 
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { axiosRequest } from '../../axios';
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { axiosRequest } from "../../axios";
 export type ReplaceMapVersionMutationVariables = Types.Exact<{
   replaceMapVersionInput: Types.ReplaceMapVersionInput;
 }>;
 
-
-export type ReplaceMapVersionMutation = { __typename?: 'Mutation', replaceMapVersion: { __typename?: 'GetMapByVersionIdModel', title: string, columnCount: number, rowCount: number, personas: Array<{ __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachmentId?: number | null, attachment?: { __typename?: 'Attachment', key: string, url: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }>, columns: Array<{ __typename?: 'MapColumn', id: number, bgColor: string, label?: string | null, size: number, isMerged: boolean, isNextColumnMerged: boolean }>, rows: Array<{ __typename?: 'JourneyMapVersionRow', id: number, isLocked: boolean, isCollapsed: boolean, isPersonaAverageDisabled: boolean, rowFunction?: Types.MapRowTypeEnum | null, label?: string | null, size: number, boxes?: Array<{ __typename?: 'MetricsVersion', id?: number | null, columnId: number, average: number, mergeCount: number, boxTextElement?: { __typename?: 'BoxElement', commentsCount: number, rowId: number, id: number, text?: string | null } | null, boxElements: Array<{ __typename?: 'BoxElement', commentsCount: number, rowId: number, id: number, attachmentId?: number | null, text?: string | null, flippedText?: string | null, digsiteUrl?: string | null, bgColor?: string | null, attachment?: { __typename?: 'Attachment', hasResizedVersions?: boolean | null, imgScaleType: Types.ImgScaleTypeEnum } | null, attachmentPosition?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, persona?: { __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null }>, touchPoints: Array<{ __typename?: 'TouchPoint', rowId: number, columnId: number, commentsCount: number, id: number, title?: string | null, iconUrl: string, flippedText?: string | null, bgColor?: string | null, persona?: { __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null }>, outcomes: Array<{ __typename?: 'OutcomeResponse', id: number, title: string, description?: string | null, createdAt: any, status: Types.OutcomeStatusEnum, rowId?: number | null, columnId?: number | null, stepId?: number | null, personaId?: number | null, commentsCount: number, flippedText?: string | null, outcomeGroupId: number, icon?: string | null, bgColor?: string | null, persona?: { __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null } | null }>, metrics?: Array<{ __typename?: 'MetricsVersionResponse', id: number, rowId: number, columnId: number, name: string, commentsCount: number, descriptionEnabled: boolean, description?: string | null, type: Types.MetricsTypeEnum, value?: number | null, goal?: number | null, typeData?: any | null, flippedText?: string | null, surveyId?: number | null, questionId?: number | null, source: Types.MetricsSourceEnum, startDate: string, endDate: string, dateRange?: Types.MetricsDateRangeEnum | null, overall: number, nps: number, csat: number, ces: number, x: number, y: number, z: number, persona?: { __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null } | null }> | null, links: Array<{ __typename?: 'LinkResponse', id: number, title?: string | null, type: Types.LinkTypeEnum, url?: string | null, icon?: string | null, index: number, commentsCount: number, linkedJourneyMapId?: number | null, flippedText?: string | null, rowId: number, bgColor?: string | null, mapPersonaImages?: Array<{ __typename?: 'PersonaUrlObject', color?: string | null, key?: string | null, url?: string | null }> | null, personaImage?: { __typename?: 'PersonaUrlObject', key?: string | null, url?: string | null, color?: string | null } | null }>, step?: { __typename?: 'ColumnStep', id: number, name: string, index: number, columnId: number, isMerged: boolean, bgColor?: string | null } | null }> | null, rowWithPersonas: Array<{ __typename?: 'RowWithPersonas', isDisabledForThisRow: boolean, type: string, id: number, name: string, color?: string | null, attachment?: { __typename?: 'Attachment', key: string, url: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null, personaStates: Array<{ __typename?: 'PersonaState', stepId?: number | null, rowId: number, boxId: number, columnId: number, state: Types.PersonaStateEnum }> }> }> } };
-
-
+export type ReplaceMapVersionMutation = {
+  __typename?: "Mutation";
+  replaceMapVersion: {
+    __typename?: "GetMapByVersionIdModel";
+    title: string;
+    columnCount: number;
+    rowCount: number;
+    personas: Array<{
+      __typename?: "personas";
+      id: number;
+      name: string;
+      type: string;
+      color?: string | null;
+      attachmentId?: number | null;
+      attachment?: {
+        __typename?: "Attachment";
+        key: string;
+        url: string;
+        hasResizedVersions?: boolean | null;
+        croppedArea?: {
+          __typename?: "Position";
+          width?: number | null;
+          height?: number | null;
+          x?: number | null;
+          y?: number | null;
+        } | null;
+      } | null;
+    }>;
+    columns: Array<{
+      __typename?: "MapColumn";
+      id: number;
+      bgColor: string;
+      label?: string | null;
+      size: number;
+      isMerged: boolean;
+      isNextColumnMerged: boolean;
+    }>;
+    rows: Array<{
+      __typename?: "JourneyMapVersionRow";
+      id: number;
+      isLocked: boolean;
+      isCollapsed: boolean;
+      isPersonaAverageDisabled: boolean;
+      rowFunction?: Types.MapRowTypeEnum | null;
+      label?: string | null;
+      size: number;
+      boxes?: Array<{
+        __typename?: "MetricsVersion";
+        id?: number | null;
+        columnId: number;
+        average: number;
+        mergeCount: number;
+        boxTextElement?: {
+          __typename?: "BoxElement";
+          commentsCount: number;
+          rowId: number;
+          id: number;
+          text?: string | null;
+        } | null;
+        boxElements: Array<{
+          __typename?: "BoxElement";
+          commentsCount: number;
+          rowId: number;
+          id: number;
+          attachmentId?: number | null;
+          text?: string | null;
+          flippedText?: string | null;
+          digsiteUrl?: string | null;
+          bgColor?: string | null;
+          attachment?: {
+            __typename?: "Attachment";
+            hasResizedVersions?: boolean | null;
+            imgScaleType: Types.ImgScaleTypeEnum;
+          } | null;
+          attachmentPosition?: {
+            __typename?: "Position";
+            width?: number | null;
+            height?: number | null;
+            x?: number | null;
+            y?: number | null;
+          } | null;
+          persona?: {
+            __typename?: "personas";
+            id: number;
+            name: string;
+            type: string;
+            color?: string | null;
+            attachment?: {
+              __typename?: "Attachment";
+              url: string;
+              key: string;
+            } | null;
+          } | null;
+        }>;
+        touchPoints: Array<{
+          __typename?: "TouchPoint";
+          rowId: number;
+          columnId: number;
+          commentsCount: number;
+          id: number;
+          title?: string | null;
+          iconUrl: string;
+          flippedText?: string | null;
+          bgColor?: string | null;
+          persona?: {
+            __typename?: "personas";
+            id: number;
+            name: string;
+            type: string;
+            color?: string | null;
+            attachment?: {
+              __typename?: "Attachment";
+              url: string;
+              key: string;
+            } | null;
+          } | null;
+        }>;
+        outcomes: Array<{
+          __typename?: "OutcomeResponse";
+          id: number;
+          title: string;
+          description?: string | null;
+          createdAt: any;
+          status: Types.OutcomeStatusEnum;
+          rowId?: number | null;
+          columnId?: number | null;
+          stepId?: number | null;
+          personaId?: number | null;
+          commentsCount: number;
+          flippedText?: string | null;
+          outcomeGroupId: number;
+          icon?: string | null;
+          bgColor?: string | null;
+          persona?: {
+            __typename?: "personas";
+            id: number;
+            name: string;
+            type: string;
+            color?: string | null;
+            attachment?: {
+              __typename?: "Attachment";
+              url: string;
+              key: string;
+              croppedArea?: {
+                __typename?: "Position";
+                width?: number | null;
+                height?: number | null;
+                x?: number | null;
+                y?: number | null;
+              } | null;
+            } | null;
+          } | null;
+        }>;
+        metrics?: Array<{
+          __typename?: "MetricsVersionResponse";
+          id: number;
+          rowId: number;
+          columnId: number;
+          name: string;
+          commentsCount: number;
+          descriptionEnabled: boolean;
+          description?: string | null;
+          type: Types.MetricsTypeEnum;
+          value?: number | null;
+          goal?: number | null;
+          typeData?: any | null;
+          flippedText?: string | null;
+          surveyId?: number | null;
+          questionId?: number | null;
+          source: Types.MetricsSourceEnum;
+          startDate: string;
+          endDate: string;
+          dateRange?: Types.MetricsDateRangeEnum | null;
+          overall: number;
+          nps: number;
+          csat: number;
+          ces: number;
+          x: number;
+          y: number;
+          z: number;
+          persona?: {
+            __typename?: "personas";
+            id: number;
+            name: string;
+            type: string;
+            color?: string | null;
+            attachment?: {
+              __typename?: "Attachment";
+              url: string;
+              key: string;
+              croppedArea?: {
+                __typename?: "Position";
+                width?: number | null;
+                height?: number | null;
+                x?: number | null;
+                y?: number | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
+        links: Array<{
+          __typename?: "LinkResponse";
+          id: number;
+          title?: string | null;
+          type: Types.LinkTypeEnum;
+          url?: string | null;
+          icon?: string | null;
+          index: number;
+          commentsCount: number;
+          linkedJourneyMapId?: number | null;
+          flippedText?: string | null;
+          rowId: number;
+          bgColor?: string | null;
+          mapPersonaImages?: Array<{
+            __typename?: "PersonaUrlObject";
+            color?: string | null;
+            key?: string | null;
+            url?: string | null;
+          }> | null;
+          personaImage?: {
+            __typename?: "PersonaUrlObject";
+            key?: string | null;
+            url?: string | null;
+            color?: string | null;
+          } | null;
+        }>;
+        step?: {
+          __typename?: "ColumnStep";
+          id: number;
+          name: string;
+          index: number;
+          columnId: number;
+          isMerged: boolean;
+          bgColor?: string | null;
+        } | null;
+      }> | null;
+      rowWithPersonas: Array<{
+        __typename?: "RowWithPersonas";
+        isDisabledForThisRow: boolean;
+        type: string;
+        id: number;
+        name: string;
+        color?: string | null;
+        attachment?: {
+          __typename?: "Attachment";
+          key: string;
+          url: string;
+          croppedArea?: {
+            __typename?: "Position";
+            width?: number | null;
+            height?: number | null;
+            x?: number | null;
+            y?: number | null;
+          } | null;
+        } | null;
+        personaStates: Array<{
+          __typename?: "PersonaState";
+          stepId?: number | null;
+          rowId: number;
+          boxId: number;
+          columnId: number;
+          state: Types.PersonaStateEnum;
+        }>;
+      }>;
+    }>;
+  };
+};
 
 export const ReplaceMapVersionDocument = `
     mutation ReplaceMapVersion($replaceMapVersionInput: ReplaceMapVersionInput!) {
@@ -250,16 +513,29 @@ export const ReplaceMapVersionDocument = `
     `;
 
 export const useReplaceMapVersionMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<ReplaceMapVersionMutation, TError, ReplaceMapVersionMutationVariables, TContext>) => {
-    
-    return useMutation<ReplaceMapVersionMutation, TError, ReplaceMapVersionMutationVariables, TContext>(
-      {
-    mutationKey: ['ReplaceMapVersion'],
-    mutationFn: axiosRequest<ReplaceMapVersionMutation, ReplaceMapVersionMutationVariables>(ReplaceMapVersionDocument),
-    ...options
-  }
-    )};
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    ReplaceMapVersionMutation,
+    TError,
+    ReplaceMapVersionMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    ReplaceMapVersionMutation,
+    TError,
+    ReplaceMapVersionMutationVariables,
+    TContext
+  >({
+    mutationKey: ["ReplaceMapVersion"],
+    mutationFn: axiosRequest<
+      ReplaceMapVersionMutation,
+      ReplaceMapVersionMutationVariables
+    >(ReplaceMapVersionDocument),
+    ...options,
+  });
+};
 
-useReplaceMapVersionMutation.getKey = () => ['ReplaceMapVersion'];
+useReplaceMapVersionMutation.getKey = () => ["ReplaceMapVersion"];

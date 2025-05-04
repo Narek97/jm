@@ -6,10 +6,11 @@ import {
   GetMeQuery,
   useGetMeQuery,
 } from "@/api/queries/generated/getMe.generated.ts";
-import { User } from "@/api/types.ts";
 import CustomLoader from "@/components/shared/custom-loader/custom-loader.tsx";
 import { LOGIN_ERROR_NAME, TOKEN_NAME } from "@/constants";
+import Header from "@/features/header";
 import { useUserStore } from "@/store/user.ts";
+import { UserType } from "@/types";
 import { deleteCookie, getCookie } from "@/utils/cookieHelper.ts";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -47,7 +48,7 @@ function Authenticated() {
   useEffect(() => {
     if (data) {
       localStorage.removeItem(LOGIN_ERROR_NAME);
-      setUser(data.getMe as User);
+      setUser({ ...data.getMe, isHavePermission: true } as UserType);
     }
   }, [data, setUser]);
 
@@ -79,6 +80,7 @@ function Authenticated() {
 
   return (
     <>
+      <Header />
       <Outlet />
     </>
   );
