@@ -1,5 +1,5 @@
-@import "./variables.scss";
-@import "./mixins.scss";
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
 
 * {
   margin: 0;

@@ -1,4 +1,4 @@
-import { MenuTabType } from "@/features/left-menu-panel-layout/types.ts";
+import { MenuTabType } from "@/features/sidebar-layout/types.ts";
 
 const PRIMARY_MENU_PANEL_TOP_TABS: Array<MenuTabType> = [
   {
