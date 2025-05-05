@@ -1,4 +1,5 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import "@/assets/styles/global.css";
 
 import "@assets/styles/base.scss";
 import "@npm-questionpro/wick-ui-icon/dist/wu-icon.css";

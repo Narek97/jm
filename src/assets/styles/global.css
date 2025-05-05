@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+/*@source "../components!**!*.{ts,tsx}";*/
+/*@plugin "tailwindcss-animate";*/
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {  }
+
+@layer base {  }
+
+
+@layer utilities {  }
+
+@layer utilities {
+    :root {
+        --background: #ffffff;
+    }
+
+    /* @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0a0a0a;
+      --foreground: #ededed;
+    }
+  } */
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    html {
+        overflow: hidden;
+    }
+}
+
+@layer base {
+    :root {}
+
+    .dark {
+
+    }
+
+
+}
+
+@layer base {
+
+    body {}
+
+}

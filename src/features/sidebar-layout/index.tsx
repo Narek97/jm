@@ -21,7 +21,7 @@ const SidebarLayout: FC<ISidebarLayout> = ({
     <WuSidebar
       Sidebar={<HoverMenuPanel topTabs={topTabs} bottomTabs={bottomTabs} />}
     >
-      <div>{children}</div>
+      <div className={"h-full"}>{children}</div>
       <Footer />
     </WuSidebar>
   );
