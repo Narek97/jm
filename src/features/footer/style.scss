@@ -1,0 +1,11 @@
+@import "@assets/styles/variables";
+@import "@assets/styles/mixins";
+
+.footer {
+  @include flex-center;
+  gap: 2rem;
+
+  .project-version-info {
+    text-decoration: underline;
+  }
+}

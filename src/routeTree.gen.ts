@@ -10,137 +10,210 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as AuthenticatedImport } from "./routes/_authenticated";
-import { Route as IndexImport } from "./routes/index";
-import { Route as AuthorizationCallbackImport } from "./routes/authorization/callback";
-import { Route as AuthenticatedWorkspacesImport } from "./routes/_authenticated/workspaces";
+import { Route as rootRoute } from './routes/__root'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as IndexImport } from './routes/index'
+import { Route as AuthorizationCallbackImport } from './routes/authorization/callback'
+import { Route as AuthenticatedSecondaryLeftMenuLayoutImport } from './routes/_authenticated/_secondary-left-menu-layout'
+import { Route as AuthenticatedPrimaryLeftMenuLayoutImport } from './routes/_authenticated/_primary-left-menu-layout'
+import { Route as AuthenticatedWorkspacesIndexImport } from './routes/_authenticated/workspaces/index'
+import { Route as AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport } from './routes/_authenticated/_primary-left-menu-layout/admin/index'
 
 // Create/Update Routes
 
 const AuthenticatedRoute = AuthenticatedImport.update({
-  id: "/_authenticated",
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthorizationCallbackRoute = AuthorizationCallbackImport.update({
-  id: "/authorization/callback",
-  path: "/authorization/callback",
+  id: '/authorization/callback',
+  path: '/authorization/callback',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
-const AuthenticatedWorkspacesRoute = AuthenticatedWorkspacesImport.update({
-  id: "/workspaces",
-  path: "/workspaces",
-  getParentRoute: () => AuthenticatedRoute,
-} as any);
+const AuthenticatedSecondaryLeftMenuLayoutRoute =
+  AuthenticatedSecondaryLeftMenuLayoutImport.update({
+    id: '/_secondary-left-menu-layout',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedPrimaryLeftMenuLayoutRoute =
+  AuthenticatedPrimaryLeftMenuLayoutImport.update({
+    id: '/_primary-left-menu-layout',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedWorkspacesIndexRoute =
+  AuthenticatedWorkspacesIndexImport.update({
+    id: '/workspaces/',
+    path: '/workspaces/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute =
+  AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport.update({
+    id: '/admin/',
+    path: '/admin/',
+    getParentRoute: () => AuthenticatedPrimaryLeftMenuLayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_authenticated": {
-      id: "/_authenticated";
-      path: "";
-      fullPath: "";
-      preLoaderRoute: typeof AuthenticatedImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_authenticated/workspaces": {
-      id: "/_authenticated/workspaces";
-      path: "/workspaces";
-      fullPath: "/workspaces";
-      preLoaderRoute: typeof AuthenticatedWorkspacesImport;
-      parentRoute: typeof AuthenticatedImport;
-    };
-    "/authorization/callback": {
-      id: "/authorization/callback";
-      path: "/authorization/callback";
-      fullPath: "/authorization/callback";
-      preLoaderRoute: typeof AuthorizationCallbackImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/_primary-left-menu-layout': {
+      id: '/_authenticated/_primary-left-menu-layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedPrimaryLeftMenuLayoutImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_secondary-left-menu-layout': {
+      id: '/_authenticated/_secondary-left-menu-layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedSecondaryLeftMenuLayoutImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/authorization/callback': {
+      id: '/authorization/callback'
+      path: '/authorization/callback'
+      fullPath: '/authorization/callback'
+      preLoaderRoute: typeof AuthorizationCallbackImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/workspaces/': {
+      id: '/_authenticated/workspaces/'
+      path: '/workspaces'
+      fullPath: '/workspaces'
+      preLoaderRoute: typeof AuthenticatedWorkspacesIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_primary-left-menu-layout/admin/': {
+      id: '/_authenticated/_primary-left-menu-layout/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport
+      parentRoute: typeof AuthenticatedPrimaryLeftMenuLayoutImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedPrimaryLeftMenuLayoutRouteChildren {
+  AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute: typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
+}
+
+const AuthenticatedPrimaryLeftMenuLayoutRouteChildren: AuthenticatedPrimaryLeftMenuLayoutRouteChildren =
+  {
+    AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute:
+      AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute,
+  }
+
+const AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren =
+  AuthenticatedPrimaryLeftMenuLayoutRoute._addFileChildren(
+    AuthenticatedPrimaryLeftMenuLayoutRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
-  AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute;
+  AuthenticatedPrimaryLeftMenuLayoutRoute: typeof AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren
+  AuthenticatedSecondaryLeftMenuLayoutRoute: typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  AuthenticatedWorkspacesIndexRoute: typeof AuthenticatedWorkspacesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
-};
+  AuthenticatedPrimaryLeftMenuLayoutRoute:
+    AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren,
+  AuthenticatedSecondaryLeftMenuLayoutRoute:
+    AuthenticatedSecondaryLeftMenuLayoutRoute,
+  AuthenticatedWorkspacesIndexRoute: AuthenticatedWorkspacesIndexRoute,
+}
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
-);
+)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "": typeof AuthenticatedRouteWithChildren;
-  "/workspaces": typeof AuthenticatedWorkspacesRoute;
-  "/authorization/callback": typeof AuthorizationCallbackRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '/authorization/callback': typeof AuthorizationCallbackRoute
+  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
+  '/admin': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "": typeof AuthenticatedRouteWithChildren;
-  "/workspaces": typeof AuthenticatedWorkspacesRoute;
-  "/authorization/callback": typeof AuthorizationCallbackRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '/authorization/callback': typeof AuthorizationCallbackRoute
+  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
+  '/admin': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/_authenticated": typeof AuthenticatedRouteWithChildren;
-  "/_authenticated/workspaces": typeof AuthenticatedWorkspacesRoute;
-  "/authorization/callback": typeof AuthorizationCallbackRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/_primary-left-menu-layout': typeof AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren
+  '/_authenticated/_secondary-left-menu-layout': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '/authorization/callback': typeof AuthorizationCallbackRoute
+  '/_authenticated/workspaces/': typeof AuthenticatedWorkspacesIndexRoute
+  '/_authenticated/_primary-left-menu-layout/admin/': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "" | "/workspaces" | "/authorization/callback";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "" | "/workspaces" | "/authorization/callback";
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '' | '/authorization/callback' | '/workspaces' | '/admin'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '' | '/authorization/callback' | '/workspaces' | '/admin'
   id:
-    | "__root__"
-    | "/"
-    | "/_authenticated"
-    | "/_authenticated/workspaces"
-    | "/authorization/callback";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/_primary-left-menu-layout'
+    | '/_authenticated/_secondary-left-menu-layout'
+    | '/authorization/callback'
+    | '/_authenticated/workspaces/'
+    | '/_authenticated/_primary-left-menu-layout/admin/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
-  AuthorizationCallbackRoute: typeof AuthorizationCallbackRoute;
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthorizationCallbackRoute: typeof AuthorizationCallbackRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthorizationCallbackRoute: AuthorizationCallbackRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -159,15 +232,32 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/workspaces"
+        "/_authenticated/_primary-left-menu-layout",
+        "/_authenticated/_secondary-left-menu-layout",
+        "/_authenticated/workspaces/"
       ]
     },
-    "/_authenticated/workspaces": {
-      "filePath": "_authenticated/workspaces.tsx",
+    "/_authenticated/_primary-left-menu-layout": {
+      "filePath": "_authenticated/_primary-left-menu-layout.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/_primary-left-menu-layout/admin/"
+      ]
+    },
+    "/_authenticated/_secondary-left-menu-layout": {
+      "filePath": "_authenticated/_secondary-left-menu-layout.tsx",
       "parent": "/_authenticated"
     },
     "/authorization/callback": {
       "filePath": "authorization/callback.tsx"
+    },
+    "/_authenticated/workspaces/": {
+      "filePath": "_authenticated/workspaces/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_primary-left-menu-layout/admin/": {
+      "filePath": "_authenticated/_primary-left-menu-layout/admin/index.tsx",
+      "parent": "/_authenticated/_primary-left-menu-layout"
     }
   }
 }

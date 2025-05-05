@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { WuAppHeader } from "@npm-questionpro/wick-ui-lib";
+import { useNavigate } from "@tanstack/react-router";
 
 import $apiClient from "@/api/axios.ts";
 import { TOKEN_NAME } from "@/constants";
+import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
 import { useUserStore } from "@/store/user.ts";
 import { deleteCookie } from "@/utils/cookieHelper.ts";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const { updateUser } = useUserStore();
+  const { breadcrumbs } = useBreadcrumbStore();
 
   const [productSwitcherData, setProductSwitcherData] = useState<any>(null);
 
@@ -75,7 +80,12 @@ const Header = () => {
           categories={
             productSwitcherData?.headerInfo[0].productSwitcher.categories || []
           }
-          breadcrumbs={[]}
+          breadcrumbs={breadcrumbs.map((el) => ({
+            label: el.name,
+            onClick: () => {
+              navigate({ to: el.pathname || "/" }).then();
+            },
+          }))}
           onLogout={logout}
         />
       )}

@@ -28,6 +28,8 @@ function Authenticated() {
 
   const [loginErrorCount, setLoginErrorCount] = useState(0);
 
+  const { data, isLoading, error } = useGetMeQuery<GetMeQuery, Error>({});
+
   const onHandleNavigateToQuestionpro = () => {
     localStorage.removeItem(LOGIN_ERROR_NAME);
     deleteCookie(TOKEN_NAME);
@@ -42,8 +44,6 @@ function Authenticated() {
       window.location.href = `${import.meta.env.VITE_AUTHORIZATION_URL}/?state=null&redirect_uri=${import.meta.env.VITE_CALLBACK_URL}&response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}`;
     }
   };
-
-  const { data, isLoading, error } = useGetMeQuery<GetMeQuery, Error>({});
 
   useEffect(() => {
     if (data) {
