@@ -9,6 +9,7 @@ import {
 import CustomLoader from "@/components/shared/custom-loader/custom-loader.tsx";
 import { LOGIN_ERROR_NAME, TOKEN_NAME } from "@/constants";
 import Header from "@/features/header";
+import PermissionLayout from "@/features/permission-layout";
 import { useUserStore } from "@/store/user.ts";
 import { UserType } from "@/types";
 import { deleteCookie, getCookie } from "@/utils/cookieHelper.ts";
@@ -48,7 +49,7 @@ function Authenticated() {
   useEffect(() => {
     if (data) {
       localStorage.removeItem(LOGIN_ERROR_NAME);
-      setUser({ ...data.getMe, isHavePermission: true } as UserType);
+      setUser({ ...data.getMe, isHavePermission: null } as UserType);
     }
   }, [data, setUser]);
 
@@ -81,7 +82,9 @@ function Authenticated() {
   return (
     <>
       <Header />
-      <Outlet />
+      <PermissionLayout>
+        <Outlet />
+      </PermissionLayout>
     </>
   );
 }

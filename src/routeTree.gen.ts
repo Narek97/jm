@@ -14,10 +14,10 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthorizationCallbackImport } from './routes/authorization/callback'
-import { Route as AuthenticatedSecondaryLeftMenuLayoutImport } from './routes/_authenticated/_secondary-left-menu-layout'
-import { Route as AuthenticatedPrimaryLeftMenuLayoutImport } from './routes/_authenticated/_primary-left-menu-layout'
+import { Route as AuthenticatedSecondarySidebarLayoutImport } from './routes/_authenticated/_secondary-sidebar-layout'
+import { Route as AuthenticatedPrimarySidebarLayoutImport } from './routes/_authenticated/_primary-sidebar-layout'
 import { Route as AuthenticatedWorkspacesIndexImport } from './routes/_authenticated/workspaces/index'
-import { Route as AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport } from './routes/_authenticated/_primary-left-menu-layout/admin/index'
+import { Route as AuthenticatedPrimarySidebarLayoutAdminIndexImport } from './routes/_authenticated/_primary-sidebar-layout/admin/index'
 
 // Create/Update Routes
 
@@ -38,15 +38,15 @@ const AuthorizationCallbackRoute = AuthorizationCallbackImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedSecondaryLeftMenuLayoutRoute =
-  AuthenticatedSecondaryLeftMenuLayoutImport.update({
-    id: '/_secondary-left-menu-layout',
+const AuthenticatedSecondarySidebarLayoutRoute =
+  AuthenticatedSecondarySidebarLayoutImport.update({
+    id: '/_secondary-sidebar-layout',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticatedPrimaryLeftMenuLayoutRoute =
-  AuthenticatedPrimaryLeftMenuLayoutImport.update({
-    id: '/_primary-left-menu-layout',
+const AuthenticatedPrimarySidebarLayoutRoute =
+  AuthenticatedPrimarySidebarLayoutImport.update({
+    id: '/_primary-sidebar-layout',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -57,11 +57,11 @@ const AuthenticatedWorkspacesIndexRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute =
-  AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport.update({
+const AuthenticatedPrimarySidebarLayoutAdminIndexRoute =
+  AuthenticatedPrimarySidebarLayoutAdminIndexImport.update({
     id: '/admin/',
     path: '/admin/',
-    getParentRoute: () => AuthenticatedPrimaryLeftMenuLayoutRoute,
+    getParentRoute: () => AuthenticatedPrimarySidebarLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -82,18 +82,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/_primary-left-menu-layout': {
-      id: '/_authenticated/_primary-left-menu-layout'
+    '/_authenticated/_primary-sidebar-layout': {
+      id: '/_authenticated/_primary-sidebar-layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthenticatedPrimaryLeftMenuLayoutImport
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/_secondary-left-menu-layout': {
-      id: '/_authenticated/_secondary-left-menu-layout'
+    '/_authenticated/_secondary-sidebar-layout': {
+      id: '/_authenticated/_secondary-sidebar-layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthenticatedSecondaryLeftMenuLayoutImport
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutImport
       parentRoute: typeof AuthenticatedImport
     }
     '/authorization/callback': {
@@ -110,44 +110,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorkspacesIndexImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/_primary-left-menu-layout/admin/': {
-      id: '/_authenticated/_primary-left-menu-layout/admin/'
+    '/_authenticated/_primary-sidebar-layout/admin/': {
+      id: '/_authenticated/_primary-sidebar-layout/admin/'
       path: '/admin'
       fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexImport
-      parentRoute: typeof AuthenticatedPrimaryLeftMenuLayoutImport
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexImport
+      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthenticatedPrimaryLeftMenuLayoutRouteChildren {
-  AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute: typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
+interface AuthenticatedPrimarySidebarLayoutRouteChildren {
+  AuthenticatedPrimarySidebarLayoutAdminIndexRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
 }
 
-const AuthenticatedPrimaryLeftMenuLayoutRouteChildren: AuthenticatedPrimaryLeftMenuLayoutRouteChildren =
+const AuthenticatedPrimarySidebarLayoutRouteChildren: AuthenticatedPrimarySidebarLayoutRouteChildren =
   {
-    AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute:
-      AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute,
+    AuthenticatedPrimarySidebarLayoutAdminIndexRoute:
+      AuthenticatedPrimarySidebarLayoutAdminIndexRoute,
   }
 
-const AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren =
-  AuthenticatedPrimaryLeftMenuLayoutRoute._addFileChildren(
-    AuthenticatedPrimaryLeftMenuLayoutRouteChildren,
+const AuthenticatedPrimarySidebarLayoutRouteWithChildren =
+  AuthenticatedPrimarySidebarLayoutRoute._addFileChildren(
+    AuthenticatedPrimarySidebarLayoutRouteChildren,
   )
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedPrimaryLeftMenuLayoutRoute: typeof AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren
-  AuthenticatedSecondaryLeftMenuLayoutRoute: typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  AuthenticatedPrimarySidebarLayoutRoute: typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren
+  AuthenticatedSecondarySidebarLayoutRoute: typeof AuthenticatedSecondarySidebarLayoutRoute
   AuthenticatedWorkspacesIndexRoute: typeof AuthenticatedWorkspacesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedPrimaryLeftMenuLayoutRoute:
-    AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren,
-  AuthenticatedSecondaryLeftMenuLayoutRoute:
-    AuthenticatedSecondaryLeftMenuLayoutRoute,
+  AuthenticatedPrimarySidebarLayoutRoute:
+    AuthenticatedPrimarySidebarLayoutRouteWithChildren,
+  AuthenticatedSecondarySidebarLayoutRoute:
+    AuthenticatedSecondarySidebarLayoutRoute,
   AuthenticatedWorkspacesIndexRoute: AuthenticatedWorkspacesIndexRoute,
 }
 
@@ -157,29 +157,29 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '': typeof AuthenticatedSecondarySidebarLayoutRoute
   '/authorization/callback': typeof AuthorizationCallbackRoute
   '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
-  '/admin': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
+  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '': typeof AuthenticatedSecondarySidebarLayoutRoute
   '/authorization/callback': typeof AuthorizationCallbackRoute
   '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
-  '/admin': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
+  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/_authenticated/_primary-left-menu-layout': typeof AuthenticatedPrimaryLeftMenuLayoutRouteWithChildren
-  '/_authenticated/_secondary-left-menu-layout': typeof AuthenticatedSecondaryLeftMenuLayoutRoute
+  '/_authenticated/_primary-sidebar-layout': typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren
+  '/_authenticated/_secondary-sidebar-layout': typeof AuthenticatedSecondarySidebarLayoutRoute
   '/authorization/callback': typeof AuthorizationCallbackRoute
   '/_authenticated/workspaces/': typeof AuthenticatedWorkspacesIndexRoute
-  '/_authenticated/_primary-left-menu-layout/admin/': typeof AuthenticatedPrimaryLeftMenuLayoutAdminIndexRoute
+  '/_authenticated/_primary-sidebar-layout/admin/': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -191,11 +191,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/_authenticated/_primary-left-menu-layout'
-    | '/_authenticated/_secondary-left-menu-layout'
+    | '/_authenticated/_primary-sidebar-layout'
+    | '/_authenticated/_secondary-sidebar-layout'
     | '/authorization/callback'
     | '/_authenticated/workspaces/'
-    | '/_authenticated/_primary-left-menu-layout/admin/'
+    | '/_authenticated/_primary-sidebar-layout/admin/'
   fileRoutesById: FileRoutesById
 }
 
@@ -232,20 +232,20 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/_primary-left-menu-layout",
-        "/_authenticated/_secondary-left-menu-layout",
+        "/_authenticated/_primary-sidebar-layout",
+        "/_authenticated/_secondary-sidebar-layout",
         "/_authenticated/workspaces/"
       ]
     },
-    "/_authenticated/_primary-left-menu-layout": {
-      "filePath": "_authenticated/_primary-left-menu-layout.tsx",
+    "/_authenticated/_primary-sidebar-layout": {
+      "filePath": "_authenticated/_primary-sidebar-layout.tsx",
       "parent": "/_authenticated",
       "children": [
-        "/_authenticated/_primary-left-menu-layout/admin/"
+        "/_authenticated/_primary-sidebar-layout/admin/"
       ]
     },
-    "/_authenticated/_secondary-left-menu-layout": {
-      "filePath": "_authenticated/_secondary-left-menu-layout.tsx",
+    "/_authenticated/_secondary-sidebar-layout": {
+      "filePath": "_authenticated/_secondary-sidebar-layout.tsx",
       "parent": "/_authenticated"
     },
     "/authorization/callback": {
@@ -255,9 +255,9 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/workspaces/index.tsx",
       "parent": "/_authenticated"
     },
-    "/_authenticated/_primary-left-menu-layout/admin/": {
-      "filePath": "_authenticated/_primary-left-menu-layout/admin/index.tsx",
-      "parent": "/_authenticated/_primary-left-menu-layout"
+    "/_authenticated/_primary-sidebar-layout/admin/": {
+      "filePath": "_authenticated/_primary-sidebar-layout/admin/index.tsx",
+      "parent": "/_authenticated/_primary-sidebar-layout"
     }
   }
 }

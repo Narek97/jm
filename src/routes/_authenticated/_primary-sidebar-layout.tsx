@@ -4,21 +4,21 @@ import {
   MENU_PANEL_BOTTOM_TABS,
   PRIMARY_MENU_PANEL_TOP_TABS,
 } from "@/constants/tabs.tsx";
-import LeftMenuPanelLayout from "@/features/left-menu-panel-layout";
+import SidebarLayout from "@/features/sidebar-layout";
 
 export const Route = createFileRoute(
-  "/_authenticated/_primary-left-menu-layout",
+  "/_authenticated/_primary-sidebar-layout",
 )({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
-    <LeftMenuPanelLayout
+    <SidebarLayout
       topTabs={PRIMARY_MENU_PANEL_TOP_TABS}
       bottomTabs={MENU_PANEL_BOTTOM_TABS}
     >
       <Outlet />
-    </LeftMenuPanelLayout>
+    </SidebarLayout>
   );
 }

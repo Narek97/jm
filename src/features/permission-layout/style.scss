@@ -1,0 +1,13 @@
+@import "@assets/styles/variables";
+@import "@assets/styles/mixins";
+
+.no-permission {
+  @include flex-center-center;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+  color: $BASE_GRAY_COLOR;
+  &--title {
+    text-align: center;
+  }
+}

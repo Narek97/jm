@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_authenticated/_secondary-left-menu-layout",
+  "/_authenticated/_secondary-sidebar-layout",
 )({
   component: RouteComponent,
 });

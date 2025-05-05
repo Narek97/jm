@@ -71,7 +71,7 @@ const Header = () => {
             productSwitcherData?.headerInfo[1]?.myAccount || {
               license: {},
               settings: [],
-              profile: { initials: `aaa` },
+              profile: { initials: `` },
               usage: {},
               invoice: {},
               issueTrackerCount: 0,

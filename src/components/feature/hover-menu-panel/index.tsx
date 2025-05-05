@@ -10,7 +10,7 @@ import {
 } from "@npm-questionpro/wick-ui-lib";
 import { Link, useRouter } from "@tanstack/react-router";
 
-import { MenuTabType } from "@/features/left-menu-panel-layout/types.ts";
+import { MenuTabType } from "@/features/sidebar-layout/types.ts";
 import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
 import { useUserStore } from "@/store/user.ts";
 
