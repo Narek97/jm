@@ -1,5 +1,6 @@
 @use "@assets/styles/variables" as *;
 @use "@assets/styles/mixins" as *;
+
 .no-permission {
   @include flex-center-center;
   flex-direction: column;

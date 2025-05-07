@@ -1,9 +1,67 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+
+import {
+  GetWorkspacesByOrganizationIdQuery,
+  useGetWorkspacesByOrganizationIdQuery,
+} from "@/api/queries/generated/getWorkspaces.generated.ts";
+import CustomError from "@/components/shared/custom-error/custome-error.tsx";
+import { querySlateTime } from "@/constants";
+import { WORKSPACES_LIMIT } from "@/constants/pagination.ts";
+import WorkspaceList from "@/screens/workspace-list";
+import { useUserStore } from "@/store/user.ts";
 
 export const Route = createFileRoute("/_authenticated/workspaces/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>workspaces</div>;
+  const { t } = useTranslation();
+  const { user } = useUserStore();
+
+  const {
+    isLoading: isLoadingWorkspaces,
+    error: errorWorkspaces,
+    data: dataWorkspaces,
+  } = useGetWorkspacesByOrganizationIdQuery<
+    GetWorkspacesByOrganizationIdQuery,
+    Error
+  >(
+    {
+      getWorkspacesInput: {
+        limit: WORKSPACES_LIMIT,
+        offset: 0,
+        organizationId: Number(user!.orgID),
+      },
+    },
+    {
+      enabled: !!user?.orgID,
+      staleTime: querySlateTime,
+    },
+  );
+
+  if (errorWorkspaces) {
+    return <CustomError error={errorWorkspaces?.message} />;
+  }
+
+  return (
+    <section>
+      <div className={"!py-[2rem] !px-[4rem]"}>
+        <div>
+          <h3
+            className={"!text-heading-2"}
+            data-testid="workspace-title-test-id"
+          >
+            {t("workspace.title")}
+          </h3>
+        </div>
+        <WorkspaceList
+          isLoadingWorkspaces={isLoadingWorkspaces}
+          workspaces={
+            dataWorkspaces?.getWorkspacesByOrganizationId?.workspaces || []
+          }
+        />
+      </div>
+    </section>
+  );
 }
