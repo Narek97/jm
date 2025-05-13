@@ -1,53 +1,16 @@
-import * as Types from "../../types";
+import * as Types from '../../types';
 
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { axiosRequest } from "../../axios";
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { axiosRequest } from '../../axios';
 export type RetrieveMetricsDataMutationVariables = Types.Exact<{
-  id: Types.Scalars["Int"]["input"];
-  previous: Types.Scalars["Boolean"]["input"];
+  id: Types.Scalars['Int']['input'];
+  previous: Types.Scalars['Boolean']['input'];
 }>;
 
-export type RetrieveMetricsDataMutation = {
-  __typename?: "Mutation";
-  retrieveMetricsData: {
-    __typename?: "Metrics";
-    rowId: number;
-    columnId: number;
-    id: number;
-    name: string;
-    commentsCount: number;
-    descriptionEnabled: boolean;
-    description?: string | null;
-    type: Types.MetricsTypeEnum;
-    value?: number | null;
-    goal?: number | null;
-    flippedText?: string | null;
-    surveyId?: number | null;
-    questionId?: number | null;
-    source: Types.MetricsSourceEnum;
-    startDate?: any | null;
-    endDate?: any | null;
-    dateRange?: Types.MetricsDateRangeEnum | null;
-    overall: number;
-    nps: number;
-    csat: number;
-    ces: number;
-    x: number;
-    y: number;
-    z: number;
-    persona?: {
-      __typename?: "personas";
-      id: number;
-      name: string;
-      type: string;
-      attachment?: {
-        __typename?: "Attachment";
-        url: string;
-        key: string;
-      } | null;
-    } | null;
-  };
-};
+
+export type RetrieveMetricsDataMutation = { __typename?: 'Mutation', retrieveMetricsData: { __typename?: 'Metrics', rowId: number, columnId: number, id: number, name: string, commentsCount: number, descriptionEnabled: boolean, description?: string | null, type: Types.MetricsTypeEnum, value?: number | null, goal?: number | null, flippedText?: string | null, surveyId?: number | null, questionId?: number | null, source: Types.MetricsSourceEnum, startDate?: any | null, endDate?: any | null, dateRange?: Types.MetricsDateRangeEnum | null, overall: number, nps: number, csat: number, ces: number, x: number, y: number, z: number, persona?: { __typename?: 'personas', id: number, name: string, type: string, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null } };
+
+
 
 export const RetrieveMetricsDataDocument = `
     mutation RetrieveMetricsData($id: Int!, $previous: Boolean!) {
@@ -90,29 +53,16 @@ export const RetrieveMetricsDataDocument = `
     `;
 
 export const useRetrieveMetricsDataMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    RetrieveMetricsDataMutation,
-    TError,
-    RetrieveMetricsDataMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    RetrieveMetricsDataMutation,
-    TError,
-    RetrieveMetricsDataMutationVariables,
-    TContext
-  >({
-    mutationKey: ["RetrieveMetricsData"],
-    mutationFn: axiosRequest<
-      RetrieveMetricsDataMutation,
-      RetrieveMetricsDataMutationVariables
-    >(RetrieveMetricsDataDocument),
-    ...options,
-  });
-};
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<RetrieveMetricsDataMutation, TError, RetrieveMetricsDataMutationVariables, TContext>) => {
+    
+    return useMutation<RetrieveMetricsDataMutation, TError, RetrieveMetricsDataMutationVariables, TContext>(
+      {
+    mutationKey: ['RetrieveMetricsData'],
+    mutationFn: axiosRequest<RetrieveMetricsDataMutation, RetrieveMetricsDataMutationVariables>(RetrieveMetricsDataDocument),
+    ...options
+  }
+    )};
 
-useRetrieveMetricsDataMutation.getKey = () => ["RetrieveMetricsData"];
+useRetrieveMetricsDataMutation.getKey = () => ['RetrieveMetricsData'];

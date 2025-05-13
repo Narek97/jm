@@ -7,5 +7,5 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
-  return <div className={"h-full bg-red-300"}></div>;
+  return <div className={"h-full"}>ad</div>;
 }

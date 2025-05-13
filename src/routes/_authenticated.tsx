@@ -6,10 +6,10 @@ import {
   GetMeQuery,
   useGetMeQuery,
 } from "@/api/queries/generated/getMe.generated.ts";
-import CustomLoader from "@/components/shared/custom-loader/custom-loader.tsx";
-import { LOGIN_ERROR_NAME, TOKEN_NAME } from "@/constants";
-import Header from "@/features/header";
-import PermissionLayout from "@/features/permission-layout";
+import CustomLoader from "@/Components/Shared/CustomLoader";
+import {LOGIN_ERROR_NAME, TOKEN_NAME} from "@/constants";
+import Header from "@/Features/Header";
+import PermissionLayout from "@/Features/PermissionLayout";
 import { useUserStore } from "@/store/user.ts";
 import { UserType } from "@/types";
 import { deleteCookie, getCookie } from "@/utils/cookieHelper.ts";

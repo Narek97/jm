@@ -1,15 +1,15 @@
-import * as Types from "../../types";
+import * as Types from '../../types';
 
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { axiosRequest } from "../../axios";
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { axiosRequest } from '../../axios';
 export type DeleteMapLinkMutationVariables = Types.Exact<{
-  id: Types.Scalars["Int"]["input"];
+  id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteMapLinkMutation = {
-  __typename?: "Mutation";
-  deleteLink: number;
-};
+
+export type DeleteMapLinkMutation = { __typename?: 'Mutation', deleteLink: number };
+
+
 
 export const DeleteMapLinkDocument = `
     mutation DeleteMapLink($id: Int!) {
@@ -17,27 +17,17 @@ export const DeleteMapLinkDocument = `
 }
     `;
 
-export const useDeleteMapLinkMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteMapLinkMutation,
-    TError,
-    DeleteMapLinkMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    DeleteMapLinkMutation,
-    TError,
-    DeleteMapLinkMutationVariables,
-    TContext
-  >({
-    mutationKey: ["DeleteMapLink"],
-    mutationFn: axiosRequest<
-      DeleteMapLinkMutation,
-      DeleteMapLinkMutationVariables
-    >(DeleteMapLinkDocument),
-    ...options,
-  });
-};
+export const useDeleteMapLinkMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteMapLinkMutation, TError, DeleteMapLinkMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteMapLinkMutation, TError, DeleteMapLinkMutationVariables, TContext>(
+      {
+    mutationKey: ['DeleteMapLink'],
+    mutationFn: axiosRequest<DeleteMapLinkMutation, DeleteMapLinkMutationVariables>(DeleteMapLinkDocument),
+    ...options
+  }
+    )};
 
-useDeleteMapLinkMutation.getKey = () => ["DeleteMapLink"];
+useDeleteMapLinkMutation.getKey = () => ['DeleteMapLink'];

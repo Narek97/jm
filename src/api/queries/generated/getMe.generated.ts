@@ -1,29 +1,13 @@
-import * as Types from "../../types";
+import * as Types from '../../types';
 
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { axiosRequest } from "../../axios";
-export type GetMeQueryVariables = Types.Exact<{ [key: string]: never }>;
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { axiosRequest } from '../../axios';
+export type GetMeQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
-export type GetMeQuery = {
-  __typename?: "Query";
-  getMe: {
-    __typename?: "User";
-    emailAddress: string;
-    firstName: string;
-    lastName: string;
-    userID: number;
-    orgID: number;
-    isAdmin: boolean;
-    primaryUserAPIKey: string;
-    orgLanguage: Types.LanguagesEnum;
-    apiToken: string;
-    userAPIKey: string;
-    accountLanguage: Types.LanguagesEnum;
-    debugMode?: boolean | null;
-    superAdmin: boolean;
-    businessType?: { __typename?: "KeyValue"; value: string } | null;
-  };
-};
+
+export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'User', emailAddress: string, firstName: string, lastName: string, userID: number, orgID: number, isAdmin: boolean, primaryUserAPIKey: string, orgLanguage: Types.LanguagesEnum, apiToken: string, userAPIKey: string, accountLanguage: Types.LanguagesEnum, debugMode?: boolean | null, superAdmin: boolean, businessType?: { __typename?: 'KeyValue', value: string } | null } };
+
+
 
 export const GetMeDocument = `
     query GetMe {
@@ -48,21 +32,20 @@ export const GetMeDocument = `
 }
     `;
 
-export const useGetMeQuery = <TData = GetMeQuery, TError = unknown>(
-  variables?: GetMeQueryVariables,
-  options?: Omit<UseQueryOptions<GetMeQuery, TError, TData>, "queryKey"> & {
-    queryKey?: UseQueryOptions<GetMeQuery, TError, TData>["queryKey"];
-  },
-) => {
-  return useQuery<GetMeQuery, TError, TData>({
-    queryKey: variables === undefined ? ["GetMe"] : ["GetMe", variables],
-    queryFn: axiosRequest<GetMeQuery, GetMeQueryVariables>(GetMeDocument).bind(
-      null,
-      variables,
-    ),
-    ...options,
-  });
-};
+export const useGetMeQuery = <
+      TData = GetMeQuery,
+      TError = unknown
+    >(
+      variables?: GetMeQueryVariables,
+      options?: Omit<UseQueryOptions<GetMeQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetMeQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetMeQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetMe'] : ['GetMe', variables],
+    queryFn: axiosRequest<GetMeQuery, GetMeQueryVariables>(GetMeDocument).bind(null, variables),
+    ...options
+  }
+    )};
 
-useGetMeQuery.getKey = (variables?: GetMeQueryVariables) =>
-  variables === undefined ? ["GetMe"] : ["GetMe", variables];
+useGetMeQuery.getKey = (variables?: GetMeQueryVariables) => variables === undefined ? ['GetMe'] : ['GetMe', variables];

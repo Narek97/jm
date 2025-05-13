@@ -5,7 +5,7 @@ import axios from "axios";
 
 import { rootRoute } from "../__root";
 
-import CustomLoader from "@/components/shared/custom-loader/custom-loader.tsx";
+import CustomLoader from "@/Components/Shared/CustomLoader";
 import { TOKEN_NAME } from "@/constants";
 import { setCookie } from "@/utils/cookieHelper.ts";
 

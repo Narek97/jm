@@ -1,15 +1,15 @@
-import * as Types from "../../types";
+import * as Types from '../../types';
 
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { axiosRequest } from "../../axios";
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { axiosRequest } from '../../axios';
 export type UpdateAttachmentTouchPointMutationVariables = Types.Exact<{
   updateAttachmentTouchPointInput: Types.UpdateAttachmentTouchPointInput;
 }>;
 
-export type UpdateAttachmentTouchPointMutation = {
-  __typename?: "Mutation";
-  updateAttachmentTouchPoint: string;
-};
+
+export type UpdateAttachmentTouchPointMutation = { __typename?: 'Mutation', updateAttachmentTouchPoint: string };
+
+
 
 export const UpdateAttachmentTouchPointDocument = `
     mutation UpdateAttachmentTouchPoint($updateAttachmentTouchPointInput: UpdateAttachmentTouchPointInput!) {
@@ -20,31 +20,16 @@ export const UpdateAttachmentTouchPointDocument = `
     `;
 
 export const useUpdateAttachmentTouchPointMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    UpdateAttachmentTouchPointMutation,
-    TError,
-    UpdateAttachmentTouchPointMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    UpdateAttachmentTouchPointMutation,
-    TError,
-    UpdateAttachmentTouchPointMutationVariables,
-    TContext
-  >({
-    mutationKey: ["UpdateAttachmentTouchPoint"],
-    mutationFn: axiosRequest<
-      UpdateAttachmentTouchPointMutation,
-      UpdateAttachmentTouchPointMutationVariables
-    >(UpdateAttachmentTouchPointDocument),
-    ...options,
-  });
-};
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateAttachmentTouchPointMutation, TError, UpdateAttachmentTouchPointMutationVariables, TContext>) => {
+    
+    return useMutation<UpdateAttachmentTouchPointMutation, TError, UpdateAttachmentTouchPointMutationVariables, TContext>(
+      {
+    mutationKey: ['UpdateAttachmentTouchPoint'],
+    mutationFn: axiosRequest<UpdateAttachmentTouchPointMutation, UpdateAttachmentTouchPointMutationVariables>(UpdateAttachmentTouchPointDocument),
+    ...options
+  }
+    )};
 
-useUpdateAttachmentTouchPointMutation.getKey = () => [
-  "UpdateAttachmentTouchPoint",
-];
+useUpdateAttachmentTouchPointMutation.getKey = () => ['UpdateAttachmentTouchPoint'];

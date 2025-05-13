@@ -5,11 +5,12 @@ import {
   GetWorkspacesByOrganizationIdQuery,
   useGetWorkspacesByOrganizationIdQuery,
 } from "@/api/queries/generated/getWorkspaces.generated.ts";
-import CustomError from "@/components/shared/custom-error/custome-error.tsx";
+import CustomError from "@/Components/Shared/CustomError";
 import { querySlateTime } from "@/constants";
 import { WORKSPACES_LIMIT } from "@/constants/pagination.ts";
-import WorkspaceList from "@/screens/workspace-list";
+import WorkspaceListScreen from "@/Screens/WorkspaceListScreen";
 import { useUserStore } from "@/store/user.ts";
+
 
 export const Route = createFileRoute("/_authenticated/workspaces/")({
   component: RouteComponent,
@@ -55,7 +56,7 @@ function RouteComponent() {
             {t("workspace.title")}
           </h3>
         </div>
-        <WorkspaceList
+        <WorkspaceListScreen
           isLoadingWorkspaces={isLoadingWorkspaces}
           workspaces={
             dataWorkspaces?.getWorkspacesByOrganizationId?.workspaces || []
