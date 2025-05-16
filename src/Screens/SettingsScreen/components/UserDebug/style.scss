@@ -1,0 +1,12 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.user-debug-settings {
+  @include flex-center;
+  padding: 1.25rem 0;
+
+  &--switcher--label {
+    font-size: 0.875rem;
+    color: $BASE_GRAY_COLOR;
+  }
+}

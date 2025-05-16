@@ -1,5 +1,11 @@
 {
   "workspace": {
     "title": "My Workspaces"
+  },
+  "settings": {
+    "title": "My workspace settings"
+  },
+  "admin": {
+    "title": "My workspace admin"
   }
 }

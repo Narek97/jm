@@ -1,0 +1,21 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.custom-tabs {
+  width: 100%;
+  &--content {
+    position: relative;
+    .tabs-divider-line {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 0.0625rem;
+      background-color: $BASE-WHITE-COLOR;
+    }
+  }
+
+  &--panel {
+    width: 100%;
+    padding: 0;
+  }
+}

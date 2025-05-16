@@ -1,4 +1,4 @@
-import {MenuTabType} from "@/Features/SidebarLayout/types.ts";
+import { MenuTabType } from "@/Features/SidebarLayout/types.ts";
 
 const PRIMARY_MENU_PANEL_TOP_TABS: Array<MenuTabType> = [
   {
@@ -18,9 +18,9 @@ const PRIMARY_MENU_PANEL_TOP_TABS: Array<MenuTabType> = [
 ];
 
 const SECONDARY_MENU_PANEL_TOP_TABS = ({
-                                         workspaceID,
-                                         isAdmin,
-                                       }: {
+  workspaceID,
+  isAdmin,
+}: {
   workspaceID: string | undefined;
   isAdmin: boolean;
 }): Array<MenuTabType> => {

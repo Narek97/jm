@@ -1,0 +1,47 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.pagination-section {
+  &--selected-pages {
+    @include flex-center-center;
+    margin: auto;
+
+    &-numbers {
+      text-wrap: nowrap;
+      margin: 0 0.5rem;
+      font-size: $MEDIUM-FONT-SIZE;
+      color: #8e9092;
+      cursor: pointer;
+    }
+
+    &-arrow-left,
+    &-arrow-right {
+      @include flex-center-center;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.popover-content {
+  color: $BASE_GRAY_COLOR;
+  background-color: $BASE-WHITE-COLOR;
+  z-index: 10;
+  width: 12.5rem;
+  max-height: 12.5rem;
+  padding: 0 !important;
+  text-align: center;
+
+  &-item {
+    font-size: $MEDIUM-FONT-SIZE;
+    width: 100%;
+    padding: 0.75rem 0 !important;
+    cursor: pointer;
+    color: #8e9092;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}

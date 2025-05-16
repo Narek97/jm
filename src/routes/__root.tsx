@@ -1,5 +1,6 @@
 import React from "react";
 
+import { WuToast } from "@npm-questionpro/wick-ui-lib";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
@@ -16,6 +17,7 @@ function RootComponent() {
   return (
     <React.Fragment>
       <Outlet />
+      <WuToast />
       <TanStackRouterDevtools position={"bottom-right"} />
     </React.Fragment>
   );

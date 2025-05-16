@@ -1,0 +1,10 @@
+.error-logs,
+.performance-logs{
+  margin-top: 1.25rem;
+  height: calc(100dvh - 14.9rem);
+}
+
+.logs-pagination {
+  display: flex;
+  justify-content: end;
+}

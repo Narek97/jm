@@ -1,0 +1,27 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.modal-header {
+  @include flex-center-center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  background-color: #eeeeee;
+
+  &--info {
+    height: 50dvh;
+  }
+
+  &--title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: $BASE_GRAY_COLOR;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    @include reduce-text(85%);
+  }
+
+  &--question-mark {
+    @include flex-center-center;
+  }
+}

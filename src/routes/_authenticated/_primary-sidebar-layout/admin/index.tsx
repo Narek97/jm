@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute(
+import AdminScreen from "@/Screens/AdminScreen";
+
+export const AdminRoute = createFileRoute(
   "/_authenticated/_primary-sidebar-layout/admin/",
 )({
-  component: RouteComponent,
+  component: AdminScreen,
 });
 
-function RouteComponent() {
-  return <div className={"h-full"}>ad</div>;
-}
+export const Route = AdminRoute;

@@ -44,9 +44,12 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
       return [];
     }
 
-    return dataGetOutcomes.pages.reduce((acc: any, curr) => {
+    return dataGetOutcomes.pages.reduce((acc: Array<OutcomeGroup>, curr) => {
       if (curr?.getOutcomeGroups.outcomeGroups) {
-        return [...acc, ...curr.getOutcomeGroups.outcomeGroups];
+        return [
+          ...acc,
+          ...(curr.getOutcomeGroups.outcomeGroups as Array<OutcomeGroup>),
+        ];
       }
       return acc;
     }, []);

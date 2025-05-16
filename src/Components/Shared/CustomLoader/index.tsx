@@ -1,6 +1,6 @@
 import "./style.scss";
 
-const Index = () => {
+const CustomLoader = () => {
   return (
     <div className={"custom-loader"} data-testid={"custom-loader-test-id"}>
       <div className="lds-ellipsis">
@@ -13,4 +13,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default CustomLoader;

@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute(
+import SettingsScreen from "@/Screens/SettingsScreen";
+
+export const SettingsRoute = createFileRoute(
   "/_authenticated/_primary-sidebar-layout/settings/",
 )({
-  component: RouteComponent,
+  component: SettingsScreen,
 });
 
-function RouteComponent() {
-  return <div className={"h-full"}>se</div>;
-}
+export const Route = SettingsRoute;

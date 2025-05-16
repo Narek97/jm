@@ -21,6 +21,10 @@ input[type="checkbox"] {
   width: 100%;
 }
 
+main {
+  overflow-x: hidden !important;
+}
+
 button,
 label {
   cursor: pointer;
@@ -121,4 +125,9 @@ svg {
   --tw-ring-opacity: 0 !important;
   outline: transparent !important;
   border-width: 0 !important;
+}
+
+.wm-delete {
+  font-size: 1rem;
+  cursor: pointer;
 }

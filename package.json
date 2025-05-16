@@ -29,6 +29,7 @@
     "@graphql-codegen/introspection": "^4.0.3",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript-react-query": "^6.1.0",
+    "@mui/lab": "^7.0.0-beta.12",
     "@mui/material": "^7.1.0",
     "@npm-questionpro/wick-ui-eslint-config-frontend": "^0.0.3",
     "@npm-questionpro/wick-ui-icon": "^6.1.0",
