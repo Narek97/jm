@@ -24,7 +24,7 @@ interface IAssignPersonaToMapModal {
   orgId: number;
   level: CopyMapLevelEnum;
   handleClose: () => void;
-  handleOnSuccess?: (copyMap: JourneyMapCardType) => void;
+  handleOnSuccess?: (copyMap: any) => void;
 }
 
 const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
@@ -32,7 +32,6 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
   orgId,
   handleClose,
   level,
-  handleOnSuccess,
 }) => {
   const queryClient = useQueryClient();
 
@@ -79,7 +78,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
         },
       },
       {
-        onSuccess: async (response) => {
+        onSuccess: async () => {
           setCopyMapState({
             orgId: null,
             mapId: null,

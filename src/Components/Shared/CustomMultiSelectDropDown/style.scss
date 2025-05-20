@@ -1,0 +1,21 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+
+.custom-multi-select-dropdown {
+  position: relative;
+
+  .select-placeholder {
+    color: $BASE_GRAY_COLOR_2;
+    font-size: 0.75rem;
+  }
+
+  &--menu-item {
+    @include reduce-text(100%);
+  }
+
+  &--selected-menu-item {
+    background-color: #deebf7 !important;
+    border-bottom: 0.0625rem solid $BASE-WHITE-COLOR !important;
+  }
+}

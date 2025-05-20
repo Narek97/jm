@@ -1,0 +1,46 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.create-update-ai-model-modal {
+  padding: 1rem;
+  color: #545e6b;
+  @include base-modal-footer();
+
+  &--prompt-info {
+    font-style: italic;
+    color: $BASE-ERROR-COLOR;
+    margin-bottom: 0.625rem;
+  }
+
+  &--file-upload {
+    position: relative;
+    height: 6.25rem;
+    border: 0.0625rem dashed $BASE-LIGHT-GRAY-COLOR-2;
+
+    &:hover {
+      .create-update-ai-model-modal--delete-file-icon {
+        visibility: visible;
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+
+  &--delete-file-icon {
+    visibility: hidden;
+    position: absolute;
+    top: 0.3125rem;
+    right: calc(50% - 5.5rem);
+    padding: 0.125rem;
+    z-index: 2;
+  }
+
+  &--content-input,
+  &--content-dropdown {
+    margin-bottom: 1.25rem;
+
+    &--label {
+      margin-bottom: 0.625rem;
+      display: inline-block;
+    }
+  }
+}

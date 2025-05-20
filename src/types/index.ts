@@ -62,3 +62,16 @@ export type MenuOptionsType = {
 export type SearchParamsType = {
   tab?: string;
 };
+
+export type DropdownMultiSelectItemType = {
+  id: number;
+  name: string;
+  value: string | number;
+};
+
+export type DropdownSelectItemType = {
+  id?: number;
+  name?: string | ReactNode;
+  label?: string;
+  value: string | number | null;
+};
