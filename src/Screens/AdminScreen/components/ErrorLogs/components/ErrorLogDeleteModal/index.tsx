@@ -1,10 +1,11 @@
 import { FC } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useDeleteErrorLogsMutation } from "@/api/mutations/generated/deleteErrorLogs.generated";
 import { DeleteErrorLogsMutation } from "@/api/mutations/generated/deleteErrorLogs.generated.ts";
 import CustomModal from "@/Components/Shared/CustomModal";
 import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
 
 interface IErrorLogDeleteModal {
   isOpen: boolean;
@@ -15,7 +16,7 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({
   isOpen,
   handleClose,
 }) => {
-  const setErrorLogsData = useSetQueryDataByKey("GetErrorLogs.infinite");
+  const queryClient = useQueryClient();
 
   const { mutate: mutateDeleteErrorLogs, isPending: isLoadingDeleteErrorLogs } =
     useDeleteErrorLogsMutation<DeleteErrorLogsMutation, Error>();
@@ -29,12 +30,7 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({
       {},
       {
         onSuccess: () => {
-          setErrorLogsData({
-            getFolders: {
-              count: 0,
-              errorLogs: [],
-            },
-          });
+          queryClient.invalidateQueries({ queryKey: ["GetErrorLogs"] }).then();
           onHandleCloseModal();
         },
       },

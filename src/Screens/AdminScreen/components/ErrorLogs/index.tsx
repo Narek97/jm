@@ -17,7 +17,7 @@ import { ERROR_LOGS_LIMIT } from "@/constants/pagination";
 import { ERROR_TABLE_COLUMNS } from "@/Screens/AdminScreen/components/ErrorLogs/constants.tsx";
 
 const ErrorLogDeleteModal = lazy(
-  () => import("./components/errorLogDeleteModal"),
+  () => import("./components/ErrorLogDeleteModal"),
 );
 
 const ErrorLogs = () => {

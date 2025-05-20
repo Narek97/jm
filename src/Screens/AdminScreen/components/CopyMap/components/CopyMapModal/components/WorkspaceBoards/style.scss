@@ -1,0 +1,59 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+
+@include copy-map-board-list();
+.custom-modal-footer {
+  justify-content: space-between;
+
+  .create-new {
+    text-transform: lowercase;
+  }
+}
+
+.assign-modal-header {
+  @include flex-center;
+
+  .question-sign {
+    margin-left: 0.5rem;
+    @include base-round-btn(1rem, 1rem, $DARK_BLUE);
+    font-size: 0.75rem;
+    color: $BASE_WHITE-COLOR;
+    font-weight: 500;
+  }
+}
+
+.go-back {
+  width: 10rem;
+  margin: 0.625rem 0 1rem 0.25rem;
+  @include flex-center-center;
+  gap: 0.5rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: $BASE_BLUE_COLOR;
+
+    path {
+      stroke: $BASE_BLUE_COLOR;
+    }
+  }
+}
+
+.disabled-section {
+  pointer-events: none;
+
+  &:hover {
+    cursor: pointer;
+    color: $BASE_GRAY_COLOR;
+
+    path {
+      stroke: $BASE_GRAY_COLOR;
+    }
+  }
+}

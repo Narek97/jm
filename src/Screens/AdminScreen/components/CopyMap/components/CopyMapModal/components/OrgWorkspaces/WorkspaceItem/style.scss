@@ -1,0 +1,28 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+
+.workspace-list--item {
+  @include org-or-board-item();
+
+  &--content {
+    width: 100%;
+    margin-left: 0.5rem;
+    @include reduce-text(90%);
+
+    &--title {
+      color: $BASE_BLUE_COLOR;
+      font-weight: 500;
+      font-size: 1rem;
+      @include reduce-text(100%);
+    }
+    .no-title {
+      font-style: italic;
+    }
+  }
+}
+
+.processing {
+  pointer-events: none;
+  @include gradient-animation();
+}
