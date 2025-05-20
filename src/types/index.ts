@@ -6,6 +6,10 @@ export type ObjectKeysType<T = unknown> = {
   [key: string]: T;
 };
 
+export type CreatUpdateFormGeneralType = {
+  [key: string]: string | number[];
+};
+
 export type UserType = User & {
   isHavePermission: boolean | null;
 };
