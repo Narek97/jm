@@ -7,7 +7,7 @@ export type UpdateWhiteboardMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateWhiteboardMutation = { __typename?: 'Mutation', updateWhiteboard: { __typename?: 'Whiteboard', id: number, canvasId?: number | null, isLocked: boolean, helpLink?: string | null, name: string, folderId: number } };
+export type UpdateWhiteboardMutation = { __typename?: 'Mutation', updateWhiteboard: { __typename?: 'Whiteboard', id: number, canvasId?: number | null, isLocked: boolean, helpLink?: string | null, name: number, folderId: number } };
 
 
 

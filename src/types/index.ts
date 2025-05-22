@@ -74,8 +74,19 @@ export type DropdownMultiSelectItemType = {
 };
 
 export type DropdownSelectItemType = {
-  id?: number;
+  id: number;
   name?: string | ReactNode;
   label?: string;
   value: string | number | null;
 };
+
+export type DropdownWithCategorySelectItemType = {
+  id?: number;
+  headerTitle?: string | ReactNode;
+  group: DropdownSelectItemType[];
+};
+
+export enum OutcomeLevelEnum {
+  WORKSPACE = "WORKSPACE",
+  MAP = "MAP",
+}

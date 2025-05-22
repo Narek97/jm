@@ -93,8 +93,8 @@ export type AiJourneyModelResponse = {
   id: Scalars['Int']['output'];
   name?: Maybe<Scalars['String']['output']>;
   prompt: Scalars['String']['output'];
-  selectedOrgIds: Array<Scalars['Int']['output']>;
-  transcriptPlace: Scalars['Int']['output'];
+  selectedOrgIds?: Maybe<Array<Scalars['Int']['output']>>;
+  transcriptPlace?: Maybe<Scalars['Int']['output']>;
   universal: Scalars['Boolean']['output'];
 };
 
@@ -105,6 +105,7 @@ export type AttachImageInput = {
 
 export type AttachTagInput = {
   cardId: Scalars['Int']['input'];
+  cardType: MapCardTypeEnum;
   tagId: Scalars['Int']['input'];
 };
 
@@ -150,7 +151,7 @@ export type Board = {
   personasCount: Scalars['Int']['output'];
   pinnedOutcomeGroupCount: Scalars['Int']['output'];
   pinnedOutcomeGroups: Array<PinnedOutcomeGroup>;
-  sortedMaps?: Maybe<Array<Scalars['Int']['output']>>;
+  sortedMaps?: Maybe<Scalars['Int']['output']>;
   tags: Array<Tags>;
   updatedAt: Scalars['Timestamp']['output'];
   workspace: Workspace;
@@ -214,6 +215,7 @@ export type BoxElement = {
   stepId?: Maybe<Scalars['Int']['output']>;
   studyId?: Maybe<Scalars['Int']['output']>;
   studyName?: Maybe<Scalars['String']['output']>;
+  tags: Array<Tags>;
   text?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['Timestamp']['output'];
 };
@@ -354,8 +356,8 @@ export type CompleteMultiPartInput = {
 };
 
 export type ConnectPersonasToMapInput = {
-  connectPersonaIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  disconnectPersonaIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+  connectPersonaIds?: Array<Scalars['Int']['input']>;
+  disconnectPersonaIds?: Array<Scalars['Int']['input']>;
   mapId: Scalars['Int']['input'];
 };
 
@@ -406,7 +408,7 @@ export type CreateColumnResponse = {
   mapId: Scalars['Int']['output'];
   refToNext?: Maybe<Scalars['Int']['output']>;
   size: Scalars['Int']['output'];
-  stepId?: Maybe<Scalars['Int']['output']>;
+  stepId: Scalars['Int']['output'];
   updatedAt: Scalars['Timestamp']['output'];
 };
 
@@ -618,7 +620,7 @@ export type CreateWhiteboardInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   folderId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
-  type?: InputMaybe<WhiteboardTypeEnum>;
+  type?: WhiteboardTypeEnum;
 };
 
 export type CreateWorkspaceOutcomeInput = {
@@ -712,6 +714,8 @@ export type DemographicInfo = {
   attachment?: Maybe<Attachment>;
   attachmentId?: Maybe<Scalars['Int']['output']>;
   createdAt: Scalars['Timestamp']['output'];
+  croppedArea?: Maybe<Position>;
+  croppedAreaId?: Maybe<Scalars['Int']['output']>;
   height?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isDefault: Scalars['Boolean']['output'];
@@ -808,6 +812,11 @@ export type GetAiJourneyModelsResponse = {
   offset: Scalars['Int']['output'];
 };
 
+export type GetAttachedTagsInput = {
+  cardId: Scalars['Int']['input'];
+  cardType: MapCardTypeEnum;
+};
+
 export type GetAttachmentTouchPointMapsInput = {
   attachmentId: Scalars['Int']['input'];
 };
@@ -821,10 +830,9 @@ export type GetBoardInterviewsModel = {
 
 export type GetBoardTagsInput = {
   boardId: Scalars['Int']['input'];
-  cardId?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  search: Scalars['String']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GetBoardsForItemInput = {
@@ -846,7 +854,7 @@ export type GetBoardsFourOutcomeGroupInput = {
 
 export type GetBoardsOutcomeGroupModel = {
   id: Scalars['Int']['output'];
-  isPinned?: Maybe<Scalars['Boolean']['output']>;
+  isPinned: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
@@ -1047,7 +1055,7 @@ export type GetMapDebugLogsInput = {
 export type GetMapDetailsModel = {
   isChildMap: Scalars['Boolean']['output'];
   isParentMap: Scalars['Boolean']['output'];
-  parentMap?: Maybe<CustomMap>;
+  parentMap: CustomMap;
 };
 
 export type GetMapLogsModel = {
@@ -1189,6 +1197,8 @@ export type GetPersonaDemographicInfoModel = {
   attachment?: Maybe<Attachment>;
   attachmentId?: Maybe<Scalars['Int']['output']>;
   createdAt: Scalars['Timestamp']['output'];
+  croppedArea?: Maybe<Position>;
+  croppedAreaId?: Maybe<Scalars['Int']['output']>;
   height?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isDefault: Scalars['Boolean']['output'];
@@ -1307,7 +1317,7 @@ export type GetSelectedMapsForItemModel = {
 };
 
 export type GetSuiteOrgsInput = {
-  search: Scalars['String']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GetTouchPointIconsModel = {
@@ -1391,7 +1401,7 @@ export type GetWhiteboardModel = {
   helpLink?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   isLocked: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
+  name: Scalars['Int']['output'];
   ownerId: Scalars['Int']['output'];
   sharingPolicy: SharingPolicyEnum;
   type: WhiteboardTypeEnum;
@@ -1638,9 +1648,11 @@ export type LinkResponse = {
   linkedJourneyMapId?: Maybe<Scalars['Int']['output']>;
   linkedMapId?: Maybe<Scalars['Int']['output']>;
   mapPersonaImages?: Maybe<Array<PersonaUrlObject>>;
+  note?: Maybe<Note>;
   personaId?: Maybe<Scalars['Int']['output']>;
   personaImage?: Maybe<PersonaUrlObject>;
   rowId: Scalars['Int']['output'];
+  tags: Array<Tags>;
   title?: Maybe<Scalars['String']['output']>;
   type: LinkTypeEnum;
   url?: Maybe<Scalars['String']['output']>;
@@ -1695,10 +1707,18 @@ export type Map = {
   rows: Array<MapRow>;
   selectedPersonas: Array<Personas>;
   title?: Maybe<Scalars['String']['output']>;
-  type: Scalars['String']['output'];
+  type: MapTypeEnum;
   updatedAt: Scalars['Timestamp']['output'];
   whiteboardDataItemMaps: Array<WhiteboardDataItemMap>;
 };
+
+export enum MapCardTypeEnum {
+  BoxElement = 'BOX_ELEMENT',
+  Link = 'LINK',
+  Metrics = 'METRICS',
+  Outcome = 'OUTCOME',
+  Touchpoint = 'TOUCHPOINT'
+}
 
 export type MapColumn = {
   bgColor: Scalars['String']['output'];
@@ -1750,7 +1770,7 @@ export type MapLog = {
   subAction?: Maybe<SubActionTypeEnum>;
   to?: Maybe<Scalars['JSONObject']['output']>;
   updatedAt: Scalars['Timestamp']['output'];
-  userId: Scalars['Int']['output'];
+  userId: Member;
 };
 
 export type MapRow = {
@@ -1767,7 +1787,7 @@ export type MapRow = {
   mapId: Scalars['Int']['output'];
   outcomeGroup?: Maybe<OutcomeGroup>;
   outcomeGroupId?: Maybe<Scalars['Int']['output']>;
-  refToNext?: Maybe<Scalars['Int']['output']>;
+  refToNext?: Maybe<MapRow>;
   rowFunction?: Maybe<MapRowTypeEnum>;
   size: Scalars['Int']['output'];
   updatedAt: Scalars['Timestamp']['output'];
@@ -1791,6 +1811,10 @@ export enum MapRowTypeEnum {
   Text = 'TEXT',
   Touchpoints = 'TOUCHPOINTS',
   Video = 'VIDEO'
+}
+
+export enum MapTypeEnum {
+  Journey = 'JOURNEY'
 }
 
 export type MapTypeUnion = JourneyMap;
@@ -1860,6 +1884,7 @@ export type Metrics = {
   index: Scalars['Int']['output'];
   mapId: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  note?: Maybe<Note>;
   nps: Scalars['Float']['output'];
   overall: Scalars['Float']['output'];
   ownerId: Scalars['Int']['output'];
@@ -1871,6 +1896,7 @@ export type Metrics = {
   startDate?: Maybe<Scalars['Timestamp']['output']>;
   stepId: Scalars['Int']['output'];
   surveyId?: Maybe<Scalars['Int']['output']>;
+  tags: Array<Tags>;
   type: MetricsTypeEnum;
   typeData?: Maybe<MetricsTypeDataUnion>;
   updatedAt: Scalars['Timestamp']['output'];
@@ -1907,6 +1933,7 @@ export type MetricsResponse = {
   goal?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  note?: Maybe<Note>;
   nps: Scalars['Float']['output'];
   overall: Scalars['Float']['output'];
   persona?: Maybe<Personas>;
@@ -1916,6 +1943,7 @@ export type MetricsResponse = {
   source: MetricsSourceEnum;
   startDate?: Maybe<Scalars['Timestamp']['output']>;
   surveyId?: Maybe<Scalars['Int']['output']>;
+  tags: Array<Tags>;
   type: MetricsTypeEnum;
   typeData?: Maybe<Scalars['JSON']['output']>;
   value?: Maybe<Scalars['Int']['output']>;
@@ -1996,6 +2024,7 @@ export type MetricsVersionResponse = {
 };
 
 export type MultipartUploadResponse = {
+  /** Data for creating a multipart upload. */
   createMultipartData: GetMultipartObject;
   key: Scalars['String']['output'];
 };
@@ -2777,6 +2806,7 @@ export type Outcome = {
   index?: Maybe<Scalars['Int']['output']>;
   map?: Maybe<Map>;
   mapId?: Maybe<Scalars['Int']['output']>;
+  note?: Maybe<Note>;
   orgId: Scalars['Int']['output'];
   outcomeGroupId: Scalars['Int']['output'];
   persona?: Maybe<Personas>;
@@ -2786,6 +2816,7 @@ export type Outcome = {
   status: OutcomeStatusEnum;
   step: ColumnStep;
   stepId?: Maybe<Scalars['Int']['output']>;
+  tags: Array<Tags>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['Timestamp']['output'];
   user?: Maybe<Member>;
@@ -2853,12 +2884,14 @@ export type OutcomeResponse = {
   id: Scalars['Int']['output'];
   index?: Maybe<Scalars['Int']['output']>;
   mapId?: Maybe<Scalars['Int']['output']>;
+  note?: Maybe<Note>;
   outcomeGroupId: Scalars['Int']['output'];
   persona?: Maybe<Personas>;
   personaId?: Maybe<Scalars['Int']['output']>;
   rowId?: Maybe<Scalars['Int']['output']>;
   status: OutcomeStatusEnum;
   stepId?: Maybe<Scalars['Int']['output']>;
+  tags: Array<Tags>;
   title: Scalars['String']['output'];
   user?: Maybe<Member>;
 };
@@ -3052,6 +3085,7 @@ export type PositionInput = {
 
 export enum PositionReferenceTypeEnum {
   Attachment = 'ATTACHMENT',
+  DemographicInfoFieldImage = 'DEMOGRAPHIC_INFO_FIELD_IMAGE',
   Persona = 'PERSONA'
 }
 
@@ -3170,7 +3204,7 @@ export type QueryGetBoardsForOutcomeGroupArgs = {
 
 
 export type QueryGetCardAttachedTagsArgs = {
-  cardId: Scalars['Int']['input'];
+  getAttachedTagsInput: GetAttachedTagsInput;
 };
 
 
@@ -3503,12 +3537,12 @@ export type RowWithPersonas = {
 };
 
 export type SearchOrganizationUserInput = {
-  search: Scalars['String']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SelectItemsInput = {
-  deselectedItemIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  selectedItemIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+  deselectedItemIds: Array<Scalars['Int']['input']>;
+  selectedItemIds: Array<Scalars['Int']['input']>;
 };
 
 /** The user who selected the board item */
@@ -3628,11 +3662,13 @@ export type TouchPoint = {
   index: Scalars['Int']['output'];
   map: Map;
   mapId: Scalars['Int']['output'];
+  note?: Maybe<Note>;
   ownerId?: Maybe<Scalars['Int']['output']>;
   persona?: Maybe<Personas>;
   personaId?: Maybe<Scalars['Int']['output']>;
   rowId: Scalars['Int']['output'];
   stepId?: Maybe<Scalars['Int']['output']>;
+  tags?: Maybe<Array<Tags>>;
   title?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['Timestamp']['output'];
 };
@@ -3647,6 +3683,7 @@ export type TouchPointInputs = {
 
 export type UnAttachTagInput = {
   cardId: Scalars['Int']['input'];
+  cardType: MapCardTypeEnum;
   tagId: Scalars['Int']['input'];
 };
 
@@ -3683,6 +3720,7 @@ export type UpdateAiJourneyInput = {
 
 export type UpdateAttachmentCroppedAreaInput = {
   attachmentId: Scalars['Int']['input'];
+  demographicFieldId?: InputMaybe<Scalars['Int']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
   personaId?: InputMaybe<Scalars['Int']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
@@ -3821,7 +3859,7 @@ export type UpdateMapVersionInput = {
 export type UpdateMetricsInput = {
   customData?: InputMaybe<CustomDataInput>;
   dateRange?: InputMaybe<MetricsDateRangeEnum>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['Int']['input']>;
   descriptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   endDate?: InputMaybe<Scalars['Timestamp']['input']>;
   goal?: InputMaybe<Scalars['Int']['input']>;
@@ -3946,7 +3984,7 @@ export type UpdateWorkspaceOutcomeInput = {
 export type User = {
   accountLanguage: LanguagesEnum;
   apiToken: Scalars['String']['output'];
-  businessType?: Maybe<KeyValue>;
+  businessType?: Maybe<Array<KeyValue>>;
   debugMode?: Maybe<Scalars['Boolean']['output']>;
   defaultProductUponLogin: Scalars['String']['output'];
   emailAddress: Scalars['String']['output'];
@@ -3982,7 +4020,7 @@ export type Whiteboard = {
   id: Scalars['Int']['output'];
   isLocked: Scalars['Boolean']['output'];
   items?: Maybe<Array<WhiteboardDataItem>>;
-  name: Scalars['String']['output'];
+  name: Scalars['Int']['output'];
   owner?: Maybe<Member>;
   ownerId: Scalars['Int']['output'];
   sharingPolicy: SharingPolicyEnum;

@@ -7,9 +7,5 @@ export const Route = createFileRoute("/")({
       replace: true,
     });
   },
-  component: RouteComponent,
+  component: () => null,
 });
-
-function RouteComponent() {
-  return <></>;
-}

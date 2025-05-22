@@ -7,7 +7,7 @@ export type GetMapsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetMapsQuery = { __typename?: 'Query', getMaps: { __typename?: 'GetMapsModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: string, boardId: number, createdAt: any, updatedAt: any, selectedPersonas: Array<{ __typename?: 'personas', type: string, name: string, color?: string | null, id: number, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> }> } };
+export type GetMapsQuery = { __typename?: 'Query', getMaps: { __typename?: 'GetMapsModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, boardId: number, createdAt: any, updatedAt: any, selectedPersonas: Array<{ __typename?: 'personas', type: string, name: string, color?: string | null, id: number, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> }> } };
 
 
 

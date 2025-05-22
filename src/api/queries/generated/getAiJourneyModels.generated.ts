@@ -7,7 +7,7 @@ export type GetAiJourneyModelsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetAiJourneyModelsQuery = { __typename?: 'Query', getAiJourneyModels: { __typename?: 'GetAiJourneyModelsResponse', count?: number | null, aiJourneyModels: Array<{ __typename?: 'AiJourneyModelResponse', id: number, attachmentUrl?: string | null, name?: string | null, prompt: string, universal: boolean, selectedOrgIds: Array<number>, transcriptPlace: number }> } };
+export type GetAiJourneyModelsQuery = { __typename?: 'Query', getAiJourneyModels: { __typename?: 'GetAiJourneyModelsResponse', count?: number | null, aiJourneyModels: Array<{ __typename?: 'AiJourneyModelResponse', id: number, attachmentUrl?: string | null, name?: string | null, prompt: string, universal: boolean, selectedOrgIds?: Array<number> | null, transcriptPlace?: number | null }> } };
 
 
 

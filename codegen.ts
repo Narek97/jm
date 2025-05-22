@@ -64,6 +64,7 @@ const config: CodegenConfig = {
           isReactHook: true,
         },
         reactQueryVersion: 5,
+        rawInfiniteQuery: true,
       },
     },
   },

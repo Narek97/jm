@@ -7,7 +7,7 @@ export type GetParentMapsByBoardIdQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetParentMapsByBoardIdQuery = { __typename?: 'Query', getParentMapsByBoardId: { __typename?: 'GetParentMapsByBoardIdModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: string, createdAt: any, updatedAt: any, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string } }> } };
+export type GetParentMapsByBoardIdQuery = { __typename?: 'Query', getParentMapsByBoardId: { __typename?: 'GetParentMapsByBoardIdModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, createdAt: any, updatedAt: any, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string } }> } };
 
 
 

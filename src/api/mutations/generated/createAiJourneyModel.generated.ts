@@ -7,7 +7,7 @@ export type CreateAiJourneyModelMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateAiJourneyModelMutation = { __typename?: 'Mutation', createAiJourneyModel: { __typename?: 'AiJourneyModelResponse', id: number, attachmentUrl?: string | null, name?: string | null, prompt: string, universal: boolean, selectedOrgIds: Array<number>, transcriptPlace: number } };
+export type CreateAiJourneyModelMutation = { __typename?: 'Mutation', createAiJourneyModel: { __typename?: 'AiJourneyModelResponse', id: number, attachmentUrl?: string | null, name?: string | null, prompt: string, universal: boolean, selectedOrgIds?: Array<number> | null, transcriptPlace?: number | null } };
 
 
 

@@ -3,7 +3,7 @@ import * as Types from '../../types';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { axiosRequest } from '../../axios';
 export type GetCardAttachedTagsQueryVariables = Types.Exact<{
-  cardId: Types.Scalars['Int']['input'];
+  getAttachedTagsInput: Types.GetAttachedTagsInput;
 }>;
 
 
@@ -12,8 +12,8 @@ export type GetCardAttachedTagsQuery = { __typename?: 'Query', getCardAttachedTa
 
 
 export const GetCardAttachedTagsDocument = `
-    query GetCardAttachedTags($cardId: Int!) {
-  getCardAttachedTags(cardId: $cardId) {
+    query GetCardAttachedTags($getAttachedTagsInput: GetAttachedTagsInput!) {
+  getCardAttachedTags(getAttachedTagsInput: $getAttachedTagsInput) {
     id
     name
     color

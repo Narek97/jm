@@ -7,7 +7,7 @@ export type GetWhiteboardQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetWhiteboardQuery = { __typename?: 'Query', getWhiteboard: { __typename?: 'GetWhiteboardModel', id: number, name: string, ownerId: number, canvasId?: number | null, isLocked: boolean, sharingPolicy: Types.SharingPolicyEnum, type: Types.WhiteboardTypeEnum, helpLink?: string | null, folderId: number } };
+export type GetWhiteboardQuery = { __typename?: 'Query', getWhiteboard: { __typename?: 'GetWhiteboardModel', id: number, name: number, ownerId: number, canvasId?: number | null, isLocked: boolean, sharingPolicy: Types.SharingPolicyEnum, type: Types.WhiteboardTypeEnum, helpLink?: string | null, folderId: number } };
 
 
 

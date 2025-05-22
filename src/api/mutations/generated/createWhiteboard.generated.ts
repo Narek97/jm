@@ -7,7 +7,7 @@ export type CreateWhiteboardMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateWhiteboardMutation = { __typename?: 'Mutation', createWhiteboard: { __typename?: 'Whiteboard', id: number, name: string, ownerId: number, canvasId?: number | null, isLocked: boolean, sharingPolicy: Types.SharingPolicyEnum, type: Types.WhiteboardTypeEnum, helpLink?: string | null, folderId: number } };
+export type CreateWhiteboardMutation = { __typename?: 'Mutation', createWhiteboard: { __typename?: 'Whiteboard', id: number, name: number, ownerId: number, canvasId?: number | null, isLocked: boolean, sharingPolicy: Types.SharingPolicyEnum, type: Types.WhiteboardTypeEnum, helpLink?: string | null, folderId: number } };
 
 
 

@@ -7,7 +7,7 @@ export type GetMapDetailsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetMapDetailsQuery = { __typename?: 'Query', getMapDetails: { __typename?: 'GetMapDetailsModel', isChildMap: boolean, isParentMap: boolean, parentMap?: { __typename?: 'CustomMap', id: number, title?: string | null } | null } };
+export type GetMapDetailsQuery = { __typename?: 'Query', getMapDetails: { __typename?: 'GetMapDetailsModel', isChildMap: boolean, isParentMap: boolean, parentMap: { __typename?: 'CustomMap', id: number, title?: string | null } } };
 
 
 

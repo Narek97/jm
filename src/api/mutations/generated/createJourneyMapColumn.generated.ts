@@ -7,7 +7,7 @@ export type CreateJourneyMapColumnMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateJourneyMapColumnMutation = { __typename?: 'Mutation', createJourneyMapColumn: { __typename?: 'CreateColumnResponse', id: number, index: number, label?: string | null, stepId?: number | null } };
+export type CreateJourneyMapColumnMutation = { __typename?: 'Mutation', createJourneyMapColumn: { __typename?: 'CreateColumnResponse', id: number, index: number, label?: string | null, stepId: number } };
 
 
 

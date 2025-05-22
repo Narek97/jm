@@ -7,7 +7,7 @@ export type CopyMapMutationVariables = Types.Exact<{
 }>;
 
 
-export type CopyMapMutation = { __typename?: 'Mutation', copyMap: { __typename?: 'Map', title?: string | null, id: number, type: string, createdAt: any, updatedAt: any, boardId: number, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string } } };
+export type CopyMapMutation = { __typename?: 'Mutation', copyMap: { __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, createdAt: any, updatedAt: any, boardId: number, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string } } };
 
 
 

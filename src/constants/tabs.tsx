@@ -27,21 +27,21 @@ const SECONDARY_MENU_PANEL_TOP_TABS = ({
   const primaryUrl = `/workspace/${workspaceID}/`;
   const TABS = [
     {
-      icon: "wm-folder-copy",
+      icon: "wm-grid-view",
       name: "Boards",
       url: primaryUrl + "boards",
       regexp: /^\/workspace\/\d+\/boards$/,
       breadcrumbSlice: 2,
     },
     {
-      icon: "wm-user-attributes",
+      icon: "wm-group",
       name: "Persona",
       url: primaryUrl + "persona-groups",
       regexp: /^\/workspace\/\d+\/persona-groups(?:\/\d+)?s?$/,
       breadcrumbSlice: 2,
     },
     {
-      icon: "wc-interview",
+      icon: "wm-forum",
       name: "Interviews",
       url: primaryUrl + "interviews",
       regexp: /^\/workspace\/\d+\/interviews(?:\/\d+)?s?$/,

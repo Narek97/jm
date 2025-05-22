@@ -7,7 +7,7 @@ export type GetBoardsForOutcomeGroupQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetBoardsForOutcomeGroupQuery = { __typename?: 'Query', getBoardsForOutcomeGroup: { __typename?: 'GetOutcomeBoardsModel', limit: number, offset: number, count?: number | null, boards: Array<{ __typename?: 'GetBoardsOutcomeGroupModel', id: number, name: string, isPinned?: boolean | null }> } };
+export type GetBoardsForOutcomeGroupQuery = { __typename?: 'Query', getBoardsForOutcomeGroup: { __typename?: 'GetOutcomeBoardsModel', limit: number, offset: number, count?: number | null, boards: Array<{ __typename?: 'GetBoardsOutcomeGroupModel', id: number, name: string, isPinned: boolean }> } };
 
 
 

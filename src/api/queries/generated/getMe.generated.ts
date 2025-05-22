@@ -5,7 +5,7 @@ import { axiosRequest } from '../../axios';
 export type GetMeQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'User', emailAddress: string, firstName: string, lastName: string, userID: number, orgID: number, isAdmin: boolean, primaryUserAPIKey: string, orgLanguage: Types.LanguagesEnum, apiToken: string, userAPIKey: string, accountLanguage: Types.LanguagesEnum, debugMode?: boolean | null, superAdmin: boolean, businessType?: { __typename?: 'KeyValue', value: string } | null } };
+export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'User', emailAddress: string, firstName: string, lastName: string, userID: number, orgID: number, isAdmin: boolean, primaryUserAPIKey: string, orgLanguage: Types.LanguagesEnum, apiToken: string, userAPIKey: string, accountLanguage: Types.LanguagesEnum, debugMode?: boolean | null, superAdmin: boolean, businessType?: Array<{ __typename?: 'KeyValue', value: string }> | null } };
 
 
 

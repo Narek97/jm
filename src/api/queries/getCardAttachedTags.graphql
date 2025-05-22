@@ -1,8 +1,7 @@
-query GetCardAttachedTags($cardId: Int!) {
-  getCardAttachedTags(cardId: $cardId) {
+query GetCardAttachedTags($getAttachedTagsInput: GetAttachedTagsInput!) {
+  getCardAttachedTags(getAttachedTagsInput: $getAttachedTagsInput) {
     id
     name
     color
   }
 }
-
