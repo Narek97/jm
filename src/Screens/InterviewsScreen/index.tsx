@@ -89,6 +89,25 @@ const InterviewsScreen = () => {
     setIsOpenDeleteModal((prev) => !prev);
   }, []);
 
+  const onHandleUpdateInterviews = useCallback(
+    (id: number) => {
+      setInterviews((oldData: any) => {
+        if (oldData) {
+          return {
+            getInterviewsByWorkspaceId: {
+              ...oldData.getInterviewsByWorkspaceId,
+              count: oldData.getInterviewsByWorkspaceId.count - 1,
+              interviews: oldData.getInterviewsByWorkspaceId.interviews.filter(
+                (interview: InterviewType) => interview.id !== id,
+              ),
+            },
+          };
+        }
+      });
+    },
+    [setInterviews],
+  );
+
   const onHandleFilterInterview = useCallback(
     (id: number) => {
       if (
@@ -96,6 +115,7 @@ const InterviewsScreen = () => {
         dataInterviews?.getInterviewsByWorkspaceId.interviews.length === 1
       ) {
         setOffset((prev) => prev - INTERVIEWS_LIMIT);
+        onHandleUpdateInterviews(id);
       } else {
         if (
           currentPage * INTERVIEWS_LIMIT < interviewsDataCount &&
@@ -108,20 +128,7 @@ const InterviewsScreen = () => {
             deleteUpcoming: true,
           });
         } else {
-          setInterviews((oldData: any) => {
-            if (oldData) {
-              return {
-                getInterviewsByWorkspaceId: {
-                  ...oldData.getInterviewsByWorkspaceId,
-                  count: oldData.getInterviewsByWorkspaceId.count - 1,
-                  interviews:
-                    oldData.getInterviewsByWorkspaceId.interviews.filter(
-                      (interview: InterviewType) => interview.id !== id,
-                    ),
-                },
-              };
-            }
-          });
+          onHandleUpdateInterviews(id);
         }
       }
     },
@@ -130,7 +137,7 @@ const InterviewsScreen = () => {
       dataInterviews?.getInterviewsByWorkspaceId.interviews.length,
       interviewsDataCount,
       offset,
-      setInterviews,
+      onHandleUpdateInterviews,
       setRemoveInterviews,
     ],
   );
