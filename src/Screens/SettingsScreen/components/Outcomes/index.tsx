@@ -81,7 +81,7 @@ const Outcomes = () => {
     >();
 
   const { isPending: isLoadingDeleteOrUpdateOutcome, mutate: deleteOutcome } =
-    useDeleteOutcomeGroupMutation<DeleteOutcomeGroupMutation, Error>();
+    useDeleteOutcomeGroupMutation<Error, DeleteOutcomeGroupMutation>();
 
   const outcomeGroupsLogsData: Array<OutcomeGroup> = useMemo(() => {
     if (dataOutcomes?.pages && dataOutcomes?.pages[0] !== undefined) {
@@ -200,7 +200,7 @@ const Outcomes = () => {
               refetch().then();
             }
           },
-          onError: (error: any) => {
+          onError: (error) => {
             showToast({
               variant: "error",
               message: error?.message,

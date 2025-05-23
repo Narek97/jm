@@ -43,7 +43,7 @@ const OutcomeScreen = () => {
   const [orderBy, setOrderBy] = useState<OrderByEnum>(OrderByEnum.Desc);
 
   const { isPending: isLoadingDeleteOutcome, mutate: deleteOutcome } =
-    useDeleteOutcomeMutation<DeleteOutcomeMutation, Error>();
+    useDeleteOutcomeMutation<Error, DeleteOutcomeMutation>();
 
   const {
     isLoading: isLoadingOutcomes,
@@ -81,25 +81,25 @@ const OutcomeScreen = () => {
     },
   );
 
-  const name = dataGetOutcomes?.pages[0].getOutcomeGroup.name || "Outcome";
-  const pluralName =
-    dataGetOutcomes?.pages[0].getOutcomeGroup.pluralName || "Outcomes";
-  const count = dataGetOutcomes?.pages[0].getOutcomeGroup.outcomesCount || 0;
+  const name = useMemo(
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.name || "Outcome",
+    [dataGetOutcomes?.pages],
+  );
 
-  const renderedOutcomesData = useMemo<Array<Outcome>>(() => {
-    if (!dataGetOutcomes?.pages) {
-      return [];
-    }
+  const pluralName = useMemo(
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.pluralName || "Outcomes",
+    [dataGetOutcomes?.pages],
+  );
 
-    return dataGetOutcomes.pages.reduce((acc: Array<Outcome>, curr) => {
-      if (curr?.getOutcomeGroup.outcomes) {
-        return [...acc, ...(curr.getOutcomeGroup.outcomes as Array<Outcome>)];
-      }
-      return acc;
-    }, []);
-  }, [dataGetOutcomes?.pages]);
+  const count = useMemo(
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.outcomesCount || 0,
+    [dataGetOutcomes?.pages],
+  );
 
-  console.log(renderedOutcomesData, "renderedOutcomesData");
+  const renderedOutcomesData = useMemo(
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.outcomes || [],
+    [dataGetOutcomes?.pages],
+  );
 
   const toggleOpenModal = useCallback(() => {
     setSelectedOutcome(null);
@@ -184,7 +184,7 @@ const OutcomeScreen = () => {
               refetch().then();
             }
           },
-          onError: (error: any) => {
+          onError: (error) => {
             showToast({
               variant: "error",
               message: error?.message,

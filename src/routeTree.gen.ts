@@ -21,6 +21,7 @@ import { Route as AuthenticatedPrimarySidebarLayoutUsersIndexImport } from './ro
 import { Route as AuthenticatedPrimarySidebarLayoutSettingsIndexImport } from './routes/_authenticated/_primary-sidebar-layout/settings/index'
 import { Route as AuthenticatedPrimarySidebarLayoutAdminIndexImport } from './routes/_authenticated/_primary-sidebar-layout/admin/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId'
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index'
 
@@ -89,6 +90,16 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute =
     path: '/workspace/$workspaceId',
     getParentRoute: () => AuthenticatedSecondarySidebarLayoutRoute,
   } as any)
+
+const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute =
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport.update(
+    {
+      id: '/interviews/',
+      path: '/interviews/',
+      getParentRoute: () =>
+        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+    } as any,
+  )
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute =
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport.update(
@@ -191,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport
       parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
     }
+    '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': {
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
+      path: '/interviews'
+      fullPath: '/workspace/$workspaceId/interviews'
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
+    }
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': {
       id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
       path: '/outcome/$outcomeId'
@@ -226,6 +244,7 @@ const AuthenticatedPrimarySidebarLayoutRouteWithChildren =
 
 interface AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren {
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -233,6 +252,8 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren: Auth
   {
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute,
+    AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute:
+      AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute,
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute,
   }
@@ -285,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
   '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
+  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -298,6 +320,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
   '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
+  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -314,6 +337,7 @@ export interface FileRoutesById {
   '/_authenticated/_primary-sidebar-layout/settings/': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
   '/_authenticated/_primary-sidebar-layout/users/': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -329,6 +353,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/users'
     | '/workspace/$workspaceId/boards'
+    | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/outcome/$outcomeId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -341,6 +366,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/users'
     | '/workspace/$workspaceId/boards'
+    | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/outcome/$outcomeId'
   id:
     | '__root__'
@@ -355,6 +381,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_primary-sidebar-layout/settings/'
     | '/_authenticated/_primary-sidebar-layout/users/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/'
+    | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
   fileRoutesById: FileRoutesById
 }
@@ -425,6 +452,7 @@ export const routeTree = rootRoute
       "parent": "/_authenticated/_secondary-sidebar-layout",
       "children": [
         "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/",
+        "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/",
         "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/"
       ]
     },
@@ -442,6 +470,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/": {
       "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/index.tsx",
+      "parent": "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId"
+    },
+    "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/": {
+      "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index.tsx",
       "parent": "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId"
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/": {

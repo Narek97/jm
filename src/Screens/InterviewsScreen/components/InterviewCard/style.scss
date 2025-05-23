@@ -1,0 +1,30 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+
+.interview-card {
+  position: relative;
+  width: 17.75rem;
+  height: 12.5rem;
+  padding: 1rem;
+  @include card-borders;
+  cursor: initial;
+
+  &--name {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: $BASE_BLUE_COLOR;
+    @include reduce-text(12.5rem);
+  }
+
+  &--text {
+    line-height: 1.25rem;
+    @include line-clamp(7);
+  }
+
+  &--menu {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+}

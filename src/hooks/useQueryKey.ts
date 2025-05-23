@@ -41,3 +41,18 @@ export const useSetQueryDataByKey = (
     queryClient.setQueryData(query?.queryKey || [mayKey], callback);
   };
 };
+
+export const useRemoveQueriesByKey = (mayKey: string, data: DataOptions) => {
+  const queryClient = useQueryClient();
+  return () => {
+    queryClient.removeQueries({
+      queryKey: [mayKey],
+      predicate: (query) => {
+        // Keep page 1, remove all other pages
+        return data.input
+          ? (query.queryKey[1] as any)[data.input][data.key] !== data.value
+          : (query.queryKey[1] as any)[data.key] !== data.value;
+      },
+    });
+  };
+};

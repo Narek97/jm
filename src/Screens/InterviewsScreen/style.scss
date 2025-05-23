@@ -1,19 +1,26 @@
 @use "@assets/styles/variables" as *;
 @use "@assets/styles/mixins" as *;
 
-
-.outcome-container {
+.interviews-container {
   padding: 0.5rem 2rem;
   height: 100%;
 
   &--body {
     height: calc(100dvh - 15rem);
     margin-top: 1rem;
+    &--list {
+      max-height: calc(100dvh - 14rem);
+      overflow: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
   }
 
   &--create-section {
     @include flex-center-between;
     padding: 1rem 0 2rem;
     border-bottom: 0.0625rem solid #d8d8d8;
+
   }
 }
