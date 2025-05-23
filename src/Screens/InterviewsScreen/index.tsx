@@ -30,22 +30,19 @@ const InterviewsScreen = () => {
     from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/",
   });
 
-  const setInterviews = useSetQueryDataByKey("GetInterviewsByWorkspaceId");
-  const setRemoveInterviews = useRemoveQueriesByKey(
-    "GetInterviewsByWorkspaceId",
-    {
-      input: "getInterviewsInput",
-      key: "offset",
-      value: 0,
-    },
-  );
-
   const [selectedInterview, setSelectedInterview] =
     useState<InterviewType | null>(null);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
+
+  const setInterviews = useSetQueryDataByKey("GetInterviewsByWorkspaceId", {
+    input: "getInterviewsInput",
+    key: "offset",
+    value: offset,
+  });
+  const setRemoveInterviews = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingInterviews,
@@ -94,27 +91,57 @@ const InterviewsScreen = () => {
 
   const onHandleFilterInterview = useCallback(
     (id: number) => {
-      setInterviews((oldData: any) => {
-        if (oldData) {
-          return {
-            getInterviewsByWorkspaceId: {
-              ...oldData.getInterviewsByWorkspaceId,
-              count: oldData.getInterviewsByWorkspaceId.count - 1,
-              interviews: oldData.getInterviewsByWorkspaceId.interviews.filter(
-                (interview: InterviewType) => interview.id !== id,
-              ),
-            },
-          };
+      if (
+        currentPage * INTERVIEWS_LIMIT >= interviewsDataCount &&
+        dataInterviews?.getInterviewsByWorkspaceId.interviews.length === 1
+      ) {
+        setOffset((prev) => prev - INTERVIEWS_LIMIT);
+      } else {
+        if (
+          currentPage * INTERVIEWS_LIMIT < interviewsDataCount &&
+          interviewsDataCount > INTERVIEWS_LIMIT
+        ) {
+          setRemoveInterviews("GetInterviewsByWorkspaceId", {
+            input: "getInterviewsInput",
+            key: "offset",
+            value: offset,
+            deleteUpcoming: true,
+          });
+        } else {
+          setInterviews((oldData: any) => {
+            if (oldData) {
+              return {
+                getInterviewsByWorkspaceId: {
+                  ...oldData.getInterviewsByWorkspaceId,
+                  count: oldData.getInterviewsByWorkspaceId.count - 1,
+                  interviews:
+                    oldData.getInterviewsByWorkspaceId.interviews.filter(
+                      (interview: InterviewType) => interview.id !== id,
+                    ),
+                },
+              };
+            }
+          });
         }
-      });
+      }
     },
-    [setInterviews],
+    [
+      currentPage,
+      dataInterviews?.getInterviewsByWorkspaceId.interviews.length,
+      interviewsDataCount,
+      offset,
+      setInterviews,
+      setRemoveInterviews,
+    ],
   );
 
   const onHandleAddNewInterview = useCallback(
     (newInterview: InterviewType) => {
-      console.log(currentPage, "currentPage");
-      setRemoveInterviews();
+      setRemoveInterviews("GetInterviewsByWorkspaceId", {
+        input: "getInterviewsInput",
+        key: "offset",
+        value: 0,
+      });
 
       setInterviews((oldData: any) => {
         if (oldData) {
@@ -138,7 +165,7 @@ const InterviewsScreen = () => {
       setCurrentPage(1);
       setOffset(0);
     },
-    [currentPage, setRemoveInterviews, setInterviews],
+    [setRemoveInterviews, setInterviews],
   );
 
   const onHandleChangePage = useCallback((newPage: number) => {

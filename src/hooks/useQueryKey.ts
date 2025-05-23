@@ -11,6 +11,7 @@ type DataOptions = {
   key: string;
   value: unknown;
   input?: string;
+  deleteUpcoming?: boolean;
 };
 
 export const useSetQueryDataByKey = (
@@ -42,16 +43,21 @@ export const useSetQueryDataByKey = (
   };
 };
 
-export const useRemoveQueriesByKey = (mayKey: string, data: DataOptions) => {
+export const useRemoveQueriesByKey = () => {
   const queryClient = useQueryClient();
-  return () => {
+  return (mayKey: string, data: DataOptions) => {
     queryClient.removeQueries({
       queryKey: [mayKey],
       predicate: (query) => {
-        // Keep page 1, remove all other pages
-        return data.input
-          ? (query.queryKey[1] as any)[data.input][data.key] !== data.value
-          : (query.queryKey[1] as any)[data.key] !== data.value;
+        if (data.deleteUpcoming && typeof data.value === "number") {
+          return data.input
+            ? (query.queryKey[1] as any)[data.input][data.key] >= data.value
+            : (query.queryKey[1] as any)[data.key] >= data.value;
+        } else {
+          return data.input
+            ? (query.queryKey[1] as any)[data.input][data.key] !== data.value
+            : (query.queryKey[1] as any)[data.key] !== data.value;
+        }
       },
     });
   };
