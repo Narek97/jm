@@ -118,25 +118,23 @@ const InterviewsScreen = () => {
     (id: number) => {
       if (
         currentPage * INTERVIEWS_LIMIT >= interviewsDataCount &&
-        dataInterviews?.getInterviewsByWorkspaceId.interviews.length === 1
+        dataInterviews?.getInterviewsByWorkspaceId.interviews.length === 1 &&
+        currentPage !== 1
       ) {
         setOffset((prev) => prev - INTERVIEWS_LIMIT);
-        onHandleUpdateInterviews(id);
-      } else {
-        if (
-          currentPage * INTERVIEWS_LIMIT < interviewsDataCount &&
-          interviewsDataCount > INTERVIEWS_LIMIT
-        ) {
-          setRemoveInterviews("GetInterviewsByWorkspaceId", {
-            input: "getInterviewsInput",
-            key: "offset",
-            value: offset,
-            deleteUpcoming: true,
-          });
-        } else {
-          onHandleUpdateInterviews(id);
-        }
       }
+      if (
+        currentPage * INTERVIEWS_LIMIT < interviewsDataCount &&
+        interviewsDataCount > INTERVIEWS_LIMIT
+      ) {
+        setRemoveInterviews("GetInterviewsByWorkspaceId", {
+          input: "getInterviewsInput",
+          key: "offset",
+          value: offset,
+          deleteUpcoming: true,
+        });
+      }
+      onHandleUpdateInterviews(id);
     },
     [
       currentPage,

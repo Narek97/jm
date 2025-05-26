@@ -53,6 +53,8 @@ export const useSetAllQueryDataByKey = (mayKey: string) => {
       query.queryKey.includes(mayKey),
     );
 
+    console.log(matchingQueries, "matchingQueries");
+
     return matchingQueries.map((query) => {
       const newData = callback(queryClient.getQueryData(query.queryKey));
       queryClient.setQueryData(query.queryKey, newData);
