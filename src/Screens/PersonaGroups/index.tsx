@@ -110,11 +110,11 @@ const PersonaGroups = () => {
               value: 0,
             });
             setPersonaGroup(
-              "GetInterviewsByWorkspaceId",
+              "GetPersonaGroupsWithPersonas",
               {
-                input: "GetPersonaGroupsWithPersonas",
+                input: "getPersonaGroupsWithPersonasInput",
                 key: "offset",
-                value: offset,
+                value: 0,
               },
               (oldData: any) => {
                 if (oldData) {
@@ -127,7 +127,10 @@ const PersonaGroups = () => {
                           ...response.createPersonaGroup,
                           persona: [],
                         },
-                        ...oldData.getPersonaGroupsWithPersonas.personaGroups,
+                        ...oldData.getPersonaGroupsWithPersonas.personaGroups.slice(
+                          0,
+                          PERSONA_GROUP_LIMIT - 1,
+                        ),
                       ],
                     },
                   };
@@ -241,7 +244,7 @@ const PersonaGroups = () => {
         },
       );
     },
-    [],
+    [offset, setPersonaGroup],
   );
 
   const onTogglePersonaGroupDeleteModal = useCallback(
