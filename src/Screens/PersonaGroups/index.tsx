@@ -15,7 +15,6 @@ import {
   GetPersonaGroupsWithPersonasQuery,
   useGetPersonaGroupsWithPersonasQuery,
 } from "@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts";
-import { PersonaGroup } from "@/api/types.ts";
 import CustomError from "@/Components/Shared/CustomError";
 import CustomLoader from "@/Components/Shared/CustomLoader";
 import EditableItemForm from "@/Components/Shared/EditableItemForm";
@@ -24,22 +23,33 @@ import Pagination from "@/Components/Shared/Pagination";
 import { querySlateTime } from "@/constants";
 import { PERSONA_GROUP_LIMIT } from "@/constants/pagination.ts";
 import ErrorBoundary from "@/Features/ErrorBoundary";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey";
+import {
+  useRemoveQueriesByKey,
+  useSetAllQueryDataByKey,
+  useSetQueryDataByKeyAdvanced,
+} from "@/hooks/useQueryKey";
+import PersonaGroupDeleteModal from "@/Screens/PersonaGroups/components/PersonaGroupDeleteModal";
+import { PersonaGroupType } from "@/Screens/PersonaGroups/types.ts";
+import { EditableInputType } from "@/types";
 
 const PersonaGroups = () => {
   const { showToast } = useWuShowToast();
+
+  const setPersonaGroup = useSetQueryDataByKeyAdvanced();
+  const setRemovePersonaGroup = useRemoveQueriesByKey();
+  const setAllPersonaGroup = useSetAllQueryDataByKey(
+    "GetPersonaGroupsWithPersonas",
+  );
 
   const { workspaceId } = useParams({
     from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/",
   });
 
-  const setPersonaGroupQueryData = useSetQueryDataByKey(
-    "GetPersonaGroupsWithPersonas",
-  );
-
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [offset, setOffset] = useState<number>(0);
+
   const [selectedPersonaGroup, setSelectedPersonaGroup] =
-    useState<PersonaGroupType | null>(null);
+    useState<EditableInputType | null>(null);
 
   const {
     isPending: isLoadingCreatePersonaGroup,
@@ -57,8 +67,8 @@ const PersonaGroups = () => {
     {
       getPersonaGroupsWithPersonasInput: {
         workspaceId: +workspaceId,
-        offset: 0,
-        limit: PERSONA_GROUP_LIMIT * 3,
+        offset,
+        limit: PERSONA_GROUP_LIMIT,
       },
     },
     {
@@ -66,7 +76,7 @@ const PersonaGroups = () => {
     },
   );
 
-  const count = useMemo(
+  const personaGroupsCount = useMemo(
     () => dataPersonaGroups?.getPersonaGroupsWithPersonas.count || 0,
     [dataPersonaGroups?.getPersonaGroupsWithPersonas.count],
   );
@@ -76,8 +86,9 @@ const PersonaGroups = () => {
     [dataPersonaGroups?.getPersonaGroupsWithPersonas.personaGroups],
   );
 
-  const onHandleChangePage = useCallback((page: number) => {
-    setCurrentPage(page);
+  const onHandleChangePage = useCallback((newPage: number) => {
+    setCurrentPage(newPage);
+    setOffset((newPage - 1) * PERSONA_GROUP_LIMIT);
   }, []);
 
   const onHandleCreatePersonaGroup = async (
@@ -93,28 +104,38 @@ const PersonaGroups = () => {
         },
         {
           onSuccess: (response) => {
-            setPersonaGroupQueryData((oldData: any) => {
-              const updatedPages = ((oldData?.pages || []) as Array<any>).map(
-                (page) => {
+            setRemovePersonaGroup("GetPersonaGroupsWithPersonas", {
+              input: "getPersonaGroupsWithPersonasInput",
+              key: "offset",
+              value: 0,
+            });
+            setPersonaGroup(
+              "GetInterviewsByWorkspaceId",
+              {
+                input: "GetPersonaGroupsWithPersonas",
+                key: "offset",
+                value: offset,
+              },
+              (oldData: any) => {
+                if (oldData) {
                   return {
-                    ...page,
                     getPersonaGroupsWithPersonas: {
-                      ...page.getPersonaGroupsWithPersonas,
-                      count: page.getPersonaGroupsWithPersonas.count + 1,
+                      ...oldData,
+                      count: oldData.getPersonaGroupsWithPersonas.count + 1,
                       personaGroups: [
-                        { ...response.createPersonaGroup, persona: [] },
-                        ...page.getPersonaGroupsWithPersonas.personaGroups,
+                        {
+                          ...response.createPersonaGroup,
+                          persona: [],
+                        },
+                        ...oldData.getPersonaGroupsWithPersonas.personaGroups,
                       ],
                     },
                   };
-                },
-              );
-              return {
-                ...oldData,
-                pages: updatedPages,
-              };
-            });
+                }
+              },
+            );
             setCurrentPage(1);
+            setOffset(0);
           },
           onError: (error: any) => {
             showToast({
@@ -135,10 +156,96 @@ const PersonaGroups = () => {
     }
   };
 
-  const onHandleDeletePersonaGroup = useCallback(() => {}, []);
+  const onHandleUpdatePersonaGroups = useCallback(
+    (id: number) => {
+      setAllPersonaGroup((oldData: any) => {
+        if (oldData) {
+          return {
+            getPersonaGroupsWithPersonas: {
+              ...oldData.getPersonaGroupsWithPersonas,
+              count: oldData.getPersonaGroupsWithPersonas.count - 1,
+              personaGroups:
+                oldData.getPersonaGroupsWithPersonas.personaGroups.filter(
+                  (personaGroup: PersonaGroupType) => personaGroup.id !== id,
+                ),
+            },
+          };
+        }
+      });
+    },
+    [setAllPersonaGroup],
+  );
+
+  const onHandleFilterPersonaGroup = useCallback(
+    (id: number) => {
+      if (
+        currentPage * PERSONA_GROUP_LIMIT >= personaGroupsCount &&
+        dataPersonaGroups?.getPersonaGroupsWithPersonas.personaGroups.length ===
+          1 &&
+        currentPage !== 1
+      ) {
+        setOffset((prev) => prev - PERSONA_GROUP_LIMIT);
+      }
+      if (
+        currentPage * PERSONA_GROUP_LIMIT < personaGroupsCount &&
+        personaGroupsCount > PERSONA_GROUP_LIMIT
+      ) {
+        setRemovePersonaGroup("GetPersonaGroupsWithPersonas", {
+          input: "getPersonaGroupsWithPersonasInput",
+          key: "offset",
+          value: offset,
+          deleteUpcoming: true,
+        });
+      }
+      onHandleUpdatePersonaGroups(id);
+    },
+    [
+      currentPage,
+      dataPersonaGroups?.getPersonaGroupsWithPersonas.personaGroups.length,
+      offset,
+      onHandleUpdatePersonaGroups,
+      personaGroupsCount,
+      setRemovePersonaGroup,
+    ],
+  );
+
+  const onUpdatePersonaGroup = useCallback(
+    (personaGroup?: EditableInputType) => {
+      setPersonaGroup(
+        "GetInterviewsByWorkspaceId",
+        {
+          input: "GetPersonaGroupsWithPersonas",
+          key: "offset",
+          value: offset,
+        },
+        (oldData: any) => {
+          if (oldData) {
+            return {
+              getPersonaGroupsWithPersonas: {
+                ...oldData,
+                personaGroups:
+                  oldData.getPersonaGroupsWithPersonas.personaGroups.map(
+                    (group: PersonaGroupType) => {
+                      if (group.id === personaGroup?.id) {
+                        return {
+                          ...group,
+                          name: personaGroup.value,
+                        };
+                      }
+                      return group;
+                    },
+                  ),
+              },
+            };
+          }
+        },
+      );
+    },
+    [],
+  );
 
   const onTogglePersonaGroupDeleteModal = useCallback(
-    (personaGroup?: PersonaGroup) => {
+    (personaGroup?: EditableInputType) => {
       setSelectedPersonaGroup(personaGroup || null);
     },
     [],
@@ -150,14 +257,14 @@ const PersonaGroups = () => {
 
   return (
     <div className={"persona-group"}>
-      {/*{selectedPersonaGroup && (*/}
-      {/*  <GroupDeleteModal*/}
-      {/*    isOpen={!!selectedPersonaGroup}*/}
-      {/*    groupId={selectedPersonaGroup.id}*/}
-      {/*    handleDelete={onHandleDeletePersonaGroup}*/}
-      {/*    handleClose={onTogglePersonaGroupDeleteModal}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {selectedPersonaGroup && (
+        <PersonaGroupDeleteModal
+          isOpen={!!selectedPersonaGroup}
+          groupId={selectedPersonaGroup.id}
+          handleDelete={onHandleFilterPersonaGroup}
+          handleClose={onTogglePersonaGroupDeleteModal}
+        />
+      )}
       <div className={"persona-group--header"}>
         <div className="base-page-header">
           <h3 className={"base-title !text-heading-2"}>Persona Group</h3>
@@ -170,11 +277,11 @@ const PersonaGroups = () => {
             isLoading={isLoadingCreatePersonaGroup}
             onHandleCreate={onHandleCreatePersonaGroup}
           />
-          {count > PERSONA_GROUP_LIMIT && (
+          {personaGroupsCount > PERSONA_GROUP_LIMIT && (
             <Pagination
               perPage={PERSONA_GROUP_LIMIT}
               currentPage={currentPage}
-              allCount={count}
+              allCount={personaGroupsCount}
               changePage={onHandleChangePage}
             />
           )}
@@ -189,8 +296,9 @@ const PersonaGroups = () => {
               personaGroups.map((group) => (
                 <ErrorBoundary key={group.id}>
                   <GroupCard
-                    group={group}
+                    group={group as PersonaGroupType}
                     workspaceId={workspaceId}
+                    onUpdatePersonaGroup={onUpdatePersonaGroup}
                     onTogglePersonaGroupDeleteModal={
                       onTogglePersonaGroupDeleteModal
                     }

@@ -24,3 +24,12 @@ export enum MenuItemIconPositionEnum {
   START = "START",
   END = "END",
 }
+
+export enum ImageSizeEnum {
+  XSM = "XSM",
+  SM = "SM",
+  MD = "MD",
+  MDS = "MDS",
+  MDL = "MDL",
+  LG = "LG",
+}

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { User } from "@/api/types.ts";
+import { Attachment, User } from "@/api/types.ts";
 
 export type ObjectKeysType<T = unknown> = {
   [key: string]: T;
@@ -90,4 +90,20 @@ export enum OutcomeLevelEnum {
   WORKSPACE = "WORKSPACE",
   MAP = "MAP",
 }
-export type EditableInputChangeType = { value: string; id: number };
+export type EditableInputType = { value: string; id: number };
+
+export type PersonaImageBoxType = {
+  color: string;
+  isSelected?: boolean;
+  attachment: Pick<
+    Attachment,
+    "key" | "url" | "id" | "hasResizedVersions" | "croppedArea"
+  >;
+};
+
+export type CroppedAreaType = {
+  width?: number | null;
+  height?: number | null;
+  x?: number | null;
+  y?: number | null;
+};

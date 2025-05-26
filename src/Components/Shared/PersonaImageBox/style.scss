@@ -1,0 +1,65 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.persona-image-box {
+  @include flex-center-center;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  border: 0.125rem solid transparent;
+  padding: 0.125rem;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    //height: 100%;
+    border-radius: 0.125rem;
+  }
+
+  .default-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.0625rem;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+    @include flex-center-center;
+  }
+
+  img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.xsm-img-size {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.sm-img-size {
+  width: 2rem;
+  height: 2rem;
+}
+
+.md-img-size {
+  width: 2.375rem;
+  height: 2.375rem;
+}
+
+.mds-img-size {
+  min-width: 4rem;
+  min-height: 4rem;
+  max-width: 4rem;
+  max-height: 4rem;
+}
+
+.mdl-img-size {
+  width: 6rem;
+  height: 6rem;
+}
+
+.lg-img-size {
+  width: 7rem;
+  height: 7rem;
+  padding: 0.25rem;
+  border: 0.25rem solid transparent;
+}
