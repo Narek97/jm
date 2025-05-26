@@ -18,6 +18,7 @@ import { INTERVIEWS_LIMIT } from "@/constants/pagination.ts";
 import ErrorBoundary from "@/Features/ErrorBoundary";
 import {
   useRemoveQueriesByKey,
+  useSetAllQueryDataByKey,
   useSetQueryDataByKey,
 } from "@/hooks/useQueryKey.ts";
 import CreateInterviewModal from "@/Screens/InterviewsScreen/components/CreateInterviewModal";
@@ -42,6 +43,11 @@ const InterviewsScreen = () => {
     key: "offset",
     value: offset,
   });
+
+  const setAllInterviews = useSetAllQueryDataByKey(
+    "GetInterviewsByWorkspaceId",
+  );
+
   const setRemoveInterviews = useRemoveQueriesByKey();
 
   const {
@@ -91,7 +97,7 @@ const InterviewsScreen = () => {
 
   const onHandleUpdateInterviews = useCallback(
     (id: number) => {
-      setInterviews((oldData: any) => {
+      setAllInterviews((oldData: any) => {
         if (oldData) {
           return {
             getInterviewsByWorkspaceId: {
@@ -105,7 +111,7 @@ const InterviewsScreen = () => {
         }
       });
     },
-    [setInterviews],
+    [setAllInterviews],
   );
 
   const onHandleFilterInterview = useCallback(

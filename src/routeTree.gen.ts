@@ -21,6 +21,7 @@ import { Route as AuthenticatedPrimarySidebarLayoutUsersIndexImport } from './ro
 import { Route as AuthenticatedPrimarySidebarLayoutSettingsIndexImport } from './routes/_authenticated/_primary-sidebar-layout/settings/index'
 import { Route as AuthenticatedPrimarySidebarLayoutAdminIndexImport } from './routes/_authenticated/_primary-sidebar-layout/admin/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId'
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index'
@@ -90,6 +91,16 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute =
     path: '/workspace/$workspaceId',
     getParentRoute: () => AuthenticatedSecondarySidebarLayoutRoute,
   } as any)
+
+const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute =
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport.update(
+    {
+      id: '/persona-groups/',
+      path: '/persona-groups/',
+      getParentRoute: () =>
+        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+    } as any,
+  )
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute =
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport.update(
@@ -209,6 +220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport
       parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
     }
+    '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': {
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/'
+      path: '/persona-groups'
+      fullPath: '/workspace/$workspaceId/persona-groups'
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
+    }
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': {
       id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
       path: '/outcome/$outcomeId'
@@ -245,6 +263,7 @@ const AuthenticatedPrimarySidebarLayoutRouteWithChildren =
 interface AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren {
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -254,6 +273,8 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren: Auth
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute,
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute,
+    AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute:
+      AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute,
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute,
   }
@@ -307,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
+  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -321,6 +343,7 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
+  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -338,6 +361,7 @@ export interface FileRoutesById {
   '/_authenticated/_primary-sidebar-layout/users/': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
 }
 
@@ -354,6 +378,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
+    | '/workspace/$workspaceId/persona-groups'
     | '/workspace/$workspaceId/outcome/$outcomeId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -367,6 +392,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
+    | '/workspace/$workspaceId/persona-groups'
     | '/workspace/$workspaceId/outcome/$outcomeId'
   id:
     | '__root__'
@@ -382,6 +408,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_primary-sidebar-layout/users/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
+    | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
   fileRoutesById: FileRoutesById
 }
@@ -453,6 +480,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/",
         "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/",
+        "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/",
         "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/"
       ]
     },
@@ -474,6 +502,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/": {
       "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index.tsx",
+      "parent": "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId"
+    },
+    "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/": {
+      "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/index.tsx",
       "parent": "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId"
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/": {

@@ -43,6 +43,24 @@ export const useSetQueryDataByKey = (
   };
 };
 
+export const useSetAllQueryDataByKey = (mayKey: string) => {
+  const queryClient = useQueryClient();
+
+  return (callback: (data: any) => any): any[] => {
+    const allQueries = queryClient.getQueryCache().getAll();
+
+    const matchingQueries = allQueries.filter((query) =>
+      query.queryKey.includes(mayKey),
+    );
+
+    return matchingQueries.map((query) => {
+      const newData = callback(queryClient.getQueryData(query.queryKey));
+      queryClient.setQueryData(query.queryKey, newData);
+      return newData;
+    });
+  };
+};
+
 export const useRemoveQueriesByKey = () => {
   const queryClient = useQueryClient();
   return (mayKey: string, data: DataOptions) => {

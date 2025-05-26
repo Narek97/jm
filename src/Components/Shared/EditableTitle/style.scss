@@ -1,0 +1,29 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.editable-input {
+  position: relative;
+
+  &--menu {
+    margin-left: 0.5rem;
+  }
+
+  &--name-option-block {
+    @include flex-center;
+  }
+
+  &--name {
+    @include reduce-text(17.625rem);
+    font-weight: 500;
+    max-width: 84%;
+    color: $BASE_BLUE_COLOR;
+  }
+
+  &--max-length {
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+    font-size: 0.75rem;
+    color: $BASE_GRAY_COLOR_2;
+  }
+}

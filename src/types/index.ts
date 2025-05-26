@@ -90,3 +90,4 @@ export enum OutcomeLevelEnum {
   WORKSPACE = "WORKSPACE",
   MAP = "MAP",
 }
+export type EditableInputChangeType = { value: string; id: number };

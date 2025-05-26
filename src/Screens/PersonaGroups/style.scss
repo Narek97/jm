@@ -1,21 +1,9 @@
 @use "@assets/styles/variables" as *;
 @use "@assets/styles/mixins" as *;
 
-.interviews-container {
+.persona-group {
   padding: 0.5rem 2rem;
   height: 100%;
-
-  &--body {
-    height: calc(100dvh - 15rem);
-    margin-top: 1rem;
-    &--list {
-      max-height: calc(100dvh - 14rem);
-      overflow: auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-  }
 
   &--create-section {
     @include flex-center-between;
