@@ -1,21 +1,18 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
-import { useDeleteErrorLogsMutation } from "@/api/mutations/generated/deleteErrorLogs.generated";
-import { DeleteErrorLogsMutation } from "@/api/mutations/generated/deleteErrorLogs.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+import { useDeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated';
+import { DeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IErrorLogDeleteModal {
   isOpen: boolean;
   handleClose: (item: null) => void;
 }
 
-const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({
-  isOpen,
-  handleClose,
-}) => {
+const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({ isOpen, handleClose }) => {
   const queryClient = useQueryClient();
 
   const { mutate: mutateDeleteErrorLogs, isPending: isLoadingDeleteErrorLogs } =
@@ -30,7 +27,7 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({
       {},
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["GetErrorLogs"] }).then();
+          queryClient.invalidateQueries({ queryKey: ['GetErrorLogs'] }).then();
           onHandleCloseModal();
         },
       },
@@ -41,17 +38,16 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isLoadingDeleteErrorLogs}
-    >
+      canCloseWithOutsideClick={!isLoadingDeleteErrorLogs}>
       <DeleteModalTemplate
         item={{
-          type: "Error logs",
-          name: "error logs",
+          type: 'Error logs',
+          name: 'error logs',
         }}
         handleClose={onHandleCloseModal}
         handleDelete={onHandleDeleteWorkspaceItem}
         isLoading={isLoadingDeleteErrorLogs}
-        text={"Are you sure you want to delete all error logs"}
+        text={'Are you sure you want to delete all error logs'}
       />
     </CustomModal>
   );

@@ -1,59 +1,51 @@
-import "./style.scss";
-import { useCallback, useMemo, useState } from "react";
+import './style.scss';
+import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from "@mui/material";
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
-import { useParams } from "@tanstack/react-router";
+import { Box } from '@mui/material';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useParams } from '@tanstack/react-router';
 
-import GroupCard from "./components/GroupCard";
+import GroupCard from './components/GroupCard';
 
 import {
   CreatePersonaGroupMutation,
   useCreatePersonaGroupMutation,
-} from "@/api/mutations/generated/createPersonaGroup.generated";
+} from '@/api/mutations/generated/createPersonaGroup.generated';
 import {
   GetPersonaGroupsWithPersonasQuery,
   useGetPersonaGroupsWithPersonasQuery,
-} from "@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts";
-import { PersonaGroup } from "@/api/types.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EditableItemForm from "@/Components/Shared/EditableItemForm";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import Pagination from "@/Components/Shared/Pagination";
-import { querySlateTime } from "@/constants";
-import { PERSONA_GROUP_LIMIT } from "@/constants/pagination.ts";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey";
+} from '@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts';
+import { PersonaGroup } from '@/api/types.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EditableItemForm from '@/Components/Shared/EditableItemForm';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import Pagination from '@/Components/Shared/Pagination';
+import { querySlateTime } from '@/constants';
+import { PERSONA_GROUP_LIMIT } from '@/constants/pagination.ts';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
 
 const PersonaGroups = () => {
   const { showToast } = useWuShowToast();
 
   const { workspaceId } = useParams({
-    from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/",
+    from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/',
   });
 
-  const setPersonaGroupQueryData = useSetQueryDataByKey(
-    "GetPersonaGroupsWithPersonas",
-  );
+  const setPersonaGroupQueryData = useSetQueryDataByKey('GetPersonaGroupsWithPersonas');
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [selectedPersonaGroup, setSelectedPersonaGroup] =
-    useState<PersonaGroupType | null>(null);
+  const [selectedPersonaGroup, setSelectedPersonaGroup] = useState<PersonaGroupType | null>(null);
 
-  const {
-    isPending: isLoadingCreatePersonaGroup,
-    mutateAsync: mutateAsyncCreatePersonaGroup,
-  } = useCreatePersonaGroupMutation<Error, CreatePersonaGroupMutation>();
+  const { isPending: isLoadingCreatePersonaGroup, mutateAsync: mutateAsyncCreatePersonaGroup } =
+    useCreatePersonaGroupMutation<Error, CreatePersonaGroupMutation>();
 
   const {
     data: dataPersonaGroups,
     error: errorPersonaGroups,
     isPending: isPendingPersonaGroups,
-  } = useGetPersonaGroupsWithPersonasQuery<
-    GetPersonaGroupsWithPersonasQuery,
-    Error
-  >(
+  } = useGetPersonaGroupsWithPersonasQuery<GetPersonaGroupsWithPersonasQuery, Error>(
     {
       getPersonaGroupsWithPersonasInput: {
         workspaceId: +workspaceId,
@@ -80,9 +72,7 @@ const PersonaGroups = () => {
     setCurrentPage(page);
   }, []);
 
-  const onHandleCreatePersonaGroup = async (
-    value: string,
-  ): Promise<boolean> => {
+  const onHandleCreatePersonaGroup = async (value: string): Promise<boolean> => {
     try {
       await mutateAsyncCreatePersonaGroup(
         {
@@ -92,23 +82,21 @@ const PersonaGroups = () => {
           },
         },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             setPersonaGroupQueryData((oldData: any) => {
-              const updatedPages = ((oldData?.pages || []) as Array<any>).map(
-                (page) => {
-                  return {
-                    ...page,
-                    getPersonaGroupsWithPersonas: {
-                      ...page.getPersonaGroupsWithPersonas,
-                      count: page.getPersonaGroupsWithPersonas.count + 1,
-                      personaGroups: [
-                        { ...response.createPersonaGroup, persona: [] },
-                        ...page.getPersonaGroupsWithPersonas.personaGroups,
-                      ],
-                    },
-                  };
-                },
-              );
+              const updatedPages = ((oldData?.pages || []) as Array<any>).map(page => {
+                return {
+                  ...page,
+                  getPersonaGroupsWithPersonas: {
+                    ...page.getPersonaGroupsWithPersonas,
+                    count: page.getPersonaGroupsWithPersonas.count + 1,
+                    personaGroups: [
+                      { ...response.createPersonaGroup, persona: [] },
+                      ...page.getPersonaGroupsWithPersonas.personaGroups,
+                    ],
+                  },
+                };
+              });
               return {
                 ...oldData,
                 pages: updatedPages,
@@ -118,7 +106,7 @@ const PersonaGroups = () => {
           },
           onError: (error: any) => {
             showToast({
-              variant: "error",
+              variant: 'error',
               message: error?.message,
             });
           },
@@ -128,8 +116,8 @@ const PersonaGroups = () => {
     } catch (error) {
       console.error(error);
       showToast({
-        variant: "error",
-        message: "Error creating persona group",
+        variant: 'error',
+        message: 'Error creating persona group',
       });
       return false;
     }
@@ -137,19 +125,16 @@ const PersonaGroups = () => {
 
   const onHandleDeletePersonaGroup = useCallback(() => {}, []);
 
-  const onTogglePersonaGroupDeleteModal = useCallback(
-    (personaGroup?: PersonaGroup) => {
-      setSelectedPersonaGroup(personaGroup || null);
-    },
-    [],
-  );
+  const onTogglePersonaGroupDeleteModal = useCallback((personaGroup?: PersonaGroup) => {
+    setSelectedPersonaGroup(personaGroup || null);
+  }, []);
 
   if (errorPersonaGroups) {
     return <CustomError error={errorPersonaGroups?.message} />;
   }
 
   return (
-    <div className={"persona-group"}>
+    <div className={'persona-group'}>
       {/*{selectedPersonaGroup && (*/}
       {/*  <GroupDeleteModal*/}
       {/*    isOpen={!!selectedPersonaGroup}*/}
@@ -158,15 +143,15 @@ const PersonaGroups = () => {
       {/*    handleClose={onTogglePersonaGroupDeleteModal}*/}
       {/*  />*/}
       {/*)}*/}
-      <div className={"persona-group--header"}>
+      <div className={'persona-group--header'}>
         <div className="base-page-header">
-          <h3 className={"base-title !text-heading-2"}>Persona Group</h3>
+          <h3 className={'base-title !text-heading-2'}>Persona Group</h3>
         </div>
         <div className="persona-group--create-section">
           <EditableItemForm
-            createButtonText={"New persona group"}
-            inputPlaceholder={"Persona group name"}
-            value={""}
+            createButtonText={'New persona group'}
+            inputPlaceholder={'Persona group name'}
+            value={''}
             isLoading={isLoadingCreatePersonaGroup}
             onHandleCreate={onHandleCreatePersonaGroup}
           />
@@ -180,28 +165,23 @@ const PersonaGroups = () => {
           )}
         </div>
       </div>
-      <div className={"persona-group--body"}>
+      <div className={'persona-group--body'}>
         {isPendingPersonaGroups ? (
           <CustomLoader />
         ) : (
           <>
             {personaGroups.length ? (
-              personaGroups.map((group) => (
+              personaGroups.map(group => (
                 <ErrorBoundary key={group.id}>
                   <GroupCard
                     group={group}
                     workspaceId={workspaceId}
-                    onTogglePersonaGroupDeleteModal={
-                      onTogglePersonaGroupDeleteModal
-                    }
+                    onTogglePersonaGroupDeleteModal={onTogglePersonaGroupDeleteModal}
                   />
                 </ErrorBoundary>
               ))
             ) : (
-              <EmptyDataInfo
-                icon={<Box />}
-                message={"There are no persona groups yet"}
-              />
+              <EmptyDataInfo icon={<Box />} message={'There are no persona groups yet'} />
             )}
           </>
         )}

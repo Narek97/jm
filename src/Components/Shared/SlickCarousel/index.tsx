@@ -1,28 +1,28 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import Slider, { CustomArrowProps } from "react-slick";
+import Slider, { CustomArrowProps } from 'react-slick';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./style.scss";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './style.scss';
 
-const CustomPrevArrow: React.FC<CustomArrowProps> = (props) => {
+const CustomPrevArrow: React.FC<CustomArrowProps> = props => {
   const { className, onClick } = props;
 
   return (
     <div className={className} onClick={onClick}>
       click
-      <span className={"wm-arrow-left"} style={{ fontSize: "1.25rem" }} />
+      <span className={'wm-arrow-left'} style={{ fontSize: '1.25rem' }} />
     </div>
   );
 };
 
-const CustomNextArrow: React.FC<CustomArrowProps> = (props) => {
+const CustomNextArrow: React.FC<CustomArrowProps> = props => {
   const { className, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
       click
-      <span className={"wm-arrow-right"} style={{ fontSize: "1.25rem" }} />
+      <span className={'wm-arrow-right'} style={{ fontSize: '1.25rem' }} />
     </div>
   );
 };
@@ -57,19 +57,17 @@ const SlickCarousel: FC<ISlickCarousel> = ({
   };
 
   return (
-    <div className={"slick-carousel"}>
+    <div className={'slick-carousel'}>
       {cards.length >= 5 ? (
         <Slider {...settings}>
-          {cards.map((card) => (
-            <React.Fragment key={card.id}>
-              {renderFunction(card)}
-            </React.Fragment>
+          {cards.map(card => (
+            <React.Fragment key={card.id}>{renderFunction(card)}</React.Fragment>
           ))}
         </Slider>
       ) : (
-        <div className={"slick-carousel--slick-track"}>
-          {cards.map((card) => (
-            <div className={"slick-carousel--slick-slide"} key={card.id}>
+        <div className={'slick-carousel--slick-track'}>
+          {cards.map(card => (
+            <div className={'slick-carousel--slick-slide'} key={card.id}>
               {renderFunction(card)}
             </div>
           ))}

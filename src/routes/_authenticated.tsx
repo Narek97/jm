@@ -1,20 +1,17 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from 'react';
 
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import {
-  GetMeQuery,
-  useGetMeQuery,
-} from "@/api/queries/generated/getMe.generated.ts";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import {LOGIN_ERROR_NAME, TOKEN_NAME} from "@/constants";
-import Header from "@/Features/Header";
-import PermissionLayout from "@/Features/PermissionLayout";
-import { useUserStore } from "@/store/user.ts";
-import { UserType } from "@/types";
-import { deleteCookie, getCookie } from "@/utils/cookieHelper.ts";
+import { GetMeQuery, useGetMeQuery } from '@/api/queries/generated/getMe.generated.ts';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { LOGIN_ERROR_NAME, TOKEN_NAME } from '@/constants';
+import Header from '@/Features/Header';
+import PermissionLayout from '@/Features/PermissionLayout';
+import { useUserStore } from '@/store/user.ts';
+import { UserType } from '@/types';
+import { deleteCookie, getCookie } from '@/utils/cookieHelper.ts';
 
-export const Route = createFileRoute("/_authenticated")({
+export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async () => {
     const token = getCookie(TOKEN_NAME);
     if (!token) {
@@ -36,7 +33,7 @@ function Authenticated() {
     deleteCookie(TOKEN_NAME);
 
     if (window) {
-      window.location.href = "https://www.questionpro.com/a/showLogin.do";
+      window.location.href = 'https://www.questionpro.com/a/showLogin.do';
     }
   };
 
@@ -58,10 +55,7 @@ function Authenticated() {
       if (loginErrorCount && +loginErrorCount === 2) {
         onHandleNavigateToQuestionpro();
       } else {
-        localStorage.setItem(
-          LOGIN_ERROR_NAME,
-          (+loginErrorCount + 1).toString(),
-        );
+        localStorage.setItem(LOGIN_ERROR_NAME, (+loginErrorCount + 1).toString());
         deleteCookie(TOKEN_NAME);
         redirectToLogin();
       }

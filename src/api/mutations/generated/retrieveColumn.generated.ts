@@ -6,10 +6,10 @@ export type RetrieveColumnMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type RetrieveColumnMutation = { __typename?: 'Mutation', retrieveColumn: { __typename?: 'MapColumn', id: number } };
-
-
+export type RetrieveColumnMutation = {
+  __typename?: 'Mutation';
+  retrieveColumn: { __typename?: 'MapColumn'; id: number };
+};
 
 export const RetrieveColumnDocument = `
     mutation RetrieveColumn($id: Int!) {
@@ -19,17 +19,21 @@ export const RetrieveColumnDocument = `
 }
     `;
 
-export const useRetrieveColumnMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RetrieveColumnMutation, TError, RetrieveColumnMutationVariables, TContext>) => {
-    
-    return useMutation<RetrieveColumnMutation, TError, RetrieveColumnMutationVariables, TContext>(
-      {
+export const useRetrieveColumnMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    RetrieveColumnMutation,
+    TError,
+    RetrieveColumnMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<RetrieveColumnMutation, TError, RetrieveColumnMutationVariables, TContext>({
     mutationKey: ['RetrieveColumn'],
-    mutationFn: axiosRequest<RetrieveColumnMutation, RetrieveColumnMutationVariables>(RetrieveColumnDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<RetrieveColumnMutation, RetrieveColumnMutationVariables>(
+      RetrieveColumnDocument,
+    ),
+    ...options,
+  });
+};
 
 useRetrieveColumnMutation.getKey = () => ['RetrieveColumn'];

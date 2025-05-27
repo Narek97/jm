@@ -10,239 +10,224 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AuthenticatedImport } from './routes/_authenticated'
-import { Route as IndexImport } from './routes/index'
-import { Route as AuthorizationCallbackImport } from './routes/authorization/callback'
-import { Route as AuthenticatedSecondarySidebarLayoutImport } from './routes/_authenticated/_secondary-sidebar-layout'
-import { Route as AuthenticatedPrimarySidebarLayoutImport } from './routes/_authenticated/_primary-sidebar-layout'
-import { Route as AuthenticatedWorkspacesIndexImport } from './routes/_authenticated/workspaces/index'
-import { Route as AuthenticatedPrimarySidebarLayoutUsersIndexImport } from './routes/_authenticated/_primary-sidebar-layout/users/index'
-import { Route as AuthenticatedPrimarySidebarLayoutSettingsIndexImport } from './routes/_authenticated/_primary-sidebar-layout/settings/index'
-import { Route as AuthenticatedPrimarySidebarLayoutAdminIndexImport } from './routes/_authenticated/_primary-sidebar-layout/admin/index'
-import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId'
-import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/index'
-import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index'
-import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/index'
-import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index'
+import { Route as rootRoute } from './routes/__root';
+import { Route as AuthenticatedImport } from './routes/_authenticated';
+import { Route as IndexImport } from './routes/index';
+import { Route as AuthorizationCallbackImport } from './routes/authorization/callback';
+import { Route as AuthenticatedSecondarySidebarLayoutImport } from './routes/_authenticated/_secondary-sidebar-layout';
+import { Route as AuthenticatedPrimarySidebarLayoutImport } from './routes/_authenticated/_primary-sidebar-layout';
+import { Route as AuthenticatedWorkspacesIndexImport } from './routes/_authenticated/workspaces/index';
+import { Route as AuthenticatedPrimarySidebarLayoutUsersIndexImport } from './routes/_authenticated/_primary-sidebar-layout/users/index';
+import { Route as AuthenticatedPrimarySidebarLayoutSettingsIndexImport } from './routes/_authenticated/_primary-sidebar-layout/settings/index';
+import { Route as AuthenticatedPrimarySidebarLayoutAdminIndexImport } from './routes/_authenticated/_primary-sidebar-layout/admin/index';
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId';
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/index';
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/index';
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/index';
+import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index';
 
 // Create/Update Routes
 
 const AuthenticatedRoute = AuthenticatedImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AuthorizationCallbackRoute = AuthorizationCallbackImport.update({
   id: '/authorization/callback',
   path: '/authorization/callback',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
-const AuthenticatedSecondarySidebarLayoutRoute =
-  AuthenticatedSecondarySidebarLayoutImport.update({
-    id: '/_secondary-sidebar-layout',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
+const AuthenticatedSecondarySidebarLayoutRoute = AuthenticatedSecondarySidebarLayoutImport.update({
+  id: '/_secondary-sidebar-layout',
+  getParentRoute: () => AuthenticatedRoute,
+} as any);
 
-const AuthenticatedPrimarySidebarLayoutRoute =
-  AuthenticatedPrimarySidebarLayoutImport.update({
-    id: '/_primary-sidebar-layout',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
+const AuthenticatedPrimarySidebarLayoutRoute = AuthenticatedPrimarySidebarLayoutImport.update({
+  id: '/_primary-sidebar-layout',
+  getParentRoute: () => AuthenticatedRoute,
+} as any);
 
-const AuthenticatedWorkspacesIndexRoute =
-  AuthenticatedWorkspacesIndexImport.update({
-    id: '/workspaces/',
-    path: '/workspaces/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
+const AuthenticatedWorkspacesIndexRoute = AuthenticatedWorkspacesIndexImport.update({
+  id: '/workspaces/',
+  path: '/workspaces/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any);
 
 const AuthenticatedPrimarySidebarLayoutUsersIndexRoute =
   AuthenticatedPrimarySidebarLayoutUsersIndexImport.update({
     id: '/users/',
     path: '/users/',
     getParentRoute: () => AuthenticatedPrimarySidebarLayoutRoute,
-  } as any)
+  } as any);
 
 const AuthenticatedPrimarySidebarLayoutSettingsIndexRoute =
   AuthenticatedPrimarySidebarLayoutSettingsIndexImport.update({
     id: '/settings/',
     path: '/settings/',
     getParentRoute: () => AuthenticatedPrimarySidebarLayoutRoute,
-  } as any)
+  } as any);
 
 const AuthenticatedPrimarySidebarLayoutAdminIndexRoute =
   AuthenticatedPrimarySidebarLayoutAdminIndexImport.update({
     id: '/admin/',
     path: '/admin/',
     getParentRoute: () => AuthenticatedPrimarySidebarLayoutRoute,
-  } as any)
+  } as any);
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute =
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport.update({
     id: '/workspace/$workspaceId',
     path: '/workspace/$workspaceId',
     getParentRoute: () => AuthenticatedSecondarySidebarLayoutRoute,
-  } as any)
+  } as any);
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute =
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport.update(
-    {
-      id: '/persona-groups/',
-      path: '/persona-groups/',
-      getParentRoute: () =>
-        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
-    } as any,
-  )
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport.update({
+    id: '/persona-groups/',
+    path: '/persona-groups/',
+    getParentRoute: () => AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+  } as any);
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute =
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport.update(
-    {
-      id: '/interviews/',
-      path: '/interviews/',
-      getParentRoute: () =>
-        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
-    } as any,
-  )
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport.update({
+    id: '/interviews/',
+    path: '/interviews/',
+    getParentRoute: () => AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+  } as any);
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute =
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport.update(
-    {
-      id: '/boards/',
-      path: '/boards/',
-      getParentRoute: () =>
-        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
-    } as any,
-  )
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport.update({
+    id: '/boards/',
+    path: '/boards/',
+    getParentRoute: () => AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+  } as any);
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute =
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport.update(
-    {
-      id: '/outcome/$outcomeId/',
-      path: '/outcome/$outcomeId/',
-      getParentRoute: () =>
-        AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
-    } as any,
-  )
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport.update({
+    id: '/outcome/$outcomeId/',
+    path: '/outcome/$outcomeId/',
+    getParentRoute: () => AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute,
+  } as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_authenticated';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof AuthenticatedImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_authenticated/_primary-sidebar-layout': {
-      id: '/_authenticated/_primary-sidebar-layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutImport
-      parentRoute: typeof AuthenticatedImport
-    }
+      id: '/_authenticated/_primary-sidebar-layout';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutImport;
+      parentRoute: typeof AuthenticatedImport;
+    };
     '/_authenticated/_secondary-sidebar-layout': {
-      id: '/_authenticated/_secondary-sidebar-layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutImport
-      parentRoute: typeof AuthenticatedImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutImport;
+      parentRoute: typeof AuthenticatedImport;
+    };
     '/authorization/callback': {
-      id: '/authorization/callback'
-      path: '/authorization/callback'
-      fullPath: '/authorization/callback'
-      preLoaderRoute: typeof AuthorizationCallbackImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/authorization/callback';
+      path: '/authorization/callback';
+      fullPath: '/authorization/callback';
+      preLoaderRoute: typeof AuthorizationCallbackImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_authenticated/workspaces/': {
-      id: '/_authenticated/workspaces/'
-      path: '/workspaces'
-      fullPath: '/workspaces'
-      preLoaderRoute: typeof AuthenticatedWorkspacesIndexImport
-      parentRoute: typeof AuthenticatedImport
-    }
+      id: '/_authenticated/workspaces/';
+      path: '/workspaces';
+      fullPath: '/workspaces';
+      preLoaderRoute: typeof AuthenticatedWorkspacesIndexImport;
+      parentRoute: typeof AuthenticatedImport;
+    };
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId': {
-      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId'
-      path: '/workspace/$workspaceId'
-      fullPath: '/workspace/$workspaceId'
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
-      parentRoute: typeof AuthenticatedSecondarySidebarLayoutImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId';
+      path: '/workspace/$workspaceId';
+      fullPath: '/workspace/$workspaceId';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport;
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutImport;
+    };
     '/_authenticated/_primary-sidebar-layout/admin/': {
-      id: '/_authenticated/_primary-sidebar-layout/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexImport
-      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport
-    }
+      id: '/_authenticated/_primary-sidebar-layout/admin/';
+      path: '/admin';
+      fullPath: '/admin';
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexImport;
+      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport;
+    };
     '/_authenticated/_primary-sidebar-layout/settings/': {
-      id: '/_authenticated/_primary-sidebar-layout/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutSettingsIndexImport
-      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport
-    }
+      id: '/_authenticated/_primary-sidebar-layout/settings/';
+      path: '/settings';
+      fullPath: '/settings';
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutSettingsIndexImport;
+      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport;
+    };
     '/_authenticated/_primary-sidebar-layout/users/': {
-      id: '/_authenticated/_primary-sidebar-layout/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutUsersIndexImport
-      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport
-    }
+      id: '/_authenticated/_primary-sidebar-layout/users/';
+      path: '/users';
+      fullPath: '/users';
+      preLoaderRoute: typeof AuthenticatedPrimarySidebarLayoutUsersIndexImport;
+      parentRoute: typeof AuthenticatedPrimarySidebarLayoutImport;
+    };
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': {
-      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/'
-      path: '/boards'
-      fullPath: '/workspace/$workspaceId/boards'
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport
-      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/';
+      path: '/boards';
+      fullPath: '/workspace/$workspaceId/boards';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexImport;
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport;
+    };
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': {
-      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
-      path: '/interviews'
-      fullPath: '/workspace/$workspaceId/interviews'
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport
-      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/';
+      path: '/interviews';
+      fullPath: '/workspace/$workspaceId/interviews';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexImport;
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport;
+    };
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': {
-      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/'
-      path: '/persona-groups'
-      fullPath: '/workspace/$workspaceId/persona-groups'
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport
-      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/';
+      path: '/persona-groups';
+      fullPath: '/workspace/$workspaceId/persona-groups';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport;
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport;
+    };
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': {
-      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
-      path: '/outcome/$outcomeId'
-      fullPath: '/workspace/$workspaceId/outcome/$outcomeId'
-      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport
-      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
-    }
+      id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/';
+      path: '/outcome/$outcomeId';
+      fullPath: '/workspace/$workspaceId/outcome/$outcomeId';
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport;
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface AuthenticatedPrimarySidebarLayoutRouteChildren {
-  AuthenticatedPrimarySidebarLayoutAdminIndexRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
-  AuthenticatedPrimarySidebarLayoutSettingsIndexRoute: typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
-  AuthenticatedPrimarySidebarLayoutUsersIndexRoute: typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
+  AuthenticatedPrimarySidebarLayoutAdminIndexRoute: typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute;
+  AuthenticatedPrimarySidebarLayoutSettingsIndexRoute: typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute;
+  AuthenticatedPrimarySidebarLayoutUsersIndexRoute: typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute;
 }
 
 const AuthenticatedPrimarySidebarLayoutRouteChildren: AuthenticatedPrimarySidebarLayoutRouteChildren =
@@ -253,18 +238,18 @@ const AuthenticatedPrimarySidebarLayoutRouteChildren: AuthenticatedPrimarySideba
       AuthenticatedPrimarySidebarLayoutSettingsIndexRoute,
     AuthenticatedPrimarySidebarLayoutUsersIndexRoute:
       AuthenticatedPrimarySidebarLayoutUsersIndexRoute,
-  }
+  };
 
 const AuthenticatedPrimarySidebarLayoutRouteWithChildren =
   AuthenticatedPrimarySidebarLayoutRoute._addFileChildren(
     AuthenticatedPrimarySidebarLayoutRouteChildren,
-  )
+  );
 
 interface AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren {
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute;
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute;
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute;
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute;
 }
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren: AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren =
@@ -277,96 +262,94 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren: Auth
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute,
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute,
-  }
+  };
 
 const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren =
   AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute._addFileChildren(
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteChildren,
-  )
+  );
 
 interface AuthenticatedSecondarySidebarLayoutRouteChildren {
-  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren
+  AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren;
 }
 
 const AuthenticatedSecondarySidebarLayoutRouteChildren: AuthenticatedSecondarySidebarLayoutRouteChildren =
   {
     AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRoute:
       AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren,
-  }
+  };
 
 const AuthenticatedSecondarySidebarLayoutRouteWithChildren =
   AuthenticatedSecondarySidebarLayoutRoute._addFileChildren(
     AuthenticatedSecondarySidebarLayoutRouteChildren,
-  )
+  );
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedPrimarySidebarLayoutRoute: typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren
-  AuthenticatedSecondarySidebarLayoutRoute: typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren
-  AuthenticatedWorkspacesIndexRoute: typeof AuthenticatedWorkspacesIndexRoute
+  AuthenticatedPrimarySidebarLayoutRoute: typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren;
+  AuthenticatedSecondarySidebarLayoutRoute: typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren;
+  AuthenticatedWorkspacesIndexRoute: typeof AuthenticatedWorkspacesIndexRoute;
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedPrimarySidebarLayoutRoute:
-    AuthenticatedPrimarySidebarLayoutRouteWithChildren,
-  AuthenticatedSecondarySidebarLayoutRoute:
-    AuthenticatedSecondarySidebarLayoutRouteWithChildren,
+  AuthenticatedPrimarySidebarLayoutRoute: AuthenticatedPrimarySidebarLayoutRouteWithChildren,
+  AuthenticatedSecondarySidebarLayoutRoute: AuthenticatedSecondarySidebarLayoutRouteWithChildren,
   AuthenticatedWorkspacesIndexRoute: AuthenticatedWorkspacesIndexRoute,
-}
+};
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
-)
+);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren
-  '/authorization/callback': typeof AuthorizationCallbackRoute
-  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
-  '/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren
-  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
-  '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
-  '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
-  '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
-  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
-  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
-  '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
+  '/': typeof IndexRoute;
+  '': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren;
+  '/authorization/callback': typeof AuthorizationCallbackRoute;
+  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute;
+  '/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren;
+  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute;
+  '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute;
+  '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute;
+  '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute;
+  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute;
+  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute;
+  '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren
-  '/authorization/callback': typeof AuthorizationCallbackRoute
-  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute
-  '/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren
-  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
-  '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
-  '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
-  '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
-  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
-  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
-  '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
+  '/': typeof IndexRoute;
+  '': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren;
+  '/authorization/callback': typeof AuthorizationCallbackRoute;
+  '/workspaces': typeof AuthenticatedWorkspacesIndexRoute;
+  '/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren;
+  '/admin': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute;
+  '/settings': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute;
+  '/users': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute;
+  '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute;
+  '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute;
+  '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute;
+  '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/_authenticated/_primary-sidebar-layout': typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren
-  '/_authenticated/_secondary-sidebar-layout': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren
-  '/authorization/callback': typeof AuthorizationCallbackRoute
-  '/_authenticated/workspaces/': typeof AuthenticatedWorkspacesIndexRoute
-  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren
-  '/_authenticated/_primary-sidebar-layout/admin/': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute
-  '/_authenticated/_primary-sidebar-layout/settings/': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute
-  '/_authenticated/_primary-sidebar-layout/users/': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute
-  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
-  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
-  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
-  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
+  __root__: typeof rootRoute;
+  '/': typeof IndexRoute;
+  '/_authenticated': typeof AuthenticatedRouteWithChildren;
+  '/_authenticated/_primary-sidebar-layout': typeof AuthenticatedPrimarySidebarLayoutRouteWithChildren;
+  '/_authenticated/_secondary-sidebar-layout': typeof AuthenticatedSecondarySidebarLayoutRouteWithChildren;
+  '/authorization/callback': typeof AuthorizationCallbackRoute;
+  '/_authenticated/workspaces/': typeof AuthenticatedWorkspacesIndexRoute;
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdRouteWithChildren;
+  '/_authenticated/_primary-sidebar-layout/admin/': typeof AuthenticatedPrimarySidebarLayoutAdminIndexRoute;
+  '/_authenticated/_primary-sidebar-layout/settings/': typeof AuthenticatedPrimarySidebarLayoutSettingsIndexRoute;
+  '/_authenticated/_primary-sidebar-layout/users/': typeof AuthenticatedPrimarySidebarLayoutUsersIndexRoute;
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute;
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute;
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute;
+  '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
     | ''
@@ -379,8 +362,8 @@ export interface FileRouteTypes {
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/persona-groups'
-    | '/workspace/$workspaceId/outcome/$outcomeId'
-  fileRoutesByTo: FileRoutesByTo
+    | '/workspace/$workspaceId/outcome/$outcomeId';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
     | ''
@@ -393,7 +376,7 @@ export interface FileRouteTypes {
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/persona-groups'
-    | '/workspace/$workspaceId/outcome/$outcomeId'
+    | '/workspace/$workspaceId/outcome/$outcomeId';
   id:
     | '__root__'
     | '/'
@@ -409,25 +392,25 @@ export interface FileRouteTypes {
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/'
-    | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
-  fileRoutesById: FileRoutesById
+    | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/';
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  AuthorizationCallbackRoute: typeof AuthorizationCallbackRoute
+  IndexRoute: typeof IndexRoute;
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
+  AuthorizationCallbackRoute: typeof AuthorizationCallbackRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthorizationCallbackRoute: AuthorizationCallbackRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

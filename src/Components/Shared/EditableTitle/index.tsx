@@ -1,11 +1,11 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { WuTooltip } from "@npm-questionpro/wick-ui-lib";
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import { debounced400 } from "@/hooks/useDebounce.ts";
-import { EditableInputChangeType, MenuOptionsType } from "@/types";
+import { debounced400 } from '@/hooks/useDebounce.ts';
+import { EditableInputChangeType, MenuOptionsType } from '@/types';
 
 interface IEditableTitle {
   item: any;
@@ -24,23 +24,18 @@ const EDITABLE_INPUT_OPTIONS = ({
   return [
     {
       icon: <span />,
-      name: "Rename",
+      name: 'Rename',
       onClick: onHandleEdit,
     },
     {
       icon: <DeleteIcon />,
-      name: "Delete",
+      name: 'Delete',
       onClick: onHandleDelete,
     },
   ];
 };
 
-const EditableTitle: FC<IEditableTitle> = ({
-  item,
-  onHandleUpdate,
-  onHandleDelete,
-  maxLength,
-}) => {
+const EditableTitle: FC<IEditableTitle> = ({ item, onHandleUpdate, onHandleDelete, maxLength }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isTitleEditMode, setIsTitleEditMode] = useState<boolean>(false);
@@ -73,7 +68,7 @@ const EditableTitle: FC<IEditableTitle> = ({
 
   return (
     <WuTooltip content={inputValue}>
-      <div className={"editable-input"}>
+      <div className={'editable-input'}>
         {isTitleEditMode ? (
           <>
             <CustomInput
@@ -81,25 +76,25 @@ const EditableTitle: FC<IEditableTitle> = ({
               minLength={1}
               data-testid="board-name-section-test-id"
               style={{
-                background: "none",
-                borderBottom: "1px solid #1b87e6",
-                paddingRight: maxLength ? "3.125rem" : "initial",
+                background: 'none',
+                borderBottom: '1px solid #1b87e6',
+                paddingRight: maxLength ? '3.125rem' : 'initial',
               }}
               aria-label={inputValue}
-              className={"editable-input-input"}
-              onClick={(e) => {
+              className={'editable-input-input'}
+              onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
               }}
               inputRef={inputRef}
               defaultValue={inputValue}
-              onChange={(e) => {
+              onChange={e => {
                 onChangeName(e?.target?.value);
               }}
               onBlur={() => {
                 setIsTitleEditMode(false);
               }}
-              onKeyDown={(event) => {
+              onKeyDown={event => {
                 if (event.keyCode === 13) {
                   event.preventDefault();
                   (event.target as HTMLElement).blur();
@@ -107,30 +102,30 @@ const EditableTitle: FC<IEditableTitle> = ({
               }}
             />
             {maxLength && (
-              <span className={"editable-input--max-length"}>
+              <span className={'editable-input--max-length'}>
                 {inputValue?.length} / {maxLength}
               </span>
             )}
           </>
         ) : (
-          <div className={"editable-input--name-option-block"}>
-            <p className={"editable-input--name"}>{inputValue}</p>
-            <div className={"editable-input--menu"}>
+          <div className={'editable-input--name-option-block'}>
+            <p className={'editable-input--name'}>{inputValue}</p>
+            <div className={'editable-input--menu'}>
               <CustomLongMenu
                 type={menuViewTypeEnum.VERTICAL}
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
+                  vertical: 'bottom',
+                  horizontal: 'right',
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                  vertical: 'top',
+                  horizontal: 'right',
                 }}
                 item={item}
                 options={options}
                 sxStyles={{
-                  display: "inline-block",
-                  background: "transparent",
+                  display: 'inline-block',
+                  background: 'transparent',
                 }}
               />
             </div>

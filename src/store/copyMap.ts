@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { CopyMapLevelTemplateEnum } from "@/types/enum.ts";
+import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface CopyMapState {
   orgId: number | null;
@@ -13,15 +13,15 @@ interface CopyMapState {
   reset: () => void;
 }
 
-export const useCopyMapStore = create<CopyMapState>((set) => ({
+export const useCopyMapStore = create<CopyMapState>(set => ({
   orgId: null,
   mapId: null,
   workspaceId: null,
   boardId: null,
   template: CopyMapLevelTemplateEnum.WORKSPACES,
   isProcessing: false,
-  setCopyMapState: (newState) =>
-    set((state) => ({
+  setCopyMapState: newState =>
+    set(state => ({
       ...state,
       ...newState,
     })),

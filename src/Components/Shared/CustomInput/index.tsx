@@ -1,13 +1,13 @@
-import React, { FC, memo, Ref } from "react";
+import React, { FC, memo, Ref } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
+import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
 
-import { ObjectKeysType } from "@/types";
+import { ObjectKeysType } from '@/types';
 
 interface ICustomInput {
-  inputType?: "primary" | "secondary";
+  inputType?: 'primary' | 'secondary';
   isIconInput?: boolean;
   readOnly?: boolean;
   maxLength?: number;
@@ -24,7 +24,7 @@ interface ICustomInput {
 }
 
 const CustomInput: FC<ICustomInput & TextFieldProps> = ({
-  inputType = "primary",
+  inputType = 'primary',
   isIconInput = false,
   rows = 0,
   sxStyles,
@@ -35,7 +35,7 @@ const CustomInput: FC<ICustomInput & TextFieldProps> = ({
   max,
   className,
   step,
-  variant = "standard",
+  variant = 'standard',
   inputRef,
   maxRows,
   padding,
@@ -43,16 +43,16 @@ const CustomInput: FC<ICustomInput & TextFieldProps> = ({
   ...inputRestParams
 }) => {
   const style = {
-    width: "100%",
-    backgroundColor: "#FFFFFF",
-    borderBottom: "none",
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderBottom: 'none',
     ...sxStyles,
   };
 
   const customStyle: ObjectKeysType = {
     primary: {
       ...style,
-      backgroundColor: "#F5F5F5",
+      backgroundColor: '#F5F5F5',
     },
     secondary: {
       ...style,
@@ -61,7 +61,7 @@ const CustomInput: FC<ICustomInput & TextFieldProps> = ({
 
   const MemoizedAdornment = memo(() => (
     <InputAdornment position="start">
-      {iconInput || <span className={"wm-search"} />}
+      {iconInput || <span className={'wm-search'} />}
     </InputAdornment>
   ));
 
@@ -71,7 +71,7 @@ const CustomInput: FC<ICustomInput & TextFieldProps> = ({
       autoComplete="off"
       sx={customStyle[inputType]}
       variant={variant}
-      className={`custom-input ${className || ""}`}
+      className={`custom-input ${className || ''}`}
       rows={rows}
       maxRows={maxRows}
       inputProps={{
@@ -82,9 +82,7 @@ const CustomInput: FC<ICustomInput & TextFieldProps> = ({
         step,
         readOnly,
         style: {
-          padding: isIconInput
-            ? "0.5rem 0.5rem 0.5rem 0"
-            : `${padding ?? 0.5}rem`,
+          padding: isIconInput ? '0.5rem 0.5rem 0.5rem 0' : `${padding ?? 0.5}rem`,
         },
       }}
       inputRef={inputRef}

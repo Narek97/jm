@@ -1,4 +1,4 @@
-import { QueryCache, QueryClient } from "@tanstack/react-query";
+import { QueryCache, QueryClient } from '@tanstack/react-query';
 
 const gqlGlobalOptions = {
   queryCache: new QueryCache({}),

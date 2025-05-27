@@ -1,28 +1,23 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 import {
   DeletePerformanceMutation,
   useDeletePerformanceMutation,
-} from "@/api/mutations/generated/deletePerformancheLogs.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
+} from '@/api/mutations/generated/deletePerformancheLogs.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 
 interface IPerformanceLogsDeleteModal {
   isOpen: boolean;
   handleClose: (item: null) => void;
 }
 
-const PerformanceLogsDeleteModal: FC<IPerformanceLogsDeleteModal> = ({
-  isOpen,
-  handleClose,
-}) => {
-  const setPerformanceLogsData = useSetQueryDataByKey("GetPerformanceLogs");
+const PerformanceLogsDeleteModal: FC<IPerformanceLogsDeleteModal> = ({ isOpen, handleClose }) => {
+  const setPerformanceLogsData = useSetQueryDataByKey('GetPerformanceLogs');
 
-  const {
-    mutate: mutateDeletePerformanceLogs,
-    isPending: isPendingDeletePerformanceLogs,
-  } = useDeletePerformanceMutation<DeletePerformanceMutation, Error>();
+  const { mutate: mutateDeletePerformanceLogs, isPending: isPendingDeletePerformanceLogs } =
+    useDeletePerformanceMutation<DeletePerformanceMutation, Error>();
 
   const onHandleCloseModal = () => {
     handleClose(null);
@@ -49,14 +44,13 @@ const PerformanceLogsDeleteModal: FC<IPerformanceLogsDeleteModal> = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPendingDeletePerformanceLogs}
-    >
+      canCloseWithOutsideClick={!isPendingDeletePerformanceLogs}>
       <DeleteModalTemplate
-        item={{ type: "Performance logs", name: "performance logs" }}
+        item={{ type: 'Performance logs', name: 'performance logs' }}
         handleClose={onHandleCloseModal}
         handleDelete={onHandleDeleteWorkspaceItem}
         isLoading={isPendingDeletePerformanceLogs}
-        text={"Are you sure you want to delete all performance logs"}
+        text={'Are you sure you want to delete all performance logs'}
       />
     </CustomModal>
   );

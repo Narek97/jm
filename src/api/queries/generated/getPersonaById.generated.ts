@@ -6,10 +6,42 @@ export type GetPersonaByIdQueryVariables = Types.Exact<{
   getPersonaByIdInput: Types.GetPersonaByIdInput;
 }>;
 
-
-export type GetPersonaByIdQuery = { __typename?: 'Query', getPersonaById: { __typename?: 'personas', id: number, name: string, type: string, color?: string | null, journeys: number, workspaceId: number, workspaceName: string, personaGroupId: number, personaGroupName: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', id: number, key: string, url: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null } };
-
-
+export type GetPersonaByIdQuery = {
+  __typename?: 'Query';
+  getPersonaById: {
+    __typename?: 'personas';
+    id: number;
+    name: string;
+    type: string;
+    color?: string | null;
+    journeys: number;
+    workspaceId: number;
+    workspaceName: string;
+    personaGroupId: number;
+    personaGroupName: string;
+    croppedArea?: {
+      __typename?: 'Position';
+      width?: number | null;
+      height?: number | null;
+      x?: number | null;
+      y?: number | null;
+    } | null;
+    attachment?: {
+      __typename?: 'Attachment';
+      id: number;
+      key: string;
+      url: string;
+      hasResizedVersions?: boolean | null;
+      croppedArea?: {
+        __typename?: 'Position';
+        width?: number | null;
+        height?: number | null;
+        x?: number | null;
+        y?: number | null;
+      } | null;
+    } | null;
+  };
+};
 
 export const GetPersonaByIdDocument = `
     query GetPersonaById($getPersonaByIdInput: GetPersonaByIdInput!) {
@@ -45,20 +77,22 @@ export const GetPersonaByIdDocument = `
 }
     `;
 
-export const useGetPersonaByIdQuery = <
-      TData = GetPersonaByIdQuery,
-      TError = unknown
-    >(
-      variables: GetPersonaByIdQueryVariables,
-      options?: Omit<UseQueryOptions<GetPersonaByIdQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetPersonaByIdQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetPersonaByIdQuery, TError, TData>(
-      {
+export const useGetPersonaByIdQuery = <TData = GetPersonaByIdQuery, TError = unknown>(
+  variables: GetPersonaByIdQueryVariables,
+  options?: Omit<UseQueryOptions<GetPersonaByIdQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetPersonaByIdQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetPersonaByIdQuery, TError, TData>({
     queryKey: ['GetPersonaById', variables],
-    queryFn: axiosRequest<GetPersonaByIdQuery, GetPersonaByIdQueryVariables>(GetPersonaByIdDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<GetPersonaByIdQuery, GetPersonaByIdQueryVariables>(
+      GetPersonaByIdDocument,
+    ).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetPersonaByIdQuery.getKey = (variables: GetPersonaByIdQueryVariables) => ['GetPersonaById', variables];
+useGetPersonaByIdQuery.getKey = (variables: GetPersonaByIdQueryVariables) => [
+  'GetPersonaById',
+  variables,
+];

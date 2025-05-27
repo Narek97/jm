@@ -1,32 +1,41 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import "./style.scss";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import './style.scss';
 
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
+import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS } from "./constants";
+import CreateUpdateOutcome from './components/CreateUpdateOutcome';
+import SearchNounProjectIcon from './components/SearchNounProjectIcon';
+import { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS } from './constants';
 
-import {
-  GetOutcomeGroupsQuery,
-  useInfiniteGetOutcomeGroupsQuery,
-} from "@/api/infinite-queries/generated/getOutcomeGroups.generated.ts";
 import {
   CreateOrUpdateOutcomeGroupMutation,
   useCreateOrUpdateOutcomeGroupMutation,
-} from "@/api/mutations/generated/createOrUpdateOutcomeGroup.generated.ts";
+} from '@/api/mutations/generated/createOrUpdateOutcomeGroup.generated.ts';
 import {
   DeleteOutcomeGroupMutation,
   useDeleteOutcomeGroupMutation,
-} from "@/api/mutations/generated/deleteOutcomeGroup.generated.ts";
-import { OrderByEnum, OutcomeGroup } from "@/api/types.ts";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import CustomTable from "@/Components/Shared/CustomTable";
-import { DEFAULT_OUTCOME_ICON } from "@/constants";
-import { OUTCOME_GROUPS_LIMIT } from "@/constants/pagination.ts";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
+} from '@/api/mutations/generated/deleteOutcomeGroup.generated.ts';
+import {
+  GetOutcomeGroupsQuery,
+  useGetOutcomeGroupsQuery,
+} from '@/api/queries/generated/getOutcomeGroups.generated.ts';
+import { OrderByEnum, OutcomeGroup } from '@/api/types.ts';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import CustomTable from '@/Components/Shared/CustomTable';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import Pagination from '@/Components/Shared/Pagination';
+import { DEFAULT_OUTCOME_ICON, querySlateTime } from '@/constants';
+import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
+import {
+  useRemoveQueriesByKey,
+  useSetAllQueryDataByKey,
+  useSetQueryDataByKeyAdvanced,
+} from '@/hooks/useQueryKey.ts';
+import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
+import { ObjectKeysType } from '@/types';
 
 const Outcomes = () => {
-  const setOutcomeGroups = useSetQueryDataByKey("GetOutcomeGroups.infinite");
-
   const { showToast } = useWuShowToast();
 
   const [selectedOutcomeGroup, setSelectedOutcomeGroup] = useState<{
@@ -34,124 +43,222 @@ const Outcomes = () => {
     name: string;
     pluralName: string;
   } | null>(null);
+
+  const [isOpenCreateUpdateBoard, setIsOpenCreateUpdateBoard] = useState(false);
   const [sortData, setSortData] = useState<{
-    id: "name" | "createdAt" | "user";
+    id: 'name' | 'createdAt' | 'user';
     type: OrderByEnum;
   } | null>();
   const [iconUrl, setIconUrl] = useState<string>(DEFAULT_OUTCOME_ICON);
   const [currentPage, setCurrentPage] = useState(1);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const { setOutcomePinnedBoardIds } = useOutcomePinnedBoardIdsStore();
+  const { setSelectedIdList } = useOutcomePinBoardsStore();
+
+  const [offset, setOffset] = useState(0);
+
+  const setOutcomeGroups = useSetQueryDataByKeyAdvanced();
+  const setAllOutcomeGroups = useSetAllQueryDataByKey('GetOutcomeGroups');
+  const setRemoveOutcomeGroups = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingOutcomes,
-    fetchNextPage: fetchNextPageOutcomes,
     data: dataOutcomes,
-    isFetchingNextPage: isFetchingNextPageOutcomes,
     error: errorOutcomes,
-    refetch,
-  } = useInfiniteGetOutcomeGroupsQuery<
-    { pages: Array<GetOutcomeGroupsQuery> },
-    Error
-  >(
+  } = useGetOutcomeGroupsQuery<GetOutcomeGroupsQuery, Error>(
     {
       getOutcomeGroupsInput: {
         limit: OUTCOME_GROUPS_LIMIT,
-        offset: 0,
+        offset,
       },
     },
     {
-      getNextPageParam: function (
-        lastPage: GetOutcomeGroupsQuery,
-        allPages: GetOutcomeGroupsQuery[],
-      ): unknown {
-        return lastPage.getOutcomeGroups.outcomeGroups.length <
-          OUTCOME_GROUPS_LIMIT
-          ? undefined
-          : allPages.length;
-      },
-      initialPageParam: OUTCOME_GROUPS_LIMIT,
+      staleTime: querySlateTime,
     },
   );
 
   const { isPending: isLoadingCrateOrUpdateOutcome, mutate: createOutcome } =
-    useCreateOrUpdateOutcomeGroupMutation<
-      CreateOrUpdateOutcomeGroupMutation,
-      Error
-    >();
+    useCreateOrUpdateOutcomeGroupMutation<CreateOrUpdateOutcomeGroupMutation, Error>();
 
   const { isPending: isLoadingDeleteOrUpdateOutcome, mutate: deleteOutcome } =
     useDeleteOutcomeGroupMutation<Error, DeleteOutcomeGroupMutation>();
 
-  const outcomeGroupsLogsData: Array<OutcomeGroup> = useMemo(() => {
-    if (dataOutcomes?.pages && dataOutcomes?.pages[0] !== undefined) {
-      const totalData = dataOutcomes.pages.reduce<Array<OutcomeGroup>>(
-        (acc: Array<OutcomeGroup>, curr) => [
-          ...acc,
-          ...(curr.getOutcomeGroups.outcomeGroups as Array<OutcomeGroup>),
-        ],
-        [],
+  const outcomeGroupsLogsData = useMemo(
+    () => dataOutcomes?.getOutcomeGroups.outcomeGroups || [],
+    [dataOutcomes?.getOutcomeGroups.outcomeGroups],
+  );
+
+  const count = useMemo(
+    () => dataOutcomes?.getOutcomeGroups.count || 0,
+    [dataOutcomes?.getOutcomeGroups.count],
+  );
+
+  const onHandleCreateOutcomeGroup = useCallback(
+    (data: ObjectKeysType, reset: () => void) => {
+      createOutcome(
+        {
+          createOrUpdateOutcomeGroupInput: {
+            ...data,
+            icon: iconUrl,
+          },
+        },
+        {
+          onSuccess: response => {
+            setIconUrl(DEFAULT_OUTCOME_ICON);
+            setTimeout(() => {
+              setIsOpenCreateUpdateBoard(false);
+              reset();
+            }, 500);
+            setOutcomePinnedBoardIds((prev: any) => ({
+              ...prev,
+              [data.id as number]: {
+                ...(prev?.new || {}),
+              },
+              new: {},
+            }));
+
+            setRemoveOutcomeGroups('GetOutcomeGroups', {
+              input: 'getOutcomeGroupsInput',
+              key: 'offset',
+              value: 0,
+            });
+
+            setOutcomeGroups(
+              'GetOutcomeGroups',
+              {
+                input: 'getOutcomeGroupsInput',
+                key: 'offset',
+                value: 0,
+              },
+              (oldData: any) => {
+                if (oldData) {
+                  return {
+                    getOutcomeGroups: {
+                      offset: 0,
+                      limit: OUTCOME_GROUPS_LIMIT,
+                      count: oldData.getOutcomeGroups.count + 1,
+                      outcomeGroups: [
+                        response.createOrUpdateOutcomeGroup,
+                        ...oldData.getOutcomeGroups.outcomeGroups.slice(
+                          0,
+                          OUTCOME_GROUPS_LIMIT - 1,
+                        ),
+                      ],
+                    },
+                  };
+                }
+              },
+            );
+            setCurrentPage(1);
+            setOffset(0);
+          },
+          onError: (error: any) => {
+            showToast({
+              variant: 'error',
+              message: error?.message,
+            });
+          },
+        },
       );
-      const seenIds = new Set<number>();
+    },
+    [
+      createOutcome,
+      iconUrl,
+      setOutcomeGroups,
+      setOutcomePinnedBoardIds,
+      setRemoveOutcomeGroups,
+      showToast,
+    ],
+  );
 
-      const uniqueData = totalData.filter((item) => {
-        if (seenIds.has(item.id)) {
-          return false;
-        }
-        seenIds.add(item.id);
-        return true;
-      });
+  const onHandleUpdateOutcome = (data: ObjectKeysType, reset: () => void) => {
+    createOutcome(
+      {
+        createOrUpdateOutcomeGroupInput: {
+          id: selectedOutcomeGroup?.id,
+          icon: iconUrl,
+          ...data,
+        },
+      },
+      {
+        onSuccess: () => {
+          setSelectedOutcomeGroup(null);
+          setTimeout(() => {
+            reset();
+            setIsOpenCreateUpdateBoard(false);
+          }, 500);
 
-      if (currentPage > 1) {
-        return uniqueData
-          .slice((currentPage - 1) * OUTCOME_GROUPS_LIMIT)
-          .slice(0, OUTCOME_GROUPS_LIMIT);
-      } else {
-        return uniqueData.slice(0, OUTCOME_GROUPS_LIMIT);
-      }
-    }
-    return [];
-  }, [currentPage, dataOutcomes?.pages]);
+          setOutcomeGroups(
+            'GetOutcomeGroups',
+            {
+              input: 'getOutcomeGroupsInput',
+              key: 'offset',
+              value: offset,
+            },
+            (oldData: any) => {
+              if (oldData) {
+                return {
+                  getOutcomeGroups: {
+                    outcomeGroups: oldData.getOutcomeGroups.outcomeGroups.map(
+                      (item: OutcomeGroup) =>
+                        item.id === selectedOutcomeGroup?.id
+                          ? { ...item, ...item, ...data, icon: iconUrl }
+                          : item,
+                    ),
+                  },
+                };
+              }
+            },
+          );
+          setIconUrl(DEFAULT_OUTCOME_ICON);
+        },
+        onError: (error: any) => {
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
+        },
+      },
+    );
+  };
 
-  const compareByField = (
-    fieldName: "name" | "createdAt" | "user",
-    orderType: OrderByEnum,
-  ) => {
+  const compareByField = (fieldName: 'name' | 'createdAt' | 'user', orderType: OrderByEnum) => {
     return function (a: OutcomeGroup, b: OutcomeGroup) {
-      const aValue = a[fieldName] ?? "";
-      const bValue = b[fieldName] ?? "";
+      const aValue = a[fieldName] ?? '';
+      const bValue = b[fieldName] ?? '';
       const compareResult = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       return orderType === OrderByEnum.Desc ? -compareResult : compareResult;
     };
   };
 
-  const sortTableByField = (
-    type: OrderByEnum,
-    _: string,
-    id: "name" | "createdAt" | "user",
-  ) => {
+  const sortTableByField = (type: OrderByEnum, _: string, id: 'name' | 'createdAt' | 'user') => {
     setSortData({
       type,
       id,
     });
   };
 
-  const onToggleCreateUpdateBoard = useCallback((outcome?: OutcomeGroup) => {
-    if (outcome) {
-      setSelectedOutcomeGroup({
-        id: outcome?.id,
-        name: outcome?.name,
-        pluralName: outcome?.pluralName,
-      });
-      setIconUrl(outcome?.icon);
-      // todo
-      // setOutcomePinBoards({ selectedIdList: [] });
-    } else {
-      setSelectedOutcomeGroup(null);
-      // setOutcomePinBoards({ selectedIdList: [] });
-      nameInputRef.current?.focus();
-    }
-  }, []);
+  const onToggleCreateUpdateBoard = useCallback(
+    (outcome?: OutcomeGroup) => {
+      if (outcome) {
+        setSelectedOutcomeGroup({
+          id: outcome?.id,
+          name: outcome?.name,
+          pluralName: outcome?.pluralName,
+        });
+        setIconUrl(outcome?.icon);
+        setIsOpenCreateUpdateBoard(true);
+        setSelectedIdList([]);
+      } else {
+        setSelectedOutcomeGroup(null);
+        setIsOpenCreateUpdateBoard(prev => !prev);
+        setSelectedIdList([]);
+        nameInputRef.current?.focus();
+      }
+    },
+    [setSelectedIdList],
+  );
 
   const onHandleEditItem = useCallback(
     (data: OutcomeGroup) => {
@@ -160,49 +267,50 @@ const Outcomes = () => {
     [onToggleCreateUpdateBoard],
   );
 
+  const onHandleUpdateOutcomeGroups = useCallback(
+    (id: number) => {
+      setAllOutcomeGroups((oldData: any) => {
+        if (oldData) {
+          return {
+            getOutcomeGroups: {
+              count: oldData.getOutcomeGroups.count - 1,
+              outcomeGroups: oldData.getOutcomeGroups.outcomeGroups.filter(
+                (outcomeGroup: OutcomeGroup) => outcomeGroup.id !== id,
+              ),
+            },
+          };
+        }
+      });
+    },
+    [setAllOutcomeGroups],
+  );
+
   const onHandleDeleteItem = useCallback(
     (data: OutcomeGroup) => {
-      setSelectedOutcomeGroup(data);
       deleteOutcome(
         { id: data?.id },
         {
           onSuccess: () => {
-            setSelectedOutcomeGroup(null);
-            setOutcomeGroups((oldData: any) => {
-              const updatedPages = (
-                oldData?.pages as Array<GetOutcomeGroupsQuery>
-              ).map((page) => {
-                return {
-                  ...page,
-                  getOutcomeGroups: {
-                    ...page.getOutcomeGroups,
-                    count: (page.getOutcomeGroups.count || 0) - 1,
-                    outcomeGroups: page.getOutcomeGroups.outcomeGroups.filter(
-                      (item) => item?.id !== data?.id,
-                    ),
-                  },
-                };
-              });
-              return {
-                ...oldData,
-                pages: updatedPages,
-              };
-            });
-
-            if (outcomeGroupsLogsData.length === 1 && currentPage > 1) {
-              setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
-            }
-
             if (
-              !dataOutcomes?.pages[currentPage] &&
-              !isFetchingNextPageOutcomes
+              currentPage * OUTCOME_GROUPS_LIMIT >= count &&
+              dataOutcomes?.getOutcomeGroups.outcomeGroups.length === 1 &&
+              currentPage !== 1
             ) {
-              refetch().then();
+              setOffset(offset - OUTCOME_GROUPS_LIMIT);
+              setCurrentPage(prev => prev - 1);
+            } else if (currentPage * OUTCOME_GROUPS_LIMIT < count && count > OUTCOME_GROUPS_LIMIT) {
+              setRemoveOutcomeGroups('GetOutcomeGroups', {
+                input: 'getOutcomeGroupsInput',
+                key: 'offset',
+                value: offset,
+                deleteUpcoming: true,
+              });
             }
+            onHandleUpdateOutcomeGroups(data.id);
           },
-          onError: (error) => {
+          onError: error => {
             showToast({
-              variant: "error",
+              variant: 'error',
               message: error?.message,
             });
           },
@@ -210,13 +318,13 @@ const Outcomes = () => {
       );
     },
     [
+      count,
       currentPage,
-      dataOutcomes?.pages,
+      dataOutcomes?.getOutcomeGroups.outcomeGroups,
       deleteOutcome,
-      isFetchingNextPageOutcomes,
-      outcomeGroupsLogsData.length,
-      refetch,
-      setOutcomeGroups,
+      offset,
+      onHandleUpdateOutcomeGroups,
+      setRemoveOutcomeGroups,
       showToast,
     ],
   );
@@ -232,19 +340,80 @@ const Outcomes = () => {
     return WORKSPACE_OUTCOMES_COLUMNS;
   }, []);
 
+  const onHandleChangePage = useCallback((page: number) => {
+    setCurrentPage(page);
+    setOffset((page - 1) * OUTCOME_GROUPS_LIMIT);
+  }, []);
+
+  const handleSelectIcon = useCallback((thumbnailUrl: string) => {
+    setIconUrl(thumbnailUrl);
+  }, []);
+
   useEffect(() => {
     if (errorOutcomes) {
       showToast({
-        variant: "error",
+        variant: 'error',
         message: errorOutcomes?.message,
       });
     }
-    // eslint-disable-next-line
-  }, [errorOutcomes]);
+  }, [errorOutcomes, showToast]);
 
   return (
-    <div className={"outcomes"}>
+    <div className={'outcomes'}>
+      <div className={'create-update-top-section'}>
+        <div
+          className={`create-update-top-section--icon ${
+            isOpenCreateUpdateBoard ? `opened-${!iconUrl ? 'default-' : ''}icon-state` : ''
+          }`}>
+          <WuPopover
+            Trigger={
+              <div>
+                <WuTooltip content="Select an icon" position="bottom">
+                  <div className={'selected-icon'}>
+                    <img
+                      src={iconUrl}
+                      alt="Selected File Preview"
+                      style={{
+                        width: '1.875rem',
+                        height: '1.875rem',
+                      }}
+                    />
+                  </div>
+                </WuTooltip>
+              </div>
+            }>
+            <SearchNounProjectIcon onIconSelect={handleSelectIcon} />
+            <div className={'search-icons-placeholder-text'}>Type to see available icons here.</div>
+          </WuPopover>
+        </div>
+
+        <div className="create-update-top-section--pagination-section">
+          <CreateUpdateOutcome
+            formData={selectedOutcomeGroup}
+            isLoading={isLoadingCrateOrUpdateOutcome}
+            onToggleCreateUpdateFunction={onToggleCreateUpdateBoard}
+            isOpenCreateUpdateItem={isOpenCreateUpdateBoard}
+            onHandleCreateFunction={onHandleCreateOutcomeGroup}
+            onHandleUpdateFunction={onHandleUpdateOutcome}
+          />
+
+          {count > OUTCOME_GROUPS_LIMIT && (
+            <Pagination
+              currentPage={currentPage}
+              perPage={OUTCOME_GROUPS_LIMIT}
+              allCount={count}
+              changePage={onHandleChangePage}
+            />
+          )}
+        </div>
+      </div>
+
       {isLoadingOutcomes && <CustomLoader />}
+
+      {!isLoadingOutcomes && !isLoadingDeleteOrUpdateOutcome && !outcomeGroupsLogsData.length && (
+        <EmptyDataInfo message="There are no outcomes yet" />
+      )}
+
       {outcomeGroupsLogsData.length ? (
         <div className="outcomes--table-container">
           <CustomTable
@@ -253,7 +422,7 @@ const Outcomes = () => {
             isTableHead
             rows={
               sortData?.id && sortData?.type
-                ? outcomeGroupsLogsData.sort(
+                ? (outcomeGroupsLogsData as OutcomeGroup[]).sort(
                     compareByField(sortData.id, sortData.type),
                   )
                 : outcomeGroupsLogsData
@@ -261,9 +430,7 @@ const Outcomes = () => {
             columns={columns}
             options={options}
             permissionCheckKey="isDefault"
-            processingItemId={
-              isLoadingOutcomes ? selectedOutcomeGroup?.id : null
-            }
+            processingItemId={isLoadingOutcomes ? selectedOutcomeGroup?.id : null}
           />
         </div>
       ) : null}

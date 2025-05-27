@@ -6,10 +6,10 @@ export type UpdatePersonaGroupMutationVariables = Types.Exact<{
   updatePersonaGroupInput: Types.UpdatePersonaGroupInput;
 }>;
 
-
-export type UpdatePersonaGroupMutation = { __typename?: 'Mutation', updatePersonaGroup: { __typename?: 'PersonaGroup', id: number, name: string } };
-
-
+export type UpdatePersonaGroupMutation = {
+  __typename?: 'Mutation';
+  updatePersonaGroup: { __typename?: 'PersonaGroup'; id: number; name: string };
+};
 
 export const UpdatePersonaGroupDocument = `
     mutation UpdatePersonaGroup($updatePersonaGroupInput: UpdatePersonaGroupInput!) {
@@ -20,17 +20,26 @@ export const UpdatePersonaGroupDocument = `
 }
     `;
 
-export const useUpdatePersonaGroupMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdatePersonaGroupMutation, TError, UpdatePersonaGroupMutationVariables, TContext>) => {
-    
-    return useMutation<UpdatePersonaGroupMutation, TError, UpdatePersonaGroupMutationVariables, TContext>(
-      {
+export const useUpdatePersonaGroupMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdatePersonaGroupMutation,
+    TError,
+    UpdatePersonaGroupMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdatePersonaGroupMutation,
+    TError,
+    UpdatePersonaGroupMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdatePersonaGroup'],
-    mutationFn: axiosRequest<UpdatePersonaGroupMutation, UpdatePersonaGroupMutationVariables>(UpdatePersonaGroupDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<UpdatePersonaGroupMutation, UpdatePersonaGroupMutationVariables>(
+      UpdatePersonaGroupDocument,
+    ),
+    ...options,
+  });
+};
 
 useUpdatePersonaGroupMutation.getKey = () => ['UpdatePersonaGroup'];

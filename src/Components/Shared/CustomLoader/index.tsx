@@ -1,8 +1,8 @@
-import "./style.scss";
+import './style.scss';
 
 const CustomLoader = () => {
   return (
-    <div className={"custom-loader"} data-testid={"custom-loader-test-id"}>
+    <div className={'custom-loader'} data-testid={'custom-loader-test-id'}>
       <div className="lds-ellipsis">
         <div></div>
         <div></div>

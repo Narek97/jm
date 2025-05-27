@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import CustomModal from "@/Components/Shared/CustomModal";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 
 interface IPerformanceLogsQueryModal {
   isOpen: boolean;
@@ -16,16 +16,15 @@ const PerformanceLogsQueryModal: FC<IPerformanceLogsQueryModal> = ({
 }) => {
   return (
     <CustomModal
-      modalSize={"md"}
+      modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}
-    >
-      <CustomModalHeader title={"Queries"} />
+      canCloseWithOutsideClick={true}>
+      <CustomModalHeader title={'Queries'} />
 
-      <ul className={"!p-4 !max-h-[60dvh] overflow-y-auto"}>
+      <ul className={'!p-4 !max-h-[60dvh] overflow-y-auto'}>
         {queries.map((query, index) => (
-          <li className={"!mt-[10px]"} key={query}>
+          <li className={'!mt-[10px]'} key={query}>
             {index + 1}. {query}
           </li>
         ))}

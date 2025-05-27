@@ -1,16 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute(
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/',
 )({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
-    <div>
-      Hello
-      "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/"!
-    </div>
-  )
+    <div>Hello "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/"!</div>
+  );
 }

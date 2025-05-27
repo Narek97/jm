@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { UserType } from "@/types";
+import { UserType } from '@/types';
 
 type UserStore = {
   user: UserType | null;
@@ -9,11 +9,11 @@ type UserStore = {
   clearUser: () => void;
 };
 
-export const useUserStore = create<UserStore>((set) => ({
+export const useUserStore = create<UserStore>(set => ({
   user: null,
-  setUser: (user) => set({ user }),
-  updateUser: (updates) =>
-    set((state) => ({
+  setUser: user => set({ user }),
+  updateUser: updates =>
+    set(state => ({
       user: state.user ? { ...state.user, ...updates } : null,
     })),
   clearUser: () => set({ user: null }),

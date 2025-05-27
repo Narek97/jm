@@ -1,12 +1,12 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 import {
   DeleteAiJourneyModelMutation,
   useDeleteAiJourneyModelMutation,
-} from "@/api/mutations/generated/deleteAiJourneyModel.generated.ts";
-import { AiJourneyModelResponse } from "@/api/types.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+} from '@/api/mutations/generated/deleteAiJourneyModel.generated.ts';
+import { AiJourneyModelResponse } from '@/api/types.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IAiModelDeleteModal {
   isOpen: boolean;
@@ -21,13 +21,15 @@ const AiModelDeleteModal: FC<IAiModelDeleteModal> = ({
   onHandleFilterAiModel,
   handleClose,
 }) => {
-  const { mutate: deleteAiModelMutate, isPending } =
-    useDeleteAiJourneyModelMutation<DeleteAiJourneyModelMutation, Error>({
-      onSuccess: () => {
-        onHandleFilterAiModel(aiModel.id);
-        onHandleCloseModal();
-      },
-    });
+  const { mutate: deleteAiModelMutate, isPending } = useDeleteAiJourneyModelMutation<
+    DeleteAiJourneyModelMutation,
+    Error
+  >({
+    onSuccess: () => {
+      onHandleFilterAiModel(aiModel.id);
+      onHandleCloseModal();
+    },
+  });
 
   const onHandleCloseModal = () => {
     handleClose(null);
@@ -43,10 +45,9 @@ const AiModelDeleteModal: FC<IAiModelDeleteModal> = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPending}
-    >
+      canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
-        item={{ type: "Ai Model", name: aiModel?.name || "Ai Model" }}
+        item={{ type: 'Ai Model', name: aiModel?.name || 'Ai Model' }}
         handleClose={onHandleCloseModal}
         handleDelete={onHandleDeleteWorkspaceItem}
         isLoading={isPending}

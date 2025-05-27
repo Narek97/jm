@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface WorkspaceById {
   id: number;
@@ -14,17 +14,17 @@ interface WorkspaceByIdStore {
   clearWorkspaces: () => void;
 }
 
-export const useWorkspaceStore = create<WorkspaceByIdStore>((set) => ({
+export const useWorkspaceStore = create<WorkspaceByIdStore>(set => ({
   workspaceById: {}, // Initial state: empty object
-  setWorkspace: (workspace) =>
-    set((state) => ({
+  setWorkspace: workspace =>
+    set(state => ({
       workspaceById: {
         ...state.workspaceById,
         [workspace.id]: workspace,
       },
     })),
-  removeWorkspace: (id) =>
-    set((state) => {
+  removeWorkspace: id =>
+    set(state => {
       const { [id]: _, ...rest } = state.workspaceById;
       return { workspaceById: rest };
     }),

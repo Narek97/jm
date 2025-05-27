@@ -1,5 +1,5 @@
-@use "@assets/styles/variables" as *;
-@use "@assets/styles/mixins" as *;
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .custom-table {
   @include main-scrollbar;
@@ -77,7 +77,6 @@
   }
 
   &--header-item-sort {
-
   }
 
   &--header-item,
@@ -95,8 +94,6 @@
         @include flex-center-center;
         height: 1rem;
       }
-
-
     }
   }
 

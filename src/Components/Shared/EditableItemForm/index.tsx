@@ -1,9 +1,9 @@
-import { FC, KeyboardEvent, useRef, useState } from "react";
+import { FC, KeyboardEvent, useRef, useState } from 'react';
 
-import "./style.scss";
-import { WuButton } from "@npm-questionpro/wick-ui-lib";
+import './style.scss';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomInput from "@/Components/Shared/CustomInput";
+import CustomInput from '@/Components/Shared/CustomInput';
 
 interface IEditableItemForm {
   createButtonText: string;
@@ -27,17 +27,17 @@ const EditableItemForm: FC<IEditableItemForm> = ({
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [inputValue, setInputValue] = useState(value || "");
+  const [inputValue, setInputValue] = useState(value || '');
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       if (isEdit) {
         if (onHandleUpdate) {
           onHandleUpdate(inputValue).then();
         }
       } else {
         onHandleCreate(inputValue).then(() => {
-          setInputValue("");
+          setInputValue('');
           setIsOpen(false);
         });
       }
@@ -45,43 +45,38 @@ const EditableItemForm: FC<IEditableItemForm> = ({
   };
 
   return (
-    <div className={"create-edit-block"}>
+    <div className={'create-edit-block'}>
       <div
-        className={`create-edit-block--content ${isOpen ? "create-edit-block--open-content" : ""}`}
-      >
+        className={`create-edit-block--content ${isOpen ? 'create-edit-block--open-content' : ''}`}>
         <CustomInput
           onKeyDown={handleInputKeyDown}
           inputRef={nameInputRef}
           value={inputValue}
-          onChange={(e) => setInputValue(e?.target?.value)}
+          onChange={e => setInputValue(e?.target?.value)}
           disabled={isLoading}
           placeholder={inputPlaceholder}
         />
         <WuButton
           disabled={isLoading}
-          className={isLoading ? "disabled-btn" : ""}
-          name={"save"}
-          aria-label={"save"}
-          data-testid={"save-item-test-id"}
+          className={isLoading ? 'disabled-btn' : ''}
+          name={'save'}
+          aria-label={'save'}
+          data-testid={'save-item-test-id'}
           onClick={() =>
-            isEdit
-              ? onHandleUpdate && onHandleUpdate(inputValue)
-              : onHandleCreate(inputValue)
-          }
-        >
+            isEdit ? onHandleUpdate && onHandleUpdate(inputValue) : onHandleCreate(inputValue)
+          }>
           Save
         </WuButton>
-        <button onClick={() => setIsOpen(false)} aria-label={"close"}>
-          <span className={"wm-close-small"} />
+        <button onClick={() => setIsOpen(false)} aria-label={'close'}>
+          <span className={'wm-close-small'} />
         </button>
       </div>
       {!isOpen ? (
         <WuButton
           onClick={() => setIsOpen(true)}
-          data-testid={"create-item-test-id"}
-          id={"create-item-id"}
-          aria-label={"create"}
-        >
+          data-testid={'create-item-test-id'}
+          id={'create-item-id'}
+          aria-label={'create'}>
           {createButtonText}
         </WuButton>
       ) : null}

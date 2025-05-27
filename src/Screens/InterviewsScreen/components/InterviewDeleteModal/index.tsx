@@ -1,15 +1,15 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { InterviewType } from "../../types";
+import { InterviewType } from '../../types';
 
 import {
   DeleteInterviewMutation,
   useDeleteInterviewMutation,
-} from "@/api/mutations/generated/deleteInterview.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+} from '@/api/mutations/generated/deleteInterview.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IInterviewDeleteModal {
   isOpen: boolean;
@@ -26,19 +26,21 @@ const InterviewDeleteModal: FC<IInterviewDeleteModal> = ({
 }) => {
   const { showToast } = useWuShowToast();
 
-  const { mutate: deleteInterviewMutate, isPending } =
-    useDeleteInterviewMutation<Error, DeleteInterviewMutation>({
-      onSuccess: () => {
-        onHandleFilterInterview(interview?.id as number);
-        onHandleCloseModal();
-      },
-      onError: (error) => {
-        showToast({
-          variant: "error",
-          message: error?.message,
-        });
-      },
-    });
+  const { mutate: deleteInterviewMutate, isPending } = useDeleteInterviewMutation<
+    Error,
+    DeleteInterviewMutation
+  >({
+    onSuccess: () => {
+      onHandleFilterInterview(interview?.id as number);
+      onHandleCloseModal();
+    },
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const onHandleCloseModal = () => {
     handleClose(null);
@@ -54,10 +56,9 @@ const InterviewDeleteModal: FC<IInterviewDeleteModal> = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPending}
-    >
+      canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
-        item={{ type: "Interview", name: interview?.name || "Interview" }}
+        item={{ type: 'Interview', name: interview?.name || 'Interview' }}
         handleClose={onHandleCloseModal}
         handleDelete={onHandleDeleteWorkspaceItem}
         isLoading={isPending}

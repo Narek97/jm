@@ -1,5 +1,5 @@
-@use "@assets/styles/variables" as *;
-@use "@assets/styles/mixins" as *;
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .add-update-outcome-form {
   padding: 1rem;
@@ -24,7 +24,6 @@
           margin-top: 0.625rem;
           margin-left: 5.875rem;
         }
-
       }
 
       &-description {

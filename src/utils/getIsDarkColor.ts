@@ -1,5 +1,5 @@
 export const getIsDarkColor = (hexColor: string) => {
-  hexColor = hexColor.replace("#", "");
+  hexColor = hexColor.replace('#', '');
 
   // Convert the hexadecimal color to an RGB array
   const r = parseInt(hexColor.slice(0, 2), 16);

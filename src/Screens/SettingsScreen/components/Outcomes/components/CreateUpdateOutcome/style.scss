@@ -1,0 +1,8 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.create-update-outcome-form-block {
+  display: flex;
+  align-items: flex-start;
+  @include create-update-user-outcome();
+}

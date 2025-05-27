@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { User } from "@/api/types.ts";
+import { User } from '@/api/types.ts';
 
 export type ObjectKeysType<T = unknown> = {
   [key: string]: T;
@@ -47,7 +47,7 @@ export type TableColumnType<T = any> = {
   sortFieldName?: string;
   isAscDescSortable?: boolean;
   isNameSortable?: boolean;
-  align?: "right" | "left" | "center";
+  align?: 'right' | 'left' | 'center';
 };
 
 export type MenuOptionsType = {
@@ -86,8 +86,9 @@ export type DropdownWithCategorySelectItemType = {
   group: DropdownSelectItemType[];
 };
 
-export enum OutcomeLevelEnum {
-  WORKSPACE = "WORKSPACE",
-  MAP = "MAP",
-}
 export type EditableInputChangeType = { value: string; id: number };
+export type JourneyMapNounProjectIconsType = {
+  id: string;
+  term: string;
+  thumbnail_url: string;
+};

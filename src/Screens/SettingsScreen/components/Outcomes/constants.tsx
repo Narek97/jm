@@ -1,7 +1,10 @@
-import dayjs from "dayjs";
-import fromNow from "dayjs/plugin/relativeTime";
+import dayjs from 'dayjs';
+import fromNow from 'dayjs/plugin/relativeTime';
+import * as yup from 'yup';
 
-import { MenuOptionsType, TableColumnType } from "@/types";
+import { OutcomesElementType } from './types';
+
+import { MenuOptionsType, TableColumnType } from '@/types';
 
 dayjs.extend(fromNow);
 
@@ -15,13 +18,13 @@ const OUTCOME_OPTIONS = ({
 }): Array<MenuOptionsType> => {
   return [
     {
-      icon: <span className={"wm-edit"} />,
-      name: "Edit",
+      icon: <span className={'wm-edit'} />,
+      name: 'Edit',
       onClick: onHandleEdit,
     },
     {
-      icon: <span className={"wm-delete"} />,
-      name: "Delete",
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
       onClick: onHandleDelete,
     },
   ];
@@ -29,19 +32,19 @@ const OUTCOME_OPTIONS = ({
 
 const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
   {
-    sortFieldName: "ICON",
-    id: "icon",
-    label: "Icon",
+    sortFieldName: 'ICON',
+    id: 'icon',
+    label: 'Icon',
     isAscDescSortable: false,
     renderFunction: ({ icon }) => (
-      <div className={"outcome-icon"}>
+      <div className={'outcome-icon'}>
         {icon && (
           <img
             src={icon}
             alt="icon"
             style={{
-              width: "1.875rem",
-              height: "1.875rem",
+              width: '1.875rem',
+              height: '1.875rem',
             }}
           />
         )}
@@ -49,31 +52,53 @@ const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
     ),
   },
   {
-    sortFieldName: "NAME",
-    id: "name",
-    label: "Title",
+    sortFieldName: 'NAME',
+    id: 'name',
+    label: 'Title',
     isAscDescSortable: true,
-    renderFunction: ({ name, pluralName }) => name + " / " + pluralName,
+    renderFunction: ({ name, pluralName }) => name + ' / ' + pluralName,
   },
   {
-    sortFieldName: "CREATED_BY",
-    id: "createdBy",
-    label: "Created by",
+    sortFieldName: 'CREATED_BY',
+    id: 'createdBy',
+    label: 'Created by',
     isAscDescSortable: true,
-    renderFunction: ({ user }) => user?.firstName + " " + user?.lastName,
+    renderFunction: ({ user }) => user?.firstName + ' ' + user?.lastName,
   },
   {
-    sortFieldName: "CREATED_AT",
-    id: "createdAt",
-    label: "Date Created",
+    sortFieldName: 'CREATED_AT',
+    id: 'createdAt',
+    label: 'Date Created',
     isAscDescSortable: true,
-    renderFunction: ({ createdAt }) =>
-      createdAt && dayjs(createdAt)?.format("MMM DD, YYYY"),
+    renderFunction: ({ createdAt }) => createdAt && dayjs(createdAt)?.format('MMM DD, YYYY'),
   },
   {
-    id: "operation",
-    label: " ",
+    id: 'operation',
+    label: ' ',
   },
 ];
 
-export { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS };
+const OUTCOMES_VALIDATION_SCHEMA = yup
+  .object()
+  .shape({
+    name: yup.string().required(`Singular name is required`),
+    pluralName: yup.string().required(`Plural name is required`).max(50),
+  })
+  .required();
+
+export const OUTCOMES_FORM_ELEMENTS: Array<OutcomesElementType> = [
+  {
+    name: 'name',
+    title: 'Singular',
+    placeholder: 'Singular Name',
+    type: 'sting',
+  },
+  {
+    name: 'pluralName',
+    title: 'Plural',
+    placeholder: 'Plural Name',
+    type: 'sting',
+  },
+];
+
+export { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS, OUTCOMES_VALIDATION_SCHEMA };

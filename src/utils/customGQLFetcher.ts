@@ -1,5 +1,5 @@
-import { TOKEN_NAME } from "@/constants";
-import { getCookie } from "@/utils/cookieHelper.ts";
+import { TOKEN_NAME } from '@/constants';
+import { getCookie } from '@/utils/cookieHelper.ts';
 
 const token = getCookie(TOKEN_NAME);
 
@@ -26,7 +26,7 @@ export const fetchData = async (requestDetails: {
       method: method,
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
       ...configs,
@@ -38,7 +38,7 @@ export const fetchData = async (requestDetails: {
       //   text: res.statusText,
       //   severity: 'error',
       // });
-    } else if (configs?.responseType === "blob") {
+    } else if (configs?.responseType === 'blob') {
       return res.blob();
     }
     return await res.json();

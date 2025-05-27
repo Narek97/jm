@@ -1,44 +1,44 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
+import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Menu, MenuItem, Tooltip } from "@mui/material";
+import { Menu, MenuItem, Tooltip } from '@mui/material';
 
-import { MenuOptionsType, ObjectKeysType } from "@/types";
-import { MenuItemIconPositionEnum, MenuViewTypeEnum } from "@/types/enum.ts";
-import { getIsDarkColor } from "@/utils/getIsDarkColor.ts";
-import { getTextColorBasedOnBackground } from "@/utils/getTextColorBasedOnBackground.ts";
+import { MenuOptionsType, ObjectKeysType } from '@/types';
+import { MenuItemIconPositionEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { getIsDarkColor } from '@/utils/getIsDarkColor.ts';
+import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 
 const HORIZONTAL_MENU_SX = {
-  display: "flex",
-  overflowX: "auto",
-  maxWidth: "60vw",
+  display: 'flex',
+  overflowX: 'auto',
+  maxWidth: '60vw',
 };
 
 const VERTICAL_MENU_SX = {
-  display: "flex",
-  flexDirection: "column",
-  overflowX: "auto",
+  display: 'flex',
+  flexDirection: 'column',
+  overflowX: 'auto',
 };
 
 const VERTICAL_MENU_ROOT_SX = {
   borderRadius: 0,
-  width: "auto",
-  border: "1px solid #1b87e6",
+  width: 'auto',
+  border: '1px solid #1b87e6',
 };
 
 const HORIZONTAL_MENU_ROOT_SX = {
-  boxShadow: "none !important",
+  boxShadow: 'none !important',
 };
 
 interface ICustomLongMenu {
   anchorOrigin?: {
-    vertical: "top" | "center" | "bottom";
-    horizontal: "left" | "center" | "right";
+    vertical: 'top' | 'center' | 'bottom';
+    horizontal: 'left' | 'center' | 'right';
   };
   transformOrigin?: {
-    vertical: "top" | "center" | "bottom";
-    horizontal: "left" | "center" | "right";
+    vertical: 'top' | 'center' | 'bottom';
+    horizontal: 'left' | 'center' | 'right';
   };
   buttonColor?: string;
   item?: any;
@@ -61,8 +61,8 @@ interface ICustomLongMenu {
 }
 
 const Index: FC<ICustomLongMenu> = ({
-  anchorOrigin = { vertical: "top", horizontal: "left" },
-  transformOrigin = { vertical: "top", horizontal: "right" },
+  anchorOrigin = { vertical: 'top', horizontal: 'left' },
+  transformOrigin = { vertical: 'top', horizontal: 'right' },
   buttonColor,
   options = [],
   subOptions = [],
@@ -76,7 +76,7 @@ const Index: FC<ICustomLongMenu> = ({
   sxStyles,
   type = MenuViewTypeEnum.HORIZONTAL,
   disabled = false,
-  buttonId = "menu-button",
+  buttonId = 'menu-button',
   fixedButton,
   menuHeight,
   defaultValue,
@@ -128,15 +128,14 @@ const Index: FC<ICustomLongMenu> = ({
 
   return (
     <div
-      className={`${primaryClassName} ${open || isDefaultOpen ? `${primaryClassName}-open` : ""}`}
-    >
+      className={`${primaryClassName} ${open || isDefaultOpen ? `${primaryClassName}-open` : ''}`}>
       <button
         type="button"
         data-testid="long-menu-button-test-id"
         onClick={handleOpen}
         aria-label="more"
-        aria-controls={open ? "long-menu" : undefined}
-        aria-expanded={open ? "true" : undefined}
+        aria-controls={open ? 'long-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         className={`${primaryClassName}--btn`}
         disabled={disabled}
@@ -146,43 +145,38 @@ const Index: FC<ICustomLongMenu> = ({
           backgroundColor:
             isHovered && buttonColor
               ? getIsDarkColor(getTextColorBasedOnBackground(buttonColor))
-                ? "rgba(0, 0, 0, 0.2)"
-                : "rgba(255, 255, 255, 0.3)"
-              : "",
+                ? 'rgba(0, 0, 0, 0.2)'
+                : 'rgba(255, 255, 255, 0.3)'
+              : '',
         }}
-        id={buttonId}
-      >
+        id={buttonId}>
         {customButton ? (
-          typeof customButton === "function" ? (
-            customButton(
-              options?.find((itm) => itm?.id && itm.id === value)?.name,
-            )
+          typeof customButton === 'function' ? (
+            customButton(options?.find(itm => itm?.id && itm.id === value)?.name)
           ) : (
             customButton
           )
         ) : (
-          <span className={"wm-more-vert"} />
+          <span className={'wm-more-vert'} />
         )}
       </button>
       <Menu
         autoFocus={false}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         id="long-menu"
         sx={{
-          "& .MuiList-root": {
-            position: "relative",
-            maxHeight: menuHeight ? menuHeight : "100%",
+          '& .MuiList-root': {
+            position: 'relative',
+            maxHeight: menuHeight ? menuHeight : '100%',
           },
-          "& .MuiPaper-root": {
+          '& .MuiPaper-root': {
             ...(type === MenuViewTypeEnum?.VERTICAL
               ? VERTICAL_MENU_ROOT_SX
               : HORIZONTAL_MENU_ROOT_SX),
             ...rootStyles,
           },
           ul: {
-            ...(type === MenuViewTypeEnum?.VERTICAL
-              ? VERTICAL_MENU_SX
-              : HORIZONTAL_MENU_SX),
+            ...(type === MenuViewTypeEnum?.VERTICAL ? VERTICAL_MENU_SX : HORIZONTAL_MENU_SX),
             ...sxMenuStyles,
           },
         }}
@@ -190,17 +184,15 @@ const Index: FC<ICustomLongMenu> = ({
         anchorOrigin={anchorOrigin}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
-      >
+        onClose={handleClose}>
         <div
-          className={"menu-options-container"}
+          className={'menu-options-container'}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "calc(100% - 2.125rem)",
-            overflowY: "auto",
-          }}
-        >
+            display: 'flex',
+            flexDirection: 'column',
+            height: 'calc(100% - 2.125rem)',
+            overflowY: 'auto',
+          }}>
           {options.map((option, index) => (
             <MenuItem
               disableRipple
@@ -210,7 +202,7 @@ const Index: FC<ICustomLongMenu> = ({
               selected={option?.id === value}
               id={`${option.name?.toLowerCase()}-${index}`}
               data-testid={`long-menu-${option.name?.toLowerCase()}-button-test-id`}
-              onClick={(e) => {
+              onClick={e => {
                 if (value !== option?.id) {
                   e.stopPropagation();
                   if (!option.isSubOption) {
@@ -224,27 +216,23 @@ const Index: FC<ICustomLongMenu> = ({
               sx={{
                 ...sxStyles,
                 lineHeight: 0,
-                "&:hover": {
-                  backgroundColor: "transparent",
+                '&:hover': {
+                  backgroundColor: 'transparent',
                 },
               }}
-              className={`${primaryClassName}--menu-item`}
-            >
+              className={`${primaryClassName}--menu-item`}>
               <div
                 className={`${primaryClassName}--menu-item-content ${
                   option?.icon
                     ? menuItemIconPosition === MenuItemIconPositionEnum.START
-                      ? "icon-position-start"
-                      : "icon-position-end"
-                    : ""
-                }`}
-              >
+                      ? 'icon-position-start'
+                      : 'icon-position-end'
+                    : ''
+                }`}>
                 {option.label
                   ? option?.icon
                   : option?.icon && (
-                      <span
-                        className={`${primaryClassName}--menu-item-content-icon`}
-                      >
+                      <span className={`${primaryClassName}--menu-item-content-icon`}>
                         {option?.icon}
                       </span>
                     )}
@@ -252,9 +240,7 @@ const Index: FC<ICustomLongMenu> = ({
                 {option.label ? (
                   option.label
                 ) : (
-                  <span
-                    className={`${primaryClassName}--menu-item-content--text`}
-                  >
+                  <span className={`${primaryClassName}--menu-item-content--text`}>
                     {option?.name}
                   </span>
                 )}
@@ -266,11 +252,10 @@ const Index: FC<ICustomLongMenu> = ({
                       key={subOption.name + subIndex}
                       title={subOption?.name}
                       placement="right"
-                      arrow
-                    >
+                      arrow>
                       <div
                         className={`${primaryClassName}--item ${primaryClassName}--sub-item`}
-                        onClick={(e) => {
+                        onClick={e => {
                           e.stopPropagation();
                           if (option.onClick) {
                             option.onClick(subOption);
@@ -279,8 +264,7 @@ const Index: FC<ICustomLongMenu> = ({
                               onCloseFunction();
                             }
                           }
-                        }}
-                      >
+                        }}>
                         <span className={`${primaryClassName}--sub-item--name`}>
                           {subOption?.name}
                         </span>

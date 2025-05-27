@@ -6,10 +6,10 @@ export type DeleteMapRowMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type DeleteMapRowMutation = { __typename?: 'Mutation', deleteMapRow: boolean };
-
-
+export type DeleteMapRowMutation = {
+  __typename?: 'Mutation';
+  deleteMapRow: boolean;
+};
 
 export const DeleteMapRowDocument = `
     mutation DeleteMapRow($id: Int!) {
@@ -17,17 +17,21 @@ export const DeleteMapRowDocument = `
 }
     `;
 
-export const useDeleteMapRowMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteMapRowMutation, TError, DeleteMapRowMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteMapRowMutation, TError, DeleteMapRowMutationVariables, TContext>(
-      {
+export const useDeleteMapRowMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteMapRowMutation,
+    TError,
+    DeleteMapRowMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<DeleteMapRowMutation, TError, DeleteMapRowMutationVariables, TContext>({
     mutationKey: ['DeleteMapRow'],
-    mutationFn: axiosRequest<DeleteMapRowMutation, DeleteMapRowMutationVariables>(DeleteMapRowDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<DeleteMapRowMutation, DeleteMapRowMutationVariables>(
+      DeleteMapRowDocument,
+    ),
+    ...options,
+  });
+};
 
 useDeleteMapRowMutation.getKey = () => ['DeleteMapRow'];
