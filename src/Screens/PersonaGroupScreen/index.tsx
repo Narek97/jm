@@ -17,6 +17,10 @@ import Pagination from "@/Components/Shared/Pagination";
 import { querySlateTime } from "@/constants";
 import { PERSONAS_LIMIT } from "@/constants/pagination";
 import ErrorBoundary from "@/Features/ErrorBoundary";
+import {
+  useRemoveQueriesByKey,
+  useSetAllQueryDataByKey,
+} from "@/hooks/useQueryKey.ts";
 import PersonaCard from "@/Screens/PersonaGroupScreen/components/PersonaCard";
 import PersonaDeleteModal from "@/Screens/PersonaGroupScreen/components/PersonaDeleteModal";
 import { PersonaType } from "@/Screens/PersonaGroupScreen/types.ts";
@@ -36,6 +40,9 @@ const PersonaGroupScreen = () => {
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
+
+  const setAllPersonas = useSetAllQueryDataByKey("GetPersonas");
+  const setRemovePersonas = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingGetPersonas,
@@ -83,7 +90,46 @@ const PersonaGroupScreen = () => {
     setSelectedPersona(persona || null);
   }, []);
 
-  const onHandleFilterPersona = (id: number) => {};
+  const onHandleUpdatePersonas = useCallback(
+    (id: number) => {
+      setAllPersonas((oldData: any) => {
+        if (oldData) {
+          return {
+            getPersonas: {
+              ...oldData.getPersonas,
+              count: oldData.getPersonas.count - 1,
+              interviews: oldData.getPersonas.personas.filter(
+                (persona: PersonaType) => persona.id !== id,
+              ),
+            },
+          };
+        }
+      });
+    },
+    [setAllPersonas],
+  );
+
+  const onHandleFilterPersona = (id: number) => {
+    if (
+      currentPage * PERSONAS_LIMIT >= personasDataCount &&
+      dataGetPersonas?.getPersonas.personas.length === 1 &&
+      currentPage !== 1
+    ) {
+      setOffset((prev) => prev - PERSONAS_LIMIT);
+    }
+    if (
+      currentPage * PERSONAS_LIMIT < personasDataCount &&
+      personasDataCount > PERSONAS_LIMIT
+    ) {
+      setRemovePersonas("GetPersonas", {
+        input: "getPersonasInput",
+        key: "offset",
+        value: offset,
+        deleteUpcoming: true,
+      });
+    }
+    onHandleUpdatePersonas(id);
+  };
 
   const onHandleCreatePersona = () => {
     mutateCreatePersona({
