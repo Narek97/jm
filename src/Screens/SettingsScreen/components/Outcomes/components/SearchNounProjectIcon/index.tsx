@@ -11,6 +11,7 @@ import {
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLoader from '@/Components/Shared/CustomLoader';
+import { NOUN_PROJECT_ICONS_LIMIT } from '@/constants/pagination';
 import { debounced400 } from '@/hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
 
@@ -28,7 +29,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
   } = useGetNounProjectIconsQuery<GetNounProjectIconsQuery, Error>(
     {
       category: iconSearchText,
-      limit: 100,
+      limit: NOUN_PROJECT_ICONS_LIMIT,
     },
     {
       enabled: !!iconSearchText,

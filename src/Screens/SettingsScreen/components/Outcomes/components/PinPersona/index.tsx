@@ -13,7 +13,7 @@ const PinPersona = ({
   outcomeGroupId,
   updatePinnedBoardsList,
 }: {
-  outcomeGroupId: number | null;
+  outcomeGroupId?: number;
   updatePinnedBoardsList: (data: { pinned: number[] }) => void;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -23,6 +23,17 @@ const PinPersona = ({
 
   return (
     <div className={'pin-persona'}>
+      {' '}
+      {isOpen && (
+        <PinPersonaModal
+          handleClose={() => {
+            setIsOpen(false);
+          }}
+          isOpen={isOpen}
+          outcomeGroupId={outcomeGroupId}
+          updatePinnedBoardsList={updatePinnedBoardsList}
+        />
+      )}
       <WuTooltip
         className="wu-tooltip-content"
         content={`Pin`}
@@ -39,16 +50,6 @@ const PinPersona = ({
             setIsOpen(true);
           }}></WuButton>
       </WuTooltip>
-      {isOpen && (
-        <PinPersonaModal
-          handleClose={() => {
-            setIsOpen(false);
-          }}
-          isOpen={isOpen}
-          outcomeGroupId={outcomeGroupId}
-          updatePinnedBoardsList={updatePinnedBoardsList}
-        />
-      )}
     </div>
   );
 };

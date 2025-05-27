@@ -16,7 +16,7 @@ import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
 
 interface IWorkspaceBoards {
   workspaceId: number;
-  outcomeGroupId: number | null;
+  outcomeGroupId?: number;
   handleClose: () => void;
 }
 

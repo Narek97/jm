@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import './style.scss';
 
 import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-lib';
@@ -20,6 +20,7 @@ import {
   useGetOutcomeGroupsQuery,
 } from '@/api/queries/generated/getOutcomeGroups.generated.ts';
 import { OrderByEnum, OutcomeGroup } from '@/api/types.ts';
+import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
@@ -349,14 +350,9 @@ const Outcomes = () => {
     setIconUrl(thumbnailUrl);
   }, []);
 
-  useEffect(() => {
-    if (errorOutcomes) {
-      showToast({
-        variant: 'error',
-        message: errorOutcomes?.message,
-      });
-    }
-  }, [errorOutcomes, showToast]);
+  if (errorOutcomes) {
+    return <CustomError error={errorOutcomes?.message} />;
+  }
 
   return (
     <div className={'outcomes'}>

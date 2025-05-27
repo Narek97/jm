@@ -33,7 +33,7 @@ import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants.tsx
 import { OutcomeFormType } from '@/Screens/OutcomeScreen/types.ts';
 import { useUserStore } from '@/store/user.ts';
 import { DropdownSelectItemType, ObjectKeysType } from '@/types';
-import { OutcomeLevelEnum } from '@/types/enum'
+import { OutcomeLevelEnum } from '@/types/enum';
 
 interface IAddUpdateOutcomeFormType {
   workspaceId: number;

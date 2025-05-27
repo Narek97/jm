@@ -13,7 +13,11 @@ import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
 import { CreatUpdateFormGeneralType } from '@/types';
 
 interface ICreateUpdateOutcome {
-  formData: any;
+  formData: {
+    id: number;
+    name: string;
+    pluralName: string;
+  } | null;
   isOpenCreateUpdateItem: boolean;
   isLoading: boolean;
   onHandleCreateFunction: (data: CreatUpdateFormGeneralType, reset: () => void) => void;

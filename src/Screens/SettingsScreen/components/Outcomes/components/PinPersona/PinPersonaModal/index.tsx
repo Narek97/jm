@@ -26,7 +26,7 @@ import { useUserStore } from '@/store/user';
 
 interface IPinPersonaModal {
   isOpen: boolean;
-  outcomeGroupId: null | number;
+  outcomeGroupId?: number;
   updatePinnedBoardsList: (data: { pinned: number[] }) => void;
   handleClose: () => void;
 }

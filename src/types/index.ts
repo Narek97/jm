@@ -100,3 +100,9 @@ export type CroppedAreaType = {
   x?: number | null;
   y?: number | null;
 };
+
+export type JourneyMapNounProjectIconsType = {
+  id: string;
+  term: string;
+  thumbnail_url: string;
+};
