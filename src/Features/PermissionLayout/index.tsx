@@ -3,10 +3,10 @@ import React, { FC } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
+import CustomLoader from '@/Components/Shared/CustomLoader';
 import { TOKEN_NAME } from '@/constants';
 import { useUserStore } from '@/store/user.ts';
 import { deleteCookie } from '@/utils/cookieHelper.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 
 interface IPermissionLayout {
   children: React.ReactNode;

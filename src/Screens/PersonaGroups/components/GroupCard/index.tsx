@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useCallback, useTransition } from 'react';
+import { FC, MouseEvent, useCallback } from 'react';
 
 import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
@@ -8,24 +8,31 @@ import {
   UpdatePersonaGroupMutation,
   useUpdatePersonaGroupMutation,
 } from '@/api/mutations/generated/updatePersonaGroup.generated';
-import { PersonaGroup } from '@/api/types.ts';
 import EditableTitle from '@/Components/Shared/EditableTitle';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
+import PersonaImageBox from '@/Components/Shared/PersonaImageBox';
+import ErrorBoundary from '@/Features/ErrorBoundary';
 import useWindowResize from '@/hooks/useWindowResize.ts';
+import { PersonaGroupType } from '@/Screens/PersonaGroups/types.ts';
+import { EditableInputType } from '@/types';
+import { ImageSizeEnum } from '@/types/enum.ts';
 
 interface IGroupCard {
-  group: PersonaGroup;
+  group: PersonaGroupType;
   workspaceId: string;
-  onTogglePersonaGroupDeleteModal: (personaGroup: PersonaGroup) => void;
+  onUpdatePersonaGroup: (data: EditableInputType) => void;
+  onTogglePersonaGroupDeleteModal: (personaGroup: EditableInputType) => void;
 }
 
-const GroupCard: FC<IGroupCard> = ({ group, workspaceId, onTogglePersonaGroupDeleteModal }) => {
+const GroupCard: FC<IGroupCard> = ({
+  group,
+  workspaceId,
+  onUpdatePersonaGroup,
+  onTogglePersonaGroupDeleteModal,
+}) => {
   const navigate = useNavigate();
   const { showToast } = useWuShowToast();
 
   const { maxCardNumber } = useWindowResize();
-
-  const setPersonaGroupQueryData = useSetQueryDataByKey('GetPersonaGroupsWithPersonas');
 
   const { mutate } = useUpdatePersonaGroupMutation<Error, UpdatePersonaGroupMutation>();
 
@@ -36,7 +43,7 @@ const GroupCard: FC<IGroupCard> = ({ group, workspaceId, onTogglePersonaGroupDel
   };
 
   const onHandleUpdate = useCallback(
-    (data: EditableInputChangeType) => {
+    (data: EditableInputType) => {
       mutate(
         {
           updatePersonaGroupInput: {
@@ -46,9 +53,9 @@ const GroupCard: FC<IGroupCard> = ({ group, workspaceId, onTogglePersonaGroupDel
         },
         {
           onSuccess: response => {
-            setPersonaGroupQueryData((oldData: any) => {
-              if (oldData) {
-              }
+            onUpdatePersonaGroup({
+              id: group.id,
+              value: response.updatePersonaGroup.name,
             });
           },
           onError: (error: any) => {
@@ -60,7 +67,7 @@ const GroupCard: FC<IGroupCard> = ({ group, workspaceId, onTogglePersonaGroupDel
         },
       );
     },
-    [group.id, mutate, setPersonaGroupQueryData, showToast],
+    [group.id, mutate, onUpdatePersonaGroup, showToast],
   );
 
   const onNavigateSinglePersonaPage = (e: MouseEvent<HTMLLIElement>, personaId: number) => {
@@ -84,30 +91,32 @@ const GroupCard: FC<IGroupCard> = ({ group, workspaceId, onTogglePersonaGroupDel
           <>
             <ul className={'group-card--right-personas'}>
               {group.persona.slice(0, maxCardNumber)?.map(persona => (
-                <li
-                  onClick={e => onNavigateSinglePersonaPage(e, persona.id)}
-                  key={persona.id}
-                  className={'group-card--persona-card'}>
-                  <div>
-                    <p className={'group-card--persona-card--name'}>{persona.name}</p>
-                    <span className={'group-card--persona-card--type'}>
-                      {persona.type?.toLocaleLowerCase()}
-                    </span>
-                  </div>
+                <ErrorBoundary key={persona.id}>
+                  <li
+                    onClick={e => onNavigateSinglePersonaPage(e, persona.id)}
+                    className={'group-card--persona-card'}>
+                    <div>
+                      <p className={'group-card--persona-card--name'}>{persona.name}</p>
+                      <span className={'group-card--persona-card--type'}>
+                        {persona.type?.toLocaleLowerCase()}
+                      </span>
+                    </div>
 
-                  <PersonaImageBox
-                    title={''}
-                    imageItem={{
-                      color: persona?.color || '',
-                      attachment: {
-                        url: persona?.attachment?.url || '',
-                        key: persona?.attachment?.key || '',
-                        croppedArea: persona?.croppedArea,
-                      },
-                    }}
-                    size={ImageSizeEnum.SM}
-                  />
-                </li>
+                    <PersonaImageBox
+                      title={''}
+                      imageItem={{
+                        color: persona?.color || '',
+                        attachment: {
+                          url: persona?.attachment?.url || '',
+                          key: persona?.attachment?.key || '',
+                          croppedArea: persona?.croppedArea,
+                          id: persona?.id,
+                        },
+                      }}
+                      size={ImageSizeEnum.SM}
+                    />
+                  </li>
+                </ErrorBoundary>
               ))}
             </ul>
             {group?.persona.length > maxCardNumber && (

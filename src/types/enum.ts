@@ -29,3 +29,12 @@ export enum OutcomeLevelEnum {
   WORKSPACE = 'WORKSPACE',
   MAP = 'MAP',
 }
+
+export enum ImageSizeEnum {
+  XSM = 'XSM',
+  SM = 'SM',
+  MD = 'MD',
+  MDS = 'MDS',
+  MDL = 'MDL',
+  LG = 'LG',
+}

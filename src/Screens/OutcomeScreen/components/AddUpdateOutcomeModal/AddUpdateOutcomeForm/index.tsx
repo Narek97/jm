@@ -32,7 +32,8 @@ import { WORKSPACE_MAPS_LIMIT } from '@/constants/pagination.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants.tsx';
 import { OutcomeFormType } from '@/Screens/OutcomeScreen/types.ts';
 import { useUserStore } from '@/store/user.ts';
-import { DropdownSelectItemType, ObjectKeysType, OutcomeLevelEnum } from '@/types';
+import { DropdownSelectItemType, ObjectKeysType } from '@/types';
+import { OutcomeLevelEnum } from '@/types/enum'
 
 interface IAddUpdateOutcomeFormType {
   workspaceId: number;

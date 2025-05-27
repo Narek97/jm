@@ -44,49 +44,11 @@ export const useSetAllQueryDataByKey = (mayKey: string) => {
     const allQueries = queryClient.getQueryCache().getAll();
 
     const matchingQueries = allQueries.filter(query => query.queryKey.includes(mayKey));
-
-    console.log(matchingQueries, 'matchingQueries');
-
     return matchingQueries.map(query => {
       const newData = callback(queryClient.getQueryData(query.queryKey));
       queryClient.setQueryData(query.queryKey, newData);
       return newData;
     });
-  };
-};
-
-export const useSetQueryDataByKeyAdvanced = () => {
-  const queryClient = useQueryClient();
-
-  return (mayKey: string, data: DataOptions, callback: (oldData: any) => any) => {
-    const allQueries = queryClient.getQueryCache().getAll();
-
-    const query = allQueries.find(q => {
-      if (q.queryKey[0] !== mayKey) return false;
-
-      const queryData = q.queryKey[1] as Record<string, any> | undefined;
-
-      if (!queryData) return false;
-
-      const getValue = () => {
-        if (data.input) {
-          return queryData[data.input]?.[data.key];
-        }
-        return queryData[data.key];
-      };
-
-      const currentValue = getValue();
-
-      if (data.deleteUpcoming && typeof data.value === 'number') {
-        return currentValue >= data.value;
-      }
-
-      return JSON.stringify(currentValue) === JSON.stringify(data.value);
-    });
-
-    if (query) {
-      queryClient.setQueryData(query.queryKey, callback);
-    }
   };
 };
 
@@ -107,5 +69,31 @@ export const useRemoveQueriesByKey = () => {
         }
       },
     });
+  };
+};
+
+export const useSetQueryDataByKeyAdvanced = () => {
+  const queryClient = useQueryClient();
+  return (mayKey: string, data: DataOptions, callback: (oldData: any) => any) => {
+    const allQueries = queryClient.getQueryCache().getAll();
+    const query = allQueries.find(q => {
+      if (q.queryKey[0] !== mayKey) return false;
+      const queryData = q.queryKey[1] as Record<string, any> | undefined;
+      if (!queryData) return false;
+      const getValue = () => {
+        if (data.input) {
+          return queryData[data.input]?.[data.key];
+        }
+        return queryData[data.key];
+      };
+      const currentValue = getValue();
+      if (data.deleteUpcoming && typeof data.value === 'number') {
+        return currentValue >= data.value;
+      }
+      return JSON.stringify(currentValue) === JSON.stringify(data.value);
+    });
+    if (query) {
+      queryClient.setQueryData(query.queryKey, callback);
+    }
   };
 };
