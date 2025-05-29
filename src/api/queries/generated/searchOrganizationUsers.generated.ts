@@ -6,18 +6,10 @@ export type SearchOrganizationUsersQueryVariables = Types.Exact<{
   searchOrganizationUserInput: Types.SearchOrganizationUserInput;
 }>;
 
-export type SearchOrganizationUsersQuery = {
-  __typename?: 'Query';
-  searchOrganizationUsers: Array<{
-    __typename?: 'Member';
-    id: number;
-    userId: number;
-    firstName: string;
-    lastName: string;
-    emailAddress: string;
-    superAdmin: boolean;
-  }>;
-};
+
+export type SearchOrganizationUsersQuery = { __typename?: 'Query', searchOrganizationUsers: Array<{ __typename?: 'Member', id: number, userId: number, firstName: string, lastName: string, emailAddress: string, superAdmin: boolean }> };
+
+
 
 export const SearchOrganizationUsersDocument = `
     query SearchOrganizationUsers($searchOrganizationUserInput: SearchOrganizationUserInput!) {
@@ -35,24 +27,19 @@ export const SearchOrganizationUsersDocument = `
     `;
 
 export const useSearchOrganizationUsersQuery = <
-  TData = SearchOrganizationUsersQuery,
-  TError = unknown,
->(
-  variables: SearchOrganizationUsersQueryVariables,
-  options?: Omit<UseQueryOptions<SearchOrganizationUsersQuery, TError, TData>, 'queryKey'> & {
-    queryKey?: UseQueryOptions<SearchOrganizationUsersQuery, TError, TData>['queryKey'];
-  },
-) => {
-  return useQuery<SearchOrganizationUsersQuery, TError, TData>({
+      TData = SearchOrganizationUsersQuery,
+      TError = unknown
+    >(
+      variables: SearchOrganizationUsersQueryVariables,
+      options?: Omit<UseQueryOptions<SearchOrganizationUsersQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<SearchOrganizationUsersQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<SearchOrganizationUsersQuery, TError, TData>(
+      {
     queryKey: ['SearchOrganizationUsers', variables],
-    queryFn: axiosRequest<SearchOrganizationUsersQuery, SearchOrganizationUsersQueryVariables>(
-      SearchOrganizationUsersDocument,
-    ).bind(null, variables),
-    ...options,
-  });
-};
+    queryFn: axiosRequest<SearchOrganizationUsersQuery, SearchOrganizationUsersQueryVariables>(SearchOrganizationUsersDocument).bind(null, variables),
+    ...options
+  }
+    )};
 
-useSearchOrganizationUsersQuery.getKey = (variables: SearchOrganizationUsersQueryVariables) => [
-  'SearchOrganizationUsers',
-  variables,
-];
+useSearchOrganizationUsersQuery.getKey = (variables: SearchOrganizationUsersQueryVariables) => ['SearchOrganizationUsers', variables];

@@ -6,10 +6,10 @@ export type DeleteTouchPointAttachmentMutationVariables = Types.Exact<{
   deleteTouchPointAttachmentTypeInput: Types.DeleteTouchPointAttachmentTypeInput;
 }>;
 
-export type DeleteTouchPointAttachmentMutation = {
-  __typename?: 'Mutation';
-  deleteTouchPointAttachment: number;
-};
+
+export type DeleteTouchPointAttachmentMutation = { __typename?: 'Mutation', deleteTouchPointAttachment: number };
+
+
 
 export const DeleteTouchPointAttachmentDocument = `
     mutation DeleteTouchPointAttachment($deleteTouchPointAttachmentTypeInput: DeleteTouchPointAttachmentTypeInput!) {
@@ -19,27 +19,17 @@ export const DeleteTouchPointAttachmentDocument = `
 }
     `;
 
-export const useDeleteTouchPointAttachmentMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteTouchPointAttachmentMutation,
-    TError,
-    DeleteTouchPointAttachmentMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    DeleteTouchPointAttachmentMutation,
-    TError,
-    DeleteTouchPointAttachmentMutationVariables,
-    TContext
-  >({
+export const useDeleteTouchPointAttachmentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteTouchPointAttachmentMutation, TError, DeleteTouchPointAttachmentMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteTouchPointAttachmentMutation, TError, DeleteTouchPointAttachmentMutationVariables, TContext>(
+      {
     mutationKey: ['DeleteTouchPointAttachment'],
-    mutationFn: axiosRequest<
-      DeleteTouchPointAttachmentMutation,
-      DeleteTouchPointAttachmentMutationVariables
-    >(DeleteTouchPointAttachmentDocument),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeleteTouchPointAttachmentMutation, DeleteTouchPointAttachmentMutationVariables>(DeleteTouchPointAttachmentDocument),
+    ...options
+  }
+    )};
 
 useDeleteTouchPointAttachmentMutation.getKey = () => ['DeleteTouchPointAttachment'];

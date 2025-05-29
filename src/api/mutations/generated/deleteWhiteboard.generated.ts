@@ -6,10 +6,10 @@ export type DeleteWhiteboardMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteWhiteboardMutation = {
-  __typename?: 'Mutation';
-  deleteWhiteboard: boolean;
-};
+
+export type DeleteWhiteboardMutation = { __typename?: 'Mutation', deleteWhiteboard: boolean };
+
+
 
 export const DeleteWhiteboardDocument = `
     mutation DeleteWhiteboard($id: Int!) {
@@ -17,23 +17,17 @@ export const DeleteWhiteboardDocument = `
 }
     `;
 
-export const useDeleteWhiteboardMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteWhiteboardMutation,
-    TError,
-    DeleteWhiteboardMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<DeleteWhiteboardMutation, TError, DeleteWhiteboardMutationVariables, TContext>(
-    {
-      mutationKey: ['DeleteWhiteboard'],
-      mutationFn: axiosRequest<DeleteWhiteboardMutation, DeleteWhiteboardMutationVariables>(
-        DeleteWhiteboardDocument,
-      ),
-      ...options,
-    },
-  );
-};
+export const useDeleteWhiteboardMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteWhiteboardMutation, TError, DeleteWhiteboardMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteWhiteboardMutation, TError, DeleteWhiteboardMutationVariables, TContext>(
+      {
+    mutationKey: ['DeleteWhiteboard'],
+    mutationFn: axiosRequest<DeleteWhiteboardMutation, DeleteWhiteboardMutationVariables>(DeleteWhiteboardDocument),
+    ...options
+  }
+    )};
 
 useDeleteWhiteboardMutation.getKey = () => ['DeleteWhiteboard'];

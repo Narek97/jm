@@ -6,10 +6,10 @@ export type DeleteInterviewMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteInterviewMutation = {
-  __typename?: 'Mutation';
-  deleteInterview: number;
-};
+
+export type DeleteInterviewMutation = { __typename?: 'Mutation', deleteInterview: number };
+
+
 
 export const DeleteInterviewDocument = `
     mutation DeleteInterview($id: Int!) {
@@ -17,21 +17,17 @@ export const DeleteInterviewDocument = `
 }
     `;
 
-export const useDeleteInterviewMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteInterviewMutation,
-    TError,
-    DeleteInterviewMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<DeleteInterviewMutation, TError, DeleteInterviewMutationVariables, TContext>({
+export const useDeleteInterviewMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteInterviewMutation, TError, DeleteInterviewMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteInterviewMutation, TError, DeleteInterviewMutationVariables, TContext>(
+      {
     mutationKey: ['DeleteInterview'],
-    mutationFn: axiosRequest<DeleteInterviewMutation, DeleteInterviewMutationVariables>(
-      DeleteInterviewDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeleteInterviewMutation, DeleteInterviewMutationVariables>(DeleteInterviewDocument),
+    ...options
+  }
+    )};
 
 useDeleteInterviewMutation.getKey = () => ['DeleteInterview'];

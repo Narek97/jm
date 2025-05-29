@@ -6,17 +6,10 @@ export type UpdateLayerMutationVariables = Types.Exact<{
   updateLayerInput: Types.UpdateLayerInput;
 }>;
 
-export type UpdateLayerMutation = {
-  __typename?: 'Mutation';
-  updateLayer: {
-    __typename?: 'Layer';
-    id: number;
-    columnIds?: Array<number> | null;
-    rowIds?: Array<number> | null;
-    tagIds?: Array<number> | null;
-    columnSelectedStepIds: any;
-  };
-};
+
+export type UpdateLayerMutation = { __typename?: 'Mutation', updateLayer: { __typename?: 'Layer', id: number, columnIds?: Array<number> | null, rowIds?: Array<number> | null, tagIds?: Array<number> | null, columnSelectedStepIds: any } };
+
+
 
 export const UpdateLayerDocument = `
     mutation UpdateLayer($updateLayerInput: UpdateLayerInput!) {
@@ -30,16 +23,17 @@ export const UpdateLayerDocument = `
 }
     `;
 
-export const useUpdateLayerMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<UpdateLayerMutation, TError, UpdateLayerMutationVariables, TContext>,
-) => {
-  return useMutation<UpdateLayerMutation, TError, UpdateLayerMutationVariables, TContext>({
+export const useUpdateLayerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateLayerMutation, TError, UpdateLayerMutationVariables, TContext>) => {
+    
+    return useMutation<UpdateLayerMutation, TError, UpdateLayerMutationVariables, TContext>(
+      {
     mutationKey: ['UpdateLayer'],
-    mutationFn: axiosRequest<UpdateLayerMutation, UpdateLayerMutationVariables>(
-      UpdateLayerDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<UpdateLayerMutation, UpdateLayerMutationVariables>(UpdateLayerDocument),
+    ...options
+  }
+    )};
 
 useUpdateLayerMutation.getKey = () => ['UpdateLayer'];

@@ -6,10 +6,10 @@ export type DeletePersonaMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeletePersonaMutation = {
-  __typename?: 'Mutation';
-  deletePersona: number;
-};
+
+export type DeletePersonaMutation = { __typename?: 'Mutation', deletePersona: number };
+
+
 
 export const DeletePersonaDocument = `
     mutation DeletePersona($id: Int!) {
@@ -17,21 +17,17 @@ export const DeletePersonaDocument = `
 }
     `;
 
-export const useDeletePersonaMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeletePersonaMutation,
-    TError,
-    DeletePersonaMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<DeletePersonaMutation, TError, DeletePersonaMutationVariables, TContext>({
+export const useDeletePersonaMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeletePersonaMutation, TError, DeletePersonaMutationVariables, TContext>) => {
+    
+    return useMutation<DeletePersonaMutation, TError, DeletePersonaMutationVariables, TContext>(
+      {
     mutationKey: ['DeletePersona'],
-    mutationFn: axiosRequest<DeletePersonaMutation, DeletePersonaMutationVariables>(
-      DeletePersonaDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeletePersonaMutation, DeletePersonaMutationVariables>(DeletePersonaDocument),
+    ...options
+  }
+    )};
 
 useDeletePersonaMutation.getKey = () => ['DeletePersona'];

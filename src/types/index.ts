@@ -91,7 +91,7 @@ export type EditableInputType = { value: string; id: number };
 export type PersonaImageBoxType = {
   color: string;
   isSelected?: boolean;
-  attachment: Pick<Attachment, 'key' | 'url' | 'id' | 'hasResizedVersions' | 'croppedArea'>;
+  attachment: AttachmentType;
 };
 
 export type CroppedAreaType = {
@@ -99,6 +99,13 @@ export type CroppedAreaType = {
   height?: number | null;
   x?: number | null;
   y?: number | null;
+};
+
+export type AttachmentType = Pick<
+  Attachment,
+  "id" | "key" | "url" | "hasResizedVersions"
+> & {
+  croppedArea?: CroppedAreaType;
 };
 
 export type JourneyMapNounProjectIconsType = {

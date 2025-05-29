@@ -1,11 +1,11 @@
 export const WORKSPACES_LIMIT = 100;
 export const BOARDS_LIMIT = 16;
-export const PERSONA_GROUP_LIMIT = 2;
+export const PERSONA_GROUP_LIMIT = 16;
 export const AI_MODEL_LIMIT = 16;
 export const JOURNIES_LIMIT = 16;
 export const BOARD_JOURNEYS_LIMIT = 100;
-export const PERSONAS_LIMIT = 16;
-export const INTERVIEWS_LIMIT = 2;
+export const PERSONAS_LIMIT = 2;
+export const INTERVIEWS_LIMIT = 16;
 export const PERSONAS_GALLERY_LIMIT = 25;
 export const ATLAS_LIMIT = 1000;
 export const ATLAS_FOLDER_LIMIT = 1000;

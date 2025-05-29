@@ -6,17 +6,10 @@ export type GetPersonaGroupsModelQueryVariables = Types.Exact<{
   getPersonaGroupsInput: Types.GetPersonaGroupsInput;
 }>;
 
-export type GetPersonaGroupsModelQuery = {
-  __typename?: 'Query';
-  getPersonaGroups: {
-    __typename?: 'GetPersonaGroupsModel';
-    personaGroups: Array<{
-      __typename?: 'PersonaGroupModel';
-      id: number;
-      name: string;
-    }>;
-  };
-};
+
+export type GetPersonaGroupsModelQuery = { __typename?: 'Query', getPersonaGroups: { __typename?: 'GetPersonaGroupsModel', personaGroups: Array<{ __typename?: 'PersonaGroupModel', id: number, name: string }> } };
+
+
 
 export const GetPersonaGroupsModelDocument = `
     query GetPersonaGroupsModel($getPersonaGroupsInput: GetPersonaGroupsInput!) {
@@ -29,22 +22,20 @@ export const GetPersonaGroupsModelDocument = `
 }
     `;
 
-export const useGetPersonaGroupsModelQuery = <TData = GetPersonaGroupsModelQuery, TError = unknown>(
-  variables: GetPersonaGroupsModelQueryVariables,
-  options?: Omit<UseQueryOptions<GetPersonaGroupsModelQuery, TError, TData>, 'queryKey'> & {
-    queryKey?: UseQueryOptions<GetPersonaGroupsModelQuery, TError, TData>['queryKey'];
-  },
-) => {
-  return useQuery<GetPersonaGroupsModelQuery, TError, TData>({
+export const useGetPersonaGroupsModelQuery = <
+      TData = GetPersonaGroupsModelQuery,
+      TError = unknown
+    >(
+      variables: GetPersonaGroupsModelQueryVariables,
+      options?: Omit<UseQueryOptions<GetPersonaGroupsModelQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetPersonaGroupsModelQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetPersonaGroupsModelQuery, TError, TData>(
+      {
     queryKey: ['GetPersonaGroupsModel', variables],
-    queryFn: axiosRequest<GetPersonaGroupsModelQuery, GetPersonaGroupsModelQueryVariables>(
-      GetPersonaGroupsModelDocument,
-    ).bind(null, variables),
-    ...options,
-  });
-};
+    queryFn: axiosRequest<GetPersonaGroupsModelQuery, GetPersonaGroupsModelQueryVariables>(GetPersonaGroupsModelDocument).bind(null, variables),
+    ...options
+  }
+    )};
 
-useGetPersonaGroupsModelQuery.getKey = (variables: GetPersonaGroupsModelQueryVariables) => [
-  'GetPersonaGroupsModel',
-  variables,
-];
+useGetPersonaGroupsModelQuery.getKey = (variables: GetPersonaGroupsModelQueryVariables) => ['GetPersonaGroupsModel', variables];

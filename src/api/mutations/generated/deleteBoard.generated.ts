@@ -6,10 +6,10 @@ export type DeleteBoardMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteBoardMutation = {
-  __typename?: 'Mutation';
-  deleteBoard: number;
-};
+
+export type DeleteBoardMutation = { __typename?: 'Mutation', deleteBoard: number };
+
+
 
 export const DeleteBoardDocument = `
     mutation DeleteBoard($id: Int!) {
@@ -17,16 +17,17 @@ export const DeleteBoardDocument = `
 }
     `;
 
-export const useDeleteBoardMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>,
-) => {
-  return useMutation<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>({
+export const useDeleteBoardMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteBoardMutation, TError, DeleteBoardMutationVariables, TContext>(
+      {
     mutationKey: ['DeleteBoard'],
-    mutationFn: axiosRequest<DeleteBoardMutation, DeleteBoardMutationVariables>(
-      DeleteBoardDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeleteBoardMutation, DeleteBoardMutationVariables>(DeleteBoardDocument),
+    ...options
+  }
+    )};
 
 useDeleteBoardMutation.getKey = () => ['DeleteBoard'];

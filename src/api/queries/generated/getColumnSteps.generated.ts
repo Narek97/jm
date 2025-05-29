@@ -6,15 +6,10 @@ export type GetColumnStepsQueryVariables = Types.Exact<{
   columnId: Types.Scalars['Int']['input'];
 }>;
 
-export type GetColumnStepsQuery = {
-  __typename?: 'Query';
-  getColumnSteps: Array<{
-    __typename?: 'ColumnStep';
-    id: number;
-    columnId: number;
-    name: string;
-  }>;
-};
+
+export type GetColumnStepsQuery = { __typename?: 'Query', getColumnSteps: Array<{ __typename?: 'ColumnStep', id: number, columnId: number, name: string }> };
+
+
 
 export const GetColumnStepsDocument = `
     query GetColumnSteps($columnId: Int!) {
@@ -26,22 +21,20 @@ export const GetColumnStepsDocument = `
 }
     `;
 
-export const useGetColumnStepsQuery = <TData = GetColumnStepsQuery, TError = unknown>(
-  variables: GetColumnStepsQueryVariables,
-  options?: Omit<UseQueryOptions<GetColumnStepsQuery, TError, TData>, 'queryKey'> & {
-    queryKey?: UseQueryOptions<GetColumnStepsQuery, TError, TData>['queryKey'];
-  },
-) => {
-  return useQuery<GetColumnStepsQuery, TError, TData>({
+export const useGetColumnStepsQuery = <
+      TData = GetColumnStepsQuery,
+      TError = unknown
+    >(
+      variables: GetColumnStepsQueryVariables,
+      options?: Omit<UseQueryOptions<GetColumnStepsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetColumnStepsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetColumnStepsQuery, TError, TData>(
+      {
     queryKey: ['GetColumnSteps', variables],
-    queryFn: axiosRequest<GetColumnStepsQuery, GetColumnStepsQueryVariables>(
-      GetColumnStepsDocument,
-    ).bind(null, variables),
-    ...options,
-  });
-};
+    queryFn: axiosRequest<GetColumnStepsQuery, GetColumnStepsQueryVariables>(GetColumnStepsDocument).bind(null, variables),
+    ...options
+  }
+    )};
 
-useGetColumnStepsQuery.getKey = (variables: GetColumnStepsQueryVariables) => [
-  'GetColumnSteps',
-  variables,
-];
+useGetColumnStepsQuery.getKey = (variables: GetColumnStepsQueryVariables) => ['GetColumnSteps', variables];

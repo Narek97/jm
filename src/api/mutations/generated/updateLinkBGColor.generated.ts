@@ -6,14 +6,10 @@ export type UpdateLinkBgColorMutationVariables = Types.Exact<{
   updateLinkBGColor: Types.UpdateLinkBgColor;
 }>;
 
-export type UpdateLinkBgColorMutation = {
-  __typename?: 'Mutation';
-  updateLinkBGColor: {
-    __typename?: 'LinkResponse';
-    id: number;
-    bgColor?: string | null;
-  };
-};
+
+export type UpdateLinkBgColorMutation = { __typename?: 'Mutation', updateLinkBGColor: { __typename?: 'LinkResponse', id: number, bgColor?: string | null } };
+
+
 
 export const UpdateLinkBgColorDocument = `
     mutation UpdateLinkBGColor($updateLinkBGColor: UpdateLinkBGColor!) {
@@ -24,26 +20,17 @@ export const UpdateLinkBgColorDocument = `
 }
     `;
 
-export const useUpdateLinkBgColorMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    UpdateLinkBgColorMutation,
-    TError,
-    UpdateLinkBgColorMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    UpdateLinkBgColorMutation,
-    TError,
-    UpdateLinkBgColorMutationVariables,
-    TContext
-  >({
+export const useUpdateLinkBgColorMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateLinkBgColorMutation, TError, UpdateLinkBgColorMutationVariables, TContext>) => {
+    
+    return useMutation<UpdateLinkBgColorMutation, TError, UpdateLinkBgColorMutationVariables, TContext>(
+      {
     mutationKey: ['UpdateLinkBGColor'],
-    mutationFn: axiosRequest<UpdateLinkBgColorMutation, UpdateLinkBgColorMutationVariables>(
-      UpdateLinkBgColorDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<UpdateLinkBgColorMutation, UpdateLinkBgColorMutationVariables>(UpdateLinkBgColorDocument),
+    ...options
+  }
+    )};
 
 useUpdateLinkBgColorMutation.getKey = () => ['UpdateLinkBGColor'];

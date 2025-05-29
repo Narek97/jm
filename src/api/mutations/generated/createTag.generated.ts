@@ -6,10 +6,10 @@ export type CreateTagMutationVariables = Types.Exact<{
   createTagInput: Types.CreateTagInput;
 }>;
 
-export type CreateTagMutation = {
-  __typename?: 'Mutation';
-  createTag: { __typename?: 'Tags'; id: number; name: string; color: string };
-};
+
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tags', id: number, name: string, color: string } };
+
+
 
 export const CreateTagDocument = `
     mutation createTag($createTagInput: CreateTagInput!) {
@@ -21,14 +21,17 @@ export const CreateTagDocument = `
 }
     `;
 
-export const useCreateTagMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<CreateTagMutation, TError, CreateTagMutationVariables, TContext>,
-) => {
-  return useMutation<CreateTagMutation, TError, CreateTagMutationVariables, TContext>({
+export const useCreateTagMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateTagMutation, TError, CreateTagMutationVariables, TContext>) => {
+    
+    return useMutation<CreateTagMutation, TError, CreateTagMutationVariables, TContext>(
+      {
     mutationKey: ['createTag'],
     mutationFn: axiosRequest<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument),
-    ...options,
-  });
-};
+    ...options
+  }
+    )};
 
 useCreateTagMutation.getKey = () => ['createTag'];

@@ -1,0 +1,24 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.persona-group {
+  padding: 0.5rem 2rem;
+  height: 100%;
+
+
+  &--create-section {
+    @include flex-center-between;
+    padding: 1rem 0 2rem;
+    border-bottom: 0.0625rem solid #d8d8d8;
+  }
+
+  &--body {
+    overflow: auto;
+    padding: 0 1.625rem 1rem;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    height: calc(100dvh - 16rem);
+  }
+}
