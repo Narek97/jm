@@ -38,3 +38,19 @@ export enum ImageSizeEnum {
   MDL = 'MDL',
   LG = 'LG',
 }
+
+export enum PersonaFieldCategoryTypeEnum {
+  PERSONA_FIELD_SECTIONS = "personaFieldSections",
+  DEMOGRAPHIC_INFO_FIELDS = "demographicInfoFields",
+}
+
+export enum PersonaTypeEnum {
+  Customer = "CUSTOMER",
+  Employee = "EMPLOYEE",
+  Others = "OTHERS",
+}
+
+export enum PersonaGenderEnum {
+  MALE = "Male",
+  FEMALE = "Female",
+}

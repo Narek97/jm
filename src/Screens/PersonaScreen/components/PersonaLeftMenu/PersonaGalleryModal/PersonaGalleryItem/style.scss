@@ -1,0 +1,98 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.persona-gallery-modal--gallery--item {
+  @include flex-center-center;
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  overflow: hidden;
+  background-color: $BASE-LIGHT-GRAY-COLOR;
+  border: 0.0625rem solid transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &--menu {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .custom-vertical-menu {
+    &--btn {
+      min-width: 2rem !important;
+      min-height: 2rem !important;
+    }
+    &-open {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+  }
+
+  &:hover {
+    background-color: $BASE-EXTRA-LIGHT-GRAY-2;
+    border: 0.0625rem solid $BASE_BLUE_COLOR;
+    .persona-gallery-modal--gallery--item--menu {
+      .custom-vertical-menu {
+        display: flex;
+        &--btn {
+          background-color: rgba(0, 0, 0, 0.2) !important;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.2) !important;
+          }
+        }
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+
+  &:first-child {
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+
+    .custom-file-uploader {
+      background-color: $BASE-LIGHT-GRAY-COLOR;
+      border-color: $BASE-LIGHT-GRAY-COLOR;
+    }
+
+    svg {
+      scale: 4;
+    }
+
+    &:hover {
+      @include svg-fill($BASE_BLUE_COLOR);
+    }
+  }
+
+  &--image-box {
+    width: 100%;
+    height: 7.75rem;
+    overflow: hidden;
+    padding: 0.125rem 0.125rem 0 0.125rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &--image-title {
+    width: 9rem;
+    height: 2rem;
+    font-size: $BASE-FONT-SIZE;
+    @include reduce-text(100%);
+    padding: 0.5rem 0;
+  }
+  .custom-input {
+    padding-left: 0 !important;
+    height: 2rem !important;
+  }
+
+  &--selected-item {
+    background-color: $BASE-EXTRA-LIGHT-GRAY-2;
+    border: 0.0625rem solid $BASE_BLUE_COLOR;
+  }
+}

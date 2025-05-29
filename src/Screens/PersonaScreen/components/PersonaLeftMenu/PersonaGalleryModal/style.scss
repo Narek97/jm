@@ -1,0 +1,37 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.persona-gallery-modal {
+  position: relative;
+  height: 60dvh;
+  padding: 1rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--header {
+    @include flex-center-between;
+    gap: 0.5rem;
+    height: 2rem;
+
+    &--search-block {
+      width: 25rem;
+    }
+  }
+
+  &--gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    height: calc(100% - 7rem);
+    padding: 0 1rem;
+    overflow: auto;
+  }
+
+  &--footer {
+    padding-top: 1.3rem;
+    @include flex-center-between;
+    align-content: center;
+    border-top: 0.0625rem solid #d8d8d8;
+    font-size: 0.75rem;
+  }
+}

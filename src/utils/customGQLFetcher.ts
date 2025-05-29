@@ -22,7 +22,7 @@ export const fetchData = async (requestDetails: {
       body = bodyData;
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/graphql`, {
       method: method,
       headers: {
         Authorization: `Bearer ${token}`,

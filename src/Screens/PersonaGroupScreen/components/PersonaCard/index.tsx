@@ -87,7 +87,7 @@ const PersonaCard: FC<IPersonaCard> = memo(
                 style={{ borderColor: persona?.color || "#545e6b" }}
               >
                 <CropImage
-                  imageSource={`${process.env.NEXT_PUBLIC_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}
+                  imageSource={`${import.meta.env.VITE_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}
                   croppedArea={persona?.croppedArea}
                   CROP_AREA_ASPECT={3 / 3}
                 />

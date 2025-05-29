@@ -1,0 +1,76 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.persona-header {
+  @include flex-center-between;
+  padding: 0 1.25rem;
+  height: 3rem;
+  border-bottom: 0.0625rem solid $BASE-LIGHT-GRAY-COLOR-2;
+
+  &--left-block,
+  &--right-block {
+    @include flex-center-center;
+    gap: 0.5rem;
+  }
+
+  &--left-block {
+    font-size: 1.5rem;
+    flex: 1;
+    margin-right: 1rem;
+    width: calc(100% - 18rem);
+  }
+
+  &--right-block {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $BASE_BLUE_COLOR;
+
+    &--journeys-btn {
+      font-size: $MEDIUM-FONT-SIZE;
+      @include flex-center-center;
+      gap: 0.5rem;
+      padding: 0.244rem 1rem;
+      font-weight: 400;
+      border-radius: 0.125rem;
+
+      &--icon {
+        width: 0.8rem;
+        height: 0.8rem;
+
+        svg {
+          scale: 1.4;
+          transform: translate(0.0625rem, 0.0625rem);
+        }
+      }
+
+      &-content {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      &:hover {
+        background-color: #eeeeee;
+        color: $DARK_BLUE;
+        @include svg-fill($DARK_BLUE);
+      }
+    }
+
+    .no-journeys {
+      &:hover {
+        background-color: inherit;
+        color: inherit;
+        @include svg-fill(inherit);
+      }
+    }
+  }
+
+  &--go-back-btn {
+    @include flex-center-center;
+    width: 2rem;
+    height: 2rem;
+
+    &:hover {
+      background-color: #eeeeee;
+    }
+  }
+}

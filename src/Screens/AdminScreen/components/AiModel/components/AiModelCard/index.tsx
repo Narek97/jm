@@ -45,7 +45,7 @@ const AiModelCard: FC<IAiModelCard> = ({ aiModel, onHandleDelete, onHandleEdit }
 
       {aiModel.attachmentUrl ? (
         <img
-          src={`${process.env.NEXT_PUBLIC_AWS_URL}/${aiModel.attachmentUrl}`}
+          src={`${import.meta.env.VITE_AWS_URL}/${aiModel.attachmentUrl}`}
           alt="Img"
           style={{ width: '100%', height: '6.25rem', objectFit: 'contain' }}
         />

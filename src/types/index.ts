@@ -103,7 +103,7 @@ export type CroppedAreaType = {
 
 export type AttachmentType = Pick<
   Attachment,
-  "id" | "key" | "url" | "hasResizedVersions"
+  "id" | "key" | "url" | "name" | "hasResizedVersions"
 > & {
   croppedArea?: CroppedAreaType | null;
 };

@@ -1,0 +1,101 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+.field-section {
+  background: $BASE_WHITE-COLOR;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+  &:hover {
+    .field-section--drag {
+      visibility: visible;
+    }
+
+    .hide-show-info-button,
+    .delete-section {
+      visibility: visible;
+    }
+  }
+  &--drag {
+    visibility: hidden;
+  }
+
+  .delete-section {
+    visibility: hidden;
+  }
+
+  &-header {
+    position: relative;
+    &--options-block {
+      position: absolute;
+      top: 0;
+      right: 0.5rem;
+      width: 4rem;
+      display: flex;
+      justify-content: end;
+    }
+    &--input {
+      width: calc(100% - 5rem);
+    }
+  }
+
+  .persona-editor-block .ql-editor {
+    background: #f4f4f4;
+    border-radius: 0.2rem;
+    padding: 0.6rem !important;
+    &::before {
+      left: 0.6rem !important;
+    }
+  }
+
+  .image-section {
+    width: 100%;
+    height: 16rem;
+    margin: 2rem auto 0;
+    @include flex-center-center;
+    min-width: 7.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+      border-radius: 0.2rem;
+    }
+
+    .avatar-border {
+      padding: 0;
+      &-content {
+        width: 100%;
+      }
+    }
+  }
+
+  .image-field-section {
+    height: 18rem;
+  }
+
+  .hide-show-info-button {
+    @include flex-center-center;
+    visibility: hidden;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.14rem;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+      @include svg-fill(#1b3380);
+    }
+  }
+}
+
+.hidden-field {
+  opacity: 0.6;
+}
+
+.filter-section-resize {
+  cursor: ns-resize;
+  position: absolute;
+  right: 3px;
+  width: fit-content;
+  height: fit-content;
+  z-index: 20;
+  transform: rotate(225deg);
+}

@@ -26,7 +26,7 @@ const SliderCard: FC<ISliderCard> = ({ card, selectedSliderCardId, onHandleSelec
       }}>
       {card.attachmentUrl ? (
         <img
-          src={`${process.env.NEXT_PUBLIC_AWS_URL}/${card.attachmentUrl}`}
+          src={`${import.meta.env.VITE_AWS_URL}/${card.attachmentUrl}`}
           alt="Img"
           width={100}
           height={100}

@@ -302,7 +302,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                   ) : attachmentUrl ? (
                     <div className={'create-update-ai-model-modal--file-container'}>
                       <img
-                        src={`${process.env.NEXT_PUBLIC_AWS_URL}/${attachmentUrl}`}
+                        src={`${import.meta.env.VITE_AWS_URL}/${attachmentUrl}`}
                         alt="Img"
                         style={{
                           width: '11.25rem',

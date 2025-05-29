@@ -1,0 +1,30 @@
+@use "@assets/styles/variables" as *;
+@use "@assets/styles/mixins" as *;
+
+
+@include map-item-quill();
+.ql-editor.ql-blank::before {
+  left: 1.5rem !important;
+}
+
+.persona-editor-block {
+  height: 100% !important;
+
+  .ql-editor {
+    padding: 0 0 0 1.5rem;
+    height: 100% !important;
+  }
+}
+
+.persona-label-block {
+  width: 100%;
+  height: 100% !important;
+
+  .ql-editor {
+    padding: 0;
+    height: 100% !important;
+    &:focus {
+      border-bottom: 0.0625rem solid;
+    }
+  }
+}
