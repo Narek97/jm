@@ -1,13 +1,13 @@
-import { FC, memo, useCallback, useState } from "react";
+import { FC, memo, useCallback, useState } from 'react';
 
-import "./style.scss";
-import Slider from "@mui/material/Slider";
-import { WuButton } from "@npm-questionpro/wick-ui-lib";
-import Cropper from "react-easy-crop";
+import './style.scss';
+import Slider from '@mui/material/Slider';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
+import Cropper from 'react-easy-crop';
 
-import { ActionEnum } from "@/api/types.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
+import { ActionEnum } from '@/api/types.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 
 const CROP_AREA_ASPECT = 3 / 3;
 
@@ -16,12 +16,7 @@ interface ICropImageModal {
   mode: ActionEnum.Add | ActionEnum.Update;
   isOpenCropModal: boolean;
   closeModal: () => void;
-  onHandleSaveCropImage: (dat: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) => void;
+  onHandleSaveCropImage: (dat: { x: number; y: number; width: number; height: number }) => void;
 }
 
 const CropImageModal: FC<ICropImageModal> = memo(
@@ -41,12 +36,7 @@ const CropImageModal: FC<ICropImageModal> = memo(
     });
 
     const onCropComplete = useCallback(
-      (croppedAreaPercentages: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-      }) => {
+      (croppedAreaPercentages: { x: number; y: number; width: number; height: number }) => {
         setCroppedArea(croppedAreaPercentages);
       },
       [],
@@ -63,17 +53,14 @@ const CropImageModal: FC<ICropImageModal> = memo(
     };
 
     const valueLabelFormat = (value: number) => {
-      return Math.round(((value - 1) / (7 - 1)) * 100) + "%";
+      return Math.round(((value - 1) / (7 - 1)) * 100) + '%';
     };
 
     const zoomInAndOut = useCallback(
-      (type: "in" | "out") => {
-        setZoom((prev) => {
-          if (
-            (zoom > 0 && type === "in") ||
-            (zoom > 1 && zoom <= 7 && type === "out")
-          ) {
-            if (type === "in") {
+      (type: 'in' | 'out') => {
+        setZoom(prev => {
+          if ((zoom > 0 && type === 'in') || (zoom > 1 && zoom <= 7 && type === 'out')) {
+            if (type === 'in') {
               return prev + 1;
             }
             return prev - 1;
@@ -88,41 +75,41 @@ const CropImageModal: FC<ICropImageModal> = memo(
       width: 292,
       MuiSlider: {
         thumb: {
-          "&$focused, &$activated, &$jumped, &:hover": {
-            boxShadow: "none",
+          '&$focused, &$activated, &$jumped, &:hover': {
+            boxShadow: 'none',
           },
         },
       },
-      color: "#D8D8D8",
+      color: '#D8D8D8',
       height: 6,
-      "& .MuiSlider-track": {
+      '& .MuiSlider-track': {
         height: 4,
-        backgroundColor: "#D8D8D8",
+        backgroundColor: '#D8D8D8',
       },
-      "& .MuiSlider-rail": {
+      '& .MuiSlider-rail': {
         height: 4,
         borderRadius: 0,
-        backgroundColor: "#D8D8D8",
+        backgroundColor: '#D8D8D8',
         opacity: 1,
-        boxShadow: "inherit !important",
+        boxShadow: 'inherit !important',
       },
-      "& .MuiSlider-thumb": {
-        backgroundColor: "#1B87E6",
+      '& .MuiSlider-thumb': {
+        backgroundColor: '#1B87E6',
         width: 16,
         height: 16,
-        boxShadow: "inherit !important",
+        boxShadow: 'inherit !important',
       },
-      "& .MuiSlider-valueLabel": {
-        backgroundColor: "#555555",
+      '& .MuiSlider-valueLabel': {
+        backgroundColor: '#555555',
         width: 38,
         height: 32,
         fontSize: 12,
-        "&::before": {
+        '&::before': {
           top: -8,
           left: 14,
         },
-        "&.MuiSlider-valueLabelOpen": {
-          transform: "translate(14%, 105%) scale(1)",
+        '&.MuiSlider-valueLabelOpen': {
+          transform: 'translate(14%, 105%) scale(1)',
         },
       },
     };
@@ -130,11 +117,10 @@ const CropImageModal: FC<ICropImageModal> = memo(
     return (
       <CustomModal
         isOpen={isOpenCropModal}
-        modalSize={"sm"}
+        modalSize={'sm'}
         handleClose={closeModal}
-        canCloseWithOutsideClick={true}
-      >
-        <CustomModalHeader title={"Upload photo"} />
+        canCloseWithOutsideClick={true}>
+        <CustomModalHeader title={'Upload photo'} />
         <div className="persona-image-card-cropper-modal">
           <div className="persona-image-card-cropper-modal--content">
             <div className="image-card-cropper">
@@ -152,11 +138,10 @@ const CropImageModal: FC<ICropImageModal> = memo(
             </div>
             <div className="controls">
               <button
-                data-testid={"zoom-out"}
-                className={"zoom-out-btn"}
-                onClick={() => zoomInAndOut("out")}
-              >
-                <span className={"wm-chrome-minimize"} />
+                data-testid={'zoom-out'}
+                className={'zoom-out-btn'}
+                onClick={() => zoomInAndOut('out')}>
+                <span className={'wm-chrome-minimize'} />
               </button>
               <Slider
                 aria-label="Small steps"
@@ -171,26 +156,19 @@ const CropImageModal: FC<ICropImageModal> = memo(
                 valueLabelFormat={valueLabelFormat}
               />
               <button
-                data-testid={"zoom-in"}
-                className={"zoom-in-btn"}
-                onClick={() => zoomInAndOut("in")}
-              >
-                <span className={"wm-add"} />
+                data-testid={'zoom-in'}
+                className={'zoom-in-btn'}
+                onClick={() => zoomInAndOut('in')}>
+                <span className={'wm-add'} />
               </button>
             </div>
           </div>
-          <div className={"base-modal-footer"}>
-            <button
-              className={"base-modal-footer--cancel-btn"}
-              onClick={closeModal}
-            >
+          <div className={'base-modal-footer'}>
+            <button className={'base-modal-footer--cancel-btn'} onClick={closeModal}>
               Cancel
             </button>
-            <WuButton
-              data-testid={"crop-btn-test-id"}
-              onClick={getCroppedImage}
-            >
-              {mode === ActionEnum.Add ? "Upload" : "Update"}
+            <WuButton data-testid={'crop-btn-test-id'} onClick={getCroppedImage}>
+              {mode === ActionEnum.Add ? 'Upload' : 'Update'}
             </WuButton>
           </div>
         </div>

@@ -1,47 +1,42 @@
-import "./style.scss";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import './style.scss';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Box } from "@mui/material";
-import { WuButton } from "@npm-questionpro/wick-ui-lib";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { Box } from '@mui/material';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useNavigate, useParams } from '@tanstack/react-router';
 
-import { useCreatePersonaMutation } from "@/api/mutations/generated/createPersona.generated.ts";
+import { useCreatePersonaMutation } from '@/api/mutations/generated/createPersona.generated.ts';
 import {
   GetPersonasQuery,
   useGetPersonasQuery,
-} from "@/api/queries/generated/getPersonas.generated.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import Pagination from "@/Components/Shared/Pagination";
-import { querySlateTime } from "@/constants";
-import { PERSONAS_LIMIT } from "@/constants/pagination";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import {
-  useRemoveQueriesByKey,
-  useSetAllQueryDataByKey,
-} from "@/hooks/useQueryKey.ts";
-import PersonaCard from "@/Screens/PersonaGroupScreen/components/PersonaCard";
-import PersonaDeleteModal from "@/Screens/PersonaGroupScreen/components/PersonaDeleteModal";
-import { PersonaType } from "@/Screens/PersonaGroupScreen/types.ts";
-import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
+} from '@/api/queries/generated/getPersonas.generated.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import Pagination from '@/Components/Shared/Pagination';
+import { querySlateTime } from '@/constants';
+import { PERSONAS_LIMIT } from '@/constants/pagination';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import { useRemoveQueriesByKey, useSetAllQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import PersonaCard from '@/Screens/PersonaGroupScreen/components/PersonaCard';
+import PersonaDeleteModal from '@/Screens/PersonaGroupScreen/components/PersonaDeleteModal';
+import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 
 const PersonaGroupScreen = () => {
   const { workspaceId, personaGroupId } = useParams({
-    from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-group/$personaGroupId/",
+    from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-group/$personaGroupId/',
   });
 
   const navigate = useNavigate();
 
   const { setBreadcrumbs } = useBreadcrumbStore();
 
-  const [selectedPersona, setSelectedPersona] = useState<PersonaType | null>(
-    null,
-  );
+  const [selectedPersona, setSelectedPersona] = useState<PersonaType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
 
-  const setAllPersonas = useSetAllQueryDataByKey("GetPersonas");
+  const setAllPersonas = useSetAllQueryDataByKey('GetPersonas');
   const setRemovePersonas = useRemoveQueriesByKey();
 
   const {
@@ -64,7 +59,7 @@ const PersonaGroupScreen = () => {
 
   const { mutate: mutateCreatePersona, isPending: isLoadingCreatePersona } =
     useCreatePersonaMutation({
-      onSuccess: (response) => {
+      onSuccess: response => {
         navigate({
           to: `/workspace/${workspaceId}/persona/${response.createPersona.id}`,
         }).then();
@@ -115,15 +110,12 @@ const PersonaGroupScreen = () => {
       dataGetPersonas?.getPersonas.personas.length === 1 &&
       currentPage !== 1
     ) {
-      setOffset((prev) => prev - PERSONAS_LIMIT);
+      setOffset(prev => prev - PERSONAS_LIMIT);
     }
-    if (
-      currentPage * PERSONAS_LIMIT < personasDataCount &&
-      personasDataCount > PERSONAS_LIMIT
-    ) {
-      setRemovePersonas("GetPersonas", {
-        input: "getPersonasInput",
-        key: "offset",
+    if (currentPage * PERSONAS_LIMIT < personasDataCount && personasDataCount > PERSONAS_LIMIT) {
+      setRemovePersonas('GetPersonas', {
+        input: 'getPersonasInput',
+        key: 'offset',
         value: offset,
         deleteUpcoming: true,
       });
@@ -144,15 +136,15 @@ const PersonaGroupScreen = () => {
     if (dataGetPersonas) {
       setBreadcrumbs([
         {
-          name: "Workspaces",
-          pathname: "/workspaces",
+          name: 'Workspaces',
+          pathname: '/workspaces',
         },
         {
-          name: dataGetPersonas.getPersonas.workspace?.name || "...",
+          name: dataGetPersonas.getPersonas.workspace?.name || '...',
           pathname: `/workspace/${dataGetPersonas?.getPersonas.workspace?.id}/boards`,
         },
         {
-          name: dataGetPersonas.getPersonas.personaGroup?.name || "...",
+          name: dataGetPersonas.getPersonas.personaGroup?.name || '...',
           pathname: `/workspace/${dataGetPersonas.getPersonas.workspace?.id}/persona-group/${dataGetPersonas.getPersonas.personaGroup?.id}`,
         },
       ]);
@@ -161,7 +153,7 @@ const PersonaGroupScreen = () => {
 
   if (errorGetPersonas) {
     return (
-      <div className={"personas-container"}>
+      <div className={'personas-container'}>
         <CustomError error={errorGetPersonas?.message} />
       </div>
     );
@@ -169,13 +161,13 @@ const PersonaGroupScreen = () => {
 
   if (isLoadingGetPersonas) {
     return (
-      <div className={"personas-container"}>
+      <div className={'personas-container'}>
         <CustomLoader />
       </div>
     );
   }
   return (
-    <div className={"persona-group"}>
+    <div className={'persona-group'}>
       {selectedPersona && (
         <PersonaDeleteModal
           isOpen={!!selectedPersona.id}
@@ -185,16 +177,15 @@ const PersonaGroupScreen = () => {
         />
       )}
 
-      <div className={"persona-group--header"}>
-        <div className={"base-page-header"}>
-          <h3 className={"base-title !text-heading-2"}>Personas</h3>
+      <div className={'persona-group--header'}>
+        <div className={'base-page-header'}>
+          <h3 className={'base-title !text-heading-2'}>Personas</h3>
         </div>
-        <div className={"persona-group--create-section"}>
+        <div className={'persona-group--create-section'}>
           <WuButton
             onClick={onHandleCreatePersona}
             disabled={isLoadingCreatePersona}
-            data-testid={"create-persona-btn-test-id"}
-          >
+            data-testid={'create-persona-btn-test-id'}>
             New persona
           </WuButton>
           {personasDataCount > PERSONAS_LIMIT && (
@@ -207,10 +198,10 @@ const PersonaGroupScreen = () => {
           )}
         </div>
       </div>
-      <ul className={"persona-group--body"}>
+      <ul className={'persona-group--body'}>
         {personasData?.length ? (
           <>
-            {personasData?.map((persona) => (
+            {personasData?.map(persona => (
               <ErrorBoundary key={persona.id}>
                 <PersonaCard
                   persona={persona}
@@ -221,7 +212,7 @@ const PersonaGroupScreen = () => {
             ))}
           </>
         ) : (
-          <EmptyDataInfo icon={<Box />} message={"There are no personas yet"} />
+          <EmptyDataInfo icon={<Box />} message={'There are no personas yet'} />
         )}
       </ul>
     </div>

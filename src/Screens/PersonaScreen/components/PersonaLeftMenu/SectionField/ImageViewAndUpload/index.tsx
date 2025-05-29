@@ -1,11 +1,11 @@
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
 
-import "./style.scss";
-import CropImage from "@/Components/Shared/CropImage";
-import CustomFileUploader from "@/Components/Shared/CustomFileUploader";
-import { IMAGE_ASPECT } from "@/constants";
-import { CroppedAreaType } from "@/types";
-import { getResizedFileName } from "@/utils/getResizedFileName";
+import './style.scss';
+import CropImage from '@/Components/Shared/CropImage';
+import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
+import { IMAGE_ASPECT } from '@/constants';
+import { CroppedAreaType } from '@/types';
+import { getResizedFileName } from '@/utils/getResizedFileName';
 
 interface IImageViewAndUpload {
   avatarKey: string;
@@ -26,7 +26,7 @@ const ImageViewAndUpload: FC<IImageViewAndUpload> = memo(
       return onlyView ? (
         <div>No image</div>
       ) : (
-        <div className={"upload-frame"}>
+        <div className={'upload-frame'}>
           <CustomFileUploader uploadProgress={0} />
         </div>
       );
@@ -46,13 +46,7 @@ const ImageViewAndUpload: FC<IImageViewAndUpload> = memo(
               </>
             ) : (
               <>
-                <img
-                  className="avatar"
-                  src={imageUrl}
-                  alt="Avatar"
-                  width={100}
-                  height={100}
-                />
+                <img className="avatar" src={imageUrl} alt="Avatar" width={100} height={100} />
               </>
             )}
           </div>

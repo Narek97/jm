@@ -1,65 +1,63 @@
-import "./style.scss";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import './style.scss';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
-import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 
-import PersonaHeader from "./components/PersonaHeader";
+import PersonaHeader from './components/PersonaHeader';
 
 import {
   CreateDemographicInfoMutation,
   useCreateDemographicInfoMutation,
-} from "@/api/mutations/generated/createDemographicInfo.generated";
+} from '@/api/mutations/generated/createDemographicInfo.generated';
 import {
   CreatePersonaSectionMutation,
   useCreatePersonaSectionMutation,
-} from "@/api/mutations/generated/createPersonaSection.generated";
+} from '@/api/mutations/generated/createPersonaSection.generated';
 import {
   DeleteDemographicInfoMutation,
   useDeleteDemographicInfoMutation,
-} from "@/api/mutations/generated/deleteDemographicInfo.generated";
+} from '@/api/mutations/generated/deleteDemographicInfo.generated';
 import {
   UpdateDemographicInfoMutation,
   useUpdateDemographicInfoMutation,
-} from "@/api/mutations/generated/updateDemographicInfo.generated";
+} from '@/api/mutations/generated/updateDemographicInfo.generated';
 import {
   UpdatePersonaMutation,
   useUpdatePersonaMutation,
-} from "@/api/mutations/generated/updatePersona.generated";
+} from '@/api/mutations/generated/updatePersona.generated';
 import {
   GetPersonaByIdQuery,
   useGetPersonaByIdQuery,
-} from "@/api/queries/generated/getPersonaById.generated";
+} from '@/api/queries/generated/getPersonaById.generated';
 import {
   GetPersonaDemographicInfosQuery,
   useGetPersonaDemographicInfosQuery,
-} from "@/api/queries/generated/getPersonaDemographicInfos.generated.ts";
+} from '@/api/queries/generated/getPersonaDemographicInfos.generated.ts';
 import {
   GetPersonaSectionsQuery,
   useGetPersonaSectionsQuery,
-} from "@/api/queries/generated/getPersonaSections.generated.ts";
-import { DemographicInfoTypeEnum } from "@/api/types.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import { debounced400 } from "@/hooks/useDebounce";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
-import PersonaLeftMenu from "@/Screens/PersonaScreen/components/PersonaLeftMenu";
-import { PersonaDemographicInfoType } from "@/Screens/PersonaScreen/types.ts";
-import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
-import { PersonaFieldCategoryTypeEnum } from "@/types/enum";
-import { getDemographicFiledKey } from "@/utils/getDemographicFiledKey.ts";
+} from '@/api/queries/generated/getPersonaSections.generated.ts';
+import { DemographicInfoTypeEnum } from '@/api/types.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { debounced400 } from '@/hooks/useDebounce';
+import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import PersonaLeftMenu from '@/Screens/PersonaScreen/components/PersonaLeftMenu';
+import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { PersonaFieldCategoryTypeEnum } from '@/types/enum';
+import { getDemographicFiledKey } from '@/utils/getDemographicFiledKey.ts';
 
 const PersonaScreen = () => {
   const { workspaceId, personaId } = useParams({
-    from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona/$personaId/",
+    from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona/$personaId/',
   });
 
   const queryClient = useQueryClient();
-  const setPersona = useSetQueryDataByKey("GetPersonaById");
-  const setDemographicInfos = useSetQueryDataByKey(
-    "GetPersonaDemographicInfos",
-  );
+  const setPersona = useSetQueryDataByKey('GetPersonaById');
+  const setDemographicInfos = useSetQueryDataByKey('GetPersonaDemographicInfos');
 
   const { showToast } = useWuShowToast();
 
@@ -77,31 +75,24 @@ const PersonaScreen = () => {
     UpdateDemographicInfoMutation
   >();
 
-  const {
-    mutate: mutateCreateDemographicInfo,
-    isPending: isLoadingCreateDemographicInfo,
-  } = useCreateDemographicInfoMutation<Error, CreateDemographicInfoMutation>();
+  const { mutate: mutateCreateDemographicInfo, isPending: isLoadingCreateDemographicInfo } =
+    useCreateDemographicInfoMutation<Error, CreateDemographicInfoMutation>();
 
-  const { mutate: mutatePersona } = useUpdatePersonaMutation<
-    Error,
-    UpdatePersonaMutation
-  >();
+  const { mutate: mutatePersona } = useUpdatePersonaMutation<Error, UpdatePersonaMutation>();
 
-  const {
-    mutate: mutateDeleteDemographicInfo,
-    isPending: isLoadingDeleteDemographicInfo,
-  } = useDeleteDemographicInfoMutation<Error, DeleteDemographicInfoMutation>();
+  const { mutate: mutateDeleteDemographicInfo, isPending: isLoadingDeleteDemographicInfo } =
+    useDeleteDemographicInfoMutation<Error, DeleteDemographicInfoMutation>();
 
   const { mutate: mutatePersonaSection, isPending: isLoadingPersonaSection } =
     useCreatePersonaSectionMutation<Error, CreatePersonaSectionMutation>({
       onSuccess: async () => {
         await queryClient.invalidateQueries({
-          queryKey: ["GetPersonaSections"],
+          queryKey: ['GetPersonaSections'],
         });
         const objDiv = rightSectionRef.current;
         objDiv?.scrollTo({
           top: objDiv.scrollHeight + 128,
-          behavior: "smooth",
+          behavior: 'smooth',
         });
       },
     });
@@ -125,10 +116,7 @@ const PersonaScreen = () => {
     isFetching: isFetchingDemographicInfos,
     data: dataDemographicInfos,
     error: isErrorDemographicInfos,
-  } = useGetPersonaDemographicInfosQuery<
-    GetPersonaDemographicInfosQuery,
-    Error
-  >({
+  } = useGetPersonaDemographicInfosQuery<GetPersonaDemographicInfosQuery, Error>({
     getPersonaDemographicInfosInput: {
       personaId: +personaId,
     },
@@ -137,11 +125,9 @@ const PersonaScreen = () => {
   const demographicInfos = useMemo(() => {
     return {
       personaFieldSections:
-        dataDemographicInfos?.getPersonaDemographicInfos.personaFieldSections ||
-        [],
+        dataDemographicInfos?.getPersonaDemographicInfos.personaFieldSections || [],
       demographicInfoFields:
-        dataDemographicInfos?.getPersonaDemographicInfos
-          .demographicInfoFields || [],
+        dataDemographicInfos?.getPersonaDemographicInfos.demographicInfoFields || [],
     };
   }, [
     dataDemographicInfos?.getPersonaDemographicInfos.demographicInfoFields,
@@ -180,7 +166,7 @@ const PersonaScreen = () => {
   );
 
   const onHandleUpdateSelectedGalleryItem = useCallback((value: number) => {
-    console.log(value, "value");
+    console.log(value, 'value');
     // personaInfoState &&
     //   personaInfoState &&
     //   setPersonaInfoState(() => ({
@@ -193,7 +179,7 @@ const PersonaScreen = () => {
     (
       demographicInfoId: number,
       value: any,
-      key: "key" | "value" | "isHidden" | "attachment" | "height",
+      key: 'key' | 'value' | 'isHidden' | 'attachment' | 'height',
       categoryType: PersonaFieldCategoryTypeEnum,
     ) => {
       setDemographicInfos((oldData: any) => {
@@ -201,49 +187,49 @@ const PersonaScreen = () => {
           return {
             getPersonaDemographicInfos: {
               ...oldData.getPersonaDemographicInfos,
-              [categoryType]: oldData.getPersonaDemographicInfos[
-                categoryType
-              ].map((item: PersonaDemographicInfoType) => {
-                if (item.id === demographicInfoId) {
-                  item = {
-                    ...item,
-                    [key]: value,
-                    ...(key === "attachment"
-                      ? {
-                          croppedArea: value.croppedArea,
-                        }
-                      : {}),
-                  };
-                  debounced400(() => {
-                    mutateDemographicInfo(
-                      {
-                        updateDemographicInfoInput: {
-                          isHidden: item.isHidden as boolean,
-                          id: item.id,
-                          value: item.value as string,
-                          key: item.key as string,
-                          ...(key === "attachment"
-                            ? {
-                                attachmentId: value.id,
-                              }
-                            : key === "height"
-                              ? { height: value }
-                              : {}),
+              [categoryType]: oldData.getPersonaDemographicInfos[categoryType].map(
+                (item: PersonaDemographicInfoType) => {
+                  if (item.id === demographicInfoId) {
+                    item = {
+                      ...item,
+                      [key]: value,
+                      ...(key === 'attachment'
+                        ? {
+                            croppedArea: value.croppedArea,
+                          }
+                        : {}),
+                    };
+                    debounced400(() => {
+                      mutateDemographicInfo(
+                        {
+                          updateDemographicInfoInput: {
+                            isHidden: item.isHidden as boolean,
+                            id: item.id,
+                            value: item.value as string,
+                            key: item.key as string,
+                            ...(key === 'attachment'
+                              ? {
+                                  attachmentId: value.id,
+                                }
+                              : key === 'height'
+                                ? { height: value }
+                                : {}),
+                          },
                         },
-                      },
-                      {
-                        onError: (error) => {
-                          showToast({
-                            variant: "error",
-                            message: error?.message,
-                          });
+                        {
+                          onError: error => {
+                            showToast({
+                              variant: 'error',
+                              message: error?.message,
+                            });
+                          },
                         },
-                      },
-                    );
-                  });
-                }
-                return item;
-              }),
+                      );
+                    });
+                  }
+                  return item;
+                },
+              ),
             },
           };
         }
@@ -253,24 +239,19 @@ const PersonaScreen = () => {
   );
 
   const onHandleAddNewDemographicInfo = useCallback(
-    (
-      name: string,
-      type: DemographicInfoTypeEnum,
-      value: string,
-      callback?: () => void,
-    ) => {
+    (name: string, type: DemographicInfoTypeEnum, value: string, callback?: () => void) => {
       mutateCreateDemographicInfo(
         {
           createDemographicInfoInput: {
             personaId: +personaId,
-            key: name || "untitled",
+            key: name || 'untitled',
             value,
             type,
             height: type === DemographicInfoTypeEnum.Content ? 100 : null,
           },
         },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             const fieldType = response.createDemographicInfo.type;
 
             if (
@@ -283,8 +264,7 @@ const PersonaScreen = () => {
                     getPersonaDemographicInfos: {
                       ...oldData.getPersonaDemographicInfos,
                       personaFieldSections: [
-                        ...oldData.getPersonaDemographicInfos
-                          .personaFieldSections,
+                        ...oldData.getPersonaDemographicInfos.personaFieldSections,
                         response.createDemographicInfo,
                       ],
                     },
@@ -298,8 +278,7 @@ const PersonaScreen = () => {
                     getPersonaDemographicInfos: {
                       ...oldData.getPersonaDemographicInfos,
                       demographicInfoFields: [
-                        ...oldData.getPersonaDemographicInfos
-                          .demographicInfoFields,
+                        ...oldData.getPersonaDemographicInfos.demographicInfoFields,
                         response.createDemographicInfo,
                       ],
                     },
@@ -312,7 +291,7 @@ const PersonaScreen = () => {
               const objDiv = demographicInfoRef.current;
               objDiv?.scrollTo({
                 top: objDiv.scrollHeight + 128,
-                behavior: "smooth",
+                behavior: 'smooth',
               });
             }, 100);
             if (callback) {
@@ -332,7 +311,7 @@ const PersonaScreen = () => {
           id,
         },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             const key = getDemographicFiledKey(fieldType);
 
             console.log(response);
@@ -342,8 +321,7 @@ const PersonaScreen = () => {
                   getPersonaDemographicInfos: {
                     ...oldData.getPersonaDemographicInfos,
                     [key]: oldData.getPersonaDemographicInfos[key].filter(
-                      (section: { id: number }) =>
-                        section.id !== response.deleteDemographicInfo,
+                      (section: { id: number }) => section.id !== response.deleteDemographicInfo,
                     ),
                   },
                 };
@@ -386,19 +364,19 @@ const PersonaScreen = () => {
     if (personaInfo && !hasSetBreadcrumbs.current) {
       setBreadcrumbs([
         {
-          name: "Workspaces",
-          pathname: "/workspaces",
+          name: 'Workspaces',
+          pathname: '/workspaces',
         },
         {
-          name: personaInfo.workspaceName || "...",
+          name: personaInfo.workspaceName || '...',
           pathname: `/workspace/${personaInfo.workspaceId}/boards`,
         },
         {
-          name: personaInfo.personaGroupName || "...",
+          name: personaInfo.personaGroupName || '...',
           pathname: `/workspace/${personaInfo.workspaceId}/persona-group/${personaInfo.personaGroupId}`,
         },
         {
-          name: personaInfo.name || "...",
+          name: personaInfo.name || '...',
           pathname: `/workspace/${personaInfo.workspaceId}/persona-group/${personaInfo.personaGroupId}/persona/${personaInfo.id}`,
         },
       ]);
@@ -415,8 +393,7 @@ const PersonaScreen = () => {
   }
 
   if (isErrorPersonaInfo || isErrorDemographicInfos) {
-    const errorMessage =
-      isErrorPersonaInfo?.message || isErrorDemographicInfos?.message;
+    const errorMessage = isErrorPersonaInfo?.message || isErrorDemographicInfos?.message;
     return (
       <div className="persona-container">
         <CustomError error={errorMessage} />
@@ -425,7 +402,7 @@ const PersonaScreen = () => {
   }
 
   return (
-    <div className={"persona-container"}>
+    <div className={'persona-container'}>
       <PersonaHeader
         personaInfo={dataPersonaInfo?.getPersonaById || null}
         isLoadingPersonaSection={isLoadingPersonaSection}
@@ -433,16 +410,14 @@ const PersonaScreen = () => {
         onHandleUpdateInfo={onHandleUpdateInfo}
         onHandleAddSection={onHandleAddSection}
       />
-      <div className={"persona-container--body"}>
-        <div className={"persona-container--left-menu"}>
+      <div className={'persona-container--body'}>
+        <div className={'persona-container--left-menu'}>
           <PersonaLeftMenu
             personaId={personaId}
             personaInfo={dataPersonaInfo?.getPersonaById || null}
             demographicInfos={demographicInfos}
             onHandleUpdateInfo={onHandleUpdateInfo}
-            onHandleUpdateSelectedGalleryItem={
-              onHandleUpdateSelectedGalleryItem
-            }
+            onHandleUpdateSelectedGalleryItem={onHandleUpdateSelectedGalleryItem}
             onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
             onHandleAddNewDemographicInfo={onHandleAddNewDemographicInfo}
             onHandleDeleteDemographicInfo={onHandleDeleteDemographicInfo}
@@ -451,10 +426,7 @@ const PersonaScreen = () => {
             demographicInfoRef={demographicInfoRef}
           />
         </div>
-        <div
-          className={"persona-container--right-sections"}
-          ref={rightSectionRef}
-        >
+        <div className={'persona-container--right-sections'} ref={rightSectionRef}>
           {/*<PersonaRightSections*/}
           {/*  ref={personaRef}*/}
           {/*  dataPersonaSections={*/}

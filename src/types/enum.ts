@@ -40,17 +40,17 @@ export enum ImageSizeEnum {
 }
 
 export enum PersonaFieldCategoryTypeEnum {
-  PERSONA_FIELD_SECTIONS = "personaFieldSections",
-  DEMOGRAPHIC_INFO_FIELDS = "demographicInfoFields",
+  PERSONA_FIELD_SECTIONS = 'personaFieldSections',
+  DEMOGRAPHIC_INFO_FIELDS = 'demographicInfoFields',
 }
 
 export enum PersonaTypeEnum {
-  Customer = "CUSTOMER",
-  Employee = "EMPLOYEE",
-  Others = "OTHERS",
+  Customer = 'CUSTOMER',
+  Employee = 'EMPLOYEE',
+  Others = 'OTHERS',
 }
 
 export enum PersonaGenderEnum {
-  MALE = "Male",
-  FEMALE = "Female",
+  MALE = 'Male',
+  FEMALE = 'Female',
 }

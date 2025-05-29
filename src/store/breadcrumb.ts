@@ -27,7 +27,7 @@ export const useBreadcrumbStore = create<BreadcrumbStore>(set => ({
       breadcrumbs: [...state.breadcrumbs, breadcrumb],
     })),
   updateBreadcrumb: (index, breadcrumb) =>
-    set((state) => ({
+    set(state => ({
       breadcrumbs: state.breadcrumbs.map((item, i) =>
         i === index ? { ...item, ...breadcrumb } : item,
       ),

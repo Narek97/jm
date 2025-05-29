@@ -1,6 +1,5 @@
-@use "@assets/styles/variables" as *;
-@use "@assets/styles/mixins" as *;
-
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 @include map-item-quill();
 .ql-editor.ql-blank::before {

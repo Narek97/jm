@@ -1,17 +1,17 @@
-import { FC, memo, useCallback, useMemo } from "react";
+import { FC, memo, useCallback, useMemo } from 'react';
 
-import "./style.scss";
-import { useNavigate } from "@tanstack/react-router";
+import './style.scss';
+import { useNavigate } from '@tanstack/react-router';
 
-import { useCopyPersonaMutation } from "@/api/mutations/generated/copyPersona.generated.ts";
-import CropImage from "@/Components/Shared/CropImage";
-import CustomLongMenu from "@/Components/Shared/CustomLongMenu";
-import PersonaImageBox from "@/Components/Shared/PersonaImageBox";
-import { IMAGE_ASPECT } from "@/constants";
-import { PERSONA_OPTIONS } from "@/Screens/PersonaGroupScreen/constnats.tsx";
-import { PersonaType } from "@/Screens/PersonaGroupScreen/types.ts";
-import { ImageSizeEnum, MenuViewTypeEnum } from "@/types/enum.ts";
-import { getResizedFileName } from "@/utils/getResizedFileName.ts";
+import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.generated.ts';
+import CropImage from '@/Components/Shared/CropImage';
+import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import PersonaImageBox from '@/Components/Shared/PersonaImageBox';
+import { IMAGE_ASPECT } from '@/constants';
+import { PERSONA_OPTIONS } from '@/Screens/PersonaGroupScreen/constnats.tsx';
+import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
+import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 interface IPersonaCard {
   persona: PersonaType;
@@ -24,7 +24,7 @@ const PersonaCard: FC<IPersonaCard> = memo(
     const navigate = useNavigate();
 
     const { mutate: copyPersona } = useCopyPersonaMutation({
-      onSuccess: (response) => {
+      onSuccess: response => {
         navigate({
           to: `/workspace/${workspaceId}/persona/${response.copyPersona}`,
         }).then();
@@ -56,36 +56,34 @@ const PersonaCard: FC<IPersonaCard> = memo(
     return (
       <>
         <li
-          className={"persona-card"}
+          className={'persona-card'}
           onClick={onHandleNavigate}
           id={persona.id.toString()}
-          data-testid={`persona-card-${persona.id}`}
-        >
-          <div className={"persona-card--menu"}>
+          data-testid={`persona-card-${persona.id}`}>
+          <div className={'persona-card--menu'}>
             <CustomLongMenu
               type={MenuViewTypeEnum.VERTICAL}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               item={persona}
               options={options}
               sxStyles={{
-                display: "inline-block",
-                background: "transparent",
+                display: 'inline-block',
+                background: 'transparent',
               }}
             />
           </div>
-          <div className={"persona-card--frame-block"}>
+          <div className={'persona-card--frame-block'}>
             {persona?.croppedArea ? (
               <div
-                className={"persona-cropped-image"}
-                style={{ borderColor: persona?.color || "#545e6b" }}
-              >
+                className={'persona-cropped-image'}
+                style={{ borderColor: persona?.color || '#545e6b' }}>
                 <CropImage
                   imageSource={`${import.meta.env.VITE_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}
                   croppedArea={persona?.croppedArea}
@@ -94,13 +92,13 @@ const PersonaCard: FC<IPersonaCard> = memo(
               </div>
             ) : (
               <PersonaImageBox
-                title={""}
+                title={''}
                 imageItem={{
-                  color: persona?.color || "",
+                  color: persona?.color || '',
                   attachment: {
                     id: persona?.attachment?.id || 0,
-                    url: persona?.attachment?.url || "",
-                    key: persona?.attachment?.key || "",
+                    url: persona?.attachment?.url || '',
+                    key: persona?.attachment?.key || '',
                     croppedArea: persona?.croppedArea,
                   },
                 }}
@@ -109,25 +107,21 @@ const PersonaCard: FC<IPersonaCard> = memo(
             )}
           </div>
 
-          <div className={"persona-card--info"}>
-            <p className={"persona-card--info--name"}>{persona.name}</p>
-            <p className={"persona-card--info--type"}>
-              {persona.type?.toLocaleLowerCase()}
-            </p>
+          <div className={'persona-card--info'}>
+            <p className={'persona-card--info--name'}>{persona.name}</p>
+            <p className={'persona-card--info--type'}>{persona.type?.toLocaleLowerCase()}</p>
           </div>
 
-          <div className={"persona-card--footer"}>
-            <div className={"persona-card--footer--journies"}>
+          <div className={'persona-card--footer'}>
+            <div className={'persona-card--footer--journies'}>
               <span className="wm-map" />
               <span>
-                {persona.journeys || 0}{" "}
-                {persona.journeys && persona.journeys > 1
-                  ? "Journeys"
-                  : "Journey"}
+                {persona.journeys || 0}{' '}
+                {persona.journeys && persona.journeys > 1 ? 'Journeys' : 'Journey'}
               </span>
             </div>
 
-            <div className={"persona-card--emotion"}></div>
+            <div className={'persona-card--emotion'}></div>
           </div>
         </li>
       </>

@@ -1,6 +1,5 @@
-@use "@assets/styles/variables" as *;
-@use "@assets/styles/mixins" as *;
-
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .outcome-container {
   padding: 0.5rem 2rem;
@@ -17,5 +16,4 @@
     margin-top: 1rem;
     overflow: auto;
   }
-
 }

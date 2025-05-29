@@ -1,17 +1,17 @@
-import { GetPersonaDemographicInfoModel, Personas } from "@/api/types";
-import { AttachmentType, CroppedAreaType } from "@/types";
+import { GetPersonaDemographicInfoModel, Personas } from '@/api/types';
+import { AttachmentType, CroppedAreaType } from '@/types';
 
 export type PersonaInfoType = Pick<
   Personas,
-  | "id"
-  | "name"
-  | "type"
-  | "color"
-  | "journeys"
-  | "workspaceId"
-  | "workspaceName"
-  | "personaGroupId"
-  | "personaGroupName"
+  | 'id'
+  | 'name'
+  | 'type'
+  | 'color'
+  | 'journeys'
+  | 'workspaceId'
+  | 'workspaceName'
+  | 'personaGroupId'
+  | 'personaGroupName'
 > & {
   croppedArea?: CroppedAreaType | null;
   attachment?: AttachmentType | null;
@@ -19,17 +19,9 @@ export type PersonaInfoType = Pick<
 
 export type PersonaDemographicInfoType = Pick<
   GetPersonaDemographicInfoModel,
-  | "id"
-  | "key"
-  | "personaId"
-  | "value"
-  | "type"
-  | "height"
-  | "isPinned"
-  | "isHidden"
-  | "isDefault"
+  'id' | 'key' | 'personaId' | 'value' | 'type' | 'height' | 'isPinned' | 'isHidden' | 'isDefault'
 > & {
-  attachment?: Pick<AttachmentType, "url" | "key" | "croppedArea"> | null;
+  attachment?: Pick<AttachmentType, 'url' | 'key' | 'croppedArea'> | null;
 };
 
 export type PersonaFieldTypes = {
@@ -38,7 +30,7 @@ export type PersonaFieldTypes = {
 };
 
 export type PersonaImageContainedComponentType = {
-  type: "avatar" | "personaField" | null;
+  type: 'avatar' | 'personaField' | null;
   itemId: number | null;
-  attachment: Pick<AttachmentType, "url" | "key" | "croppedArea"> | null;
+  attachment: Pick<AttachmentType, 'url' | 'key' | 'croppedArea'> | null;
 };

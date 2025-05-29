@@ -1,13 +1,13 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import Quill from "quill";
-import "quill/dist/quill.js";
-import "quill/dist/quill.bubble.css";
+import Quill from 'quill';
+import 'quill/dist/quill.js';
+import 'quill/dist/quill.bubble.css';
 
-import EditorModal from "../EditorModal/index.tsx";
-import { getQuillConfig, setEditorValue } from "../QuilConfig";
+import EditorModal from '../EditorModal/index.tsx';
+import { getQuillConfig, setEditorValue } from '../QuilConfig';
 
 interface IMapEditor {
   layoutId: string;
@@ -23,7 +23,7 @@ const PersonaEditor: FC<IMapEditor> = ({
   initValue,
   onHandleTextChange,
   disabled = false,
-  color = "#545e6b",
+  color = '#545e6b',
   customClass,
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -35,7 +35,7 @@ const PersonaEditor: FC<IMapEditor> = ({
       const { initializeQuill } = getQuillConfig({
         editor: editorRef.current,
         onCustomButtonAction: () => {
-          setIsModalOpen((prev) => !prev);
+          setIsModalOpen(prev => !prev);
         },
         onHandleTextChange,
         disabled,
@@ -43,11 +43,11 @@ const PersonaEditor: FC<IMapEditor> = ({
       });
 
       const quill = initializeQuill(quillRef, color);
-      quill.root.innerHTML = initValue || "";
+      quill.root.innerHTML = initValue || '';
 
       return () => {
-        quill.off("text-change");
-        quillRef.current?.off("text-change");
+        quill.off('text-change');
+        quillRef.current?.off('text-change');
         quillRef.current = null;
       };
     }
@@ -73,7 +73,7 @@ const PersonaEditor: FC<IMapEditor> = ({
       {isModalOpen && (
         <EditorModal
           initValue={initValue}
-          onSave={(value) => onSaveEditorValue(value)}
+          onSave={value => onSaveEditorValue(value)}
           isOpen={isModalOpen}
           handleClose={() => {
             setIsModalOpen(false);

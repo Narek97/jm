@@ -8,49 +8,49 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Skeleton } from "@mui/material";
-import Popover from "@mui/material/Popover";
-import { WuButton, WuMenu, WuMenuItem } from "@npm-questionpro/wick-ui-lib";
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
+import { Skeleton } from '@mui/material';
+import Popover from '@mui/material/Popover';
+import { WuButton, WuMenu, WuMenuItem } from '@npm-questionpro/wick-ui-lib';
 
-import DeleteDemographicInfosSectionConfirmModal from "./DeleteDemographicInfosSectionConfirmModal";
-import SectionField from "./SectionField";
+import DeleteDemographicInfosSectionConfirmModal from './DeleteDemographicInfosSectionConfirmModal';
+import SectionField from './SectionField';
 import {
   PersonaDemographicInfoType,
   PersonaFieldTypes,
   PersonaImageContainedComponentType,
   PersonaInfoType,
-} from "../../types";
-import ImageViewAndUpload from "./SectionField/ImageViewAndUpload";
+} from '../../types';
+import ImageViewAndUpload from './SectionField/ImageViewAndUpload';
 
 import {
   CreateDefaultDemographicInfoFieldsMutation,
   useCreateDefaultDemographicInfoFieldsMutation,
-} from "@/api/mutations/generated/createDefaultDemographicInfoFields.generated";
+} from '@/api/mutations/generated/createDefaultDemographicInfoFields.generated';
 import {
   UpdateDemographicInfoPositionMutation,
   useUpdateDemographicInfoPositionMutation,
-} from "@/api/mutations/generated/updateDemographicInfoPosition.generated";
-import { DemographicInfoTypeEnum } from "@/api/types.ts";
-import CustomColorPicker from "@/Components/Shared/CustomColorPicker";
-import CustomDropDown from "@/Components/Shared/CustomDropDown";
-import CustomInput from "@/Components/Shared/CustomInput";
-import { debounced400 } from "@/hooks/useDebounce";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
-import DemographicInfoItem from "@/Screens/PersonaScreen/components/PersonaLeftMenu/DemographicIInfoItem";
-import PersonaGalleryModal from "@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal";
+} from '@/api/mutations/generated/updateDemographicInfoPosition.generated';
+import { DemographicInfoTypeEnum } from '@/api/types.ts';
+import CustomColorPicker from '@/Components/Shared/CustomColorPicker';
+import CustomDropDown from '@/Components/Shared/CustomDropDown';
+import CustomInput from '@/Components/Shared/CustomInput';
+import { debounced400 } from '@/hooks/useDebounce';
+import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import DemographicInfoItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/DemographicIInfoItem';
+import PersonaGalleryModal from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal';
 import {
   DEMOGRAPHIC_INFO_POPOVER,
   PERSONA_DEMOGRAPHIC_INFO_OPTIONS,
   PERSONA_FIELD_SECTIONS_TYPES,
   PERSONA_TYPE_MENU_ITEMS,
-} from "@/Screens/PersonaScreen/constants.tsx";
-import { AttachmentType, CroppedAreaType } from "@/types";
-import { PersonaFieldCategoryTypeEnum, PersonaTypeEnum } from "@/types/enum";
+} from '@/Screens/PersonaScreen/constants.tsx';
+import { AttachmentType, CroppedAreaType } from '@/types';
+import { PersonaFieldCategoryTypeEnum, PersonaTypeEnum } from '@/types/enum';
 
 interface IPersonaLeftMenu {
   personaId: number;
@@ -61,7 +61,7 @@ interface IPersonaLeftMenu {
   onHandleChangeDemographicInfo: (
     demographicInfoId: number,
     value: any,
-    key: "key" | "value" | "isHidden" | "attachment" | "height",
+    key: 'key' | 'value' | 'isHidden' | 'attachment' | 'height',
     categoryType: PersonaFieldCategoryTypeEnum,
   ) => void;
   onHandleAddNewDemographicInfo: (
@@ -70,10 +70,7 @@ interface IPersonaLeftMenu {
     value: string,
     callback: () => void,
   ) => void;
-  onHandleDeleteDemographicInfo: (
-    id: number,
-    type: DemographicInfoTypeEnum,
-  ) => void;
+  onHandleDeleteDemographicInfo: (id: number, type: DemographicInfoTypeEnum) => void;
   isLoadingCreateDemographicInfo: boolean;
   isLoadingDeleteDemographicInfo: boolean;
   demographicInfoRef: LegacyRef<HTMLDivElement> | undefined;
@@ -92,29 +89,23 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   isLoadingDeleteDemographicInfo,
   demographicInfoRef,
 }) => {
-  const setDemographicInfos = useSetQueryDataByKey(
-    "GetPersonaDemographicInfos",
-  );
+  const setDemographicInfos = useSetQueryDataByKey('GetPersonaDemographicInfos');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const personaTypeInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedDemographicInfoType, setSelectedDemographicInfoType] =
     useState<DemographicInfoTypeEnum | null>(null);
-  const [selectedDemographicInfoId, setSelectedDemographicInfoId] = useState<
-    number | null
-  >(null);
-  const [otherTypeText, setOtherTypeText] = useState<string>(
-    personaInfo?.type || "",
-  );
+  const [selectedDemographicInfoId, setSelectedDemographicInfoId] = useState<number | null>(null);
+  const [otherTypeText, setOtherTypeText] = useState<string>(personaInfo?.type || '');
   const [isAutoFocusOn, setIsAutoFocusOn] = useState<boolean>(false);
   const [isOpenGalleryModal, setIsOpenGalleryModal] = useState<boolean>(false);
   const [avatarKey, setAvatarKey] = useState<string>(
     personaInfo?.attachment
       ? `${personaInfo?.attachment?.url}/large${personaInfo?.attachment?.key}`
-      : "",
+      : '',
   );
   const [
     isOpenDeleteDemographicInfoSectionConfirmModal,
@@ -127,27 +118,26 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
       itemId: null,
       attachment: null,
     });
-  const [avatarCroppedArea, setAvatarCroppedArea] =
-    useState<CroppedAreaType | null>(personaInfo?.croppedArea || null);
+  const [avatarCroppedArea, setAvatarCroppedArea] = useState<CroppedAreaType | null>(
+    personaInfo?.croppedArea || null,
+  );
 
-  const { mutate: mutateCreateDefaultFields } =
-    useCreateDefaultDemographicInfoFieldsMutation<
-      Error,
-      CreateDefaultDemographicInfoFieldsMutation
-    >();
+  const { mutate: mutateCreateDefaultFields } = useCreateDefaultDemographicInfoFieldsMutation<
+    Error,
+    CreateDefaultDemographicInfoFieldsMutation
+  >();
 
-  const { mutate: mutateDemographicInfoPosition } =
-    useUpdateDemographicInfoPositionMutation<
-      Error,
-      UpdateDemographicInfoPositionMutation
-    >();
+  const { mutate: mutateDemographicInfoPosition } = useUpdateDemographicInfoPositionMutation<
+    Error,
+    UpdateDemographicInfoPositionMutation
+  >();
 
   const onHandleUpdateSectionItemAttachment = useCallback(
     (data: AttachmentType, itemId: number) => {
       onHandleChangeDemographicInfo(
         itemId,
         { ...data },
-        "attachment",
+        'attachment',
         PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
       );
     },
@@ -158,10 +148,10 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     (data: AttachmentType) => {
       const itemId = currentUpdatedImageComponent.itemId;
       switch (currentUpdatedImageComponent.type) {
-        case "avatar":
+        case 'avatar':
           onHandleUpdateSelectedGalleryItem(data.id);
           break;
-        case "personaField":
+        case 'personaField':
           if (itemId) {
             onHandleUpdateSectionItemAttachment(data, itemId);
             onHandleToggleGalleryModal();
@@ -179,14 +169,14 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
 
   const onHandleChangeAvatar = useCallback(
     (data: AttachmentType, croppedArea?: CroppedAreaType): Promise<void> => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         const source = data.url ? `${data.url}/large${data.key}` : data.key;
         switch (currentUpdatedImageComponent.type) {
-          case "avatar":
+          case 'avatar':
             setAvatarKey(source);
             setAvatarCroppedArea(croppedArea || data.croppedArea || null);
             break;
-          case "personaField":
+          case 'personaField':
             onHandleToggleGalleryModal();
             updateGallery({ ...data, croppedArea });
             break;
@@ -200,7 +190,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   );
 
   const onHandleToggleGalleryModal = () => {
-    setIsOpenGalleryModal((prev) => !prev);
+    setIsOpenGalleryModal(prev => !prev);
   };
 
   const onHandleTogglePopup = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -219,20 +209,17 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     onHandleAddNewDemographicInfo(
       name,
       selectedDemographicInfoType as DemographicInfoTypeEnum,
-      target.value || "",
+      target.value || '',
       () => {
         setSelectedDemographicInfoType(null);
-        setName("");
+        setName('');
       },
     );
   };
 
-  const onHandleEditDemographicInfoItem = useCallback(
-    (item: PersonaDemographicInfoType) => {
-      setSelectedDemographicInfoId(item.id);
-    },
-    [],
-  );
+  const onHandleEditDemographicInfoItem = useCallback((item: PersonaDemographicInfoType) => {
+    setSelectedDemographicInfoId(item.id);
+  }, []);
 
   const onHandleRemoveSelectedDemographicInfoId = useCallback(() => {
     setSelectedDemographicInfoId(null);
@@ -248,22 +235,17 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   const onHandleAddOtherType = (e: ChangeEvent<HTMLInputElement>) => {
     setOtherTypeText(e.target.value);
     debounced400(() => {
-      onHandleUpdateInfo("type", e.target.value);
+      onHandleUpdateInfo('type', e.target.value);
     });
   };
 
   const onHandleAddSection = (type: DemographicInfoTypeEnum) => {
     onHandleSelectDemographicInfo(type);
 
-    onHandleAddNewDemographicInfo(
-      name,
-      type as DemographicInfoTypeEnum,
-      "",
-      () => {
-        setSelectedDemographicInfoType(null);
-        setName("");
-      },
-    );
+    onHandleAddNewDemographicInfo(name, type as DemographicInfoTypeEnum, '', () => {
+      setSelectedDemographicInfoType(null);
+      setName('');
+    });
   };
 
   const onHandleAddDefaultDemographicFields = () => {
@@ -274,15 +256,14 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
         },
       },
       {
-        onSuccess: (response) => {
+        onSuccess: response => {
           setDemographicInfos((oldData: any) => {
             if (oldData) {
-              console.log(oldData, "old");
+              console.log(oldData, 'old');
               return {
                 getPersonaDemographicInfos: {
                   ...oldData.getPersonaDemographicInfos,
-                  demographicInfoFields:
-                    response.createDefaultDemographicInfoFields,
+                  demographicInfoFields: response.createDefaultDemographicInfoFields,
                 },
               };
             }
@@ -326,8 +307,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     const reorderedItems = Array.from(demographicInfos.personaFieldSections);
     const [movedItem] = reorderedItems.splice(source.index, 1);
     reorderedItems.splice(destination.index, 0, movedItem);
-    const beforeId =
-      destination.index > 0 ? reorderedItems[destination.index - 1].id : null;
+    const beforeId = destination.index > 0 ? reorderedItems[destination.index - 1].id : null;
 
     const afterId =
       destination.index < reorderedItems.length - 1
@@ -345,7 +325,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   };
 
   return (
-    <div className={"persona-left-menu"}>
+    <div className={'persona-left-menu'}>
       {isOpenDeleteDemographicInfoSectionConfirmModal && (
         <DeleteDemographicInfosSectionConfirmModal
           personaId={personaId}
@@ -366,22 +346,21 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
           onHandleChangeAvatar={onHandleChangeAvatar}
         />
       )}
-      <div className={"persona-left-menu--content"}>
+      <div className={'persona-left-menu--content'}>
         <div
-          className={"persona-left-menu--avatar-frame"}
-          data-testid={"persona-left-menu--avatar-frame"}
+          className={'persona-left-menu--avatar-frame'}
+          data-testid={'persona-left-menu--avatar-frame'}
           style={{ border: `4px solid ${personaInfo?.color}` }}
           onClick={() => {
-            setCurrentUpdatedImageComponent((prev) => ({
+            setCurrentUpdatedImageComponent(prev => ({
               ...prev,
               itemId: personaId,
               attachment: personaInfo?.attachment || null,
-              type: "avatar",
+              type: 'avatar',
             }));
 
             onHandleToggleGalleryModal();
-          }}
-        >
+          }}>
           <ImageViewAndUpload
             hasResizedVersions={!!personaInfo?.attachment?.hasResizedVersions}
             croppedArea={avatarCroppedArea}
@@ -390,25 +369,25 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             isTemplate
           />
         </div>
-        <div className={"persona-left-menu--color-type-block"}>
-          <div className={"persona-left-menu--type-block"}>
+        <div className={'persona-left-menu--color-type-block'}>
+          <div className={'persona-left-menu--type-block'}>
             <p>Type</p>
             {personaInfo?.type !== PersonaTypeEnum.Customer &&
               personaInfo?.type !== PersonaTypeEnum.Employee && (
-                <div className={"custom-type-input"}>
+                <div className={'custom-type-input'}>
                   <CustomInput
                     data-testid="custom-user-type"
                     sxStyles={{
-                      background: "white",
-                      "& .Mui-focused": {
-                        backgroundColor: "white",
+                      background: 'white',
+                      '& .Mui-focused': {
+                        backgroundColor: 'white',
                       },
                     }}
                     inputRef={personaTypeInputRef}
                     value={otherTypeText}
                     onChange={onHandleAddOtherType}
                     onBlur={() => setIsAutoFocusOn(false)}
-                    onKeyDown={(event) => {
+                    onKeyDown={event => {
                       if (event.keyCode === 13) {
                         event.preventDefault();
                         (event.target as HTMLElement).blur();
@@ -419,13 +398,13 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               )}
             <CustomDropDown
               menuItems={PERSONA_TYPE_MENU_ITEMS}
-              onSelect={(item) => {
+              onSelect={item => {
                 if (item.value === PersonaTypeEnum.Others) {
                   setIsAutoFocusOn(true);
-                  setOtherTypeText("");
-                  onHandleUpdateInfo("type", "");
+                  setOtherTypeText('');
+                  onHandleUpdateInfo('type', '');
                 } else {
-                  onHandleUpdateInfo("type", item.value as string);
+                  onHandleUpdateInfo('type', item.value as string);
                 }
               }}
               // defaultValue={personaInfo.type}
@@ -437,12 +416,12 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               }
             />
           </div>
-          <div className={"persona-left-menu--color-block"}>
+          <div className={'persona-left-menu--color-block'}>
             <p>Color</p>
             <CustomColorPicker
-              defaultColor={personaInfo?.color || "#1b87e6"}
-              onChange={(colorData) => {
-                onHandleUpdateInfo("color", colorData);
+              defaultColor={personaInfo?.color || '#1b87e6'}
+              onChange={colorData => {
+                onHandleUpdateInfo('color', colorData);
               }}
             />
           </div>
@@ -450,39 +429,28 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
       </div>
 
       {demographicInfos.demographicInfoFields?.length > 0 ? (
-        <div className={"persona-left-menu--block-2"}>
-          <div data-testid={"delete-demographic-infos"}>
+        <div className={'persona-left-menu--block-2'}>
+          <div data-testid={'delete-demographic-infos'}>
             <WuButton
-              className={"delete-demographic-info-section"}
-              onClick={() =>
-                setIsOpenDeleteDemographicInfoSectionConfirmModal(true)
-              }
+              className={'delete-demographic-info-section'}
+              onClick={() => setIsOpenDeleteDemographicInfoSectionConfirmModal(true)}
               Icon={<span className="wm-delete" />}
               variant="iconOnly"
             />
           </div>
-          <p className={"persona-left-menu--block-2-title !text-heading-3"}>
-            Demographic info
-          </p>
-          <div
-            className={"persona-left-menu--demographic-info-block"}
-            ref={demographicInfoRef}
-          >
-            {demographicInfos.demographicInfoFields.map(
-              (demographicInfo, index) => (
-                <DemographicInfoItem
-                  key={demographicInfo.id}
-                  demographicInfo={demographicInfo}
-                  index={index}
-                  onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
-                  selectedDemographicInfoId={selectedDemographicInfoId}
-                  onHandleRemoveSelectedDemographicInfoId={
-                    onHandleRemoveSelectedDemographicInfoId
-                  }
-                  options={options}
-                />
-              ),
-            )}
+          <p className={'persona-left-menu--block-2-title !text-heading-3'}>Demographic info</p>
+          <div className={'persona-left-menu--demographic-info-block'} ref={demographicInfoRef}>
+            {demographicInfos.demographicInfoFields.map((demographicInfo, index) => (
+              <DemographicInfoItem
+                key={demographicInfo.id}
+                demographicInfo={demographicInfo}
+                index={index}
+                onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
+                selectedDemographicInfoId={selectedDemographicInfoId}
+                onHandleRemoveSelectedDemographicInfoId={onHandleRemoveSelectedDemographicInfoId}
+                options={options}
+              />
+            ))}
           </div>
           {isLoadingCreateDemographicInfo &&
             selectedDemographicInfoType &&
@@ -491,15 +459,11 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               DemographicInfoTypeEnum.Text,
               DemographicInfoTypeEnum.Number,
             ]?.includes(selectedDemographicInfoType) && (
-              <div
-                className={
-                  "persona-left-menu--demographic-info-create-loading-block"
-                }
-              >
+              <div className={'persona-left-menu--demographic-info-create-loading-block'}>
                 <Skeleton
                   sx={{
-                    width: "18.2rem",
-                    height: "2.688rem",
+                    width: '18.2rem',
+                    height: '2.688rem',
                   }}
                   animation="wave"
                   variant="rectangular"
@@ -510,80 +474,74 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             autoComplete="off"
             className={`${
               isLoadingCreateDemographicInfo
-                ? "persona-left-menu--demographic-none-info-create-block"
-                : "persona-left-menu--demographic-info-create-block"
+                ? 'persona-left-menu--demographic-none-info-create-block'
+                : 'persona-left-menu--demographic-info-create-block'
             }  ${
               selectedDemographicInfoType
-                ? "persona-left-menu--demographic-open-info-create-block"
-                : ""
+                ? 'persona-left-menu--demographic-open-info-create-block'
+                : ''
             }`}
-            onSubmit={onHandleCreateDemographicInfo}
-          >
+            onSubmit={onHandleCreateDemographicInfo}>
             <CustomInput
               inputRef={inputRef}
               value={name}
-              data-testid={"demographic-info-name-test-id"}
-              onChange={(e) => setName(e.target.value)}
+              data-testid={'demographic-info-name-test-id'}
+              onChange={e => setName(e.target.value)}
             />
-            <div className={"persona-left-menu--demographic-info-actions"}>
+            <div className={'persona-left-menu--demographic-info-actions'}>
               <button
-                type={"submit"}
-                aria-label={"Tick"}
-                data-testid={"create-demographic-info-test-id"}
-              >
-                <span className={"wm-check"} />
+                type={'submit'}
+                aria-label={'Tick'}
+                data-testid={'create-demographic-info-test-id'}>
+                <span className={'wm-check'} />
               </button>
               <button
-                type={"button"}
-                aria-label={"XDelete"}
+                type={'button'}
+                aria-label={'XDelete'}
                 disabled={isLoadingDeleteDemographicInfo}
-                onClick={() => setSelectedDemographicInfoType(null)}
-              >
-                <span className={"wm-close"} />
+                onClick={() => setSelectedDemographicInfoType(null)}>
+                <span className={'wm-close'} />
               </button>
             </div>
           </form>
 
           <button
-            aria-label={"add"}
-            data-testid={"add-demographic-info-test-id"}
-            className={"persona-left-menu--add-demographic-info"}
-            style={{ background: anchorEl ? "#1b87e6" : "" }}
-            onClick={(e) => {
+            aria-label={'add'}
+            data-testid={'add-demographic-info-test-id'}
+            className={'persona-left-menu--add-demographic-info'}
+            style={{ background: anchorEl ? '#1b87e6' : '' }}
+            onClick={e => {
               onHandleTogglePopup(e);
               inputRef.current?.focus();
             }}
-            disabled={isLoadingCreateDemographicInfo}
-          >
+            disabled={isLoadingCreateDemographicInfo}>
             <span
-              className={"wm-add"}
+              className={'wm-add'}
               style={{
-                color: anchorEl ? "#ffffff" : "#1b87e6",
+                color: anchorEl ? '#ffffff' : '#1b87e6',
               }}
             />
           </button>
           <Popover
             sx={{
-              "& .MuiPopover-paper": {
-                borderRadius: "0",
+              '& .MuiPopover-paper': {
+                borderRadius: '0',
               },
             }}
             open={Boolean(anchorEl)}
             anchorEl={anchorEl}
             onClose={onHandleTogglePopup}
             anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            <ul className={"persona-left-menu--demographic-info-popover"}>
-              {DEMOGRAPHIC_INFO_POPOVER.map((item) => (
+              vertical: 'top',
+              horizontal: 'right',
+            }}>
+            <ul className={'persona-left-menu--demographic-info-popover'}>
+              {DEMOGRAPHIC_INFO_POPOVER.map(item => (
                 <li
                   key={item.id}
                   data-testid={`${item.type.toLowerCase()}-test-id`}
-                  className={"persona-left-menu--demographic-info-popover-item"}
-                  onClick={() => onHandleSelectDemographicInfo(item.type)}
-                >
+                  className={'persona-left-menu--demographic-info-popover-item'}
+                  onClick={() => onHandleSelectDemographicInfo(item.type)}>
                   {item.name}
                 </li>
               ))}
@@ -592,61 +550,53 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
         </div>
       ) : (
         <WuButton
-          data-testid={"add-demographic-info-test-id"}
+          data-testid={'add-demographic-info-test-id'}
           color="primary"
           Icon={null}
-          className={"add-default-demographic-fields"}
+          className={'add-default-demographic-fields'}
           iconPosition="left"
           onClick={onHandleAddDefaultDemographicFields}
           size="md"
           style={{
-            width: "200px",
+            width: '200px',
           }}
-          variant="outline"
-        >
+          variant="outline">
           Add demographics
         </WuButton>
       )}
 
       <div className="persona-left-menu--block-2 demographic-sections">
-        <div className={"persona-left-menu--demographic-info-block"}>
+        <div className={'persona-left-menu--demographic-info-block'}>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
-              {(provided) => (
+              {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {demographicInfos?.personaFieldSections?.map(
-                    (demographicInfo, index) => (
-                      <Draggable
-                        key={demographicInfo.id}
-                        draggableId={String(demographicInfo.id)}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <SectionField
-                            provided={provided}
-                            key={demographicInfo.id}
-                            onHandleToggleGalleryModal={() => {
-                              setCurrentUpdatedImageComponent({
-                                itemId: demographicInfo.id,
-                                attachment: demographicInfo?.attachment || null,
-                                type: "personaField",
-                              });
-                              onHandleToggleGalleryModal();
-                            }}
-                            onHandleDeleteDemographicInfoItem={
-                              onHandleDeleteDemographicInfoItem
-                            }
-                            onHandleChangeDemographicInfo={
-                              onHandleChangeDemographicInfo
-                            }
-                            item={demographicInfo}
-                            index={index}
-                            type={demographicInfo.type}
-                          />
-                        )}
-                      </Draggable>
-                    ),
-                  )}
+                  {demographicInfos?.personaFieldSections?.map((demographicInfo, index) => (
+                    <Draggable
+                      key={demographicInfo.id}
+                      draggableId={String(demographicInfo.id)}
+                      index={index}>
+                      {provided => (
+                        <SectionField
+                          provided={provided}
+                          key={demographicInfo.id}
+                          onHandleToggleGalleryModal={() => {
+                            setCurrentUpdatedImageComponent({
+                              itemId: demographicInfo.id,
+                              attachment: demographicInfo?.attachment || null,
+                              type: 'personaField',
+                            });
+                            onHandleToggleGalleryModal();
+                          }}
+                          onHandleDeleteDemographicInfoItem={onHandleDeleteDemographicInfoItem}
+                          onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
+                          item={demographicInfo}
+                          index={index}
+                          type={demographicInfo.type}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
                   {provided.placeholder}
                 </div>
               )}
@@ -658,15 +608,13 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             <WuButton variant="outline" className="add-demographic-field">
               Add Section
             </WuButton>
-          }
-        >
-          {PERSONA_FIELD_SECTIONS_TYPES.map((sectionType) => (
+          }>
+          {PERSONA_FIELD_SECTIONS_TYPES.map(sectionType => (
             <WuMenuItem
               onSelect={() => {
                 onHandleAddSection(sectionType.type);
               }}
-              key={sectionType.type}
-            >
+              key={sectionType.type}>
               {sectionType.label}
             </WuMenuItem>
           ))}

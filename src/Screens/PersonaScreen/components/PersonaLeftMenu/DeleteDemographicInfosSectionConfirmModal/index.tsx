@@ -1,13 +1,13 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback } from 'react';
 
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
 import {
   DeleteAllDemographicInfoFieldsMutation,
   useDeleteAllDemographicInfoFieldsMutation,
-} from "@/api/mutations/generated/deleteAllDemographicInfoFields.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+} from '@/api/mutations/generated/deleteAllDemographicInfoFields.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IDeleteCxMapTable {
   personaId: number;
@@ -25,10 +25,7 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
   const { showToast } = useWuShowToast();
 
   const { mutate: deleteFields, isPending: connectPersonasIsLoading } =
-    useDeleteAllDemographicInfoFieldsMutation<
-      Error,
-      DeleteAllDemographicInfoFieldsMutation
-    >();
+    useDeleteAllDemographicInfoFieldsMutation<Error, DeleteAllDemographicInfoFieldsMutation>();
 
   const handleDeleteMapItem = useCallback(() => {
     deleteFields(
@@ -39,9 +36,9 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
         onSuccess: async () => {
           onSuccess();
         },
-        onError: (error) => {
+        onError: error => {
           showToast({
-            variant: "error",
+            variant: 'error',
             message: error?.message,
           });
         },
@@ -53,14 +50,13 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
     <CustomModal
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!connectPersonasIsLoading}
-    >
+      canCloseWithOutsideClick={!connectPersonasIsLoading}>
       <DeleteModalTemplate
         item={{
-          type: "demographic info section",
-          name: "demographic info section",
+          type: 'demographic info section',
+          name: 'demographic info section',
         }}
-        text={"Are you sure you want to delete demographic info section?"}
+        text={'Are you sure you want to delete demographic info section?'}
         handleClose={handleClose}
         handleDelete={handleDeleteMapItem}
         isLoading={connectPersonasIsLoading}

@@ -1,16 +1,16 @@
-import { DemographicInfoTypeEnum } from "@/api/types";
-import { PersonaDemographicInfoType } from "@/Screens/PersonaScreen/types.ts";
-import { DropdownSelectItemType, MenuOptionsType } from "@/types";
-import { PersonaGenderEnum, PersonaTypeEnum } from "@/types/enum";
+import { DemographicInfoTypeEnum } from '@/api/types';
+import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { DropdownSelectItemType, MenuOptionsType } from '@/types';
+import { PersonaGenderEnum, PersonaTypeEnum } from '@/types/enum';
 
 const PERSONA_TYPE_MENU_ITEMS: Array<DropdownSelectItemType> = [
   {
     id: 1,
-    name: "Customer",
+    name: 'Customer',
     value: PersonaTypeEnum.Customer,
   },
-  { id: 2, name: "Employee", value: PersonaTypeEnum.Employee },
-  { id: 3, name: "Other", value: PersonaTypeEnum.Others },
+  { id: 2, name: 'Employee', value: PersonaTypeEnum.Employee },
+  { id: 3, name: 'Other', value: PersonaTypeEnum.Others },
 ];
 
 const PERSONA_GENDER_MENU_ITEMS: Array<DropdownSelectItemType> = [
@@ -27,8 +27,8 @@ const DEMOGRAPHIC_INFO_POPOVER: Array<{
   name: string;
   type: DemographicInfoTypeEnum;
 }> = [
-  { id: 1, name: "Text field", type: DemographicInfoTypeEnum.Text },
-  { id: 2, name: "Numeric field", type: DemographicInfoTypeEnum.Number },
+  { id: 1, name: 'Text field', type: DemographicInfoTypeEnum.Text },
+  { id: 2, name: 'Numeric field', type: DemographicInfoTypeEnum.Number },
 ];
 
 const PERSONA_FIELD_SECTIONS_TYPES: {
@@ -36,11 +36,11 @@ const PERSONA_FIELD_SECTIONS_TYPES: {
   type: DemographicInfoTypeEnum;
 }[] = [
   {
-    label: "Image",
+    label: 'Image',
     type: DemographicInfoTypeEnum.Image,
   },
   {
-    label: "Text",
+    label: 'Text',
     type: DemographicInfoTypeEnum.Content,
   },
 ];
@@ -56,18 +56,18 @@ const PERSONA_GALLERY_IMAGE_OPTIONS = ({
 }): Array<MenuOptionsType> => {
   return [
     {
-      icon: <span className={"wm-edit"} />,
-      name: "Rename",
+      icon: <span className={'wm-edit'} />,
+      name: 'Rename',
       onClick: onHandleRename,
     },
     {
-      icon: <span className={"wm-crop"} />,
-      name: "Update cropped area",
+      icon: <span className={'wm-crop'} />,
+      name: 'Update cropped area',
       onClick: onHandleUpdateCrop,
     },
     {
-      icon: <span className={"wm-delete"} />,
-      name: "Delete",
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
       onClick: onHandleDelete,
     },
   ];
@@ -82,13 +82,13 @@ const PERSONA_DEMOGRAPHIC_INFO_OPTIONS = ({
 }): Array<MenuOptionsType> => {
   return [
     {
-      icon: <span className={"wm-edit"} />,
-      name: "Edit",
+      icon: <span className={'wm-edit'} />,
+      name: 'Edit',
       onClick: onHandleEdit,
     },
     {
-      icon: <span className={"wm-delete"} />,
-      name: "Delete",
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
       onClick: onHandleDelete,
     },
   ];

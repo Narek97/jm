@@ -1,46 +1,36 @@
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Skeleton } from "@mui/material";
-import { FileUploader } from "react-drag-drop-files";
+import { Skeleton } from '@mui/material';
+import { FileUploader } from 'react-drag-drop-files';
 
 import {
   AttachImageToPersonaMutation,
   useAttachImageToPersonaMutation,
-} from "@/api/mutations/generated/attachImageToPersona.generated.ts";
+} from '@/api/mutations/generated/attachImageToPersona.generated.ts';
 import {
   UpdateAttachmentCroppedAreaMutation,
   useUpdateAttachmentCroppedAreaMutation,
-} from "@/api/mutations/generated/updateAttachmentCroppedArea.generated.ts";
+} from '@/api/mutations/generated/updateAttachmentCroppedArea.generated.ts';
 import {
   GetPersonaGalleryQuery,
   useGetPersonaGalleryQuery,
-} from "@/api/queries/generated/getPersonaGallery.generated.ts";
-import { ActionEnum, AttachmentsEnum } from "@/api/types.ts";
-import CustomFileUploader from "@/Components/Shared/CustomFileUploader";
-import CustomInput from "@/Components/Shared/CustomInput";
-import CustomModal from "@/Components/Shared/CustomModal";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
-import Pagination from "@/Components/Shared/Pagination";
-import { PERSONA_FILE_TYPES } from "@/constants";
-import {
-  BOARDS_LIMIT,
-  PERSONAS_GALLERY_LIMIT,
-} from "@/constants/pagination.ts";
-import CropImageModal from "@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/CropImageModal";
-import PersonaGalleryItem from "@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/PersonaGalleryItem";
-import { PersonaImageContainedComponentType } from "@/Screens/PersonaScreen/types.ts";
-import { useUserStore } from "@/store/user.ts";
-import { AttachmentType, CroppedAreaType } from "@/types";
-import { UploadFile } from "@/utils/uploader.ts";
+} from '@/api/queries/generated/getPersonaGallery.generated.ts';
+import { ActionEnum, AttachmentsEnum } from '@/api/types.ts';
+import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import Pagination from '@/Components/Shared/Pagination';
+import { PERSONA_FILE_TYPES } from '@/constants';
+import { BOARDS_LIMIT, PERSONAS_GALLERY_LIMIT } from '@/constants/pagination.ts';
+import CropImageModal from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/CropImageModal';
+import PersonaGalleryItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/PersonaGalleryItem';
+import { PersonaImageContainedComponentType } from '@/Screens/PersonaScreen/types.ts';
+import { useUserStore } from '@/store/user.ts';
+import { AttachmentType, CroppedAreaType } from '@/types';
+import { UploadFile } from '@/utils/uploader.ts';
 
 interface IPersonaGalleryModal {
   isOpen: boolean;
@@ -72,12 +62,12 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
     croppedArea: CroppedAreaType | null;
   }>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [selectedPersonaImgId, setSelectedPersonaImgId] = useState<
-    number | null
-  >(selectedGalleryItemId || null);
+  const [selectedPersonaImgId, setSelectedPersonaImgId] = useState<number | null>(
+    selectedGalleryItemId || null,
+  );
   const [newGallery, setNewGallery] = useState<Array<AttachmentType>>([]);
   const [allGallery, setAllGallery] = useState<Array<AttachmentType>>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
 
@@ -93,25 +83,22 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
     },
   });
 
-  const { mutate: updateAttachmentCroppedArea } =
-    useUpdateAttachmentCroppedAreaMutation<
-      Error,
-      UpdateAttachmentCroppedAreaMutation
-    >();
+  const { mutate: updateAttachmentCroppedArea } = useUpdateAttachmentCroppedAreaMutation<
+    Error,
+    UpdateAttachmentCroppedAreaMutation
+  >();
 
-  const {
-    mutate: mutateAttachImageToPersona,
-    isPending: isLoadingAttachImageToPersona,
-  } = useAttachImageToPersonaMutation<Error, AttachImageToPersonaMutation>();
+  const { mutate: mutateAttachImageToPersona, isPending: isLoadingAttachImageToPersona } =
+    useAttachImageToPersonaMutation<Error, AttachImageToPersonaMutation>();
 
   const onHandleAttachImageToPersona = useCallback(
     (croppedArea?: CroppedAreaType) => {
       const galleryItem =
-        allGallery?.find((itm) => itm?.id === selectedPersonaImgId) ||
-        newGallery?.find((itm) => itm?.id === selectedPersonaImgId);
+        allGallery?.find(itm => itm?.id === selectedPersonaImgId) ||
+        newGallery?.find(itm => itm?.id === selectedPersonaImgId);
       if (selectedPersonaImgId) {
         switch (currentUpdatedImageComponent.type) {
-          case "avatar":
+          case 'avatar':
             mutateAttachImageToPersona(
               {
                 attachImageInput: {
@@ -130,7 +117,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
               },
             );
             break;
-          case "personaField":
+          case 'personaField':
             if (galleryItem) {
               onHandleChangeAvatar(galleryItem, croppedArea).then(() => {
                 onHandleCloseModal();
@@ -155,16 +142,13 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   );
 
   const updateAttachmentCropArea = useCallback(
-    (
-      croppedArea: CroppedAreaType,
-      componentType: "avatar" | "personaField",
-    ) => {
+    (croppedArea: CroppedAreaType, componentType: 'avatar' | 'personaField') => {
       if (cropModalData?.id) {
         updateAttachmentCroppedArea(
           {
             updateAttachmentCroppedAreaInput: {
               attachmentId: cropModalData.id,
-              ...(componentType === "avatar"
+              ...(componentType === 'avatar'
                 ? {
                     personaId: +personaId,
                   }
@@ -186,10 +170,8 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
         ...prev,
         croppedArea,
       }));
-      setAllGallery((prev) => {
-        return prev.map((item) =>
-          item.id === cropModalData?.id ? { ...item, croppedArea } : item,
-        );
+      setAllGallery(prev => {
+        return prev.map(item => (item.id === cropModalData?.id ? { ...item, croppedArea } : item));
       });
     },
     [
@@ -206,7 +188,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
       if (!file) return;
 
       let percentage: number | undefined = undefined;
-      const indexLastsSlash = file.type.lastIndexOf("/");
+      const indexLastsSlash = file.type.lastIndexOf('/');
       const fType = file.type.substring(indexLastsSlash + 1);
 
       const videoUploaderOptions = {
@@ -227,7 +209,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
         })
         .onFinish((uploadFilesData: any) => {
           setCurrentPage(1);
-          const [url, fileName] = uploadFilesData.key.split("/large/");
+          const [url, fileName] = uploadFilesData.key.split('/large/');
           const data = {
             croppedArea: null,
             hasResizedVersions: true,
@@ -237,11 +219,8 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
             url,
           };
 
-          setNewGallery((prev) => [{ ...data }, ...prev]); // No cropping
-          if (
-            (dataPersonaGallery?.getPersonaGallery.count || 0) >
-            PERSONAS_GALLERY_LIMIT
-          ) {
+          setNewGallery(prev => [{ ...data }, ...prev]); // No cropping
+          if ((dataPersonaGallery?.getPersonaGallery.count || 0) > PERSONAS_GALLERY_LIMIT) {
             setAllGallery(allGallery.slice(0, allGallery.length - 1));
           }
           setUploadProgress(0);
@@ -258,17 +237,10 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   const onHandleSaveCropImage = useCallback(
     (croppedArea: CroppedAreaType) => {
       if (cropModalData?.mode === ActionEnum.Update) {
-        updateAttachmentCropArea(
-          croppedArea,
-          currentUpdatedImageComponent.type!,
-        );
+        updateAttachmentCropArea(croppedArea, currentUpdatedImageComponent.type!);
       }
     },
-    [
-      cropModalData?.mode,
-      currentUpdatedImageComponent.type,
-      updateAttachmentCropArea,
-    ],
+    [cropModalData?.mode, currentUpdatedImageComponent.type, updateAttachmentCropArea],
   );
 
   const personaGallery = useMemo(
@@ -277,10 +249,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   );
 
   const gallery = useMemo(
-    () =>
-      allGallery.length
-        ? [...newGallery, ...allGallery]
-        : [...newGallery, ...personaGallery],
+    () => (allGallery.length ? [...newGallery, ...allGallery] : [...newGallery, ...personaGallery]),
     [allGallery, newGallery, personaGallery],
   );
   const galleryCount = useMemo(
@@ -290,10 +259,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
 
   const onHandleChangePage = useCallback(
     (newPage: number) => {
-      if (
-        dataPersonaGallery?.getPersonaGallery &&
-        gallery.length < galleryCount
-      ) {
+      if (dataPersonaGallery?.getPersonaGallery && gallery.length < galleryCount) {
         setOffset(newPage - 1);
       }
       if (
@@ -310,14 +276,10 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   const onDeleteSuccess = useCallback(
     async (deleteAttachmentId: number) => {
       if (currentPage !== 1 && gallery.length === 1) {
-        setCurrentPage((prev) => prev - 1);
+        setCurrentPage(prev => prev - 1);
       }
-      setNewGallery((prev) =>
-        prev.filter((el) => el.id !== deleteAttachmentId),
-      );
-      setAllGallery((prev) =>
-        prev.filter((el) => el.id !== deleteAttachmentId),
-      );
+      setNewGallery(prev => prev.filter(el => el.id !== deleteAttachmentId));
+      setAllGallery(prev => prev.filter(el => el.id !== deleteAttachmentId));
       await refetch();
     },
     [currentPage, gallery.length, refetch],
@@ -350,25 +312,22 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
       canCloseWithOutsideClick={!isLoadingAttachImageToPersona}
-      modalSize={"lg"}
-    >
+      modalSize={'lg'}>
       <div>
         <CustomModalHeader
-          title={"Media library"}
-          infoLink={"https://www.questionpro.com/help/add-image.html"}
+          title={'Media library'}
+          infoLink={'https://www.questionpro.com/help/add-image.html'}
         />
-        <div className={"persona-gallery-modal"}>
-          <div className={"persona-gallery-modal--header"}>
-            <div className={"persona-gallery-modal--header--search-block"}>
+        <div className={'persona-gallery-modal'}>
+          <div className={'persona-gallery-modal--header'}>
+            <div className={'persona-gallery-modal--header--search-block'}>
               <CustomInput
                 isIconInput={true}
-                inputType={"primary"}
+                inputType={'primary'}
                 placeholder="search..."
-                name={"search"}
+                name={'search'}
                 value={search}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setSearch(e.target.value)
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
               />
             </div>
             {galleryCount > PERSONAS_GALLERY_LIMIT && (
@@ -380,16 +339,13 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
               />
             )}
           </div>
-          <div className={"persona-gallery-modal--gallery"}>
+          <div className={'persona-gallery-modal--gallery'}>
             {isLoadingPersonaGallery ? (
               <>
                 {Array(14)
-                  .fill("")
+                  .fill('')
                   .map((_, index) => (
-                    <div
-                      className={"persona-gallery-modal--gallery--item"}
-                      key={index}
-                    >
+                    <div className={'persona-gallery-modal--gallery--item'} key={index}>
                       <Skeleton
                         sx={{
                           width: 160,
@@ -404,22 +360,21 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
               </>
             ) : (
               <>
-                <div className={"persona-gallery-modal--gallery--item"}>
+                <div className={'persona-gallery-modal--gallery--item'}>
                   <FileUploader
                     classes={`attachments--file-uploader`}
                     multiple={false}
                     handleChange={handleUploadFiles}
                     name="file"
-                    types={PERSONA_FILE_TYPES}
-                  >
+                    types={PERSONA_FILE_TYPES}>
                     <CustomFileUploader
                       uploadProgress={uploadProgress}
                       icon={
                         <span
-                          className={"wm-add"}
+                          className={'wm-add'}
                           style={{
-                            fontSize: "4rem",
-                            color: "#1B87E6",
+                            fontSize: '4rem',
+                            color: '#1B87E6',
                           }}
                         />
                       }
@@ -427,7 +382,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
                     />
                   </FileUploader>
                 </div>
-                {gallery.map((item) => (
+                {gallery.map(item => (
                   <PersonaGalleryItem
                     key={item?.id}
                     item={item}
@@ -440,7 +395,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
             )}
           </div>
 
-          <div className={"persona-gallery-modal--footer"}>
+          <div className={'persona-gallery-modal--footer'}>
             <p>To upload, drag files on the upload box.</p>
           </div>
         </div>

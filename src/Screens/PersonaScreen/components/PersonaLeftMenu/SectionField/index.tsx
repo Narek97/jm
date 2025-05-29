@@ -1,17 +1,17 @@
-import React, { FC, memo, useRef, useState } from "react";
+import React, { FC, memo, useRef, useState } from 'react';
 
-import "./style.scss";
-import { DraggableProvided } from "@hello-pangea/dnd";
-import { WuButton, WuTooltip } from "@npm-questionpro/wick-ui-lib";
+import './style.scss';
+import { DraggableProvided } from '@hello-pangea/dnd';
+import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import ImageViewAndUpload from "./ImageViewAndUpload";
+import ImageViewAndUpload from './ImageViewAndUpload';
 
-import { DemographicInfoTypeEnum } from "@/api/types";
-import CustomInput from "@/Components/Shared/CustomInput";
-import PersonaEditor from "@/Components/Shared/Editors/PersonaEditor";
-import { debounced400 } from "@/hooks/useDebounce.ts";
-import { PersonaDemographicInfoType } from "@/Screens/PersonaScreen/types.ts";
-import { PersonaFieldCategoryTypeEnum } from "@/types/enum.ts";
+import { DemographicInfoTypeEnum } from '@/api/types';
+import CustomInput from '@/Components/Shared/CustomInput';
+import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
+import { debounced400 } from '@/hooks/useDebounce.ts';
+import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaFieldCategoryTypeEnum } from '@/types/enum.ts';
 
 interface ISectionField {
   item: PersonaDemographicInfoType;
@@ -20,7 +20,7 @@ interface ISectionField {
   onHandleChangeDemographicInfo: (
     demographicInfoId: number,
     value: string | boolean | number,
-    key: "key" | "value" | "isHidden" | "height",
+    key: 'key' | 'value' | 'isHidden' | 'height',
     categoryType: PersonaFieldCategoryTypeEnum,
   ) => void;
   onHandleDeleteDemographicInfoItem: (item: PersonaDemographicInfoType) => void;
@@ -41,9 +41,7 @@ const SectionField: FC<ISectionField> = memo(
     const ref = useRef<HTMLInputElement>(null);
     const [height, setHeight] = useState(item?.height || 100);
 
-    const handleMouseDown = (
-      e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    ) => {
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const startY = e.clientY;
       const startHeight = height;
 
@@ -54,19 +52,19 @@ const SectionField: FC<ISectionField> = memo(
           onHandleChangeDemographicInfo(
             item.id,
             newHeight,
-            "height",
+            'height',
             PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
           );
         });
       };
 
       const handleMouseUp = () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        window.removeEventListener("mouseup", handleMouseUp);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
       };
 
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     };
 
     return (
@@ -74,66 +72,63 @@ const SectionField: FC<ISectionField> = memo(
         data-testid={`demographic-field-${index}`}
         ref={provided.innerRef}
         {...provided.draggableProps}
-        className={`field-section ${item?.isHidden ? "hidden-field" : ""}`}
-      >
-        <span className={"field-section--drag"} {...provided.dragHandleProps}>
-          <span className={"wm-drag-indicator"} />
+        className={`field-section ${item?.isHidden ? 'hidden-field' : ''}`}>
+        <span className={'field-section--drag'} {...provided.dragHandleProps}>
+          <span className={'wm-drag-indicator'} />
         </span>
-        <div className={"field-section-header"}>
-          <div className={"field-section-header--input"}>
+        <div className={'field-section-header'}>
+          <div className={'field-section-header--input'}>
             <CustomInput
               inputRef={ref}
-              placeholder={"label"}
-              inputType={"secondary"}
+              placeholder={'label'}
+              inputType={'secondary'}
               value={item.key}
               sxStyles={{
                 opacity: item.isHidden ? 0.5 : 1,
               }}
-              onChange={(e) =>
+              onChange={e =>
                 onHandleChangeDemographicInfo(
                   item.id,
                   e.target.value,
-                  "key",
+                  'key',
                   PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
                 )
               }
             />
           </div>
-          <div className={"field-section-header--options-block"}>
+          <div className={'field-section-header--options-block'}>
             <WuTooltip
               className="wu-tooltip-content"
-              content={`${item.isHidden ? "Show" : "Hide"} demographic`}
+              content={`${item.isHidden ? 'Show' : 'Hide'} demographic`}
               dir="ltr"
               duration={200}
-              position="bottom"
-            >
+              position="bottom">
               <button
                 onClick={() => {
                   onHandleChangeDemographicInfo(
                     item.id,
                     !item.isHidden,
-                    "isHidden",
+                    'isHidden',
                     PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
                   );
                 }}
-                className={"hide-show-info-button"}
-                data-testid={`item-${item.id}-hide-show`}
-              >
+                className={'hide-show-info-button'}
+                data-testid={`item-${item.id}-hide-show`}>
                 {item.isHidden ? (
                   <span
-                    className={"wm-eye-tracking"}
+                    className={'wm-eye-tracking'}
                     data-testid={`pin-persona-info-${item.id}-${index}-eye-test-id`}
                   />
                 ) : (
                   <span
-                    className={"wm-eye-tracking"}
+                    className={'wm-eye-tracking'}
                     data-testid={`pin-persona-${item.id}-info-${index}-close-eye-test-id`}
                   />
                 )}
               </button>
             </WuTooltip>
             <WuButton
-              className={"delete-section"}
+              className={'delete-section'}
               onClick={() => onHandleDeleteDemographicInfoItem(item)}
               Icon={<span className="wm-delete" />}
               variant="iconOnly"
@@ -146,44 +141,35 @@ const SectionField: FC<ISectionField> = memo(
             <div
               style={{
                 height: `${height}px`,
-                position: "relative",
-                overflow: "auto",
-              }}
-            >
+                position: 'relative',
+                overflow: 'auto',
+              }}>
               <PersonaEditor
-                layoutId={"1"}
+                layoutId={'1'}
                 disabled={false}
-                onHandleTextChange={(value) => {
+                onHandleTextChange={value => {
                   onHandleChangeDemographicInfo(
                     item.id,
                     value,
-                    "value",
+                    'value',
                     PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
                   );
                 }}
-                initValue={item.value || ""}
-                customClass={"persona-editor-block"}
+                initValue={item.value || ''}
+                customClass={'persona-editor-block'}
               />
             </div>
-            <div
-              className={"filter-section-resize"}
-              onMouseDown={handleMouseDown}
-            >
-              <span className={"wm-arrow-back-ios"} />
+            <div className={'filter-section-resize'} onMouseDown={handleMouseDown}>
+              <span className={'wm-arrow-back-ios'} />
             </div>
           </>
         ) : (
-          <div
-            className={"image-field-section"}
-            onClick={onHandleToggleGalleryModal}
-          >
+          <div className={'image-field-section'} onClick={onHandleToggleGalleryModal}>
             <ImageViewAndUpload
               hasResizedVersions={false}
               croppedArea={null}
               avatarKey={
-                item?.attachment
-                  ? `${item?.attachment?.url}/large${item?.attachment?.key}`
-                  : ""
+                item?.attachment ? `${item?.attachment?.url}/large${item?.attachment?.key}` : ''
               }
               onlyView={false}
             />

@@ -12,25 +12,25 @@ const EDIT_TEXT_ICON = `<svg width="16" height="16" viewBox="0 0 16 16" fill="no
 `;
 
 const QUILL_EDITOR_FONTS = [
-  "sans",
-  "impact",
-  "arial",
-  "comic sans ms",
-  "courier new",
-  "georgia",
-  "lucida sans unicode",
-  "tahoma",
-  "times-new-roman",
+  'sans',
+  'impact',
+  'arial',
+  'comic sans ms',
+  'courier new',
+  'georgia',
+  'lucida sans unicode',
+  'tahoma',
+  'times-new-roman',
 ];
 
 const QUILL_TOOLBAR = [
-  [{ size: ["small", false, "large", "huge"] }],
-  ["bold", "italic", "underline", "strike"],
-  [{ script: "sub" }, { script: "super" }],
-  [{ align: ["center", "", "right", "justify"] }], // Alignment options
-  [{ list: "ordered" }, { list: "bullet" }],
-  ["link", "blockquote"],
-  ["clean"],
+  [{ size: ['small', false, 'large', 'huge'] }],
+  ['bold', 'italic', 'underline', 'strike'],
+  [{ script: 'sub' }, { script: 'super' }],
+  [{ align: ['center', '', 'right', 'justify'] }], // Alignment options
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  ['link', 'blockquote'],
+  ['clean'],
 ];
 
 export { EDIT_TEXT_ICON, QUILL_EDITOR_FONTS, QUILL_TOOLBAR };

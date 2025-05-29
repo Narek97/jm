@@ -1,9 +1,9 @@
-import { MutableRefObject } from "react";
+import { MutableRefObject } from 'react';
 
-import Quill from "quill";
-import { v4 as uuidv4 } from "uuid";
+import Quill from 'quill';
+import { v4 as uuidv4 } from 'uuid';
 
-import { EDIT_TEXT_ICON, QUILL_EDITOR_FONTS } from "./constnats";
+import { EDIT_TEXT_ICON, QUILL_EDITOR_FONTS } from './constnats';
 
 export const getQuillConfig = ({
   editor,
@@ -20,15 +20,15 @@ export const getQuillConfig = ({
 }) => {
   const uuid = uuidv4();
   const customButtonOption = `custom-button-${uuid}`;
-  const toolbarOptions = [["bold", "italic", "underline", customButtonOption]];
+  const toolbarOptions = [['bold', 'italic', 'underline', customButtonOption]];
 
-  const FontAttributor: any = Quill.import("attributors/style/font");
+  const FontAttributor: any = Quill.import('attributors/style/font');
   FontAttributor.whitelist = QUILL_EDITOR_FONTS;
   Quill.register(FontAttributor, true);
 
   const config = {
-    theme: "bubble",
-    placeholder: "Type here...",
+    theme: 'bubble',
+    placeholder: 'Type here...',
     bounds: editor,
     modules: {
       toolbar: {
@@ -42,23 +42,19 @@ export const getQuillConfig = ({
     },
   };
 
-  const initializeQuill = (
-    quillRef: React.MutableRefObject<Quill | null>,
-    color?: string,
-  ) => {
+  const initializeQuill = (quillRef: React.MutableRefObject<Quill | null>, color?: string) => {
     const quill = new Quill(editor, config);
     quillRef.current = quill;
 
     const customButton = document.querySelector(`.ql-custom-button-${uuid}`);
     if (customButton) {
-      customButton.setAttribute("id", uuidv4());
+      customButton.setAttribute('id', uuidv4());
       customButton.innerHTML = EDIT_TEXT_ICON;
     }
 
-    quill.on("text-change", (_delta, _oldDelta, source) => {
-      if (source === "user") {
-        const content =
-          quill.root.innerText.trim() === "" ? "" : quill.root.innerHTML;
+    quill.on('text-change', (_delta, _oldDelta, source) => {
+      if (source === 'user') {
+        const content = quill.root.innerText.trim() === '' ? '' : quill.root.innerHTML;
         onHandleTextChange(content);
       }
     });
@@ -70,7 +66,7 @@ export const getQuillConfig = ({
     if (quillRef.current && initValue !== quillRef.current.root.innerHTML) {
       // journey map card | NEED TO CHECK BEHAVIOR
       // dangerouslyPasteHTML set data of editor as 'API' not 'USER'
-      quillRef.current.clipboard.dangerouslyPasteHTML(initValue || "");
+      quillRef.current.clipboard.dangerouslyPasteHTML(initValue || '');
       quillRef.current.setSelection(null);
       if (color) {
         quillRef.current.root.style.color = color!;
@@ -82,14 +78,11 @@ export const getQuillConfig = ({
   return { initializeQuill };
 };
 
-export const setEditorValue = (
-  quillRef: MutableRefObject<Quill | null>,
-  value: string,
-) => {
+export const setEditorValue = (quillRef: MutableRefObject<Quill | null>, value: string) => {
   const quill = quillRef.current;
   if (quill) {
     const currentSelection = quill.getSelection();
-    quill.clipboard.dangerouslyPasteHTML(value || "");
+    quill.clipboard.dangerouslyPasteHTML(value || '');
     if (currentSelection) {
       quill.setSelection(currentSelection.index, 0);
     } else {

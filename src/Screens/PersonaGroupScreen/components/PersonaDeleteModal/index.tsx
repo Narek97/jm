@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 import {
   DeletePersonaMutation,
   useDeletePersonaMutation,
-} from "@/api/mutations/generated/deletePersona.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+} from '@/api/mutations/generated/deletePersona.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IPersonaDeleteModal {
   isOpen: boolean;
@@ -20,10 +20,7 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
   handleClose,
   onHandleFilterPersona,
 }) => {
-  const { mutate, isPending } = useDeletePersonaMutation<
-    Error,
-    DeletePersonaMutation
-  >();
+  const { mutate, isPending } = useDeletePersonaMutation<Error, DeletePersonaMutation>();
 
   const handleDeletePersona = () => {
     mutate(
@@ -43,15 +40,11 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
   };
 
   return (
-    <CustomModal
-      isOpen={isOpen}
-      handleClose={handleClose}
-      canCloseWithOutsideClick={!isPending}
-    >
+    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
         item={{
-          type: "persona",
-          name: "Persona",
+          type: 'persona',
+          name: 'Persona',
         }}
         handleClose={handleClose}
         handleDelete={handleDeletePersona}

@@ -1,22 +1,22 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 import {
   DeleteAttachmentMutation,
   useDeleteAttachmentMutation,
-} from "@/api/mutations/generated/deleteFile.generated.ts";
+} from '@/api/mutations/generated/deleteFile.generated.ts';
 import {
   UpdateAttachmentNameMutation,
   useUpdateAttachmentNameMutation,
-} from "@/api/mutations/generated/updateAttachmentName.generated.ts";
-import CustomInput from "@/Components/Shared/CustomInput";
-import CustomLongMenu from "@/Components/Shared/CustomLongMenu";
-import { IMAGE_ASPECT } from "@/constants";
-import { debounced400 } from "@/hooks/useDebounce.ts";
-import { PERSONA_GALLERY_IMAGE_OPTIONS } from "@/Screens/PersonaScreen/constants.tsx";
-import { AttachmentType } from "@/types";
-import { MenuViewTypeEnum } from "@/types/enum.ts";
-import { getResizedFileName } from "@/utils/getResizedFileName.ts";
+} from '@/api/mutations/generated/updateAttachmentName.generated.ts';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import { IMAGE_ASPECT } from '@/constants';
+import { debounced400 } from '@/hooks/useDebounce.ts';
+import { PERSONA_GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants.tsx';
+import { AttachmentType } from '@/types';
+import { MenuViewTypeEnum } from '@/types/enum.ts';
+import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 interface IPersonaGalleryItem {
   item: AttachmentType;
@@ -34,13 +34,13 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isEditTitleModeOn, setIsEditTitleModeOn] = useState<boolean>(false);
-  const [galleryName, setGalleryName] = useState<string>(item?.name || "");
+  const [galleryName, setGalleryName] = useState<string>(item?.name || '');
 
   const { mutate: mutateDeleteAttachment } = useDeleteAttachmentMutation<
     Error,
     DeleteAttachmentMutation
   >({
-    onSuccess: (response) => {
+    onSuccess: response => {
       onDeleteSuccess(response.deleteAttachment);
     },
   });
@@ -95,7 +95,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   }, [isEditTitleModeOn]);
 
   useEffect(() => {
-    setGalleryName(item?.name || "");
+    setGalleryName(item?.name || '');
   }, [item?.name]);
 
   return (
@@ -104,14 +104,13 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
       data-testid={`persona-gallery-test-id`}
       className={`persona-gallery-modal--gallery--item ${
         selectedPersonaImgId === item.id
-          ? "persona-gallery-modal--gallery--item--selected-item"
-          : ""
+          ? 'persona-gallery-modal--gallery--item--selected-item'
+          : ''
       }`}
       onClick={() => {
         onHandleUpdateCroppedArea(item);
-      }}
-    >
-      <div className={"persona-gallery-modal--gallery--item--image-box"}>
+      }}>
+      <div className={'persona-gallery-modal--gallery--item--image-box'}>
         <img
           src={`${
             item.url
@@ -120,37 +119,37 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
           }`}
           width={200}
           height={200}
-          alt={item.name || "img"}
+          alt={item.name || 'img'}
         />
       </div>
       {isEditTitleModeOn ? (
         <CustomInput
           data-testid="gallery-image-item-name-test-id"
           style={{
-            background: "none",
-            paddingLeft: "0.625rem",
+            background: 'none',
+            paddingLeft: '0.625rem',
           }}
           sxStyles={{
-            "& .MuiInputBase-input": {
-              padding: "0.438rem",
-              lineHeight: "0.625rem",
+            '& .MuiInputBase-input': {
+              padding: '0.438rem',
+              lineHeight: '0.625rem',
             },
           }}
           aria-label={galleryName}
-          className={"board-card--name-block-input"}
-          onClick={(e) => {
+          className={'board-card--name-block-input'}
+          onClick={e => {
             e.preventDefault();
             e.stopPropagation();
           }}
           inputRef={inputRef}
           value={galleryName}
-          onChange={(e) => {
+          onChange={e => {
             onChangeName(e?.target?.value);
           }}
           onBlur={() => {
             setIsEditTitleModeOn(false);
           }}
-          onKeyDown={(event) => {
+          onKeyDown={event => {
             if (event.keyCode === 13) {
               event.preventDefault();
               (event.target as HTMLElement).blur();
@@ -158,32 +157,30 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
           }}
         />
       ) : (
-        <figcaption
-          className={"persona-gallery-modal--gallery--item--image-title"}
-        >
+        <figcaption className={'persona-gallery-modal--gallery--item--image-title'}>
           {galleryName}
         </figcaption>
       )}
-      <div className={"persona-gallery-modal--gallery--item--menu"}>
+      <div className={'persona-gallery-modal--gallery--item--menu'}>
         <CustomLongMenu
           type={MenuViewTypeEnum.VERTICAL}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
+            vertical: 'bottom',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: 'top',
+            horizontal: 'right',
           }}
           options={options}
           item={item}
-          buttonColor={"#00000"}
+          buttonColor={'#00000'}
           sxStyles={{
-            display: "inline-block",
-            background: "transparent",
+            display: 'inline-block',
+            background: 'transparent',
           }}
           rootStyles={{
-            marginLeft: "0",
+            marginLeft: '0',
           }}
         />
       </div>
