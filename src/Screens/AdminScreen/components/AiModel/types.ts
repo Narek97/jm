@@ -1,5 +1,5 @@
 export type AiModelElementType = {
-  name: "name" | "prompt";
+  name: 'name' | 'prompt';
   title: string;
   type: string;
   placeholder?: string;

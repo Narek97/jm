@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { WuFooter } from "@npm-questionpro/wick-ui-lib";
-import { useIsFetching, useIsMutating } from "@tanstack/react-query";
+import { WuFooter } from '@npm-questionpro/wick-ui-lib';
+import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 
 const Footer = () => {
   const isFetching = useIsFetching();
@@ -13,7 +13,7 @@ const Footer = () => {
   const [_, setIsOpenLastQueryModal] = useState(false);
 
   const onHandleToggleLastQueryModal = useCallback(() => {
-    setIsOpenLastQueryModal((prev) => !prev);
+    setIsOpenLastQueryModal(prev => !prev);
   }, []);
 
   return (
@@ -30,10 +30,9 @@ const Footer = () => {
         <div className="footer">
           <span>QuestionPro Employee Edition</span>
           <button
-            className={"project-version-info"}
+            className={'project-version-info'}
             data-testid="footer-version-btn-test-id"
-            onClick={onHandleToggleLastQueryModal}
-          >
+            onClick={onHandleToggleLastQueryModal}>
             #Journey Management V-2.0
           </button>
         </div>

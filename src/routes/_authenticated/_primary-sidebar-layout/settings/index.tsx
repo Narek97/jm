@@ -1,10 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import SettingsScreen from "@/Screens/SettingsScreen";
+import SettingsScreen from '@/Screens/SettingsScreen';
 
-export const SettingsRoute = createFileRoute(
-  "/_authenticated/_primary-sidebar-layout/settings/",
-)({
+export const SettingsRoute = createFileRoute('/_authenticated/_primary-sidebar-layout/settings/')({
   component: SettingsScreen,
 });
 

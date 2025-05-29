@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { WuToast } from "@npm-questionpro/wick-ui-lib";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { WuToast } from '@npm-questionpro/wick-ui-lib';
+import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const rootRoute = createRootRoute({
@@ -18,7 +18,7 @@ function RootComponent() {
     <React.Fragment>
       <Outlet />
       <WuToast />
-      <TanStackRouterDevtools position={"bottom-right"} />
+      <TanStackRouterDevtools position={'bottom-right'} />
     </React.Fragment>
   );
 }

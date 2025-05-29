@@ -1,10 +1,10 @@
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
 
-import { Outcome } from "@/api/types.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
-import AddUpdateOutcomeForm from "@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm";
-import { OutcomeLevelEnum } from "@/types";
+import { Outcome } from '@/api/types.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import AddUpdateOutcomeForm from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm';
+import { OutcomeLevelEnum } from '@/types/enum';
 
 interface IAddUpdateOutcomeItem {
   isOpen: boolean;
@@ -31,14 +31,13 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
     return (
       <CustomModal
         isOpen={isOpen}
-        modalSize={"md"}
+        modalSize={'md'}
         handleClose={handleClose}
-        canCloseWithOutsideClick={true}
-      >
+        canCloseWithOutsideClick={true}>
         <CustomModalHeader
           title={
-            <div className={"add-update-outcome-modal-header"}>
-              {selectedOutcome ? "Update" : "New"} {singularName}
+            <div className={'add-update-outcome-modal-header'}>
+              {selectedOutcome ? 'Update' : 'New'} {singularName}
             </div>
           }
         />

@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import "./style.scss";
-import { WuButton } from "@npm-questionpro/wick-ui-lib";
+import './style.scss';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
 interface ICustomModalFooterButtons {
   isLoading?: boolean;
@@ -15,34 +15,32 @@ interface ICustomModalFooterButtons {
 
 const CustomModalFooterButtons: FC<ICustomModalFooterButtons> = ({
   isLoading,
-  firstButtonName = "Cancel",
-  secondButtonName = "Confirm",
+  firstButtonName = 'Cancel',
+  secondButtonName = 'Confirm',
   isDisableFirstButton = false,
   isDisableSecondButton = false,
   handleFirstButtonClick,
   handleSecondButtonClick,
 }) => {
   return (
-    <div className={"modal-footer-buttons"}>
-      <div className={"base-modal-footer"}>
+    <div className={'modal-footer-buttons'}>
+      <div className={'base-modal-footer'}>
         {handleFirstButtonClick && (
           <WuButton
             data-testid="first-btn-test-id"
             onClick={handleFirstButtonClick}
             disabled={isLoading || isDisableFirstButton}
-            id={"cancel-btn-test-id"}
-            variant="secondary"
-          >
+            id={'cancel-btn-test-id'}
+            variant="secondary">
             {firstButtonName}
           </WuButton>
         )}
 
         <WuButton
-          data-testid={"confirm-btn-test-id"}
+          data-testid={'confirm-btn-test-id'}
           onClick={handleSecondButtonClick}
           disabled={isLoading || isDisableSecondButton}
-          id={"confirm-delete-btn"}
-        >
+          id={'confirm-delete-btn'}>
           {secondButtonName}
         </WuButton>
       </div>

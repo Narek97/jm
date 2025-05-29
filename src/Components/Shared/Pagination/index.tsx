@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import Popover from "@mui/material/Popover";
+import Popover from '@mui/material/Popover';
 
-import { ObjectKeysType } from "@/types";
+import { ObjectKeysType } from '@/types';
 
 interface IPagination {
   currentPage: number;
@@ -13,12 +13,7 @@ interface IPagination {
   changePage: (page: number) => void;
 }
 
-const Pagination: FC<IPagination> = ({
-  currentPage,
-  perPage = 10,
-  allCount,
-  changePage,
-}) => {
+const Pagination: FC<IPagination> = ({ currentPage, perPage = 10, allCount, changePage }) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const handleChangePage = (page: number) => {
     changePage(page);
@@ -41,45 +36,38 @@ const Pagination: FC<IPagination> = ({
   };
 
   const open = !!anchorEl;
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const customStyle: ObjectKeysType = {
-    border: "1px solid #1b87e6",
-    boxShadow: "inherit",
+    border: '1px solid #1b87e6',
+    boxShadow: 'inherit',
   };
 
   return (
-    <div className={"pagination-section"}>
+    <div className={'pagination-section'}>
       <div className="pagination-section--selected-pages">
         <button
-          aria-label={"left"}
+          aria-label={'left'}
           data-testid="left-arrow-test-id"
           className="pagination-section--selected-pages-arrow-left"
           onClick={() => {
             handleClickArrow(-1);
-          }}
-        >
-          <span className={"wm-arrow-back-ios-new"} />
+          }}>
+          <span className={'wm-arrow-back-ios-new'} />
         </button>
-        <button
-          data-testid="pagination-left-arrow-test-id"
-          onClick={handleClickPagination}
-        >
-          <div className={"pagination-section--selected-pages-numbers"}>
+        <button data-testid="pagination-left-arrow-test-id" onClick={handleClickPagination}>
+          <div className={'pagination-section--selected-pages-numbers'}>
             {`${(currentPage - 1) * perPage + 1} - ${
-              currentPage * perPage < allCount
-                ? currentPage * perPage
-                : allCount
+              currentPage * perPage < allCount ? currentPage * perPage : allCount
             }  of ${allCount}`}
           </div>
         </button>
         <button
           data-testid="pagination-right-arrow-test-id"
-          aria-label={"right"}
+          aria-label={'right'}
           className="pagination-section--selected-pages-arrow-right"
-          onClick={() => handleClickArrow(1)}
-        >
-          <span className={"wm-arrow-forward-ios"} />
+          onClick={() => handleClickArrow(1)}>
+          <span className={'wm-arrow-forward-ios'} />
         </button>
       </div>
       <Popover
@@ -91,36 +79,28 @@ const Pagination: FC<IPagination> = ({
           sx: customStyle,
         }}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-      >
-        <div
-          className={"popover-content"}
-          data-testid="pagination-popover-test-id"
-        >
-          {new Array(Math.floor(allCount / perPage))
-            .fill("")
-            .map((_, index) => (
-              <button
-                key={index}
-                className="popover-content-item"
-                onClick={() => handleChangePage(index + 1)}
-              >
-                {`${(index + 1 - 1) * perPage + 1} - ${(index + 1) * perPage}  of ${allCount}`}{" "}
-              </button>
-            ))}
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}>
+        <div className={'popover-content'} data-testid="pagination-popover-test-id">
+          {new Array(Math.floor(allCount / perPage)).fill('').map((_, index) => (
+            <button
+              key={index}
+              className="popover-content-item"
+              onClick={() => handleChangePage(index + 1)}>
+              {`${(index + 1 - 1) * perPage + 1} - ${(index + 1) * perPage}  of ${allCount}`}{' '}
+            </button>
+          ))}
           {Math.abs(allCount % perPage) ? (
             <button
-              data-testid={"popover-content-item-test-id"}
+              data-testid={'popover-content-item-test-id'}
               className="popover-content-item"
-              onClick={() => handleChangePage(Math.ceil(allCount / perPage))}
-            >
-              {`${allCount - Math.abs(allCount % perPage) + 1} - ${allCount}  of ${allCount}`}{" "}
+              onClick={() => handleChangePage(Math.ceil(allCount / perPage))}>
+              {`${allCount - Math.abs(allCount % perPage) + 1} - ${allCount}  of ${allCount}`}{' '}
             </button>
           ) : null}
         </div>

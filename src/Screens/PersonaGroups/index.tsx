@@ -1,69 +1,61 @@
-import "./style.scss";
-import { useCallback, useMemo, useState } from "react";
+import './style.scss';
+import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from "@mui/material";
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
-import { useParams } from "@tanstack/react-router";
+import { Box } from '@mui/material';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useParams } from '@tanstack/react-router';
 
-import GroupCard from "./components/GroupCard";
+import GroupCard from './components/GroupCard';
 
 import {
   CreatePersonaGroupMutation,
   useCreatePersonaGroupMutation,
-} from "@/api/mutations/generated/createPersonaGroup.generated";
+} from '@/api/mutations/generated/createPersonaGroup.generated';
 import {
   GetPersonaGroupsWithPersonasQuery,
   useGetPersonaGroupsWithPersonasQuery,
-} from "@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EditableItemForm from "@/Components/Shared/EditableItemForm";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import Pagination from "@/Components/Shared/Pagination";
-import { querySlateTime } from "@/constants";
-import { PERSONA_GROUP_LIMIT } from "@/constants/pagination.ts";
-import ErrorBoundary from "@/Features/ErrorBoundary";
+} from '@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EditableItemForm from '@/Components/Shared/EditableItemForm';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import Pagination from '@/Components/Shared/Pagination';
+import { querySlateTime } from '@/constants';
+import { PERSONA_GROUP_LIMIT } from '@/constants/pagination.ts';
+import ErrorBoundary from '@/Features/ErrorBoundary';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from "@/hooks/useQueryKey";
-import PersonaGroupDeleteModal from "@/Screens/PersonaGroups/components/PersonaGroupDeleteModal";
-import { PersonaGroupType } from "@/Screens/PersonaGroups/types.ts";
-import { EditableInputType } from "@/types";
+} from '@/hooks/useQueryKey';
+import PersonaGroupDeleteModal from '@/Screens/PersonaGroups/components/PersonaGroupDeleteModal';
+import { PersonaGroupType } from '@/Screens/PersonaGroups/types.ts';
+import { EditableInputType } from '@/types';
 
 const PersonaGroups = () => {
   const { showToast } = useWuShowToast();
 
   const setPersonaGroup = useSetQueryDataByKeyAdvanced();
   const setRemovePersonaGroup = useRemoveQueriesByKey();
-  const setAllPersonaGroup = useSetAllQueryDataByKey(
-    "GetPersonaGroupsWithPersonas",
-  );
+  const setAllPersonaGroup = useSetAllQueryDataByKey('GetPersonaGroupsWithPersonas');
 
   const { workspaceId } = useParams({
-    from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/",
+    from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/',
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
 
-  const [selectedPersonaGroup, setSelectedPersonaGroup] =
-    useState<EditableInputType | null>(null);
+  const [selectedPersonaGroup, setSelectedPersonaGroup] = useState<EditableInputType | null>(null);
 
-  const {
-    isPending: isLoadingCreatePersonaGroup,
-    mutateAsync: mutateAsyncCreatePersonaGroup,
-  } = useCreatePersonaGroupMutation<Error, CreatePersonaGroupMutation>();
+  const { isPending: isLoadingCreatePersonaGroup, mutateAsync: mutateAsyncCreatePersonaGroup } =
+    useCreatePersonaGroupMutation<Error, CreatePersonaGroupMutation>();
 
   const {
     data: dataPersonaGroups,
     error: errorPersonaGroups,
     isPending: isPendingPersonaGroups,
-  } = useGetPersonaGroupsWithPersonasQuery<
-    GetPersonaGroupsWithPersonasQuery,
-    Error
-  >(
+  } = useGetPersonaGroupsWithPersonasQuery<GetPersonaGroupsWithPersonasQuery, Error>(
     {
       getPersonaGroupsWithPersonasInput: {
         workspaceId: +workspaceId,
@@ -91,9 +83,7 @@ const PersonaGroups = () => {
     setOffset((newPage - 1) * PERSONA_GROUP_LIMIT);
   }, []);
 
-  const onHandleCreatePersonaGroup = async (
-    value: string,
-  ): Promise<boolean> => {
+  const onHandleCreatePersonaGroup = async (value: string): Promise<boolean> => {
     try {
       await mutateAsyncCreatePersonaGroup(
         {
@@ -103,17 +93,17 @@ const PersonaGroups = () => {
           },
         },
         {
-          onSuccess: (response) => {
-            setRemovePersonaGroup("GetPersonaGroupsWithPersonas", {
-              input: "getPersonaGroupsWithPersonasInput",
-              key: "offset",
+          onSuccess: response => {
+            setRemovePersonaGroup('GetPersonaGroupsWithPersonas', {
+              input: 'getPersonaGroupsWithPersonasInput',
+              key: 'offset',
               value: 0,
             });
             setPersonaGroup(
-              "GetPersonaGroupsWithPersonas",
+              'GetPersonaGroupsWithPersonas',
               {
-                input: "getPersonaGroupsWithPersonasInput",
-                key: "offset",
+                input: 'getPersonaGroupsWithPersonasInput',
+                key: 'offset',
                 value: 0,
               },
               (oldData: any) => {
@@ -142,7 +132,7 @@ const PersonaGroups = () => {
           },
           onError: (error: any) => {
             showToast({
-              variant: "error",
+              variant: 'error',
               message: error?.message,
             });
           },
@@ -152,8 +142,8 @@ const PersonaGroups = () => {
     } catch (error) {
       console.error(error);
       showToast({
-        variant: "error",
-        message: "Error creating persona group",
+        variant: 'error',
+        message: 'Error creating persona group',
       });
       return false;
     }
@@ -167,10 +157,9 @@ const PersonaGroups = () => {
             getPersonaGroupsWithPersonas: {
               ...oldData.getPersonaGroupsWithPersonas,
               count: oldData.getPersonaGroupsWithPersonas.count - 1,
-              personaGroups:
-                oldData.getPersonaGroupsWithPersonas.personaGroups.filter(
-                  (personaGroup: PersonaGroupType) => personaGroup.id !== id,
-                ),
+              personaGroups: oldData.getPersonaGroupsWithPersonas.personaGroups.filter(
+                (personaGroup: PersonaGroupType) => personaGroup.id !== id,
+              ),
             },
           };
         }
@@ -183,19 +172,18 @@ const PersonaGroups = () => {
     (id: number) => {
       if (
         currentPage * PERSONA_GROUP_LIMIT >= personaGroupsCount &&
-        dataPersonaGroups?.getPersonaGroupsWithPersonas.personaGroups.length ===
-          1 &&
+        dataPersonaGroups?.getPersonaGroupsWithPersonas.personaGroups.length === 1 &&
         currentPage !== 1
       ) {
-        setOffset((prev) => prev - PERSONA_GROUP_LIMIT);
+        setOffset(prev => prev - PERSONA_GROUP_LIMIT);
       }
       if (
         currentPage * PERSONA_GROUP_LIMIT < personaGroupsCount &&
         personaGroupsCount > PERSONA_GROUP_LIMIT
       ) {
-        setRemovePersonaGroup("GetPersonaGroupsWithPersonas", {
-          input: "getPersonaGroupsWithPersonasInput",
-          key: "offset",
+        setRemovePersonaGroup('GetPersonaGroupsWithPersonas', {
+          input: 'getPersonaGroupsWithPersonasInput',
+          key: 'offset',
           value: offset,
           deleteUpcoming: true,
         });
@@ -215,10 +203,10 @@ const PersonaGroups = () => {
   const onUpdatePersonaGroup = useCallback(
     (personaGroup?: EditableInputType) => {
       setPersonaGroup(
-        "GetInterviewsByWorkspaceId",
+        'GetInterviewsByWorkspaceId',
         {
-          input: "GetPersonaGroupsWithPersonas",
-          key: "offset",
+          input: 'GetPersonaGroupsWithPersonas',
+          key: 'offset',
           value: offset,
         },
         (oldData: any) => {
@@ -226,18 +214,17 @@ const PersonaGroups = () => {
             return {
               getPersonaGroupsWithPersonas: {
                 ...oldData,
-                personaGroups:
-                  oldData.getPersonaGroupsWithPersonas.personaGroups.map(
-                    (group: PersonaGroupType) => {
-                      if (group.id === personaGroup?.id) {
-                        return {
-                          ...group,
-                          name: personaGroup.value,
-                        };
-                      }
-                      return group;
-                    },
-                  ),
+                personaGroups: oldData.getPersonaGroupsWithPersonas.personaGroups.map(
+                  (group: PersonaGroupType) => {
+                    if (group.id === personaGroup?.id) {
+                      return {
+                        ...group,
+                        name: personaGroup.value,
+                      };
+                    }
+                    return group;
+                  },
+                ),
               },
             };
           }
@@ -247,19 +234,16 @@ const PersonaGroups = () => {
     [offset, setPersonaGroup],
   );
 
-  const onTogglePersonaGroupDeleteModal = useCallback(
-    (personaGroup?: EditableInputType) => {
-      setSelectedPersonaGroup(personaGroup || null);
-    },
-    [],
-  );
+  const onTogglePersonaGroupDeleteModal = useCallback((personaGroup?: EditableInputType) => {
+    setSelectedPersonaGroup(personaGroup || null);
+  }, []);
 
   if (errorPersonaGroups) {
     return <CustomError error={errorPersonaGroups?.message} />;
   }
 
   return (
-    <div className={"persona-group"}>
+    <div className={'persona-group'}>
       {selectedPersonaGroup && (
         <PersonaGroupDeleteModal
           isOpen={!!selectedPersonaGroup}
@@ -268,15 +252,15 @@ const PersonaGroups = () => {
           handleClose={onTogglePersonaGroupDeleteModal}
         />
       )}
-      <div className={"persona-group--header"}>
+      <div className={'persona-group--header'}>
         <div className="base-page-header">
-          <h3 className={"base-title !text-heading-2"}>Persona Group</h3>
+          <h3 className={'base-title !text-heading-2'}>Persona Group</h3>
         </div>
         <div className="persona-group--create-section">
           <EditableItemForm
-            createButtonText={"New persona group"}
-            inputPlaceholder={"Persona group name"}
-            value={""}
+            createButtonText={'New persona group'}
+            inputPlaceholder={'Persona group name'}
+            value={''}
             isLoading={isLoadingCreatePersonaGroup}
             onHandleCreate={onHandleCreatePersonaGroup}
           />
@@ -290,29 +274,24 @@ const PersonaGroups = () => {
           )}
         </div>
       </div>
-      <div className={"persona-group--body"}>
+      <div className={'persona-group--body'}>
         {isPendingPersonaGroups ? (
           <CustomLoader />
         ) : (
           <>
             {personaGroups.length ? (
-              personaGroups.map((group) => (
+              personaGroups.map(group => (
                 <ErrorBoundary key={group.id}>
                   <GroupCard
                     group={group as PersonaGroupType}
                     workspaceId={workspaceId}
                     onUpdatePersonaGroup={onUpdatePersonaGroup}
-                    onTogglePersonaGroupDeleteModal={
-                      onTogglePersonaGroupDeleteModal
-                    }
+                    onTogglePersonaGroupDeleteModal={onTogglePersonaGroupDeleteModal}
                   />
                 </ErrorBoundary>
               ))
             ) : (
-              <EmptyDataInfo
-                icon={<Box />}
-                message={"There are no persona groups yet"}
-              />
+              <EmptyDataInfo icon={<Box />} message={'There are no persona groups yet'} />
             )}
           </>
         )}

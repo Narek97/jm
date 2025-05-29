@@ -6,10 +6,20 @@ export type CreateMultipartMutationVariables = Types.Exact<{
   createMultipartInput: Types.CreateMultipartInput;
 }>;
 
-
-export type CreateMultipartMutation = { __typename?: 'Mutation', createMultipart: { __typename?: 'MultipartUploadResponse', key: string, createMultipartData: { __typename?: 'GetMultipartObject', ServerSideEncryption: string, Bucket: string, Key: string, UploadId: string } } };
-
-
+export type CreateMultipartMutation = {
+  __typename?: 'Mutation';
+  createMultipart: {
+    __typename?: 'MultipartUploadResponse';
+    key: string;
+    createMultipartData: {
+      __typename?: 'GetMultipartObject';
+      ServerSideEncryption: string;
+      Bucket: string;
+      Key: string;
+      UploadId: string;
+    };
+  };
+};
 
 export const CreateMultipartDocument = `
     mutation CreateMultipart($createMultipartInput: CreateMultipartInput!) {
@@ -25,17 +35,21 @@ export const CreateMultipartDocument = `
 }
     `;
 
-export const useCreateMultipartMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateMultipartMutation, TError, CreateMultipartMutationVariables, TContext>) => {
-    
-    return useMutation<CreateMultipartMutation, TError, CreateMultipartMutationVariables, TContext>(
-      {
+export const useCreateMultipartMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateMultipartMutation,
+    TError,
+    CreateMultipartMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<CreateMultipartMutation, TError, CreateMultipartMutationVariables, TContext>({
     mutationKey: ['CreateMultipart'],
-    mutationFn: axiosRequest<CreateMultipartMutation, CreateMultipartMutationVariables>(CreateMultipartDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<CreateMultipartMutation, CreateMultipartMutationVariables>(
+      CreateMultipartDocument,
+    ),
+    ...options,
+  });
+};
 
 useCreateMultipartMutation.getKey = () => ['CreateMultipart'];

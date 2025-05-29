@@ -1,20 +1,20 @@
-import { FC, MouseEvent, useCallback } from "react";
+import { FC, MouseEvent, useCallback } from 'react';
 
-import "./style.scss";
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
-import { useNavigate } from "@tanstack/react-router";
+import './style.scss';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useNavigate } from '@tanstack/react-router';
 
 import {
   UpdatePersonaGroupMutation,
   useUpdatePersonaGroupMutation,
-} from "@/api/mutations/generated/updatePersonaGroup.generated";
-import EditableTitle from "@/Components/Shared/EditableTitle";
-import PersonaImageBox from "@/Components/Shared/PersonaImageBox";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import useWindowResize from "@/hooks/useWindowResize.ts";
-import { PersonaGroupType } from "@/Screens/PersonaGroups/types.ts";
-import { EditableInputType } from "@/types";
-import { ImageSizeEnum } from "@/types/enum.ts";
+} from '@/api/mutations/generated/updatePersonaGroup.generated';
+import EditableTitle from '@/Components/Shared/EditableTitle';
+import PersonaImageBox from '@/Components/Shared/PersonaImageBox';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import useWindowResize from '@/hooks/useWindowResize.ts';
+import { PersonaGroupType } from '@/Screens/PersonaGroups/types.ts';
+import { EditableInputType } from '@/types';
+import { ImageSizeEnum } from '@/types/enum.ts';
 
 interface IGroupCard {
   group: PersonaGroupType;
@@ -34,10 +34,7 @@ const GroupCard: FC<IGroupCard> = ({
 
   const { maxCardNumber } = useWindowResize();
 
-  const { mutate } = useUpdatePersonaGroupMutation<
-    Error,
-    UpdatePersonaGroupMutation
-  >();
+  const { mutate } = useUpdatePersonaGroupMutation<Error, UpdatePersonaGroupMutation>();
 
   const onNavigatePersonaPage = () => {
     navigate({
@@ -55,7 +52,7 @@ const GroupCard: FC<IGroupCard> = ({
           },
         },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             onUpdatePersonaGroup({
               id: group.id,
               value: response.updatePersonaGroup.name,
@@ -63,7 +60,7 @@ const GroupCard: FC<IGroupCard> = ({
           },
           onError: (error: any) => {
             showToast({
-              variant: "error",
+              variant: 'error',
               message: error?.message,
             });
           },
@@ -73,10 +70,7 @@ const GroupCard: FC<IGroupCard> = ({
     [group.id, mutate, onUpdatePersonaGroup, showToast],
   );
 
-  const onNavigateSinglePersonaPage = (
-    e: MouseEvent<HTMLLIElement>,
-    personaId: number,
-  ) => {
+  const onNavigateSinglePersonaPage = (e: MouseEvent<HTMLLIElement>, personaId: number) => {
     e.stopPropagation();
     navigate({
       to: `/workspace/${workspaceId}/persona/${personaId}`,
@@ -84,40 +78,37 @@ const GroupCard: FC<IGroupCard> = ({
   };
 
   return (
-    <div className={"group-card"} onClick={onNavigatePersonaPage}>
-      <div className={"group-card--left"}>
+    <div className={'group-card'} onClick={onNavigatePersonaPage}>
+      <div className={'group-card--left'}>
         <EditableTitle
           item={group}
           onHandleUpdate={onHandleUpdate}
           onHandleDelete={onTogglePersonaGroupDeleteModal}
         />
       </div>
-      <div className={"group-card--right"}>
+      <div className={'group-card--right'}>
         {group?.persona.length ? (
           <>
-            <ul className={"group-card--right-personas"}>
-              {group.persona.slice(0, maxCardNumber)?.map((persona) => (
+            <ul className={'group-card--right-personas'}>
+              {group.persona.slice(0, maxCardNumber)?.map(persona => (
                 <ErrorBoundary key={persona.id}>
                   <li
-                    onClick={(e) => onNavigateSinglePersonaPage(e, persona.id)}
-                    className={"group-card--persona-card"}
-                  >
+                    onClick={e => onNavigateSinglePersonaPage(e, persona.id)}
+                    className={'group-card--persona-card'}>
                     <div>
-                      <p className={"group-card--persona-card--name"}>
-                        {persona.name}
-                      </p>
-                      <span className={"group-card--persona-card--type"}>
+                      <p className={'group-card--persona-card--name'}>{persona.name}</p>
+                      <span className={'group-card--persona-card--type'}>
                         {persona.type?.toLocaleLowerCase()}
                       </span>
                     </div>
 
                     <PersonaImageBox
-                      title={""}
+                      title={''}
                       imageItem={{
-                        color: persona?.color || "",
+                        color: persona?.color || '',
                         attachment: {
-                          url: persona?.attachment?.url || "",
-                          key: persona?.attachment?.key || "",
+                          url: persona?.attachment?.url || '',
+                          key: persona?.attachment?.key || '',
                           croppedArea: persona?.croppedArea,
                           id: persona?.id,
                         },
@@ -129,13 +120,13 @@ const GroupCard: FC<IGroupCard> = ({
               ))}
             </ul>
             {group?.persona.length > maxCardNumber && (
-              <div className={"group-card--persona-card"}>
+              <div className={'group-card--persona-card'}>
                 <span>and {group?.persona.length - maxCardNumber} more</span>
               </div>
             )}
           </>
         ) : (
-          <div className={"group-card--no-persona-info"}>No persona yet</div>
+          <div className={'group-card--no-persona-info'}>No persona yet</div>
         )}
       </div>
     </div>

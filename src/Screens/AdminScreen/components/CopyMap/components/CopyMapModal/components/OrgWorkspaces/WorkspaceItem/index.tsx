@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Tooltip } from "@mui/material";
+import { Tooltip } from '@mui/material';
 
 interface IWorkspaceItem {
   workspace: { id: number; name: string };
@@ -15,16 +15,14 @@ const WorkspaceItem: FC<IWorkspaceItem> = ({ workspace, handleClick }) => {
       key={workspace?.id}
       data-testid={`workspace-item-test-id-${workspace?.id}`}
       className={`workspace-list--item`}
-      onClick={() => handleClick(workspace)}
-    >
+      onClick={() => handleClick(workspace)}>
       <div className="workspace-list--item--content">
-        <Tooltip title={workspace?.name} arrow placement={"bottom"}>
+        <Tooltip title={workspace?.name} arrow placement={'bottom'}>
           <div
             className={`workspace-list--item--content--title ${
-              !workspace.name?.length ? "no-title" : ""
-            }`}
-          >
-            {workspace?.name || "No name"}
+              !workspace.name?.length ? 'no-title' : ''
+            }`}>
+            {workspace?.name || 'No name'}
           </div>
         </Tooltip>
       </div>

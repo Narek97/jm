@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { Attachment, User } from "@/api/types.ts";
+import { Attachment, User } from '@/api/types.ts';
 
 export type ObjectKeysType<T = unknown> = {
   [key: string]: T;
@@ -47,7 +47,7 @@ export type TableColumnType<T = any> = {
   sortFieldName?: string;
   isAscDescSortable?: boolean;
   isNameSortable?: boolean;
-  align?: "right" | "left" | "center";
+  align?: 'right' | 'left' | 'center';
 };
 
 export type MenuOptionsType = {
@@ -86,19 +86,12 @@ export type DropdownWithCategorySelectItemType = {
   group: DropdownSelectItemType[];
 };
 
-export enum OutcomeLevelEnum {
-  WORKSPACE = "WORKSPACE",
-  MAP = "MAP",
-}
 export type EditableInputType = { value: string; id: number };
 
 export type PersonaImageBoxType = {
   color: string;
   isSelected?: boolean;
-  attachment: Pick<
-    Attachment,
-    "key" | "url" | "id" | "hasResizedVersions" | "croppedArea"
-  >;
+  attachment: Pick<Attachment, 'key' | 'url' | 'id' | 'hasResizedVersions' | 'croppedArea'>;
 };
 
 export type CroppedAreaType = {
@@ -106,4 +99,10 @@ export type CroppedAreaType = {
   height?: number | null;
   x?: number | null;
   y?: number | null;
+};
+
+export type JourneyMapNounProjectIconsType = {
+  id: string;
+  term: string;
+  thumbnail_url: string;
 };

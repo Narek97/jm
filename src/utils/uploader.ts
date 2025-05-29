@@ -1,7 +1,7 @@
-import { CompleteMultiPartDocument } from "@/api/mutations/generated/completeMultiPart.generated.ts";
-import { CreateMultipartDocument } from "@/api/mutations/generated/createMultipart.generated.ts";
-import { GetPreSignedUrlDocument } from "@/api/mutations/generated/getPresignedUrl.generated.ts";
-import { fetchData } from "@/utils/customGQLFetcher.ts";
+import { CompleteMultiPartDocument } from '@/api/mutations/generated/completeMultiPart.generated.ts';
+import { CreateMultipartDocument } from '@/api/mutations/generated/createMultipart.generated.ts';
+import { GetPreSignedUrlDocument } from '@/api/mutations/generated/getPresignedUrl.generated.ts';
+import { fetchData } from '@/utils/customGQLFetcher.ts';
 
 export class UploadFile {
   chunkSize: number;
@@ -74,11 +74,10 @@ export class UploadFile {
             fileType: this.fileType,
           },
         },
-        endpoint: "graphql",
-        method: "POST",
+        endpoint: 'graphql',
+        method: 'POST',
       });
-      const AWSFileDataOutput =
-        initializeResponse.data.createMultipart.createMultipartData;
+      const AWSFileDataOutput = initializeResponse.data.createMultipart.createMultipartData;
       this.fileId = AWSFileDataOutput.UploadId;
       this.fileKey = AWSFileDataOutput.Key;
 
@@ -96,8 +95,8 @@ export class UploadFile {
                 parts: i,
               },
             },
-            endpoint: "graphql",
-            method: "POST",
+            endpoint: 'graphql',
+            method: 'POST',
           });
 
           newParts.push({
@@ -148,7 +147,7 @@ export class UploadFile {
         .then(() => {
           this.sendNext();
         })
-        .catch((error) => {
+        .catch(error => {
           this.parts.push(part);
           this.complete(error).then(() => {});
         });
@@ -197,8 +196,8 @@ export class UploadFile {
         variables: {
           completeMultiPartInput,
         },
-        endpoint: "graphql",
-        method: "POST",
+        endpoint: 'graphql',
+        method: 'POST',
       });
       this.onFinisFn(files.data.completeMultiPart);
     }
@@ -207,16 +206,16 @@ export class UploadFile {
   sendChunk(chunk: any, part: any, sendChunkStarted: any) {
     return new Promise((resolve, reject) => {
       this.upload(chunk, part, sendChunkStarted)
-        .then((status) => {
+        .then(status => {
           if (status !== 200) {
-            reject(new Error("Failed chunk upload"));
+            reject(new Error('Failed chunk upload'));
             return;
           }
 
           resolve(1);
         })
-        .catch((error) => {
-          console.error(error, "error");
+        .catch(error => {
+          console.error(error, 'error');
           reject(error);
         });
     });
@@ -225,15 +224,11 @@ export class UploadFile {
   // calculating the current progress of the multipart upload request
   handleProgress(part: any, event: any) {
     if (this.file) {
-      if (
-        event.type === "progress" ||
-        event.type === "error" ||
-        event.type === "abort"
-      ) {
+      if (event.type === 'progress' || event.type === 'error' || event.type === 'abort') {
         this.progressCache[part] = event.loaded;
       }
 
-      if (event.type === "uploaded") {
+      if (event.type === 'uploaded') {
         this.uploadedSize += this.progressCache[part] || 0;
         delete this.progressCache[part];
       }
@@ -262,31 +257,27 @@ export class UploadFile {
     return new Promise((resolve, reject) => {
       if (this.fileId && this.fileKey) {
         // - 1 because PartNumber is an mapIcons starting from 1 and not 0
-        const xhr = (this.activeConnections[part.PartNumber - 1] =
-          new XMLHttpRequest());
+        const xhr = (this.activeConnections[part.PartNumber - 1] = new XMLHttpRequest());
 
         sendChunkStarted();
 
-        const progressListener = this.handleProgress.bind(
-          this,
-          part.PartNumber - 1,
-        );
-        xhr.upload.addEventListener("progress", progressListener);
-        xhr.addEventListener("error", progressListener);
-        xhr.addEventListener("abort", progressListener);
-        xhr.addEventListener("loadend", progressListener);
-        xhr.open("PUT", part.signedUrl);
+        const progressListener = this.handleProgress.bind(this, part.PartNumber - 1);
+        xhr.upload.addEventListener('progress', progressListener);
+        xhr.addEventListener('error', progressListener);
+        xhr.addEventListener('abort', progressListener);
+        xhr.addEventListener('loadend', progressListener);
+        xhr.open('PUT', part.signedUrl);
 
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4 && xhr.status === 200) {
             // retrieving the ETag parameter from the HTTP headers
-            const ETag = xhr.getResponseHeader("ETag");
+            const ETag = xhr.getResponseHeader('ETag');
             if (ETag) {
               const uploadedPart = {
                 PartNumber: part.PartNumber,
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
-                ETag: ETag.replaceAll('"', ""),
+                ETag: ETag.replaceAll('"', ''),
               };
 
               this.uploadedParts.push(uploadedPart);
@@ -296,13 +287,13 @@ export class UploadFile {
           }
         };
 
-        xhr.onerror = (error) => {
+        xhr.onerror = error => {
           reject(error);
           delete this.activeConnections[part.PartNumber - 1];
         };
 
         xhr.onabort = () => {
-          reject(new Error("Upload canceled by user"));
+          reject(new Error('Upload canceled by user'));
           delete this.activeConnections[part.PartNumber - 1];
         };
         xhr.send(file);
@@ -328,7 +319,7 @@ export class UploadFile {
   abort() {
     Object.keys(this.activeConnections)
       .map(Number)
-      .forEach((id) => {
+      .forEach(id => {
         this.activeConnections[id].abort();
       });
 

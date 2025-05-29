@@ -12,5 +12,6 @@ query GetOutcomeGroups($getOutcomeGroupsInput: GetOutcomeGroupsInput!) {
         lastName
       }
     }
+    count
   }
 }

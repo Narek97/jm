@@ -6,10 +6,13 @@ export type UpdateAttachmentCroppedAreaMutationVariables = Types.Exact<{
   updateAttachmentCroppedAreaInput: Types.UpdateAttachmentCroppedAreaInput;
 }>;
 
-
-export type UpdateAttachmentCroppedAreaMutation = { __typename?: 'Mutation', updateAttachmentCroppedArea: { __typename?: 'GetPresignedUrlObject', key: string } };
-
-
+export type UpdateAttachmentCroppedAreaMutation = {
+  __typename?: 'Mutation';
+  updateAttachmentCroppedArea: {
+    __typename?: 'GetPresignedUrlObject';
+    key: string;
+  };
+};
 
 export const UpdateAttachmentCroppedAreaDocument = `
     mutation UpdateAttachmentCroppedArea($updateAttachmentCroppedAreaInput: UpdateAttachmentCroppedAreaInput!) {
@@ -21,17 +24,27 @@ export const UpdateAttachmentCroppedAreaDocument = `
 }
     `;
 
-export const useUpdateAttachmentCroppedAreaMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateAttachmentCroppedAreaMutation, TError, UpdateAttachmentCroppedAreaMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateAttachmentCroppedAreaMutation, TError, UpdateAttachmentCroppedAreaMutationVariables, TContext>(
-      {
+export const useUpdateAttachmentCroppedAreaMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateAttachmentCroppedAreaMutation,
+    TError,
+    UpdateAttachmentCroppedAreaMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdateAttachmentCroppedAreaMutation,
+    TError,
+    UpdateAttachmentCroppedAreaMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdateAttachmentCroppedArea'],
-    mutationFn: axiosRequest<UpdateAttachmentCroppedAreaMutation, UpdateAttachmentCroppedAreaMutationVariables>(UpdateAttachmentCroppedAreaDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<
+      UpdateAttachmentCroppedAreaMutation,
+      UpdateAttachmentCroppedAreaMutationVariables
+    >(UpdateAttachmentCroppedAreaDocument),
+    ...options,
+  });
+};
 
 useUpdateAttachmentCroppedAreaMutation.getKey = () => ['UpdateAttachmentCroppedArea'];

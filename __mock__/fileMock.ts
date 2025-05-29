@@ -1,4 +1,4 @@
 // mock svg
 
-export default "svg";
-export const ReactComponent = "div";
+export default 'svg';
+export const ReactComponent = 'div';

@@ -1,12 +1,12 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { Modal } from "@mui/material";
+import { Modal } from '@mui/material';
 
-import "./style.scss";
+import './style.scss';
 
 interface ICustomModal {
   children: React.ReactNode;
-  modalSize?: "sm" | "md" | "lg" | "custom";
+  modalSize?: 'sm' | 'md' | 'lg' | 'custom';
   isOpen: boolean;
   className?: string;
   handleClose: () => void;
@@ -19,7 +19,7 @@ const CustomModal: FC<ICustomModal> = ({
   handleClose,
   className,
   canCloseWithOutsideClick,
-  modalSize = "sm",
+  modalSize = 'sm',
 }) => {
   const onClose = () => {
     if (canCloseWithOutsideClick) {
@@ -35,17 +35,15 @@ const CustomModal: FC<ICustomModal> = ({
       onClose={onClose}
       closeAfterTransition
       sx={{
-        minHeight: "18.75rem",
-      }}
-    >
-      <div className={`custom-modal ${modalSize} ${className || ""}`}>
+        minHeight: '18.75rem',
+      }}>
+      <div className={`custom-modal ${modalSize} ${className || ''}`}>
         <button
-          className={"close-icon"}
+          className={'close-icon'}
           data-testid="modal-close-test-id"
-          aria-label={"Close"}
-          onClick={onClose}
-        >
-          <span className={"wm-close"} />
+          aria-label={'Close'}
+          onClick={onClose}>
+          <span className={'wm-close'} />
         </button>
         {children}
       </div>

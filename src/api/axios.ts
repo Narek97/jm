@@ -1,13 +1,13 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { getCookie, deleteCookie } from "../utils/cookieHelper.ts";
-import { TOKEN_NAME } from "@/constants";
+import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { getCookie, deleteCookie } from '../utils/cookieHelper.ts';
+import { TOKEN_NAME } from '@/constants';
 
 const $apiClient = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}/graphql`,
 });
 
 const handleError = (error: Error | AxiosError) => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     throw error;
   }
 
@@ -26,7 +26,7 @@ $apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
   const token = getCookie(TOKEN_NAME);
 
-  config.headers["Cache-Control"] = "max-age=31536000";
+  config.headers['Cache-Control'] = 'max-age=31536000';
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -35,7 +35,7 @@ $apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 }, handleError);
 
-$apiClient.interceptors.response.use((response) => {
+$apiClient.interceptors.response.use(response => {
   return response.data;
 }, handleError);
 
@@ -47,7 +47,7 @@ export const axiosRequest =
   async (variables?: TVariables) =>
     $apiClient
       ?.post<{ data: TData; errors: never }>(
-        "",
+        '',
         {
           query,
           variables,
@@ -67,7 +67,7 @@ export const axiosRequest =
         }
         return res.data;
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.message) {
           throw {
             message: error.message,
@@ -76,7 +76,7 @@ export const axiosRequest =
             variables,
           };
         } else {
-          throw { message: "Network Error", query, variables };
+          throw { message: 'Network Error', query, variables };
         }
       });
 

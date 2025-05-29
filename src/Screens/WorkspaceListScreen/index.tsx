@@ -1,23 +1,23 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Box } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import {
   GetWorkspacesByOrganizationIdQuery,
   useGetWorkspacesByOrganizationIdQuery,
-} from "@/api/queries/generated/getWorkspaces.generated.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import { querySlateTime } from "@/constants";
-import { WORKSPACES_LIMIT } from "@/constants/pagination.ts";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import WorkspaceCard from "@/Screens/WorkspaceListScreen/components/WorkspaceCard";
-import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
-import { useUserStore } from "@/store/user.ts";
+} from '@/api/queries/generated/getWorkspaces.generated.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { querySlateTime } from '@/constants';
+import { WORKSPACES_LIMIT } from '@/constants/pagination.ts';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import WorkspaceCard from '@/Screens/WorkspaceListScreen/components/WorkspaceCard';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useUserStore } from '@/store/user.ts';
 
 const WorkspaceListScreen = () => {
   const { t } = useTranslation();
@@ -28,10 +28,7 @@ const WorkspaceListScreen = () => {
     isLoading: isLoadingWorkspaces,
     error: errorWorkspaces,
     data: dataWorkspaces,
-  } = useGetWorkspacesByOrganizationIdQuery<
-    GetWorkspacesByOrganizationIdQuery,
-    Error
-  >(
+  } = useGetWorkspacesByOrganizationIdQuery<GetWorkspacesByOrganizationIdQuery, Error>(
     {
       getWorkspacesInput: {
         limit: WORKSPACES_LIMIT,
@@ -48,8 +45,8 @@ const WorkspaceListScreen = () => {
   useEffect(() => {
     setBreadcrumbs([
       {
-        name: "Workspaces",
-        pathname: "/workspaces",
+        name: 'Workspaces',
+        pathname: '/workspaces',
       },
     ]);
   }, [setBreadcrumbs]);
@@ -59,10 +56,10 @@ const WorkspaceListScreen = () => {
   }
 
   return (
-    <div className={"!py-[2rem] !px-[4rem]"}>
+    <div className={'!py-[2rem] !px-[4rem]'}>
       <div>
-        <h3 className={"!text-heading-2"} data-testid="workspace-title-test-id">
-          {t("workspace.title")}
+        <h3 className={'!text-heading-2'} data-testid="workspace-title-test-id">
+          {t('workspace.title')}
         </h3>
       </div>
       <>
@@ -72,13 +69,11 @@ const WorkspaceListScreen = () => {
           <EmptyDataInfo icon={<Box />} message="There are no organizations" />
         ) : (
           <ul className="workspaces-container">
-            {dataWorkspaces.getWorkspacesByOrganizationId.workspaces.map(
-              (workspace) => (
-                <ErrorBoundary key={workspace.id}>
-                  <WorkspaceCard workspace={workspace} />
-                </ErrorBoundary>
-              ),
-            )}
+            {dataWorkspaces.getWorkspacesByOrganizationId.workspaces.map(workspace => (
+              <ErrorBoundary key={workspace.id}>
+                <WorkspaceCard workspace={workspace} />
+              </ErrorBoundary>
+            ))}
           </ul>
         )}
       </>

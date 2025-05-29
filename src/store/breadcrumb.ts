@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type Breadcrumb = {
   name: string;
@@ -13,24 +13,24 @@ type BreadcrumbStore = {
   resetBreadcrumbs: () => void;
 };
 
-export const useBreadcrumbStore = create<BreadcrumbStore>((set) => ({
+export const useBreadcrumbStore = create<BreadcrumbStore>(set => ({
   breadcrumbs: [
     {
-      name: "Workspaces",
-      pathname: "/workspaces",
+      name: 'Workspaces',
+      pathname: '/workspaces',
     },
   ],
-  setBreadcrumbs: (breadcrumbs) => set({ breadcrumbs }),
-  addBreadcrumb: (breadcrumb) =>
-    set((state) => ({
+  setBreadcrumbs: breadcrumbs => set({ breadcrumbs }),
+  addBreadcrumb: breadcrumb =>
+    set(state => ({
       breadcrumbs: [...state.breadcrumbs, breadcrumb],
     })),
   resetBreadcrumbs: () =>
     set({
       breadcrumbs: [
         {
-          name: "Workspaces",
-          pathname: "/workspaces",
+          name: 'Workspaces',
+          pathname: '/workspaces',
         },
       ],
     }),

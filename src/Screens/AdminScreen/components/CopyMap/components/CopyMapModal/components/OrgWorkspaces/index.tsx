@@ -1,19 +1,19 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
-import WorkspaceItem from "./WorkspaceItem";
+import WorkspaceItem from './WorkspaceItem';
 
-import { useGetWorkspacesForPastQuery } from "@/api/queries/generated/getWorkspacesForPaste.generated";
-import { GetWorkspacesForPastQuery } from "@/api/queries/generated/getWorkspacesForPaste.generated.ts";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import { querySlateTime } from "@/constants";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import { useCopyMapStore } from "@/store/copyMap.ts";
-import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from "@/types/enum.ts";
+import { useGetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated';
+import { GetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated.ts';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { querySlateTime } from '@/constants';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import { useCopyMapStore } from '@/store/copyMap.ts';
+import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IOrgWorkspace {
   orgId: number;
@@ -51,10 +51,8 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
   return (
     <>
       {errorWorkspaces ? (
-        <div className={"workspaces-error"}>
-          <div className={"workspaces-error--text"}>
-            {errorWorkspaces?.message}
-          </div>
+        <div className={'workspaces-error'}>
+          <div className={'workspaces-error--text'}>{errorWorkspaces?.message}</div>
         </div>
       ) : (
         <>
@@ -68,37 +66,30 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
                   workspaceId: null,
                 });
               }}
-              className={"go-back"}
-            >
-              <span className={"wm-arrow-back"} />
+              className={'go-back'}>
+              <span className={'wm-arrow-back'} />
 
-              <div className={"go-back--text"}>Go to Orgs</div>
+              <div className={'go-back--text'}>Go to Orgs</div>
             </div>
           )}
-          <div data-testid="workspaces-list-id" className={"workspaces-list"}>
-            <div className={"workspaces-list--content"}>
+          <div data-testid="workspaces-list-id" className={'workspaces-list'}>
+            <div className={'workspaces-list--content'}>
               {isLoadingWorkspaces && !workspaces?.length ? (
-                <div className={"workspaces-list-loading-section"}>
+                <div className={'workspaces-list-loading-section'}>
                   <CustomLoader />
                 </div>
               ) : (
                 <>
                   {workspaces?.length ? (
-                    <ul className={"workspaces-list--content-workspaces"}>
-                      {workspaces?.map((itm) => (
+                    <ul className={'workspaces-list--content-workspaces'}>
+                      {workspaces?.map(itm => (
                         <ErrorBoundary key={itm.id}>
-                          <WorkspaceItem
-                            workspace={itm}
-                            handleClick={workspaceItemCLick}
-                          />
+                          <WorkspaceItem workspace={itm} handleClick={workspaceItemCLick} />
                         </ErrorBoundary>
                       ))}
                     </ul>
                   ) : (
-                    <EmptyDataInfo
-                      icon={<Box />}
-                      message={"There are no workspaces yet"}
-                    />
+                    <EmptyDataInfo icon={<Box />} message={'There are no workspaces yet'} />
                   )}
                 </>
               )}

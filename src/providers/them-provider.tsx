@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from '@mui/material';
 
-import { theme } from "@/assets/mui/mui-customize";
+import { theme } from '@/assets/mui/mui-customize';
 
 interface IThemProviderProps {
   children: React.ReactNode;

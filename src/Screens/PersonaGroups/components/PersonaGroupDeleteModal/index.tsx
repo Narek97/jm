@@ -1,13 +1,13 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { useWuShowToast } from "@npm-questionpro/wick-ui-lib";
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
 import {
   DeletePersonaGroupMutation,
   useDeletePersonaGroupMutation,
-} from "@/api/mutations/generated/deletePersonaGroup.generated.ts";
-import CustomModal from "@/Components/Shared/CustomModal";
-import DeleteModalTemplate from "@/Components/Shared/DeleteModalTemplate";
+} from '@/api/mutations/generated/deletePersonaGroup.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IGroupDeleteModal {
   isOpen: boolean;
@@ -22,10 +22,7 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
   handleDelete,
   handleClose,
 }) => {
-  const { mutate, isPending } = useDeletePersonaGroupMutation<
-    Error,
-    DeletePersonaGroupMutation
-  >();
+  const { mutate, isPending } = useDeletePersonaGroupMutation<Error, DeletePersonaGroupMutation>();
   const { showToast } = useWuShowToast();
 
   const handleDeleteBoard = () => {
@@ -40,7 +37,7 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
         },
         onError: (error: any) => {
           showToast({
-            variant: "error",
+            variant: 'error',
             message: error?.message,
           });
         },
@@ -49,15 +46,11 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
   };
 
   return (
-    <CustomModal
-      isOpen={isOpen}
-      handleClose={handleClose}
-      canCloseWithOutsideClick={!isPending}
-    >
+    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
         item={{
-          type: "persona group",
-          name: "Persona Group",
+          type: 'persona group',
+          name: 'Persona Group',
         }}
         handleClose={handleClose}
         handleDelete={handleDeleteBoard}

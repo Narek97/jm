@@ -1,9 +1,9 @@
-import { FC } from "react";
-import "./style.scss";
+import { FC } from 'react';
+import './style.scss';
 
-import { Tooltip } from "@mui/material";
+import { Tooltip } from '@mui/material';
 
-import HighlightedText from "@/Components/Shared/HightlitedText";
+import HighlightedText from '@/Components/Shared/HightlitedText';
 
 interface IOrgItem {
   org: { orgId: number; name: string };
@@ -17,17 +17,11 @@ const OrgItem: FC<IOrgItem> = ({ org, search, handleClick }) => {
       key={org.orgId}
       data-testid={`org-item-test-id-${org.orgId}`}
       className={`org-list--item`}
-      onClick={() => handleClick(org.orgId)}
-    >
+      onClick={() => handleClick(org.orgId)}>
       <div className="org-list--item--content">
-        <Tooltip title={org.name} arrow placement={"bottom"}>
-          <div
-            className={`org-list--item--content--title ${!org.name.length ? "no-title" : ""}`}
-          >
-            <HighlightedText
-              name={org.orgId + " / " + (org?.name || "No name")}
-              search={search}
-            />
+        <Tooltip title={org.name} arrow placement={'bottom'}>
+          <div className={`org-list--item--content--title ${!org.name.length ? 'no-title' : ''}`}>
+            <HighlightedText name={org.orgId + ' / ' + (org?.name || 'No name')} search={search} />
           </div>
         </Tooltip>
       </div>

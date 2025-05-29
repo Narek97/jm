@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import "./style.scss";
+import { ReactNode } from 'react';
+import './style.scss';
 
-import LinearProgress from "@mui/material/LinearProgress";
+import LinearProgress from '@mui/material/LinearProgress';
 
 const CustomFileUploader = ({
   uploadProgress,
@@ -15,18 +15,12 @@ const CustomFileUploader = ({
   showText?: boolean;
 }) => {
   return (
-    <div
-      className={"custom-file-uploader"}
-      data-testid={"custom-file-uploader"}
-    >
+    <div className={'custom-file-uploader'} data-testid={'custom-file-uploader'}>
       {uploadProgress ? (
         <div
-          className={"custom-file-uploader-progress"}
-          data-testid={"custom-file-uploader-progress-test-id"}
-        >
-          <div className={"custom-file-uploader-progress-percentage"}>
-            {uploadProgress}%
-          </div>
+          className={'custom-file-uploader-progress'}
+          data-testid={'custom-file-uploader-progress-test-id'}>
+          <div className={'custom-file-uploader-progress-percentage'}>{uploadProgress}%</div>
           <LinearProgress variant="determinate" value={uploadProgress} />
         </div>
       ) : (
@@ -35,8 +29,8 @@ const CustomFileUploader = ({
             content
           ) : (
             <>
-              {icon || <span className={"wm-image"} />}
-              {showText && <p className={"upload-text"}>Add picture</p>}
+              {icon || <span className={'wm-image'} />}
+              {showText && <p className={'upload-text'}>Add picture</p>}
             </>
           )}
         </>

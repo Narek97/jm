@@ -1,11 +1,11 @@
-@use "@assets/styles/variables" as *;
-@use "@assets/styles/mixins" as *;
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .org-users {
   padding: 2rem 4rem 0;
   height: 100%;
 
-  &--main{
+  &--main {
     display: flex;
     flex-direction: column;
     padding: 1rem 0 2rem;

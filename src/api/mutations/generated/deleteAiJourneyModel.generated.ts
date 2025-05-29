@@ -6,10 +6,10 @@ export type DeleteAiJourneyModelMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type DeleteAiJourneyModelMutation = { __typename?: 'Mutation', deleteAiJourneyModel: number };
-
-
+export type DeleteAiJourneyModelMutation = {
+  __typename?: 'Mutation';
+  deleteAiJourneyModel: number;
+};
 
 export const DeleteAiJourneyModelDocument = `
     mutation DeleteAiJourneyModel($id: Int!) {
@@ -17,17 +17,26 @@ export const DeleteAiJourneyModelDocument = `
 }
     `;
 
-export const useDeleteAiJourneyModelMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteAiJourneyModelMutation, TError, DeleteAiJourneyModelMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteAiJourneyModelMutation, TError, DeleteAiJourneyModelMutationVariables, TContext>(
-      {
+export const useDeleteAiJourneyModelMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteAiJourneyModelMutation,
+    TError,
+    DeleteAiJourneyModelMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    DeleteAiJourneyModelMutation,
+    TError,
+    DeleteAiJourneyModelMutationVariables,
+    TContext
+  >({
     mutationKey: ['DeleteAiJourneyModel'],
-    mutationFn: axiosRequest<DeleteAiJourneyModelMutation, DeleteAiJourneyModelMutationVariables>(DeleteAiJourneyModelDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<DeleteAiJourneyModelMutation, DeleteAiJourneyModelMutationVariables>(
+      DeleteAiJourneyModelDocument,
+    ),
+    ...options,
+  });
+};
 
 useDeleteAiJourneyModelMutation.getKey = () => ['DeleteAiJourneyModel'];

@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import CustomModalFooterButtons from "@/Components/Shared/CustomModalFooterButtons";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
+import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 
 interface IDeleteModalTemplate {
   item: { type: string; name: string };
@@ -19,11 +19,11 @@ const DeleteModalTemplate: FC<IDeleteModalTemplate> = ({
   text,
 }) => {
   return (
-    <div className={"delete-modal-template"}>
+    <div className={'delete-modal-template'}>
       <CustomModalHeader title={`Delete ${item.name}`} />
-      <div className={"custom-modal-content"}>
-        <div className={"delete-modal-template--content"}>
-          <p className={"delete-modal-template--title"}>
+      <div className={'custom-modal-content'}>
+        <div className={'delete-modal-template--content'}>
+          <p className={'delete-modal-template--title'}>
             {text || `Are you sure you want to delete selected  ${item.type} ?`}
           </p>
         </div>
@@ -32,7 +32,7 @@ const DeleteModalTemplate: FC<IDeleteModalTemplate> = ({
         handleFirstButtonClick={handleClose}
         handleSecondButtonClick={handleDelete}
         isLoading={isLoading}
-        secondButtonName={"Delete"}
+        secondButtonName={'Delete'}
       />
     </div>
   );

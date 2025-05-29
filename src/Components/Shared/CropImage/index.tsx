@@ -1,7 +1,7 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from 'react';
 
-import "./style.scss";
-import { CroppedAreaType } from "@/types";
+import './style.scss';
+import { CroppedAreaType } from '@/types';
 
 interface ICropImage {
   imageSource: string;
@@ -22,7 +22,7 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
   const createImage = useCallback((url: string) => {
     return new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      img.crossOrigin = 'anonymous';
       img.onload = () => resolve(img);
       img.onerror = reject;
       img.src = url;
@@ -44,14 +44,11 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
         height: (crop.height / 100) * image.height,
       };
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
       if (!ctx) return null;
 
-      const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
-        image.width,
-        image.height,
-      );
+      const { width: bBoxWidth, height: bBoxHeight } = rotateSize(image.width, image.height);
 
       canvas.width = bBoxWidth;
       canvas.height = bBoxHeight;
@@ -60,8 +57,8 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
       ctx.translate(-image.width / 2, -image.height / 2);
       ctx.drawImage(image, 0, 0);
 
-      const croppedCanvas = document.createElement("canvas");
-      const croppedCtx = croppedCanvas.getContext("2d");
+      const croppedCanvas = document.createElement('canvas');
+      const croppedCtx = croppedCanvas.getContext('2d');
       if (!croppedCtx) return null;
 
       croppedCanvas.width = pixelCrop.width;
@@ -80,10 +77,10 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
       );
 
       return new Promise<string>((resolve, reject) => {
-        croppedCanvas.toBlob((blob) => {
+        croppedCanvas.toBlob(blob => {
           if (blob) resolve(URL.createObjectURL(blob));
-          else reject(new Error("Failed to create blob from canvas"));
-        }, "image/png");
+          else reject(new Error('Failed to create blob from canvas'));
+        }, 'image/png');
       });
     },
     [createImage],
@@ -95,7 +92,7 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
         const cropped = await getCroppedImg(imageSource, croppedArea);
         setCroppedImage(cropped);
       } catch (error) {
-        console.error("Failed to crop image:", error);
+        console.error('Failed to crop image:', error);
       }
     },
     [getCroppedImg, imageSource],
@@ -109,9 +106,7 @@ const CropImage: FC<ICropImage> = ({ imageSource, croppedArea }) => {
 
   return (
     <div className="output">
-      {croppedImage && (
-        <img width={300} height={300} src={croppedImage} alt="Cropped" />
-      )}
+      {croppedImage && <img width={300} height={300} src={croppedImage} alt="Cropped" />}
     </div>
   );
 };

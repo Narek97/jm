@@ -1,9 +1,9 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useGetQueryDataByKey = (mayKey: string): any => {
   const queryClient = useQueryClient();
   const allKeys = queryClient.getQueryCache().getAll();
-  const query = allKeys.find((key) => key.queryKey[0] === mayKey);
+  const query = allKeys.find(key => key.queryKey[0] === mayKey);
   return queryClient.getQueryData(query?.queryKey || [mayKey]);
 };
 
@@ -14,14 +14,11 @@ type DataOptions = {
   deleteUpcoming?: boolean;
 };
 
-export const useSetQueryDataByKey = (
-  mayKey: string,
-  data?: DataOptions,
-): any => {
+export const useSetQueryDataByKey = (mayKey: string, data?: DataOptions): any => {
   const queryClient = useQueryClient();
   return (callback: (data: any) => any) => {
     const allKeys = queryClient.getQueryCache().getAll();
-    const query = allKeys.find((key) => {
+    const query = allKeys.find(key => {
       if (key.queryKey[0] !== mayKey) return false;
 
       if (data && data.input) {
@@ -33,10 +30,7 @@ export const useSetQueryDataByKey = (
         return JSON.stringify(currentValue) === JSON.stringify(data.value);
       }
 
-      return (
-        !data ||
-        (key.queryKey[1] as Record<string, unknown>)?.[data.key] === data.value
-      );
+      return !data || (key.queryKey[1] as Record<string, unknown>)?.[data.key] === data.value;
     });
 
     queryClient.setQueryData(query?.queryKey || [mayKey], callback);
@@ -49,10 +43,8 @@ export const useSetAllQueryDataByKey = (mayKey: string) => {
   return (callback: (data: any) => any): any[] => {
     const allQueries = queryClient.getQueryCache().getAll();
 
-    const matchingQueries = allQueries.filter((query) =>
-      query.queryKey.includes(mayKey),
-    );
-    return matchingQueries.map((query) => {
+    const matchingQueries = allQueries.filter(query => query.queryKey.includes(mayKey));
+    return matchingQueries.map(query => {
       const newData = callback(queryClient.getQueryData(query.queryKey));
       queryClient.setQueryData(query.queryKey, newData);
       return newData;
@@ -65,8 +57,8 @@ export const useRemoveQueriesByKey = () => {
   return (mayKey: string, data: DataOptions) => {
     queryClient.removeQueries({
       queryKey: [mayKey],
-      predicate: (query) => {
-        if (data.deleteUpcoming && typeof data.value === "number") {
+      predicate: query => {
+        if (data.deleteUpcoming && typeof data.value === 'number') {
           return data.input
             ? (query.queryKey[1] as any)[data.input][data.key] >= data.value
             : (query.queryKey[1] as any)[data.key] >= data.value;
@@ -82,13 +74,9 @@ export const useRemoveQueriesByKey = () => {
 
 export const useSetQueryDataByKeyAdvanced = () => {
   const queryClient = useQueryClient();
-  return (
-    mayKey: string,
-    data: DataOptions,
-    callback: (oldData: any) => any,
-  ) => {
+  return (mayKey: string, data: DataOptions, callback: (oldData: any) => any) => {
     const allQueries = queryClient.getQueryCache().getAll();
-    const query = allQueries.find((q) => {
+    const query = allQueries.find(q => {
       if (q.queryKey[0] !== mayKey) return false;
       const queryData = q.queryKey[1] as Record<string, any> | undefined;
       if (!queryData) return false;
@@ -99,7 +87,7 @@ export const useSetQueryDataByKeyAdvanced = () => {
         return queryData[data.key];
       };
       const currentValue = getValue();
-      if (data.deleteUpcoming && typeof data.value === "number") {
+      if (data.deleteUpcoming && typeof data.value === 'number') {
         return currentValue >= data.value;
       }
       return JSON.stringify(currentValue) === JSON.stringify(data.value);

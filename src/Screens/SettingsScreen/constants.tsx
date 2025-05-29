@@ -1,14 +1,14 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import { TabPanelType, TabType } from "@/types";
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { TabPanelType, TabType } from '@/types';
 
-const Outcomes = lazy(() => import("./components/Outcomes"));
-const UserDebug = lazy(() => import("./components/UserDebug"));
+const Outcomes = lazy(() => import('./components/Outcomes'));
+const UserDebug = lazy(() => import('./components/UserDebug'));
 
 const SETTINGS_TABS: TabType[] = [
-  { label: "Outcomes", value: "outcomes" },
-  { label: "User debug", value: "user-debug" },
+  { label: 'Outcomes', value: 'outcomes' },
+  { label: 'User debug', value: 'user-debug' },
 ];
 const SETTINGS_TAB_PANELS: TabPanelType[] = [
   {
@@ -17,7 +17,7 @@ const SETTINGS_TAB_PANELS: TabPanelType[] = [
         <Outcomes />
       </Suspense>
     ),
-    value: "outcomes",
+    value: 'outcomes',
   },
   {
     page: (
@@ -25,7 +25,7 @@ const SETTINGS_TAB_PANELS: TabPanelType[] = [
         <UserDebug />
       </Suspense>
     ),
-    value: "user-debug",
+    value: 'user-debug',
   },
 ];
 

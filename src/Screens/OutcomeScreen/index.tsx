@@ -1,37 +1,34 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from 'react';
 
-import "./style.scss";
-import { Box } from "@mui/material";
-import { useWuShowToast, WuButton } from "@npm-questionpro/wick-ui-lib";
-import { useParams } from "@tanstack/react-router";
+import './style.scss';
+import { Box } from '@mui/material';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useParams } from '@tanstack/react-router';
 
 import {
   GetOutcomeGroupQuery,
   useInfiniteGetOutcomeGroupQuery,
-} from "@/api/infinite-queries/generated/getOutcomeGroup.generated.ts";
+} from '@/api/infinite-queries/generated/getOutcomeGroup.generated.ts';
 import {
   DeleteOutcomeMutation,
   useDeleteOutcomeMutation,
-} from "@/api/mutations/generated/deleteOutcome.generated.ts";
-import { OrderByEnum, Outcome, OutcomeListEnum, SortByEnum } from "@/api/types";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import CustomTable from "@/Components/Shared/CustomTable";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import Pagination from "@/Components/Shared/Pagination";
-import { OUTCOMES_LIMIT } from "@/constants/pagination.ts";
-import { useSetQueryDataByKey } from "@/hooks/useQueryKey.ts";
-import AddUpdateOutcomeItemModal from "@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal";
-import {
-  OUTCOME_OPTIONS,
-  OUTCOME_TABLE_COLUMNS,
-} from "@/Screens/OutcomeScreen/constants.tsx";
+} from '@/api/mutations/generated/deleteOutcome.generated.ts';
+import { OrderByEnum, Outcome, OutcomeListEnum, SortByEnum } from '@/api/types';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import CustomTable from '@/Components/Shared/CustomTable';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import Pagination from '@/Components/Shared/Pagination';
+import { OUTCOMES_LIMIT } from '@/constants/pagination.ts';
+import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import AddUpdateOutcomeItemModal from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal';
+import { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS } from '@/Screens/OutcomeScreen/constants.tsx';
 
 const OutcomeScreen = () => {
   const { workspaceId, outcomeId } = useParams({
-    from: "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/",
+    from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/',
   });
-  const setOutcomeGroup = useSetQueryDataByKey("GetOutcomeGroup.infinite");
+  const setOutcomeGroup = useSetQueryDataByKey('GetOutcomeGroup.infinite');
 
   const { showToast } = useWuShowToast();
 
@@ -42,8 +39,10 @@ const OutcomeScreen = () => {
   const [sortBy, setSortBy] = useState<SortByEnum>(SortByEnum.CreatedAt);
   const [orderBy, setOrderBy] = useState<OrderByEnum>(OrderByEnum.Desc);
 
-  const { isPending: isLoadingDeleteOutcome, mutate: deleteOutcome } =
-    useDeleteOutcomeMutation<Error, DeleteOutcomeMutation>();
+  const { isPending: isLoadingDeleteOutcome, mutate: deleteOutcome } = useDeleteOutcomeMutation<
+    Error,
+    DeleteOutcomeMutation
+  >();
 
   const {
     isLoading: isLoadingOutcomes,
@@ -51,10 +50,7 @@ const OutcomeScreen = () => {
     isFetchingNextPage: isFetchingNextPageOutcomes,
     error: errorOutcomes,
     refetch,
-  } = useInfiniteGetOutcomeGroupQuery<
-    { pages: Array<GetOutcomeGroupQuery> },
-    Error
-  >(
+  } = useInfiniteGetOutcomeGroupQuery<{ pages: Array<GetOutcomeGroupQuery> }, Error>(
     {
       getOutcomeGroupInput: {
         outcomeGroupId: +outcomeId!,
@@ -82,12 +78,12 @@ const OutcomeScreen = () => {
   );
 
   const name = useMemo(
-    () => dataGetOutcomes?.pages[0].getOutcomeGroup.name || "Outcome",
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.name || 'Outcome',
     [dataGetOutcomes?.pages],
   );
 
   const pluralName = useMemo(
-    () => dataGetOutcomes?.pages[0].getOutcomeGroup.pluralName || "Outcomes",
+    () => dataGetOutcomes?.pages[0].getOutcomeGroup.pluralName || 'Outcomes',
     [dataGetOutcomes?.pages],
   );
 
@@ -103,28 +99,23 @@ const OutcomeScreen = () => {
 
   const toggleOpenModal = useCallback(() => {
     setSelectedOutcome(null);
-    setIsOpenCreateUpdateModal((prev) => !prev);
+    setIsOpenCreateUpdateModal(prev => !prev);
   }, []);
 
   const onHandleCreateOutcome = async (newOutcome: Outcome) => {
     setIsOpenCreateUpdateModal(false);
 
     setOutcomeGroup((oldData: any) => {
-      const updatedPages = ((oldData?.pages || []) as Array<any>).map(
-        (page) => {
-          return {
-            ...page,
-            getOutcomeGroup: {
-              ...page.getOutcomeGroup,
-              outcomesCount: page.getOutcomeGroup.outcomesCount + 1,
-              outcomes: [
-                newOutcome,
-                ...page.getOutcomeGroup.outcomes.slice(0, OUTCOMES_LIMIT - 1),
-              ],
-            },
-          };
-        },
-      );
+      const updatedPages = ((oldData?.pages || []) as Array<any>).map(page => {
+        return {
+          ...page,
+          getOutcomeGroup: {
+            ...page.getOutcomeGroup,
+            outcomesCount: page.getOutcomeGroup.outcomesCount + 1,
+            outcomes: [newOutcome, ...page.getOutcomeGroup.outcomes.slice(0, OUTCOMES_LIMIT - 1)],
+          },
+        };
+      });
       return {
         ...oldData,
         pages: updatedPages,
@@ -153,17 +144,13 @@ const OutcomeScreen = () => {
           onSuccess: () => {
             setSelectedOutcome(null);
             setOutcomeGroup((oldData: any) => {
-              const updatedPages = (
-                oldData?.pages as Array<GetOutcomeGroupQuery>
-              ).map((page) => {
+              const updatedPages = (oldData?.pages as Array<GetOutcomeGroupQuery>).map(page => {
                 return {
                   ...page,
                   getOutcomeGroup: {
                     ...page.getOutcomeGroup,
                     outcomesCount: page.getOutcomeGroup.outcomesCount - 1,
-                    outcomes: page.getOutcomeGroup.outcomes.filter(
-                      (item) => item?.id !== id,
-                    ),
+                    outcomes: page.getOutcomeGroup.outcomes.filter(item => item?.id !== id),
                   },
                 };
               });
@@ -174,19 +161,16 @@ const OutcomeScreen = () => {
             });
 
             if (renderedOutcomesData.length === 1 && currentPage > 1) {
-              setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
+              setCurrentPage(prevPage => Math.max(1, prevPage - 1));
             }
 
-            if (
-              !dataGetOutcomes?.pages[currentPage] &&
-              !isFetchingNextPageOutcomes
-            ) {
+            if (!dataGetOutcomes?.pages[currentPage] && !isFetchingNextPageOutcomes) {
               refetch().then();
             }
           },
-          onError: (error) => {
+          onError: error => {
             showToast({
-              variant: "error",
+              variant: 'error',
               message: error?.message,
             });
           },
@@ -205,10 +189,7 @@ const OutcomeScreen = () => {
     ],
   );
 
-  const sortTableByField = async (
-    newOrderBy: OrderByEnum,
-    newSortBy: string,
-  ) => {
+  const sortTableByField = async (newOrderBy: OrderByEnum, newSortBy: string) => {
     setSortBy(newSortBy as SortByEnum);
     setOrderBy(newOrderBy);
     setCurrentPage(1);
@@ -242,7 +223,7 @@ const OutcomeScreen = () => {
   }
 
   return (
-    <div className={"outcome-container"}>
+    <div className={'outcome-container'}>
       {isOpenCreateUpdateModal && (
         <AddUpdateOutcomeItemModal
           isOpen={isOpenCreateUpdateModal}
@@ -279,14 +260,9 @@ const OutcomeScreen = () => {
 
       {isLoadingOutcomes && <CustomLoader />}
 
-      {!isLoadingOutcomes &&
-        !isFetchingNextPageOutcomes &&
-        !renderedOutcomesData.length && (
-          <EmptyDataInfo
-            icon={<Box />}
-            message={`There are no ${pluralName} yet`}
-          />
-        )}
+      {!isLoadingOutcomes && !isFetchingNextPageOutcomes && !renderedOutcomesData.length && (
+        <EmptyDataInfo icon={<Box />} message={`There are no ${pluralName} yet`} />
+      )}
       {renderedOutcomesData.length > 0 && (
         <div className="outcome-container--body">
           <CustomTable
@@ -296,9 +272,7 @@ const OutcomeScreen = () => {
             rows={renderedOutcomesData}
             columns={columns}
             options={options}
-            processingItemId={
-              isLoadingDeleteOutcome ? selectedOutcome?.id : null
-            }
+            processingItemId={isLoadingDeleteOutcome ? selectedOutcome?.id : null}
           />
         </div>
       )}

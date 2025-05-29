@@ -1,8 +1,6 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-export const Route = createFileRoute(
-  "/_authenticated/_secondary-sidebar-layout",
-)({
+export const Route = createFileRoute('/_authenticated/_secondary-sidebar-layout')({
   component: RouteComponent,
 });
 

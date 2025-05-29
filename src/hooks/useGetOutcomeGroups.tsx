@@ -1,11 +1,11 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from 'react';
 
 import {
   GetOutcomeGroupsQuery,
   useInfiniteGetOutcomeGroupsQuery,
-} from "@/api/infinite-queries/generated/getOutcomeGroups.generated.ts";
-import { OutcomeGroup } from "@/api/types.ts";
-import { OUTCOME_GROUPS_LIMIT } from "@/constants/pagination.ts";
+} from '@/api/infinite-queries/generated/getOutcomeGroups.generated.ts';
+import { OutcomeGroup } from '@/api/types.ts';
+import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
 
 const useGetOutcomeGroups = (needToGet: boolean) => {
   const {
@@ -13,10 +13,7 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
     fetchNextPage: fetchNextPageOutcomes,
     data: dataGetOutcomes,
     isFetchingNextPage: isFetchingNextPageOutcomes,
-  } = useInfiniteGetOutcomeGroupsQuery<
-    { pages: Array<GetOutcomeGroupsQuery> },
-    Error
-  >(
+  } = useInfiniteGetOutcomeGroupsQuery<{ pages: Array<GetOutcomeGroupsQuery> }, Error>(
     {
       getOutcomeGroupsInput: {
         limit: OUTCOME_GROUPS_LIMIT,
@@ -28,8 +25,7 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
         lastPage: GetOutcomeGroupsQuery,
         allPages: GetOutcomeGroupsQuery[],
       ) {
-        return lastPage.getOutcomeGroups.outcomeGroups.length <
-          OUTCOME_GROUPS_LIMIT
+        return lastPage.getOutcomeGroups.outcomeGroups.length < OUTCOME_GROUPS_LIMIT
           ? undefined
           : allPages.length;
       },
@@ -46,10 +42,7 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
 
     return dataGetOutcomes.pages.reduce((acc: Array<OutcomeGroup>, curr) => {
       if (curr?.getOutcomeGroups.outcomeGroups) {
-        return [
-          ...acc,
-          ...(curr.getOutcomeGroups.outcomeGroups as Array<OutcomeGroup>),
-        ];
+        return [...acc, ...(curr.getOutcomeGroups.outcomeGroups as Array<OutcomeGroup>)];
       }
       return acc;
     }, []);
@@ -58,22 +51,21 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
   useEffect(() => {
     const handleScroll = (e: Event) => {
       const target = e.currentTarget as HTMLElement;
-      const isAtBottom =
-        target.scrollTop + target.clientHeight >= target.scrollHeight - 200;
+      const isAtBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 200;
       if (isAtBottom && !isFetchingNextPageOutcomes && !isLoadingOutcomes) {
         fetchNextPageOutcomes().then(() => {});
       }
     };
 
-    const hoverMenuPanelTop = document.querySelector(".hover-menu-panel--top");
+    const hoverMenuPanelTop = document.querySelector('.hover-menu-panel--top');
 
     if (hoverMenuPanelTop) {
-      hoverMenuPanelTop.addEventListener("scroll", handleScroll);
+      hoverMenuPanelTop.addEventListener('scroll', handleScroll);
     }
 
     return () => {
       if (hoverMenuPanelTop) {
-        hoverMenuPanelTop.removeEventListener("scroll", handleScroll);
+        hoverMenuPanelTop.removeEventListener('scroll', handleScroll);
       }
     };
   }, [fetchNextPageOutcomes, isFetchingNextPageOutcomes, isLoadingOutcomes]);

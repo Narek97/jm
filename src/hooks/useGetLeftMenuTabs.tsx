@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
-import { SECONDARY_MENU_PANEL_TOP_TABS } from "@/constants/tabs.tsx";
-import useGetOutcomeGroups from "@/hooks/useGetOutcomeGroups";
-import { useUserStore } from "@/store/user.ts";
+import { SECONDARY_MENU_PANEL_TOP_TABS } from '@/constants/tabs.tsx';
+import useGetOutcomeGroups from '@/hooks/useGetOutcomeGroups';
+import { useUserStore } from '@/store/user.ts';
 
 const useGetLeftMenuTabs = (workspaceId: number) => {
   const { renderedDataOutcomes } = useGetOutcomeGroups(true);
@@ -11,21 +11,14 @@ const useGetLeftMenuTabs = (workspaceId: number) => {
   const topTabs = useMemo(() => {
     if (!workspaceId) return [];
     const outcomes =
-      renderedDataOutcomes?.map((itm) => {
-        const regexPattern = new RegExp(
-          `^\\/workspace\\/\\d+\\/outcome\\/${String(itm?.id)}$`,
-        );
+      renderedDataOutcomes?.map(itm => {
+        const regexPattern = new RegExp(`^\\/workspace\\/\\d+\\/outcome\\/${String(itm?.id)}$`);
         return {
           url: `/workspace/${workspaceId}/outcome/${String(itm?.id)}`,
           regexp: regexPattern,
           ...itm,
           icon: itm.icon ? (
-            <img
-              src={itm.icon}
-              width={100}
-              height={100}
-              alt={itm.pluralName || "Outcome"}
-            />
+            <img src={itm.icon} width={100} height={100} alt={itm.pluralName || 'Outcome'} />
           ) : (
             <>AtlasIcon</>
           ),

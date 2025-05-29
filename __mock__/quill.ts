@@ -1,8 +1,8 @@
 // __mocks__/quill.js
 
-const testElement = document.createElement("div");
-testElement.setAttribute("data-testid", "mock-body-element");
-testElement.textContent = "Test Element";
+const testElement = document.createElement('div');
+testElement.setAttribute('data-testid', 'mock-body-element');
+testElement.textContent = 'Test Element';
 document.body.appendChild(testElement);
 
 let isWorked = false;
@@ -12,26 +12,26 @@ const QuillMock: any = jest.fn();
 QuillMock.mockImplementation((container: HTMLElement, options: any) => {
   QuillMock.prototype.on = jest.fn(
     (event: string, callback: (text: string, text2: string) => void) => {
-      if (!isWorked && event === "text-change") {
+      if (!isWorked && event === 'text-change') {
         isWorked = true;
-        callback("text-change", "some changes");
+        callback('text-change', 'some changes');
       }
     },
   );
 
-  const button = document.createElement("button");
-  button.textContent = "Custom Button";
-  button.classList.add("ql-custom-button");
-  button.setAttribute("data-testid", "custom-button");
+  const button = document.createElement('button');
+  button.textContent = 'Custom Button';
+  button.classList.add('ql-custom-button');
+  button.setAttribute('data-testid', 'custom-button');
   button.onclick = () => {
-    if (options.modules.toolbar?.handlers["custom-button-mocked-uuid"]) {
-      return options.modules.toolbar.handlers["custom-button-mocked-uuid"]();
+    if (options.modules.toolbar?.handlers['custom-button-mocked-uuid']) {
+      return options.modules.toolbar.handlers['custom-button-mocked-uuid']();
     }
   };
   testElement.onclick =
     options.modules.toolbar?.handlers &&
-    options.modules.toolbar?.handlers["custom-button-mocked-uuid"]
-      ? options.modules.toolbar.handlers["custom-button-mocked-uuid"]()
+    options.modules.toolbar?.handlers['custom-button-mocked-uuid']
+      ? options.modules.toolbar.handlers['custom-button-mocked-uuid']()
       : jest.fn();
 
   container.appendChild(button);
@@ -39,9 +39,7 @@ QuillMock.mockImplementation((container: HTMLElement, options: any) => {
   return {
     root: container,
     addContainer: jest.fn((container: HTMLElement | string) => {
-      return container instanceof HTMLElement
-        ? container
-        : document.createElement("div");
+      return container instanceof HTMLElement ? container : document.createElement('div');
     }),
     blur: jest.fn(),
     deleteText: jest.fn(),
@@ -52,7 +50,7 @@ QuillMock.mockImplementation((container: HTMLElement, options: any) => {
     clipboard: {
       dangerouslyPasteHTML: jest.fn(),
     },
-    theme: { name: "bubble" },
+    theme: { name: 'bubble' },
     history: {},
     uploader: {},
   };

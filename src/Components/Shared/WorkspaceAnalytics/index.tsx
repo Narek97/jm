@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import "./style.scss";
-import {WORKSPACE_ANALYTICS_ITEMS} from "@/Components/Shared/WorkspaceAnalytics/constants.tsx";
+import './style.scss';
+import { WORKSPACE_ANALYTICS_ITEMS } from '@/Components/Shared/WorkspaceAnalytics/constants.tsx';
 
 interface IWorkspaceAnalytics {
   showType?: string;
@@ -26,74 +26,56 @@ const WorkspaceAnalytics: FC<IWorkspaceAnalytics> = ({
   const onHandleClick = () => {};
 
   return (
-    <ul
-      className={"workspace--analytics"}
-      data-testid="workspace--analytics-test-id"
-    >
+    <ul className={'workspace--analytics'} data-testid="workspace--analytics-test-id">
       {data &&
-        WORKSPACE_ANALYTICS_ITEMS(onHandleClick)?.map((item) => (
+        WORKSPACE_ANALYTICS_ITEMS(onHandleClick)?.map(item => (
           <li
-            className={`workspace--analytics--item ${showType || ""}`}
+            className={`workspace--analytics--item ${showType || ''}`}
             key={item?.name}
-            onClick={item.onClick}
-          >
-            <p
-              className={`workspace--analytics--item--count  ${fontSize || ""} `}
-            >
+            onClick={item.onClick}>
+            <p className={`workspace--analytics--item--count  ${fontSize || ''} `}>
               {data[item.key] || 0}
             </p>
-            <div className={"workspace--analytics--item-description-section"}>
-              <div className={"workspace--analytics--item--icon"}>
-                {item.icon}
-              </div>
-              {showType !== "horizontal-type" && (
-                <span className={"workspace--analytics--item--name"}>
-                  {item?.name}
-                </span>
+            <div className={'workspace--analytics--item-description-section'}>
+              <div className={'workspace--analytics--item--icon'}>{item.icon}</div>
+              {showType !== 'horizontal-type' && (
+                <span className={'workspace--analytics--item--name'}>{item?.name}</span>
               )}
             </div>
           </li>
         ))}
-      {outcomeGroups?.map((outcomeItem) => (
-        <li
-          className={`workspace--analytics--item ${showType || ""}`}
-          key={outcomeItem?.id}
-        >
-          <p
-            className={`workspace--analytics--item--count  ${fontSize || ""} `}
-          >
+      {outcomeGroups?.map(outcomeItem => (
+        <li className={`workspace--analytics--item ${showType || ''}`} key={outcomeItem?.id}>
+          <p className={`workspace--analytics--item--count  ${fontSize || ''} `}>
             {outcomeItem.count || 0}
           </p>
-          <div className={"workspace--analytics--item-description-section"}>
-            <div className={"workspace--analytics--item--icon"}>
+          <div className={'workspace--analytics--item-description-section'}>
+            <div className={'workspace--analytics--item--icon'}>
               <img
                 src={outcomeItem?.icon}
-                alt={outcomeItem?.name || "logo"}
+                alt={outcomeItem?.name || 'logo'}
                 style={{
-                  width: "0.75rem",
-                  height: "0.75rem",
+                  width: '0.75rem',
+                  height: '0.75rem',
                 }}
               />
             </div>
-            {showType !== "horizontal-type" && (
-              <span className={"workspace--analytics--item--name"}>
-                {outcomeItem?.name}
-              </span>
+            {showType !== 'horizontal-type' && (
+              <span className={'workspace--analytics--item--name'}>{outcomeItem?.name}</span>
             )}
           </div>
         </li>
       ))}
       {viewAll &&
-        typeof pinnedOutcomeGroupCount === "number" &&
+        typeof pinnedOutcomeGroupCount === 'number' &&
         pinnedOutcomeGroupCount > 3 &&
         outcomeGroups && (
           <li
-            className={`view-all${fontSize ? " " + fontSize : ""}`}
-            onClick={(e) => {
+            className={`view-all${fontSize ? ' ' + fontSize : ''}`}
+            onClick={e => {
               e.stopPropagation();
               viewAll();
-            }}
-          >
+            }}>
             <span>+</span>
             <span>{pinnedOutcomeGroupCount - outcomeGroups.length!}</span>
           </li>

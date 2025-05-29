@@ -1,35 +1,40 @@
 export enum WorkspaceAnalyticsEnumType {
-  SMALL = "SMALL",
-  BIG = "BIG",
+  SMALL = 'SMALL',
+  BIG = 'BIG',
 }
 
 export enum CopyMapLevelEnum {
-  ORG = "ORG",
-  WORKSPACE = "WORKSPACE",
+  ORG = 'ORG',
+  WORKSPACE = 'WORKSPACE',
 }
 
 export enum CopyMapLevelTemplateEnum {
-  ORGS = "ORGS",
-  WORKSPACES = "WORKSPACES",
-  BOARDS = "BOARDS",
-  MAPS = "MAPS",
+  ORGS = 'ORGS',
+  WORKSPACES = 'WORKSPACES',
+  BOARDS = 'BOARDS',
+  MAPS = 'MAPS',
 }
 
 export enum MenuViewTypeEnum {
-  VERTICAL = "VERTICAL",
-  HORIZONTAL = "HORIZONTAL",
+  VERTICAL = 'VERTICAL',
+  HORIZONTAL = 'HORIZONTAL',
 }
 
 export enum MenuItemIconPositionEnum {
-  START = "START",
-  END = "END",
+  START = 'START',
+  END = 'END',
+}
+
+export enum OutcomeLevelEnum {
+  WORKSPACE = 'WORKSPACE',
+  MAP = 'MAP',
 }
 
 export enum ImageSizeEnum {
-  XSM = "XSM",
-  SM = "SM",
-  MD = "MD",
-  MDS = "MDS",
-  MDL = "MDL",
-  LG = "LG",
+  XSM = 'XSM',
+  SM = 'SM',
+  MD = 'MD',
+  MDS = 'MDS',
+  MDL = 'MDL',
+  LG = 'LG',
 }

@@ -1,32 +1,29 @@
-import { FC, useCallback, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
-import BoardItem from "./BoardItem";
+import BoardItem from './BoardItem';
 
 import {
   GetWorkspaceBoardsQuery,
   useInfiniteGetWorkspaceBoardsQuery,
-} from "@/api/infinite-queries/generated/getWorkspaceBoards.generated.ts";
-import { Board } from "@/api/types.ts";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import { BOARDS_LIMIT } from "@/constants/pagination";
-import ErrorBoundary from "@/Features/ErrorBoundary";
-import { useCopyMapStore } from "@/store/copyMap";
-import { CopyMapLevelTemplateEnum } from "@/types/enum.ts";
+} from '@/api/infinite-queries/generated/getWorkspaceBoards.generated.ts';
+import { Board } from '@/api/types.ts';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { BOARDS_LIMIT } from '@/constants/pagination';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import { useCopyMapStore } from '@/store/copyMap';
+import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IWorkspaceBoards {
   workspaceId: number;
   isLoadingCopyMap: boolean;
 }
 
-const WorkspaceBoards: FC<IWorkspaceBoards> = ({
-  workspaceId,
-  isLoadingCopyMap,
-}) => {
+const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }) => {
   const { setCopyMapState, mapId } = useCopyMapStore();
 
   const [selectedItem, setSelectedItem] = useState<null | number>(null);
@@ -40,10 +37,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
     isFetching: organizationBoardsIsFetching,
     fetchNextPage: organizationBoardsFetchNextPage,
     isFetchingNextPage: organizationBoardsIsFetchingNextPage,
-  } = useInfiniteGetWorkspaceBoardsQuery<
-    { pages: Array<GetWorkspaceBoardsQuery> },
-    Error
-  >(
+  } = useInfiniteGetWorkspaceBoardsQuery<{ pages: Array<GetWorkspaceBoardsQuery> }, Error>(
     {
       getWorkspaceBoardsInput: {
         offset: 0,
@@ -65,10 +59,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
     },
   );
 
-  const onHandleFetchWorkspaces = (
-    e: React.UIEvent<HTMLElement>,
-    childOffsetHeight: number,
-  ) => {
+  const onHandleFetchWorkspaces = (e: React.UIEvent<HTMLElement>, childOffsetHeight: number) => {
     const target = e.currentTarget as HTMLDivElement | null;
     if (
       e.target &&
@@ -116,12 +107,10 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
   return (
     <div
       data-testid="boards-list-id"
-      className={`boards-list ${isLoadingCopyMap ? "disabled-section" : ""}`}
-    >
-      <div className={"boards-list--content"}>
-        {organizationBoardsIsLoading &&
-        !renderedOrganizationBoardsData?.length ? (
-          <div className={"boards-list-loading-section"}>
+      className={`boards-list ${isLoadingCopyMap ? 'disabled-section' : ''}`}>
+      <div className={'boards-list--content'}>
+        {organizationBoardsIsLoading && !renderedOrganizationBoardsData?.length ? (
+          <div className={'boards-list-loading-section'}>
             <CustomLoader />
           </div>
         ) : (
@@ -133,9 +122,8 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
                   boardId: null,
                 });
               }}
-              className={`go-back`}
-            >
-              <span className={"wm-arrow-back"} />
+              className={`go-back`}>
+              <span className={'wm-arrow-back'} />
 
               <button disabled={isLoadingCopyMap} className={`go-back--text`}>
                 Go to workspaces
@@ -143,23 +131,17 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
             </div>
             {renderedOrganizationBoardsData?.length ? (
               <div
-                className={"boards-list--content-boards"}
-                onScroll={(e) => {
-                  onHandleFetchWorkspaces(
-                    e,
-                    childRef.current?.offsetHeight || 0,
-                  );
-                }}
-              >
+                className={'boards-list--content-boards'}
+                onScroll={e => {
+                  onHandleFetchWorkspaces(e, childRef.current?.offsetHeight || 0);
+                }}>
                 <ul ref={childRef}>
-                  {renderedOrganizationBoardsData?.map((board) => (
+                  {renderedOrganizationBoardsData?.map(board => (
                     <ErrorBoundary key={board.id}>
                       <BoardItem
                         board={board}
                         handlePasteMap={handlePasteMap}
-                        isLoadingCopyMap={
-                          isLoadingCopyMap && processingItemId === board?.id
-                        }
+                        isLoadingCopyMap={isLoadingCopyMap && processingItemId === board?.id}
                         isSelected={selectedItem === board?.id}
                       />
                     </ErrorBoundary>
@@ -167,10 +149,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({
                 </ul>
               </div>
             ) : (
-              <EmptyDataInfo
-                icon={<Box />}
-                message={"There are no workspaces yet"}
-              />
+              <EmptyDataInfo icon={<Box />} message={'There are no workspaces yet'} />
             )}
           </>
         )}

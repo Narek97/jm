@@ -1,16 +1,16 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import { TabPanelType, TabType } from "@/types";
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { TabPanelType, TabType } from '@/types';
 
-const ErrorLogs = lazy(() => import("./components/ErrorLogs"));
-const PerformanceLogs = lazy(() => import("./components/PerformanceLogs"));
-const Organizations = lazy(() => import("./components/Organizations"));
+const ErrorLogs = lazy(() => import('./components/ErrorLogs'));
+const PerformanceLogs = lazy(() => import('./components/PerformanceLogs'));
+const Organizations = lazy(() => import('./components/Organizations'));
 
 const ADMIN_TABS: TabType[] = [
-  { label: "Error Logs", value: "error-logs" },
-  { label: "Performance Logs", value: "performance-logs" },
-  { label: "Organizations", value: "organizations" },
+  { label: 'Error Logs', value: 'error-logs' },
+  { label: 'Performance Logs', value: 'performance-logs' },
+  { label: 'Organizations', value: 'organizations' },
 ];
 
 const ADMIN_TAB_PANELS: TabPanelType[] = [
@@ -20,7 +20,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
         <ErrorLogs />
       </Suspense>
     ),
-    value: "error-logs",
+    value: 'error-logs',
   },
   {
     page: (
@@ -28,7 +28,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
         <PerformanceLogs />
       </Suspense>
     ),
-    value: "performance-logs",
+    value: 'performance-logs',
   },
   {
     page: (
@@ -36,7 +36,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
         <Organizations />
       </Suspense>
     ),
-    value: "organizations",
+    value: 'organizations',
   },
 ];
 

@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { createRoute, redirect, useNavigate } from "@tanstack/react-router";
-import axios from "axios";
+import { createRoute, redirect, useNavigate } from '@tanstack/react-router';
+import axios from 'axios';
 
-import { rootRoute } from "../__root";
+import { rootRoute } from '../__root';
 
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import { TOKEN_NAME } from "@/constants";
-import { setCookie } from "@/utils/cookieHelper.ts";
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { TOKEN_NAME } from '@/constants';
+import { setCookie } from '@/utils/cookieHelper.ts';
 
 // Define the expected response shape for the token API
 interface TokenResponse {
@@ -16,19 +16,15 @@ interface TokenResponse {
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/authorization/callback",
-  beforeLoad: async ({
-    search,
-  }: {
-    search: Record<string, string | undefined>;
-  }) => {
+  path: '/authorization/callback',
+  beforeLoad: async ({ search }: { search: Record<string, string | undefined> }) => {
     const code = search.code;
 
     // Check if code is missing
     if (!code) {
       throw redirect({
-        to: "/error",
-        search: { message: "Authorization code is missing" },
+        to: '/error',
+        search: { message: 'Authorization code is missing' },
         replace: true,
       });
     }
@@ -42,11 +38,11 @@ export const Route = createRoute({
       // Set the token in a cookie
       setCookie(TOKEN_NAME, response.data.access_token);
     } catch (error) {
-      console.error(error, "Error generating token");
+      console.error(error, 'Error generating token');
       // Handle API errors by redirecting to an error page
       throw redirect({
-        to: "/error",
-        search: { message: "Failed to generate token" },
+        to: '/error',
+        search: { message: 'Failed to generate token' },
         replace: true,
       });
     }
@@ -58,7 +54,7 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate({ to: "/workspaces", replace: true }).then();
+    navigate({ to: '/workspaces', replace: true }).then();
   }, [navigate]);
 
   return <CustomLoader />;

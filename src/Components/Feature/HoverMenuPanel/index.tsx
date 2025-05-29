@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
 import {
   WuSidebarContent,
@@ -8,12 +8,12 @@ import {
   WuSidebarGroup,
   WuSidebarItem,
   WuSidebarMenu,
-} from "@npm-questionpro/wick-ui-lib";
-import { Link, useLocation } from "@tanstack/react-router";
+} from '@npm-questionpro/wick-ui-lib';
+import { Link, useLocation } from '@tanstack/react-router';
 
-import { MenuTabType } from "@/Features/SidebarLayout/types.ts";
-import { useBreadcrumbStore } from "@/store/breadcrumb.ts";
-import { useUserStore } from "@/store/user.ts";
+import { MenuTabType } from '@/Features/SidebarLayout/types.ts';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useUserStore } from '@/store/user.ts';
 
 interface IHoverMenuPanel {
   topTabs: Array<MenuTabType>;
@@ -32,25 +32,20 @@ const HoverMenuPanel: FC<IHoverMenuPanel> = ({ topTabs, bottomTabs }) => {
       <WuSidebarContent>
         <WuSidebarMenu>
           <WuSidebarGroup label="Data">
-            {topTabs.slice(0, 4).map((topTab) => (
+            {topTabs.slice(0, 4).map(topTab => (
               <WuSidebarItem
                 key={topTab.url}
                 className={`hover-menu-panel-nav-link  ${
-                  topTab.regexp && topTab.regexp.test(pathname) ? "active" : ""
+                  topTab.regexp && topTab.regexp.test(pathname) ? 'active' : ''
                 }`}
                 Icon={
-                  typeof topTab.icon === "string" ? (
+                  typeof topTab.icon === 'string' ? (
                     <span className={topTab.icon} />
                   ) : (
-                    <span className={"hover-menu-panel-nav-link-icon"}>
-                      {topTab.icon}
-                    </span>
+                    <span className={'hover-menu-panel-nav-link-icon'}>{topTab.icon}</span>
                   )
                 }
-                onClick={() =>
-                  setBreadcrumbs(breadcrumbs.slice(0, topTab.breadcrumbSlice))
-                }
-              >
+                onClick={() => setBreadcrumbs(breadcrumbs.slice(0, topTab.breadcrumbSlice))}>
                 <Link data-testid={topTab.name} to={topTab.url}>
                   {topTab.name}
                 </Link>
@@ -60,27 +55,20 @@ const HoverMenuPanel: FC<IHoverMenuPanel> = ({ topTabs, bottomTabs }) => {
           {/* Remaining items with Planning label */}
           {topTabs.length > 4 && (
             <WuSidebarGroup label="Planning">
-              {topTabs.slice(4).map((topTab) => (
+              {topTabs.slice(4).map(topTab => (
                 <WuSidebarItem
                   key={topTab.url}
                   className={`hover-menu-panel-nav-link  ${
-                    topTab.regexp && topTab.regexp.test(pathname)
-                      ? "active"
-                      : ""
+                    topTab.regexp && topTab.regexp.test(pathname) ? 'active' : ''
                   }`}
                   Icon={
-                    typeof topTab.icon === "string" ? (
+                    typeof topTab.icon === 'string' ? (
                       <span className={topTab.icon} />
                     ) : (
-                      <span className={"hover-menu-panel-nav-link-icon"}>
-                        {topTab.icon}
-                      </span>
+                      <span className={'hover-menu-panel-nav-link-icon'}>{topTab.icon}</span>
                     )
                   }
-                  onClick={() =>
-                    setBreadcrumbs(breadcrumbs.slice(0, topTab.breadcrumbSlice))
-                  }
-                >
+                  onClick={() => setBreadcrumbs(breadcrumbs.slice(0, topTab.breadcrumbSlice))}>
                   <Link data-testid={topTab.name} to={topTab.url}>
                     {topTab.name}
                   </Link>
@@ -93,35 +81,28 @@ const HoverMenuPanel: FC<IHoverMenuPanel> = ({ topTabs, bottomTabs }) => {
 
       <WuSidebarFooter>
         <WuSidebarMenu>
-          {bottomTabs?.map((bottomTab) => {
-            if (!user?.isAdmin && bottomTab?.name === "Admin") {
+          {bottomTabs?.map(bottomTab => {
+            if (!user?.isAdmin && bottomTab?.name === 'Admin') {
               return null;
             }
             return (
               <WuSidebarItem
                 key={bottomTab.url}
                 className={`hover-menu-panel-nav-link  ${
-                  bottomTab.regexp && bottomTab.regexp.test(pathname)
-                    ? "active"
-                    : ""
+                  bottomTab.regexp && bottomTab.regexp.test(pathname) ? 'active' : ''
                 }`}
                 Icon={
-                  typeof bottomTab.icon === "string" ? (
+                  typeof bottomTab.icon === 'string' ? (
                     <span
                       onClick={() =>
-                        setBreadcrumbs(
-                          breadcrumbs.slice(0, bottomTab.breadcrumbSlice),
-                        )
+                        setBreadcrumbs(breadcrumbs.slice(0, bottomTab.breadcrumbSlice))
                       }
                       className={bottomTab.icon}
                     />
                   ) : (
-                    <span className={"hover-menu-panel-nav-link-icon"}>
-                      {bottomTab.icon}
-                    </span>
+                    <span className={'hover-menu-panel-nav-link-icon'}>{bottomTab.icon}</span>
                   )
-                }
-              >
+                }>
                 <Link data-testid={bottomTab.name} to={bottomTab.url}>
                   {bottomTab.name}
                 </Link>

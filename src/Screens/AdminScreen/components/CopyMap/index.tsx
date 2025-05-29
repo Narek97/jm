@@ -1,27 +1,24 @@
-import { ChangeEvent, lazy, Suspense, useMemo, useState } from "react";
+import { ChangeEvent, lazy, Suspense, useMemo, useState } from 'react';
 
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
-import {
-  GetOrgsQuery,
-  useGetOrgsQuery,
-} from "@/api/queries/generated/getOrgs.generated.ts";
-import CustomError from "@/Components/Shared/CustomError";
-import CustomInput from "@/Components/Shared/CustomInput";
-import CustomLoader from "@/Components/Shared/CustomLoader";
-import CustomTable from "@/Components/Shared/CustomTable";
-import EmptyDataInfo from "@/Components/Shared/EmptyDataInfo";
-import { querySlateTime } from "@/constants";
-import { debounced400 } from "@/hooks/useDebounce.ts";
-import { ORGS_TABLE_COLUMNS } from "@/Screens/AdminScreen/components/CopyMap/constants.tsx";
-import { useCopyMapStore } from "@/store/copyMap.ts";
-import { CopyMapLevelEnum } from "@/types/enum.ts";
+import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
+import CustomError from '@/Components/Shared/CustomError';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import CustomTable from '@/Components/Shared/CustomTable';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { querySlateTime } from '@/constants';
+import { debounced400 } from '@/hooks/useDebounce.ts';
+import { ORGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/CopyMap/constants.tsx';
+import { useCopyMapStore } from '@/store/copyMap.ts';
+import { CopyMapLevelEnum } from '@/types/enum.ts';
 
-const CopyMapModal = lazy(() => import("./components/CopyMapModal"));
+const CopyMapModal = lazy(() => import('./components/CopyMapModal'));
 
 const CopyMap = () => {
   const [orgId, setOrgId] = useState<number | null>(null);
-  const [searchedText, setSearchedText] = useState("");
+  const [searchedText, setSearchedText] = useState('');
 
   const { reset } = useCopyMapStore();
 
@@ -47,7 +44,7 @@ const CopyMap = () => {
   };
 
   const rows = useMemo(() => {
-    return dataOrgs?.getOrgs?.map((itm) => ({ ...itm, id: itm.orgId }));
+    return dataOrgs?.getOrgs?.map(itm => ({ ...itm, id: itm.orgId }));
   }, [dataOrgs?.getOrgs]);
 
   const columns = useMemo(() => {
@@ -59,9 +56,9 @@ const CopyMap = () => {
   }
 
   return (
-    <div className={"copy-map"}>
+    <div className={'copy-map'}>
       {orgId && (
-        <Suspense fallback={""}>
+        <Suspense fallback={''}>
           <CopyMapModal
             orgId={orgId}
             isOpen={true}
@@ -76,10 +73,7 @@ const CopyMap = () => {
 
       <div className="copy-map--search">
         <div className="copy-map--search--input">
-          <CustomInput
-            placeholder={"Search for an map"}
-            onChange={onHandleSearchOrgs}
-          />
+          <CustomInput placeholder={'Search for an map'} onChange={onHandleSearchOrgs} />
         </div>
       </div>
 
@@ -92,7 +86,7 @@ const CopyMap = () => {
           isTableHead={true}
           rows={rows || []}
           columns={columns}
-          onClickRow={(data) => {
+          onClickRow={data => {
             setOrgId(data?.orgId);
           }}
         />

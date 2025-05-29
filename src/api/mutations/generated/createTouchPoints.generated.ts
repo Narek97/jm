@@ -6,10 +6,26 @@ export type CreateTouchPointsMutationVariables = Types.Exact<{
   createTouchPointInput: Types.CreateTouchPointInput;
 }>;
 
-
-export type CreateTouchPointsMutation = { __typename?: 'Mutation', createTouchPoints: { __typename?: 'CreateTouchpointResponseModel', deletedAttachments: Array<number>, createdTouchpoints: Array<{ __typename?: 'TouchPoint', id: number, iconUrl: string, title?: string | null, boxId?: number | null, rowId: number, columnId: number, bgColor?: string | null, commentsCount: number, flippedText?: string | null, persona?: { __typename?: 'personas', id: number } | null }> } };
-
-
+export type CreateTouchPointsMutation = {
+  __typename?: 'Mutation';
+  createTouchPoints: {
+    __typename?: 'CreateTouchpointResponseModel';
+    deletedAttachments: Array<number>;
+    createdTouchpoints: Array<{
+      __typename?: 'TouchPoint';
+      id: number;
+      iconUrl: string;
+      title?: string | null;
+      boxId?: number | null;
+      rowId: number;
+      columnId: number;
+      bgColor?: string | null;
+      commentsCount: number;
+      flippedText?: string | null;
+      persona?: { __typename?: 'personas'; id: number } | null;
+    }>;
+  };
+};
 
 export const CreateTouchPointsDocument = `
     mutation CreateTouchPoints($createTouchPointInput: CreateTouchPointInput!) {
@@ -33,17 +49,26 @@ export const CreateTouchPointsDocument = `
 }
     `;
 
-export const useCreateTouchPointsMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateTouchPointsMutation, TError, CreateTouchPointsMutationVariables, TContext>) => {
-    
-    return useMutation<CreateTouchPointsMutation, TError, CreateTouchPointsMutationVariables, TContext>(
-      {
+export const useCreateTouchPointsMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateTouchPointsMutation,
+    TError,
+    CreateTouchPointsMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    CreateTouchPointsMutation,
+    TError,
+    CreateTouchPointsMutationVariables,
+    TContext
+  >({
     mutationKey: ['CreateTouchPoints'],
-    mutationFn: axiosRequest<CreateTouchPointsMutation, CreateTouchPointsMutationVariables>(CreateTouchPointsDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<CreateTouchPointsMutation, CreateTouchPointsMutationVariables>(
+      CreateTouchPointsDocument,
+    ),
+    ...options,
+  });
+};
 
 useCreateTouchPointsMutation.getKey = () => ['CreateTouchPoints'];

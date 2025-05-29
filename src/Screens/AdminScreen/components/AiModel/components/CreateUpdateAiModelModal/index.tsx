@@ -1,42 +1,39 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useState } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Skeleton, Switch } from "@mui/material";
-import { WuButton } from "@npm-questionpro/wick-ui-lib";
-import { FileUploader } from "react-drag-drop-files";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Skeleton, Switch } from '@mui/material';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
+import { FileUploader } from 'react-drag-drop-files';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { AiModelFormType } from "../../types";
+import { AiModelFormType } from '../../types';
 
 import {
   CreateAiJourneyModelMutation,
   useCreateAiJourneyModelMutation,
-} from "@/api/mutations/generated/createAiJourneyModel.generated.ts";
+} from '@/api/mutations/generated/createAiJourneyModel.generated.ts';
 import {
   UpdateAiJourneyModelMutation,
   useUpdateAiJourneyModelMutation,
-} from "@/api/mutations/generated/updateAiJourneyModel.generated.ts";
-import {
-  GetOrgsQuery,
-  useGetOrgsQuery,
-} from "@/api/queries/generated/getOrgs.generated.ts";
-import { AiJourneyModelResponse, AttachmentsEnum } from "@/api/types";
-import CustomFileUploader from "@/Components/Shared/CustomFileUploader";
-import CustomFileUploader2 from "@/Components/Shared/CustomFileUploader/index2.tsx";
-import CustomInput from "@/Components/Shared/CustomInput";
-import CustomModal from "@/Components/Shared/CustomModal";
-import CustomModalHeader from "@/Components/Shared/CustomModalHeader";
-import CustomMultiSelectDropDown from "@/Components/Shared/CustomMultiSelectDropDown";
-import { querySlateTime } from "@/constants";
+} from '@/api/mutations/generated/updateAiJourneyModel.generated.ts';
+import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
+import { AiJourneyModelResponse, AttachmentsEnum } from '@/api/types';
+import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
+import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import CustomMultiSelectDropDown from '@/Components/Shared/CustomMultiSelectDropDown';
+import { querySlateTime } from '@/constants';
 import {
   AI_MODEL_FILE_TYPES,
   AI_MODEL_FORM_ELEMENTS,
   CREATE_AI_MODEL_VALIDATION_SCHEMA,
-} from "@/Screens/AdminScreen/components/AiModel/constants.tsx";
-import { useUserStore } from "@/store/user.ts";
-import { UploadFile } from "@/utils/uploader";
+} from '@/Screens/AdminScreen/components/AiModel/constants.tsx';
+import { useUserStore } from '@/store/user.ts';
+import { UploadFile } from '@/utils/uploader';
 
 interface ICreateUpdateAiModelModal {
   aiModel: AiJourneyModelResponse | null;
@@ -55,21 +52,16 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
 }) => {
   const [deletedOrgIds, setDeletedOrgIds] = useState<Array<number>>([]);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [attachmentUrl, setAttachmentUrl] = useState<string | null>(
-    aiModel?.attachmentUrl || null,
-  );
+  const [attachmentUrl, setAttachmentUrl] = useState<string | null>(aiModel?.attachmentUrl || null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
   const { user } = useUserStore();
 
-  const { data: orgsData, isLoading: isLoadingOrgsData } = useGetOrgsQuery<
-    GetOrgsQuery,
-    Error
-  >(
+  const { data: orgsData, isLoading: isLoadingOrgsData } = useGetOrgsQuery<GetOrgsQuery, Error>(
     {
       getOrgsInput: {
-        search: "",
+        search: '',
       },
     },
     {
@@ -77,25 +69,21 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
     },
   );
 
-  const {
-    mutate: creteAiJourneyModel,
-    isPending: isLoadingCreateAiJourneyModel,
-  } = useCreateAiJourneyModelMutation<CreateAiJourneyModelMutation, Error>({
-    onSuccess: (response) => {
-      onHandleAddNewAiModel(response.createAiJourneyModel);
-      handleClose();
-    },
-  });
+  const { mutate: creteAiJourneyModel, isPending: isLoadingCreateAiJourneyModel } =
+    useCreateAiJourneyModelMutation<CreateAiJourneyModelMutation, Error>({
+      onSuccess: response => {
+        onHandleAddNewAiModel(response.createAiJourneyModel);
+        handleClose();
+      },
+    });
 
-  const {
-    mutate: updateAiJourneyModel,
-    isPending: isLoadingUpdateAiJourneyModel,
-  } = useUpdateAiJourneyModelMutation<UpdateAiJourneyModelMutation, Error>({
-    onSuccess: (response) => {
-      onHandleUpdateAiModel(response.updateAiJourneyModel);
-      handleClose();
-    },
-  });
+  const { mutate: updateAiJourneyModel, isPending: isLoadingUpdateAiJourneyModel } =
+    useUpdateAiJourneyModelMutation<UpdateAiJourneyModelMutation, Error>({
+      onSuccess: response => {
+        onHandleUpdateAiModel(response.updateAiJourneyModel);
+        handleClose();
+      },
+    });
 
   const onHandleCreateOrUpdateAiModel = (
     formData: AiModelFormType,
@@ -109,9 +97,8 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
         attachmentId,
         deleteOrgIds: [...new Set(deletedOrgIds)],
         createOrgIds: [...new Set(formData.orgIds)],
-        prompt: formData.prompt.replace(/\[Interview transcript]/g, "").trim(),
-        transcriptPlace: formData.prompt.split("[Interview transcript]")[0]
-          .length,
+        prompt: formData.prompt.replace(/\[Interview transcript]/g, '').trim(),
+        transcriptPlace: formData.prompt.split('[Interview transcript]')[0].length,
       };
       updateAiJourneyModel({
         updateAiJourneyInput: input,
@@ -122,11 +109,8 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
           ...formData,
           attachmentId,
           orgIds: [...new Set(formData.orgIds)],
-          transcriptPlace: formData.prompt.split("[Interview transcript]")[0]
-            .length,
-          prompt: formData.prompt
-            .replace(/\[Interview transcript]/g, "")
-            .trim(),
+          transcriptPlace: formData.prompt.split('[Interview transcript]')[0].length,
+          prompt: formData.prompt.replace(/\[Interview transcript]/g, '').trim(),
         },
       });
     }
@@ -140,23 +124,22 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   } = useForm<AiModelFormType>({
     resolver: yupResolver(CREATE_AI_MODEL_VALIDATION_SCHEMA),
     defaultValues: {
-      name: aiModel?.name || "",
+      name: aiModel?.name || '',
       prompt:
-        (aiModel?.prompt || "").slice(0, aiModel?.transcriptPlace) +
-          "[Interview transcript]" +
-          (aiModel?.prompt || "").slice(aiModel?.transcriptPlace) ||
-        "[Interview transcript]",
+        (aiModel?.prompt || '').slice(0, aiModel?.transcriptPlace) +
+          '[Interview transcript]' +
+          (aiModel?.prompt || '').slice(aiModel?.transcriptPlace) || '[Interview transcript]',
       universal: aiModel?.universal || false,
       orgIds: aiModel?.selectedOrgIds || [],
     },
   });
 
-  const universal = watch("universal");
+  const universal = watch('universal');
 
   const { append, remove } = useFieldArray({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    name: "orgIds",
+    name: 'orgIds',
     control,
   });
 
@@ -169,7 +152,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   const onHandleUploadFile = async (formData: AiModelFormType) => {
     if (file) {
       let percentage: number | undefined = undefined;
-      const indexLastsSlash = file.type.lastIndexOf("/");
+      const indexLastsSlash = file.type.lastIndexOf('/');
       const fType = file.type.substring(indexLastsSlash + 1);
       const videoUploaderOptions = {
         fileType: fType,
@@ -223,50 +206,43 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
 
   const menuItems = useMemo(
     () =>
-      orgsData?.getOrgs.map((org) => ({
+      orgsData?.getOrgs.map(org => ({
         id: org.id,
-        name: org.name || "Untitled",
+        name: org.name || 'Untitled',
         value: org.orgId,
       })) || [],
     [orgsData?.getOrgs],
   );
 
   const defaultSelectedItems = useMemo(
-    () =>
-      menuItems.filter((item) =>
-        (aiModel?.selectedOrgIds || []).includes(+item.value),
-      ),
+    () => menuItems.filter(item => (aiModel?.selectedOrgIds || []).includes(+item.value)),
     [aiModel?.selectedOrgIds, menuItems],
   );
 
   return (
     <CustomModal
-      modalSize={"lg"}
+      modalSize={'lg'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}
-    >
-      <CustomModalHeader title={<>{aiModel ? "Edit" : "Create"} AI model</>} />
-      <div className={"create-update-ai-model-modal"}>
+      canCloseWithOutsideClick={true}>
+      <CustomModalHeader title={<>{aiModel ? 'Edit' : 'Create'} AI model</>} />
+      <div className={'create-update-ai-model-modal'}>
         <form
-          className={"create-update-ai-model-modal--form"}
+          className={'create-update-ai-model-modal--form'}
           onSubmit={handleSubmit(onHandleSaveLink)}
-          id="interviewform"
-        >
-          {AI_MODEL_FORM_ELEMENTS.map((element) => (
+          id="interviewform">
+          {AI_MODEL_FORM_ELEMENTS.map(element => (
             <div
               className={`create-update-ai-model-modal--content-input ${element.name}`}
-              key={element.name}
-            >
+              key={element.name}>
               <label
-                className={"create-update-ai-model-modal--content-input--label"}
-                htmlFor="name"
-              >
+                className={'create-update-ai-model-modal--content-input--label'}
+                htmlFor="name">
                 {element.title}
               </label>
-              <div className={"create-update-ai-model-modal--prompt-info"}>
-                {element.name === "prompt" &&
-                  "* please add prompt text before or after the [interview transcript] and never delete it so that the model works as expected."}
+              <div className={'create-update-ai-model-modal--prompt-info'}>
+                {element.name === 'prompt' &&
+                  '* please add prompt text before or after the [interview transcript] and never delete it so that the model works as expected.'}
               </div>
               <Controller
                 name={element.name}
@@ -274,73 +250,68 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                 render={({ field: { onChange, value } }) => (
                   <CustomInput
                     data-testid={`create-ai-model-${element.name}-input-test-id`}
-                    inputType={"primary"}
+                    inputType={'primary'}
                     placeholder={element.placeholder}
                     id={element.name}
                     type={element.type}
                     onChange={onChange}
                     // disabled={!!interview || isLoadingCreateInterview}
-                    value={value || ""}
+                    value={value || ''}
                     rows={4}
                     multiline={element.isMultiline}
                   />
                 )}
               />
-              <span className={"validation-error"}>
-                {(errors && errors[element.name]?.message) || ""}
+              <span className={'validation-error'}>
+                {(errors && errors[element.name]?.message) || ''}
               </span>
             </div>
           ))}
 
-          <div className={"create-update-ai-model-modal--file-upload"}>
+          <div className={'create-update-ai-model-modal--file-upload'}>
             {attachmentUrl && (
               <button
-                className={"create-update-ai-model-modal--delete-file-icon"}
-                aria-label={"Delete"}
-                onClick={onHandleDelete}
-              >
-                <span className={"wm-delete"} />
+                className={'create-update-ai-model-modal--delete-file-icon'}
+                aria-label={'Delete'}
+                onClick={onHandleDelete}>
+                <span className={'wm-delete'} />
               </button>
             )}
             <FileUploader
-              id={"touchpoint-name"}
+              id={'touchpoint-name'}
               classes={`attachments--file-uploader`}
               handleChange={onHandleSelectFiles}
               name="file"
-              types={AI_MODEL_FILE_TYPES}
-            >
+              types={AI_MODEL_FILE_TYPES}>
               <CustomFileUploader
                 uploadProgress={uploadProgress}
                 content={
                   selectedImage ? (
                     <div
-                      data-testid={"ai-model-selected-image"}
-                      className={"create-update-ai-model-modal--file-container"}
-                    >
+                      data-testid={'ai-model-selected-image'}
+                      className={'create-update-ai-model-modal--file-container'}>
                       <img
                         src={selectedImage}
                         alt="Img"
                         style={{
-                          width: "11.25rem",
-                          height: "5.625rem",
+                          width: '11.25rem',
+                          height: '5.625rem',
                         }}
                       />
                     </div>
                   ) : attachmentUrl ? (
-                    <div
-                      className={"create-update-ai-model-modal--file-container"}
-                    >
+                    <div className={'create-update-ai-model-modal--file-container'}>
                       <img
                         src={`${process.env.NEXT_PUBLIC_AWS_URL}/${attachmentUrl}`}
                         alt="Img"
                         style={{
-                          width: "11.25rem",
-                          height: "5.625rem",
+                          width: '11.25rem',
+                          height: '5.625rem',
                         }}
                       />
                     </div>
                   ) : (
-                    <CustomFileUploader2 title={"Choose image"} />
+                    <CustomFileUploader2 title={'Choose image'} />
                   )
                 }
               />
@@ -348,20 +319,19 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
           </div>
 
           <label
-            className={"create-update-ai-model-modal--content-input--label"}
-            htmlFor="universal"
-          >
+            className={'create-update-ai-model-modal--content-input--label'}
+            htmlFor="universal">
             Universal
           </label>
           <Controller
-            name={"universal"}
+            name={'universal'}
             control={control}
             render={({ field: { onChange, value } }) => (
               <Switch
-                id={"universal"}
+                id={'universal'}
                 color="primary"
                 disableRipple={true}
-                data-testid={"create-update-ai-model-modal-switch-test-id"}
+                data-testid={'create-update-ai-model-modal-switch-test-id'}
                 checked={value}
                 onChange={onChange}
               />
@@ -376,42 +346,36 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                   <CustomMultiSelectDropDown
                     menuItems={menuItems}
                     defaultSelectedItems={defaultSelectedItems}
-                    onSelect={(items) => append(items)}
+                    onSelect={items => append(items)}
                     onDelete={(id, index) => {
                       remove(index);
-                      setDeletedOrgIds((prev) => [...prev, id]);
+                      setDeletedOrgIds(prev => [...prev, id]);
                     }}
-                    placeholder={"Select org"}
+                    placeholder={'Select org'}
                   />
-                  <span className={"validation-error"}>
-                    {(errors && errors.orgIds?.message) || ""}
+                  <span className={'validation-error'}>
+                    {(errors && errors.orgIds?.message) || ''}
                   </span>
                 </>
               )}
             </>
           )}
-          <div className={"base-modal-footer"}>
+          <div className={'base-modal-footer'}>
             <button
-              className={"base-modal-footer--cancel-btn"}
+              className={'base-modal-footer--cancel-btn'}
               onClick={handleClose}
               disabled={
-                isLoadingCreateAiJourneyModel ||
-                isLoadingUpdateAiJourneyModel ||
-                !!uploadProgress
-              }
-            >
+                isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
+              }>
               Cancel
             </button>
             <WuButton
               type="submit"
-              data-testid={"submit-interview-btn-test-id"}
+              data-testid={'submit-interview-btn-test-id'}
               disabled={
-                isLoadingCreateAiJourneyModel ||
-                isLoadingUpdateAiJourneyModel ||
-                !!uploadProgress
-              }
-            >
-              {aiModel ? "Update" : "Create"}
+                isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
+              }>
+              {aiModel ? 'Update' : 'Create'}
             </WuButton>
           </div>
         </form>

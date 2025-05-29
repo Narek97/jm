@@ -1,7 +1,7 @@
-import * as yup from "yup";
+import * as yup from 'yup';
 
-import { InterviewType } from "@/Screens/InterviewsScreen/types.ts";
-import { MenuOptionsType } from "@/types";
+import { InterviewType } from '@/Screens/InterviewsScreen/types.ts';
+import { MenuOptionsType } from '@/types';
 
 const INTERVIEW_CARD_OPTIONS = ({
   onHandleNavigateToMap,
@@ -14,18 +14,18 @@ const INTERVIEW_CARD_OPTIONS = ({
 }): Array<MenuOptionsType> => {
   return [
     {
-      icon: <span className={"wm-share-windows"} />,
-      name: "Map",
+      icon: <span className={'wm-share-windows'} />,
+      name: 'Map',
       onClick: onHandleNavigateToMap,
     },
     {
-      icon: <span className={"wm-eye-tracking"} />,
-      name: "View",
+      icon: <span className={'wm-eye-tracking'} />,
+      name: 'View',
       onClick: onHandleView,
     },
     {
-      icon: <span className={"wm-delete"} />,
-      name: "Delete",
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
       onClick: onHandleDelete,
     },
   ];
@@ -34,10 +34,10 @@ const INTERVIEW_CARD_OPTIONS = ({
 const CREATE_INTERVIEW_VALIDATION_SCHEMA = yup
   .object()
   .shape({
-    name: yup.string().required("Name is required"),
-    aiJourneyModelId: yup.number().required("Ai  model is required"),
-    text: yup.string().required("Transcript is required"),
-    boardId: yup.number().required("Board is required"),
+    name: yup.string().required('Name is required'),
+    aiJourneyModelId: yup.number().required('Ai  model is required'),
+    text: yup.string().required('Transcript is required'),
+    boardId: yup.number().required('Board is required'),
   })
   .required();
 
