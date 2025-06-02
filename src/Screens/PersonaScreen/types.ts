@@ -1,4 +1,4 @@
-import { GetPersonaDemographicInfoModel, Personas } from '@/api/types';
+import { GetPersonaDemographicInfoModel, GetPersonaSectionsModel, Personas } from '@/api/types';
 import { AttachmentType, CroppedAreaType } from '@/types';
 
 export type PersonaInfoType = Pick<
@@ -33,4 +33,11 @@ export type PersonaImageContainedComponentType = {
   type: 'avatar' | 'personaField' | null;
   itemId: number | null;
   attachment: Pick<AttachmentType, 'url' | 'key' | 'croppedArea'> | null;
+};
+
+export type PersonSectionType = Omit<
+  GetPersonaSectionsModel,
+  'createdAt' | 'updatedAt' | 'personaId'
+> & {
+  content?: string | null;
 };

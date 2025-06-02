@@ -3,6 +3,8 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import './style.scss';
 
 import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+import 'quill-mention/dist/quill.mention.css';
 import 'quill/dist/quill.js';
 import 'quill/dist/quill.bubble.css';
 

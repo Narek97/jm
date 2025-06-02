@@ -2,10 +2,11 @@
 @use '@assets/styles/mixins' as *;
 
 .field-section {
-  background: $BASE_WHITE-COLOR;
+  position: relative;
   padding: 0.5rem;
   border-radius: 0.3rem;
   margin-bottom: 1rem;
+  background: $BASE_WHITE-COLOR;
   &:hover {
     .field-section--drag {
       visibility: visible;
@@ -94,6 +95,7 @@
   cursor: ns-resize;
   position: absolute;
   right: 3px;
+  bottom: 0;
   width: fit-content;
   height: fit-content;
   z-index: 20;

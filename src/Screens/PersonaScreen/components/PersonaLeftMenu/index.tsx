@@ -252,7 +252,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     mutateCreateDefaultFields(
       {
         createDefaultDemographicInfoFieldsInput: {
-          personaId: personaId || 0,
+          personaId: +personaId || 0,
         },
       },
       {

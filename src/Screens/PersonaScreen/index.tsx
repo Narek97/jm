@@ -4,8 +4,10 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
+import { v4 as uuidv4 } from 'uuid';
 
 import PersonaHeader from './components/PersonaHeader';
+import PersonaRightSections from './components/PersonaRightSections';
 
 import {
   CreateDemographicInfoMutation,
@@ -45,7 +47,7 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import { debounced400 } from '@/hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 import PersonaLeftMenu from '@/Screens/PersonaScreen/components/PersonaLeftMenu';
-import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaDemographicInfoType, PersonSectionType } from '@/Screens/PersonaScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { PersonaFieldCategoryTypeEnum } from '@/types/enum';
 import { getDemographicFiledKey } from '@/utils/getDemographicFiledKey.ts';
@@ -66,7 +68,9 @@ const PersonaScreen = () => {
   const hasSetBreadcrumbs = useRef(false);
   const personaRef = useRef<{
     getNextFreePosition: () => { x: number; y: number };
-  } | null>(null);
+  }>({
+    getNextFreePosition: () => ({ x: 0, y: 0 }),
+  });
   const rightSectionRef = useRef<HTMLDivElement | null>(null);
   const demographicInfoRef = useRef<HTMLDivElement | null>(null);
 
@@ -335,29 +339,25 @@ const PersonaScreen = () => {
   );
 
   const onHandleAddSection = (layout: PersonSectionType | null) => {
-    // const { x, y } = personaRef.current
-    //   ? personaRef.current?.getNextFreePosition()
-    //   : { x: 0, y: 0 };
-    //
-    // const newItem = {
-    //   x: x,
-    //   y: y,
-    //   w: layout?.w || 1,
-    //   h: layout?.h || 1,
-    //   i: uuidv4(),
-    //   color: layout?.color || "rgb(245, 245, 245)",
-    //   content: layout?.content || "",
-    // };
-    //
-    // mutatePersonaSection({
-    //   createPersonaSectionInput: {
-    //     personaId: +personaId,
-    //     key:
-    //       layout?.key ||
-    //       `New card ${dataPersonaSections?.getPersonaSections.length}`,
-    //     ...newItem,
-    //   },
-    // });
+    const { x, y } = personaRef.current.getNextFreePosition();
+
+    const newItem = {
+      x: x,
+      y: y,
+      w: layout?.w || 1,
+      h: layout?.h || 1,
+      i: uuidv4(),
+      color: layout?.color || 'rgb(245, 245, 245)',
+      content: layout?.content || '',
+    };
+
+    mutatePersonaSection({
+      createPersonaSectionInput: {
+        personaId: +personaId,
+        key: layout?.key || `New card ${dataPersonaSections?.getPersonaSections.length}`,
+        ...newItem,
+      },
+    });
   };
 
   useEffect(() => {
@@ -427,15 +427,12 @@ const PersonaScreen = () => {
           />
         </div>
         <div className={'persona-container--right-sections'} ref={rightSectionRef}>
-          {/*<PersonaRightSections*/}
-          {/*  ref={personaRef}*/}
-          {/*  dataPersonaSections={*/}
-          {/*    (dataPersonaSections?.getPersonaSections as Array<PersonSectionType>) ||*/}
-          {/*    []*/}
-          {/*  }*/}
-          {/*  onHandleAddSection={onHandleAddSection}*/}
-          {/*  isLoadingPersonaSections={isLoadingPersonaSections}*/}
-          {/*/>*/}
+          <PersonaRightSections
+            ref={personaRef}
+            dataPersonaSections={dataPersonaSections?.getPersonaSections || []}
+            onHandleAddSection={onHandleAddSection}
+            isLoadingPersonaSections={isLoadingPersonaSections}
+          />
         </div>
       </div>
     </div>

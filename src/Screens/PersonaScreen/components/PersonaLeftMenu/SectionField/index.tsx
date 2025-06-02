@@ -83,6 +83,7 @@ const SectionField: FC<ISectionField> = memo(
               placeholder={'label'}
               inputType={'secondary'}
               value={item.key}
+              disabled={item?.isHidden}
               sxStyles={{
                 opacity: item.isHidden ? 0.5 : 1,
               }}
@@ -146,7 +147,7 @@ const SectionField: FC<ISectionField> = memo(
               }}>
               <PersonaEditor
                 layoutId={'1'}
-                disabled={false}
+                disabled={item?.isHidden}
                 onHandleTextChange={value => {
                   onHandleChangeDemographicInfo(
                     item.id,
