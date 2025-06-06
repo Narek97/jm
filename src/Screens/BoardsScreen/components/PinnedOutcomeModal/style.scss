@@ -1,0 +1,32 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.outcomes-section {
+  padding: 0.5rem;
+  height: 26.875rem;
+
+  &--content-outcomes {
+    height: 22.875rem;
+    overflow: auto;
+    padding: 1rem;
+    border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+
+    &-item {
+      @include flex-center-between;
+      border: 0.0625rem solid $BASE-LIGHT-GRAY-COLOR-2;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      padding: 0.625rem 0.75rem 0.75rem;
+      color: $BASE_GRAY_COLOR;
+      cursor: pointer;
+
+      &:hover {
+        border: 0.0625rem solid $BASE_BLUE_COLOR;
+      }
+
+      &--name {
+        @include reduce-text(12.5rem);
+      }
+    }
+  }
+}

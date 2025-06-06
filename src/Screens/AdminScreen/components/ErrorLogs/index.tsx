@@ -58,7 +58,7 @@ const ErrorLogs = () => {
   }
 
   if (!isLoading && !logsData.length) {
-    return <EmptyDataInfo icon={<Box />} message={'There are no error logs'} />;
+    return <EmptyDataInfo message={'There are no error logs'} />;
   }
 
   return (

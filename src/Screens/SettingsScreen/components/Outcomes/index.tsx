@@ -61,7 +61,7 @@ const Outcomes = () => {
 
   const setOutcomeGroups = useSetQueryDataByKeyAdvanced();
   const setAllOutcomeGroups = useSetAllQueryDataByKey('GetOutcomeGroups');
-  const setRemoveOutcomeGroups = useRemoveQueriesByKey();
+  const setRemoveOutcomeGroupsQuery = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingOutcomes,
@@ -80,7 +80,7 @@ const Outcomes = () => {
   );
 
   const { isPending: isLoadingCrateOrUpdateOutcome, mutate: createOutcome } =
-    useCreateOrUpdateOutcomeGroupMutation<CreateOrUpdateOutcomeGroupMutation, Error>();
+    useCreateOrUpdateOutcomeGroupMutation<Error, CreateOrUpdateOutcomeGroupMutation>();
 
   const { isPending: isLoadingDeleteOrUpdateOutcome, mutate: deleteOutcome } =
     useDeleteOutcomeGroupMutation<Error, DeleteOutcomeGroupMutation>();
@@ -119,7 +119,7 @@ const Outcomes = () => {
               new: {},
             }));
 
-            setRemoveOutcomeGroups('GetOutcomeGroups', {
+            setRemoveOutcomeGroupsQuery('GetOutcomeGroups', {
               input: 'getOutcomeGroupsInput',
               key: 'offset',
               value: 0,
@@ -154,7 +154,7 @@ const Outcomes = () => {
             setCurrentPage(1);
             setOffset(0);
           },
-          onError: (error: any) => {
+          onError: error => {
             showToast({
               variant: 'error',
               message: error?.message,
@@ -168,7 +168,7 @@ const Outcomes = () => {
       iconUrl,
       setOutcomeGroups,
       setOutcomePinnedBoardIds,
-      setRemoveOutcomeGroups,
+      setRemoveOutcomeGroupsQuery,
       showToast,
     ],
   );
@@ -214,7 +214,7 @@ const Outcomes = () => {
           );
           setIconUrl(DEFAULT_OUTCOME_ICON);
         },
-        onError: (error: any) => {
+        onError: error => {
           showToast({
             variant: 'error',
             message: error?.message,
@@ -300,7 +300,7 @@ const Outcomes = () => {
               setOffset(offset - OUTCOME_GROUPS_LIMIT);
               setCurrentPage(prev => prev - 1);
             } else if (currentPage * OUTCOME_GROUPS_LIMIT < count && count > OUTCOME_GROUPS_LIMIT) {
-              setRemoveOutcomeGroups('GetOutcomeGroups', {
+              setRemoveOutcomeGroupsQuery('GetOutcomeGroups', {
                 input: 'getOutcomeGroupsInput',
                 key: 'offset',
                 value: offset,
@@ -325,7 +325,7 @@ const Outcomes = () => {
       deleteOutcome,
       offset,
       onHandleUpdateOutcomeGroups,
-      setRemoveOutcomeGroups,
+      setRemoveOutcomeGroupsQuery,
       showToast,
     ],
   );

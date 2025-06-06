@@ -80,7 +80,7 @@ const CopyMap = () => {
       {isLoadingOrgs ? (
         <CustomLoader />
       ) : !isLoadingOrgs && !rows?.length ? (
-        <EmptyDataInfo icon={<Box />} message="Map not found" />
+        <EmptyDataInfo message="Map not found" />
       ) : (
         <CustomTable
           isTableHead={true}

@@ -84,7 +84,7 @@ const Orgs: FC = () => {
                       ))}
                     </ul>
                   ) : (
-                    <EmptyDataInfo icon={<Box />} message={'There are no organizations yet'} />
+                    <EmptyDataInfo message={'There are no organizations yet'} />
                   )}
                 </>
               )}

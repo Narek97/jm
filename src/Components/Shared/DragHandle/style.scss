@@ -1,0 +1,27 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.drag-handle-area {
+  width: 1rem;
+  background-color: $BASE-LIGHT-GRAY-COLOR-2;
+  text-align: center;
+  color: $BASE_WHITE-COLOR;
+  height: calc(100% + 0.125rem);
+  position: absolute;
+  top: -0.0625rem;
+  left: -0.0625rem;
+  z-index: 10;
+  border-radius: 0.25rem 0 0 0.25rem;
+  @include flex-center-center;
+  display: flex !important;
+
+  &:hover {
+    cursor: grab;
+  }
+
+  &--icon {
+    transform: rotate(90deg);
+    display: none;
+  }
+}
+

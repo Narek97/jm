@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+
 import {
   DeletePersonaMutation,
   useDeletePersonaMutation,
@@ -20,6 +22,8 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
   handleClose,
   onHandleFilterPersona,
 }) => {
+  const { showToast } = useWuShowToast();
+
   const { mutate, isPending } = useDeletePersonaMutation<Error, DeletePersonaMutation>();
 
   const handleDeletePersona = () => {
@@ -32,7 +36,11 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
           onHandleFilterPersona(personaId!);
           handleClose();
         },
-        onError: () => {
+        onError: error => {
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
           handleClose();
         },
       },

@@ -14,8 +14,14 @@ export default defineConfig({
     tailwindcss(),
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
   ],
+  optimizeDeps: {
+    include: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
+  },
   build: {
     chunkSizeWarningLimit: 1600,
+    commonjsOptions: {
+      include: [/@dnd-kit/, /node_modules/],
+    },
   },
   server: {
     host: '0.0.0.0',
@@ -30,6 +36,7 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, 'src/assets'),
     },
   },
+
   test: {
     globals: true,
     environment: 'jsdom',

@@ -54,3 +54,8 @@ export enum PersonaGenderEnum {
   MALE = 'Male',
   FEMALE = 'Female',
 }
+
+export enum JourneyViewTypeEnum {
+  STANDARD = 'STANDARD',
+  BOARD = 'BOARD',
+}

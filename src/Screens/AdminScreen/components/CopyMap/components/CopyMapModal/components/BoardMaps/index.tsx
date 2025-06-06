@@ -118,7 +118,7 @@ const BoardMaps: FC<IWorkspaceBoardsModal> = ({ boardId }) => {
                 </ul>
               </div>
             ) : (
-              <EmptyDataInfo icon={<Box />} message={'There are no maps yet'} />
+              <EmptyDataInfo message={'There are no maps yet'} />
             )}
           </>
         )}

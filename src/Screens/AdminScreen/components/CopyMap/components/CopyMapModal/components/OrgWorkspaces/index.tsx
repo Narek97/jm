@@ -89,7 +89,7 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
                       ))}
                     </ul>
                   ) : (
-                    <EmptyDataInfo icon={<Box />} message={'There are no workspaces yet'} />
+                    <EmptyDataInfo message={'There are no workspaces yet'} />
                   )}
                 </>
               )}

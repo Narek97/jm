@@ -52,6 +52,7 @@ interface IAddUpdateOutcomeFormType {
 
 const defaultPersonaOption = { id: 0, name: 'Overview', value: 'Overview' };
 
+// todo logic
 const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
   ({
     workspaceId,
@@ -362,7 +363,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         defaultMapId,
         outcomeGroupId,
         selectedOutcome,
-        selectedPerson?.id,
         update,
         user,
         workspaceId,

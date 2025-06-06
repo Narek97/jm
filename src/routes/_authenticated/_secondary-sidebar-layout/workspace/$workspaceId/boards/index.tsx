@@ -1,13 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute(
+import BoardsScreen from '@/Screens/BoardsScreen';
+
+export const RouteBoards = createFileRoute(
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/',
 )({
-  component: RouteComponent,
+  component: () => <BoardsScreen />,
 });
 
-function RouteComponent() {
-  return (
-    <div>Hello "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/"!</div>
-  );
-}
+export const Route = RouteBoards;

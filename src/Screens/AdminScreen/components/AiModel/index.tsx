@@ -62,15 +62,18 @@ const AiModel = () => {
   }, []);
 
   const onHandleAddNewAiModel = useCallback((aiModel: AiJourneyModelResponse) => {
+    console.log('aiModel', aiModel);
     setCurrentPage(1);
     //   todo add ai model and count
   }, []);
 
   const onHandleUpdateAiModel = useCallback((aiModel: AiJourneyModelResponse) => {
+    console.log('aiModel', aiModel);
     //   todo update ai model
   }, []);
 
   const onHandleFilterAiModel = useCallback((id: number) => {
+    console.log('id', id);
     // todo delete ai model and count
   }, []);
 
@@ -152,7 +155,7 @@ const AiModel = () => {
               ))}
             </div>
           ) : (
-            <EmptyDataInfo icon={<Box />} message={'There are no AI models yet'} />
+            <EmptyDataInfo message={'There are no AI models yet'} />
           )}
         </>
       )}

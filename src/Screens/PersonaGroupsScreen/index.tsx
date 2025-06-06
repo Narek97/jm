@@ -1,7 +1,6 @@
 import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
@@ -40,8 +39,8 @@ const PersonaGroups = () => {
   const { showToast } = useWuShowToast();
 
   const setPersonaGroup = useSetQueryDataByKeyAdvanced();
-  const setRemovePersonaGroup = useRemoveQueriesByKey();
   const setAllPersonaGroup = useSetAllQueryDataByKey('GetPersonaGroupsWithPersonas');
+  const setRemovePersonaGroupQuery = useRemoveQueriesByKey();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
@@ -94,7 +93,7 @@ const PersonaGroups = () => {
         },
         {
           onSuccess: response => {
-            setRemovePersonaGroup('GetPersonaGroupsWithPersonas', {
+            setRemovePersonaGroupQuery('GetPersonaGroupsWithPersonas', {
               input: 'getPersonaGroupsWithPersonasInput',
               key: 'offset',
               value: 0,
@@ -130,7 +129,7 @@ const PersonaGroups = () => {
             setCurrentPage(1);
             setOffset(0);
           },
-          onError: (error: any) => {
+          onError: error => {
             showToast({
               variant: 'error',
               message: error?.message,
@@ -181,7 +180,7 @@ const PersonaGroups = () => {
         currentPage * PERSONA_GROUP_LIMIT < personaGroupsCount &&
         personaGroupsCount > PERSONA_GROUP_LIMIT
       ) {
-        setRemovePersonaGroup('GetPersonaGroupsWithPersonas', {
+        setRemovePersonaGroupQuery('GetPersonaGroupsWithPersonas', {
           input: 'getPersonaGroupsWithPersonasInput',
           key: 'offset',
           value: offset,
@@ -196,7 +195,7 @@ const PersonaGroups = () => {
       offset,
       onHandleUpdatePersonaGroups,
       personaGroupsCount,
-      setRemovePersonaGroup,
+      setRemovePersonaGroupQuery,
     ],
   );
 
@@ -291,7 +290,7 @@ const PersonaGroups = () => {
                 </ErrorBoundary>
               ))
             ) : (
-              <EmptyDataInfo icon={<Box />} message={'There are no persona groups yet'} />
+              <EmptyDataInfo message={'There are no persona groups yet'} />
             )}
           </>
         )}

@@ -193,7 +193,7 @@ const UsersScreen = () => {
           {usersData?.length ? (
             <CustomTable isTableHead={true} rows={usersData} columns={columns} />
           ) : (
-            <EmptyDataInfo icon={<Box />} message={'No org-users Yet'} />
+            <EmptyDataInfo message={'No org-users Yet'} />
           )}
           {data?.getOrganizationUsers.count - 1 > USERS_LIMIT && (
             <Pagination

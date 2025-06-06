@@ -31,6 +31,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
 
   const { updateBreadcrumb } = useBreadcrumbStore();
 
+  // todo : setPersonaInfo
   const [isOpenSelectedPersonasModal, setIsOpenSelectedPersonasModal] = useState<boolean>(false);
 
   const journeysCount = personaInfo?.journeys || 0;

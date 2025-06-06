@@ -261,7 +261,7 @@ const OutcomeScreen = () => {
       {isLoadingOutcomes && <CustomLoader />}
 
       {!isLoadingOutcomes && !isFetchingNextPageOutcomes && !renderedOutcomesData.length && (
-        <EmptyDataInfo icon={<Box />} message={`There are no ${pluralName} yet`} />
+        <EmptyDataInfo message={`There are no ${pluralName} yet`} />
       )}
       {renderedOutcomesData.length > 0 && (
         <div className="outcome-container--body">

@@ -58,7 +58,7 @@ const GroupCard: FC<IGroupCard> = ({
               value: response.updatePersonaGroup.name,
             });
           },
-          onError: (error: any) => {
+          onError: error => {
             showToast({
               variant: 'error',
               message: error?.message,

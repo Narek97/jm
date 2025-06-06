@@ -149,7 +149,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
                 </ul>
               </div>
             ) : (
-              <EmptyDataInfo icon={<Box />} message={'There are no workspaces yet'} />
+              <EmptyDataInfo message={'There are no workspaces yet'} />
             )}
           </>
         )}

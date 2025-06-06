@@ -3,36 +3,44 @@ import { FC } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
 import {
-  DeletePersonaGroupMutation,
-  useDeletePersonaGroupMutation,
-} from '@/api/mutations/generated/deletePersonaGroup.generated.ts';
+  DeleteBoardMutation,
+  useDeleteBoardMutation,
+} from '@/api/mutations/generated/deleteBoard.generated.ts';
 import CustomModal from '@/Components/Shared/CustomModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
-interface IGroupDeleteModal {
+interface IBoardDeleteModal {
   isOpen: boolean;
-  groupId: number;
-  handleDelete: (groupId: number) => void;
+  boardID: number | null;
   handleClose: () => void;
+  onHandleFilterBoard: (id: number) => void;
 }
 
-const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
-  groupId,
+const BoardDeleteModal: FC<IBoardDeleteModal> = ({
+  boardID,
   isOpen,
-  handleDelete,
   handleClose,
+  onHandleFilterBoard,
 }) => {
-  const { mutate, isPending } = useDeletePersonaGroupMutation<Error, DeletePersonaGroupMutation>();
   const { showToast } = useWuShowToast();
+
+  const { mutate, isPending } = useDeleteBoardMutation<Error, DeleteBoardMutation>({
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const handleDeleteBoard = () => {
     mutate(
       {
-        id: groupId,
+        id: boardID!,
       },
       {
         onSuccess: () => {
-          handleDelete(groupId);
+          onHandleFilterBoard(boardID!);
           handleClose();
         },
         onError: error => {
@@ -40,6 +48,7 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
             variant: 'error',
             message: error?.message,
           });
+          handleClose();
         },
       },
     );
@@ -49,8 +58,8 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
     <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
         item={{
-          type: 'persona group',
-          name: 'Persona Group',
+          type: 'Board',
+          name: 'board',
         }}
         handleClose={handleClose}
         handleDelete={handleDeleteBoard}
@@ -60,4 +69,4 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
   );
 };
 
-export default PersonaGroupDeleteModal;
+export default BoardDeleteModal;

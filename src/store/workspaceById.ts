@@ -4,29 +4,24 @@ interface WorkspaceById {
   id: number;
   name: string;
   feedbackId: number;
-  // Add other workspace properties
 }
 
 interface WorkspaceByIdStore {
-  workspaceById: Record<string, WorkspaceById>;
+  workspaceById: WorkspaceById | null;
   setWorkspace: (workspace: WorkspaceById) => void;
-  removeWorkspace: (id: string) => void;
+  removeWorkspace: (id: number) => void;
   clearWorkspaces: () => void;
 }
 
 export const useWorkspaceStore = create<WorkspaceByIdStore>(set => ({
-  workspaceById: {}, // Initial state: empty object
+  workspaceById: null, // Initialize as null to indicate no workspace is set
   setWorkspace: workspace =>
-    set(state => ({
-      workspaceById: {
-        ...state.workspaceById,
-        [workspace.id]: workspace,
-      },
+    set(() => ({
+      workspaceById: workspace,
     })),
   removeWorkspace: id =>
-    set(state => {
-      const { [id]: _, ...rest } = state.workspaceById;
-      return { workspaceById: rest };
-    }),
-  clearWorkspaces: () => set({ workspaceById: {} }),
+    set(state => ({
+      workspaceById: state.workspaceById?.id === id ? null : state.workspaceById,
+    })),
+  clearWorkspaces: () => set({ workspaceById: null }),
 }));

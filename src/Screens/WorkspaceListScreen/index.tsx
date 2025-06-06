@@ -66,7 +66,7 @@ const WorkspaceListScreen = () => {
         {isLoadingWorkspaces ? (
           <CustomLoader />
         ) : !dataWorkspaces?.getWorkspacesByOrganizationId.workspaces.length ? (
-          <EmptyDataInfo icon={<Box />} message="There are no organizations" />
+          <EmptyDataInfo message="There are no organizations" />
         ) : (
           <ul className="workspaces-container">
             {dataWorkspaces.getWorkspacesByOrganizationId.workspaces.map(workspace => (

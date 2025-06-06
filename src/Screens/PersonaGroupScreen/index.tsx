@@ -1,7 +1,6 @@
 import './style.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
 
@@ -37,7 +36,7 @@ const PersonaGroupScreen = () => {
   const [offset, setOffset] = useState<number>(0);
 
   const setAllPersonas = useSetAllQueryDataByKey('GetPersonas');
-  const setRemovePersonas = useRemoveQueriesByKey();
+  const setRemovePersonasQuery = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingGetPersonas,
@@ -113,7 +112,7 @@ const PersonaGroupScreen = () => {
       setOffset(prev => prev - PERSONAS_LIMIT);
     }
     if (currentPage * PERSONAS_LIMIT < personasDataCount && personasDataCount > PERSONAS_LIMIT) {
-      setRemovePersonas('GetPersonas', {
+      setRemovePersonasQuery('GetPersonas', {
         input: 'getPersonasInput',
         key: 'offset',
         value: offset,
@@ -212,7 +211,7 @@ const PersonaGroupScreen = () => {
             ))}
           </>
         ) : (
-          <EmptyDataInfo icon={<Box />} message={'There are no personas yet'} />
+          <EmptyDataInfo message={'There are no personas yet'} />
         )}
       </ul>
     </div>

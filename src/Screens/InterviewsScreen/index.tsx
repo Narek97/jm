@@ -1,7 +1,6 @@
 import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
@@ -38,10 +37,8 @@ const InterviewsScreen = () => {
   const [offset, setOffset] = useState<number>(0);
 
   const setInterviews = useSetQueryDataByKeyAdvanced();
-
   const setAllInterviews = useSetAllQueryDataByKey('GetInterviewsByWorkspaceId');
-
-  const setRemoveInterviews = useRemoveQueriesByKey();
+  const setRemoveInterviewsQuery = useRemoveQueriesByKey();
 
   const {
     isLoading: isLoadingInterviews,
@@ -117,7 +114,7 @@ const InterviewsScreen = () => {
         currentPage * INTERVIEWS_LIMIT < interviewsDataCount &&
         interviewsDataCount > INTERVIEWS_LIMIT
       ) {
-        setRemoveInterviews('GetInterviewsByWorkspaceId', {
+        setRemoveInterviewsQuery('GetInterviewsByWorkspaceId', {
           input: 'getInterviewsInput',
           key: 'offset',
           value: offset,
@@ -132,13 +129,13 @@ const InterviewsScreen = () => {
       interviewsDataCount,
       offset,
       onHandleUpdateInterviews,
-      setRemoveInterviews,
+      setRemoveInterviewsQuery,
     ],
   );
 
   const onHandleAddNewInterview = useCallback(
     (newInterview: InterviewType) => {
-      setRemoveInterviews('GetInterviewsByWorkspaceId', {
+      setRemoveInterviewsQuery('GetInterviewsByWorkspaceId', {
         input: 'getInterviewsInput',
         key: 'offset',
         value: 0,
@@ -171,7 +168,7 @@ const InterviewsScreen = () => {
       setCurrentPage(1);
       setOffset(0);
     },
-    [setRemoveInterviews, setInterviews],
+    [setRemoveInterviewsQuery, setInterviews],
   );
 
   const onHandleChangePage = useCallback((newPage: number) => {
@@ -242,7 +239,7 @@ const InterviewsScreen = () => {
                 ))}
               </ul>
             ) : (
-              <EmptyDataInfo icon={<Box />} message={'There are no interviews yet'} />
+              <EmptyDataInfo message={'There are no interviews yet'} />
             )}
           </>
         )}
