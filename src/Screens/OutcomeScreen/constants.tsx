@@ -1,14 +1,15 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
 
+import { OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 import { MenuOptionsType, TableColumnType } from '@/types';
 
 const OUTCOME_OPTIONS = ({
   onHandleDelete,
   onHandleEdit,
 }: {
-  onHandleEdit: (data?: any) => void;
-  onHandleDelete: (data: any) => void;
+  onHandleEdit: (data: OutcomeType) => void;
+  onHandleDelete: (data: OutcomeType) => void;
   color?: string;
 }): Array<MenuOptionsType> => {
   return [

@@ -43,6 +43,7 @@ const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
             src={icon}
             alt="icon"
             style={{
+              minWidth: '1.875rem',
               width: '1.875rem',
               height: '1.875rem',
             }}
@@ -63,7 +64,7 @@ const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
     id: 'createdBy',
     label: 'Created by',
     isAscDescSortable: true,
-    renderFunction: ({ user }) => user?.firstName + ' ' + user?.lastName,
+    renderFunction: ({ user }) => (user ? user?.firstName + ' ' + user?.lastName : 'Default'),
   },
   {
     sortFieldName: 'CREATED_AT',

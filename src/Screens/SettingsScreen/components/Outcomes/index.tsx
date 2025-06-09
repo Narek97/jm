@@ -85,7 +85,7 @@ const Outcomes = () => {
   const { isPending: isLoadingDeleteOrUpdateOutcome, mutate: deleteOutcome } =
     useDeleteOutcomeGroupMutation<Error, DeleteOutcomeGroupMutation>();
 
-  const outcomeGroupsLogsData = useMemo(
+  const outcomeGroups = useMemo(
     () => dataOutcomes?.getOutcomeGroups.outcomeGroups || [],
     [dataOutcomes?.getOutcomeGroups.outcomeGroups],
   );
@@ -140,9 +140,10 @@ const Outcomes = () => {
                       limit: OUTCOME_GROUPS_LIMIT,
                       count: oldData.getOutcomeGroups.count + 1,
                       outcomeGroups: [
+                        ...oldData.getOutcomeGroups.outcomeGroups.slice(0, 3),
                         response.createOrUpdateOutcomeGroup,
                         ...oldData.getOutcomeGroups.outcomeGroups.slice(
-                          0,
+                          3,
                           OUTCOME_GROUPS_LIMIT - 1,
                         ),
                       ],
@@ -406,11 +407,11 @@ const Outcomes = () => {
 
       {isLoadingOutcomes && <CustomLoader />}
 
-      {!isLoadingOutcomes && !isLoadingDeleteOrUpdateOutcome && !outcomeGroupsLogsData.length && (
+      {!isLoadingOutcomes && !isLoadingDeleteOrUpdateOutcome && !outcomeGroups.length && (
         <EmptyDataInfo message="There are no outcomes yet" />
       )}
 
-      {outcomeGroupsLogsData.length ? (
+      {outcomeGroups.length ? (
         <div className="outcomes--table-container">
           <CustomTable
             sortAscDescByField={sortTableByField}
@@ -418,10 +419,8 @@ const Outcomes = () => {
             isTableHead
             rows={
               sortData?.id && sortData?.type
-                ? (outcomeGroupsLogsData as OutcomeGroup[]).sort(
-                    compareByField(sortData.id, sortData.type),
-                  )
-                : outcomeGroupsLogsData
+                ? (outcomeGroups as OutcomeGroup[]).sort(compareByField(sortData.id, sortData.type))
+                : outcomeGroups
             }
             columns={columns}
             options={options}

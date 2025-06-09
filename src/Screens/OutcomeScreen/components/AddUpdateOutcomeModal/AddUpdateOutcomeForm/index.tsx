@@ -25,12 +25,12 @@ import {
   GetColumnStepsQuery,
   useGetColumnStepsQuery,
 } from '@/api/queries/generated/getColumnSteps.generated.ts';
-import { Outcome, OutcomeStatusEnum } from '@/api/types.ts';
+import { OutcomeStatusEnum } from '@/api/types.ts';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import { WORKSPACE_MAPS_LIMIT } from '@/constants/pagination.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants.tsx';
-import { OutcomeFormType } from '@/Screens/OutcomeScreen/types.ts';
+import { OutcomeFormType, OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 import { useUserStore } from '@/store/user.ts';
 import { DropdownSelectItemType, ObjectKeysType } from '@/types';
 import { OutcomeLevelEnum } from '@/types/enum';
@@ -40,13 +40,13 @@ interface IAddUpdateOutcomeFormType {
   outcomeGroupId: number;
   defaultMapId: number | null;
   level: OutcomeLevelEnum;
-  selectedOutcome: Outcome | null;
+  selectedOutcome: OutcomeType | null;
   selectedColumnStepId?: {
     columnId: number;
     stepId: number;
   } | null;
-  create: (data: Outcome) => void;
-  update: (data: Outcome) => void;
+  create: (data: OutcomeType) => void;
+  update: (data: OutcomeType) => void;
   handleClose: () => void;
 }
 
@@ -363,8 +363,10 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         defaultMapId,
         outcomeGroupId,
         selectedOutcome,
+        selectedPerson?.id,
         update,
-        user,
+        user.firstName,
+        user.lastName,
         workspaceId,
       ],
     );
