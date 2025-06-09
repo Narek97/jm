@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_authenticated')({
       window.location.href = `${import.meta.env.VITE_AUTHORIZATION_URL}/?state=null&redirect_uri=${import.meta.env.VITE_CALLBACK_URL}&response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}`;
     }
   },
-  component: () => <Authenticated />,
+  component: Authenticated,
 });
 
 function Authenticated() {

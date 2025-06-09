@@ -9,13 +9,15 @@ import {
 import CustomError from '@/Components/Shared/CustomError';
 import { MENU_PANEL_BOTTOM_TABS } from '@/constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
+import TechnicalProblemTemplate from '@/Features/TechnicalProblem';
 import useGetLeftMenuTabs from '@/hooks/useGetLeftMenuTabs.tsx';
-import { useWorkspaceStore } from '@/store/workspaceById.ts';
+import { useWorkspaceStore } from '@/store/workspace.ts';
 
 export const Route = createFileRoute(
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId',
 )({
   component: RouteComponent,
+  errorComponent: TechnicalProblemTemplate,
 });
 
 function RouteComponent() {

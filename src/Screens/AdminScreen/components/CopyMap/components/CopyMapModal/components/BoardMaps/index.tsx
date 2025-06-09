@@ -2,8 +2,6 @@ import React, { FC, useMemo, useRef } from 'react';
 
 import './style.scss';
 
-import { Box } from '@mui/material';
-
 import MapItem from './MapItem';
 
 import {

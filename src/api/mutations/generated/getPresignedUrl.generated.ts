@@ -6,10 +6,10 @@ export type GetPreSignedUrlMutationVariables = Types.Exact<{
   getPreSignedUrlInput: Types.GetPreSignedUrlInput;
 }>;
 
-export type GetPreSignedUrlMutation = {
-  __typename?: 'Mutation';
-  getPreSignedUrl: { __typename?: 'GetPresignedUrlObject'; key: string };
-};
+
+export type GetPreSignedUrlMutation = { __typename?: 'Mutation', getPreSignedUrl: { __typename?: 'GetPresignedUrlObject', key: string } };
+
+
 
 export const GetPreSignedUrlDocument = `
     mutation GetPreSignedUrl($getPreSignedUrlInput: GetPreSignedUrlInput!) {
@@ -19,21 +19,17 @@ export const GetPreSignedUrlDocument = `
 }
     `;
 
-export const useGetPreSignedUrlMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    GetPreSignedUrlMutation,
-    TError,
-    GetPreSignedUrlMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<GetPreSignedUrlMutation, TError, GetPreSignedUrlMutationVariables, TContext>({
+export const useGetPreSignedUrlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<GetPreSignedUrlMutation, TError, GetPreSignedUrlMutationVariables, TContext>) => {
+    
+    return useMutation<GetPreSignedUrlMutation, TError, GetPreSignedUrlMutationVariables, TContext>(
+      {
     mutationKey: ['GetPreSignedUrl'],
-    mutationFn: axiosRequest<GetPreSignedUrlMutation, GetPreSignedUrlMutationVariables>(
-      GetPreSignedUrlDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<GetPreSignedUrlMutation, GetPreSignedUrlMutationVariables>(GetPreSignedUrlDocument),
+    ...options
+  }
+    )};
 
 useGetPreSignedUrlMutation.getKey = () => ['GetPreSignedUrl'];

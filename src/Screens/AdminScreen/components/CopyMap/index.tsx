@@ -1,7 +1,5 @@
 import { ChangeEvent, lazy, Suspense, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
-
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';

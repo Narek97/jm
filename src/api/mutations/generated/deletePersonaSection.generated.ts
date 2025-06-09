@@ -6,10 +6,10 @@ export type DeletePersonaSectionMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeletePersonaSectionMutation = {
-  __typename?: 'Mutation';
-  deletePersonaSection: number;
-};
+
+export type DeletePersonaSectionMutation = { __typename?: 'Mutation', deletePersonaSection: number };
+
+
 
 export const DeletePersonaSectionDocument = `
     mutation DeletePersonaSection($id: Int!) {
@@ -17,26 +17,17 @@ export const DeletePersonaSectionDocument = `
 }
     `;
 
-export const useDeletePersonaSectionMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeletePersonaSectionMutation,
-    TError,
-    DeletePersonaSectionMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    DeletePersonaSectionMutation,
-    TError,
-    DeletePersonaSectionMutationVariables,
-    TContext
-  >({
+export const useDeletePersonaSectionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeletePersonaSectionMutation, TError, DeletePersonaSectionMutationVariables, TContext>) => {
+    
+    return useMutation<DeletePersonaSectionMutation, TError, DeletePersonaSectionMutationVariables, TContext>(
+      {
     mutationKey: ['DeletePersonaSection'],
-    mutationFn: axiosRequest<DeletePersonaSectionMutation, DeletePersonaSectionMutationVariables>(
-      DeletePersonaSectionDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeletePersonaSectionMutation, DeletePersonaSectionMutationVariables>(DeletePersonaSectionDocument),
+    ...options
+  }
+    )};
 
 useDeletePersonaSectionMutation.getKey = () => ['DeletePersonaSection'];

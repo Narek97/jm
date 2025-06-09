@@ -5,7 +5,8 @@ import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
-import WorkspaceAnalytics from '@/Components/Shared/WorkspaceAnalytics';
+import WorkspaceAnalytics from '../../../../Features/WorkspaceAnalytics';
+
 import { WorkspaceType } from '@/Screens/WorkspaceListScreen/types.ts';
 import { WorkspaceAnalyticsEnumType } from '@/types/enum.ts';
 

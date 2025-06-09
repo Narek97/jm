@@ -74,6 +74,7 @@
     "quill": "^2.0.3",
     "quill-mention": "^6.1.1",
     "react-colorful": "^5.6.1",
+    "react-complex-tree": "^2.6.0",
     "react-drag-drop-files": "^3.0.1",
     "react-easy-crop": "^5.4.2",
     "react-grid-layout": "^1.5.1",

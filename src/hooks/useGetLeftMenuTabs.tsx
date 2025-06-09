@@ -4,7 +4,7 @@ import { SECONDARY_MENU_PANEL_TOP_TABS } from '@/constants/tabs.tsx';
 import useGetOutcomeGroups from '@/hooks/useGetOutcomeGroups';
 import { useUserStore } from '@/store/user.ts';
 
-const useGetLeftMenuTabs = (workspaceId: number) => {
+const useGetLeftMenuTabs = (workspaceId: number | null) => {
   const { renderedDataOutcomes } = useGetOutcomeGroups(true);
   const { user } = useUserStore();
 

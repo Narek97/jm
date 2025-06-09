@@ -59,3 +59,12 @@ export enum JourneyViewTypeEnum {
   STANDARD = 'STANDARD',
   BOARD = 'BOARD',
 }
+export enum MapCopyLevelEnum {
+  ORG = 'ORG',
+  WORKSPACE = 'WORKSPACE',
+}
+
+export enum SelectedPersonasViewModeEnum {
+  MAP = 'MAP',
+  SENTIMENT = 'SENTIMENT',
+}

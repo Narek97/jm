@@ -1,14 +1,20 @@
-query GetPersonasInfinite($getPersonasInput: GetPersonasInput!) {
+query GetPersonas($getPersonasInput: GetPersonasInput!) {
   getPersonas(getPersonasInput: $getPersonasInput) {
     count
+     workspace {
+      id
+      name
+    }
+    personaGroup {
+      id
+      name
+    }
     personas {
       id
-      type
       name
       color
-      isSelected
+      type
       journeys
-      personaGroupId
       croppedArea {
         width
         height
@@ -19,6 +25,7 @@ query GetPersonasInfinite($getPersonasInput: GetPersonasInput!) {
         id
         url
         key
+        hasResizedVersions
         croppedArea {
           width
           height

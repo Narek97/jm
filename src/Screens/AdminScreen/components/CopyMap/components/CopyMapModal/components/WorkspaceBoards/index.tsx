@@ -2,8 +2,6 @@ import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
-import { Box } from '@mui/material';
-
 import BoardItem from './BoardItem';
 
 import {
@@ -31,6 +29,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
   const childRef = useRef<HTMLUListElement>(null);
   const [processingItemId, setProcessingItemId] = useState<number | null>(null);
 
+  // todo check infinite query
   const {
     data: organizationBoardsData,
     isLoading: organizationBoardsIsLoading,

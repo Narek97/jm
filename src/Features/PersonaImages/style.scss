@@ -1,0 +1,75 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.persona-images {
+  @include flex-center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  &--card {
+    padding: 0.125rem;
+    border-radius: 0.125rem;
+    position: relative;
+
+    &--hide-show {
+      width: 2rem;
+      height: 2rem;
+      background-color: #000000bf;
+
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      border-radius: 0.25rem;
+      display: none;
+      cursor: pointer;
+
+      svg {
+        @include absolute-center;
+      }
+    }
+
+    &:hover {
+      .persona-images--card--hide-show {
+        display: block;
+      }
+    }
+  }
+
+  .persona-menu-item {
+    display: flex;
+    justify-content: space-between;
+
+    .delete-btn {
+      &:hover {
+        @include svg-fill('black');
+      }
+    }
+  }
+
+  .active-menu-button {
+    background-color: $BASE_BLUE_COLOR;
+    color: $BASE_WHITE-COLOR;
+  }
+
+  .disable-disconnect {
+    pointer-events: none;
+  }
+
+  .custom-vertical-menu {
+    display: flex;
+  }
+
+  .more-items,
+  .custom-vertical-menu {
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+    color: #9b9b9b;
+    @include flex-center-center;
+  }
+}

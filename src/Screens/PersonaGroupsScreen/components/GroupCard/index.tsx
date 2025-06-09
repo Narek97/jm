@@ -4,12 +4,13 @@ import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 
+import PersonaImageBox from '../../../../Components/Feature/PersonaImageBox';
+
 import {
   UpdatePersonaGroupMutation,
   useUpdatePersonaGroupMutation,
 } from '@/api/mutations/generated/updatePersonaGroup.generated';
 import EditableTitle from '@/Components/Shared/EditableTitle';
-import PersonaImageBox from '@/Components/Shared/PersonaImageBox';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import useWindowResize from '@/hooks/useWindowResize.ts';
 import { PersonaGroupType } from '@/Screens/PersonaGroupsScreen/types.ts';

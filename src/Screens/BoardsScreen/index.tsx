@@ -9,10 +9,6 @@ import BoardPinnedOutcomesModal from './components/PinnedOutcomeModal';
 import SortableBoards from './components/SortableBoards';
 
 import {
-  GetMyBoardsQuery,
-  useGetMyBoardsQuery,
-} from '@/api/infinite-queries/generated/getBoards.generated.ts';
-import {
   CreateBoardMutation,
   useCreateBoardMutation,
 } from '@/api/mutations/generated/createBoard.generated.ts';
@@ -20,6 +16,8 @@ import {
   UpdateBoardMutation,
   useUpdateBoardMutation,
 } from '@/api/mutations/generated/updateBoard.generated';
+import { useGetMyBoardsQuery } from '@/api/queries/generated/getBoards.generated';
+import { GetMyBoardsQuery } from '@/api/queries/generated/getBoards.generated.ts';
 import { CreateBoardInput } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
@@ -35,7 +33,7 @@ import {
 } from '@/hooks/useQueryKey.ts';
 import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useWorkspaceStore } from '@/store/workspaceById.ts';
+import { useWorkspaceStore } from '@/store/workspace.ts';
 
 // const SortableBoards = lazy(() => import('./components/SortableBoards/index.tsx'));
 
@@ -45,7 +43,7 @@ const BoardsScreen = () => {
   });
 
   const { setBreadcrumbs } = useBreadcrumbStore();
-  const { workspaceById } = useWorkspaceStore();
+  const { workspace } = useWorkspaceStore();
   const { showToast } = useWuShowToast();
 
   const setBoards = useSetQueryDataByKeyAdvanced();
@@ -302,7 +300,7 @@ const BoardsScreen = () => {
         />
       )}
       <div className={'boards--header'}>
-        <h3 className={'base-title !text-heading-2'}>{workspaceById?.name}</h3>
+        <h3 className={'base-title !text-heading-2'}>{workspace?.name}</h3>
         <div className="boards--create-section">
           <EditableItemForm
             createButtonText={'New board'}

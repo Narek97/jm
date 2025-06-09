@@ -6,9 +6,10 @@ import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
+import WorkspaceAnalytics from '../../../../../Features/WorkspaceAnalytics';
+
 import DragHandle from '@/Components/Shared/DragHandle';
 import EditableTitle from '@/Components/Shared/EditableTitle';
-import WorkspaceAnalytics from '@/Components/Shared/WorkspaceAnalytics';
 import useWindowResize from '@/hooks/useWindowResize';
 import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 import { EditableInputType } from '@/types';

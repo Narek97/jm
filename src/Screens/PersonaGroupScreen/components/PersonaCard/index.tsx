@@ -3,10 +3,11 @@ import { FC, memo, useCallback, useMemo } from 'react';
 import './style.scss';
 import { useNavigate } from '@tanstack/react-router';
 
+import PersonaImageBox from '../../../../Components/Feature/PersonaImageBox';
+
 import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.generated.ts';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import PersonaImageBox from '@/Components/Shared/PersonaImageBox';
 import { IMAGE_ASPECT } from '@/constants';
 import { PERSONA_OPTIONS } from '@/Screens/PersonaGroupScreen/constnats.tsx';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';

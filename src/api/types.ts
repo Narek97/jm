@@ -3,29 +3,25 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
-  [_ in K]?: never;
-};
-export type Incremental<T> =
-  | T
-  | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  JSON: { input: any; output: any };
-  JSONObject: { input: any; output: any };
-  StringOrNumberGql: { input: any; output: any };
-  Timestamp: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  JSON: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
+  StringOrNumberGql: { input: any; output: any; }
+  Timestamp: { input: any; output: any; }
 };
 
 export enum ActionEnum {
   Add = 'ADD',
   Delete = 'DELETE',
-  Update = 'UPDATE',
+  Update = 'UPDATE'
 }
 
 export enum ActionTypeEnum {
@@ -36,7 +32,7 @@ export enum ActionTypeEnum {
   Merge = 'MERGE',
   Restore = 'RESTORE',
   Unmerge = 'UNMERGE',
-  Update = 'UPDATE',
+  Update = 'UPDATE'
 }
 
 export type AddBoxElementInput = {
@@ -88,7 +84,7 @@ export enum AiCardsEnum {
   Motivations = 'MOTIVATIONS',
   NameWithTagLine = 'NAME_WITH_TAG_LINE',
   Needs = 'NEEDS',
-  ProfilePicture = 'PROFILE_PICTURE',
+  ProfilePicture = 'PROFILE_PICTURE'
 }
 
 export type AiJourneyModel = {
@@ -149,7 +145,7 @@ export enum AttachmentsEnum {
   PersonaGallery = 'PERSONA_GALLERY',
   Screenshot = 'SCREENSHOT',
   TouchpointIcon = 'TOUCHPOINT_ICON',
-  Whiteboard = 'WHITEBOARD',
+  Whiteboard = 'WHITEBOARD'
 }
 
 export type Board = {
@@ -352,7 +348,7 @@ export enum CommentAndNoteModelsEnum {
   Links = 'LINKS',
   Metrics = 'METRICS',
   Outcome = 'OUTCOME',
-  Touchpoint = 'TOUCHPOINT',
+  Touchpoint = 'TOUCHPOINT'
 }
 
 export type CompareJourneyMapJsonInput = {
@@ -527,11 +523,6 @@ export type CreateOrUpdateOutcomeGroupInput = {
   pluralName?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CreateOrUpdateWorkspaceOutcomeInput = {
-  createWorkspaceOutcomeInput?: InputMaybe<CreateWorkspaceOutcomeInput>;
-  updateWorkspaceOutcomeInput?: InputMaybe<UpdateWorkspaceOutcomeInput>;
-};
-
 export type CreateOutcomeInput = {
   description: Scalars['String']['input'];
   outcomeGroupId: Scalars['Int']['input'];
@@ -646,14 +637,6 @@ export type CreateWhiteboardInput = {
   type?: WhiteboardTypeEnum;
 };
 
-export type CreateWorkspaceOutcomeInput = {
-  description: Scalars['String']['input'];
-  outcomeGroupId: Scalars['Int']['input'];
-  status?: InputMaybe<OutcomeStatusEnum>;
-  title: Scalars['String']['input'];
-  workspaceId: Scalars['Int']['input'];
-};
-
 export type CustomDataInput = {
   classType: CustomMetricsClassEnum;
   scoring?: InputMaybe<CustomMetricsScoringEnum>;
@@ -677,7 +660,7 @@ export type CustomMetrics = {
 export enum CustomMetricsClassEnum {
   Average = 'AVERAGE',
   Goal = 'GOAL',
-  Total = 'TOTAL',
+  Total = 'TOTAL'
 }
 
 export type CustomMetricsInput = {
@@ -688,7 +671,7 @@ export type CustomMetricsInput = {
 
 export enum CustomMetricsScoringEnum {
   Decrease = 'DECREASE',
-  Increase = 'INCREASE',
+  Increase = 'INCREASE'
 }
 
 export type DataInput = {
@@ -720,7 +703,7 @@ export enum DatabaseModelEnum {
   Step = 'STEP',
   Touchpoint = 'TOUCHPOINT',
   Whiteboard = 'WHITEBOARD',
-  Workspace = 'WORKSPACE',
+  Workspace = 'WORKSPACE'
 }
 
 export type DeleteItemsInput = {
@@ -756,7 +739,7 @@ export enum DemographicInfoTypeEnum {
   Image = 'IMAGE',
   List = 'LIST',
   Number = 'NUMBER',
-  Text = 'TEXT',
+  Text = 'TEXT'
 }
 
 export type DetailedInput = {
@@ -1531,7 +1514,7 @@ export type IdsInput = {
 export enum ImgScaleTypeEnum {
   Crop = 'CROP',
   Fill = 'FILL',
-  Fit = 'FIT',
+  Fit = 'FIT'
 }
 
 export type Interview = {
@@ -1624,7 +1607,7 @@ export type KeyValueInput = {
 export enum LanguagesEnum {
   En = 'en',
   Es = 'es',
-  Pt = 'pt',
+  Pt = 'pt'
 }
 
 export type Layer = {
@@ -1683,7 +1666,7 @@ export type LinkResponse = {
 
 export enum LinkTypeEnum {
   External = 'EXTERNAL',
-  Journey = 'JOURNEY',
+  Journey = 'JOURNEY'
 }
 
 export enum LoggerTypeEnum {
@@ -1709,7 +1692,7 @@ export enum LoggerTypeEnum {
   Tag = 'TAG',
   Touchpoint = 'TOUCHPOINT',
   Whiteboard = 'WHITEBOARD',
-  Workspace = 'WORKSPACE',
+  Workspace = 'WORKSPACE'
 }
 
 export type Map = {
@@ -1740,7 +1723,7 @@ export enum MapCardTypeEnum {
   Link = 'LINK',
   Metrics = 'METRICS',
   Outcome = 'OUTCOME',
-  Touchpoint = 'TOUCHPOINT',
+  Touchpoint = 'TOUCHPOINT'
 }
 
 export type MapColumn = {
@@ -1833,11 +1816,11 @@ export enum MapRowTypeEnum {
   Tags = 'TAGS',
   Text = 'TEXT',
   Touchpoints = 'TOUCHPOINTS',
-  Video = 'VIDEO',
+  Video = 'VIDEO'
 }
 
 export enum MapTypeEnum {
-  Journey = 'JOURNEY',
+  Journey = 'JOURNEY'
 }
 
 export type MapTypeUnion = JourneyMap;
@@ -1939,7 +1922,7 @@ export enum MetricsDateRangeEnum {
   Daily = 'DAILY',
   Monthly = 'MONTHLY',
   Weekly = 'WEEKLY',
-  Yearly = 'YEARLY',
+  Yearly = 'YEARLY'
 }
 
 export type MetricsResponse = {
@@ -1981,7 +1964,7 @@ export type MetricsResponse = {
 export enum MetricsSourceEnum {
   Custom = 'custom',
   Manual = 'manual',
-  Survey = 'survey',
+  Survey = 'survey'
 }
 
 export type MetricsTypeDataUnion = CsatModel | NpsModel;
@@ -1990,7 +1973,7 @@ export enum MetricsTypeEnum {
   Ces = 'CES',
   Csat = 'CSAT',
   Custom = 'CUSTOM',
-  Nps = 'NPS',
+  Nps = 'NPS'
 }
 
 export type MetricsVersion = {
@@ -2091,7 +2074,6 @@ export type Mutation = {
   createTag: Tags;
   createTouchPoints: CreateTouchpointResponseModel;
   createUpdateOutcome: Outcome;
-  createUpdateOutcomeWorkspaceLevel: Outcome;
   createUser: Member;
   createWhiteboard: Whiteboard;
   deleteAiJourneyModel: Scalars['Int']['output'];
@@ -2180,93 +2162,116 @@ export type Mutation = {
   updateWhiteboardUser: WhiteboardUser;
 };
 
+
 export type MutationAddBoxElementArgs = {
   addBoxElementInput: AddBoxElementInput;
 };
+
 
 export type MutationAddCommentArgs = {
   addCommentInput: AddCommentInput;
 };
 
+
 export type MutationAddItemsIntoWhiteboardArgs = {
   createItemsInput: CreateItemsInput;
 };
+
 
 export type MutationAddLinkArgs = {
   addLinkInput: AddLinkInput;
 };
 
+
 export type MutationAddOrUpdateColumnStepArgs = {
   addOrUpdateColumnStepInput: AddOrUpdateColumnStepInput;
 };
+
 
 export type MutationAttachImageToPersonaArgs = {
   attachImageInput: AttachImageInput;
 };
 
+
 export type MutationAttachTagArgs = {
   attachTagInput: AttachTagInput;
 };
+
 
 export type MutationCompareJourneyMapJsonArgs = {
   compareJourneyMapJsonInput: CompareJourneyMapJsonInput;
 };
 
+
 export type MutationCompleteMultiPartArgs = {
   completeMultiPartInput: CompleteMultiPartInput;
 };
+
 
 export type MutationConnectPersonasToMapArgs = {
   connectPersonasToMapInput: ConnectPersonasToMapInput;
 };
 
+
 export type MutationCopyMapArgs = {
   copyMapInput: CopyMapInput;
 };
+
 
 export type MutationCopyPersonaArgs = {
   copyPersonaInput: CopyPersonaInput;
 };
 
+
 export type MutationCreateAiJourneyModelArgs = {
   createAiJourneyInput: CreateAiJourneyInput;
 };
+
 
 export type MutationCreateBoardArgs = {
   createBoardInput: CreateBoardInput;
 };
 
+
 export type MutationCreateDefaultDemographicInfoFieldsArgs = {
   createDefaultDemographicInfoFieldsInput: CreateDefaultDemographicInfoFieldsInput;
 };
+
 
 export type MutationCreateDemographicInfoArgs = {
   createDemographicInfoInput: CreateDemographicInfoInput;
 };
 
+
 export type MutationCreateIconAttachmentArgs = {
   createIconInput: CreateIconInput;
 };
+
 
 export type MutationCreateInterviewArgs = {
   createInterviewInput: CreateInterviewInput;
 };
 
+
 export type MutationCreateJourneyMapArgs = {
   createJourneyMapInput: CreateJourneyMapInput;
 };
+
 
 export type MutationCreateJourneyMapColumnArgs = {
   createColumnInput: CreateColumnInput;
 };
 
+
 export type MutationCreateJourneyMapRowArgs = {
   createRowInput: CreateRowInput;
 };
 
+
 export type MutationCreateLayerArgs = {
   createLayerInput: CreateLayerInput;
 };
+
 
 export type MutationCreateMetricsArgs = {
   createCustomMetricsInput?: InputMaybe<CreateCustomMetricsInput>;
@@ -2274,330 +2279,407 @@ export type MutationCreateMetricsArgs = {
   createMetricsInput: CreateMetricsInput;
 };
 
+
 export type MutationCreateMultipartArgs = {
   createMultipartInput: CreateMultipartInput;
 };
+
 
 export type MutationCreateOrUpdateFolderArgs = {
   folderInput: FolderInput;
 };
 
+
 export type MutationCreateOrUpdateNoteArgs = {
   createOrUpdateNoteInput: CreateOrUpdateNoteInput;
 };
+
 
 export type MutationCreateOrUpdateOutcomeGroupArgs = {
   createOrUpdateOutcomeGroupInput: CreateOrUpdateOutcomeGroupInput;
 };
 
+
 export type MutationCreateParentMapArgs = {
   createParentMapInput: CreateParentMapInput;
 };
+
 
 export type MutationCreatePersonaArgs = {
   createPersonaInput: CreatePersonaInput;
 };
 
+
 export type MutationCreatePersonaByAiArgs = {
   createPersonaByAiInput: CreatePersonaByAiInput;
 };
+
 
 export type MutationCreatePersonaGroupArgs = {
   createPersonaGroupInput: CreatePersonaGroupInput;
 };
 
+
 export type MutationCreatePersonaSectionArgs = {
   createPersonaSectionInput: CreatePersonaSectionInput;
 };
+
 
 export type MutationCreateTagArgs = {
   createTagInput: CreateTagInput;
 };
 
+
 export type MutationCreateTouchPointsArgs = {
   createTouchPointInput: CreateTouchPointInput;
 };
+
 
 export type MutationCreateUpdateOutcomeArgs = {
   createUpdateOutcomeInput: CreateUpdateOutcomeInput;
 };
 
-export type MutationCreateUpdateOutcomeWorkspaceLevelArgs = {
-  createOrUpdateWorkspaceOutcomeInput: CreateOrUpdateWorkspaceOutcomeInput;
-};
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
 };
 
+
 export type MutationCreateWhiteboardArgs = {
   createWhiteboardInput: CreateWhiteboardInput;
 };
+
 
 export type MutationDeleteAiJourneyModelArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteAllDemographicInfoFieldsArgs = {
   personaId: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteAttachmentArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteBoardArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteCommentArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteDemographicInfoArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteFolderArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteInterviewArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteItemsArgs = {
   deleteItemsInput: DeleteItemsInput;
 };
 
+
 export type MutationDeleteLayerArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteLinkArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteMapColumnArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteMapRowArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteMapVersionArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteMetricsArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteOutcomeArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteOutcomeGroupArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteParentMapArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeletePersonaArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeletePersonaGroupArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeletePersonaSectionArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteTagArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteTouchPointArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDeleteTouchPointAttachmentArgs = {
   deleteTouchPointAttachmentTypeInput: DeleteTouchPointAttachmentTypeInput;
 };
+
 
 export type MutationDeleteWhiteboardArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationDisablePersonaForRowArgs = {
   disablePersonaInput: DisablePersonaInput;
 };
+
 
 export type MutationDuplicateWhiteboardArgs = {
   duplicateWhiteboardInput: DuplicateWhiteboardInput;
 };
 
+
 export type MutationEditLinkArgs = {
   editLinkInput: EditLinkInput;
 };
+
 
 export type MutationGetPreSignedUrlArgs = {
   getPreSignedUrlInput: GetPreSignedUrlInput;
 };
 
+
 export type MutationMapsBulkDeleteArgs = {
   mapsBulkDeleteInput: MapsBulkDeleteInput;
 };
+
 
 export type MutationMergeJourneyMapColumnArgs = {
   mergeColumnInput: MergeColumnInput;
 };
 
+
 export type MutationPatchWhiteboardUserArgs = {
   patchWhiteboardUserInput: PatchWhiteboardUserInput;
 };
+
 
 export type MutationPinDemographicInfoArgs = {
   pinDemographicInfoInput: PinInput;
 };
 
+
 export type MutationPinPersonaSectionArgs = {
   pinSectionInput: PinInput;
 };
+
 
 export type MutationRemoveBoxElementArgs = {
   removeBoxElementInput: RemoveBoxElementInput;
 };
 
+
 export type MutationRemoveColumnStepArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationReplaceMapVersionArgs = {
   replaceMapVersionInput: ReplaceMapVersionInput;
 };
 
+
 export type MutationRestoreMetricsArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationRetrieveColumnArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type MutationRetrieveColumnStepArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationRetrieveMetricsDataArgs = {
   id: Scalars['Int']['input'];
   previous: Scalars['Boolean']['input'];
 };
 
+
 export type MutationRetrieveRowArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationSelectItemsArgs = {
   selectItemsInput: SelectItemsInput;
 };
 
+
 export type MutationSetMapForItemArgs = {
   setMapForItemInput: SetMapForItemInput;
 };
+
 
 export type MutationToggleDebugModeArgs = {
   debugMode: Scalars['Boolean']['input'];
 };
 
+
 export type MutationToggleUserSuperAdminModeArgs = {
   superAdminInput: SuperAdminInput;
 };
+
 
 export type MutationUnAttachTagArgs = {
   unAttachTagInput: UnAttachTagInput;
 };
 
+
 export type MutationUnMergeJourneyMapColumnArgs = {
   unmergeColumnInput: UnmergeColumnInput;
 };
+
 
 export type MutationUpdateAiJourneyModelArgs = {
   updateAiJourneyInput: UpdateAiJourneyInput;
 };
 
+
 export type MutationUpdateAttachmentCroppedAreaArgs = {
   updateAttachmentCroppedAreaInput: UpdateAttachmentCroppedAreaInput;
 };
+
 
 export type MutationUpdateAttachmentNameArgs = {
   updateAttachmentNameInput: UpdateAttachmentNameInput;
 };
 
+
 export type MutationUpdateAttachmentScaleTypeArgs = {
   updateAttachmentScaleTypeInput: UpdateAttachmentScaleTypeInput;
 };
+
 
 export type MutationUpdateAttachmentTouchPointArgs = {
   updateAttachmentTouchPointInput: UpdateAttachmentTouchPointInput;
 };
 
+
 export type MutationUpdateBoardArgs = {
   updateBoardInput: UpdateBoardInput;
 };
+
 
 export type MutationUpdateBoxElementArgs = {
   updateBoxDataInput: UpdateBoxDataInput;
 };
 
+
 export type MutationUpdateCommentArgs = {
   updateCommentInput: UpdateCommentInput;
 };
+
 
 export type MutationUpdateDemographicInfoArgs = {
   updateDemographicInfoInput: UpdateDemographicInfoInput;
 };
 
+
 export type MutationUpdateDemographicInfoPositionArgs = {
   updateDemographicInfoPositionInput: UpdateDemographicInfoPositionInput;
 };
+
 
 export type MutationUpdateItemFlippedTextArgs = {
   updateItemFlippedTextInput: UpdateItemFlippedTextInput;
 };
 
+
 export type MutationUpdateItemsArgs = {
   updateItemsInput: UpdateItemsInput;
 };
+
 
 export type MutationUpdateJourneyMapArgs = {
   updateJourneyMapInput: UpdateJourneyMapInput;
 };
 
+
 export type MutationUpdateJourneyMapColumnArgs = {
   updateColumnInput: UpdateColumnInput;
 };
+
 
 export type MutationUpdateJourneyMapRowArgs = {
   updateRowInput: UpdateRowInput;
 };
 
+
 export type MutationUpdateLayerArgs = {
   updateLayerInput: UpdateLayerInput;
 };
+
 
 export type MutationUpdateLinkBgColorArgs = {
   updateLinkBGColor: UpdateLinkBgColor;
 };
 
+
 export type MutationUpdateMapVersionNameArgs = {
   updateMapVersionInput: UpdateMapVersionInput;
 };
+
 
 export type MutationUpdateMetricsArgs = {
   updateCustomMetricsInput?: InputMaybe<UpdateCustomMetricsInput>;
@@ -2605,33 +2687,41 @@ export type MutationUpdateMetricsArgs = {
   updateMetricsInput: UpdateMetricsInput;
 };
 
+
 export type MutationUpdatePersonaArgs = {
   updatePersonaInput: UpdatePersonaInput;
 };
+
 
 export type MutationUpdatePersonaGroupArgs = {
   updatePersonaGroupInput: UpdatePersonaGroupInput;
 };
 
+
 export type MutationUpdatePersonaSectionArgs = {
   updatePersonaSectionInput: UpdatePersonaSectionInput;
 };
+
 
 export type MutationUpdatePersonaStateArgs = {
   updatePersonaStateInput: UpdatePersonaStateInput;
 };
 
+
 export type MutationUpdateTextRowsArgs = {
   updateTextRowInput: UpdateTextRowInput;
 };
+
 
 export type MutationUpdateTouchPointArgs = {
   updateTouchPointInput: UpdateTouchPointInput;
 };
 
+
 export type MutationUpdateWhiteboardArgs = {
   updateWhiteboardInput: UpdateWhiteboardInput;
 };
+
 
 export type MutationUpdateWhiteboardUserArgs = {
   updateWhiteboardUserInput: UpdateWhiteboardUserInput;
@@ -2674,7 +2764,7 @@ export type Note = {
 
 export enum OrderByEnum {
   Asc = 'ASC',
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 export type OrderInput = {
@@ -2757,9 +2847,11 @@ export type OutcomeGroup = {
   userId?: Maybe<Scalars['Int']['output']>;
 };
 
+
 export type OutcomeGroupOutcomesArgs = {
   getOutcomesInput: GetOutcomesInput;
 };
+
 
 export type OutcomeGroupOutcomesCountArgs = {
   list: OutcomeListEnum;
@@ -2783,7 +2875,7 @@ export type OutcomeGroupWithOutcomeCounts = {
 export enum OutcomeListEnum {
   MapLevel = 'MAP_LEVEL',
   OutcomeGroupLevel = 'OUTCOME_GROUP_LEVEL',
-  WorkspaceLevel = 'WORKSPACE_LEVEL',
+  WorkspaceLevel = 'WORKSPACE_LEVEL'
 }
 
 export type OutcomeResponse = {
@@ -2812,12 +2904,12 @@ export type OutcomeResponse = {
 
 export enum OutcomeStatusEnum {
   Backlog = 'BACKLOG',
-  Initiative = 'INITIATIVE',
+  Initiative = 'INITIATIVE'
 }
 
 export enum OwnershipTypeEnum {
   All = 'ALL',
-  Mine = 'MINE',
+  Mine = 'MINE'
 }
 
 export type PaginationInput = {
@@ -2938,7 +3030,7 @@ export enum PersonaStateEnum {
   Neutral = 'NEUTRAL',
   Sad = 'SAD',
   VeryHappy = 'VERY_HAPPY',
-  VerySad = 'VERY_SAD',
+  VerySad = 'VERY_SAD'
 }
 
 export type PersonaUrlObject = {
@@ -3000,7 +3092,7 @@ export type PositionInput = {
 export enum PositionReferenceTypeEnum {
   Attachment = 'ATTACHMENT',
   DemographicInfoFieldImage = 'DEMOGRAPHIC_INFO_FIELD_IMAGE',
-  Persona = 'PERSONA',
+  Persona = 'PERSONA'
 }
 
 export type Query = {
@@ -3075,272 +3167,339 @@ export type Query = {
   searchOrganizationUsers: Array<Member>;
 };
 
+
 export type QueryGetAiJourneyModelsArgs = {
   getAiJourneyModelsInput: GetAiJourneyModelsInput;
 };
+
 
 export type QueryGetAllPinnedBoardsArgs = {
   outcomeGroupId: Scalars['Int']['input'];
 };
 
+
 export type QueryGetAttachmentTouchPointMapsArgs = {
   getAttachmentTouchPointMapsInput: GetAttachmentTouchPointMapsInput;
 };
 
+
 export type QueryGetBoardByIdArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryGetBoardOutcomesStatArgs = {
   boardId: Scalars['Int']['input'];
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
 export type QueryGetBoardTagsArgs = {
   getBoardTagsInput: GetBoardTagsInput;
 };
+
 
 export type QueryGetBoardsForItemArgs = {
   getBoardsForItemInput: GetBoardsForItemInput;
 };
 
+
 export type QueryGetBoardsForOutcomeGroupArgs = {
   getBoardsFourOutcomeGroupInput: GetBoardsFourOutcomeGroupInput;
 };
+
 
 export type QueryGetCardAttachedTagsArgs = {
   getAttachedTagsInput: GetAttachedTagsInput;
 };
 
+
 export type QueryGetColumnStepsArgs = {
   columnId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetCustomMetricsItemsArgs = {
   metricsId: Scalars['Int']['input'];
 };
 
+
 export type QueryGetDataPointsArgs = {
   getDataPointsInput: GetDataPointsInput;
 };
+
 
 export type QueryGetErrorLogsArgs = {
   paginationInput: PaginationInput;
 };
 
+
 export type QueryGetFolderByIdArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryGetFoldersArgs = {
   getFoldersInput: GetFoldersInput;
 };
 
+
 export type QueryGetHistoryLogsArgs = {
   getHistoryLogInput: GetHistoryLogInput;
 };
+
 
 export type QueryGetInterviewsByWorkspaceIdArgs = {
   getInterviewsInput: GetInterviewsInput;
 };
 
+
 export type QueryGetItemCommentsArgs = {
   getItemCommentsInput: GetItemCommentsInput;
 };
+
 
 export type QueryGetItemNoteArgs = {
   getItemNoteInput: GetItemNoteInput;
 };
 
+
 export type QueryGetJourneyMapArgs = {
   getJourneyMapInput: GetJourneyMapInput;
 };
+
 
 export type QueryGetJourneyMapColumnStepsArgs = {
   getJourneyMapColumnStepsInput: GetJourneyMapColumnStepsInput;
 };
 
+
 export type QueryGetJourneyMapRowsAndColumnsArgs = {
   getJourneyMapRowsAndColumnsInput: GetJourneyMapRowsAndColumnsInput;
 };
+
 
 export type QueryGetLayersByMapIdArgs = {
   getLayersInput: GetLayersInput;
 };
 
+
 export type QueryGetLinkMapsByBoardArgs = {
   getMapsInput: GetMapsInput;
 };
+
 
 export type QueryGetMapByVersionIdArgs = {
   getMapByVersionIdInput: GetMapByVersionIdInput;
 };
 
+
 export type QueryGetMapColumnsForOutcomeArgs = {
   getMapColumnsForOutcomeInput: GetMapRowColumnsForOutcomeInput;
 };
+
 
 export type QueryGetMapDebugLogsArgs = {
   getMapDebugLogsInput: GetMapDebugLogsInput;
 };
 
+
 export type QueryGetMapDetailsArgs = {
   mapId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetMapLogsArgs = {
   mapId: Scalars['Int']['input'];
   paginationInput: PaginationInput;
 };
 
+
 export type QueryGetMapOutcomeGroupsForRowCreationArgs = {
   mapId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetMapPersonasForOutcomeArgs = {
   getMapPersonasInput: GetMapPersonasInput;
 };
 
+
 export type QueryGetMapSelectedPersonasArgs = {
   mapId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetMapVersionsArgs = {
   getMapVersionsInput: GetMapVersionsInput;
 };
 
+
 export type QueryGetMapsArgs = {
   getMapsInput: GetMapsInput;
 };
 
+
 export type QueryGetMyBoardsArgs = {
   getMyBoardsInput: GetMyBoardsInput;
 };
+
 
 export type QueryGetNounProjectIconsArgs = {
   category: Scalars['String']['input'];
   limit: Scalars['Int']['input'];
 };
 
+
 export type QueryGetOrganizationUsersArgs = {
   paginationInput: QuestionProPaginationInput;
 };
+
 
 export type QueryGetOrgsArgs = {
   getOrgsInput?: InputMaybe<GetOrgsInput>;
 };
 
+
 export type QueryGetOutcomeGroupArgs = {
   getOutcomeGroupInput: GetOutcomeGroupInput;
 };
+
 
 export type QueryGetOutcomeGroupsArgs = {
   getOutcomeGroupsInput: GetOutcomeGroupsInput;
 };
 
+
 export type QueryGetParentMapChildrenArgs = {
   parentMapId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetParentMapsByBoardIdArgs = {
   getParentMapByBoardIdInput: GetParentMapByBoardIdInput;
 };
 
+
 export type QueryGetPerformanceLogsArgs = {
   paginationInput: PaginationInput;
 };
+
 
 export type QueryGetPersonaByIdArgs = {
   getPersonaByIdInput: GetPersonaByIdInput;
 };
 
+
 export type QueryGetPersonaDemographicInfosArgs = {
   getPersonaDemographicInfosInput: GetPersonaDemographicInfosInput;
 };
+
 
 export type QueryGetPersonaGalleryArgs = {
   getPersonaGalleryInput: GetPersonaGalleryInput;
 };
 
+
 export type QueryGetPersonaGroupsArgs = {
   getPersonaGroupsInput: GetPersonaGroupsInput;
 };
+
 
 export type QueryGetPersonaGroupsWithPersonasArgs = {
   getPersonaGroupsWithPersonasInput: GetPersonaGroupsWithPersonasInput;
 };
 
+
 export type QueryGetPersonaSectionsArgs = {
   getPersonaSectionsInput: GetPersonaSectionsInput;
 };
+
 
 export type QueryGetPersonasArgs = {
   getPersonasInput: GetPersonasInput;
 };
 
+
 export type QueryGetPinnedPersonaItemsArgs = {
   pinnedPersonaItemsInput: PinInput;
 };
+
 
 export type QueryGetProjectMapsArgs = {
   projectId: Scalars['Int']['input'];
 };
 
+
 export type QueryGetProjectsArgs = {
   orgId: Scalars['Int']['input'];
 };
+
 
 export type QueryGetSelectedMapsForItemArgs = {
   getSelectedMapsForItemInput: GetSelectedMapsForItemInput;
 };
 
+
 export type QueryGetSuiteOrgsArgs = {
   getSuiteOrgsInput: GetSuiteOrgsInput;
 };
+
 
 export type QueryGetSuiteUsersArgs = {
   orgId: Scalars['Int']['input'];
 };
 
+
 export type QueryGetTouchPointIconsArgs = {
   getTouchpointIconsInput: GetTouchpointIconsInput;
 };
+
 
 export type QueryGetWhiteboardArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type QueryGetWhiteboardDataItemsArgs = {
   getWhiteboardDataItemsInput: GetWhiteboardDataItemsInput;
 };
+
 
 export type QueryGetWhiteboardUsersArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type QueryGetWhiteboardsArgs = {
   getWhiteboardsInput: GetWhiteboardsInput;
 };
+
 
 export type QueryGetWorkspaceBoardsArgs = {
   getWorkspaceBoardsInput: GetWorkspaceBoardsInput;
 };
 
+
 export type QueryGetWorkspaceByIdArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryGetWorkspaceMapsArgs = {
   getWorkspaceMapsInput: GetWorkspaceMapsInput;
 };
 
+
 export type QueryGetWorkspacesArgs = {
   orgId?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
 export type QueryGetWorkspacesByOrganizationIdArgs = {
   getWorkspacesInput: GetWorkspacesInput;
 };
+
 
 export type QuerySearchOrganizationUsersArgs = {
   searchOrganizationUserInput: SearchOrganizationUserInput;
@@ -3408,13 +3567,13 @@ export type SetMapForItemInput = {
 export enum SharingPolicyEnum {
   Edit = 'EDIT',
   Private = 'PRIVATE',
-  View = 'VIEW',
+  View = 'VIEW'
 }
 
 export enum SortByEnum {
   CreatedAt = 'CREATED_AT',
   CreatedBy = 'CREATED_BY',
-  Title = 'TITLE',
+  Title = 'TITLE'
 }
 
 export enum SubActionTypeEnum {
@@ -3425,7 +3584,7 @@ export enum SubActionTypeEnum {
   Journey = 'JOURNEY',
   Lock = 'LOCK',
   Title = 'TITLE',
-  Unattach = 'UNATTACH',
+  Unattach = 'UNATTACH'
 }
 
 export type SuccessTypeModel = {
@@ -3820,14 +3979,6 @@ export type UpdateWhiteboardUserInput = {
   whiteboardId: Scalars['Int']['input'];
 };
 
-export type UpdateWorkspaceOutcomeInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  outcomeGroupId?: InputMaybe<Scalars['Int']['input']>;
-  status?: InputMaybe<OutcomeStatusEnum>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type User = {
   accountLanguage: LanguagesEnum;
   apiToken: Scalars['String']['output'];
@@ -3853,7 +4004,7 @@ export type User = {
 export enum UserActionEnum {
   Edit = 'EDIT',
   Owner = 'OWNER',
-  View = 'VIEW',
+  View = 'VIEW'
 }
 
 export type Whiteboard = {
@@ -3933,25 +4084,25 @@ export enum WhiteboardItemTypeEnum {
   TopRightCircle = 'TOP_RIGHT_CIRCLE',
   TopRightEllipse = 'TOP_RIGHT_ELLIPSE',
   Triangle = 'TRIANGLE',
-  Video = 'VIDEO',
+  Video = 'VIDEO'
 }
 
 export enum WhiteboardPermissionEnum {
   Editor = 'EDITOR',
   Owner = 'OWNER',
-  View = 'VIEW',
+  View = 'VIEW'
 }
 
 export enum WhiteboardTypeEnum {
   Canvas = 'CANVAS',
-  Whiteboard = 'WHITEBOARD',
+  Whiteboard = 'WHITEBOARD'
 }
 
 export enum WhiteboardUpdateZIndexEnum {
   Decrement = 'DECREMENT',
   End = 'END',
   Increment = 'INCREMENT',
-  Start = 'START',
+  Start = 'START'
 }
 
 export type WhiteboardUser = {
@@ -3971,7 +4122,7 @@ export type WhiteboardUser = {
 export enum WhiteboardUserTypeEnum {
   Guest = 'GUEST',
   Member = 'MEMBER',
-  Owner = 'OWNER',
+  Owner = 'OWNER'
 }
 
 export type Workspace = {

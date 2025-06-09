@@ -4,11 +4,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
 
-import { useCreatePersonaMutation } from '@/api/mutations/generated/createPersona.generated.ts';
 import {
   GetPersonasQuery,
   useGetPersonasQuery,
-} from '@/api/queries/generated/getPersonas.generated.ts';
+} from '@/api/infinite-queries/generated/getPersonas.generated.ts';
+import { useCreatePersonaMutation } from '@/api/mutations/generated/createPersona.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';

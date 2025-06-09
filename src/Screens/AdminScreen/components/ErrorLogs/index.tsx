@@ -1,7 +1,5 @@
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
-
 import {
   GetErrorLogsQuery,
   useGetErrorLogsQuery,

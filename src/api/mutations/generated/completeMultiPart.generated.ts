@@ -6,15 +6,10 @@ export type CompleteMultiPartMutationVariables = Types.Exact<{
   completeMultiPartInput: Types.CompleteMultiPartInput;
 }>;
 
-export type CompleteMultiPartMutation = {
-  __typename?: 'Mutation';
-  completeMultiPart: {
-    __typename?: 'GetCompleteMultipartResponse';
-    id: number;
-    key: string;
-    name?: string | null;
-  };
-};
+
+export type CompleteMultiPartMutation = { __typename?: 'Mutation', completeMultiPart: { __typename?: 'GetCompleteMultipartResponse', id: number, key: string, name?: string | null } };
+
+
 
 export const CompleteMultiPartDocument = `
     mutation CompleteMultiPart($completeMultiPartInput: CompleteMultiPartInput!) {
@@ -26,26 +21,17 @@ export const CompleteMultiPartDocument = `
 }
     `;
 
-export const useCompleteMultiPartMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    CompleteMultiPartMutation,
-    TError,
-    CompleteMultiPartMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<
-    CompleteMultiPartMutation,
-    TError,
-    CompleteMultiPartMutationVariables,
-    TContext
-  >({
+export const useCompleteMultiPartMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CompleteMultiPartMutation, TError, CompleteMultiPartMutationVariables, TContext>) => {
+    
+    return useMutation<CompleteMultiPartMutation, TError, CompleteMultiPartMutationVariables, TContext>(
+      {
     mutationKey: ['CompleteMultiPart'],
-    mutationFn: axiosRequest<CompleteMultiPartMutation, CompleteMultiPartMutationVariables>(
-      CompleteMultiPartDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<CompleteMultiPartMutation, CompleteMultiPartMutationVariables>(CompleteMultiPartDocument),
+    ...options
+  }
+    )};
 
 useCompleteMultiPartMutation.getKey = () => ['CompleteMultiPart'];

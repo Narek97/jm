@@ -5,6 +5,7 @@ query GetBoardById($id: Int!) {
     description
     defaultMapId
     createdAt
+    pinnedOutcomeGroupCount
     workspace {
       id
       feedbackId

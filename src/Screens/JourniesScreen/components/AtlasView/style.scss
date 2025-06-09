@@ -1,0 +1,16 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.atlas-view--maps {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  &--item {
+    width: 18%;
+    min-height: 2rem !important;
+  }
+}
