@@ -1,6 +1,6 @@
 import React, { FC, useRef } from 'react';
 
-import './custom-table.scss';
+import './style.scss';
 
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';

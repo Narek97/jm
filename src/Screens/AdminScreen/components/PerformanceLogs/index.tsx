@@ -8,7 +8,6 @@ import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import Pagination from '@/Components/Shared/Pagination';
 import { PERFORMANCE_LOGS_LIMIT } from '@/constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
@@ -19,14 +18,11 @@ const PerformanceLogs = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [isOpenQueriesModal, setIsOpenQueriesModal] = useState<boolean>(false);
   const [selectedItemQueries, setSelectedItemQueries] = useState<Array<string>>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const offset = (currentPage - 1) * PERFORMANCE_LOGS_LIMIT;
 
   const { isLoading, error, data } = useGetPerformanceLogsQuery<GetPerformanceLogsQuery, Error>({
     paginationInput: {
       limit: PERFORMANCE_LOGS_LIMIT,
-      offset,
+      offset: 0,
     },
   });
 
@@ -34,8 +30,6 @@ const PerformanceLogs = () => {
     () => data?.getPerformanceLogs.performanceLogs || [],
     [data?.getPerformanceLogs.performanceLogs],
   );
-
-  const performanceLogsCount: number = data?.getPerformanceLogs.count || 0;
 
   const toggleDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(prev => !prev);
@@ -48,10 +42,6 @@ const PerformanceLogs = () => {
       setSelectedItemQueries([]);
     }
     setIsOpenQueriesModal(prev => !prev);
-  }, []);
-
-  const onHandleChangePage = useCallback((newPage: number) => {
-    setCurrentPage(newPage);
   }, []);
 
   const onHandleClickRow = useCallback(
@@ -74,18 +64,7 @@ const PerformanceLogs = () => {
   }
 
   return (
-    <div
-      className={`performance-logs ${performanceLogsCount > PERFORMANCE_LOGS_LIMIT ? 'with-pagination' : ''}`}>
-      {performanceLogsCount > PERFORMANCE_LOGS_LIMIT && (
-        <div className="logs-pagination">
-          <Pagination
-            perPage={PERFORMANCE_LOGS_LIMIT}
-            currentPage={currentPage}
-            allCount={performanceLogsCount}
-            changePage={onHandleChangePage}
-          />
-        </div>
-      )}
+    <div className={`performance-logs`}>
       {isLoading && <CustomLoader />}
       {isOpenDeleteModal && (
         <PerformanceLogsDeleteModal handleClose={toggleDeleteModal} isOpen={isOpenDeleteModal} />
