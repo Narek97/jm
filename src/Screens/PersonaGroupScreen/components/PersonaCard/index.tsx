@@ -3,9 +3,8 @@ import { FC, memo, useCallback, useMemo } from 'react';
 import './style.scss';
 import { useNavigate } from '@tanstack/react-router';
 
-import PersonaImageBox from '../../../../Components/Feature/PersonaImageBox';
-
 import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.generated.ts';
+import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { IMAGE_ASPECT } from '@/constants';

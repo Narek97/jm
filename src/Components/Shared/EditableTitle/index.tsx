@@ -7,23 +7,22 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { debounced400 } from '@/hooks/useDebounce.ts';
-import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 import { EditableInputType, MenuOptionsType } from '@/types';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
-interface IEditableTitle {
-  item: any;
+interface IEditableTitle<T extends { id: string | number; name: string }> {
+  item: T;
   onHandleUpdate: (data: EditableInputType) => void;
-  onHandleDelete: (item: BoardType) => void;
+  onHandleDelete: (data: T) => void;
   maxLength?: number;
 }
 
-const EDITABLE_INPUT_OPTIONS = ({
+const EDITABLE_INPUT_OPTIONS = <T extends { id: string | number; name: string }>({
   onHandleEdit,
   onHandleDelete,
 }: {
-  onHandleEdit: (data: EditableInputType) => void;
-  onHandleDelete: (data: BoardType) => void;
+  onHandleEdit: () => void;
+  onHandleDelete: (data: T) => void;
 }): Array<MenuOptionsType> => {
   return [
     {
@@ -39,29 +38,36 @@ const EDITABLE_INPUT_OPTIONS = ({
   ];
 };
 
-const EditableTitle: FC<IEditableTitle> = ({ item, onHandleUpdate, onHandleDelete, maxLength }) => {
+const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number; name: string }>({
+  item,
+  onHandleUpdate,
+  onHandleDelete,
+  maxLength,
+}: IEditableTitle<T>) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isTitleEditMode, setIsTitleEditMode] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(item.name);
 
   const options = useMemo(() => {
-    return EDITABLE_INPUT_OPTIONS({
+    return EDITABLE_INPUT_OPTIONS<T>({
       onHandleEdit: () => {
         setIsTitleEditMode(true);
       },
-      onHandleDelete,
+      onHandleDelete: () => {
+        onHandleDelete(item);
+      },
     });
-  }, [onHandleDelete]);
+  }, [item, onHandleDelete]);
 
   const onChangeName = useCallback(
     (title: string) => {
       setInputValue(title);
       debounced400(() => {
-        onHandleUpdate({ value: title, id: item?.id });
+        onHandleUpdate({ value: title, id: item.id });
       });
     },
-    [item?.id, onHandleUpdate],
+    [item.id, onHandleUpdate],
   );
 
   useEffect(() => {

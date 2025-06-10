@@ -4,12 +4,11 @@ import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 
-import PersonaImageBox from '../../../../Components/Feature/PersonaImageBox';
-
 import {
   UpdatePersonaGroupMutation,
   useUpdatePersonaGroupMutation,
 } from '@/api/mutations/generated/updatePersonaGroup.generated';
+import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import EditableTitle from '@/Components/Shared/EditableTitle';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import useWindowResize from '@/hooks/useWindowResize.ts';
@@ -21,7 +20,7 @@ interface IGroupCard {
   group: PersonaGroupType;
   workspaceId: string;
   onUpdatePersonaGroup: (data: EditableInputType) => void;
-  onTogglePersonaGroupDeleteModal: (personaGroup: EditableInputType) => void;
+  onTogglePersonaGroupDeleteModal: (personaGroup: PersonaGroupType) => void;
 }
 
 const GroupCard: FC<IGroupCard> = ({

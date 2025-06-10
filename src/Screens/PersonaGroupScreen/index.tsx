@@ -1,8 +1,12 @@
-import './style.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import './style.scss';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
+
+import PersonaCard from './components/PersonaCard';
+import PersonaDeleteModal from './components/PersonaDeleteModal';
+import { PersonaType } from './types';
 
 import {
   GetPersonasQuery,
@@ -17,9 +21,6 @@ import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useRemoveQueriesByKey, useSetAllQueryDataByKey } from '@/hooks/useQueryKey.ts';
-import PersonaCard from '@/Screens/PersonaGroupScreen/components/PersonaCard';
-import PersonaDeleteModal from '@/Screens/PersonaGroupScreen/components/PersonaDeleteModal';
-import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 
 const PersonaGroupScreen = () => {

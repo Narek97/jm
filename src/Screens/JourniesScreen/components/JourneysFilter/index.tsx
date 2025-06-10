@@ -81,7 +81,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
       staleTime: querySlateTime,
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.getPersonas.personas || !lastPage.getPersonas.personas.length) {
-          return null;
+          return undefined;
         }
         return {
           getIdeasInput: {

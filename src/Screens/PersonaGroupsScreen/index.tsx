@@ -45,7 +45,7 @@ const PersonaGroups = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
 
-  const [selectedPersonaGroup, setSelectedPersonaGroup] = useState<EditableInputType | null>(null);
+  const [selectedPersonaGroup, setSelectedPersonaGroup] = useState<PersonaGroupType | null>(null);
 
   const { isPending: isLoadingCreatePersonaGroup, mutateAsync: mutateAsyncCreatePersonaGroup } =
     useCreatePersonaGroupMutation<Error, CreatePersonaGroupMutation>();
@@ -233,7 +233,7 @@ const PersonaGroups = () => {
     [offset, setPersonaGroup],
   );
 
-  const onTogglePersonaGroupDeleteModal = useCallback((personaGroup?: EditableInputType) => {
+  const onTogglePersonaGroupDeleteModal = useCallback((personaGroup?: PersonaGroupType) => {
     setSelectedPersonaGroup(personaGroup || null);
   }, []);
 

@@ -1,7 +1,3 @@
-import { Personas } from '@/api/types.ts';
-import { AttachmentType, CroppedAreaType } from '@/types';
+import { GetPersonasQuery } from '@/api/infinite-queries/generated/getPersonas.generated.ts';
 
-export type PersonaType = Pick<Personas, 'id' | 'name' | 'type' | 'color' | 'journeys'> & {
-  croppedArea?: CroppedAreaType | null;
-  attachment?: AttachmentType | null;
-};
+export type PersonaType = GetPersonasQuery['getPersonas']['personas'][number];

@@ -86,7 +86,7 @@ export type DropdownWithCategorySelectItemType = {
   group: DropdownSelectItemType[];
 };
 
-export type EditableInputType = { value: string; id: number };
+export type EditableInputType = { value: string; id: number | string };
 
 export type PersonaImageBoxType = {
   color: string;

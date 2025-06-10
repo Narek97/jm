@@ -49,7 +49,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
         allPages: GetWorkspaceBoardsQuery[],
       ) {
         if (!lastPage.getWorkspaceBoards.boards || !lastPage.getWorkspaceBoards.boards.length) {
-          return null;
+          return undefined;
         }
 
         return {
