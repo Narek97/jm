@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import PersonaHeader from './components/PersonaHeader';
 import PersonaRightSections from './components/PersonaRightSections';
+import { DemographicInfoFieldsType, PersonaFieldSectionsType, PersonaSectionType } from './types';
 
 import {
   CreateDemographicInfoMutation,
@@ -47,7 +48,6 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import { debounced400 } from '@/hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 import PersonaLeftMenu from '@/Screens/PersonaScreen/components/PersonaLeftMenu';
-import { PersonaDemographicInfoType, PersonSectionType } from '@/Screens/PersonaScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { PersonaFieldCategoryTypeEnum } from '@/types/enum';
 import { getDemographicFiledKey } from '@/utils/getDemographicFiledKey.ts';
@@ -204,6 +204,7 @@ const PersonaScreen = () => {
   );
 
   const onHandleUpdateSelectedGalleryItem = useCallback((value: number) => {
+    // todo
     console.log(value, 'value');
     // personaInfoState &&
     //   personaInfoState &&
@@ -226,7 +227,7 @@ const PersonaScreen = () => {
             getPersonaDemographicInfos: {
               ...oldData.getPersonaDemographicInfos,
               [categoryType]: oldData.getPersonaDemographicInfos[categoryType].map(
-                (item: PersonaDemographicInfoType) => {
+                (item: DemographicInfoFieldsType | PersonaFieldSectionsType) => {
                   if (item.id === demographicInfoId) {
                     item = {
                       ...item,
@@ -376,7 +377,7 @@ const PersonaScreen = () => {
     [mutateDeleteDemographicInfo, setDemographicInfos, showToast],
   );
 
-  const onHandleAddSection = (layout: PersonSectionType | null) => {
+  const onHandleAddSection = (layout: PersonaSectionType | null) => {
     const { x, y } = personaRef.current.getNextFreePosition();
 
     const newItem = {

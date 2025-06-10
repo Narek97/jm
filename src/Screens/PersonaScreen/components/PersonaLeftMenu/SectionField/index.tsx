@@ -10,11 +10,11 @@ import { DemographicInfoTypeEnum } from '@/api/types';
 import CustomInput from '@/Components/Shared/CustomInput';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
 import { debounced400 } from '@/hooks/useDebounce.ts';
-import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaFieldSectionsType } from '@/Screens/PersonaScreen/types.ts';
 import { PersonaFieldCategoryTypeEnum } from '@/types/enum.ts';
 
 interface ISectionField {
-  item: PersonaDemographicInfoType;
+  item: PersonaFieldSectionsType;
   index: number;
   type: DemographicInfoTypeEnum;
   onHandleChangeDemographicInfo: (
@@ -23,7 +23,7 @@ interface ISectionField {
     key: 'key' | 'value' | 'isHidden' | 'height',
     categoryType: PersonaFieldCategoryTypeEnum,
   ) => void;
-  onHandleDeleteDemographicInfoItem: (item: PersonaDemographicInfoType) => void;
+  onHandleDeleteDemographicInfoItem: (item: PersonaFieldSectionsType) => void;
   onHandleToggleGalleryModal: () => void;
   provided: DraggableProvided;
 }

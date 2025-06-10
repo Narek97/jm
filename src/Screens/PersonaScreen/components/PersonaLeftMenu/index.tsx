@@ -20,8 +20,8 @@ import { WuButton, WuMenu, WuMenuItem } from '@npm-questionpro/wick-ui-lib';
 import DeleteDemographicInfosSectionConfirmModal from './DeleteDemographicInfosSectionConfirmModal';
 import SectionField from './SectionField';
 import {
-  PersonaDemographicInfoType,
-  PersonaFieldTypes,
+  DemographicInfoFieldsType,
+  DemographicInfosType,
   PersonaImageContainedComponentType,
   PersonaInfoType,
 } from '../../types';
@@ -55,7 +55,7 @@ import { PersonaFieldCategoryTypeEnum, PersonaTypeEnum } from '@/types/enum';
 interface IPersonaLeftMenu {
   personaId: number;
   personaInfo: PersonaInfoType | null;
-  demographicInfos: PersonaFieldTypes;
+  demographicInfos: DemographicInfosType;
   onHandleUpdateInfo: (key: string, value: string) => void;
   onHandleUpdateSelectedGalleryItem: (id: number) => void;
   onHandleChangeDemographicInfo: (
@@ -217,7 +217,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     );
   };
 
-  const onHandleEditDemographicInfoItem = useCallback((item: PersonaDemographicInfoType) => {
+  const onHandleEditDemographicInfoItem = useCallback((item: DemographicInfoFieldsType) => {
     setSelectedDemographicInfoId(item.id);
   }, []);
 
@@ -226,7 +226,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   }, []);
 
   const onHandleDeleteDemographicInfoItem = useCallback(
-    (item: PersonaDemographicInfoType) => {
+    (item: DemographicInfoFieldsType) => {
       onHandleDeleteDemographicInfo(item.id, item.type);
     },
     [onHandleDeleteDemographicInfo],

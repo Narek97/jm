@@ -101,6 +101,7 @@ export type CroppedAreaType = {
   y?: number | null;
 };
 
+// todo
 export type AttachmentType = Pick<
   Attachment,
   'id' | 'key' | 'url' | 'name' | 'hasResizedVersions'

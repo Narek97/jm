@@ -8,12 +8,12 @@ import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { PERSONA_GENDER_MENU_ITEMS } from '@/Screens/PersonaScreen/constants.tsx';
-import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { DemographicInfoFieldsType } from '@/Screens/PersonaScreen/types.ts';
 import { MenuOptionsType } from '@/types';
 import { MenuViewTypeEnum, PersonaFieldCategoryTypeEnum } from '@/types/enum';
 
 interface IDemographicInfoItem {
-  demographicInfo: PersonaDemographicInfoType;
+  demographicInfo: DemographicInfoFieldsType;
   index: number;
   selectedDemographicInfoId: number | null;
   onHandleChangeDemographicInfo: (

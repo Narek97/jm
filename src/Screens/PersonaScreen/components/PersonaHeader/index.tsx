@@ -4,9 +4,10 @@ import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 
+import { PersonaInfoType, PersonaSectionType } from '../../types';
+
 import CustomInput from '@/Components/Shared/CustomInput';
 import { TOKEN_NAME } from '@/constants';
-import { PersonaInfoType } from '@/Screens/PersonaScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { getCookie } from '@/utils/cookieHelper.ts';
 
@@ -15,7 +16,7 @@ interface IPersonaHeader {
   workspaceId: number;
   isLoadingPersonaSection: boolean;
   onHandleUpdateInfo: (key: string, value: string) => void;
-  onHandleAddSection: (layout: PersonSectionType | null) => void;
+  onHandleAddSection: (layout: PersonaSectionType | null) => void;
 }
 
 const PersonaHeader: FC<IPersonaHeader> = ({
@@ -33,7 +34,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
 
   // todo : setPersonaInfo
   const [isOpenSelectedPersonasModal, setIsOpenSelectedPersonasModal] = useState<boolean>(false);
-
+  console.log(isOpenSelectedPersonasModal, 'isOpenSelectedPersonasModal');
   const journeysCount = personaInfo?.journeys || 0;
 
   const onHandleGoBack = () => {

@@ -44,7 +44,7 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
         },
       },
     );
-  }, [deleteFields, onSuccess, personaId]);
+  }, [deleteFields, onSuccess, personaId, showToast]);
 
   return (
     <CustomModal
