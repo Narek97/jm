@@ -4,9 +4,11 @@ import './style.scss';
 
 import { Tooltip } from '@mui/material';
 
+import { OrgWorkspaceType } from '../types';
+
 interface IWorkspaceItem {
-  workspace: { id: number; name: string };
-  handleClick: (workspace: { id: number; name: string }) => void;
+  workspace: OrgWorkspaceType;
+  handleClick: (workspace: OrgWorkspaceType) => void;
 }
 
 const WorkspaceItem: FC<IWorkspaceItem> = ({ workspace, handleClick }) => {

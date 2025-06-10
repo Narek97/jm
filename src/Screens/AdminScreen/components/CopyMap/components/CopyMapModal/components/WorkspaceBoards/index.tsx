@@ -3,12 +3,12 @@ import { FC, useCallback, useMemo, useRef, useState } from 'react';
 import './style.scss';
 
 import BoardItem from './BoardItem';
+import { WorkspaceBoardsType } from './types';
 
 import {
   GetWorkspaceBoardsQuery,
   useInfiniteGetWorkspaceBoardsQuery,
 } from '@/api/infinite-queries/generated/getWorkspaceBoards.generated.ts';
-import { Board } from '@/api/types.ts';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { BOARDS_LIMIT } from '@/constants/pagination';
@@ -29,13 +29,12 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
   const childRef = useRef<HTMLUListElement>(null);
   const [processingItemId, setProcessingItemId] = useState<number | null>(null);
 
-  // todo check infinite query
   const {
-    data: organizationBoardsData,
-    isLoading: organizationBoardsIsLoading,
-    isFetching: organizationBoardsIsFetching,
-    fetchNextPage: organizationBoardsFetchNextPage,
-    isFetchingNextPage: organizationBoardsIsFetchingNextPage,
+    data: workspaceBoardsData,
+    isLoading: workspaceBoardsIsLoading,
+    isFetching: workspaceBoardsIsFetching,
+    fetchNextPage: workspaceBoardsFetchNextPage,
+    hasNextPage: workspaceBoardsHasNextPage,
   } = useInfiniteGetWorkspaceBoardsQuery<{ pages: Array<GetWorkspaceBoardsQuery> }, Error>(
     {
       getWorkspaceBoardsInput: {
@@ -49,9 +48,17 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
         lastPage: GetWorkspaceBoardsQuery,
         allPages: GetWorkspaceBoardsQuery[],
       ) {
-        return lastPage.getWorkspaceBoards.boards.length < BOARDS_LIMIT
-          ? undefined
-          : allPages.length;
+        if (!lastPage.getWorkspaceBoards.boards || !lastPage.getWorkspaceBoards.boards.length) {
+          return null;
+        }
+
+        return {
+          getWorkspaceBoardsInput: {
+            workspaceId: workspaceId,
+            limit: BOARDS_LIMIT,
+            offset: allPages.length * BOARDS_LIMIT,
+          },
+        };
       },
       initialPageParam: 0,
       enabled: !!workspaceId,
@@ -61,14 +68,12 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
   const onHandleFetchWorkspaces = (e: React.UIEvent<HTMLElement>, childOffsetHeight: number) => {
     const target = e.currentTarget as HTMLDivElement | null;
     if (
-      e.target &&
-      childOffsetHeight &&
+      workspaceBoardsHasNextPage &&
+      !workspaceBoardsIsFetching &&
       target &&
-      target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
-      !organizationBoardsIsFetching &&
-      organizationBoardsIsFetchingNextPage
+      target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight
     ) {
-      organizationBoardsFetchNextPage().then();
+      workspaceBoardsFetchNextPage().then();
     }
   };
 
@@ -90,25 +95,25 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
     [mapId, setCopyMapState],
   );
 
-  const renderedOrganizationBoardsData = useMemo<Array<Board>>(() => {
-    if (!organizationBoardsData?.pages) {
+  const renderedOrganizationBoardsData = useMemo<Array<WorkspaceBoardsType>>(() => {
+    if (!workspaceBoardsData?.pages) {
       return [];
     }
 
-    return organizationBoardsData.pages.reduce((acc: Array<Board>, curr) => {
+    return workspaceBoardsData.pages.reduce((acc: Array<WorkspaceBoardsType>, curr) => {
       if (curr?.getWorkspaceBoards.boards) {
-        return [...acc, ...(curr.getWorkspaceBoards.boards as Array<Board>)];
+        return [...acc, ...(curr.getWorkspaceBoards.boards as Array<WorkspaceBoardsType>)];
       }
       return acc;
     }, []);
-  }, [organizationBoardsData?.pages]);
+  }, [workspaceBoardsData?.pages]);
 
   return (
     <div
       data-testid="boards-list-id"
       className={`boards-list ${isLoadingCopyMap ? 'disabled-section' : ''}`}>
       <div className={'boards-list--content'}>
-        {organizationBoardsIsLoading && !renderedOrganizationBoardsData?.length ? (
+        {workspaceBoardsIsLoading && !renderedOrganizationBoardsData?.length ? (
           <div className={'boards-list-loading-section'}>
             <CustomLoader />
           </div>

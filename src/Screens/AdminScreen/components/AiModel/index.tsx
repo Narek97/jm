@@ -1,17 +1,17 @@
 import './style.scss';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
 import AiModelCard from './components/AiModelCard';
 import AiModelDeleteModal from './components/AiModelDeleteModal';
+import CreateUpdateAiModelModal from './components/CreateUpdateAiModelModal';
+import { AiModelType } from './types';
 
 import {
   GetAiJourneyModelsQuery,
   useGetAiJourneyModelsQuery,
 } from '@/api/queries/generated/getAiJourneyModels.generated.ts';
-import { AiJourneyModelResponse } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
@@ -19,15 +19,21 @@ import Pagination from '@/Components/Shared/Pagination';
 import { querySlateTime } from '@/constants';
 import { AI_MODEL_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import CreateUpdateAiModelModal from '@/Screens/AdminScreen/components/AiModel/components/CreateUpdateAiModelModal';
+import {
+  useRemoveQueriesByKey,
+  useSetAllQueryDataByKey,
+  useSetQueryDataByKeyAdvanced,
+} from '@/hooks/useQueryKey.ts';
+import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 
 const AiModel = () => {
-  // todo: setAiJourneyModels
-  // const setAiJourneyModels = useSetQueryDataByKey("GetAiJourneyModels");
+  const setAiJourneyModels = useSetQueryDataByKeyAdvanced();
+  const setAllAiJourneyModels = useSetAllQueryDataByKey('GetAiJourneyModels');
+  const setRemoveAiJourneyModelsQuery = useRemoveQueriesByKey();
 
   const [isOpenCreateUpdateModal, setIsOpenCreateUpdateModal] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
-  const [selectedAiModel, setSelectedAiModel] = useState<AiJourneyModelResponse | null>(null);
+  const [selectedAiModel, setSelectedAiModel] = useState<AiModelType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
 
@@ -39,8 +45,8 @@ const AiModel = () => {
     {
       getAiJourneyModelsInput: {
         isAdmin: true,
-        offset: AI_MODEL_LIMIT * 3 * offset,
-        limit: AI_MODEL_LIMIT * 3,
+        offset,
+        limit: AI_MODEL_LIMIT,
       },
     },
     {
@@ -48,49 +54,142 @@ const AiModel = () => {
     },
   );
 
-  const dataCount = dataAiModels?.getAiJourneyModels.count || 0;
-  const aiJourneyModels = dataAiModels?.getAiJourneyModels.aiJourneyModels || [];
+  const aiJourneyModelsCount = useMemo(
+    () => dataAiModels?.getAiJourneyModels.count || 0,
+    [dataAiModels?.getAiJourneyModels.count],
+  );
+  const aiJourneyModels = useMemo(
+    () => dataAiModels?.getAiJourneyModels.aiJourneyModels || [],
+    [dataAiModels?.getAiJourneyModels.aiJourneyModels],
+  );
 
-  const onToggleCreateUpdateModal = useCallback((aiModel: AiJourneyModelResponse | null) => {
+  const onToggleCreateUpdateModal = useCallback((aiModel: AiModelType | null) => {
     setSelectedAiModel(aiModel);
     setIsOpenCreateUpdateModal(prev => !prev);
   }, []);
 
-  const onToggleDeleteModal = useCallback((aiModel: AiJourneyModelResponse | null) => {
+  const onToggleDeleteModal = useCallback((aiModel: AiModelType | null) => {
     setSelectedAiModel(aiModel);
     setIsOpenDeleteModal(prev => !prev);
   }, []);
 
-  const onHandleAddNewAiModel = useCallback((aiModel: AiJourneyModelResponse) => {
-    console.log('aiModel', aiModel);
-    setCurrentPage(1);
-    //   todo add ai model and count
-  }, []);
+  const onHandleAddNewAiModel = useCallback(
+    (aiModel: AiModelType) => {
+      setRemoveAiJourneyModelsQuery('getMyBoards', {
+        input: 'getMyBoardsInput',
+        key: 'offset',
+        value: 0,
+      });
 
-  const onHandleUpdateAiModel = useCallback((aiModel: AiJourneyModelResponse) => {
-    console.log('aiModel', aiModel);
-    //   todo update ai model
-  }, []);
+      setAiJourneyModels(
+        'GetAiJourneyModels',
+        {
+          input: 'getAiJourneyModelsInput',
+          key: 'offset',
+          value: 0,
+        },
+        (oldData: any) => {
+          if (oldData) {
+            return {
+              getAiJourneyModels: {
+                offset: 0,
+                limit: AI_MODEL_LIMIT,
+                count: oldData.getAiJourneyModels.count + 1,
+                aiJourneyModels: [
+                  aiModel,
+                  ...oldData.getAiJourneyModels.aiJourneyModels.slice(0, AI_MODEL_LIMIT - 1),
+                ],
+              },
+            };
+          }
+        },
+      );
 
-  const onHandleFilterAiModel = useCallback((id: number) => {
-    console.log('id', id);
-    // todo delete ai model and count
-  }, []);
-
-  const onHandleChangePage = useCallback(
-    (newPage: number) => {
-      if (aiJourneyModels.length < dataCount && newPage % 2 === 0) {
-        setOffset(prev => prev + 1);
-      }
-      if (
-        aiJourneyModels.length >= newPage * AI_MODEL_LIMIT ||
-        aiJourneyModels.length + AI_MODEL_LIMIT > dataCount
-      ) {
-        setCurrentPage(newPage);
-      }
+      setCurrentPage(1);
+      setOffset(0);
     },
-    [aiJourneyModels.length, dataCount],
+    [setAiJourneyModels, setRemoveAiJourneyModelsQuery],
   );
+
+  const onHandleUpdateAiModel = useCallback(
+    (newAiModel: AiModelType) => {
+      setAiJourneyModels(
+        'GetAiJourneyModels',
+        {
+          input: 'getAiJourneyModelsInput',
+          key: 'offset',
+          value: 0,
+        },
+        (oldData: any) => {
+          if (oldData) {
+            return {
+              getAiJourneyModels: {
+                ...oldData.getAiJourneyModels,
+                aiJourneyModels: oldData.getAiJourneyModels.aiJourneyModels.map(
+                  (aiModel: AiModelType) => {
+                    if (aiModel.id === newAiModel.id) {
+                      return { ...newAiModel };
+                    }
+                    return aiModel;
+                  },
+                ),
+              },
+            };
+          }
+        },
+      );
+    },
+    [setAiJourneyModels],
+  );
+
+  const onHandleFilterAiModel = useCallback(
+    (id: number) => {
+      if (
+        currentPage * AI_MODEL_LIMIT >= aiJourneyModelsCount &&
+        dataAiModels?.getAiJourneyModels.aiJourneyModels.length === 1 &&
+        currentPage !== 1
+      ) {
+        setOffset(prev => prev - AI_MODEL_LIMIT);
+        setCurrentPage(prev => prev - 1);
+      } else if (
+        currentPage * AI_MODEL_LIMIT < aiJourneyModelsCount &&
+        aiJourneyModelsCount > AI_MODEL_LIMIT
+      ) {
+        setRemoveAiJourneyModelsQuery('GetAiJourneyModels', {
+          input: 'getAiJourneyModelsInput',
+          key: 'offset',
+          value: offset,
+          deleteUpcoming: true,
+        });
+      }
+      setAllAiJourneyModels((oldData: any) => {
+        if (oldData) {
+          return {
+            getAiJourneyModels: {
+              ...oldData.getAiJourneyModels,
+              count: oldData.getAiJourneyModels.count - 1,
+              aiJourneyModels: oldData.getAiJourneyModels.aiJourneyModels.filter(
+                (board: BoardType) => board.id !== id,
+              ),
+            },
+          };
+        }
+      });
+    },
+    [
+      aiJourneyModelsCount,
+      currentPage,
+      dataAiModels?.getAiJourneyModels.aiJourneyModels.length,
+      offset,
+      setAllAiJourneyModels,
+      setRemoveAiJourneyModelsQuery,
+    ],
+  );
+
+  const onHandleChangePage = useCallback((newPage: number) => {
+    setCurrentPage(newPage);
+    setOffset((newPage - 1) * AI_MODEL_LIMIT);
+  }, []);
 
   if (errorAiModels) {
     return <CustomError error={errorAiModels?.message} />;
@@ -123,11 +222,11 @@ const AiModel = () => {
           onClick={() => onToggleCreateUpdateModal(null)}>
           New Ai model
         </WuButton>
-        {dataCount > AI_MODEL_LIMIT && (
+        {aiJourneyModelsCount > AI_MODEL_LIMIT && (
           <Pagination
             perPage={AI_MODEL_LIMIT}
             currentPage={currentPage}
-            allCount={dataCount}
+            allCount={aiJourneyModelsCount}
             changePage={onHandleChangePage}
           />
         )}
@@ -139,12 +238,7 @@ const AiModel = () => {
         <>
           {aiJourneyModels.length ? (
             <div className={'ai-model--list'}>
-              {(
-                aiJourneyModels.slice(
-                  (currentPage - 1) * AI_MODEL_LIMIT,
-                  currentPage * AI_MODEL_LIMIT,
-                ) || []
-              ).map(aiModel => (
+              {aiJourneyModels.map(aiModel => (
                 <ErrorBoundary key={aiModel.id}>
                   <AiModelCard
                     aiModel={aiModel}

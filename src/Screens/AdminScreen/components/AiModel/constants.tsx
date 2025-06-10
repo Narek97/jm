@@ -1,7 +1,8 @@
 import * as yup from 'yup';
 
+import { AiModelElementType } from './types';
+
 import { AiJourneyModelResponse } from '@/api/types.ts';
-import { AiModelElementType } from '@/Screens/AdminScreen/components/AiModel/types.ts';
 import { MenuOptionsType } from '@/types';
 
 const AI_MODEL_CARD_OPTIONS = ({

@@ -1,16 +1,19 @@
 import { FC } from 'react';
 
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+
+import { AiModelType } from '../../types';
+
 import {
   DeleteAiJourneyModelMutation,
   useDeleteAiJourneyModelMutation,
 } from '@/api/mutations/generated/deleteAiJourneyModel.generated.ts';
-import { AiJourneyModelResponse } from '@/api/types.ts';
 import CustomModal from '@/Components/Shared/CustomModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IAiModelDeleteModal {
   isOpen: boolean;
-  aiModel: AiJourneyModelResponse;
+  aiModel: AiModelType;
   onHandleFilterAiModel: (id: number) => void;
   handleClose: (item: null) => void;
 }
@@ -21,13 +24,21 @@ const AiModelDeleteModal: FC<IAiModelDeleteModal> = ({
   onHandleFilterAiModel,
   handleClose,
 }) => {
+  const { showToast } = useWuShowToast();
+
   const { mutate: deleteAiModelMutate, isPending } = useDeleteAiJourneyModelMutation<
-    DeleteAiJourneyModelMutation,
-    Error
+    Error,
+    DeleteAiJourneyModelMutation
   >({
     onSuccess: () => {
       onHandleFilterAiModel(aiModel.id);
       onHandleCloseModal();
+    },
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
     },
   });
 

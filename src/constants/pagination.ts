@@ -1,7 +1,7 @@
 export const WORKSPACES_LIMIT = 100;
-export const BOARDS_LIMIT = 4;
+export const BOARDS_LIMIT = 16;
 export const PERSONA_GROUP_LIMIT = 16;
-export const AI_MODEL_LIMIT = 16;
+export const AI_MODEL_LIMIT = 2;
 export const JOURNIES_LIMIT = 16;
 export const BOARD_JOURNEYS_LIMIT = 100;
 export const PERSONAS_LIMIT = 100;

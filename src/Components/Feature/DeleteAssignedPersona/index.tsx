@@ -1,5 +1,6 @@
 import { FC, useCallback } from 'react';
 
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
 import {
@@ -26,6 +27,7 @@ const DeleteAssignedPersona: FC<IDeleteCxMapTable> = ({
   disconnectPersona,
 }) => {
   const queryClient = useQueryClient();
+  const { showToast } = useWuShowToast();
 
   const { mutate: connectOrDisconnectPersonas, isPending: connectPersonasIsLoading } =
     useConnectPersonasToMapMutation<Error, ConnectPersonasToMapMutation>();
@@ -53,6 +55,12 @@ const DeleteAssignedPersona: FC<IDeleteCxMapTable> = ({
             queryKey: ['GetJourneyMapRows.infinite'],
           });
         },
+        onError: error => {
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
+        },
       },
     );
   }, [
@@ -62,6 +70,7 @@ const DeleteAssignedPersona: FC<IDeleteCxMapTable> = ({
     handleClose,
     mapId,
     queryClient,
+    showToast,
   ]);
 
   return (

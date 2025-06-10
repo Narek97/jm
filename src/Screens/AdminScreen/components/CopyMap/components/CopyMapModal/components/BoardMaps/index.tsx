@@ -8,11 +8,11 @@ import {
   GetJourneysForCopyQuery,
   useInfiniteGetJourneysForCopyQuery,
 } from '@/api/infinite-queries/generated/getJourniesForCopy.generated.ts';
-import { Map } from '@/api/types.ts';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
+import { JourneysForCopyType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/components/BoardMaps/types.ts';
 import { useCopyMapStore } from '@/store/copyMap.ts';
 import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
@@ -64,14 +64,14 @@ const BoardMaps: FC<IWorkspaceBoardsModal> = ({ boardId }) => {
     }
   };
 
-  const renderedJourneysForCopyData = useMemo<Array<Map>>(() => {
+  const renderedJourneysForCopyData = useMemo<Array<JourneysForCopyType>>(() => {
     if (!journeysForCopyData?.pages) {
       return [];
     }
 
-    return journeysForCopyData.pages.reduce((acc: Array<Map>, curr) => {
+    return journeysForCopyData.pages.reduce((acc: Array<JourneysForCopyType>, curr) => {
       if (curr?.getMaps.maps) {
-        return [...acc, ...(curr.getMaps.maps as Array<Map>)];
+        return [...acc, ...(curr.getMaps.maps as Array<JourneysForCopyType>)];
       }
       return acc;
     }, []);

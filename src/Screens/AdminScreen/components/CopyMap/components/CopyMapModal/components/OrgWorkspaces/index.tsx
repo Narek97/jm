@@ -1,8 +1,6 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 
 import './style.scss';
-
-import { Box } from '@mui/material';
 
 import WorkspaceItem from './WorkspaceItem';
 
@@ -24,9 +22,9 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
   const { setCopyMapState } = useCopyMapStore();
 
   const {
+    data: dataWorkspaces,
     isLoading: isLoadingWorkspaces,
     error: errorWorkspaces,
-    data: dataWorkspaces,
   } = useGetWorkspacesForPastQuery<GetWorkspacesForPastQuery, Error>(
     {
       orgId: orgId!,
@@ -46,7 +44,10 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
     [setCopyMapState],
   );
 
-  const workspaces = dataWorkspaces?.getWorkspaces || [];
+  const workspaces = useMemo(
+    () => dataWorkspaces?.getWorkspaces || [],
+    [dataWorkspaces?.getWorkspaces],
+  );
 
   return (
     <>
@@ -82,9 +83,9 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
                 <>
                   {workspaces?.length ? (
                     <ul className={'workspaces-list--content-workspaces'}>
-                      {workspaces?.map(itm => (
-                        <ErrorBoundary key={itm.id}>
-                          <WorkspaceItem workspace={itm} handleClick={workspaceItemCLick} />
+                      {workspaces?.map(workspace => (
+                        <ErrorBoundary key={workspace.id}>
+                          <WorkspaceItem workspace={workspace} handleClick={workspaceItemCLick} />
                         </ErrorBoundary>
                       ))}
                     </ul>

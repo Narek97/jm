@@ -77,15 +77,43 @@ const PersonaScreen = () => {
   const { mutate: mutateDemographicInfo } = useUpdateDemographicInfoMutation<
     Error,
     UpdateDemographicInfoMutation
-  >();
+  >({
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const { mutate: mutateCreateDemographicInfo, isPending: isLoadingCreateDemographicInfo } =
-    useCreateDemographicInfoMutation<Error, CreateDemographicInfoMutation>();
+    useCreateDemographicInfoMutation<Error, CreateDemographicInfoMutation>({
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
+    });
 
-  const { mutate: mutatePersona } = useUpdatePersonaMutation<Error, UpdatePersonaMutation>();
+  const { mutate: mutatePersona } = useUpdatePersonaMutation<Error, UpdatePersonaMutation>({
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const { mutate: mutateDeleteDemographicInfo, isPending: isLoadingDeleteDemographicInfo } =
-    useDeleteDemographicInfoMutation<Error, DeleteDemographicInfoMutation>();
+    useDeleteDemographicInfoMutation<Error, DeleteDemographicInfoMutation>({
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
+    });
 
   const { mutate: mutatePersonaSection, isPending: isLoadingPersonaSection } =
     useCreatePersonaSectionMutation<Error, CreatePersonaSectionMutation>({
@@ -97,6 +125,12 @@ const PersonaScreen = () => {
         objDiv?.scrollTo({
           top: objDiv.scrollHeight + 128,
           behavior: 'smooth',
+        });
+      },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
         });
       },
     });
@@ -317,8 +351,6 @@ const PersonaScreen = () => {
         {
           onSuccess: response => {
             const key = getDemographicFiledKey(fieldType);
-
-            console.log(response);
             setDemographicInfos((oldData: any) => {
               if (oldData) {
                 return {
@@ -332,10 +364,16 @@ const PersonaScreen = () => {
               }
             });
           },
+          onError: error => {
+            showToast({
+              variant: 'error',
+              message: error?.message,
+            });
+          },
         },
       );
     },
-    [mutateDeleteDemographicInfo, setDemographicInfos],
+    [mutateDeleteDemographicInfo, setDemographicInfos, showToast],
   );
 
   const onHandleAddSection = (layout: PersonSectionType | null) => {

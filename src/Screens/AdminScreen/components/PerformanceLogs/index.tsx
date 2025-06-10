@@ -3,8 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import {
   GetPerformanceLogsQuery,
   useGetPerformanceLogsQuery,
-} from '@/api/infinite-queries/generated/getPerformance.generated';
-import { PerformanceLog } from '@/api/types.ts';
+} from '@/api/queries/generated/getPerformance.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
@@ -15,6 +14,7 @@ import { PERFORMANCE_LOGS_LIMIT } from '@/constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
 import { PERFORMANCE_LOGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/PerformanceLogs/constants.tsx';
+import { PerformanceLogsType } from '@/Screens/AdminScreen/components/PerformanceLogs/types.ts';
 
 const PerformanceLogs = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
@@ -36,12 +36,7 @@ const PerformanceLogs = () => {
     },
   );
 
-  const performanceLogs: Array<
-    Pick<
-      PerformanceLog,
-      'id' | 'path' | 'createdAt' | 'responseTime' | 'queryCount' | 'sqlRowQueries' | 'payloadSize'
-    >
-  > = useMemo(
+  const performanceLogs = useMemo(
     () => data?.getPerformanceLogs.performanceLogs || [],
     [data?.getPerformanceLogs.performanceLogs],
   );
@@ -66,7 +61,7 @@ const PerformanceLogs = () => {
   }, []);
 
   const onHandleClickRow = useCallback(
-    (performanceLogItem: PerformanceLog) => {
+    (performanceLogItem: PerformanceLogsType) => {
       toggleQueriesModal(performanceLogItem?.sqlRowQueries || ['']);
     },
     [toggleQueriesModal],

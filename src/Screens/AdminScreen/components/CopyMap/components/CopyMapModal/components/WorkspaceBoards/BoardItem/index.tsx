@@ -4,8 +4,10 @@ import './style.scss';
 
 import { Tooltip } from '@mui/material';
 
+import { WorkspaceBoardsType } from '../types';
+
 interface IBoardItem {
-  board: { id: number; name: string };
+  board: WorkspaceBoardsType;
   handlePasteMap: (id: number) => void;
   isLoadingCopyMap: boolean;
   isSelected: boolean;

@@ -1,16 +1,17 @@
 import { FC, useMemo } from 'react';
 
 import './style.scss';
-import { AiJourneyModelResponse } from '@/api/types.ts';
+import { AI_MODEL_CARD_OPTIONS } from '../../constants';
+import { AiModelType } from '../../types';
+
 import QPLogo from '@/assets/public/base/qp-logo.svg';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { AI_MODEL_CARD_OPTIONS } from '@/Screens/AdminScreen/components/AiModel/constants.tsx';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IAiModelCard {
-  aiModel: AiJourneyModelResponse;
-  onHandleDelete: (aiModel: AiJourneyModelResponse) => void;
-  onHandleEdit: (aiModel: AiJourneyModelResponse) => void;
+  aiModel: AiModelType;
+  onHandleDelete: (aiModel: AiModelType) => void;
+  onHandleEdit: (aiModel: AiModelType) => void;
 }
 
 const AiModelCard: FC<IAiModelCard> = ({ aiModel, onHandleDelete, onHandleEdit }) => {

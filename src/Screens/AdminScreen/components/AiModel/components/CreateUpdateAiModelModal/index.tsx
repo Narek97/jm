@@ -4,11 +4,11 @@ import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Skeleton, Switch } from '@mui/material';
-import { WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { AiModelFormType } from '../../types';
+import { AiModelFormType, AiModelType } from '../../types';
 
 import {
   CreateAiJourneyModelMutation,
@@ -19,7 +19,7 @@ import {
   useUpdateAiJourneyModelMutation,
 } from '@/api/mutations/generated/updateAiJourneyModel.generated.ts';
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
-import { AiJourneyModelResponse, AttachmentsEnum } from '@/api/types';
+import { AttachmentsEnum } from '@/api/types';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
 import CustomInput from '@/Components/Shared/CustomInput';
@@ -36,10 +36,10 @@ import { useUserStore } from '@/store/user.ts';
 import { UploadFile } from '@/utils/uploader';
 
 interface ICreateUpdateAiModelModal {
-  aiModel: AiJourneyModelResponse | null;
+  aiModel: AiModelType | null;
   isOpen: boolean;
-  onHandleAddNewAiModel: (newInterview: AiJourneyModelResponse) => void;
-  onHandleUpdateAiModel: (newInterview: AiJourneyModelResponse) => void;
+  onHandleAddNewAiModel: (newInterview: AiModelType) => void;
+  onHandleUpdateAiModel: (newInterview: AiModelType) => void;
   handleClose: () => void;
 }
 
@@ -56,6 +56,8 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
+  const { showToast } = useWuShowToast();
+
   const { user } = useUserStore();
 
   const { data: orgsData, isLoading: isLoadingOrgsData } = useGetOrgsQuery<GetOrgsQuery, Error>(
@@ -70,18 +72,30 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   );
 
   const { mutate: creteAiJourneyModel, isPending: isLoadingCreateAiJourneyModel } =
-    useCreateAiJourneyModelMutation<CreateAiJourneyModelMutation, Error>({
+    useCreateAiJourneyModelMutation<Error, CreateAiJourneyModelMutation>({
       onSuccess: response => {
         onHandleAddNewAiModel(response.createAiJourneyModel);
         handleClose();
       },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
     });
 
   const { mutate: updateAiJourneyModel, isPending: isLoadingUpdateAiJourneyModel } =
-    useUpdateAiJourneyModelMutation<UpdateAiJourneyModelMutation, Error>({
+    useUpdateAiJourneyModelMutation<Error, UpdateAiJourneyModelMutation>({
       onSuccess: response => {
         onHandleUpdateAiModel(response.updateAiJourneyModel);
         handleClose();
+      },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
       },
     });
 

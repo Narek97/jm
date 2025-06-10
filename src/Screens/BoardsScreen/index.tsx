@@ -167,23 +167,6 @@ const BoardsScreen = () => {
     setIsOpenAllPinnedOutcomesModal(prev => !prev);
   }, []);
 
-  const onHandleUpdateBoards = useCallback(
-    (id: number) => {
-      setAllBoards((oldData: any) => {
-        if (oldData) {
-          return {
-            getMyBoards: {
-              ...oldData.getMyBoards,
-              count: oldData.getMyBoards.count - 1,
-              interviews: oldData.getMyBoards.boards.filter((board: BoardType) => board.id !== id),
-            },
-          };
-        }
-      });
-    },
-    [setAllBoards],
-  );
-
   const onHandleFilterBoard = useCallback(
     (id: number) => {
       if (
@@ -201,14 +184,24 @@ const BoardsScreen = () => {
           deleteUpcoming: true,
         });
       }
-      onHandleUpdateBoards(id);
+      setAllBoards((oldData: any) => {
+        if (oldData) {
+          return {
+            getMyBoards: {
+              ...oldData.getMyBoards,
+              count: oldData.getMyBoards.count - 1,
+              interviews: oldData.getMyBoards.boards.filter((board: BoardType) => board.id !== id),
+            },
+          };
+        }
+      });
     },
     [
       boardsDataCount,
       currentPage,
       dataBoards?.getMyBoards.boards.length,
       offset,
-      onHandleUpdateBoards,
+      setAllBoards,
       setRemoveBoardsQuery,
     ],
   );

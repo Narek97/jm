@@ -1,7 +1,7 @@
 import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
 
-import { Box } from '@mui/material';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 
 import CreateUpdateUser from './components/CreateUpdateUser';
@@ -34,14 +34,22 @@ const UsersScreen = () => {
   const [isCreateUser, setIsCreateUser] = useState<boolean>(false);
   const [isOpenCreateUser, setIsOpenCreateUser] = useState<boolean>(false);
 
+  const { showToast } = useWuShowToast();
+
   const setOrganizationUsers = useSetQueryDataByKey('GetOrganizationUsers');
 
   const { mutate: mutateCreateUser, isPending: isLoadingCreateUser } = useCreateUserMutation<
-    CreateUserMutation,
-    Error
+    Error,
+    CreateUserMutation
   >({
     onSuccess: () => {
       onToggleCreateUser();
+    },
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
     },
   });
 
@@ -122,10 +130,16 @@ const UsersScreen = () => {
               reset();
             }, 5000);
           },
+          onError: error => {
+            showToast({
+              variant: 'error',
+              message: error?.message,
+            });
+          },
         },
       );
     },
-    [mutateCreateUser, setOrganizationUsers],
+    [mutateCreateUser, setOrganizationUsers, showToast],
   );
 
   const onToggleCreateUpdate = useCallback(() => {

@@ -1,8 +1,6 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
-
-import { Box } from '@mui/material';
 
 import OrgItem from './OrgItem';
 
@@ -22,9 +20,9 @@ const Orgs: FC = () => {
   const { setCopyMapState } = useCopyMapStore();
 
   const {
+    data: dataOrgs,
     isLoading: isLoadingOrgs,
     error: errorOrgs,
-    data: dataOrgs,
   } = useGetOrgsQuery<GetOrgsQuery, Error>(
     { getOrgsInput: { search: searchedText } },
     {
@@ -48,7 +46,7 @@ const Orgs: FC = () => {
     [setCopyMapState],
   );
 
-  const orgs = dataOrgs?.getOrgs || [];
+  const orgs = useMemo(() => dataOrgs?.getOrgs || [], [dataOrgs?.getOrgs]);
 
   return (
     <>
@@ -73,13 +71,9 @@ const Orgs: FC = () => {
                 <>
                   {orgs?.length ? (
                     <ul className={'orgs-list--content-orgs'}>
-                      {orgs?.map(itm => (
-                        <ErrorBoundary key={itm?.orgId}>
-                          <OrgItem
-                            search={searchedText}
-                            org={{ orgId: itm.orgId, name: itm.name || '' }}
-                            handleClick={orgItemCLick}
-                          />
+                      {orgs?.map(org => (
+                        <ErrorBoundary key={org?.orgId}>
+                          <OrgItem search={searchedText} org={org} handleClick={orgItemCLick} />
                         </ErrorBoundary>
                       ))}
                     </ul>

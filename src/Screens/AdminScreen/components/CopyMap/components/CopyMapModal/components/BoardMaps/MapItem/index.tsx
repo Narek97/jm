@@ -4,12 +4,13 @@ import './style.scss';
 
 import { Tooltip } from '@mui/material';
 
-import { Map } from '@/api/types.ts';
+import { JourneysForCopyType } from '../types';
+
 import { useCopyMapStore } from '@/store/copyMap.ts';
 import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IBoardItem {
-  map: Map;
+  map: JourneysForCopyType;
 }
 
 const MapItem: FC<IBoardItem> = ({ map }) => {

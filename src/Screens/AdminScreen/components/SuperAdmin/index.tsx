@@ -1,4 +1,4 @@
-import React from 'react';
+import './style.scss';
 
 const SuperAdmin = () => {
   return <div></div>;

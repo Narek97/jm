@@ -12,6 +12,7 @@ import WorkspaceBoards from './components/WorkspaceBoards';
 import { CopyMapMutation, useCopyMapMutation } from '@/api/mutations/generated/copyMap.generated';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { CopyMapType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/types.ts';
 import { useCopyMapStore } from '@/store/copyMap.ts';
 import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 import { getPageContentByKey } from '@/utils/getPageContentByKey.ts';
@@ -21,10 +22,18 @@ interface IAssignPersonaToMapModal {
   orgId: number;
   level: CopyMapLevelEnum;
   handleClose: () => void;
-  handleOnSuccess?: (copyMap: any) => void;
+  currentBoardId?: number;
+  handleOnSuccess?: (copyMap: CopyMapType) => void;
 }
 
-const CopyMapModal: FC<IAssignPersonaToMapModal> = ({ isOpen, orgId, handleClose, level }) => {
+const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
+  isOpen,
+  orgId,
+  handleClose,
+  level,
+  currentBoardId,
+  handleOnSuccess,
+}) => {
   const queryClient = useQueryClient();
 
   const { showToast } = useWuShowToast();
@@ -39,14 +48,9 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({ isOpen, orgId, handleClose
     template,
   } = useCopyMapStore();
 
-  // todo
-  const boardID = 1;
-
-  // const { boardID } = useParams();
-
   const { mutate: copyMap, isPending: isLoadingCopyMap } = useCopyMapMutation<
-    CopyMapMutation,
-    Error
+    Error,
+    CopyMapMutation
   >({
     onSuccess: async () => {
       setCopyMapState({ isProcessing: false });
@@ -54,7 +58,11 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({ isOpen, orgId, handleClose
         queryKey: ['GetBoardOutcomesStat'],
       });
     },
-    onError: () => {
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
       setCopyMapState({ isProcessing: false });
     },
   });
@@ -70,7 +78,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({ isOpen, orgId, handleClose
         },
       },
       {
-        onSuccess: async () => {
+        onSuccess: async response => {
           setCopyMapState({
             orgId: null,
             mapId: null,
@@ -79,21 +87,26 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({ isOpen, orgId, handleClose
             isProcessing: false,
             template: CopyMapLevelTemplateEnum.WORKSPACES,
           });
-          // todo
-          // if (response.copyMap.boardId === +boardID!) {
-          //   handleOnSuccess &&
-          //     handleOnSuccess(response.copyMap as JourneyMapCardType);
-          // }
+
+          if (response.copyMap.boardId === currentBoardId && handleOnSuccess) {
+            handleOnSuccess(response.copyMap);
+          }
 
           showToast({
             variant: 'success',
             message: 'The map was copied to the selected board successfully.',
           });
 
-          if (boardId === +boardID!) {
+          if (boardId === currentBoardId) {
             await queryClient.invalidateQueries({ queryKey: ['GetJournies'] });
           }
           handleClose();
+        },
+        onError: error => {
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
         },
       },
     );
