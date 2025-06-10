@@ -7,6 +7,7 @@ import { useParams } from '@tanstack/react-router';
 import BoardDeleteModal from './components/BoardDeleteModal';
 import BoardPinnedOutcomesModal from './components/PinnedOutcomeModal';
 import SortableBoards from './components/SortableBoards';
+import { BoardType } from './types';
 
 import {
   GetMyBoardsQuery,
@@ -33,11 +34,9 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/hooks/useQueryKey.ts';
-import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { useWorkspaceStore } from '@/store/workspace.ts';
-
-// const SortableBoards = lazy(() => import('./components/SortableBoards/index.tsx'));
+import { EditableInputType } from '@/types';
 
 const BoardsScreen = () => {
   const { workspaceId } = useParams({
@@ -117,14 +116,13 @@ const BoardsScreen = () => {
     }
   };
 
-  const updateBoardData = useCallback(
-    (data: { id: number; value?: string; index?: number }) => {
+  const updateBoardName = useCallback(
+    (data: EditableInputType) => {
       mutateUpdateBoard(
         {
           updateBoardInput: {
-            id: data.id,
+            id: +data.id,
             name: data.value,
-            index: data.index,
           },
         },
         {
@@ -153,10 +151,16 @@ const BoardsScreen = () => {
               },
             );
           },
+          onError: error => {
+            showToast({
+              variant: 'error',
+              message: error?.message,
+            });
+          },
         },
       );
     },
-    [mutateUpdateBoard, setBoards],
+    [mutateUpdateBoard, setBoards, showToast],
   );
 
   const onToggleBoardDeleteModal = useCallback((board?: BoardType) => {
@@ -323,7 +327,7 @@ const BoardsScreen = () => {
               <SortableBoards
                 currentPage={currentPage}
                 boards={boardsData}
-                updateBoardName={updateBoardData}
+                updateBoardName={updateBoardName}
                 onToggleBoardDeleteModal={onToggleBoardDeleteModal}
                 onToggleAllPinnedOutcomesModal={onToggleAllPinnedOutcomesModal}
               />

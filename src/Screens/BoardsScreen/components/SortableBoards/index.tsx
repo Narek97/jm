@@ -10,8 +10,10 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useQueryClient } from '@tanstack/react-query';
 
 import BoardCard from './BoardCard';
+import { BoardType } from '../../types';
 
 import {
   UpdateBoardMutation,
@@ -19,7 +21,6 @@ import {
 } from '@/api/mutations/generated/updateBoard.generated.ts';
 import { BOARDS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 import { EditableInputType } from '@/types';
 
 interface SortableBoardsProps {
@@ -76,6 +77,7 @@ const SortableBoards: FC<SortableBoardsProps> = ({
   onToggleAllPinnedOutcomesModal,
 }) => {
   const [sortableBoards, setSortableBoards] = useState(boards);
+  const queryClient = useQueryClient();
 
   const { showToast } = useWuShowToast();
 
@@ -100,12 +102,25 @@ const SortableBoards: FC<SortableBoardsProps> = ({
         const newIndex = currentItems.findIndex(item => item.id === over.id);
         const updatedBoards = arrayMove(currentItems, oldIndex, newIndex);
 
-        mutateUpdateBoard({
-          updateBoardInput: {
-            id: +active.id,
-            index: (currentPage - 1) * BOARDS_LIMIT + newIndex + 1,
+        mutateUpdateBoard(
+          {
+            updateBoardInput: {
+              id: +active.id,
+              index: (currentPage - 1) * BOARDS_LIMIT + newIndex + 1,
+            },
           },
-        });
+          {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ['getMyBoards'] }).then();
+            },
+            onError: error => () => {
+              showToast({
+                variant: 'error',
+                message: error?.message,
+              });
+            },
+          },
+        );
 
         return updatedBoards;
       });
