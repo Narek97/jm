@@ -9,6 +9,10 @@ import BoardPinnedOutcomesModal from './components/PinnedOutcomeModal';
 import SortableBoards from './components/SortableBoards';
 
 import {
+  GetMyBoardsQuery,
+  useGetMyBoardsQuery,
+} from '@/api/infinite-queries/generated/getBoards.generated.ts';
+import {
   CreateBoardMutation,
   useCreateBoardMutation,
 } from '@/api/mutations/generated/createBoard.generated.ts';
@@ -16,8 +20,6 @@ import {
   UpdateBoardMutation,
   useUpdateBoardMutation,
 } from '@/api/mutations/generated/updateBoard.generated';
-import { useGetMyBoardsQuery } from '@/api/queries/generated/getBoards.generated';
-import { GetMyBoardsQuery } from '@/api/queries/generated/getBoards.generated.ts';
 import { CreateBoardInput } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';

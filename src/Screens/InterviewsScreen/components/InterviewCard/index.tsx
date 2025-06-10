@@ -3,9 +3,10 @@ import { FC, useCallback, useMemo } from 'react';
 import './style.scss';
 import { useNavigate } from '@tanstack/react-router';
 
+import { INTERVIEW_CARD_OPTIONS } from '../../constants';
+import { InterviewType } from '../../types';
+
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { INTERVIEW_CARD_OPTIONS } from '@/Screens/InterviewsScreen/constants.tsx';
-import { InterviewType } from '@/Screens/InterviewsScreen/types.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IInterviewCard {

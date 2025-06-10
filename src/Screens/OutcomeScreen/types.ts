@@ -9,6 +9,4 @@ export type OutcomeFormType = {
   persona: number | null;
 };
 
-export type OutcomeGroupType = GetOutcomeGroupQuery['getOutcomeGroup'];
-
 export type OutcomeType = GetOutcomeGroupQuery['getOutcomeGroup']['outcomes'][number];

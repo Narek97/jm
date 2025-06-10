@@ -9,7 +9,7 @@
 
   &--slick-slide,
   .slick-slide {
-    min-width: 10rem;
+    min-width: 180px;
   }
 
   &--slick-track,
@@ -18,15 +18,19 @@
     gap: 1.25rem;
   }
 
-  //.slick-prev,
-  //.slick-next {
-  //  position: initial;
-  //  transform: none !important;
-  //}
+  .slick-list{
+    width: 90%;
+  }
 
-  //.slick-arrow {
-  //  &:before {
-  //    content: '';
-  //  }
-  //}
+  .slick-prev,
+  .slick-next {
+    background-color: $BASE_GRAY_COLOR_2;
+    line-height: 19px;
+  }
+  .slick-prev{
+    left: 0;
+  }
+  .slick-next{
+    right: 0;
+  }
 }

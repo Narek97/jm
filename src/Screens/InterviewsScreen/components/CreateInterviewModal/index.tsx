@@ -6,6 +6,10 @@ import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
 
+import SliderCard from './SliderCard';
+import { CREATE_INTERVIEW_VALIDATION_SCHEMA } from '../../constants';
+import { InterviewFormType, InterviewType } from '../../types';
+
 import {
   GetMyBoardsQuery,
   useInfiniteGetMyBoardsQuery,
@@ -25,10 +29,7 @@ import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import SlickCarousel from '@/Components/Shared/SlickCarousel';
 import { querySlateTime } from '@/constants';
-import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/constants/pagination.ts';
-import SliderCard from '@/Screens/InterviewsScreen/components/CreateInterviewModal/SliderCard';
-import { CREATE_INTERVIEW_VALIDATION_SCHEMA } from '@/Screens/InterviewsScreen/constants.tsx';
-import { InterviewFormType, InterviewType } from '@/Screens/InterviewsScreen/types.ts';
+import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/constants/pagination';
 import { DropdownSelectItemType } from '@/types';
 
 interface ICreateInterviewModal {
@@ -90,7 +91,8 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
   const {
     data: dataBoards,
     isFetching: isFetchingBoards,
-    fetchNextPage: fetchNextMapBoards,
+    fetchNextPage: fetchNextPageBoards,
+    hasNextPage: hasNextPageBoards,
   } = useInfiniteGetMyBoardsQuery<{ pages: Array<GetMyBoardsQuery> }, Error>(
     {
       getMyBoardsInput: {
@@ -102,7 +104,16 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
     {
       staleTime: querySlateTime,
       getNextPageParam: function (lastPage: GetMyBoardsQuery, allPages: GetMyBoardsQuery[]) {
-        return lastPage.getMyBoards.boards.length < BOARDS_LIMIT ? undefined : allPages.length;
+        if (!lastPage.getMyBoards.boards || lastPage.getMyBoards.boards.length < BOARDS_LIMIT) {
+          return undefined;
+        }
+        return {
+          getMyBoardsInput: {
+            workspaceId: +workspaceId!,
+            offset: 0,
+            limit: allPages.length * BOARDS_LIMIT,
+          },
+        };
       },
       initialPageParam: 0,
     },
@@ -160,13 +171,13 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
     async (e: React.UIEvent<HTMLElement>) => {
       const bottom =
         e.currentTarget.scrollHeight <=
-        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 10;
+        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
 
-      if (bottom && !isFetchingBoards) {
-        await fetchNextMapBoards();
+      if (bottom && !isFetchingBoards && hasNextPageBoards) {
+        await fetchNextPageBoards();
       }
     },
-    [fetchNextMapBoards, isFetchingBoards],
+    [fetchNextPageBoards, hasNextPageBoards, isFetchingBoards],
   );
 
   const onHandleCreateInterview = (formData: InterviewFormType) => {

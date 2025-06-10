@@ -1,6 +1,6 @@
 import * as Types from '../../types';
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { axiosRequest } from '../../axios';
 export type GetMyBoardsQueryVariables = Types.Exact<{
   getMyBoardsInput: Types.GetMyBoardsInput;
@@ -87,3 +87,24 @@ export const useGetMyBoardsQuery = <
     )};
 
 useGetMyBoardsQuery.getKey = (variables: GetMyBoardsQueryVariables) => ['getMyBoards', variables];
+
+export const useInfiniteGetMyBoardsQuery = <
+      TData = InfiniteData<GetMyBoardsQuery>,
+      TError = unknown
+    >(
+      variables: GetMyBoardsQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetMyBoardsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetMyBoardsQuery, TError, TData>['queryKey'] }
+    ) => {
+    const query = axiosRequest<GetMyBoardsQuery, GetMyBoardsQueryVariables>(GetMyBoardsDocument)
+    return useInfiniteQuery<GetMyBoardsQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? ['getMyBoards.infinite', variables],
+      queryFn: (metaData) => query({...variables, ...(metaData.pageParam ?? {})}),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetMyBoardsQuery.getKey = (variables: GetMyBoardsQueryVariables) => ['getMyBoards.infinite', variables];

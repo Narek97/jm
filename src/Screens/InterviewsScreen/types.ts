@@ -1,9 +1,7 @@
-import { Interview } from '@/api/types.ts';
+import { GetInterviewsByWorkspaceIdQuery } from '@/api/queries/generated/getInterviewsByWorkspaceIdQuery.generated.ts';
 
-export type InterviewType = Pick<
-  Interview,
-  'id' | 'boardId' | 'name' | 'aiJourneyModelId' | 'text' | 'mapId' | 'createdAt' | 'updatedAt'
->;
+export type InterviewType =
+  GetInterviewsByWorkspaceIdQuery['getInterviewsByWorkspaceId']['interviews'][number];
 
 export type InterviewFormType = {
   name: string;

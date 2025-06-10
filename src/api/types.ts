@@ -82,9 +82,7 @@ export enum AiCardsEnum {
   Frustrations = 'FRUSTRATIONS',
   Goals = 'GOALS',
   Motivations = 'MOTIVATIONS',
-  NameWithTagLine = 'NAME_WITH_TAG_LINE',
-  Needs = 'NEEDS',
-  ProfilePicture = 'PROFILE_PICTURE'
+  Needs = 'NEEDS'
 }
 
 export type AiJourneyModel = {
@@ -546,6 +544,8 @@ export type CreateParentMapInput = {
 
 export type CreatePersonaByAiInput = {
   needDemographicData: Scalars['Boolean']['input'];
+  needNameWithTagLine: Scalars['Boolean']['input'];
+  needProfilePicture: Scalars['Boolean']['input'];
   personaGroupId: Scalars['Int']['input'];
   personaInfo: Scalars['String']['input'];
   templateCards?: InputMaybe<Array<AiCardsEnum>>;

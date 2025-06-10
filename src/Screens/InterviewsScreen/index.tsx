@@ -4,6 +4,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
+import CreateInterviewModal from './components/CreateInterviewModal';
+import InterviewCard from './components/InterviewCard';
+import InterviewDeleteModal from './components/InterviewDeleteModal';
+import { InterviewType } from './types';
+
 import {
   GetInterviewsByWorkspaceIdQuery,
   useGetInterviewsByWorkspaceIdQuery,
@@ -20,10 +25,6 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/hooks/useQueryKey.ts';
-import CreateInterviewModal from '@/Screens/InterviewsScreen/components/CreateInterviewModal';
-import InterviewCard from '@/Screens/InterviewsScreen/components/InterviewCard';
-import InterviewDeleteModal from '@/Screens/InterviewsScreen/components/InterviewDeleteModal';
-import { InterviewType } from '@/Screens/InterviewsScreen/types.ts';
 
 const InterviewsScreen = () => {
   const { workspaceId } = useParams({
@@ -82,25 +83,6 @@ const InterviewsScreen = () => {
     setIsOpenDeleteModal(prev => !prev);
   }, []);
 
-  const onHandleUpdateInterviews = useCallback(
-    (id: number) => {
-      setAllInterviews((oldData: any) => {
-        if (oldData) {
-          return {
-            getInterviewsByWorkspaceId: {
-              ...oldData.getInterviewsByWorkspaceId,
-              count: oldData.getInterviewsByWorkspaceId.count - 1,
-              interviews: oldData.getInterviewsByWorkspaceId.interviews.filter(
-                (interview: InterviewType) => interview.id !== id,
-              ),
-            },
-          };
-        }
-      });
-    },
-    [setAllInterviews],
-  );
-
   const onHandleFilterInterview = useCallback(
     (id: number) => {
       if (
@@ -121,14 +103,26 @@ const InterviewsScreen = () => {
           deleteUpcoming: true,
         });
       }
-      onHandleUpdateInterviews(id);
+      setAllInterviews((oldData: any) => {
+        if (oldData) {
+          return {
+            getInterviewsByWorkspaceId: {
+              ...oldData.getInterviewsByWorkspaceId,
+              count: oldData.getInterviewsByWorkspaceId.count - 1,
+              interviews: oldData.getInterviewsByWorkspaceId.interviews.filter(
+                (interview: InterviewType) => interview.id !== id,
+              ),
+            },
+          };
+        }
+      });
     },
     [
       currentPage,
       dataInterviews?.getInterviewsByWorkspaceId.interviews.length,
       interviewsDataCount,
       offset,
-      onHandleUpdateInterviews,
+      setAllInterviews,
       setRemoveInterviewsQuery,
     ],
   );

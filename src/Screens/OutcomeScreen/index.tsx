@@ -4,6 +4,10 @@ import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
+import AddUpdateOutcomeItemModal from './components/AddUpdateOutcomeModal';
+import { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS } from './constants';
+import { OutcomeType } from './types';
+
 import {
   DeleteOutcomeMutation,
   useDeleteOutcomeMutation,
@@ -24,9 +28,6 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/hooks/useQueryKey.ts';
-import AddUpdateOutcomeItemModal from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal';
-import { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS } from '@/Screens/OutcomeScreen/constants.tsx';
-import { OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 
 const OutcomeScreen = () => {
   const { workspaceId, outcomeId } = useParams({
@@ -122,14 +123,12 @@ const OutcomeScreen = () => {
         if (oldData) {
           return {
             getOutcomeGroup: {
-              outcomeGroups: {
-                ...oldData.getOutcomeGroup.outcomeGroups,
-                outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
-                outcomes: [
-                  newOutcome,
-                  ...oldData.getOutcomeGroup.outcomes.slice(0, OUTCOMES_LIMIT - 1),
-                ],
-              },
+              ...oldData.getOutcomeGroup,
+              outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
+              outcomes: [
+                newOutcome,
+                ...oldData.getOutcomeGroup.outcomes.slice(0, OUTCOMES_LIMIT - 1),
+              ],
             },
           };
         }
@@ -138,25 +137,6 @@ const OutcomeScreen = () => {
     setCurrentPage(1);
     setOffset(0);
   };
-
-  const onHandleUpdateOutcomeGroups = useCallback(
-    (id: number) => {
-      setAllOutcomeGroup((oldData: any) => {
-        if (oldData) {
-          return {
-            getOutcomeGroup: {
-              ...oldData.getOutcomeGroup.outcomeGroups,
-              outcomesCount: oldData.getMyBoards.count - 1,
-              outcomes: oldData.getMyBoards.outcomeGroups.filter(
-                (outcome: OutcomeType) => outcome.id !== id,
-              ),
-            },
-          };
-        }
-      });
-    },
-    [setAllOutcomeGroup],
-  );
 
   const onHandleDeleteOutcome = useCallback(
     (outcome: OutcomeType) => {
@@ -183,7 +163,19 @@ const OutcomeScreen = () => {
                 deleteUpcoming: true,
               });
             }
-            onHandleUpdateOutcomeGroups(id);
+            setAllOutcomeGroup((oldData: any) => {
+              if (oldData) {
+                return {
+                  getOutcomeGroup: {
+                    ...oldData.getOutcomeGroup.outcomeGroups,
+                    outcomesCount: oldData.getMyBoards.count - 1,
+                    outcomes: oldData.getMyBoards.outcomeGroups.filter(
+                      (outcome: OutcomeType) => outcome.id !== id,
+                    ),
+                  },
+                };
+              }
+            });
           },
           onError: error => {
             showToast({
@@ -199,8 +191,8 @@ const OutcomeScreen = () => {
       dataOutcomesGroup?.getOutcomeGroup.outcomes.length,
       deleteOutcome,
       offset,
-      onHandleUpdateOutcomeGroups,
       outcomeGroupCount,
+      setAllOutcomeGroup,
       setRemoveOutcomeGroupQuery,
       showToast,
     ],

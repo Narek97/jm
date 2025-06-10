@@ -29,7 +29,7 @@ import { OutcomeStatusEnum } from '@/api/types.ts';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import { WORKSPACE_MAPS_LIMIT } from '@/constants/pagination.ts';
-import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants.tsx';
+import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants';
 import { OutcomeFormType, OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 import { useUserStore } from '@/store/user.ts';
 import { DropdownSelectItemType, ObjectKeysType } from '@/types';
@@ -281,7 +281,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
           description: formNewData.description || '',
         };
 
-        //  UPDATE MODE
         if (selectedOutcome) {
           requestData.id = selectedOutcome?.id;
           if (mapId) {
@@ -338,8 +337,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                 update({
                   ...response?.createUpdateOutcome,
                   user: {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: user?.firstName || '',
+                    lastName: user?.lastName || '',
                   },
                 });
               } else {
@@ -347,8 +346,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                   ...response?.createUpdateOutcome,
 
                   user: {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: user?.firstName || '',
+                    lastName: user?.lastName || '',
                   },
                 });
               }
@@ -365,8 +364,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         selectedOutcome,
         selectedPerson?.id,
         update,
-        user.firstName,
-        user.lastName,
+        user?.firstName,
+        user?.lastName,
         workspaceId,
       ],
     );
