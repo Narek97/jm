@@ -1,14 +1,16 @@
 import React, { FC, useRef } from 'react';
 
-import './style.scss';
+import './custom-table.scss';
 
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
 import { OrderByEnum } from '@/api/types.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { MenuOptionsType, TableColumnType } from '@/types';
+import { formatCellValue } from '@/utils/formatCellValue.ts';
 
 interface ICustomTable {
   isTableHead?: boolean;
@@ -115,7 +117,9 @@ const CustomTable: FC<ICustomTable> = ({
                               column.id as string,
                             )
                           }>
-                          <span className={'wm-arrow-drop-up'} style={{ fontSize: '1.4rem' }} />
+                          <div className={'asc-button--content'}>
+                            <span className={'wm-arrow-drop-up'} style={{ fontSize: '1.4rem' }} />
+                          </div>
                         </button>
                         <button
                           aria-label={'desc'}
@@ -128,7 +132,9 @@ const CustomTable: FC<ICustomTable> = ({
                               column.id as string,
                             )
                           }>
-                          <span className={'wm-arrow-drop-down'} style={{ fontSize: '1.4rem' }} />
+                          <div className={'desc-button--content'}>
+                            <span className={'wm-arrow-drop-down'} style={{ fontSize: '1.4rem' }} />
+                          </div>
                         </button>
                       </div>
                     )}
@@ -155,7 +161,7 @@ const CustomTable: FC<ICustomTable> = ({
                   height: '2.5rem',
                 }}
                 key={row.id}>
-                {columns.map(column => {
+                {columns.map((column: TableColumnType) => {
                   const value = row[column.id];
                   const isChecked = row['checked'];
 
@@ -185,13 +191,20 @@ const CustomTable: FC<ICustomTable> = ({
                           ))}
                         </ul>
                       ) : (
-                        <span className={`custom-table--${column.id} ${getStyle(column, value)}`}>
-                          {column?.renderFunction
-                            ? column.renderFunction(row)
-                            : column.label === 'created date' || column.label === 'updated date'
-                              ? dayjs(value).format('DD-MM-YYYY')
-                              : value}
-                        </span>
+                        <WuTooltip
+                          content={
+                            !['icon', 'checkbox', 'toggle'].includes(String(column.id)) &&
+                            (column?.renderFunction
+                              ? column.renderFunction(row)
+                              : ['created date', 'updated date'].includes(column.label as string)
+                                ? dayjs(value).format('DD-MM-YYYY')
+                                : value)
+                          }
+                          position="bottom">
+                          <span className={`custom-table--${column.id} ${getStyle(column, value)}`}>
+                            {formatCellValue(column, row, value)}
+                          </span>
+                        </WuTooltip>
                       )}
                     </TableCell>
                   );

@@ -1,6 +1,4 @@
-import { GetWorkspaceWithStat } from '@/api/types.ts';
+import { GetWorkspacesByOrganizationIdQuery } from '@/api/queries/generated/getWorkspaces.generated.ts';
 
-export type WorkspaceType = Pick<
-  GetWorkspaceWithStat,
-  'id' | 'name' | 'description' | 'boardsCount' | 'journeyMapCount' | 'personasCount' | 'createdAt'
->;
+export type WorkspaceType =
+  GetWorkspacesByOrganizationIdQuery['getWorkspacesByOrganizationId']['workspaces'][number];

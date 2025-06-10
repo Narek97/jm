@@ -9,7 +9,6 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import { querySlateTime } from '@/constants';
 import { PERFORMANCE_LOGS_LIMIT } from '@/constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
@@ -24,17 +23,12 @@ const PerformanceLogs = () => {
 
   const offset = (currentPage - 1) * PERFORMANCE_LOGS_LIMIT;
 
-  const { isLoading, error, data } = useGetPerformanceLogsQuery<GetPerformanceLogsQuery, Error>(
-    {
-      paginationInput: {
-        limit: PERFORMANCE_LOGS_LIMIT,
-        offset,
-      },
+  const { isLoading, error, data } = useGetPerformanceLogsQuery<GetPerformanceLogsQuery, Error>({
+    paginationInput: {
+      limit: PERFORMANCE_LOGS_LIMIT,
+      offset,
     },
-    {
-      staleTime: querySlateTime * 10,
-    },
-  );
+  });
 
   const performanceLogs = useMemo(
     () => data?.getPerformanceLogs.performanceLogs || [],
