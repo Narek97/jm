@@ -1,39 +1,36 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import { CREATE_USER_VALIDATION_SCHEMA } from '../../constants';
+import { CreateUserFormElementType, CreateUserFormType } from '../../types';
+
 import CustomInput from '@/Components/Shared/CustomInput';
-import { CreatUpdateFormGeneralType } from '@/types';
 
 interface ICreateUpdateUser {
   createButtonText: string;
-  formData: any;
-  defaultValues: CreatUpdateFormGeneralType;
+  defaultValues: CreateUserFormType;
   isOpenCreateUpdateItem: boolean;
   isLoading: boolean;
   inputPlaceholder: string;
   isDisabledButton: boolean;
   isDisabledInput: boolean;
-  onHandleCreateFunction: (data: CreatUpdateFormGeneralType, reset: () => void) => void;
-  onHandleUpdateFunction: (data: CreatUpdateFormGeneralType, reset: () => void) => void;
+  onHandleCreateFunction: (data: CreateUserFormType, reset: () => void) => void;
+  onHandleUpdateFunction: (data: CreateUserFormType, reset: () => void) => void;
   onToggleCreateUpdateFunction: () => void;
-  formElements: any[];
-  validationSchema: any;
+  formElements: CreateUserFormElementType[];
 }
 
 const CreateUpdateUser: FC<ICreateUpdateUser> = ({
   createButtonText,
   onHandleCreateFunction,
-  formData,
-  onHandleUpdateFunction,
   defaultValues,
   isOpenCreateUpdateItem,
   isLoading,
   onToggleCreateUpdateFunction,
-  validationSchema,
   formElements,
 }) => {
   const {
@@ -41,27 +38,17 @@ const CreateUpdateUser: FC<ICreateUpdateUser> = ({
     control,
     reset,
     formState: { errors },
-  } = useForm<CreatUpdateFormGeneralType>({
-    resolver: yupResolver(validationSchema),
+  } = useForm<CreateUserFormType>({
+    resolver: yupResolver(CREATE_USER_VALIDATION_SCHEMA),
     defaultValues,
   });
 
-  const onSaveForm: SubmitHandler<CreatUpdateFormGeneralType> = useCallback(
+  const onSaveForm: SubmitHandler<CreateUserFormType> = useCallback(
     data => {
-      if (formData) {
-        onHandleUpdateFunction(data, () => reset(defaultValues));
-      } else {
-        onHandleCreateFunction(data, () => reset(defaultValues));
-      }
+      onHandleCreateFunction(data, () => reset(defaultValues));
     },
-    [defaultValues, formData, onHandleCreateFunction, onHandleUpdateFunction, reset],
+    [defaultValues, onHandleCreateFunction, reset],
   );
-
-  useEffect(() => {
-    if (formData) {
-      reset(formData);
-    }
-  }, [formData, reset]);
 
   return (
     <div className={'create-update-user-form-block'}>

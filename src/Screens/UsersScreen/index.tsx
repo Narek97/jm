@@ -1,18 +1,21 @@
-import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
+import './style.scss';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 
 import CreateUpdateUser from './components/CreateUpdateUser';
+import { CREATE_USER_FORM_ELEMENTS, USER_TABLE_COLUMNS } from './constants';
+import { CreateUserFormType } from './types';
 
-import { useGetOrganizationUsersQuery } from '@/api/infinite-queries/generated/getOrganizationUsers.generated';
 import {
   CreateUserMutation,
   useCreateUserMutation,
 } from '@/api/mutations/generated/createUser.generated';
-import { GetOrganizationUsersQuery } from '@/api/queries/generated/getOrganizationUsers.generated.ts';
-import { CreateUserInput } from '@/api/types.ts';
+import {
+  GetOrganizationUsersQuery,
+  useGetOrganizationUsersQuery,
+} from '@/api/queries/generated/getOrganizationUsers.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLoader from '@/Components/Shared/CustomLoader';
@@ -21,12 +24,6 @@ import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import { USERS_LIMIT } from '@/constants/pagination.ts';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
-import {
-  CREATE_USER_FORM_ELEMENTS,
-  CREATE_USER_VALIDATION_SCHEMA,
-  USER_TABLE_COLUMNS,
-} from '@/Screens/UsersScreen/constants.tsx';
-import { ObjectKeysType } from '@/types';
 
 const UsersScreen = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,10 +98,10 @@ const UsersScreen = () => {
   }, []);
 
   const onHandleCreateUser = useCallback(
-    (data: ObjectKeysType, reset: () => void) => {
+    (data: CreateUserFormType, reset: () => void) => {
       mutateCreateUser(
         {
-          createUserInput: data as CreateUserInput,
+          createUserInput: data,
         },
         {
           onSuccess: response => {
@@ -184,9 +181,7 @@ const UsersScreen = () => {
             />
           </div>
           <CreateUpdateUser
-            formData={null}
             formElements={CREATE_USER_FORM_ELEMENTS}
-            validationSchema={CREATE_USER_VALIDATION_SCHEMA}
             defaultValues={{ firstName: '', lastName: '', emailAddress: '' }}
             createButtonText={'New user'}
             inputPlaceholder={''}

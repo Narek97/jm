@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
 
-import { CreateUserElementType } from '@/Screens/UsersScreen/types.ts';
+import { CreateUserFormElementType } from '@/Screens/UsersScreen/types.ts';
 import { TableColumnType } from '@/types';
 
 const USER_TABLE_COLUMNS: Array<TableColumnType> = [
@@ -26,7 +26,7 @@ const USER_TABLE_COLUMNS: Array<TableColumnType> = [
   },
 ];
 
-const CREATE_USER_FORM_ELEMENTS: Array<CreateUserElementType> = [
+const CREATE_USER_FORM_ELEMENTS: Array<CreateUserFormElementType> = [
   {
     name: 'firstName',
     title: 'First Name',

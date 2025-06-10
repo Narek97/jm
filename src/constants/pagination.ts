@@ -1,7 +1,7 @@
 export const WORKSPACES_LIMIT = 100;
 export const BOARDS_LIMIT = 16;
 export const PERSONA_GROUP_LIMIT = 16;
-export const AI_MODEL_LIMIT = 2;
+export const AI_MODEL_LIMIT = 16;
 export const JOURNIES_LIMIT = 16;
 export const BOARD_JOURNEYS_LIMIT = 100;
 export const PERSONAS_LIMIT = 100;
@@ -21,7 +21,7 @@ export const JOURNEY_MAP_LIMIT = 20;
 export const JOURNEY_MAP_HISTORY_LIMIT = 40;
 export const JOURNEY_MAP_VERSION_LIMIT = 40;
 export const JOURNEY_MAP_LINKS_MAPS_LIMIT = 8;
-export const PINNED_OUTCOMES_LIMIT = 3;
+export const PINNED_OUTCOMES_LIMIT = 16;
 export const BOARD_TAGS_LIMIT = 30;
 export const AI_JOURNEYS_MODEL_LIMIT = 1000;
 export const NOUN_PROJECT_ICONS_LIMIT = 100;
