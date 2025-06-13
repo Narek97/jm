@@ -2,6 +2,7 @@ import Checkbox from '@mui/material/Checkbox';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
+import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 import { MenuOptionsType, TableColumnOptionType, TableColumnType } from '@/types';
 
 dayjs.extend(fromNow);
@@ -169,9 +170,9 @@ const JOURNEY_MAP_OPTIONS = ({
   onHandleCopyShareUrl,
   onHandleCopy,
 }: {
-  onHandleDelete: (data: JourneyMapCardType) => void;
-  onHandleCopyShareUrl: (data: JourneyMapCardType) => void;
-  onHandleCopy: (data: JourneyMapCardType) => void;
+  onHandleDelete: (journey: JourneyType) => void;
+  onHandleCopyShareUrl: (journey: JourneyType) => void;
+  onHandleCopy: (journey: JourneyType) => void;
 }): Array<MenuOptionsType> => {
   return [
     {

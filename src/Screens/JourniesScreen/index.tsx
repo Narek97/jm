@@ -46,12 +46,14 @@ import Pagination from '@/Components/Shared/Pagination';
 import { querySlateTime } from '@/constants';
 import { BOARD_JOURNEYS_LIMIT, PINNED_OUTCOMES_LIMIT } from '@/constants/pagination';
 import { debounced400 } from '@/hooks/useDebounce.ts';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
+import { useSetAllQueryDataByKey, useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey';
 import { JourniesRoute } from '@/routes/_authenticated/_secondary-sidebar-layout/board/$boardId/journies';
 import JourneysFilter from '@/Screens/JourniesScreen/components/JourneysFilter';
+import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
+import { useCopyMapStore } from '@/store/copyMap.ts';
 import { useUserStore } from '@/store/user.ts';
 import { SearchParamsType } from '@/types';
-import { MapCopyLevelEnum, WorkspaceAnalyticsEnumType } from '@/types/enum.ts';
+import { CopyMapLevelEnum, WorkspaceAnalyticsEnumType } from '@/types/enum.ts';
 
 const JourneyDeleteModal = lazy(() => import('./components/JourneyDeleteModal'));
 const CopyMapModal = lazy(
@@ -64,11 +66,15 @@ const JourniesScreen = () => {
   const { boardId } = useParams({
     from: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journies/',
   });
+
+  const setJourneys = useSetQueryDataByKeyAdvanced();
+  const setAllJourneys = useSetAllQueryDataByKey('GetJourneys');
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
   const { showToast } = useWuShowToast();
+  const { setCopyMapState } = useCopyMapStore();
 
   const { tab = 'list' } = JourniesRoute.useSearch();
 
@@ -77,9 +83,7 @@ const JourniesScreen = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
   const [selectedJourneyIds, setSelectedJourneyIds] = useState<Array<number>>([]);
-  const [selectedJourney, setSelectedJourney] = useState<
-    JourneyMapCardType | SelectedJourneyParentMap | null
-  >(null);
+  const [selectedJourney, setSelectedJourney] = useState<JourneyType | null>(null);
   const [isOpenDeleteMapModal, setIsOpenDeleteMapModal] = useState<boolean>(false);
   const [isOpenAllPinnedOutcomesModal, setIsOpenAllPinnedOutcomesModal] = useState<boolean>(false);
   const [isOpenCopyPasteMapModal, setIsOpenCopyPasteMapModal] = useState<boolean>(false);
@@ -91,15 +95,9 @@ const JourniesScreen = () => {
   const [order, setOrder] = useState<{
     key: string;
     orderBY: OrderByEnum;
-  }>({
+  } | null>({
     key: 'updatedAt',
     orderBY: OrderByEnum.Desc,
-  });
-
-  const setJourneys = useSetQueryDataByKey('GetJourneys', {
-    key: 'order',
-    value: order,
-    input: 'getMapsInput',
   });
 
   const { data: dataBoard, error: errorBoard } = useGetBoardByIdQuery<GetBoardByIdQuery, Error>(
@@ -111,18 +109,17 @@ const JourniesScreen = () => {
     },
   );
 
-  const {
-    data: dataJourneys,
-    isLoading: isLoadingJourneys,
-    refetch: refetchJourneys,
-  } = useGetJourneysQuery<GetJourneysQuery, Error>(
+  const { data: dataJourneys, isLoading: isLoadingJourneys } = useGetJourneysQuery<
+    GetJourneysQuery,
+    Error
+  >(
     {
       getMapsInput: {
         boardId: +boardId,
         offset,
         limit: BOARD_JOURNEYS_LIMIT,
         query: searchedText,
-        order,
+        order: tab === 'list' ? order : null,
         ...(personaIds.length > 0 && { personaIds }),
         ...(startDate && { startDate: dayjs(startDate) }),
         ...(endDate && { endDate: dayjs(endDate) }),
@@ -156,130 +153,99 @@ const JourniesScreen = () => {
   const { mutate: mutateUpdateJourneyMap } = useUpdateJourneyMapMutation<
     Error,
     UpdateJourneyMapMutation
-  >();
+  >({
+    onError: err => {
+      showToast({
+        variant: 'error',
+        message: err.message,
+      });
+    },
+  });
 
-  const { mutate: createParentMap } = useCreateParentMapMutation<Error, CreateParentMapMutation>();
+  const { mutate: createParentMap } = useCreateParentMapMutation<Error, CreateParentMapMutation>({
+    onError: err => {
+      showToast({
+        variant: 'error',
+        message: err.message,
+      });
+    },
+  });
 
   const { mutate: mutateCreateMap, isPending: isLoadingCreateMap } = useCreateJourneyMapMutation<
     Error,
     CreateJourneyMapMutation
-  >();
-
-  const onHandleCreateNewJourney = useCallback((parentId?: number) => {
-    mutateCreateMap(
-      {
-        createJourneyMapInput: {
-          boardId: +boardId,
-          title: 'Untitled',
-        },
-      },
-      {
-        onSuccess: async response => {
-          await queryClient.refetchQueries({
-            queryKey: ['GetParentMapsByBoardId'],
-            exact: true,
-            type: 'active',
-          });
-          if (parentId) {
-            const childId = response.createJourneyMap.mapId;
-            createParentMap(
-              {
-                createParentMapInput: {
-                  parentId,
-                  childId,
-                },
-              },
-              {
-                onSuccess: childResponse => {
-                  // setJourneys((oldData: any) => {
-                  //   const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(
-                  //     page => {
-                  //       return {
-                  //         ...page,
-                  //         getMaps: {
-                  //           ...page.getMaps,
-                  //           count: (page.getMaps.count || 0) + 1,
-                  //           maps: page.getMaps.maps.map(journey => {
-                  //             if (journey?.id === parentId) {
-                  //               return {
-                  //                 ...journey,
-                  //                 childMaps: [
-                  //                   { childId, id: childResponse?.createParentMap?.id },
-                  //                   ...(journey?.childMaps || []),
-                  //                 ],
-                  //               };
-                  //             }
-                  //             return journey;
-                  //           }),
-                  //         },
-                  //       };
-                  //     },
-                  //   );
-                  //   return {
-                  //     ...oldData,
-                  //     pages: updatedPages,
-                  //   };
-                  // });
-                  // startTransition(() => {
-                  //   // router.push(`/board/${boardID}/journey-map/${childId}`);
-                  // });
-                },
-              },
-            );
-          } else {
-            // startTransition(() => {
-            //   // router.push(`/board/${boardID}/journey-map/${response?.createJourneyMap?.mapId}`);
-            // });
-          }
-        },
-      },
-    );
-  }, []);
-
-  const onHandleFilterJourney = useCallback((ids: Array<number>) => {
-    setJourneys((oldData: any) => {
-      const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(page => {
-        return {
-          ...page,
-          getMaps: {
-            ...page.getMaps,
-            count: (page.getMaps.count || 0) - 1,
-            maps: page.getMaps.maps
-              .filter(journey => !ids.includes(journey.id))
-              .map(journey => ({
-                ...journey,
-                childMaps:
-                  journey.childMaps?.filter(child => {
-                    return !ids.includes(child?.childId!);
-                  }) || [],
-              })),
-          },
-        };
+  >({
+    onError: err => {
+      showToast({
+        variant: 'error',
+        message: err.message,
       });
-      return {
-        ...oldData,
-        pages: updatedPages,
-      };
-    });
+    },
+  });
 
-    if (journeysData.length === 1 && currentPage > 1) {
-      setCurrentPage(prevPage => Math.max(1, prevPage - 1));
+  const onHandleCreateNewJourney = useCallback(
+    (parentId?: number) => {
+      mutateCreateMap(
+        {
+          createJourneyMapInput: {
+            boardId: +boardId,
+            title: 'Untitled',
+          },
+        },
+        {
+          onSuccess: async response => {
+            await queryClient.refetchQueries({
+              queryKey: ['GetParentMapsByBoardId'],
+              exact: true,
+              type: 'active',
+            });
+            await queryClient.refetchQueries({
+              queryKey: ['GetJourneys'],
+              exact: true,
+              type: 'active',
+            });
+            if (parentId) {
+              const childId = response.createJourneyMap.mapId;
+              createParentMap(
+                {
+                  createParentMapInput: {
+                    parentId,
+                    childId,
+                  },
+                },
+                {
+                  onSuccess: () => {
+                    navigate({
+                      to: `/board/${boardId}/journey-map/${childId}`,
+                    }).then();
+                  },
+                },
+              );
+            } else {
+              navigate({
+                to: `/board/${boardId}/journey-map/${response?.createJourneyMap?.mapId}`,
+              }).then();
+            }
+          },
+          onError: err => {
+            showToast({
+              variant: 'error',
+              message: err.message,
+            });
+          },
+        },
+      );
+    },
+    [boardId, createParentMap, mutateCreateMap, navigate, queryClient, showToast],
+  );
+
+  const onHandleFilterJourney = useCallback(() => {
+    console.log(journeysData, 'journeysData');
+    if (journeysData.length <= 1 && currentPage !== 1) {
+      setCurrentPage(prev => prev - 1);
+      setOffset((currentPage - 2) * BOARD_JOURNEYS_LIMIT);
     }
-
-    // if (!data?.pages[currentPage] && !isFetchingNextPage) {
-    //   refetchJourneys().then();
-    // }
-    //
-    // if (createMode === 'child') {
-    //   setParentChildren((prev: GetParentMapChildrenQuery) => {
-    //     return {
-    //       getParentMapChildren: prev.getParentMapChildren?.filter(
-    //         child => !ids.includes(child?.id!),
-    //       ),
-    //     };
-    //   });
-    // }
-  }, []);
+  }, [currentPage, journeysData]);
 
   const onHandleAddOrFilterJourneyIds = useCallback(
     (id: number) => {
@@ -294,41 +260,33 @@ const JourniesScreen = () => {
 
   const onHandleCheckAllMaps = useCallback(() => {
     const ids: Array<number> = [];
-    setJourneys((oldData: any) => {
+    setAllJourneys((oldData: any) => {
       if (oldData) {
-        const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(page => {
-          return {
-            ...page,
-            getMaps: {
-              ...page.getMaps,
-              maps: page.getMaps.maps.map(journey => {
-                if (!selectedJourneyIds.length && journeysData.includes(journey)) {
-                  ids.push(journey.id);
-                }
-                journey.checked = !selectedJourneyIds.length && journeysData.includes(journey);
-                return journey;
-              }),
-            },
-          };
-        });
         return {
-          ...oldData,
-          pages: updatedPages,
+          getMaps: {
+            count: oldData.getMaps.count,
+            maps: oldData.getMaps.maps.map((journey: JourneyType) => {
+              if (!selectedJourneyIds.length && journeysData.includes(journey)) {
+                ids.push(journey.id);
+              }
+              journey.checked = !selectedJourneyIds.length && journeysData.includes(journey);
+              return journey;
+            }),
+          },
         };
       }
     });
     setSelectedJourneyIds(ids);
-  }, [journeysData, selectedJourneyIds.length, setJourneys]);
+  }, [journeysData, selectedJourneyIds.length, setAllJourneys]);
 
   const onHandleCheckMap = useCallback(
     (id: number) => {
-      setJourneys((oldData: any) => {
-        const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(page => {
+      setAllJourneys((oldData: any) => {
+        if (oldData) {
           return {
-            ...page,
             getMaps: {
-              ...page.getMaps,
-              maps: page.getMaps.maps.map(journey => {
+              count: oldData.getMaps.count,
+              maps: oldData.getMaps.maps.map((journey: JourneyType) => {
                 if (journey.id === id) {
                   journey.checked = !journey.checked;
                 }
@@ -336,20 +294,17 @@ const JourniesScreen = () => {
               }),
             },
           };
-        });
-        return {
-          ...oldData,
-          pages: updatedPages,
-        };
+        }
       });
 
       onHandleAddOrFilterJourneyIds(id);
     },
-    [onHandleAddOrFilterJourneyIds, setJourneys],
+    [onHandleAddOrFilterJourneyIds, setAllJourneys],
   );
 
   const onHandleNameChange = useCallback(
-    (newValue: string, mapId: number) => {
+    (data: JourneyMapNameChangeType) => {
+      const { newValue, mapId } = data;
       debounced400(() => {
         mutateUpdateJourneyMap(
           {
@@ -360,31 +315,41 @@ const JourniesScreen = () => {
           },
           {
             onSuccess: () => {
-              setJourneys((oldData: any) => {
-                const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(
-                  page => {
+              setJourneys(
+                'GetJourneys',
+                {
+                  input: 'getMyBoardsInput',
+                  key: 'getMapsInput',
+                  value: offset,
+                },
+                (oldData: any) => {
+                  if (oldData) {
                     return {
-                      ...page,
                       getMaps: {
-                        ...page.getMaps,
-                        maps: page.getMaps.maps.map(journey =>
-                          journey.id === mapId! ? { ...journey, title: newValue } : journey,
-                        ),
+                        count: oldData.getMaps.count,
+                        maps: oldData.getMaps.maps.map((journey: JourneyType) => {
+                          if (journey.id === mapId) {
+                            journey.title = newValue;
+                          }
+                          return journey;
+                        }),
                       },
                     };
-                  },
-                );
-                return {
-                  ...oldData,
-                  pages: updatedPages,
-                };
+                  }
+                },
+              );
+            },
+            onError: error => {
+              showToast({
+                variant: 'error',
+                message: error.message,
               });
             },
           },
         );
       });
     },
-    [mutateUpdateJourneyMap, setJourneys],
+    [mutateUpdateJourneyMap, offset, setJourneys, showToast],
   );
 
   const onHandleChangeViewType = (tabName: string) => {
@@ -426,7 +391,7 @@ const JourniesScreen = () => {
   }, [onHandleToggleDeleteModal]);
 
   const onHandleDeleteJourney = useCallback(
-    (journey: JourneyMapCardType | SelectedJourneyParentMap) => {
+    (journey: JourneyType) => {
       setSelectedJourney(journey);
       onHandleToggleDeleteModal();
     },
@@ -434,22 +399,19 @@ const JourniesScreen = () => {
   );
 
   const onHandleCopyMap = useCallback(
-    (journey: JourneyMapCardType) => {
+    (journey: JourneyType) => {
+      setCopyMapState({
+        mapId: journey.id,
+      });
       onToggleMapCopyModal();
-      // setCopyMapDetailsData(prev => ({
-      //   ...prev,
-      //   mapId: journey.id,
-      //   orgId: user.orgID!,
-      //   template: CopyMapLevelTemplateEnum.WORKSPACES,
-      // }));
     },
-    [onToggleMapCopyModal],
+    [onToggleMapCopyModal, setCopyMapState],
   );
 
   const onHandleCopyShareUrl = useCallback(
-    async (journey: JourneyMapCardType) => {
+    async (journey: JourneyType) => {
       await navigator.clipboard?.writeText(
-        `${process.env.NEXT_PUBLIC_APP}/guest/board/${boardId}/journey-map/${journey.id}`,
+        `${import.meta.env.VITE_APP_URL}/guest/board/${boardId}/journey-map/${journey.id}`,
       );
       showToast({
         variant: 'success',
@@ -458,18 +420,6 @@ const JourniesScreen = () => {
     },
     [boardId, showToast],
   );
-
-  const onHandleCloseCopyMapModal = useCallback(() => {
-    onToggleMapCopyModal();
-    // setCopyMapDetailsData({
-    //   mapId: null,
-    //   workspaceId: null,
-    //   orgId: null,
-    //   boardId: null,
-    //   template: CopyMapLevelTemplateEnum.WORKSPACES,
-    //   isProcessing: false,
-    // });
-  }, [onToggleMapCopyModal]);
 
   const onHandleSortTableByField = useCallback(
     (type: OrderByEnum, _: string, id: 'name' | 'createdAt' | 'user') => {
@@ -481,31 +431,17 @@ const JourniesScreen = () => {
     [],
   );
 
-  const handleCopySuccess = useCallback(
-    (copyMap: JourneyMapCardType) => {
-      setJourneys((oldData: any) => {
-        const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(page => {
-          return {
-            ...page,
-            getMaps: {
-              ...page.getMaps,
-              count: (page.getMaps.count || 0) + 1,
-              maps: [
-                { ...copyMap, childMaps: [], parentMaps: [], selectedPersonas: [] },
-                ...page.getMaps.maps,
-              ],
-            },
-          };
-        });
-        return {
-          ...oldData,
-          pages: updatedPages,
-        };
-      });
-      setCurrentPage(1);
-    },
-    [setJourneys],
-  );
+  const handleCopySuccess = useCallback(() => {
+    queryClient
+      .refetchQueries({
+        queryKey: ['GetJourneys'],
+        type: 'active',
+        exact: true,
+      })
+      .then();
+    setCurrentPage(1);
+    setOffset(0);
+  }, [queryClient]);
 
   const columns = useMemo(() => {
     return JOURNEY_MAPS_TABLE_COLUMNS({
@@ -513,9 +449,9 @@ const JourniesScreen = () => {
       toggleDeleteModal: onHandleToggleDeleteModal,
       onHandleRowClick: (id, key) => {
         if (key === 'title') {
-          // startTransition(() => {
-          //   router.push(`/board/${boardID}/journey-map/${id}`);
-          // });
+          navigate({
+            to: `/board/${boardId}/journey-map/${id}`,
+          }).then();
         }
         if (key === 'checkAll') {
           onHandleCheckAllMaps();
@@ -526,6 +462,8 @@ const JourniesScreen = () => {
       },
     });
   }, [
+    boardId,
+    navigate,
     onHandleCheckAllMaps,
     onHandleCheckMap,
     onHandleToggleDeleteModal,
@@ -534,7 +472,6 @@ const JourniesScreen = () => {
 
   const options = useMemo(() => {
     return JOURNEY_MAP_OPTIONS({
-      // onHandleEdit: journey => {},
       onHandleDelete: onHandleDeleteJourney,
       onHandleCopy: journey => {
         onHandleCopyMap(journey);
@@ -557,8 +494,9 @@ const JourniesScreen = () => {
             <JourneyDeleteModal
               ids={selectedJourney ? [selectedJourney.id] : selectedJourneyIds}
               isOpen={isOpenDeleteMapModal}
-              handleClose={onHandleCloseDeleteModal}
+              isHasPagination={journeysDataCount > BOARD_JOURNEYS_LIMIT}
               onHandleFilterJourney={onHandleFilterJourney}
+              handleClose={onHandleCloseDeleteModal}
             />
           </Suspense>
         )}
@@ -571,12 +509,13 @@ const JourniesScreen = () => {
             {/*/>*/}
           </Suspense>
         )}
-        {isOpenCopyPasteMapModal && (
+        {isOpenCopyPasteMapModal && user?.orgID && (
           <Suspense fallback={''}>
             <CopyMapModal
-              level={MapCopyLevelEnum.WORKSPACE}
+              orgId={user?.orgID}
+              level={CopyMapLevelEnum.WORKSPACE}
               isOpen={isOpenCopyPasteMapModal}
-              handleClose={onHandleCloseCopyMapModal}
+              handleClose={onToggleMapCopyModal}
               handleOnSuccess={handleCopySuccess}
             />
           </Suspense>
@@ -636,13 +575,9 @@ const JourniesScreen = () => {
           <div className={'journeys--header--search-pagination-block'}>
             <ul className={'journeys--header--view-list-block'}>
               {JOURNEYS_VIEW_TABS?.map(({ iconClassName, name, tooltipContent }) => (
-                <WuTooltip content={tooltipContent} position="top">
-                  <li
-                    key={name}
-                    data-testid={name}
-                    className={'journeys--header--view-list-block--list'}>
+                <WuTooltip content={tooltipContent} position="top" key={name}>
+                  <li data-testid={name} className={'journeys--header--view-list-block--list'}>
                     <WuButton
-                      key={name}
                       className={`${tab === name ? 'active-tab' : ''} `}
                       onClick={() => onHandleChangeViewType(name)}
                       Icon={<span className={iconClassName} />}
@@ -681,6 +616,7 @@ const JourniesScreen = () => {
                   <>
                     <SortableJourneys
                       boardId={boardId}
+                      currentPage={currentPage}
                       maps={journeysData}
                       options={options}
                       onNameChange={onHandleNameChange}

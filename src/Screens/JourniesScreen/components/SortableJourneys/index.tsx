@@ -1,19 +1,28 @@
 import { FC, useEffect, useState } from 'react';
+import './style.scss';
 
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, rectSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useQueryClient } from '@tanstack/react-query';
 
-import './style.scss';
+import {
+  UpdateJourneyMapMutation,
+  useUpdateJourneyMapMutation,
+} from '@/api/mutations/generated/updateJourneyMap.generated';
+import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import JourneyCard from '@/Screens/JourniesScreen/components/SortableJourneys/JourneyCard';
+import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
+import { MenuOptionsType } from '@/types';
 import { JourneyViewTypeEnum } from '@/types/enum.ts';
 
 interface SortableJourneyItemProps {
   boardId: number;
-  map: JourneyMapCardType;
+  map: JourneyType;
   options: Array<MenuOptionsType>;
-  onNameChange?: OnJourneyMapNameChangeType;
+  onNameChange: (data: JourneyMapNameChangeType) => void;
 }
 
 const SortableJourneyItem: FC<SortableJourneyItemProps> = ({
@@ -51,13 +60,28 @@ const SortableJourneyItem: FC<SortableJourneyItemProps> = ({
 
 interface SortableJourneysProps {
   boardId: number;
-  maps: Array<JourneyMapCardType>;
+  currentPage: number;
+  maps: Array<JourneyType>;
   options: Array<MenuOptionsType>;
-  onNameChange?: OnJourneyMapNameChangeType;
+  onNameChange: (data: JourneyMapNameChangeType) => void;
 }
 
-const SortableJourneys: FC<SortableJourneysProps> = ({ boardId, maps, options, onNameChange }) => {
+const SortableJourneys: FC<SortableJourneysProps> = ({
+  boardId,
+  currentPage,
+  maps,
+  options,
+  onNameChange,
+}) => {
+  const { mutate: mutateUpdateJourneyMap } = useUpdateJourneyMapMutation<
+    Error,
+    UpdateJourneyMapMutation
+  >();
   const [sortableMaps, setSortableMaps] = useState(maps);
+
+  const queryClient = useQueryClient();
+
+  const { showToast } = useWuShowToast();
 
   useEffect(() => {
     setSortableMaps(maps);
@@ -69,7 +93,29 @@ const SortableJourneys: FC<SortableJourneysProps> = ({ boardId, maps, options, o
       setSortableMaps(currentItems => {
         const oldIndex = currentItems.findIndex(item => item.id === active.id); // Fixed bug
         const newIndex = currentItems.findIndex(item => item.id === over.id);
-        return arrayMove(currentItems, oldIndex, newIndex);
+        const updatedMaps = arrayMove(currentItems, oldIndex, newIndex);
+
+        mutateUpdateJourneyMap(
+          {
+            updateJourneyMapInput: {
+              mapId: +active.id,
+              index: (currentPage - 1) * JOURNIES_LIMIT + newIndex,
+            },
+          },
+          {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ['GetJourneys'] }).then();
+            },
+            onError: error => () => {
+              showToast({
+                variant: 'error',
+                message: error?.message,
+              });
+            },
+          },
+        );
+
+        return updatedMaps;
       });
     }
   };

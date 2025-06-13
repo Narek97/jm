@@ -22,6 +22,7 @@ interface IAssignPersonaToMapModal {
   orgId: number;
   level: CopyMapLevelEnum;
   handleClose: () => void;
+  mapId?: number;
   currentBoardId?: number;
   handleOnSuccess?: (copyMap: CopyMapType) => void;
 }
@@ -40,6 +41,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
 
   const {
     setCopyMapState,
+    reset,
     isProcessing,
     mapId,
     orgId: selectedOrgId,
@@ -79,16 +81,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
       },
       {
         onSuccess: async response => {
-          setCopyMapState({
-            orgId: null,
-            mapId: null,
-            workspaceId: null,
-            boardId: null,
-            isProcessing: false,
-            template: CopyMapLevelTemplateEnum.WORKSPACES,
-          });
-
-          if (response.copyMap.boardId === currentBoardId && handleOnSuccess) {
+          if (response.copyMap.boardId === (currentBoardId || boardId) && handleOnSuccess) {
             handleOnSuccess(response.copyMap);
           }
 
@@ -100,6 +93,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
           if (boardId === currentBoardId) {
             await queryClient.invalidateQueries({ queryKey: ['GetJournies'] });
           }
+          reset();
           handleClose();
         },
         onError: error => {
@@ -116,7 +110,10 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
     <CustomModal
       isOpen={isOpen}
       modalSize={'md'}
-      handleClose={handleClose}
+      handleClose={() => {
+        reset();
+        handleClose();
+      }}
       canCloseWithOutsideClick={!isProcessing}>
       <CustomModalHeader title={<div className={'assign-modal-header'}>Map copy</div>} />
       <div className={'copy-map-modal--info'}>

@@ -81,14 +81,7 @@ const SortableBoards: FC<SortableBoardsProps> = ({
 
   const { showToast } = useWuShowToast();
 
-  const { mutate: mutateUpdateBoard } = useUpdateBoardMutation<Error, UpdateBoardMutation>({
-    onError: error => {
-      showToast({
-        variant: 'error',
-        message: error?.message,
-      });
-    },
-  });
+  const { mutate: mutateUpdateBoard } = useUpdateBoardMutation<Error, UpdateBoardMutation>();
 
   useEffect(() => {
     setSortableBoards(boards);

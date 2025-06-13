@@ -18,7 +18,7 @@ const Header = () => {
   const [productSwitcherData, setProductSwitcherData] = useState<any>(null);
 
   const getProductSwitcher = useCallback(async () => {
-    return await $apiClient.get(`${import.meta.env.VITE_BASE_URL}/auth/product-switcher`);
+    return await $apiClient.get(`${import.meta.env.VITE_API_URL}/auth/product-switcher`);
   }, []);
 
   const logout = () => {

@@ -45,15 +45,15 @@ const DeleteAssignedPersona: FC<IDeleteCxMapTable> = ({
           if (disconnectPersona) {
             disconnectPersona(disconnectedId);
           }
-          handleClose();
-          await queryClient.invalidateQueries({
-            queryKey: useGetMapSelectedPersonasQuery.getKey({
-              mapId,
+          await Promise.all([
+            queryClient.invalidateQueries({
+              queryKey: useGetMapSelectedPersonasQuery.getKey({ mapId }),
             }),
-          });
-          await queryClient.invalidateQueries({
-            queryKey: ['GetJourneyMapRows.infinite'],
-          });
+            queryClient.invalidateQueries({
+              queryKey: ['GetJourneyMapRows.infinite'],
+            }),
+          ]);
+          handleClose();
         },
         onError: error => {
           showToast({

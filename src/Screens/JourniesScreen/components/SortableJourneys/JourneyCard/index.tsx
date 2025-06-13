@@ -13,6 +13,9 @@ import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import DragHandle from '@/Components/Shared/DragHandle';
 import PersonaImages from '@/Features/PersonaImages';
+import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
+import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
+import { MenuOptionsType } from '@/types';
 import {
   JourneyViewTypeEnum,
   MenuViewTypeEnum,
@@ -22,11 +25,11 @@ import {
 dayjs.extend(fromNow);
 
 interface IJourneyCard {
-  map: JourneyMapCardType;
+  map: JourneyType;
   viewType: JourneyViewTypeEnum;
   boardId: number;
   options: Array<MenuOptionsType>;
-  onNameChange?: OnJourneyMapNameChangeType;
+  onNameChange?: (data: JourneyMapNameChangeType) => void;
   sortableAttributes?: ReturnType<typeof useSortable>['attributes'];
   sortableListeners?: ReturnType<typeof useSortable>['listeners'];
 }
@@ -52,7 +55,7 @@ const JourneyCard: FC<IJourneyCard> = ({
       if (!isEditName) {
         e.stopPropagation();
         navigate({
-          to: `/board/${boardId}/journey-map/${map?.id}`,
+          to: `/board/${boardId}/journey-map/${map.id}`,
         }).then();
       }
     },
@@ -71,7 +74,7 @@ const JourneyCard: FC<IJourneyCard> = ({
       const newValue = e.target.value;
       setCardName(newValue);
       if (onNameChange) {
-        onNameChange(newValue, +map.id);
+        onNameChange({ newValue, mapId: map.id });
       }
     },
     [map.id, onNameChange],

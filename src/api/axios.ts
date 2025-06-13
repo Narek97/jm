@@ -3,7 +3,7 @@ import { getCookie, deleteCookie } from '../utils/cookieHelper.ts';
 import { TOKEN_NAME } from '@/constants';
 
 const $apiClient = axios.create({
-  baseURL: `${import.meta.env.VITE_BASE_URL}/graphql`,
+  baseURL: `${import.meta.env.VITE_API_URL}/graphql`,
 });
 
 const handleError = (error: Error | AxiosError) => {

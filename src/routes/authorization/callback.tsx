@@ -32,7 +32,7 @@ export const Route = createRoute({
     try {
       // Make the API call to generate the token
       const response = await axios.get<TokenResponse>(
-        `${import.meta.env.VITE_BASE_URL}/auth/generate-token?code=${encodeURIComponent(code)}`,
+        `${import.meta.env.VITE_API_URL}/auth/generate-token?code=${encodeURIComponent(code)}`,
       );
 
       // Set the token in a cookie
