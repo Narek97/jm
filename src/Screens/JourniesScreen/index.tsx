@@ -10,7 +10,6 @@ import fromNow from 'dayjs/plugin/relativeTime';
 import AtlasView from './components/AtlasView';
 import SortableJourneys from './components/SortableJourneys';
 import { JOURNEY_MAP_OPTIONS, JOURNEY_MAPS_TABLE_COLUMNS, JOURNEYS_VIEW_TABS } from './constants';
-import WorkspaceAnalytics from '../../Features/WorkspaceAnalytics';
 
 import {
   CreateJourneyMapMutation,
@@ -45,6 +44,7 @@ import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import { querySlateTime } from '@/constants';
 import { BOARD_JOURNEYS_LIMIT, PINNED_OUTCOMES_LIMIT } from '@/constants/pagination';
+import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
 import { debounced400 } from '@/hooks/useDebounce.ts';
 import { useSetAllQueryDataByKey, useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey';
 import { JourniesRoute } from '@/routes/_authenticated/_secondary-sidebar-layout/board/$boardId/journies';
