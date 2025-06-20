@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import './style.scss';
+import { GetBoardOutcomesStatQuery } from '@/api/queries/generated/getBoardOutcomesStat.generated.ts';
 import { WORKSPACE_ANALYTICS_ITEMS } from '@/Features/WorkspaceAnalytics/constants.tsx';
 
 interface IWorkspaceAnalytics {
@@ -10,7 +11,7 @@ interface IWorkspaceAnalytics {
     journeyMapCount: number;
     personasCount: number;
   };
-  outcomeGroups?: any[]; //todo
+  outcomeGroups?: GetBoardOutcomesStatQuery['getBoardOutcomesStat']['outcomeStats'];
   pinnedOutcomeGroupCount?: number;
   viewAll?: () => void;
 }

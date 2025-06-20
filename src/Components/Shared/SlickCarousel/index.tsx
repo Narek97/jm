@@ -38,7 +38,7 @@ interface ISlickCarousel {
     slidesToScroll?: number;
   };
 }
-// todo change other lib
+
 const SlickCarousel: FC<ISlickCarousel> = ({
   cards,
   renderFunction,

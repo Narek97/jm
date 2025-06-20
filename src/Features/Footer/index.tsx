@@ -5,12 +5,14 @@ import './style.scss';
 import { WuFooter } from '@npm-questionpro/wick-ui-lib';
 import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 
+import LastLogQueryModal from '@/Features/Footer/components/LastLogQueryModal';
+
 const Footer = () => {
   const isFetching = useIsFetching();
   const isMutating = useIsMutating();
   const isLoading = !!isFetching || !!isMutating;
 
-  const [_, setIsOpenLastQueryModal] = useState(false);
+  const [isOpenLastQueryModal, setIsOpenLastQueryModal] = useState(false);
 
   const onHandleToggleLastQueryModal = useCallback(() => {
     setIsOpenLastQueryModal(prev => !prev);
@@ -18,13 +20,12 @@ const Footer = () => {
 
   return (
     <>
-      {/*todo*/}
-      {/*{isOpenLastQueryModal && (*/}
-      {/*  <LastLogQueryModal*/}
-      {/*    isOpen={isOpenLastQueryModal}*/}
-      {/*    handleClose={onHandleToggleLastQueryModal}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {isOpenLastQueryModal && (
+        <LastLogQueryModal
+          isOpen={isOpenLastQueryModal}
+          handleClose={onHandleToggleLastQueryModal}
+        />
+      )}
 
       <WuFooter isLoading={isLoading} loadingText="Working...">
         <div className="footer">

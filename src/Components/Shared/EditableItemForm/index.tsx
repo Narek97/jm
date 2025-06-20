@@ -11,8 +11,8 @@ interface IEditableItemForm {
   value: string;
   isLoading: boolean;
   isEdit?: boolean;
-  onHandleCreate: (value: string) => Promise<boolean>;
-  onHandleUpdate?: (value: string) => Promise<boolean>;
+  onHandleCreate: (value: string, callback?: () => void) => Promise<boolean>;
+  onHandleUpdate?: (value: string, callback?: () => void) => Promise<boolean>;
 }
 
 const EditableItemForm: FC<IEditableItemForm> = ({
@@ -57,17 +57,26 @@ const EditableItemForm: FC<IEditableItemForm> = ({
           placeholder={inputPlaceholder}
         />
         <WuButton
-          disabled={isLoading}
+          disabled={isLoading || !inputValue.trim().length}
           className={isLoading ? 'disabled-btn' : ''}
           name={'save'}
           aria-label={'save'}
           data-testid={'save-item-test-id'}
           onClick={() =>
-            isEdit ? onHandleUpdate && onHandleUpdate(inputValue) : onHandleCreate(inputValue)
+            isEdit
+              ? onHandleUpdate &&
+                onHandleUpdate(inputValue).then(() => {
+                  setInputValue('');
+                  setIsOpen(false);
+                })
+              : onHandleCreate(inputValue).then(() => {
+                  setInputValue('');
+                  setIsOpen(false);
+                })
           }>
           Save
         </WuButton>
-        <button onClick={() => setIsOpen(false)} aria-label={'close'}>
+        <button onClick={() => setIsOpen(false)} aria-label={'close'} disabled={isLoading}>
           <span className={'wm-close-small'} />
         </button>
       </div>

@@ -18,6 +18,7 @@ import CustomPopover from '@/Components/Shared/CustomPopover';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
+import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 
 // todo
 function CustomCheckboxIcon() {
@@ -84,7 +85,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
           return undefined;
         }
         return {
-          getIdeasInput: {
+          getPersonasInput: {
             workspaceId,
             personaGroupId: personaGroupId!,
             limit: PERSONAS_LIMIT,
@@ -110,24 +111,16 @@ const JourneysFilter: FC<IJourneysFilter> = ({
     const target = e.currentTarget as HTMLDivElement | null;
     const childOffsetHeight = childRef.current?.offsetHeight || 0;
 
-    // if (
-    //   e.target &&
-    //   childOffsetHeight &&
-    //   target &&
-    //   target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
-    //   !isFetching &&
-    //   personaData.length < data?.pages[0].getPersonas.count!
-    // ) {
-    //   fetchNextPage({
-    //     pageParam: {
-    //       getPersonasInput: {
-    //         workspaceId,
-    //         limit: PERSONAS_LIMIT,
-    //         offset: personaData.length,
-    //       },
-    //     },
-    //   }).then();
-    // }
+    if (
+      e.target &&
+      childOffsetHeight &&
+      target &&
+      target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
+      !isFetching &&
+      hasNextPage
+    ) {
+      fetchNextPage().then();
+    }
   };
 
   const handleChangeFilter = (personaId: number) => {
@@ -171,13 +164,12 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                 </button>
               </div>
               <div className="journeys-filter--container--personas-block" onScroll={onHandleFetch}>
-                {isFetching ? (
-                  <CustomLoader />
-                ) : (
-                  <>
-                    {personaData.length ? (
+                <>
+                  {!personaData.length && !isFetching ? (
+                    <EmptyDataInfo message={'There are no persona group yet'} />
+                  ) : (
+                    <>
                       <ul ref={childRef} data-testid="persona-list">
-                        {/*todo*/}
                         {personaData?.map(persona => (
                           <FormControlLabel
                             key={persona?.id}
@@ -207,11 +199,14 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                           />
                         ))}
                       </ul>
-                    ) : (
-                      <EmptyDataInfo message={'There are no persona group yet'} />
-                    )}
-                  </>
-                )}
+                      {isFetching && (
+                        <div className={'relative w-full h-[40px]'}>
+                          <CustomLoader />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
               </div>
             </>
           ) : (

@@ -11,7 +11,10 @@ import EditableTitle from '@/Components/Shared/EditableTitle';
 import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
 import useWindowResize from '@/hooks/useWindowResize';
 import { BoardType } from '@/Screens/BoardsScreen/types';
+import JourneyCard from '@/Screens/JourniesScreen/components/SortableJourneys/JourneyCard';
+import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 import { EditableInputType } from '@/types';
+import { JourneyViewTypeEnum } from '@/types/enum.ts';
 
 dayjs.extend(fromNow);
 
@@ -72,18 +75,17 @@ const BoardCard: FC<IBoardCard> = ({
         {board?.journeyMapCount > 0 ? (
           <>
             <div className="board-card--right-journies">
-              {/* Uncomment and fix if needed */}
-              {/* {board?.maps
+              {board?.maps
                 ?.slice(0, maxCardNumber)
                 ?.map(mapItem => (
                   <JourneyCard
                     key={mapItem?.id}
                     viewType={JourneyViewTypeEnum.BOARD}
-                    map={mapItem}
-                    boardID={+board?.id}
+                    map={mapItem as JourneyType}
+                    boardId={board.id}
                     options={[]}
                   />
-                ))} */}
+                ))}
             </div>
             {board?.journeyMapCount > maxCardNumber && (
               <li className="board-card--right-more-block">

@@ -1,0 +1,39 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.last-user-query-modal {
+  padding: 0.75rem;
+  height: 20.625rem;
+  color: $BASE_GRAY_COLOR;
+  overflow: auto;
+  margin: 0.5rem;
+
+  &--query-item {
+    margin-bottom: 0.875rem;
+  }
+
+  &--title {
+    color: $BASE_GRAY_COLOR;
+  }
+
+  &--key {
+    font-size: 0.875rem;
+  }
+
+  &--time-key,
+  &--size-key {
+    padding: 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  &--sql-key {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    padding-right: 1.25rem;
+    margin-top: 0.625rem;
+    max-height: 5.375rem;
+  }
+}
