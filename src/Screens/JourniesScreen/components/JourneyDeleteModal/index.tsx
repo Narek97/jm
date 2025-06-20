@@ -26,7 +26,6 @@ const JourneyDeleteModal: FC<IDeleteCxMapTable> = ({
   handleClose,
 }) => {
   const setJourneys = useSetQueryDataByKey('GetJourneys');
-
   const { mutate, isPending: isLoadingDeleteWorkspaceItem } = useMapsBulkDeleteMutation<
     Error,
     MapsBulkDeleteMutation
@@ -55,7 +54,7 @@ const JourneyDeleteModal: FC<IDeleteCxMapTable> = ({
           };
         });
       }
-
+      await queryClient.invalidateQueries({ queryKey: ['GetParentMapChildren'] });
       onHandleFilterJourney();
       handleClose();
     },

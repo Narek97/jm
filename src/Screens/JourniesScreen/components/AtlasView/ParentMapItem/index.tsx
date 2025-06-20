@@ -186,6 +186,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDe
                             }>
                             <WuMenuItem>
                               <button
+                                className={'w-full'}
                                 data-testid={'delete-menu-option'}
                                 onClick={() => {
                                   onHandleDeleteJourney({ ...item?.data, parentId: map?.id });
