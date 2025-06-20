@@ -128,7 +128,7 @@ const CustomDropDown: FC<ICustomDropDown> = ({
                       menuItem.name?.toLowerCase() || menuItem.label?.toLowerCase()
                     }-item-test-id`}
                     onClick={() => onSelectChange(menuItem)}>
-                    {menuItem.name || menuItem.label || 'Untitled'}
+                    {menuItem.name?.trim() || menuItem.label?.trim() || 'Untitled'}
                   </MenuItem>
                 );
               }),
@@ -156,7 +156,7 @@ const CustomDropDown: FC<ICustomDropDown> = ({
                       },
                     }}
                     onClick={() => onSelectChange(menuItem)}>
-                    {menuItem.name || 'Untitled'}
+                    {(menuItem.name as string)?.trim() || 'Untitled'}
                   </MenuItem>
                 )),
               ]),

@@ -11,12 +11,13 @@ import {
   useGetParentMapChildrenQuery,
 } from '@/api/queries/generated/getParentMapChildren.generated.ts';
 import { querySlateTime } from '@/constants';
+import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
 interface IParentMapItem {
   boardId: number;
-  map: JourneyMapCardType;
+  map: JourneyType;
   createMap: (parentId: number) => void;
-  onHandleDeleteJourney: (journeyMap: { id: number; parentId: number }) => void;
+  onHandleDeleteJourney: (journeyMap: JourneyType) => void;
 }
 
 const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDeleteJourney }) => {
@@ -187,7 +188,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDe
                               <button
                                 data-testid={'delete-menu-option'}
                                 onClick={() => {
-                                  onHandleDeleteJourney({ id: item?.data?.id, parentId: map?.id });
+                                  onHandleDeleteJourney({ ...item?.data, parentId: map?.id });
                                 }}>
                                 Delete
                               </button>

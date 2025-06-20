@@ -46,7 +46,7 @@ const JourneyCard: FC<IJourneyCard> = ({
   const navigate = useNavigate();
   const [selectedPersonas, setSelectedPersonas] = useState<PersonaType[]>([]);
   const [isEditName, setIsEditName] = useState<boolean>(false);
-  const [cardName, setCardName] = useState(map.title || 'Untitled');
+  const [cardName, setCardName] = useState(map.title?.trim() || 'Untitled');
 
   const inputRef = useRef<HTMLInputElement>(null);
 

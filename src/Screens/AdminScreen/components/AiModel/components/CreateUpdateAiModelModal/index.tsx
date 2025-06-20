@@ -222,7 +222,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
     () =>
       orgsData?.getOrgs.map(org => ({
         id: org.id,
-        name: org.name || 'Untitled',
+        name: org.name?.trim() || 'Untitled',
         value: org.orgId,
       })) || [],
     [orgsData?.getOrgs],

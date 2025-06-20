@@ -195,12 +195,7 @@ const JourniesScreen = () => {
         {
           onSuccess: async response => {
             await queryClient.refetchQueries({
-              queryKey: ['GetParentMapsByBoardId'],
-              exact: true,
-              type: 'active',
-            });
-            await queryClient.refetchQueries({
-              queryKey: ['GetJourneys'],
+              queryKey: [['GetParentMapsByBoardId'], ['GetJourneys']],
               exact: true,
               type: 'active',
             });
@@ -240,7 +235,6 @@ const JourniesScreen = () => {
   );
 
   const onHandleFilterJourney = useCallback(() => {
-    console.log(journeysData, 'journeysData');
     if (journeysData.length <= 1 && currentPage !== 1) {
       setCurrentPage(prev => prev - 1);
       setOffset((currentPage - 2) * BOARD_JOURNEYS_LIMIT);
@@ -318,8 +312,8 @@ const JourniesScreen = () => {
               setJourneys(
                 'GetJourneys',
                 {
-                  input: 'getMyBoardsInput',
-                  key: 'getMapsInput',
+                  input: 'getMapsInput',
+                  key: 'offset',
                   value: offset,
                 },
                 (oldData: any) => {
@@ -432,16 +426,9 @@ const JourniesScreen = () => {
   );
 
   const handleCopySuccess = useCallback(() => {
-    queryClient
-      .refetchQueries({
-        queryKey: ['GetJourneys'],
-        type: 'active',
-        exact: true,
-      })
-      .then();
     setCurrentPage(1);
     setOffset(0);
-  }, [queryClient]);
+  }, []);
 
   const columns = useMemo(() => {
     return JOURNEY_MAPS_TABLE_COLUMNS({
@@ -516,6 +503,7 @@ const JourniesScreen = () => {
               level={CopyMapLevelEnum.WORKSPACE}
               isOpen={isOpenCopyPasteMapModal}
               handleClose={onToggleMapCopyModal}
+              currentBoardId={boardId}
               handleOnSuccess={handleCopySuccess}
             />
           </Suspense>

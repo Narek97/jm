@@ -283,7 +283,7 @@ const PersonaScreen = () => {
         {
           createDemographicInfoInput: {
             personaId: +personaId,
-            key: name || 'untitled',
+            key: name?.trim() || 'untitled',
             value,
             type,
             height: type === DemographicInfoTypeEnum.Content ? 100 : null,

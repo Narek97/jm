@@ -75,7 +75,7 @@ const JOURNEY_MAPS_TABLE_COLUMNS = ({
           className={'table-title-column'}
           onClick={() => onHandleRowClick && onHandleRowClick(row.id, 'title')}>
           {!!row?.parentMaps?.length && <span className={'wc-level-child'} />}
-          <span>{row.title}</span>
+          <span>{row.title.trim() || 'Untitled'}</span>
         </div>
       );
     },

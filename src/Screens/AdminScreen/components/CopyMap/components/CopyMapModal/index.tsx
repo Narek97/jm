@@ -89,9 +89,8 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
             variant: 'success',
             message: 'The map was copied to the selected board successfully.',
           });
-
-          if (boardId === currentBoardId) {
-            await queryClient.invalidateQueries({ queryKey: ['GetJournies'] });
+          if (currentBoardId && boardId === +currentBoardId) {
+            await queryClient.invalidateQueries({ queryKey: ['GetJourneys'] });
           }
           reset();
           handleClose();

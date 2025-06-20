@@ -1,13 +1,15 @@
 import { FC } from 'react';
-
 import './style.scss';
+
 import ParentMapItem from './ParentMapItem';
+
+import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
 interface IAtlasView {
   boardId: number;
-  maps: Array<JourneyMapCardType>;
+  maps: Array<JourneyType>;
   createMap: (parentId: number) => void;
-  onHandleDeleteJourney: (journeyMap: { id: number; parentId: number }) => void;
+  onHandleDeleteJourney: (journeyMap: JourneyType) => void;
 }
 
 const AtlasView: FC<IAtlasView> = ({ boardId, maps, createMap, onHandleDeleteJourney }) => {
