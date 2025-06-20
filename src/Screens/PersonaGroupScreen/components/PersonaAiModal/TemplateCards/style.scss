@@ -1,0 +1,27 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.template-cards-header {
+  display: flex;
+  gap: 0.3rem;
+  margin: 2rem 0;
+
+  .wm-cards {
+    font-size: 3rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.template-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media screen and (max-width: 66.625rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

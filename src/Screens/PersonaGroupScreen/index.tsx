@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import './style.scss';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
 
 import PersonaCard from './components/PersonaCard';
-import PersonaDeleteModal from './components/PersonaDeleteModal';
 import { PersonaType } from './types';
 
 import {
@@ -22,6 +21,9 @@ import { PERSONAS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useRemoveQueriesByKey, useSetAllQueryDataByKey } from '@/hooks/useQueryKey.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+
+const PersonaDeleteModal = lazy(() => import('./components/PersonaDeleteModal'));
+const PersonaAIModal = lazy(() => import('./components/PersonaAiModal'));
 
 const PersonaGroupScreen = () => {
   const { workspaceId, personaGroupId } = useParams({
@@ -182,12 +184,16 @@ const PersonaGroupScreen = () => {
           <h3 className={'base-title !text-heading-2'}>Personas</h3>
         </div>
         <div className={'persona-group--create-section'}>
-          <WuButton
-            onClick={onHandleCreatePersona}
-            disabled={isLoadingCreatePersona}
-            data-testid={'create-persona-btn-test-id'}>
-            New persona
-          </WuButton>
+          <div className={'flex gap-1'}>
+            <WuButton
+              onClick={onHandleCreatePersona}
+              disabled={isLoadingCreatePersona}
+              data-testid={'create-persona-btn-test-id'}>
+              New persona
+            </WuButton>
+            <PersonaAIModal workspaceId={+workspaceId} personaGroupId={+personaGroupId} />
+          </div>
+
           {personasDataCount > PERSONAS_LIMIT && (
             <Pagination
               perPage={PERSONAS_LIMIT}

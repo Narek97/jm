@@ -151,7 +151,7 @@ const JOURNEY_MAPS_TABLE_COLUMNS = ({
   {
     id: 'operation',
     label: checkedItemsCount ? (
-      <span className={'wm-delete'} data-testid={'error-logs-delete-btn'} />
+      <span className={'wm-delete text-[#ffffff]'} data-testid={'error-logs-delete-btn'} />
     ) : (
       ''
     ),
