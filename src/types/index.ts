@@ -10,6 +10,8 @@ export type CreatUpdateFormGeneralType = {
   [key: string]: string | number[];
 };
 
+export type ErrorWithStatus = Error & { status?: number };
+
 export type UserType = User & {
   isHavePermission: boolean | null;
 };

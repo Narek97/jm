@@ -1,0 +1,25 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.history-drawer {
+  width: 60dvw;
+  height: calc(100% - 2.5rem);
+
+  &--body {
+    height: 100%;
+    padding: 2.5rem;
+    overflow: auto;
+    background-color: $BASE-LIGHT-GRAY-COLOR-2;
+  }
+
+  &--ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &--relative-loading-block {
+    position: relative;
+    margin-top: 2.5rem;
+  }
+}

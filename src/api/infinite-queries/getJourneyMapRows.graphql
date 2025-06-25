@@ -1,0 +1,238 @@
+query GetJourneyMapRows($getJourneyMapInput: GetJourneyMapInput!) {
+  getJourneyMap(getJourneyMapInput: $getJourneyMapInput) {
+    rowCount
+    rows {
+      id
+      isLocked
+      isCollapsed
+      isPersonaAverageDisabled
+      outcomeGroup {
+        id
+        icon
+        name
+        pluralName
+      }
+      boxes {
+        id
+        columnId
+        average
+        mergeCount
+        boxTextElement {
+          commentsCount
+          rowId
+          id
+          text
+          tagsCount
+        }
+        boxElements {
+          attachment {
+            hasResizedVersions
+            imgScaleType
+          }
+          attachmentPosition {
+            width
+            height
+            x
+            y
+          }
+          note {
+            text
+          }
+          commentsCount
+          rowId
+          id
+          attachmentId
+          text
+          flippedText
+          digsiteUrl
+          rowId
+          bgColor
+          tagsCount
+          persona {
+            id
+            name
+            type
+            color
+            attachment {
+              url
+              key
+            }
+          }
+        }
+        touchPoints {
+          rowId
+          columnId
+          commentsCount
+          id
+          title
+          iconUrl
+          flippedText
+          bgColor
+           note {
+            text
+          }
+          tagsCount
+          persona {
+            id
+            name
+            type
+            color
+            attachment {
+              url
+              key
+            }
+          }
+        }
+        outcomes {
+          id
+          title
+          description
+          createdAt
+          status
+          rowId
+          columnId
+          stepId
+          personaId
+          commentsCount
+          flippedText
+          outcomeGroupId
+          icon
+          bgColor
+          tagsCount
+          persona {
+            id
+            name
+            type
+            color
+            attachment {
+              url
+              key
+              croppedArea {
+                width
+                height
+                x
+                y
+              }
+            }
+          }
+        }
+        metrics {
+          rowId
+          columnId
+          id
+          name
+          commentsCount
+          descriptionEnabled
+          description
+          type
+          value
+          goal
+          typeData
+          flippedText
+          surveyId
+          questionId
+          source
+          startDate
+          endDate
+          dateRange
+          overall
+          nps
+          csat
+          ces
+          x
+          y
+          z
+          note {
+            text
+          }
+          tagsCount
+          persona {
+            id
+            name
+            type
+            color
+            attachment {
+              url
+              key
+              croppedArea {
+                width
+                height
+                x
+                y
+              }
+            }
+          }
+        }
+        links {
+          id
+          title
+          type
+          url
+          icon
+          index
+          commentsCount
+          linkedJourneyMapId
+          linkedMapId
+          flippedText
+          rowId
+          bgColor
+          note {
+            text
+          }
+          tagsCount
+          mapPersonaImages {
+            color
+            key
+            url
+          }
+          personaImage {
+            key
+            url
+            color
+          }
+        }
+        step {
+          id
+          name
+          index
+          columnId
+          isMerged
+          bgColor
+        }
+      }
+      rowWithPersonas {
+        isDisabledForThisRow
+        type
+        id
+        name
+        color
+        croppedArea {
+          width
+          height
+          x
+          y
+        }
+        attachment {
+          key
+          url
+          croppedArea {
+            width
+            height
+            x
+            y
+          }
+        }
+        personaStates {
+          stepId
+          rowId
+          boxId
+          columnId
+          state
+        }
+      }
+      rowFunction
+      label
+      size
+    }
+  }
+}

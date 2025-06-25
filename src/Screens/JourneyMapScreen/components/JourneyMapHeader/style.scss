@@ -1,0 +1,140 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.journey-map-header {
+  background-color: $BASE_WHITE-COLOR;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--top-block {
+    @include flex-center-between;
+  }
+
+  &--left-block {
+    display: flex;
+    flex: 1;
+    gap: 0.5rem;
+    .child-parent-map-icon {
+      &:hover {
+        @include svg-fill(#1b3380);
+      }
+    }
+  }
+
+  &--right-block {
+    @include flex-center;
+    gap: 0.5rem;
+
+    &--operations {
+      @include flex-center-between;
+      gap: 0.8rem;
+
+      .map-layers {
+        .custom-vertical-menu {
+          border-radius: 0;
+          display: block;
+
+          &--btn {
+            border-bottom: 0.0625rem solid #d8d8d8;
+            position: relative;
+            min-width: 6.5rem;
+            display: flex;
+            justify-content: flex-start;
+            padding: 0.25rem 0;
+            color: #545e6b;
+            font-size: $BASE_FONT-SIZE;
+          }
+        }
+
+        .custom-vertical-menu-open {
+          .custom-vertical-menu--btn {
+            &::before {
+              transform: translateY(-50%) rotate(0);
+            }
+          }
+        }
+      }
+
+      .map-layers--text {
+        margin-left: 0.5rem;
+        @include reduce-text(100%);
+        padding-right: 1.375rem;
+      }
+
+      .wu-tooltip-btn {
+        @include flex-center-center;
+        width: 1.5rem;
+        height: 1.5rem;
+        &:hover {
+          @include svg-fill(#1b3380);
+          background-color: #eeeeee;
+        }
+      }
+    }
+  }
+
+  &--go-back-block {
+    @include flex-center-center;
+    gap: 0.75rem;
+  }
+
+  &--title {
+    width: 100%;
+    font-size: $BASE-LARGE-SIZE;
+    @include reduce-text(100%);
+  }
+
+  &--buttons-icon-btn {
+    @include flex-center-center;
+    width: 1.5rem;
+    height: 1.5rem;
+    box-sizing: border-box;
+  }
+
+  &--selected-persona {
+    &--open-close-btn-block {
+      padding-top: 0.625rem;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      color: $BASE_GRAY_COLOR;
+      background-color: $BASE_WHITE-COLOR;
+    }
+
+    &--open-btn {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .outline-btn {
+    &:hover {
+      @include svg-fill($BASE_WHITE-COLOR);
+    }
+  }
+}
+
+.manage-layers-btn {
+  color: $BASE_GRAY_COLOR;
+  font-size: $BASE_FONT-SIZE;
+  margin-top: 1rem;
+  background-color: $BASE_WHITE-COLOR;
+  padding: 0.5rem;
+  position: relative;
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+
+  &::after {
+    content: '';
+    width: calc(100% - 1rem);
+    height: 0.0625rem;
+    background-color: #eeeeee;
+    position: absolute;
+    transform: translateX(-50%);
+    top: -0.5rem;
+    left: 50%;
+  }
+}

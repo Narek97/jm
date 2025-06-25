@@ -1,0 +1,12 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.version-history-drawer {
+  width: 20.5rem;
+  height: calc(100% - 2.5rem);
+
+  &--body {
+    height: 100%;
+    overflow: auto;
+  }
+}

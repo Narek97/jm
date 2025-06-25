@@ -29,6 +29,7 @@ import { Route as AuthenticatedSecondarySidebarLayoutBoardBoardIdJourniesIndexIm
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaPersonaIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona/$personaId/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupPersonaGroupIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-group/$personaGroupId/index'
 import { Route as AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index'
+import { Route as AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexImport } from './routes/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/index'
 
 // Create/Update Routes
 
@@ -170,6 +171,16 @@ const AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdInd
     } as any,
   )
 
+const AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute =
+  AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexImport.update(
+    {
+      id: '/journey-map/$mapId/',
+      path: '/journey-map/$mapId/',
+      getParentRoute: () =>
+        AuthenticatedSecondarySidebarLayoutBoardBoardIdRoute,
+    } as any,
+  )
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -279,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexImport
       parentRoute: typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdImport
     }
+    '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/': {
+      id: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/'
+      path: '/journey-map/$mapId'
+      fullPath: '/board/$boardId/journey-map/$mapId'
+      preLoaderRoute: typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexImport
+      parentRoute: typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdImport
+    }
     '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': {
       id: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
       path: '/outcome/$outcomeId'
@@ -328,12 +346,15 @@ const AuthenticatedPrimarySidebarLayoutRouteWithChildren =
 
 interface AuthenticatedSecondarySidebarLayoutBoardBoardIdRouteChildren {
   AuthenticatedSecondarySidebarLayoutBoardBoardIdJourniesIndexRoute: typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourniesIndexRoute
+  AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute: typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute
 }
 
 const AuthenticatedSecondarySidebarLayoutBoardBoardIdRouteChildren: AuthenticatedSecondarySidebarLayoutBoardBoardIdRouteChildren =
   {
     AuthenticatedSecondarySidebarLayoutBoardBoardIdJourniesIndexRoute:
       AuthenticatedSecondarySidebarLayoutBoardBoardIdJourniesIndexRoute,
+    AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute:
+      AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute,
   }
 
 const AuthenticatedSecondarySidebarLayoutBoardBoardIdRouteWithChildren =
@@ -421,6 +442,7 @@ export interface FileRoutesByFullPath {
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
+  '/board/$boardId/journey-map/$mapId': typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
   '/workspace/$workspaceId/persona-group/$personaGroupId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupPersonaGroupIdIndexRoute
   '/workspace/$workspaceId/persona/$personaId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaPersonaIdIndexRoute
@@ -440,6 +462,7 @@ export interface FileRoutesByTo {
   '/workspace/$workspaceId/boards': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/workspace/$workspaceId/interviews': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/workspace/$workspaceId/persona-groups': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
+  '/board/$boardId/journey-map/$mapId': typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute
   '/workspace/$workspaceId/outcome/$outcomeId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
   '/workspace/$workspaceId/persona-group/$personaGroupId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupPersonaGroupIdIndexRoute
   '/workspace/$workspaceId/persona/$personaId': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaPersonaIdIndexRoute
@@ -462,6 +485,7 @@ export interface FileRoutesById {
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdBoardsIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdInterviewsIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupsIndexRoute
+  '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/': typeof AuthenticatedSecondarySidebarLayoutBoardBoardIdJourneyMapMapIdIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdOutcomeOutcomeIdIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-group/$personaGroupId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaGroupPersonaGroupIdIndexRoute
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona/$personaId/': typeof AuthenticatedSecondarySidebarLayoutWorkspaceWorkspaceIdPersonaPersonaIdIndexRoute
@@ -483,6 +507,7 @@ export interface FileRouteTypes {
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/persona-groups'
+    | '/board/$boardId/journey-map/$mapId'
     | '/workspace/$workspaceId/outcome/$outcomeId'
     | '/workspace/$workspaceId/persona-group/$personaGroupId'
     | '/workspace/$workspaceId/persona/$personaId'
@@ -501,6 +526,7 @@ export interface FileRouteTypes {
     | '/workspace/$workspaceId/boards'
     | '/workspace/$workspaceId/interviews'
     | '/workspace/$workspaceId/persona-groups'
+    | '/board/$boardId/journey-map/$mapId'
     | '/workspace/$workspaceId/outcome/$outcomeId'
     | '/workspace/$workspaceId/persona-group/$personaGroupId'
     | '/workspace/$workspaceId/persona/$personaId'
@@ -521,6 +547,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/boards/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/interviews/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/'
+    | '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-group/$personaGroupId/'
     | '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona/$personaId/'
@@ -593,7 +620,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_secondary-sidebar-layout/board/$boardId.tsx",
       "parent": "/_authenticated/_secondary-sidebar-layout",
       "children": [
-        "/_authenticated/_secondary-sidebar-layout/board/$boardId/journies/"
+        "/_authenticated/_secondary-sidebar-layout/board/$boardId/journies/",
+        "/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/"
       ]
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId": {
@@ -635,6 +663,10 @@ export const routeTree = rootRoute
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/": {
       "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/persona-groups/index.tsx",
       "parent": "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId"
+    },
+    "/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/": {
+      "filePath": "_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/index.tsx",
+      "parent": "/_authenticated/_secondary-sidebar-layout/board/$boardId"
     },
     "/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/": {
       "filePath": "_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/index.tsx",

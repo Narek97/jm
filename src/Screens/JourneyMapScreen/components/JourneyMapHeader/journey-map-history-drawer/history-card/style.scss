@@ -1,0 +1,34 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.history-card {
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  color: $BASE_GRAY_COLOR;
+  background-color: $BASE-WHITE-COLOR;
+
+  &--user-info {
+    @include flex-center;
+    gap: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
+
+  &--avatar {
+    @include base-round-btn($width: 1.875rem, $height: 1.875rem);
+  }
+
+  &--history-steps {
+    p {
+      display: inline;
+    }
+  }
+
+  &--color-block {
+    display: inline-block;
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 0.0625rem solid;
+    margin: 0 0.25rem;
+  }
+}

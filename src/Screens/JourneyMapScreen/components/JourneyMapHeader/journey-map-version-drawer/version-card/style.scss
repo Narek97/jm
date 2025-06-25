@@ -1,0 +1,19 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.version-card {
+  @include flex-center-between;
+  margin: 0.75rem;
+  padding: 0.5rem 0.25rem;
+  line-height: 1.5rem;
+  cursor: pointer;
+  color: $BASE_GRAY_COLOR;
+
+  &:hover {
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+  }
+
+  &--title {
+    font-size: 1rem;
+  }
+}
