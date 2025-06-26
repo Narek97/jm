@@ -52,6 +52,7 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import { JOURNEY_MAP_LIMIT } from '@/constants/pagination';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
+import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
 import { JourneyMapType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
@@ -81,7 +82,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     updateIsOpenSelectedJourneyMapPersonaInfo,
   } = useJourneyMapStore();
 
-  const { currentLayer, setCurrentLayer } = useLayerStore();
+  const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
   const { setBreadcrumbs } = useBreadcrumbStore();
 
@@ -215,7 +216,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     },
   );
 
-  const { data: boardById } = useGetBoardByIdQuery<GetBoardByIdQuery, Error>(
+  const { data: dataBoardById } = useGetBoardByIdQuery<GetBoardByIdQuery, Error>(
     {
       id: +boardId,
     },
@@ -225,7 +226,8 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   );
 
   const {
-    isLoading: isLoadingJourneyMap,
+    data: dataJourneyMap,
+    isPending: isLoadingJourneyMap,
     isFetching: isFetchingJourneyMap,
     error: errorJourneyMap,
   } = useGetJourneyMapQuery<GetJourneyMapQuery, Error>(
@@ -244,20 +246,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       },
     },
     {
-      // onSuccess: response => {
-      //   const journeyMapGeneralData = response?.getJourneyMap;
-      //   setJourneyMap(prev => ({
-      //     title: journeyMapGeneralData?.map?.title?.trim() || 'Untitled',
-      //     workspaceId: boardById?.getBoardById.workspace?.id! || null,
-      //     columns: journeyMapGeneralData?.columns || [],
-      //     rows: prev.rows,
-      //   }));
-      // },
-      enabled: isGuest || !!boardById?.getBoardById.workspace?.id,
+      enabled: isGuest || !!dataBoardById?.getBoardById.workspace?.id,
     },
   );
 
-  useGetLayersByMapIdQuery<GetLayersByMapIdQuery, Error>(
+  const { data: dataLayers } = useGetLayersByMapIdQuery<GetLayersByMapIdQuery, Error>(
     {
       getLayersInput: {
         mapId: +mapId,
@@ -265,15 +258,6 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     },
     {
       enabled: !isGuest,
-      // onSuccess: data => {
-      //   if (data?.getLayersByMapId?.layers[0]) {
-      //     setCurrentLayer({
-      //       ...(data?.getLayersByMapId?.layers[0] || {}),
-      //       isBase: true,
-      //     } as LayerType);
-      //   }
-      //   setLayers((data?.getLayersByMapId?.layers as LayerType[]) || []);
-      // },
     },
   );
 
@@ -533,33 +517,62 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   }, []);
 
   useEffect(() => {
+    if (dataLayers) {
+      if (dataLayers.getLayersByMapId?.layers[0]) {
+        setCurrentLayer({
+          ...(dataLayers?.getLayersByMapId?.layers[0] || {}),
+          isBase: true,
+        });
+      }
+      setLayers(dataLayers?.getLayersByMapId?.layers || []);
+    }
+  }, [dataLayers, setCurrentLayer, setLayers]);
+
+  useEffect(() => {
+    if (dataJourneyMap) {
+      updateJourneyMap({
+        title: dataJourneyMap.getJourneyMap.map.title?.trim() || 'Untitled',
+        columns: dataJourneyMap.getJourneyMap.columns || [],
+      });
+    }
+  }, [dataJourneyMap, updateJourneyMap]);
+
+  useEffect(() => {
+    if (dataBoardById) {
+      updateJourneyMap({
+        workspaceId: dataBoardById?.getBoardById.workspace?.id || null,
+      });
+    }
+  }, [dataBoardById, updateJourneyMap]);
+
+  useEffect(() => {
     setBreadcrumbs([
       {
         name: 'Workspaces',
         pathname: '/workspaces',
       },
       {
-        name: `${boardById?.getBoardById.workspace.name || '...'}`,
-        pathname: `/workspace/${boardById?.getBoardById.workspace.id}/boards`,
+        name: `${dataBoardById?.getBoardById.workspace.name || '...'}`,
+        pathname: `/workspace/${dataBoardById?.getBoardById.workspace.id}/boards`,
       },
       {
-        name: `${boardById?.getBoardById.name || '...'}`,
-        pathname: `/board/${boardById?.getBoardById.id}/journies`,
+        name: `${dataBoardById?.getBoardById.name || '...'}`,
+        pathname: `/board/${dataBoardById?.getBoardById.id}/journies`,
       },
       {
         name: `${journeyMap.title?.trim() || 'Untitled'}`,
       },
     ]);
   }, [
-    boardById?.getBoardById.id,
-    boardById?.getBoardById.name,
-    boardById?.getBoardById.workspace.id,
-    boardById?.getBoardById.workspace.name,
+    dataBoardById?.getBoardById.id,
+    dataBoardById?.getBoardById.name,
+    dataBoardById?.getBoardById.workspace.id,
+    dataBoardById?.getBoardById.workspace.name,
     journeyMap.title,
     setBreadcrumbs,
   ]);
 
-  if (isLoadingJourneyMap || isLoadingFullJourneyMap) {
+  if (isLoadingJourneyMap || isLoadingFullJourneyMap || (isLayerModeOn && isFetchingJourneyMap)) {
     return (
       <div className={'journey-map-wrapper'}>
         <CustomLoader />

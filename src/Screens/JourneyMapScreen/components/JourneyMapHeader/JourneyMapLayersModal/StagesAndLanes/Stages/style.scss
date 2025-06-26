@@ -1,0 +1,10 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.columns-content-summary {
+  position: relative;
+  min-height: 20px;
+  .custom-loader {
+    top: 6px;
+  }
+}

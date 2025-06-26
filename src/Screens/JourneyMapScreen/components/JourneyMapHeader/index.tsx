@@ -1,14 +1,4 @@
-import {
-  ChangeEvent,
-  FC,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-} from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
@@ -22,7 +12,6 @@ import {
 } from '@npm-questionpro/wick-ui-lib';
 import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import dayjs from 'dayjs';
 
 import { useUndoRedo } from '../../hooks/useUndoRedo';
 
@@ -45,9 +34,12 @@ import { querySlateTime } from '@/constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced400 } from '@/hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import JourneyMapLayersModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapLayersModal';
 import { MAP_HEADER_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
+import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useLayerStore } from '@/store/layers.ts';
 import { useUserStore } from '@/store/user.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
@@ -63,7 +55,6 @@ interface IJourneyMapHeader {
 
 const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
   ({ title, isGuest, boardId, mapId, changeMapFullLoadingState }) => {
-    const [isPending, startTransition] = useTransition();
     const isFetching = useIsFetching();
     const isMutating = useIsMutating();
     const { showToast } = useWuShowToast();
@@ -71,7 +62,9 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     const { selectLayerForJourneyMap } = useSelectLayerForMap();
 
     const { user } = useUserStore();
-    const { journeyMapVersion } = useJourneyMapStore();
+    const { journeyMapVersion, defaultJourneyMap, updateJourneyMap, updateJourneyMapVersion } =
+      useJourneyMapStore();
+    const { layers, currentLayer } = useLayerStore();
 
     const navigate = useNavigate();
 
@@ -82,7 +75,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     const [isOpenVersionDrawer, setIsOpenVersionDrawer] = useState<boolean>(false);
 
     const setJourneyMapQuery = useSetQueryDataByKey('GetJourneyMap');
-    console.log(titleValue, 'titleValue');
+
     const headerRef = useRef<HTMLDivElement>(null);
 
     const { mutate: mutateUpdateJourneyMap } = useUpdateJourneyMapMutation<
@@ -194,18 +187,21 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
       setIsOpenLayersModal(prev => !prev);
     };
 
-    const openLayer = useCallback((item: LayerType, isBase: boolean) => {
-      // if (item?.id !== currentLayer?.id) {
-      //   selectLayerForJourneyMap(item, isBase);
-      //   changeMapFullLoadingState();
-      // }
-    }, []);
+    const openLayer = useCallback(
+      (item: LayerType, isBase: boolean) => {
+        if (item.id !== currentLayer.id) {
+          selectLayerForJourneyMap(item, isBase);
+          changeMapFullLoadingState();
+        }
+      },
+      [changeMapFullLoadingState, currentLayer.id, selectLayerForJourneyMap],
+    );
 
     const onHandleBackCurrentVersion = () => {
-      // if (defaultJourneyMap) {
-      //   setJourneyMap(defaultJourneyMap);
-      //   setJourneyMapVersion(null);
-      // }
+      if (defaultJourneyMap) {
+        updateJourneyMap(defaultJourneyMap);
+        updateJourneyMapVersion(null);
+      }
     };
 
     const onHandleNavigateParentMap = useCallback(
@@ -242,16 +238,15 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     ]);
 
     const layersOptions = useMemo(() => {
-      return [];
-      // return (
-      //   layers?.map((layerItem, index) => ({
-      //     id: layerItem?.id,
-      //     name: layerItem?.name,
-      //     value: layerItem?.id,
-      //     onClick: () => openLayer(layerItem, index === 0),
-      //   })) || []
-      // );
-    }, []);
+      return (
+        layers?.map((layerItem, index) => ({
+          id: layerItem?.id,
+          name: layerItem?.name,
+          value: layerItem?.id,
+          onClick: () => openLayer(layerItem, index === 0),
+        })) || []
+      );
+    }, [layers, openLayer]);
 
     useEffect(() => {
       setTitleValue(title.trim() || 'Untitled');
@@ -263,12 +258,13 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
         id={'journey-map-header'}
         ref={headerRef}
         style={{ pointerEvents: isGuest ? 'none' : 'inherit' }}>
-        {/*{isOpenLayersModal && (*/}
-        {/*  <JourneyMapLayersModal*/}
-        {/*    isOpenLayersModal={isOpenLayersModal}*/}
-        {/*    closeLayersModal={toggleLayersModal}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {isOpenLayersModal && (
+          <JourneyMapLayersModal
+            mapId={mapId}
+            isOpenLayersModal={isOpenLayersModal}
+            closeLayersModal={toggleLayersModal}
+          />
+        )}
         {/*{isOpenConvertChildModal && (*/}
         {/*  <ConvertChildModal*/}
         {/*    isOpenLayersModal={isOpenConvertChildModal}*/}
@@ -401,41 +397,36 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
               {!isGuest && (
                 <>
                   <div className={'map-layers'}>
-                    {/*<CustomLongMenu*/}
-                    {/*  options={layersOptions}*/}
-                    {/*  defaultValue={currentLayer?.id}*/}
-                    {/*  buttonId={'map-journey-map-layers-modal'}*/}
-                    {/*  buttonStyles={{*/}
-                    {/*    width: '2rem',*/}
-                    {/*    height: '2rem',*/}
-                    {/*    borderRadius: 2,*/}
-                    {/*  }}*/}
-                    {/*  fixedButton={close => (*/}
-                    {/*    <button*/}
-                    {/*      data-testid={'manage-journey-map-layers'}*/}
-                    {/*      aria-label={'manage-journey-map-layers-modal'}*/}
-                    {/*      onClick={() => {*/}
-                    {/*        close();*/}
-                    {/*        toggleLayersModal();*/}
-                    {/*      }}*/}
-                    {/*      className={'manage-layers-btn'}>*/}
-                    {/*      Manage layers*/}
-                    {/*    </button>*/}
-                    {/*  )}*/}
-                    {/*  menuHeight={240}*/}
-                    {/*  customButton={value => (*/}
-                    {/*    <div className={'map-layers--text'}>{value || 'Base Layer'}</div>*/}
-                    {/*  )}*/}
-                    {/*  type={menuViewTypeEnum.VERTICAL}*/}
-                    {/*  anchorOrigin={{*/}
-                    {/*    vertical: 'bottom',*/}
-                    {/*    horizontal: 'right',*/}
-                    {/*  }}*/}
-                    {/*  transformOrigin={{*/}
-                    {/*    vertical: 'top',*/}
-                    {/*    horizontal: 'right',*/}
-                    {/*  }}*/}
-                    {/*/>*/}
+                    <CustomLongMenu
+                      options={layersOptions}
+                      defaultValue={currentLayer?.id}
+                      buttonId={'map-journey-map-layers-modal'}
+                      fixedButton={close => (
+                        <button
+                          data-testid={'manage-journey-map-layers'}
+                          aria-label={'manage-journey-map-layers-modal'}
+                          onClick={() => {
+                            close();
+                            toggleLayersModal();
+                          }}
+                          className={'manage-layers-btn'}>
+                          Manage layers
+                        </button>
+                      )}
+                      menuHeight={240}
+                      customButton={value => (
+                        <div className={'map-layers--text'}>{value || 'Base Layer'}</div>
+                      )}
+                      type={MenuViewTypeEnum.VERTICAL}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                    />
                   </div>
                   {journeyMapVersion ? null : (
                     <>

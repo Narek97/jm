@@ -1,0 +1,23 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.layers-modal-empty-state-container {
+  @include flex-center-center;
+  flex-direction: column;
+  flex: 1;
+  color: #545e6b;
+
+  &--title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+
+  &--message {
+    font-size: 0.875rem;
+    text-align: center;
+    max-width: 19.75rem;
+    line-height: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
