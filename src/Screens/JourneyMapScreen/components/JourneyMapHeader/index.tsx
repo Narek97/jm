@@ -34,7 +34,10 @@ import { querySlateTime } from '@/constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced400 } from '@/hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import ConvertChildModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/ConvertChildModal';
+import HistoryDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapHistoryDrawer';
 import JourneyMapLayersModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapLayersModal';
+import VersionDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer';
 import { MAP_HEADER_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -265,19 +268,21 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
             closeLayersModal={toggleLayersModal}
           />
         )}
-        {/*{isOpenConvertChildModal && (*/}
-        {/*  <ConvertChildModal*/}
-        {/*    isOpenLayersModal={isOpenConvertChildModal}*/}
-        {/*    closeLayersModal={onHandleToggleConvertChildModal}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {isOpenConvertChildModal && (
+          <ConvertChildModal
+            mapId={mapId}
+            boardId={boardId}
+            isOpenLayersModal={isOpenConvertChildModal}
+            closeLayersModal={onHandleToggleConvertChildModal}
+          />
+        )}
         <ErrorBoundary>
           <Drawer
             anchor={'right'}
             data-testid="drawer-test-id"
             open={isOpenHistoryDrawer}
             onClose={onHandleToggleHistoryDrawer}>
-            {/*<HistoryDrawer mapID={+mapID!} onHandleClose={onHandleToggleHistoryDrawer} />*/}
+            <HistoryDrawer mapID={mapId} onHandleClose={onHandleToggleHistoryDrawer} />
           </Drawer>
         </ErrorBoundary>
 
@@ -287,7 +292,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
             data-testid="version-drawer-test-id"
             open={isOpenVersionDrawer}
             onClose={onHandleToggleVersionDrawer}>
-            {/*<VersionDrawer mapID={+mapID!} onHandleClose={onHandleToggleVersionDrawer} />*/}
+            <VersionDrawer mapID={mapId} onHandleClose={onHandleToggleVersionDrawer} />
           </Drawer>
         </ErrorBoundary>
 

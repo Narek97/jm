@@ -1,16 +1,15 @@
 import { FC } from 'react';
 
-import { useSetRecoilState } from 'recoil';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import DeleteModalTemplate from '@/components/templates/delete-modal-template';
-import { GetMapVersionsQuery } from '@/gql/infinite-queries/generated/getMapVersions.generated';
+import { GetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import {
   DeleteMapVersionMutation,
   useDeleteMapVersionMutation,
-} from '@/gql/mutations/generated/deleteMapVersion.generated';
+} from '@/api/mutations/generated/deleteMapVersion.generated.ts';
+import CustomModal from '@/Components/Shared/CustomModal';
+import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
-import { snackbarState } from '@/store/atoms/snackbar.atom';
 
 interface IDeleteVersionModal {
   isOpen: boolean;
@@ -19,11 +18,10 @@ interface IDeleteVersionModal {
 }
 
 const DeleteVersionModal: FC<IDeleteVersionModal> = ({ isOpen, versionId, handleClose }) => {
-  const { mutate, isLoading } = useDeleteMapVersionMutation<Error, DeleteMapVersionMutation>();
+  const { showToast } = useWuShowToast();
 
+  const { mutate, isPending } = useDeleteMapVersionMutation<Error, DeleteMapVersionMutation>();
   const setVersionsQueryData = useSetQueryDataByKey('GetMapVersions.infinite');
-
-  const setSnackbar = useSetRecoilState(snackbarState);
 
   const onHandleCloseModal = () => {
     handleClose(null);
@@ -57,12 +55,10 @@ const DeleteVersionModal: FC<IDeleteVersionModal> = ({ isOpen, versionId, handle
           onHandleCloseModal();
         },
         onError: error => {
-          setSnackbar(prev => ({
-            ...prev,
-            open: true,
-            type: 'error',
-            message: error.message,
-          }));
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
         },
       },
     );
@@ -72,12 +68,12 @@ const DeleteVersionModal: FC<IDeleteVersionModal> = ({ isOpen, versionId, handle
     <CustomModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isLoading}>
+      canCloseWithOutsideClick={!isPending}>
       <DeleteModalTemplate
         item={{ type: 'version', name: 'Version' }}
         handleClose={onHandleCloseModal}
         handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isLoading}
+        isLoading={isPending}
         text={'Are you sure you want to delete version'}
       />
     </CustomModal>

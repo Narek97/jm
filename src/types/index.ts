@@ -52,6 +52,14 @@ export type TableColumnType<T = any> = {
   align?: 'right' | 'left' | 'center';
 };
 
+export type TableColumnPropsType = {
+  toggleDeleteModal?: () => void;
+  onHandleRowChange?: (item: TableRowItemChangeType) => void;
+  onHandleRowDelete?: (item: TableRowItemChangeType) => void;
+  onHandleRowClick?: (id: number, key: string) => void;
+  checkedItemsCount?: number;
+};
+
 export type MenuOptionsType = {
   id?: number;
   icon?: ReactNode;

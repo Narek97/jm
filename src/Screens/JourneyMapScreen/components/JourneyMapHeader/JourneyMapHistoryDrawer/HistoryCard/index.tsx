@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './style.scss';
 
 import dayjs from 'dayjs';
@@ -12,14 +10,13 @@ import {
   MapRowTypeEnum,
   PersonaStateEnum,
   SubActionTypeEnum,
-  TouchPoint,
-} from '@/gql/types';
-import { ObjectKeysType } from '@/utils/ts/types/global-types';
-import { HistoryItemType } from '@/utils/ts/types/journey-map/journey-map-types';
+} from '@/api/types';
+import { MapLogsType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+import { ObjectKeysType } from '@/types';
 
 dayjs.extend(fromNow);
 
-const HistoryCard = ({ history }: { history: HistoryItemType }) => {
+const HistoryCard = ({ history }: { history: MapLogsType }) => {
   const row: ObjectKeysType = {
     [MapRowTypeEnum.Cons]: 'cons',
     [MapRowTypeEnum.Pros]: 'pros',
@@ -69,7 +66,7 @@ const HistoryCard = ({ history }: { history: HistoryItemType }) => {
             return `Added "${history.to?.name}" outcome.`;
           }
           case LoggerTypeEnum.Touchpoint: {
-            return `Added  ${history.to?.touchPoints?.map((touchPoint: TouchPoint) => ` "${touchPoint.title}"`)} touchpoint in ${history.to?.rowFunction} lane.`;
+            return `Added  ${history.to?.touchPoints?.map(touchPoint => ` "${touchPoint.title}"`)} touchpoint in ${history.to?.rowFunction} lane.`;
           }
           case LoggerTypeEnum.Metrics: {
             return `Added "${history.to?.name}" in ${row[history.to?.rowFunction]} lane.`;

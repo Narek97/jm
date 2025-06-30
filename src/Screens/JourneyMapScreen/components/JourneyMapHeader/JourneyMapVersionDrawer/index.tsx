@@ -1,29 +1,25 @@
-'use client';
-
 import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
-import { Box, Modal } from '@mui/material';
+import { Modal } from '@mui/material';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
-import { useSetRecoilState } from 'recoil';
 
-import CustomLoader from '@/components/molecules/custom-loader/custom-loader';
-import ModalFooterButtons from '@/components/molecules/modal-footer-buttons';
-import ModalHeader from '@/components/molecules/modal-header';
-import EmptyDataInfoTemplate from '@/components/templates/empty-data-info-template';
-import DeleteVersionModal from '@/containers/journey-map-container/journey-map-header/journey-map-version-drawer/delete-version-modal';
-import VersionCard from '@/containers/journey-map-container/journey-map-header/journey-map-version-drawer/version-card';
-import { useInfiniteGetMapVersionsQuery } from '@/gql/infinite-queries/generated/getMapVersions.generated';
+import { useInfiniteGetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import {
   ReplaceMapVersionMutation,
   useReplaceMapVersionMutation,
-} from '@/gql/mutations/generated/replaceMapVersion.generated';
-import CloseIcon from '@/public/base-icons/close.svg';
-import { journeyMapState, journeyMapVersionState } from '@/store/atoms/journeyMap.atom';
-import { JOURNEY_MAP_VERSION_LIMIT } from '@/utils/constants/pagination';
-import { MapVersionType } from '@/utils/ts/types/journey-map/journey-map-types';
+} from '@/api/mutations/generated/replaceMapVersion.generated.ts';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { JOURNEY_MAP_VERSION_LIMIT } from '@/constants/pagination';
+import DeleteVersionModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/DeleteVersionModal';
+import VersionCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/VersionCard';
+import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
 
 interface IVersionDrawer {
   mapID: number;
@@ -32,69 +28,76 @@ interface IVersionDrawer {
 dayjs.extend(fromNow);
 
 const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
-  const childRef = useRef<HTMLUListElement>(null);
+  const { updateJourneyMapVersion, updateJourneyMap } = useJourneyMapStore();
 
   const [selectedVersion, setSelectedVersion] = useState<MapVersionType | null>(null);
   const [selectDeletedVersionId, setSelectDeletedVersionId] = useState<number | null>(null);
 
-  const setJourneyMapVersion = useSetRecoilState(journeyMapVersionState);
-  const setJourneyMap = useSetRecoilState(journeyMapState);
+  const childRef = useRef<HTMLUListElement>(null);
 
-  const { mutate: mutateReplaceMapVersion, isLoading: isLoadingReplaceMapVersion } =
-    useReplaceMapVersionMutation<ReplaceMapVersionMutation, Error>();
+  const { mutate: mutateReplaceMapVersion, isPending: isLoadingReplaceMapVersion } =
+    useReplaceMapVersionMutation<Error, ReplaceMapVersionMutation>();
 
   const {
-    data: versions,
-    isLoading: versionsIsLoading,
+    data: versionsData,
     isFetching: versionsIsFetchingNextPage,
+    hasNextPage: versionsHasNextPage,
     fetchNextPage: versionsFetchNextPage,
-  } = useInfiniteGetMapVersionsQuery({
-    getMapVersionsInput: {
-      mapId: mapID,
-      limit: JOURNEY_MAP_VERSION_LIMIT,
-      offset: 0,
+  } = useInfiniteGetMapVersionsQuery(
+    {
+      getMapVersionsInput: {
+        mapId: mapID,
+        limit: JOURNEY_MAP_VERSION_LIMIT,
+        offset: 0,
+      },
     },
-  });
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.getMapVersions.mapVersions || !lastPage.getMapVersions.mapVersions.length) {
+          return undefined;
+        }
+        return {
+          mapId: mapID,
+          paginationInput: {
+            limit: JOURNEY_MAP_VERSION_LIMIT,
+            offset: allPages.length * JOURNEY_MAP_VERSION_LIMIT,
+          },
+        };
+      },
+      initialPageParam: 0,
+    },
+  );
 
-  const versionsData: Array<MapVersionType> = useMemo(() => {
-    if (versions?.pages && versions?.pages[0] !== undefined) {
-      return versions.pages.reduce<Array<MapVersionType>>(
-        (acc, curr) => [...acc, ...curr.getMapVersions.mapVersions],
-        [],
-      );
+  const renderedVersionsData = useMemo<Array<MapVersionType>>(() => {
+    if (!versionsData?.pages) {
+      return [];
     }
-    return [];
-  }, [versions?.pages]);
+
+    return versionsData.pages.reduce((acc: Array<MapVersionType>, curr) => {
+      if (curr?.getMapVersions.mapVersions) {
+        return [...acc, ...(curr.getMapVersions.mapVersions as Array<MapVersionType>)];
+      }
+      return acc;
+    }, []);
+  }, [versionsData?.pages]);
 
   const onHandleFetch = (e: React.UIEvent<HTMLElement>, childOffsetHeight: number) => {
     const target = e.currentTarget as HTMLDivElement | null;
     if (
-      e.target &&
-      childOffsetHeight &&
       target &&
       target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
-      !versionsIsFetchingNextPage &&
-      !versionsIsLoading &&
-      versionsData.length < versions?.pages[0].getMapVersions.count!
+      versionsHasNextPage
     ) {
-      versionsFetchNextPage({
-        pageParam: {
-          mapId: mapID,
-          paginationInput: {
-            limit: JOURNEY_MAP_VERSION_LIMIT,
-            offset: versionsData.length,
-          },
-        },
-      }).then();
+      versionsFetchNextPage().then();
     }
   };
 
   const onHandleSelectPreliminaryVersion = useCallback(
     (version: MapVersionType) => {
-      setJourneyMapVersion(version);
+      updateJourneyMapVersion(version);
       onHandleClose();
     },
-    [onHandleClose, setJourneyMapVersion],
+    [onHandleClose, updateJourneyMapVersion],
   );
 
   const onHandleRestoreVersion = useCallback((version: MapVersionType) => {
@@ -114,18 +117,17 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
       },
       {
         onSuccess: response => {
-          setJourneyMap(prev => ({
-            ...prev,
+          updateJourneyMap({
             title: response.replaceMapVersion.title?.trim() || 'Untitled',
             columns: response.replaceMapVersion.columns || [],
             rows: response.replaceMapVersion.rows as any,
-          }));
+          });
           setSelectedVersion(null);
           onHandleClose();
         },
       },
     );
-  }, [mutateReplaceMapVersion, onHandleClose, selectedVersion, setJourneyMap]);
+  }, [mutateReplaceMapVersion, onHandleClose, selectedVersion, updateJourneyMap]);
 
   const onHandleCloseConfirmRestore = useCallback(() => {
     setSelectedVersion(null);
@@ -144,14 +146,16 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
         <Modal
           open={!!selectedVersion}
           onClose={() => {
-            !isLoadingReplaceMapVersion && setSelectedVersion(null);
+            if (!isLoadingReplaceMapVersion) {
+              updateJourneyMapVersion(null);
+            }
           }}>
           <div className={'version-modal'}>
-            <ModalHeader title={'Version'} />
+            <CustomModalHeader title={'Version'} />
             <div className={'version-modal--content'}>
               <p>Are you sure you want to restore "{selectedVersion?.versionName}"</p>
             </div>
-            <ModalFooterButtons
+            <CustomModalFooterButtons
               handleFirstButtonClick={onHandleCloseConfirmRestore}
               handleSecondButtonClick={onHandleConfirmRestore}
               isLoading={isLoadingReplaceMapVersion}
@@ -161,9 +165,9 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
         </Modal>
       )}
 
-      <ModalHeader title={'Version history'} />
+      <CustomModalHeader title={'Version history'} />
       <button onClick={onHandleClose} aria-label={'close drawer'} className={'close-drawer'}>
-        <CloseIcon fill={'#545E6B'} />
+        <span className={'wm-close'} />
       </button>
       <div
         data-testid="versions-list"
@@ -171,9 +175,9 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
         onScroll={e => {
           onHandleFetch(e, childRef.current?.offsetHeight || 0);
         }}>
-        {versionsData.length ? (
+        {renderedVersionsData.length ? (
           <ul data-testid="versions-list-ul" ref={childRef}>
-            {versionsData.map(version => (
+            {renderedVersionsData.map(version => (
               <li key={version.id}>
                 <VersionCard
                   version={version}
@@ -186,12 +190,12 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
           </ul>
         ) : (
           <>
-            {versionsIsLoading ? (
+            {versionsIsFetchingNextPage ? (
               <>
                 <CustomLoader />
               </>
             ) : (
-              <EmptyDataInfoTemplate icon={<Box />} message={'There are no versions yet'} />
+              <EmptyDataInfo message={'There are no versions yet'} />
             )}
           </>
         )}

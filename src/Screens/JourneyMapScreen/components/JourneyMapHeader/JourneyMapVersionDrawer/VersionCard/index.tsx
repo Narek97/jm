@@ -1,27 +1,27 @@
-import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
 import { ClickAwayListener } from '@mui/material';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import CustomInput from '@/components/atoms/custom-input/custom-input';
-import CustomLongMenu from '@/components/atoms/custom-long-menu/custom-long-menu';
-import { GetMapVersionsQuery } from '@/gql/infinite-queries/generated/getMapVersions.generated';
+import { JOURNEY_MAP_VERSION_CARD_OPTIONS } from '../../constants';
+
+import { GetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import {
   UpdateMapVersionNameMutation,
   useUpdateMapVersionNameMutation,
-} from '@/gql/mutations/generated/updateMapVersionName.generated';
-import { debounced400 } from '@/hooks/useDebounce';
+} from '@/api/mutations/generated/updateMapVersionName.generated.ts';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import { debounced400 } from '@/hooks/useDebounce.ts';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
-import { journeyMapVersionState } from '@/store/atoms/journeyMap.atom';
-import { snackbarState } from '@/store/atoms/snackbar.atom';
-import { JOURNEY_MAP_VERSION_CARD_OPTIONS } from '@/utils/constants/options';
-import { isDateFormat } from '@/utils/helpers/general';
-import { menuViewTypeEnum } from '@/utils/ts/enums/global-enums';
-import { MapVersionType } from '@/utils/ts/types/journey-map/journey-map-types';
+import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { MenuViewTypeEnum } from '@/types/enum.ts';
+import { isDateFormat } from '@/utils/isDateFormat.ts';
 
 dayjs.extend(fromNow);
 
@@ -38,16 +38,16 @@ const VersionCard: FC<IVersionCard> = ({
   onHandleDeleteVersion,
   onHandleSelectPreliminaryVersion,
 }) => {
+  const { showToast } = useWuShowToast();
+
+  const { journeyMapVersion } = useJourneyMapStore();
+
   const [isEditName, setIsEditName] = useState<boolean>(false);
   const [versionName, setVersionName] = useState<string>(
     isDateFormat(version.versionName, 'MMMM D, h:mm A')
       ? dayjs(version.versionName).format('MMMM D, h:mm A')
       : version.versionName,
   );
-
-  const journeyMapVersion = useRecoilValue(journeyMapVersionState);
-
-  const setSnackbar = useSetRecoilState(snackbarState);
 
   const setVersionsQueryData = useSetQueryDataByKey('GetMapVersions.infinite');
 
@@ -68,35 +68,35 @@ const VersionCard: FC<IVersionCard> = ({
         {
           onSuccess: () => {
             setVersionsQueryData((oldData: any) => {
-              const updatedPages = (oldData.pages as Array<GetMapVersionsQuery>).map(page => {
-                return {
-                  ...page,
-                  getMapVersions: {
-                    ...page.getMapVersions,
-                    mapVersions: page.getMapVersions.mapVersions.map(oldVersion => {
-                      if (oldVersion.id === version.id) {
-                        oldVersion.versionName = name;
-                      }
-                      return oldVersion;
-                    }),
-                  },
-                };
-              });
+              if (oldData) {
+                const updatedPages = (oldData.pages as Array<GetMapVersionsQuery>).map(page => {
+                  return {
+                    ...page,
+                    getMapVersions: {
+                      ...page.getMapVersions,
+                      mapVersions: page.getMapVersions.mapVersions.map(oldVersion => {
+                        if (oldVersion.id === version.id) {
+                          oldVersion.versionName = name;
+                        }
+                        return oldVersion;
+                      }),
+                    },
+                  };
+                });
 
-              return {
-                ...oldData,
-                pages: updatedPages,
-              };
+                return {
+                  ...oldData,
+                  pages: updatedPages,
+                };
+              }
             });
           },
           onError: error => {
             setVersionName(version.versionName);
-            setSnackbar(prev => ({
-              ...prev,
-              open: true,
-              type: 'error',
-              message: error.message,
-            }));
+            showToast({
+              variant: 'error',
+              message: error?.message,
+            });
           },
         },
       );
@@ -150,7 +150,7 @@ const VersionCard: FC<IVersionCard> = ({
           {journeyMapVersion?.id !== version.id && (
             <CustomLongMenu
               options={options}
-              type={menuViewTypeEnum.VERTICAL}
+              type={MenuViewTypeEnum.VERTICAL}
               isDefaultOpen={true}
               anchorOrigin={{
                 vertical: 'bottom',

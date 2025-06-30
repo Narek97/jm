@@ -1,3 +1,5 @@
+import { GetMapLogsQuery } from '@/api/infinite-queries/generated/getMapLogs.generated.ts';
+import { GetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import { GetBoardTagsQuery } from '@/api/queries/generated/getBoardTags.generated.ts';
 import { GetJourneyMapRowsAndColumnsQuery } from '@/api/queries/generated/getJourneyMapRowsAndColumns.generated.ts';
 import { ObjectKeysType } from '@/types';
@@ -28,3 +30,7 @@ export type LayerStagesAndLanesType = {
 };
 
 export type BoardTagType = GetBoardTagsQuery['getBoardTags']['tags'][number];
+
+export type MapLogsType = GetMapLogsQuery['getMapLogs']['mapLogs'][number];
+
+export type MapVersionType = GetMapVersionsQuery['getMapVersions']['mapVersions'][number];

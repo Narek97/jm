@@ -1,0 +1,67 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.convert-child-modal {
+  width: 66dvw;
+
+  &--content {
+    padding: 1rem 2rem;
+    height: 30.5rem;
+    &--moving-info {
+      &-title {
+        color: $BASE_GRAY_COLOR;
+        margin-bottom: 0.2rem;
+      }
+      &-breadcrumb {
+        display: flex;
+        color: #9b9b9b;
+        margin-bottom: 1rem;
+        &--item {
+          @include reduce-text(50%);
+        }
+      }
+      .breadcrumb-divider {
+        margin: 0 0.4rem;
+      }
+      .active-breadcrumb {
+        color: $BASE_GRAY_COLOR;
+      }
+    }
+    &--select-map-text {
+      color: $BASE_GRAY_COLOR;
+      margin-bottom: 0.4rem;
+    }
+    .custom-table {
+      .processing-item {
+        td {
+          pointer-events: none;
+          background: #edf6fd !important;
+        }
+      }
+      thead,
+      tbody {
+        tr {
+          td:first-child {
+            width: 80%;
+          }
+        }
+      }
+    }
+    .pagination-section {
+      margin-bottom: 1rem;
+      &--selected-pages {
+        justify-content: right;
+      }
+    }
+  }
+
+  @include base-modal-footer(1rem 0);
+
+  .base-modal-footer {
+    margin: auto !important;
+    width: calc(100% - 2rem);
+  }
+  .modal-footer-buttons {
+    margin: auto;
+  }
+}
