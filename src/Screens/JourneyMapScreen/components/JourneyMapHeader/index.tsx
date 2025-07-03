@@ -12,6 +12,7 @@ import {
 } from '@npm-questionpro/wick-ui-lib';
 import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import dayjs from 'dayjs';
 
 import { useUndoRedo } from '../../hooks/useUndoRedo';
 
@@ -28,6 +29,7 @@ import {
   GetParentMapChildrenQuery,
   useGetParentMapChildrenQuery,
 } from '@/api/queries/generated/getParentMapChildren.generated';
+import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { querySlateTime } from '@/constants';
@@ -44,9 +46,8 @@ import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { useUserStore } from '@/store/user.ts';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
-
-// @/containers/journey-map-container/convert-child-modal
+import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { isDateFormat } from '@/utils/isDateFormat.ts';
 
 interface IJourneyMapHeader {
   title: string;
@@ -65,8 +66,14 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     const { selectLayerForJourneyMap } = useSelectLayerForMap();
 
     const { user } = useUserStore();
-    const { journeyMapVersion, defaultJourneyMap, updateJourneyMap, updateJourneyMapVersion } =
-      useJourneyMapStore();
+    const {
+      journeyMapVersion,
+      defaultJourneyMap,
+      selectedJourneyMapPersona,
+      updateJourneyMap,
+      updateJourneyMapVersion,
+      updateIsOpenSelectedJourneyMapPersonaInfo,
+    } = useJourneyMapStore();
     const { layers, currentLayer } = useLayerStore();
 
     const navigate = useNavigate();
@@ -108,8 +115,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     const onHandleUpdateTitle = (e: ChangeEvent<HTMLInputElement>) => {
       setTitleValue(e.target.value);
       const newTitle = e.target.value;
-      // todo
-      // setBreadcrumb(prev => [...prev.slice(0, prev.length - 1), { name: newTitle }]);
+
       debounced400(() => {
         mutateUpdateJourneyMap(
           {
@@ -121,24 +127,17 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
           {
             onSuccess: () => {
               setJourneyMapQuery((oldData: any) => {
-                console.log(oldData, 'oldatas');
-                // const updatedPages = (oldData?.pages as Array<JourneysGetResponseType>).map(
-                //   page => {
-                //     return {
-                //       ...page,
-                //       getMaps: {
-                //         ...page.getMaps,
-                //         maps: page.getMaps.maps.map(journey =>
-                //           journey.id === +mapID! ? { ...journey, title: newTitle } : journey,
-                //         ),
-                //       },
-                //     };
-                //   },
-                // );
-                // return {
-                //   ...oldData,
-                //   pages: updatedPages,
-                // };
+                if (oldData) {
+                  return {
+                    getJourneyMap: {
+                      ...oldData.getJourneyMap,
+                      map: {
+                        ...oldData.getJourneyMap.map,
+                        title: newTitle,
+                      },
+                    },
+                  };
+                }
               });
             },
           },
@@ -149,7 +148,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
 
     const onHandleCopyPageUrl = useCallback(async () => {
       await navigator.clipboard?.writeText(
-        `${process.env.NEXT_PUBLIC_APP}/guest/board/${boardId}/journey-map/${mapId}`,
+        `${import.meta.env.VITE_APP_URL}/guest/board/${boardId}/journey-map/${mapId}`,
       );
       showToast({
         variant: 'success',
@@ -176,15 +175,18 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     }, []);
 
     const onHandleDownloadPdf = useCallback(async () => {
+      showToast({
+        variant: 'info',
+        message: 'Download is in progress. It may take a few seconds.',
+        duration: 2000,
+      });
       const url = `${process.env.NEXT_PUBLIC_SOCKET_URL}/pdf/map/${mapId}`;
-
-      // todo toast
       try {
         await $apiClient.get(url);
       } catch (error) {
         console.error(error);
       }
-    }, [mapId]);
+    }, [mapId, showToast]);
 
     const toggleLayersModal = () => {
       setIsOpenLayersModal(prev => !prev);
@@ -298,24 +300,25 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
 
         <div className={'journey-map-header--top-block'}>
           <div className={'journey-map-header--left-block'}>
-            {/*{selectedPerson && (*/}
-            {/*  <button*/}
-            {/*    onClick={() => setIsOpenSelectedJourneyMapPersonaInfo(prev => !prev)}*/}
-            {/*    aria-label={'Persona'}>*/}
-            {/*    <PersonaImageBox*/}
-            {/*      title={''}*/}
-            {/*      size={ImageSizeEnum.SM}*/}
-            {/*      imageItem={{*/}
-            {/*        color: selectedPerson.color || '',*/}
-            {/*        attachment: {*/}
-            {/*          url: selectedPerson.attachment?.url || '',*/}
-            {/*          key: selectedPerson.attachment?.key || '',*/}
-            {/*          croppedArea: selectedPerson?.croppedArea,*/}
-            {/*        },*/}
-            {/*      }}*/}
-            {/*    />*/}
-            {/*  </button>*/}
-            {/*)}*/}
+            {selectedJourneyMapPersona && (
+              <button
+                onClick={() => updateIsOpenSelectedJourneyMapPersonaInfo(true)}
+                aria-label={'Persona'}>
+                <PersonaImageBox
+                  title={''}
+                  size={ImageSizeEnum.SM}
+                  imageItem={{
+                    color: selectedJourneyMapPersona.color || '',
+                    attachment: {
+                      id: selectedJourneyMapPersona.attachment?.id || 0,
+                      url: selectedJourneyMapPersona.attachment?.url || '',
+                      key: selectedJourneyMapPersona.attachment?.key || '',
+                      croppedArea: selectedJourneyMapPersona?.croppedArea,
+                    },
+                  }}
+                />
+              </button>
+            )}
 
             <>
               <div>
@@ -360,9 +363,9 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
                     <span className={'wm-arrow-back'} />
                   </button>
                   <p className="journey-map-header--title">
-                    {/*{isDateFormat(journeyMapVersion.versionName, 'MMMM D, h:mm A')*/}
-                    {/*  ? dayjs(journeyMapVersion.versionName).format('MMMM D, h:mm A')*/}
-                    {/*  : journeyMapVersion.versionName}*/}
+                    {isDateFormat(journeyMapVersion.versionName, 'MMMM D, h:mm A')
+                      ? dayjs(journeyMapVersion.versionName).format('MMMM D, h:mm A')
+                      : journeyMapVersion.versionName}
                   </p>
                 </div>
               ) : (

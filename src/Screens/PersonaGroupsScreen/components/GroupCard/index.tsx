@@ -107,10 +107,10 @@ const GroupCard: FC<IGroupCard> = ({
                       imageItem={{
                         color: '',
                         attachment: {
+                          id: persona?.id,
                           url: persona?.attachment?.url || '',
                           key: persona?.attachment?.key || '',
                           croppedArea: persona?.croppedArea || {},
-                          id: persona?.id,
                         },
                       }}
                       size={ImageSizeEnum.SM}

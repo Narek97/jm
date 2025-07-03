@@ -15,6 +15,7 @@ query GetMapSelectedPersonas($mapId: Int!) {
       y
     }
     attachment {
+      id
       key
       url
       hasResizedVersions

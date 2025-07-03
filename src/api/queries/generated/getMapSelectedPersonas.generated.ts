@@ -7,7 +7,7 @@ export type GetMapSelectedPersonasQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetMapSelectedPersonasQuery = { __typename?: 'Query', getMapSelectedPersonas: Array<{ __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachmentId?: number | null, isSelected: boolean, journeys: number, personaGroupId: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', key: string, url: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> };
+export type GetMapSelectedPersonasQuery = { __typename?: 'Query', getMapSelectedPersonas: Array<{ __typename?: 'personas', id: number, name: string, type: string, color?: string | null, attachmentId?: number | null, isSelected: boolean, journeys: number, personaGroupId: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', id: number, key: string, url: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> };
 
 
 
@@ -29,6 +29,7 @@ export const GetMapSelectedPersonasDocument = `
       y
     }
     attachment {
+      id
       key
       url
       hasResizedVersions
