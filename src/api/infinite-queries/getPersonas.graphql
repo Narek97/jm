@@ -15,6 +15,7 @@ query GetPersonas($getPersonasInput: GetPersonasInput!) {
       color
       type
       journeys
+      isSelected
       croppedArea {
         width
         height

@@ -7,7 +7,7 @@ export type GetPersonasQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetPersonasQuery = { __typename?: 'Query', getPersonas: { __typename?: 'GetPersonasModel', count?: number | null, workspace?: { __typename?: 'PartialWorkspace', id: number, name: string } | null, personaGroup?: { __typename?: 'PartialPersonaGroup', id: number, name: string } | null, personas: Array<{ __typename?: 'personas', id: number, name: string, color?: string | null, type: string, journeys: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', id: number, url: string, key: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> } };
+export type GetPersonasQuery = { __typename?: 'Query', getPersonas: { __typename?: 'GetPersonasModel', count?: number | null, workspace?: { __typename?: 'PartialWorkspace', id: number, name: string } | null, personaGroup?: { __typename?: 'PartialPersonaGroup', id: number, name: string } | null, personas: Array<{ __typename?: 'personas', id: number, name: string, color?: string | null, type: string, journeys: number, isSelected: boolean, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', id: number, url: string, key: string, hasResizedVersions?: boolean | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> } };
 
 
 
@@ -29,6 +29,7 @@ export const GetPersonasDocument = `
       color
       type
       journeys
+      isSelected
       croppedArea {
         width
         height

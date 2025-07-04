@@ -6,6 +6,8 @@ import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
 
+import JourneyMapFooter from './components/JourneyMapFooter';
+
 import {
   GetJourneyMapRowsQuery,
   useInfiniteGetJourneyMapRowsQuery,
@@ -52,7 +54,6 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import { JOURNEY_MAP_LIMIT } from '@/constants/pagination';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
-import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
 import { JourneyMapType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
@@ -78,6 +79,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     selectedJourneyMapPersona,
     updateJourneyMap,
     updateJourneyMapVersion,
+    updateMapAssignedPersonas,
     updateSelectedJourneyMapPersona,
     updateIsOpenSelectedJourneyMapPersonaInfo,
   } = useJourneyMapStore();
@@ -103,19 +105,10 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     UpdateJourneyMapColumnMutation
   >();
 
-  const { isLoading: isLoadingMapSelectedPersonas } = useGetMapSelectedPersonasQuery<
-    GetMapSelectedPersonasQuery,
-    Error
-  >(
-    {
+  const { data: dataMapSelectedPersonas, isLoading: isLoadingMapSelectedPersonas } =
+    useGetMapSelectedPersonasQuery<GetMapSelectedPersonasQuery, Error>({
       mapId: +mapId,
-    },
-    {
-      // onSuccess: response => {
-      //   setMapAssignedPersonas(response?.getMapSelectedPersonas);
-      // },
-    },
-  );
+    });
 
   useGetOrganizationUsersQuery<GetOrganizationUsersQuery, Error>(
     {
@@ -546,6 +539,12 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   }, [dataBoardById, updateJourneyMap]);
 
   useEffect(() => {
+    if (dataMapSelectedPersonas) {
+      updateMapAssignedPersonas(dataMapSelectedPersonas.getMapSelectedPersonas);
+    }
+  }, [dataMapSelectedPersonas, updateMapAssignedPersonas]);
+
+  useEffect(() => {
     setBreadcrumbs([
       {
         name: 'Workspaces',
@@ -668,7 +667,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         </div>
       </div>
 
-      {/*<JourneyMapFooter isGuest={isGuest} workspaceId={boardById?.getBoardById.workspace.id!} />*/}
+      <JourneyMapFooter
+        isGuest={isGuest}
+        workspaceId={dataBoardById?.getBoardById.workspace.id}
+        mapId={mapId}
+      />
     </>
   );
 };

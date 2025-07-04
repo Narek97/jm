@@ -1,0 +1,40 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.journey-map-footer {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  z-index: 20;
+  background-color: #eeeeee;
+
+  &--add-new-persona-btn,
+  &--persona,
+  &--overview {
+    @include flex-center-center;
+    width: 3rem;
+    height: 3rem;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: $BASE-LIGHT-GRAY-COLOR-2;
+    }
+  }
+
+  &--overview {
+    outline: 2px dashed $BASE_BLUE_COLOR;
+    outline-offset: -8px;
+    border-radius: 10px;
+  }
+
+  &--add-new-persona-btn {
+    outline: 2px solid $BASE_BLUE_COLOR;
+    outline-offset: -8px;
+    border-radius: 10px;
+  }
+
+  &--selected-item {
+    background-color: white;
+  }
+}

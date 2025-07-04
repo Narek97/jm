@@ -58,6 +58,7 @@ const AiModel = () => {
     () => dataAiModels?.getAiJourneyModels.count || 0,
     [dataAiModels?.getAiJourneyModels.count],
   );
+
   const aiJourneyModels = useMemo(
     () => dataAiModels?.getAiJourneyModels.aiJourneyModels || [],
     [dataAiModels?.getAiJourneyModels.aiJourneyModels],
