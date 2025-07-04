@@ -1175,6 +1175,8 @@ export type GetOutcomeGroupModel = {
 export type GetOutcomeGroupsInput = {
   limit: Scalars['Int']['input'];
   offset: Scalars['Int']['input'];
+  orderBy: OrderByEnum;
+  sortBy: OutcomeGroupSortByEnum;
 };
 
 export type GetOutcomesInput = {
@@ -2885,6 +2887,12 @@ export type OutcomeGroupResponse = {
   name: Scalars['String']['output'];
   pluralName: Scalars['String']['output'];
 };
+
+export enum OutcomeGroupSortByEnum {
+  CreatedAt = 'CREATED_AT',
+  CreatedBy = 'CREATED_BY',
+  Name = 'NAME'
+}
 
 export type OutcomeGroupWithOutcomeCounts = {
   count: Scalars['Int']['output'];

@@ -10,6 +10,7 @@ import {
   BoardTagType,
   LayerFormType,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface IJourneyMapLayersModal {
   mode: ActionEnum;
@@ -86,8 +87,7 @@ const Tags: FC<IJourneyMapLayersModal> = ({
             onChange={() => handleSelectAllLanes()}
             icon={
               currentCheckedTags.length > 0 && currentCheckedTags.length < tags.length ? (
-                // todo
-                <span className={'wm-checklist'} />
+                UNSELECT_ICON
               ) : (
                 <CustomCheckboxIcon />
               )

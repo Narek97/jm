@@ -13,6 +13,7 @@ import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { BOARDS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds.ts';
 
 interface IWorkspaceBoards {
   workspaceId: number;
@@ -22,6 +23,7 @@ interface IWorkspaceBoards {
 
 const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outcomeGroupId }) => {
   const { selectedIdList, setSelectedIdList } = useOutcomePinBoardsStore();
+  const { setOutcomePinnedBoardIds } = useOutcomePinnedBoardIdsStore();
 
   const [boards, setBoards] = useState<any[]>([]);
   const childRef = useRef<HTMLUListElement>(null);
@@ -65,6 +67,22 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
         setSelectedIdList(prev => {
           return !isPinned ? prev.filter(item => item !== id) : [...prev, id];
         });
+        if (outcomeGroupId) {
+          setOutcomePinnedBoardIds(prev => {
+            const group = prev[outcomeGroupId];
+            const selected = isPinned
+              ? [...group.selected, id]
+              : group.selected.filter((item: number) => item !== id);
+
+            return {
+              ...prev,
+              [outcomeGroupId]: {
+                ...group,
+                selected,
+              },
+            };
+          });
+        }
         itm.isPinned = isPinned;
       }
     });

@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import { OutcomesElementType } from './types';
 
+import { OrderByEnum, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import { MenuOptionsType, TableColumnType } from '@/types';
 
 dayjs.extend(fromNow);
@@ -82,8 +83,15 @@ const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
 const OUTCOMES_VALIDATION_SCHEMA = yup
   .object()
   .shape({
-    name: yup.string().required(`Singular name is required`),
-    pluralName: yup.string().required(`Plural name is required`).max(50),
+    name: yup
+      .string()
+      .transform(value => value?.trim())
+      .required(`Singular name is required`),
+    pluralName: yup
+      .string()
+      .transform(value => value?.trim())
+      .required(`Plural name is required`)
+      .max(50),
   })
   .required();
 
@@ -101,5 +109,10 @@ export const OUTCOMES_FORM_ELEMENTS: Array<OutcomesElementType> = [
     type: 'sting',
   },
 ];
+
+export const DEFAULT_GET_OUTCOMES_PARAMS = {
+  sortBy: OutcomeGroupSortByEnum.CreatedAt,
+  orderBy: OrderByEnum.Desc,
+}
 
 export { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS, OUTCOMES_VALIDATION_SCHEMA };

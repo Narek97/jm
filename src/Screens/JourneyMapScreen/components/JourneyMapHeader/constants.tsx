@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
 
-import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType, TableColumnPropsType, TableColumnType } from '@/types';
 
 const UPDATE_LAYER_VALIDATION_SCHEMA = yup
@@ -24,20 +23,6 @@ const UPDATE_LAYER_VALIDATION_SCHEMA = yup
     isBase: yup.boolean().default(false),
   })
   .required();
-
-const LAYER_ITEM_OPTIONS = ({
-  onHandleDelete,
-}: {
-  onHandleDelete: (data: LayerType) => void;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
 
 const PARENT_JOURNEY_MAPS_TABLE_COLUMNS = ({
   checkedItemsCount,
@@ -152,9 +137,15 @@ const JOURNEY_MAP_VERSION_CARD_OPTIONS = ({
   ];
 };
 
+export const UNSELECT_ICON = (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1B87E6" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <rect x="7" y="10.5" width="10" height="3" rx="1" fill="white" />
+  </svg>
+);
+
 export {
   UPDATE_LAYER_VALIDATION_SCHEMA,
-  LAYER_ITEM_OPTIONS,
   PARENT_JOURNEY_MAPS_TABLE_COLUMNS,
   JOURNEY_MAP_VERSION_CARD_OPTIONS,
 };

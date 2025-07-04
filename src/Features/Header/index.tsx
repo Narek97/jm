@@ -58,10 +58,6 @@ const Header = () => {
       {productSwitcherData && (
         <WuAppHeader
           productName="Journey Management"
-          brandColor={{
-            base: '#17c266',
-            hover: '#676767',
-          }}
           user={
             productSwitcherData?.headerInfo[1]?.myAccount || {
               license: {},
