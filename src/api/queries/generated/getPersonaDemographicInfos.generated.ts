@@ -7,7 +7,7 @@ export type GetPersonaDemographicInfosQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetPersonaDemographicInfosQuery = { __typename?: 'Query', getPersonaDemographicInfos: { __typename?: 'GetDemographicInfosModel', demographicInfoFields: Array<{ __typename?: 'GetPersonaDemographicInfoModel', id: number, key: string, personaId: number, value?: string | null, type: Types.DemographicInfoTypeEnum, isPinned?: boolean | null, isHidden: boolean, isDefault: boolean }>, personaFieldSections: Array<{ __typename?: 'GetPersonaDemographicInfoModel', id: number, key: string, personaId: number, value?: string | null, type: Types.DemographicInfoTypeEnum, height?: number | null, isPinned?: boolean | null, isHidden: boolean, isDefault: boolean, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }> } };
+export type GetPersonaDemographicInfosQuery = { __typename?: 'Query', getPersonaDemographicInfos: { __typename?: 'GetDemographicInfosModel', demographicInfoFields: Array<{ __typename?: 'GetPersonaDemographicInfoModel', id: number, key: string, personaId: number, value?: string | null, type: Types.DemographicInfoTypeEnum, isPinned?: boolean | null, isHidden: boolean, isDefault: boolean }>, personaFieldSections: Array<{ __typename?: 'GetPersonaDemographicInfoModel', id: number, key: string, personaId: number, value?: string | null, type: Types.DemographicInfoTypeEnum, height?: number | null, isPinned?: boolean | null, isHidden: boolean, isDefault: boolean, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', hasResizedVersions?: boolean | null, url: string, key: string } | null }> } };
 
 
 
@@ -36,15 +36,16 @@ export const GetPersonaDemographicInfosDocument = `
       isPinned
       isHidden
       isDefault
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
       attachment {
+        hasResizedVersions
         url
         key
-        croppedArea {
-          width
-          height
-          x
-          y
-        }
       }
     }
   }

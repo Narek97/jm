@@ -7,7 +7,7 @@ export type GetPinnedPersonaItemsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetPinnedPersonaItemsQuery = { __typename?: 'Query', getPinnedPersonaItems: { __typename?: 'GetPinnedPersonaItemsModel', demographicInfos: Array<{ __typename?: 'DemographicInfo', id: number, key: string, type: Types.DemographicInfoTypeEnum, value?: string | null, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }>, pinnedSections: Array<{ __typename?: 'PinnedSection', id: number, w: number, h: number, x: number, y: number, i: string, section: { __typename?: 'PersonaSection', id: number, key: string, color: string, content?: string | null } }> } };
+export type GetPinnedPersonaItemsQuery = { __typename?: 'Query', getPinnedPersonaItems: { __typename?: 'GetPinnedPersonaItemsModel', demographicInfos: Array<{ __typename?: 'DemographicInfo', id: number, key: string, type: Types.DemographicInfoTypeEnum, value?: string | null, attachment?: { __typename?: 'Attachment', hasResizedVersions?: boolean | null, url: string, key: string } | null, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null }>, pinnedSections: Array<{ __typename?: 'PinnedSection', id: number, w: number, h: number, x: number, y: number, i: string, section: { __typename?: 'PersonaSection', id: number, key: string, color: string, content?: string | null } }> } };
 
 
 
@@ -20,14 +20,15 @@ export const GetPinnedPersonaItemsDocument = `
       type
       value
       attachment {
+        hasResizedVersions
         url
         key
-        croppedArea {
-          width
-          height
-          x
-          y
-        }
+      }
+      croppedArea {
+        width
+        height
+        x
+        y
       }
     }
     pinnedSections {

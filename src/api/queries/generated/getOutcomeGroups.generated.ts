@@ -7,7 +7,7 @@ export type GetOutcomeGroupsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetOutcomeGroupsQuery = { __typename?: 'Query', getOutcomeGroups: { __typename?: 'GetOutcomeGroupModel', count?: number | null, outcomeGroups: Array<{ __typename?: 'OutcomeGroup', name: string, pluralName: string, id: number, createdAt: any, icon: string, isDefault: boolean, user?: { __typename?: 'Member', firstName: string, lastName: string } | null }> } };
+export type GetOutcomeGroupsQuery = { __typename?: 'Query', getOutcomeGroups: { __typename?: 'GetOutcomeGroupModel', outcomeGroups: Array<{ __typename?: 'OutcomeGroup', name: string, pluralName: string, id: number, createdAt: any, icon: string, isDefault: boolean, user?: { __typename?: 'Member', firstName: string, lastName: string } | null }> } };
 
 
 
@@ -26,7 +26,6 @@ export const GetOutcomeGroupsDocument = `
         lastName
       }
     }
-    count
   }
 }
     `;

@@ -22,15 +22,16 @@ query GetPersonaDemographicInfos(
       isPinned
       isHidden
       isDefault
+      croppedArea {
+        width
+        height
+        x
+        y
+      }
       attachment {
+        hasResizedVersions
         url
         key
-        croppedArea {
-          width
-          height
-          x
-          y
-        }
       }
     }
   }

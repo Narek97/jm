@@ -52,9 +52,15 @@ import { MapRowTypeEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import { JOURNEY_MAP_LIMIT } from '@/constants/pagination';
+import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
-import { JourneyMapType } from '@/Screens/JourneyMapScreen/types.ts';
+import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
+import {
+  JourneyMapRowType,
+  JourneyMapType,
+  MapSelectedPersonasType,
+} from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useLayerStore } from '@/store/layers.ts';
@@ -81,6 +87,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     updateJourneyMapVersion,
     updateMapAssignedPersonas,
     updateSelectedJourneyMapPersona,
+    updateDefaultJourneyMap,
     updateIsOpenSelectedJourneyMapPersonaInfo,
   } = useJourneyMapStore();
 
@@ -126,23 +133,13 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     mapId: +mapId,
   });
 
-  useGetMapByVersionIdQuery<GetMapByVersionIdQuery, Error>(
+  const { data: dataMapByVersionId } = useGetMapByVersionIdQuery<GetMapByVersionIdQuery, Error>(
     {
       getMapByVersionIdInput: {
         versionId: journeyMapVersion?.id,
       },
     },
     {
-      // onSuccess: response => {
-      //   setDefaultJourneyMap(journeyMap);
-      //   setJourneyMap(prev => ({
-      //     ...prev,
-      //     title: response.getMapByVersionId.title?.trim() || 'Untitled',
-      //     columns: response.getMapByVersionId.columns || [],
-      //     rows: response.getMapByVersionId.rows as any,
-      //   }));
-      //   setMapAssignedPersonas(response.getMapByVersionId.personas);
-      // },
       enabled: !!journeyMapVersion,
     },
   );
@@ -478,8 +475,6 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         columns: [],
         rows: [],
       });
-      // todo
-      // setSelectedPersona(null);
       updateSelectedJourneyMapPersona(null);
       updateIsOpenSelectedJourneyMapPersonaInfo(false);
     };
@@ -543,6 +538,26 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       updateMapAssignedPersonas(dataMapSelectedPersonas.getMapSelectedPersonas);
     }
   }, [dataMapSelectedPersonas, updateMapAssignedPersonas]);
+
+  useEffect(() => {
+    if (dataMapByVersionId) {
+      updateDefaultJourneyMap(journeyMap);
+      updateJourneyMap({
+        title: dataMapByVersionId.getMapByVersionId.title?.trim() || 'Untitled',
+        columns: dataMapByVersionId.getMapByVersionId.columns || [],
+        rows: (dataMapByVersionId.getMapByVersionId.rows as unknown as JourneyMapRowType[]) || [],
+      });
+      updateMapAssignedPersonas(
+        (dataMapByVersionId.getMapByVersionId.personas as MapSelectedPersonasType[]) || [],
+      );
+    }
+  }, [
+    dataMapByVersionId,
+    journeyMap,
+    updateDefaultJourneyMap,
+    updateJourneyMap,
+    updateMapAssignedPersonas,
+  ]);
 
   useEffect(() => {
     setBreadcrumbs([
@@ -622,9 +637,9 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       />
 
       <div className={'journey-map-wrapper'}>
-        {/*<ErrorBoundary>*/}
-        {/*  <JourneyMapSelectedPersona />*/}
-        {/*</ErrorBoundary>*/}
+        <ErrorBoundary>
+          <JourneyMapSelectedPersona mapId={+mapId} />
+        </ErrorBoundary>
 
         <div className={'journey-map-wrapper--map-block'}>
           <div

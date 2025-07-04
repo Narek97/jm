@@ -6,14 +6,15 @@ query GetPinnedPersonaItems($pinnedPersonaItemsInput: PinInput!) {
       type
       value
       attachment {
+        hasResizedVersions
         url
         key
-        croppedArea {
-          width
-          height
-          x
-          y
-        }
+      }
+      croppedArea {
+        width
+        height
+        x
+        y
       }
     }
     pinnedSections {

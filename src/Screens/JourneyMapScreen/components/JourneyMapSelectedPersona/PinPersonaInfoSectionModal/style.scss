@@ -1,0 +1,155 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.pin-persona-info-section {
+  width: 55.375rem;
+  height: 32.5rem;
+  color: $BASE_GRAY_COLOR;
+
+
+  @media screen and (max-width: 900px) {
+    width: 25rem;
+    flex-direction: column;
+  }
+
+  &--content {
+    display: flex;
+    height: 32.5rem;
+    @media screen and (max-width: 900px) {
+      flex-direction: column;
+    }
+  }
+
+  &--persona-name {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    display: inline-block !important;
+    @include reduce-text(100%);
+  }
+
+  &--info-block {
+    width: 20.75rem;
+    padding: 1rem;
+    @media screen and (max-width: 900px) {
+      width: 100%;
+      height: 50%;
+      overflow: auto;
+    }
+
+    &--img-block {
+      display: flex;
+      gap: 1rem;
+    }
+
+    &--type-journeys-block {
+      width: 72%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    &--persona-type,
+    &--persona-journeys {
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+    }
+
+    &--persona-journeys {
+      font-weight: 500;
+    }
+
+    &--demographic-info-block {
+      &--title {
+        line-height: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    &--demographic-infos {
+      height: 15rem;
+      margin-top: 1rem;
+      overflow: auto;
+    }
+
+    &--demographic-info {
+      @include flex-center-between;
+      padding: 0 0.5rem;
+      gap: 0.625rem;
+      min-height: 2rem;
+      font-weight: 500;
+      cursor: pointer;
+      span {
+        width: 90%;
+        @include reduce-text(100%);
+      }
+      &:hover {
+        color: $DARK_BLUE;
+        background-color: $BASE_BG_COLOR;
+      }
+
+      :nth-child(2) {
+        @include reduce-text(100%);
+      }
+    }
+
+    &--demographic-info-disabled {
+      color: $BASE_GRAY_COLOR_2;
+
+      svg {
+        fill: $BASE_GRAY_COLOR_2;
+      }
+    }
+  }
+
+  &--divider {
+    width: 100%;
+    height: 0.0625rem;
+    margin: 0.9375rem 0;
+    background-color: $BASE-LIGHT-GRAY-COLOR-2;
+  }
+
+  &--section-block {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+
+    &--section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+      width: 100%;
+      min-height: 8.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      overflow: auto;
+
+      &--pinned-btn {
+        @include flex-center-center;
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+        position: absolute;
+        top: 0.5625rem;
+        right: 0.875rem;
+      }
+      &--title {
+        font-weight: 500;
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+      }
+
+      &--content {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+.content-field-section p {
+  text-wrap: auto;
+  display: contents;
+  white-space: wrap !important;
+}

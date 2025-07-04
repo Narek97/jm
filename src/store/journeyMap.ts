@@ -14,7 +14,6 @@ interface JourneyMapState {
   selectedJourneyMapPersona: MapSelectedPersonasType | null;
   isOpenSelectedJourneyMapPersonaInfo: boolean;
   mapAssignedPersonas: MapSelectedPersonasType[];
-  pinnedPersonaItems: PinnedPersonaItemsType;
   updateJourneyMap: (updates: Partial<JourneyMapType>) => void;
   updateDefaultJourneyMap: (updates: JourneyMapType | null) => void;
   updateJourneyMapRowsCount: (count: number) => void;
@@ -22,7 +21,6 @@ interface JourneyMapState {
   updateSelectedJourneyMapPersona: (persona: MapSelectedPersonasType | null) => void;
   updateIsOpenSelectedJourneyMapPersonaInfo: (isOpen: boolean) => void;
   updateMapAssignedPersonas: (personas: MapSelectedPersonasType[]) => void;
-  updatePinnedPersonaItems: (updates: Partial<PinnedPersonaItemsType>) => void;
 }
 
 export const useJourneyMapStore = create<JourneyMapState>(set => ({
@@ -38,10 +36,6 @@ export const useJourneyMapStore = create<JourneyMapState>(set => ({
   selectedJourneyMapPersona: null,
   isOpenSelectedJourneyMapPersonaInfo: false,
   mapAssignedPersonas: [],
-  pinnedPersonaItems: {
-    demographicInfos: [],
-    pinnedSections: [],
-  },
   updateJourneyMap: updates =>
     set(state => ({
       journeyMap: { ...state.journeyMap, ...updates },
@@ -53,8 +47,4 @@ export const useJourneyMapStore = create<JourneyMapState>(set => ({
   updateIsOpenSelectedJourneyMapPersonaInfo: isOpen =>
     set({ isOpenSelectedJourneyMapPersonaInfo: isOpen }),
   updateMapAssignedPersonas: personas => set({ mapAssignedPersonas: personas }),
-  updatePinnedPersonaItems: updates =>
-    set(state => ({
-      pinnedPersonaItems: { ...state.pinnedPersonaItems, ...updates },
-    })),
 }));
