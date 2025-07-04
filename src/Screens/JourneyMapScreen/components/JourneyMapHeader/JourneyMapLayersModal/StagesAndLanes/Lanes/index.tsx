@@ -6,6 +6,7 @@ import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface ILanes {
   mode: ActionEnum;
@@ -84,7 +85,7 @@ const Lanes: FC<ILanes> = ({ mode, updatesCurrentLayer, defaultCheckedTagIds, se
               currentCheckedLanes.length > 0 &&
               currentCheckedLanes.length < stagesAndLanesForLayer.lanes.length ? (
                 //   todo
-                <span className={'wm-checklist'} />
+                UNSELECT_ICON
               ) : (
                 <CustomCheckboxIcon />
               )

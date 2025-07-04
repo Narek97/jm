@@ -48,7 +48,7 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
   );
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (data && outcomeGroupId && !outcomePinnedBoardIds[outcomeGroupId]) {
       setOutcomePinnedBoardIds(prev => ({
         ...prev,
         [outcomeGroupId as number]: {
@@ -58,7 +58,7 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
       }));
       setSelectedIdList(data?.getAllPinnedBoards || []);
     }
-  }, [data, isSuccess, outcomeGroupId, setOutcomePinnedBoardIds, setSelectedIdList]);
+  }, [data, isSuccess, outcomeGroupId, outcomePinnedBoardIds, setOutcomePinnedBoardIds, setSelectedIdList]);
 
   const orgId = user?.orgID ? Number(user.orgID) : undefined;
 

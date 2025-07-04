@@ -30,10 +30,22 @@
 
           &:hover {
             background-color: $BASE-EXTRA-LIGHT-GRAY;
-
+            .wm-more-vert {
+              display: flex;
+            }
             .custom-vertical-menu {
               display: block;
               @include svg-fill(#545e6b);
+            }
+          }
+          .wm-more-vert {
+            display: none;
+            min-width: 2rem;
+            min-height: 2rem;
+            @include flex-center-center;
+
+            &:hover {
+              background-color: $BASE-EXTRA-LIGHT-GRAY-2;
             }
           }
 
@@ -109,4 +121,8 @@
     margin-top: 0 !important;
     width: calc(100% - 1rem);
   }
+}
+
+.wm-delete {
+  font-size: 1rem;
 }

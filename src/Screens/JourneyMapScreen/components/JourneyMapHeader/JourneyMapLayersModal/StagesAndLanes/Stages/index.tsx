@@ -29,6 +29,7 @@ import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { ObjectKeysType } from '@/types';
 import { getGroupedIds } from '@/utils/getGroupedIds.ts';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface IStages {
   ref: React.Ref<HTMLDivElement>;
@@ -318,7 +319,7 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
                 currentCheckedStages?.length > 0 &&
                 currentCheckedStages.length < stagesAndLanesForLayer?.stages.length ? (
                   // todo
-                  <span className={'wm-checklist'} />
+                  UNSELECT_ICON
                 ) : (
                   <CustomCheckboxIcon />
                 )

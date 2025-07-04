@@ -26,7 +26,7 @@ import { OUTCOMES_LIMIT } from '@/constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
-  useSetQueryDataByKeyAdvanced,
+  useSetQueryDataByKeys,
 } from '@/hooks/useQueryKey.ts';
 
 const OutcomeScreen = () => {
@@ -34,7 +34,6 @@ const OutcomeScreen = () => {
     from: '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId/outcome/$outcomeId/',
   });
 
-  const setOutcomeGroup = useSetQueryDataByKeyAdvanced();
   const setAllOutcomeGroup = useSetAllQueryDataByKey('GetOutcomeGroup');
   const setRemoveOutcomeGroupQuery = useRemoveQueriesByKey();
 
@@ -46,6 +45,19 @@ const OutcomeScreen = () => {
   const [offset, setOffset] = useState(0);
   const [sortBy, setSortBy] = useState<SortByEnum>(SortByEnum.CreatedAt);
   const [orderBy, setOrderBy] = useState<OrderByEnum>(OrderByEnum.Desc);
+
+  const setOutcomeGroup = useSetQueryDataByKeys('GetOutcomeGroup.infinite', [
+    {
+      key: ['sortBy', 'orderBy'],
+      value: [sortBy, orderBy],
+      input: 'getOutcomesInput',
+    },
+    {
+      key: 'outcomeGroupId',
+      value: +outcomeId,
+      input: 'getOutcomeGroupInput',
+    },
+  ]);
 
   const { isPending: isLoadingDeleteOutcome, mutate: deleteOutcome } = useDeleteOutcomeMutation<
     Error,
@@ -112,28 +124,24 @@ const OutcomeScreen = () => {
       value: 0,
     });
 
-    setOutcomeGroup(
-      'GetOutcomeGroup',
-      {
-        input: 'getOutcomesInput',
-        key: 'offset',
-        value: 0,
-      },
-      (oldData: any) => {
-        if (oldData) {
+    setOutcomeGroup((oldData: any) => {
+      if (oldData) {
+        const updatedPages = ((oldData?.pages || []) as Array<any>).map(page => {
           return {
+            ...page,
             getOutcomeGroup: {
-              ...oldData.getOutcomeGroup,
-              outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
-              outcomes: [
-                newOutcome,
-                ...oldData.getOutcomeGroup.outcomes.slice(0, OUTCOMES_LIMIT - 1),
-              ],
+              ...page.getOutcomeGroup,
+              outcomesCount: page.getOutcomeGroup.outcomesCount + 1,
+              outcomes: [newOutcome, ...page.getOutcomeGroup.outcomes],
             },
           };
-        }
-      },
-    );
+        });
+        return {
+          ...oldData,
+          pages: updatedPages,
+        };
+      }
+    });
     setCurrentPage(1);
     setOffset(0);
   };
