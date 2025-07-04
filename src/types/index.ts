@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Attachment, User } from '@/api/types.ts';
+import { Attachment, CommentAndNoteModelsEnum, User } from '@/api/types.ts';
 
 export type ObjectKeysType<T = unknown> = {
   [key: string]: T;
@@ -123,4 +123,15 @@ export type JourneyMapNounProjectIconsType = {
   id: string;
   term: string;
   thumbnail_url: string;
+};
+
+export type NotesAndCommentsDrawerType = {
+  title: string;
+  isOpen: boolean;
+  itemId: number | null;
+  type: CommentAndNoteModelsEnum | null;
+  url?: string;
+  rowId?: number;
+  columnId?: number;
+  stepId?: number | null;
 };

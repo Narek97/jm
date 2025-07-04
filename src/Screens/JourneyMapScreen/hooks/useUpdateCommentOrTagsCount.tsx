@@ -1,11 +1,9 @@
-import { useSetRecoilState } from 'recoil';
-
-import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/gql/types';
-import { journeyMapState } from '@/store/atoms/journeyMap.atom';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
+import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
 
 export const useUpdateCommentOrTagsCount = () => {
-  const setJourneyMap = useSetRecoilState(journeyMapState);
+  const { journeyMap, updateJourneyMap } = useJourneyMapStore();
+
   const updateCommentOrTagsCount = ({
     actionType,
     rowId,
@@ -23,8 +21,8 @@ export const useUpdateCommentOrTagsCount = () => {
     key: 'commentsCount' | 'tagsCount';
     count?: number;
   }) => {
-    setJourneyMap(prev => {
-      const rows = prev.rows.map(r => {
+    updateJourneyMap({
+      rows: journeyMap.rows.map(r => {
         if (r.id === rowId) {
           return {
             ...r,
@@ -47,8 +45,7 @@ export const useUpdateCommentOrTagsCount = () => {
           };
         }
         return r;
-      });
-      return { ...prev, rows };
+      }),
     });
   };
 

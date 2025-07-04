@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
+import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -62,6 +63,7 @@ import {
   MapSelectedPersonasType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useLayerStore } from '@/store/layers.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
@@ -94,6 +96,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
   const { setBreadcrumbs } = useBreadcrumbStore();
+  const { notesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
 
   const isLayerModeOn = !currentLayer?.isBase;
 
@@ -623,9 +626,9 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       {/*  <Drawer*/}
       {/*    anchor={'left'}*/}
       {/*    data-testid="drawer-test-id"*/}
-      {/*    open={commentsDrawer.isOpen}*/}
+      {/*    open={notesAndCommentsDrawer.isOpen}*/}
       {/*    onClose={() => onHandleCloseDrawer()}>*/}
-      {/*    <CommentsDrawer commentsDrawer={commentsDrawer} onClose={() => onHandleCloseDrawer()} />*/}
+      {/*    <CommentsDrawer onClose={() => onHandleCloseDrawer()} />*/}
       {/*  </Drawer>*/}
       {/*</ErrorBoundary>*/}
       <JourneyMapHeader

@@ -1,0 +1,56 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.comment-item {
+  cursor: pointer;
+  border-radius: 0.125rem;
+  margin-bottom: 0.5rem;
+  padding: 0.875rem 0.5rem;
+  font-size: 0.875rem;
+  position: relative;
+
+  .custom-vertical-menu {
+    top: 0.625rem;
+    right: 0.625rem;
+    position: absolute;
+  }
+
+  &:hover {
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+
+    .custom-vertical-menu {
+      display: flex;
+    }
+  }
+
+  &--message {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &--author {
+    @include flex-center;
+    gap: 0.5rem;
+    font-weight: 300;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+
+    &-logo {
+      background-color: red;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: $BASE-WHITE-COLOR;
+      border-radius: 3.125rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      @include flex-center-center;
+    }
+  }
+
+  &--reply {
+    font-size: 0.625rem;
+    margin: 0.875rem auto 0.5rem;
+    color: $BASE_GRAY_COLOR_2;
+    display: block;
+  }
+}

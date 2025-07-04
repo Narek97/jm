@@ -1,0 +1,19 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.comments-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  @include flex-center-center;
+
+  .comments-count {
+    width: 0.875rem;
+    height: 0.875rem;
+    display: inline-block;
+    text-align: center;
+    border-radius: 1rem;
+    font-size: 0.625rem;
+    line-height: 1;
+    @include absolute-center;
+  }
+}
