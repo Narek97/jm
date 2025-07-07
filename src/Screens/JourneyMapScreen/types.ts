@@ -16,6 +16,13 @@ export type JourneyMapRowType = GetJourneyMapRowsQuery['getJourneyMap']['rows'][
   isDisabled?: boolean;
 };
 
+export type BoxElementType = NonNullable<
+  GetJourneyMapRowsQuery['getJourneyMap']['rows'][number]['boxes']
+>[number] & {
+  isLoading?: boolean;
+  isDisabled?: boolean;
+};
+
 export type JourneyMapColumnType = GetJourneyMapQuery['getJourneyMap']['columns'][number] & {
   isLoading?: boolean;
   isDisabled?: boolean;

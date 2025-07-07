@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
-import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -58,7 +57,9 @@ import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
+import JourneyMapSteps from '@/Screens/JourneyMapScreen/components/JourneyMapSteps';
 import {
+  BoxElementType,
   JourneyMapRowType,
   JourneyMapType,
   MapSelectedPersonasType,
@@ -91,6 +92,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     updateMapAssignedPersonas,
     updateSelectedJourneyMapPersona,
     updateDefaultJourneyMap,
+    updateJourneyMapRowsCount,
     updateIsOpenSelectedJourneyMapPersonaInfo,
   } = useJourneyMapStore();
 
@@ -103,7 +105,6 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
   const [isLoadingFullJourneyMap, setIsLoadingFullJourneyMap] = useState<boolean>(false);
   const [isLoadingJourneyMapRows, setIsLoadingJourneyMapRows] = useState<boolean>(true);
-  const [isScrollPagination, setIsScrollPagination] = useState<boolean>(false);
   const [replaceMapUser, setReplaceMapUser] = useState<UserType | null>(null);
 
   const { mutate: clearUserMapsHistory } = useClearUserMapsHistoryMutation<
@@ -172,10 +173,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   );
 
   const {
+    data: dataJourneyMapRows,
     isFetching: isFetchingNextPageJourneyMapRows,
     hasNextPage: hasNextPageJourneyMapRows,
     fetchNextPage: fetchNextPageJourneyMapRows,
-  } = useInfiniteGetJourneyMapRowsQuery<GetJourneyMapRowsQuery, Error>(
+  } = useInfiniteGetJourneyMapRowsQuery<{ pages: GetJourneyMapRowsQuery[] }, Error>(
     {
       getJourneyMapInput: {
         ...inputParams,
@@ -207,6 +209,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         };
       },
       initialPageParam: 0,
+      enabled: !isLoadingMapSelectedPersonas,
     },
   );
 
@@ -342,8 +345,8 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
           const newJourneyMapRows = journeyMapRows.map(row => {
             const boxes = row.boxes ? [...row.boxes] : [];
-            const newBoxes: Array<BoxItemType> = [...boxes];
-            const dragBoxes: Array<BoxItemType> = [];
+            const newBoxes: Array<BoxElementType> = [...boxes];
+            const dragBoxes: Array<BoxElementType> = [];
 
             boxes.forEach((box, index) => {
               if (box.columnId === +result.draggableId) {
@@ -444,7 +447,6 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   );
 
   const onHandleFetchNextPageJourneyMapRows = useCallback(async () => {
-    setIsScrollPagination(true);
     if (!isLayerModeOn && hasNextPageJourneyMapRows) {
       await fetchNextPageJourneyMapRows();
     }
@@ -461,7 +463,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     return journeyMap?.columns || [];
   }, [journeyMap?.columns]);
 
-  const mapSteps = useMemo(() => {
+  const mapStep = useMemo(() => {
     return journeyMap?.rows[0] || [];
   }, [journeyMap?.rows]);
 
@@ -528,6 +530,29 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       });
     }
   }, [dataJourneyMap, updateJourneyMap]);
+
+  useEffect(() => {
+    if (dataJourneyMapRows) {
+      setIsLoadingFullJourneyMap(false);
+      updateJourneyMapRowsCount(
+        isLayerModeOn
+          ? dataJourneyMapRows.pages[0].getJourneyMap.rows.length
+          : dataJourneyMapRows.pages[0].getJourneyMap.rowCount,
+      );
+
+      const rows = dataJourneyMapRows.pages.reduce((acc: Array<JourneyMapRowType>, curr) => {
+        if (curr?.getJourneyMap.rows) {
+          return [...acc, ...(curr.getJourneyMap.rows as Array<JourneyMapRowType>)];
+        }
+        return acc;
+      }, []);
+
+      updateJourneyMap({
+        rows,
+      });
+      setIsLoadingJourneyMapRows(false);
+    }
+  }, [dataJourneyMapRows, isLayerModeOn, updateJourneyMap, updateJourneyMapRowsCount]);
 
   useEffect(() => {
     if (dataBoardById) {
@@ -665,21 +690,20 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
                 </>
               ) : (
                 <>
-                  {/*<ErrorBoundary>*/}
-                  {/*  <JourneyMapSteps*/}
-                  {/*    steps={mapSteps}*/}
-                  {/*    columns={mapColumns}*/}
-                  {/*    isGuest={isGuest || !!journeyMapVersion}*/}
-                  {/*  />*/}
-                  {/*</ErrorBoundary>*/}
-                  {/*<ErrorBoundary>*/}
-                  {/*  <JourneyMapRows*/}
-                  {/*    isGuest={isGuest || !!journeyMapVersion}*/}
-                  {/*    isScrollPagination={isScrollPagination}*/}
-                  {/*    isFetchingNextPageJourneyMapRows={isFetchingNextPageJourneyMapRows}*/}
-                  {/*    onHandleFetchNextPageJourneyMapRows={onHandleFetchNextPageJourneyMapRows}*/}
-                  {/*  />*/}
-                  {/*</ErrorBoundary>*/}
+                  <ErrorBoundary>
+                    <JourneyMapSteps
+                      step={mapStep}
+                      columns={mapColumns}
+                      isGuest={isGuest || !!journeyMapVersion}
+                    />
+                  </ErrorBoundary>
+                  <ErrorBoundary>
+                    <JourneyMapRows
+                      isGuest={isGuest || !!journeyMapVersion}
+                      isFetchingNextPageJourneyMapRows={isFetchingNextPageJourneyMapRows}
+                      onHandleFetchNextPageJourneyMapRows={onHandleFetchNextPageJourneyMapRows}
+                    />
+                  </ErrorBoundary>
                 </>
               )}
             </>

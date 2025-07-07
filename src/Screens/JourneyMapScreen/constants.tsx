@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 
+import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType } from '@/types';
 
 const MAP_HEADER_OPTIONS = ({
@@ -68,7 +69,7 @@ const JOURNEY_MAP_COLUM_OPTIONS = ({
   isDeleteDisable,
   color,
 }: {
-  onHandleDelete: (data: BoxItemType) => void;
+  onHandleDelete: (data: BoxElementType) => void;
   onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
   isDeleteDisable: boolean;
   color?: string;
@@ -116,6 +117,60 @@ const JOURNEY_MAP_COLUM_OPTIONS = ({
   return list;
 };
 
+const JOURNEY_MAP_STEP_OPTIONS = ({
+  onHandleDelete,
+  onHandleChangeColor,
+  color,
+  isSingleStep,
+}: {
+  onHandleDelete: (data: BoxElementType) => void;
+  onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
+  color?: string;
+  isSingleStep: boolean;
+}): Array<MenuOptionsType> => {
+  const list: Array<MenuOptionsType> = [
+    {
+      icon: (
+        <>
+          <label
+            htmlFor="map-colum-color-picker"
+            className={'custom-vertical-menu--menu-item-content-icon'}>
+            <span className={'wm-colorize'} />
+            <input
+              data-testid={'color-picker'}
+              type={'color'}
+              value={color}
+              id={'map-colum-color-picker'}
+              onChange={onHandleChangeColor}
+              style={{
+                width: 0,
+                opacity: 0,
+              }}
+            />
+          </label>
+        </>
+      ),
+      isColorPicker: true,
+      name: 'background',
+      label: (
+        <label htmlFor="map-colum-color-picker" style={{ height: '2rem', lineHeight: '2rem' }}>
+          Background
+        </label>
+      ),
+      onClick: () => {},
+    },
+  ];
+  if (isSingleStep) {
+    list.unshift({
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: item => onHandleDelete(item),
+    });
+  }
+
+  return list;
+};
+
 const JOURNEY_MAP_LOADING_ROW = {
   id: 99999,
   isLoading: true,
@@ -150,6 +205,7 @@ const JOURNEY_MAP_LOADING_COLUMN = {
 export {
   MAP_HEADER_OPTIONS,
   JOURNEY_MAP_COLUM_OPTIONS,
+  JOURNEY_MAP_STEP_OPTIONS,
   JOURNEY_MAP_LOADING_ROW,
   JOURNEY_MAP_LOADING_COLUMN,
 };

@@ -74,8 +74,8 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
 
   const { updateMapByType } = useUpdateMap();
   const { updateStages } = useUpdatesStagesAndLanes();
-  const { journeyMap, updateJourneyMap } = useJourneyMapStore();
 
+  const { journeyMap, updateJourneyMap } = useJourneyMapStore();
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
   const { currentLayer } = useLayerStore();
 

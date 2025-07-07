@@ -1,0 +1,13 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.step-draggable-item {
+  &-content {
+    position: absolute;
+    @include absolute-center();
+
+    &:hover {
+      box-sizing: border-box;
+    }
+  }
+}
