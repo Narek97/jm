@@ -5,7 +5,7 @@ import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-l
 
 import CreateUpdateOutcome from './components/CreateUpdateOutcome';
 import SearchNounProjectIcon from './components/SearchNounProjectIcon';
-import { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS } from './constants';
+import { DEFAULT_GET_OUTCOMES_PARAMS, OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS } from './constants';
 
 import {
   CreateOrUpdateOutcomeGroupMutation,
@@ -19,7 +19,7 @@ import {
   GetOutcomeGroupsQuery,
   useGetOutcomeGroupsQuery,
 } from '@/api/queries/generated/getOutcomeGroups.generated.ts';
-import { OrderByEnum, OutcomeGroup } from '@/api/types.ts';
+import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
@@ -46,23 +46,21 @@ const Outcomes = () => {
   } | null>(null);
 
   const [isOpenCreateUpdateBoard, setIsOpenCreateUpdateBoard] = useState(false);
-  const [sortData, setSortData] = useState<{
-    id: 'name' | 'createdAt' | 'user';
-    type: OrderByEnum;
-  } | null>();
   const [iconUrl, setIconUrl] = useState<string>(DEFAULT_OUTCOME_ICON);
   const [currentPage, setCurrentPage] = useState(1);
-
   const nameInputRef = useRef<HTMLInputElement>(null);
   const { setOutcomePinnedBoardIds } = useOutcomePinnedBoardIdsStore();
   const { setSelectedIdList } = useOutcomePinBoardsStore();
 
   const [offset, setOffset] = useState(0);
+  const [sortData, setSortData] = useState<{
+    sortBy: OutcomeGroupSortByEnum;
+    orderBy: OrderByEnum;
+  }>(DEFAULT_GET_OUTCOMES_PARAMS);
 
   const setOutcomeGroups = useSetQueryDataByKeyAdvanced();
   const setAllOutcomeGroups = useSetAllQueryDataByKey('GetOutcomeGroups');
   const setRemoveOutcomeGroupsQuery = useRemoveQueriesByKey();
-
   const {
     isLoading: isLoadingOutcomes,
     data: dataOutcomes,
@@ -72,6 +70,8 @@ const Outcomes = () => {
       getOutcomeGroupsInput: {
         limit: OUTCOME_GROUPS_LIMIT,
         offset,
+        sortBy: sortData.sortBy,
+        orderBy: sortData.orderBy,
       },
     },
     {
@@ -106,6 +106,7 @@ const Outcomes = () => {
         },
         {
           onSuccess: response => {
+            setSortData(DEFAULT_GET_OUTCOMES_PARAMS)
             setIconUrl(DEFAULT_OUTCOME_ICON);
             setTimeout(() => {
               setIsOpenCreateUpdateBoard(false);
@@ -174,7 +175,7 @@ const Outcomes = () => {
     ],
   );
 
-  const onHandleUpdateOutcome = (data: ObjectKeysType, reset: () => void) => {
+  const onHandleUpdateOutcome = (data: any, reset: () => void) => {
     createOutcome(
       {
         createOrUpdateOutcomeGroupInput: {
@@ -191,6 +192,23 @@ const Outcomes = () => {
             setIsOpenCreateUpdateBoard(false);
           }, 500);
 
+          setOutcomePinnedBoardIds(prev => {
+            const outcomeGroupId = data.id as string;
+
+            const previousDefault = prev?.[outcomeGroupId]?.default || [];
+
+            const updated = [
+              ...(data.connectBoardIds as string[]),
+              ...previousDefault.filter((item: number) => !data.disconnectBoardIds.includes(item)),
+            ];
+            return {
+              ...prev,
+              [outcomeGroupId]: {
+                selected: updated,
+                default: updated,
+              },
+            };
+          });
           setOutcomeGroups(
             'GetOutcomeGroups',
             {
@@ -202,10 +220,11 @@ const Outcomes = () => {
               if (oldData) {
                 return {
                   getOutcomeGroups: {
+                    count: oldData?.getOutcomeGroups.count,
                     outcomeGroups: oldData.getOutcomeGroups.outcomeGroups.map(
                       (item: OutcomeGroup) =>
                         item.id === selectedOutcomeGroup?.id
-                          ? { ...item, ...item, ...data, icon: iconUrl }
+                          ? { ...item, ...data, icon: iconUrl }
                           : item,
                     ),
                   },
@@ -225,20 +244,12 @@ const Outcomes = () => {
     );
   };
 
-  const compareByField = (fieldName: 'name' | 'createdAt' | 'user', orderType: OrderByEnum) => {
-    return function (a: OutcomeGroup, b: OutcomeGroup) {
-      const aValue = a[fieldName] ?? '';
-      const bValue = b[fieldName] ?? '';
-      const compareResult = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      return orderType === OrderByEnum.Desc ? -compareResult : compareResult;
-    };
-  };
-
-  const sortTableByField = (type: OrderByEnum, _: string, id: 'name' | 'createdAt' | 'user') => {
+  const sortTableByField = async (newOrderBy: OrderByEnum, newSortBy: string) => {
     setSortData({
-      type,
-      id,
+      sortBy: newSortBy as OutcomeGroupSortByEnum,
+      orderBy: newOrderBy,
     });
+    setCurrentPage(1);
   };
 
   const onToggleCreateUpdateBoard = useCallback(
@@ -417,11 +428,7 @@ const Outcomes = () => {
             sortAscDescByField={sortTableByField}
             dashedStyle={false}
             isTableHead
-            rows={
-              sortData?.id && sortData?.type
-                ? (outcomeGroups as OutcomeGroup[]).sort(compareByField(sortData.id, sortData.type))
-                : outcomeGroups
-            }
+            rows={outcomeGroups}
             columns={columns}
             options={options}
             permissionCheckKey="isDefault"

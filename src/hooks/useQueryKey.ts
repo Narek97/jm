@@ -8,7 +8,7 @@ export const useGetQueryDataByKey = (mayKey: string): any => {
 };
 
 type DataOptions = {
-  key: string;
+  key: string | string[];
   value: unknown;
   input?: string;
   deleteUpcoming?: boolean;
@@ -24,13 +24,13 @@ export const useSetQueryDataByKey = (mayKey: string, data?: DataOptions): any =>
       if (data && data.input) {
         const queryData = key.queryKey[1] as Record<string, any> | undefined;
         const currentValue = data.input
-          ? queryData?.[data.input]?.[data.key]
-          : queryData?.[data.key];
+          ? queryData?.[data.input]?.[data.key as string]
+          : queryData?.[data.key as string];
 
         return JSON.stringify(currentValue) === JSON.stringify(data.value);
       }
 
-      return !data || (key.queryKey[1] as Record<string, unknown>)?.[data.key] === data.value;
+      return !data || (key.queryKey[1] as Record<string, unknown>)?.[data.key as string] === data.value;
     });
 
     queryClient.setQueryData(query?.queryKey || [mayKey], callback);
@@ -60,12 +60,12 @@ export const useRemoveQueriesByKey = () => {
       predicate: query => {
         if (data.deleteUpcoming && typeof data.value === 'number') {
           return data.input
-            ? (query.queryKey[1] as any)[data.input][data.key] >= data.value
-            : (query.queryKey[1] as any)[data.key] >= data.value;
+            ? (query.queryKey[1] as any)[data.input][data.key as string] >= data.value
+            : (query.queryKey[1] as any)[data.key as string] >= data.value;
         } else {
           return data.input
-            ? (query.queryKey[1] as any)[data.input][data.key] !== data.value
-            : (query.queryKey[1] as any)[data.key] !== data.value;
+            ? (query.queryKey[1] as any)[data.input][data.key as string] !== data.value
+            : (query.queryKey[1] as any)[data.key as string] !== data.value;
         }
       },
     });
@@ -82,9 +82,9 @@ export const useSetQueryDataByKeyAdvanced = () => {
       if (!queryData) return false;
       const getValue = () => {
         if (data.input) {
-          return queryData[data.input]?.[data.key];
+          return queryData[data.input]?.[data.key as string];
         }
-        return queryData[data.key];
+        return queryData[data.key as string];
       };
       const currentValue = getValue();
       if (data.deleteUpcoming && typeof data.value === 'number') {
@@ -95,5 +95,39 @@ export const useSetQueryDataByKeyAdvanced = () => {
     if (query) {
       queryClient.setQueryData(query.queryKey, callback);
     }
+  };
+};
+
+export const useSetQueryDataByKeys = (
+  mayKey: string,
+  conditions: DataOptions[],
+): ((callback: (newData: any) => any) => void) => {
+  const queryClient = useQueryClient();
+
+  return (callback: (newData: any) => any) => {
+    const allQueries = queryClient.getQueryCache().getAll();
+
+    const match = allQueries.find(({ queryKey }) => {
+      if (queryKey[0] !== mayKey) return false;
+      const queryParams = queryKey[1] as Record<string, any> | undefined;
+
+      return conditions.every(cond => {
+        const { key, value, input } = cond;
+        const inputData = input ? (queryParams?.[input] ?? {}) : (queryParams ?? {});
+
+        if (Array.isArray(key) && Array.isArray(value)) {
+          const currentValues = key.map(k => inputData[k]);
+          return JSON.stringify(currentValues) === JSON.stringify(value);
+        }
+
+        if (!Array.isArray(key)) {
+          return inputData?.[key] === value;
+        }
+
+        return false;
+      });
+    });
+
+    queryClient.setQueryData(match?.queryKey || [mayKey], callback);
   };
 };

@@ -1,9 +1,16 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import {
+  useWuShowToast,
+  WuButton,
+  WuMenu,
+  WuMenuItem,
+  WuModal,
+  WuModalHeader,
+} from '@npm-questionpro/wick-ui-lib';
 import { Controller, FieldErrors, useForm } from 'react-hook-form';
 
 import LayersModalEmptyState from './EmptyState';
@@ -23,20 +30,13 @@ import {
 } from '@/api/mutations/generated/updateLayer.generated.ts';
 import { ActionEnum } from '@/api/types.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { queryClient } from '@/providers/constants.ts';
-import {
-  LAYER_ITEM_OPTIONS,
-  UPDATE_LAYER_VALIDATION_SCHEMA,
-} from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
+import { UPDATE_LAYER_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { ErrorWithStatus } from '@/types';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IJourneyMapLayers {
   mapId: number;
@@ -294,12 +294,6 @@ const JourneyMapLayersModal: FC<IJourneyMapLayers> = ({
     }
   };
 
-  const options = useMemo(() => {
-    return LAYER_ITEM_OPTIONS({
-      onHandleDelete: onHandleDeleteLayer,
-    });
-  }, [onHandleDeleteLayer]);
-
   useEffect(() => {
     if (!hasSetLayer.current && layers?.length > 1) {
       setSelectedLayer(layers[1]);
@@ -315,166 +309,165 @@ const JourneyMapLayersModal: FC<IJourneyMapLayers> = ({
   }, [setStagesStepsForLayer]);
 
   return (
-    <CustomModal
-      isOpen={isOpenLayersModal}
-      modalSize={'custom'}
-      className={'journey-map-layers-modal'}
-      handleClose={closeLayersModal}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={'Layers'} />
-      <form
-        className={'journey-map--layers-modal'}
-        data-testid="update-layer-modal"
-        onSubmit={handleSubmit(applyLayer, onError)}>
-        <div className={'journey-map--layers-modal--content'}>
-          <div data-testid={'layers-menu'} className={'journey-map--layers-modal--content--left'}>
-            <div
-              data-testid="layers-modal-menu-test-id"
-              className={'journey-map--layers-modal--content--left-menu'}
-              ref={layersMenuRef}>
-              {layers?.map((layer, index) => {
-                if (index > 0) {
-                  return (
-                    <div
-                      key={layer.id}
-                      data-testid={`layer-${layer.id}`}
-                      className={`journey-map--layers-modal--content--left-menu-item  ${layer?.id === selectedLayer?.id ? 'selected-menu-item' : ''}`}
-                      onClick={() => {
-                        selectLayer(layer, index === 0);
-                        if (childRef.current) {
-                          childRef.current.setLayerData(layer);
-                        }
-                      }}>
-                      {layer?.name}
-                      <div className={'journey-map--layers-modal--content--left-menu-item--menu'}>
-                        <CustomLongMenu
-                          type={MenuViewTypeEnum.VERTICAL}
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                          item={layer}
-                          options={options}
-                          sxStyles={{
-                            display: 'inline-block',
-                            background: 'transparent',
-                          }}
-                        />
+    <WuModal
+      maxHeight="100%"
+      maxWidth="max-content"
+      open={isOpenLayersModal}
+      onOpenChange={closeLayersModal}>
+      <WuModalHeader>Layers</WuModalHeader>
+      <div>
+        <form
+          className={'journey-map--layers-modal'}
+          data-testid="update-layer-modal"
+          onSubmit={handleSubmit(applyLayer, onError)}>
+          <div className={'journey-map--layers-modal--content'}>
+            <div data-testid={'layers-menu'} className={'journey-map--layers-modal--content--left'}>
+              <div
+                data-testid="layers-modal-menu-test-id"
+                className={'journey-map--layers-modal--content--left-menu'}
+                ref={layersMenuRef}>
+                {layers?.map((layer, index) => {
+                  if (index > 0) {
+                    return (
+                      <div
+                        key={layer.id}
+                        data-testid={`layer-${layer.id}`}
+                        className={`journey-map--layers-modal--content--left-menu-item  ${layer?.id === selectedLayer?.id ? 'selected-menu-item' : ''}`}
+                        onClick={() => {
+                          selectLayer(layer, index === 0);
+                          if (childRef.current) {
+                            childRef.current.setLayerData(layer);
+                          }
+                        }}>
+                        {layer?.name}
+                        <div
+                          data-testid={`layer-menu`}
+                          className={'journey-map--layers-modal--content--left-menu-item--menu'}>
+                          <WuMenu
+                            align="end"
+                            className="w-[6.5rem]"
+                            Trigger={<span className="wm-more-vert"></span>}>
+                            <WuMenuItem
+                              className="cursor-pointer"
+                              onSelect={() => {
+                                onHandleDeleteLayer(layer);
+                              }}>
+                              <span className="wm-delete" data-testid={`layer-delete-option`} />
+                              Delete
+                            </WuMenuItem>
+                          </WuMenu>
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-              })}
+                    );
+                  }
+                })}
+              </div>
+              <button
+                onClick={addLayer}
+                type={'button'}
+                data-testid={'add-new-layer'}
+                className={'add-new-layer'}>
+                <span className={'add-new-layer--icon'}>
+                  <span className={'wm-add'} />
+                </span>
+                Add layer
+              </button>
             </div>
-            <button
-              onClick={addLayer}
-              type={'button'}
-              data-testid={'add-new-layer'}
-              className={'add-new-layer'}>
-              <span className={'add-new-layer--icon'}>
-                <span className={'wm-add'} />
-              </span>
-              Add layer
-            </button>
-          </div>
-          <div className={'journey-map--layers-modal--content--right'}>
-            {layers?.length > 1 || isCreateMode ? (
-              <>
-                <div className={'layers-title'}>
-                  <div className={'layers-title--input'}>
-                    <Controller
-                      name={'name'}
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <CustomInput
-                          value={value || ''}
-                          data-testid="layer-title"
-                          id={'layer-title'}
-                          sxStyles={{
-                            '&:hover': {
-                              '& .MuiInput-underline::before': {
-                                borderBottom: `1px solid #D8D8D8 !important`,
+            <div className={'journey-map--layers-modal--content--right'}>
+              {layers?.length > 1 || isCreateMode ? (
+                <>
+                  <div className={'layers-title'}>
+                    <div className={'layers-title--input'}>
+                      <Controller
+                        name={'name'}
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <CustomInput
+                            value={value || ''}
+                            data-testid="layer-title"
+                            id={'layer-title'}
+                            sxStyles={{
+                              '&:hover': {
+                                '& .MuiInput-underline::before': {
+                                  borderBottom: `1px solid #D8D8D8 !important`,
+                                },
                               },
-                            },
-                            '& .MuiInput-underline:after': {
-                              borderBottom: `1px solid #1B87E6`,
-                            },
-                            background: '#ffffff',
-                            '& .MuiInput-input': {
-                              fontSize: '12px',
-                              background: '#F5F5F5',
-                            },
+                              '& .MuiInput-underline:after': {
+                                borderBottom: `1px solid #1B87E6`,
+                              },
+                              background: '#ffffff',
+                              '& .MuiInput-input': {
+                                fontSize: '12px',
+                                background: '#F5F5F5',
+                              },
 
-                            '& .MuiInput-underline::before': {
-                              borderBottom: `1px solid #D8D8D8`,
-                            },
-                          }}
-                          onChange={onChange}
-                          onFocus={() => {}}
-                          onBlur={() => {}}
-                          onKeyDown={event => {
-                            if (event.keyCode === 13) {
-                              event.preventDefault();
-                              (event.target as HTMLElement).blur();
-                            }
-                          }}
-                        />
+                              '& .MuiInput-underline::before': {
+                                borderBottom: `1px solid #D8D8D8`,
+                              },
+                            }}
+                            onChange={onChange}
+                            onFocus={() => {}}
+                            onBlur={() => {}}
+                            onKeyDown={event => {
+                              if (event.keyCode === 13) {
+                                event.preventDefault();
+                                (event.target as HTMLElement).blur();
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      {errors['name']?.message && (
+                        <span className={'validation-error'}>
+                          {(errors && errors['name']?.message) || ''}
+                        </span>
                       )}
-                    />
-                    {errors['name']?.message && (
-                      <span className={'validation-error'}>
-                        {(errors && errors['name']?.message) || ''}
-                      </span>
-                    )}
+                    </div>
                   </div>
-                </div>
-                <StagesAndLanes
-                  mode={selectedLayer?.id ? ActionEnum.Update : ActionEnum.Add}
-                  updatesCurrentLayer={data => {
-                    setSelectedLayer((prev: LayerType | null) => ({
-                      ...prev!,
-                      ...data,
-                    }));
-                  }}
-                  control={control}
-                  setValue={(
-                    name: keyof LayerFormType,
-                    value: LayerFormType[keyof LayerFormType],
-                  ) => {
-                    setValue(name, value);
-                    trigger(name).then();
-                  }}
-                  selectedLayer={selectedLayer}
-                  ref={childRef}
-                />
-              </>
-            ) : (
-              <LayersModalEmptyState addLayer={addLayer} />
-            )}
+                  <StagesAndLanes
+                    mode={selectedLayer?.id ? ActionEnum.Update : ActionEnum.Add}
+                    updatesCurrentLayer={data => {
+                      setSelectedLayer((prev: LayerType | null) => ({
+                        ...prev!,
+                        ...data,
+                      }));
+                    }}
+                    control={control}
+                    setValue={(
+                      name: keyof LayerFormType,
+                      value: LayerFormType[keyof LayerFormType],
+                    ) => {
+                      setValue(name, value);
+                      trigger(name).then();
+                    }}
+                    selectedLayer={selectedLayer}
+                    ref={childRef}
+                  />
+                </>
+              ) : (
+                <LayersModalEmptyState addLayer={addLayer} />
+              )}
+            </div>
           </div>
-        </div>
-        <div className={'base-modal-footer'}>
-          <button className={'base-modal-footer--cancel-btn'} onClick={closeLayersModal}>
-            Back
-          </button>
-          <WuButton
-            Icon={<span className="wm-add" />}
-            disabled={
-              (layers?.length === 1 && !isCreateMode) ||
-              isPendingUpdateLayer ||
-              isPendingCreateLayer
-            }
-            type={'submit'}
-            data-testid={'apply-layer-button'}>
-            Apply
-          </WuButton>
-        </div>
-      </form>
-    </CustomModal>
+          <div className={'base-modal-footer'}>
+            <button className={'base-modal-footer--cancel-btn'} onClick={closeLayersModal}>
+              Back
+            </button>
+            <WuButton
+              Icon={<span className="wm-add" />}
+              disabled={
+                (layers?.length === 1 && !isCreateMode) ||
+                isPendingUpdateLayer ||
+                isPendingCreateLayer
+              }
+              type={'submit'}
+              data-testid={'apply-layer-button'}>
+              Apply
+            </WuButton>
+          </div>
+        </form>
+      </div>
+    </WuModal>
   );
 };
 
