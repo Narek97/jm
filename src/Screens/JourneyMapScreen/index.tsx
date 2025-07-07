@@ -55,6 +55,7 @@ import CustomLoader from '@/Components/Shared/CustomLoader';
 import { JOURNEY_MAP_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
+import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
 import {
@@ -649,13 +650,14 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
             className={`${isGuest || journeyMapVersion ? 'journey-map-guest' : ''} journey-map`}
             id={'journey-map'}>
             <>
-              {/*<ErrorBoundary>*/}
-              {/*  <JourneyMapColumns*/}
-              {/*    onColumnDragEnd={onColumnDragEnd}*/}
-              {/*    columns={mapColumns}*/}
-              {/*    isGuest={isGuest || !!journeyMapVersion}*/}
-              {/*  />*/}
-              {/*</ErrorBoundary>*/}
+              <ErrorBoundary>
+                <JourneyMapColumns
+                  onColumnDragEnd={onColumnDragEnd}
+                  columns={mapColumns}
+                  mapId={+mapId}
+                  isGuest={isGuest || !!journeyMapVersion}
+                />
+              </ErrorBoundary>
 
               {isLoadingJourneyMapRows ? (
                 <>

@@ -11,12 +11,20 @@ import { GetPinnedPersonaItemsQuery } from '@/api/queries/generated/getPinnedPer
 export type OrganizationUsersType =
   GetOrganizationUsersQuery['getOrganizationUsers']['users'][number];
 
-export type JourneyMapRowType = GetJourneyMapRowsQuery['getJourneyMap']['rows'][number];
+export type JourneyMapRowType = GetJourneyMapRowsQuery['getJourneyMap']['rows'][number] & {
+  isLoading?: boolean;
+  isDisabled?: boolean;
+};
+
+export type JourneyMapColumnType = GetJourneyMapQuery['getJourneyMap']['columns'][number] & {
+  isLoading?: boolean;
+  isDisabled?: boolean;
+};
 
 export type JourneyMapType = {
   title: string;
   workspaceId: number | null;
-  columns: GetJourneyMapQuery['getJourneyMap']['columns'];
+  columns: JourneyMapColumnType[];
   rows: JourneyMapRowType[];
 };
 
