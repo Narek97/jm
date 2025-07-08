@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 
+import { FILE_TYPE_CONFIG } from '@/constants';
 import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType } from '@/types';
 import { FileTypeEnum } from '@/types/enum';
@@ -281,6 +282,56 @@ const JOURNEY_MAP_IMAGE_OPTIONS = ({
   ];
 };
 
+const JOURNEY_MAP_VIDEO_OPTIONS = ({
+  onHandleOpenViewModal,
+  onHandleFileUpload,
+  onHandleDelete,
+}: {
+  onHandleOpenViewModal: () => void;
+  onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
+  onHandleDelete: (data: CommentButtonItemType) => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-eye-tracking'} />,
+      name: 'View',
+      onClick: onHandleOpenViewModal,
+    },
+    {
+      icon: (
+        <>
+          <span className={'wm-edit'} />
+          <input
+            style={{
+              opacity: 0,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '6.25rem',
+              height: '100%',
+              cursor: 'pointer',
+            }}
+            id={'file'}
+            type="file"
+            data-testid={'file-input-test-id'}
+            accept={FILE_TYPE_CONFIG[FileTypeEnum.VIDEO].accept}
+            onChange={e => {
+              onHandleFileUpload(e, FileTypeEnum.VIDEO);
+            }}
+          />
+        </>
+      ),
+      name: 'Update',
+      isFileUpload: true,
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: item => onHandleDelete(item),
+    },
+  ];
+};
+
 const JOURNEY_MAP_LOADING_ROW = {
   id: 99999,
   isLoading: true,
@@ -318,6 +369,7 @@ export {
   JOURNEY_MAP_STEP_OPTIONS,
   JOURNEY_MAP_COLUM_ROW_OPTIONS,
   JOURNEY_MAP_IMAGE_OPTIONS,
+  JOURNEY_MAP_VIDEO_OPTIONS,
   JOURNEY_MAP_LOADING_ROW,
   JOURNEY_MAP_LOADING_COLUMN,
 };

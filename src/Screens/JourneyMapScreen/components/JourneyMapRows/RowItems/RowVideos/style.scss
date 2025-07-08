@@ -1,5 +1,5 @@
-@import 'src/assets/styles/variables';
-@import 'src/assets/styles/mixins';
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .row-videos {
   @include map-row();

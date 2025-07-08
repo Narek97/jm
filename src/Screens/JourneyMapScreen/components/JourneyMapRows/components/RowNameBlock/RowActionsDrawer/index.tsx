@@ -58,74 +58,74 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
 
   const analysis = [
     {
-      icon: <SentimentIcon />,
+      icon: <img src={SentimentIcon} alt="Sentiment" />,
       title: 'Sentiment',
       type: MapRowTypeEnum.Sentiment,
     },
     {
-      icon: <TouchpointIcon />,
+      icon: <img src={TouchpointIcon} alt="Touchpoint" />,
       title: 'Touchpoints',
       type: MapRowTypeEnum.Touchpoints,
     },
     {
-      icon: <InteractionIcon />,
+      icon: <img src={InteractionIcon} alt="Interaction" />,
       title: 'Interactions',
       type: MapRowTypeEnum.Interactions,
     },
     {
-      icon: <ProsIcon />,
+      icon: <img src={ProsIcon} alt="Pros" />,
       title: 'Pros',
       type: MapRowTypeEnum.Pros,
     },
     {
-      icon: <ConsIcon />,
+      icon: <img src={ConsIcon} alt="Cons" />,
       title: 'Cons',
       type: MapRowTypeEnum.Cons,
     },
     {
-      icon: <InsightsIcon />,
+      icon: <img src={InsightsIcon} alt="Insights" />,
       title: 'Insights',
       type: MapRowTypeEnum.Insights,
     },
     {
-      icon: <MetricsIcon />,
+      icon: <img src={MetricsIcon} alt="Metrics" />,
       title: 'Metrics',
       type: MapRowTypeEnum.Metrics,
     },
   ];
   const contentAndStructure = [
     {
-      icon: <DividerIcon />,
+      icon: <img src={DividerIcon} alt="Divider" />,
       title: 'Divider',
       type: MapRowTypeEnum.Divider,
     },
     {
-      icon: <TextIcon />,
+      icon: <img src={TextIcon} alt="Text" />,
       title: 'Text',
       type: MapRowTypeEnum.Text,
     },
     {
-      icon: <ListIcon />,
+      icon: <img src={ListIcon} alt="List" />,
       title: 'List item',
       type: MapRowTypeEnum.ListItem,
     },
     {
-      icon: <LinkIcon />,
+      icon: <img src={LinkIcon} alt="Link" />,
       title: 'Link lane',
       type: MapRowTypeEnum.Links,
     },
     {
-      icon: <ImageIcon />,
+      icon: <img src={ImageIcon} alt="Image" />,
       title: 'Image',
       type: MapRowTypeEnum.Image,
     },
     {
-      icon: <VideoIcon />,
+      icon: <img src={VideoIcon} alt="Video" />,
       title: 'Video',
       type: MapRowTypeEnum.Video,
     },
     {
-      icon: <MediaIcon />,
+      icon: <img src={MediaIcon} alt="Media" />,
       title: 'Media',
       type: MapRowTypeEnum.Media,
     },
@@ -140,22 +140,21 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
   }));
 
   const infoIcon: ObjectKeysType = {
-    [MapRowTypeEnum.Sentiment]: <SentimentInfoIcon />,
-    [MapRowTypeEnum.Touchpoints]: <TouchpointInfoIcon />,
-    [MapRowTypeEnum.Interactions]: <InteractionInfoIcon />,
-    [MapRowTypeEnum.Pros]: <ProsInfoIcon />,
-    [MapRowTypeEnum.Cons]: <ConsInfoIcon />,
-    [MapRowTypeEnum.Insights]: <InsightInfoIcon />,
-    [MapRowTypeEnum.Metrics]: <MetricsInfoIcon />,
-    [MapRowTypeEnum.Divider]: <DividerInfoIcon />,
-    [MapRowTypeEnum.Text]: <TextInfoIcon />,
-    [MapRowTypeEnum.ListItem]: <ListInfoIcon />,
-    [MapRowTypeEnum.Links]: <LinksInfoIcon />,
-    [MapRowTypeEnum.Image]: <ImageInfoIcon />,
-    [MapRowTypeEnum.Video]: <VideoInfoIcon />,
-    [MapRowTypeEnum.Media]: <MediaInfoIcon />,
-
-    [MapRowTypeEnum.Outcomes]: <OutcomeInfoIcon />,
+    [MapRowTypeEnum.Sentiment]: <img src={SentimentInfoIcon} alt="Sentiment Info" />,
+    [MapRowTypeEnum.Touchpoints]: <img src={TouchpointInfoIcon} alt="Touchpoint Info" />,
+    [MapRowTypeEnum.Interactions]: <img src={InteractionInfoIcon} alt="Interaction Info" />,
+    [MapRowTypeEnum.Pros]: <img src={ProsInfoIcon} alt="Pros Info" />,
+    [MapRowTypeEnum.Cons]: <img src={ConsInfoIcon} alt="Cons Info" />,
+    [MapRowTypeEnum.Insights]: <img src={InsightInfoIcon} alt="Insight Info" />,
+    [MapRowTypeEnum.Metrics]: <img src={MetricsInfoIcon} alt="Metrics Info" />,
+    [MapRowTypeEnum.Divider]: <img src={DividerInfoIcon} alt="Divider Info" />,
+    [MapRowTypeEnum.Text]: <img src={TextInfoIcon} alt="Text Info" />,
+    [MapRowTypeEnum.ListItem]: <img src={ListInfoIcon} alt="List Info" />,
+    [MapRowTypeEnum.Links]: <img src={LinksInfoIcon} alt="Links Info" />,
+    [MapRowTypeEnum.Image]: <img src={ImageInfoIcon} alt="Image Info" />,
+    [MapRowTypeEnum.Video]: <img src={VideoInfoIcon} alt="Video Info" />,
+    [MapRowTypeEnum.Media]: <img src={MediaInfoIcon} alt="Media Info" />,
+    [MapRowTypeEnum.Outcomes]: <img src={OutcomeInfoIcon} alt="Outcome Info" />,
   };
 
   const onHandleCreateRow = (type: MapRowTypeEnum, additionalFields?: ObjectKeysType) => {

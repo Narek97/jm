@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import './style.scss';
 
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import MP3 from '@/public/media/MP3.svg';
+import CustomModal from '@/Components/Shared/CustomModal';
 
 interface IVideoViewModal {
   url: string;
@@ -24,11 +23,12 @@ const VideoViewModal: FC<IVideoViewModal> = ({ isOpen, url, handleClose }) => {
       <div className={'video-view'}>
         {isAudioOnly && (
           <div className={'video-view--mp3-block'}>
-            <MP3 />
+            {/*todo icon*/}
+            MP3
           </div>
         )}
         <video controls>
-          <source src={`${process.env.NEXT_PUBLIC_AWS_URL}/${url}`} />
+          <source src={`${import.meta.env.VITE_AWS_URL}/${url}`} />
           Your browser does not support the video tag.
         </video>
       </div>

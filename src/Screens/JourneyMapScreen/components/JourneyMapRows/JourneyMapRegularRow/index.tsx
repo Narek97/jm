@@ -2,6 +2,7 @@ import { FC, memo } from 'react';
 
 import './style.scss';
 import RowNameBlock from '../components/RowNameBlock';
+import RowVideos from '../RowItems/RowVideos';
 
 import { MapRowTypeEnum } from '@/api/types';
 import CustomLoader from '@/Components/Shared/CustomLoader';
@@ -63,9 +64,9 @@ const JourneyMapRegularRow: FC<IJourneyMapRow> = memo(
               [JourneyMapRowTypesEnum.IMAGE]: (
                 <ErrorBoundary>{<RowImages row={rowItem} disabled={disabled} />}</ErrorBoundary>
               ),
-              // [JourneyMapRowTypesEnum.VIDEO]: (
-              //   <ErrorBoundary>{<RowVideos row={rowItem} disabled={disabled} />}</ErrorBoundary>
-              // ),
+              [JourneyMapRowTypesEnum.VIDEO]: (
+                <ErrorBoundary>{<RowVideos row={rowItem} disabled={disabled} />}</ErrorBoundary>
+              ),
               // [JourneyMapRowTypesEnum.MEDIA]: (
               //   <ErrorBoundary>{<RowMedias row={rowItem} disabled={disabled} />}</ErrorBoundary>
               // ),

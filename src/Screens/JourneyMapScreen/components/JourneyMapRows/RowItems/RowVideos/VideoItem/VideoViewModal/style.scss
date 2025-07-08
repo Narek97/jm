@@ -1,4 +1,5 @@
-@import 'src/assets/styles/mixins';
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .video-view {
   width: 50dvw;
