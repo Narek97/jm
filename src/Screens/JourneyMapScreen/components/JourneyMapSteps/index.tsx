@@ -460,12 +460,7 @@ const JourneyMapSteps: FC<IStep> = memo(({ step, columns, isGuest }) => {
                   className={'journey-map-step--new-step-button-block--button'}
                   data-testid="add-step-btn-test-id"
                   onClick={() => childRef.current?.createNewColumn()}>
-                  <span
-                    className={'wm-add'}
-                    style={{
-                      color: '#1B87E6',
-                    }}
-                  />
+                  <span className={'wm-add'} />
                 </button>
               )}
             </div>

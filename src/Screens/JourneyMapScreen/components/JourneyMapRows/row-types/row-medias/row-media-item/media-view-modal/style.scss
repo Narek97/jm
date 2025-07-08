@@ -1,0 +1,11 @@
+.media-view {
+  display: flex;
+  justify-content: center;
+  max-height: 90dvh;
+  overflow: auto;
+}
+
+#msdoc-iframe {
+  width: 36.875rem !important;
+  height: 37.5rem !important;
+}

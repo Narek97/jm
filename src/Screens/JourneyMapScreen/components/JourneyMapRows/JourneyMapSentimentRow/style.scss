@@ -1,0 +1,160 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.journey-map-sentiment {
+  display: flex;
+  gap: 0.0625rem;
+  position: relative;
+  transition: 0.3s;
+  border-right: 0.125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  background-color: $BASE-EXTRA-LIGHT-GRAY-2;
+
+  &--item {
+    position: sticky;
+    left: 0;
+    min-width: 10.875rem;
+    max-width: 10.875rem;
+    padding: 0.5rem 0.25rem;
+    color: $BASE_GRAY_COLOR;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+    border-bottom: 0.125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+    transition: 0.3s;
+    z-index: 20;
+
+    &:hover {
+      .row-icon {
+        display: none;
+      }
+
+      .journey-map-row-name--drag-area {
+        display: block;
+      }
+
+      .journey-map-row-name--drag-area,
+      .journey-map-row-name--collapse-and-options--collapse-btn {
+        visibility: visible;
+      }
+
+      .custom-vertical-menu,
+      .add-row-btn,
+      .journey-map-row-item--collapse-btn {
+        display: flex;
+      }
+    }
+
+    .layer-show-mode {
+      display: flex !important;
+
+      .row-icon {
+        display: flex !important;
+      }
+    }
+  }
+
+  &--personas-block {
+    max-width: 12.5rem;
+    padding: 0.75rem 0.25rem;
+
+    &--glob {
+      margin-top: 1rem;
+      padding: 0.125rem;
+      border-radius: 0.125rem;
+    }
+  }
+
+  .disabled-mode {
+    opacity: 0.6;
+  }
+
+  &--konva-block {
+    position: relative;
+  }
+
+  &--loading {
+    position: absolute;
+    width: 17.4375rem;
+    height: 17.4375rem;
+    z-index: 1;
+    background-color: $BASE-WHITE-COLOR;
+  }
+}
+
+.journey-map-sentiment-collapsed {
+  max-height: 2.625rem;
+}
+
+.journey-map-sentiment-collapsed > div:nth-child(2) {
+  overflow: hidden;
+  min-height: 2.625rem;
+  border-bottom: 0.125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  background-color: $BASE-WHITE-COLOR;
+
+  * {
+    pointer-events: none;
+  }
+}
+
+.journey-map-sentiment-locked {
+  * {
+    pointer-events: none;
+  }
+
+  .journey-map-row-name--collapse-and-options {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.25rem;
+  }
+
+  .journey-map-row-name--lock-unlock {
+    display: flex;
+    pointer-events: auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    @include flex-center-center;
+
+    .unlock {
+      display: none;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      @include svg-fill(#1b3380);
+
+      .lock {
+        display: none;
+      }
+
+      .unlock {
+        display: flex;
+      }
+    }
+  }
+
+  &:hover {
+    & > div:first-child {
+      .journey-map-row-item--collapse-btn,
+      .add-row-btn,
+      .custom-vertical-menu {
+        display: flex;
+
+        button {
+          pointer-events: auto;
+        }
+      }
+
+      .custom-vertical-menu {
+        display: none;
+      }
+
+      .row-icon {
+        display: flex;
+      }
+
+      .journey-map-row-name--drag-area {
+        display: none;
+      }
+    }
+  }
+}

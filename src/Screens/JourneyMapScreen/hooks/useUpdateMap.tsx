@@ -34,6 +34,7 @@ import { useUpdateLinkBgColorMutation } from '@/api/mutations/generated/updateLi
 import { useUpdateMetricsMutation } from '@/api/mutations/generated/updateMetrics.generated';
 import { useUpdateTouchPointMutation } from '@/api/mutations/generated/updateTouchPoint.generated';
 import { LinkTypeEnum } from '@/api/types.ts';
+import { JourneyMapColumnType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import {

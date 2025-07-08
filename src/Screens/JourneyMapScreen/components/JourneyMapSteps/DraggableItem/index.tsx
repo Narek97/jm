@@ -319,12 +319,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
                 className={'journey-map-step--new-step-button-block--button'}
                 disabled={isGuest}
                 onClick={() => onHandleCreateStep(index + 1)}>
-                <span
-                  className={'wm-add'}
-                  style={{
-                    color: '#1B87E6',
-                  }}
-                />
+                <span className={'wm-add'} />
               </button>
             </div>
           )}

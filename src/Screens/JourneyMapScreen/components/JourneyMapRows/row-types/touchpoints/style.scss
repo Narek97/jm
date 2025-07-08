@@ -1,0 +1,20 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.journey-map-touchpoints {
+  @include map-row();
+
+  .map-item-dark-mode {
+    .touchpoint-item--content {
+      @include svg-fill(white);
+      color: #e9ebf2;
+    }
+  }
+
+  .map-item-light-mode {
+    .touchpoint-item--content {
+      @include svg-fill(rgba(84, 94, 107, 1));
+      color: rgba(84, 94, 107, 1);
+    }
+  }
+}

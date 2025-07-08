@@ -1,0 +1,163 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.journey-map-row {
+  display: flex;
+  gap: 0.0625rem;
+  //CHECK ADDITIONALLY
+  //z-index: 1;
+  position: relative;
+  transition: 0.3s;
+  background-color: #e8e8e8;
+  border-right: 0.125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+
+  &--name-block {
+    width: 10.875rem;
+    min-height: 2.625rem;
+    position: sticky;
+    padding: 0.5rem 0.25rem;
+    left: 0;
+    z-index: 20;
+    min-width: 10.875rem;
+    outline: none;
+    color: $BASE_GRAY_COLOR;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+    border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+    transition: 0.3s;
+
+    &:hover {
+      .journey-map-row-name--drag-area,
+      .journey-map-row-name--collapse-and-options--collapse-btn {
+        display: block;
+      }
+
+      .row-icon {
+        display: none;
+      }
+
+      .journey-map-row-name--collapse-and-options--collapse-btn {
+        display: flex;
+        visibility: visible;
+      }
+
+      .custom-vertical-menu,
+      .add-row-btn,
+      .journey-map-row-item--collapse-btn {
+        display: flex;
+      }
+    }
+
+    .layer-show-mode {
+      display: flex !important;
+
+      .row-icon {
+        display: flex !important;
+      }
+    }
+  }
+
+  &--loading-block {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  }
+
+  &--loading {
+    position: relative;
+    width: 17.4375rem;
+    height: 100%;
+    padding-top: 0.5rem;
+    background-color: rgb(245, 245, 245);
+  }
+}
+
+.journey-map-row-collapsed {
+  height: 2.625rem;
+
+  .row-images-item,
+  .text-insights,
+  .cons-pros-interaction,
+  .journey-map-touchpoints--column,
+  .journey-map-metrics--column,
+  .journey-map-outcomes--column,
+  .journey-map-links--column {
+    height: 2.625rem;
+    min-height: 2.625rem;
+  }
+
+  .map-item {
+    display: none;
+  }
+}
+
+.journey-map-row-locked {
+  * {
+    pointer-events: none;
+  }
+
+  .journey-map-row-name--collapse-and-options {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.25rem;
+  }
+
+  .journey-map-row-name--lock-unlock {
+    display: flex;
+
+    pointer-events: auto;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    border-radius: 0.125rem;
+    cursor: pointer;
+
+    @include flex-center-center;
+
+    .unlock {
+      display: none;
+    }
+
+    &:hover {
+      background-color: #0000001a;
+      @include svg-fill(#1b3380);
+
+      .lock {
+        display: none;
+      }
+
+      .unlock {
+        display: flex;
+      }
+    }
+  }
+
+  &:hover {
+    & > div:first-child {
+      .journey-map-row-item--collapse-btn {
+        display: none;
+      }
+
+      .row-icon {
+        display: flex;
+      }
+
+      .journey-map-row-name--drag-area {
+        display: none;
+      }
+
+      .add-row-btn {
+        display: flex;
+
+        button {
+          pointer-events: auto;
+        }
+      }
+
+      .custom-vertical-menu {
+        display: none;
+      }
+    }
+  }
+}

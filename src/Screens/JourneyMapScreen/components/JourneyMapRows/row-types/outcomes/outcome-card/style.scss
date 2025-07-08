@@ -1,0 +1,26 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.outcome-item {
+  border-bottom-left-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  color: $BASE_GRAY_COLOR;
+  background-color: #f5f7ff;
+
+  &--content {
+    padding: 0.5rem;
+
+    &--title {
+      @include reduce-text(100%);
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    &--description {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+  }
+}

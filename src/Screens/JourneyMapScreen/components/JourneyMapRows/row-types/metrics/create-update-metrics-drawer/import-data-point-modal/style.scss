@@ -1,0 +1,36 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.import-data-point-modal {
+  padding: 1rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--title {
+    display: inline-block;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+
+  &--file-upload {
+    margin: 1rem;
+    height: 6.25rem;
+    border-radius: 0.25rem;
+    border: 0.0625rem dashed var(--Grey-100, #9b9b9b);
+  }
+
+  &--file-download {
+    @include flex-center-center;
+    gap: 0.5rem;
+    margin: auto;
+    padding: 0 1rem 1rem;
+    line-height: 1.5rem;
+    color: $BASE_BLUE_COLOR;
+
+    &--title {
+      @include flex-center-center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+}

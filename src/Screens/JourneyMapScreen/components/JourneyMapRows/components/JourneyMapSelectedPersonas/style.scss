@@ -1,0 +1,23 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.selected-persona-images {
+  @include flex-center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.add-persona-btn {
+  width: 2rem;
+  height: 2rem;
+  box-sizing: border-box;
+  @include flex-center-center;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid $BASE_BLUE_COLOR;
+  outline: 0.125rem solid transparent;
+
+  &:hover {
+    background-color: $BASE_BLUE_COLOR;
+    @include svg-fill($BASE_WHITE-COLOR);
+  }
+}

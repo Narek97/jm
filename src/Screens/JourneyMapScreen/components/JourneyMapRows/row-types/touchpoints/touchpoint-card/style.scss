@@ -1,0 +1,33 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.touchpoint-item {
+  min-height: 4.25rem;
+  border-bottom-left-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  color: $BASE_GRAY_COLOR;
+  @include map-card-header-hover();
+
+  &--content {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem;
+    height: 2.25rem;
+    border-bottom-left-radius: 0.125rem;
+    border-bottom-right-radius: 0.125rem;
+
+    &--icon {
+      padding: 2px;
+      border-radius: 2px;
+    }
+
+    &--title {
+      @include reduce-text(100%);
+    }
+  }
+
+  &--loading {
+    @include journey-map-item-loading();
+  }
+}

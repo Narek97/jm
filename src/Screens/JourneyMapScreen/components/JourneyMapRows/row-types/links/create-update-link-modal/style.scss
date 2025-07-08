@@ -1,0 +1,33 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.create-update-link-modal {
+  padding: 1rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--content {
+    padding: 0 1rem;
+  }
+
+  &--form {
+    padding: 0 1rem;
+    min-height: 10.25rem;
+  }
+
+  &--row {
+    display: flex;
+    gap: 1.375rem;
+    margin-bottom: 1.25rem;
+
+    &--title {
+      width: 3rem;
+      padding-top: 0.625rem;
+    }
+
+    &--item {
+      width: calc(100% - 4rem);
+      flex: 1;
+    }
+  }
+  @include base-modal-footer();
+}

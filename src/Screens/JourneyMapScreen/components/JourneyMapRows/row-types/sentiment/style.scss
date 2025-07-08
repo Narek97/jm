@@ -1,0 +1,7 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.sentiment {
+  width: 100%;
+  border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+}

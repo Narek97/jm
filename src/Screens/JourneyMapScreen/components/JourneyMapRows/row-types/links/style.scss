@@ -1,0 +1,12 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.journey-map-links {
+  @include map-row();
+  div:has(div .guest-view-link-item) {
+    .add-row-box-element-button,
+    .unmerge-column {
+      visibility: hidden;
+    }
+  }
+}

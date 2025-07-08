@@ -1,0 +1,64 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.add-outcome-drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 30vw;
+  min-width: 18.75rem;
+  color: $BASE_GRAY_COLOR;
+
+  &--header {
+    @include flex-center-center;
+    width: 100%;
+    height: 3rem;
+    background-color: #eeeeee;
+
+    &--title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #555555;
+    }
+  }
+
+  &--clos-btn {
+    position: absolute;
+    right: 1rem;
+  }
+
+  &--content {
+    flex: 1;
+    padding: 1rem 2rem;
+  }
+
+  .custom-tabs {
+    display: flex;
+    gap: 1.25rem;
+
+    &--content {
+      min-width: fit-content;
+      background-color: $BASE-LIGHT-GRAY-COLOR;
+    }
+  }
+
+  &--footer {
+    position: relative;
+    @include flex-center;
+    justify-content: flex-end;
+    height: 5rem;
+    padding: 1rem;
+
+    &--divider {
+      position: absolute;
+      top: 0;
+      width: calc(100% - 2.5rem);
+      height: 0.0625rem;
+      background-color: $BASE-LIGHT-GRAY-COLOR-2;
+    }
+  }
+
+  .add-update-outcome-form {
+    height: 100vh;
+  }
+}

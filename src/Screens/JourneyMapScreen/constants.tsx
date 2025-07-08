@@ -171,6 +171,44 @@ const JOURNEY_MAP_STEP_OPTIONS = ({
   return list;
 };
 
+const JOURNEY_MAP_COLUM_ROW_OPTIONS = ({
+  isDisabled,
+  onHandleDelete,
+  onHandleLock,
+}: {
+  isDisabled: boolean;
+  onHandleDelete: () => void;
+  onHandleLock: () => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      disabled: isDisabled,
+      onClick: onHandleDelete,
+    },
+    {
+      icon: isDisabled ? (
+        <span
+          className={'wm-lock-open'}
+          style={{
+            color: '#545E6B',
+          }}
+        />
+      ) : (
+        <span
+          className={'wm-lock'}
+          style={{
+            color: '#545E6B',
+          }}
+        />
+      ),
+      name: isDisabled ? 'Unlock' : 'Lock',
+      onClick: onHandleLock,
+    },
+  ];
+};
+
 const JOURNEY_MAP_LOADING_ROW = {
   id: 99999,
   isLoading: true,
@@ -206,6 +244,7 @@ export {
   MAP_HEADER_OPTIONS,
   JOURNEY_MAP_COLUM_OPTIONS,
   JOURNEY_MAP_STEP_OPTIONS,
+  JOURNEY_MAP_COLUM_ROW_OPTIONS,
   JOURNEY_MAP_LOADING_ROW,
   JOURNEY_MAP_LOADING_COLUMN,
 };

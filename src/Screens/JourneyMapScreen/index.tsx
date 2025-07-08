@@ -56,6 +56,7 @@ import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
+import JourneyMapRows from '@/Screens/JourneyMapScreen/components/JourneyMapRows';
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
 import JourneyMapSteps from '@/Screens/JourneyMapScreen/components/JourneyMapSteps';
 import {
@@ -94,6 +95,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     updateDefaultJourneyMap,
     updateJourneyMapRowsCount,
     updateIsOpenSelectedJourneyMapPersonaInfo,
+    updateMapOutcomeGroups,
   } = useJourneyMapStore();
 
   const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
@@ -134,7 +136,10 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     },
   );
 
-  useGetMapOutcomeGroupsForRowCreationQuery<GetMapOutcomeGroupsForRowCreationQuery, Error>({
+  const { data: dataMapOutcomeGroups } = useGetMapOutcomeGroupsForRowCreationQuery<
+    GetMapOutcomeGroupsForRowCreationQuery,
+    Error
+  >({
     mapId: +mapId,
   });
 
@@ -561,6 +566,12 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       });
     }
   }, [dataBoardById, updateJourneyMap]);
+
+  useEffect(() => {
+    if (dataMapOutcomeGroups) {
+      updateMapOutcomeGroups(dataMapOutcomeGroups.getMapOutcomeGroupsForRowCreation || []);
+    }
+  }, [dataMapOutcomeGroups, updateMapOutcomeGroups]);
 
   useEffect(() => {
     if (dataMapSelectedPersonas) {

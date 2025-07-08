@@ -4,6 +4,7 @@ import { GetLayersByMapIdQuery } from '@/api/queries/generated/getLayersByMapId.
 import { GetMapByVersionIdQuery } from '@/api/queries/generated/getMapByVersionId.generated.ts';
 import { GetMapSelectedPersonasQuery } from '@/api/queries/generated/getMapSelectedPersonas.generated.ts';
 import { GetOrganizationUsersQuery } from '@/api/queries/generated/getOrganizationUsers.generated.ts';
+import { GetMapOutcomeGroupsForRowCreationQuery } from '@/api/queries/generated/getOutcomeGroupsForMap.generated.ts';
 import { GetPersonaDemographicInfosQuery } from '@/api/queries/generated/getPersonaDemographicInfos.generated.ts';
 import { GetPersonaSectionsQuery } from '@/api/queries/generated/getPersonaSections.generated.ts';
 import { GetPinnedPersonaItemsQuery } from '@/api/queries/generated/getPinnedPersonaItems.generated';
@@ -34,6 +35,9 @@ export type JourneyMapType = {
   columns: JourneyMapColumnType[];
   rows: JourneyMapRowType[];
 };
+
+export type MapOutcomeGroupsForRowCreationType =
+  GetMapOutcomeGroupsForRowCreationQuery['getMapOutcomeGroupsForRowCreation'][number];
 
 export type MapSelectedPersonasType = GetMapSelectedPersonasQuery['getMapSelectedPersonas'][number];
 

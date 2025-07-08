@@ -1,0 +1,64 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.link-item {
+  position: relative;
+  border-bottom-left-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  color: $BASE_GRAY_COLOR;
+  @include map-card-header-hover();
+
+  &--content {
+    padding: 0.5rem;
+    a {
+      color: $BASE_GRAY_COLOR;
+    }
+
+    &--logo {
+      &-title {
+        @include flex-center;
+        gap: 0.5rem;
+        text-decoration: underline;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+
+        a {
+          @include reduce-text(100%);
+          pointer-events: inherit !important;
+        }
+      }
+
+      &-image {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  }
+}
+
+.guest-view-link-item {
+  &:hover {
+    .custom-vertical-menu {
+      display: none !important;
+    }
+
+    .card-header--tage,
+    .card-header--note,
+    .card-header--comment {
+      visibility: hidden !important;
+    }
+
+    .card-header--base-icon {
+      display: flex !important;
+    }
+
+    .card-header--drag-icon {
+      display: none !important;
+    }
+
+    + .react-card-flip--btn {
+      visibility: hidden !important;
+    }
+  }
+}

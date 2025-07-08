@@ -1,0 +1,30 @@
+@import 'src/assets/styles/mixins';
+
+.text-insights--header {
+  display: flex;
+  justify-content: space-between;
+  &-icon {
+    svg {
+      display: block;
+      height: 1rem;
+    }
+  }
+  span {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &-tag {
+    opacity: 1;
+  }
+}
+
+.non-draggable-input {
+  width: 100%;
+  color: rgba(84, 94, 107, 1);
+
+  .ql-toolbar {
+    background-color: transparent !important;
+    padding: 0 !important;
+  }
+}

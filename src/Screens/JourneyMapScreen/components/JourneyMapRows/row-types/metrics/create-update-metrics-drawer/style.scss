@@ -1,0 +1,130 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.create-update-metrics-drawer {
+  width: 31.25rem;
+  height: 100%;
+  color: $BASE_GRAY_COLOR;
+
+  &--form {
+    height: calc(100% - 2.5rem);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include base-modal-footer();
+  }
+
+  &--content {
+    overflow: auto;
+    height: 100%;
+    padding: 1rem;
+  }
+
+  &--title {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &--label {
+    padding-top: 0.625rem;
+  }
+
+  &--general-block,
+  &--data-settings-block {
+    &--item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-left: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    &--validation-block {
+      display: flex;
+      flex-direction: column;
+      width: 18.75rem;
+    }
+  }
+
+  &--general-block {
+    &--switch-validation {
+      width: 19.25rem;
+    }
+
+    &--description-validation {
+      overflow: hidden;
+    }
+
+    &--description-validation-open {
+      transition: 0.3s;
+      height: 6.5625rem;
+    }
+
+    &--description-validation-close {
+      transition: 0.3s;
+      height: 0;
+    }
+  }
+
+  &--data-settings-block {
+    &--date-picker {
+      @include flex-center;
+      justify-content: space-between;
+      width: 18.75rem;
+      height: 2rem;
+      padding: 0.5rem;
+      background-color: $BASE-LIGHT-GRAY-COLOR;
+    }
+
+    &--date-picker-block {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    &--goal-item {
+      margin-top: 0.5rem;
+    }
+  }
+
+  &--custom-metrics-list {
+    margin-top: 0.5rem;
+
+    &--item {
+      width: 100%;
+      height: 1.25rem;
+      @include flex-center-between;
+    }
+  }
+
+  &--data-points-block {
+    margin-top: 2rem;
+
+    &--header {
+      @include flex-center-between;
+    }
+
+    &--btns-block {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    &--table-block {
+      margin-top: 0.5rem;
+      min-height: 6.25rem;
+      position: relative;
+    }
+
+    &--empty-table-title {
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 300;
+      margin-top: 1.5rem;
+    }
+  }
+}

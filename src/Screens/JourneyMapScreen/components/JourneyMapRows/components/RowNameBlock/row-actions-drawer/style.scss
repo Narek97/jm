@@ -1,0 +1,101 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.row-actions-drawer {
+  @include flex-center-center;
+  position: absolute;
+  top: -0.625rem;
+  left: 50%;
+  width: 50%;
+  height: 1.125rem;
+  z-index: 20;
+  color: $BASE_GRAY_COLOR;
+  transform: translate(-50%, 0);
+
+  &:hover {
+    .row-actions-drawer--button {
+      visibility: visible;
+    }
+  }
+
+  &--loading-block {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &--info-block {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -50%);
+  }
+
+  &--button {
+    @include flex-center-center;
+    visibility: hidden;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 0.125rem solid $BASE_BLUE_COLOR;
+
+    &:hover {
+      background-color: $BASE_BLUE_COLOR;
+      outline: 0.125rem solid rgba(27, 135, 230, 0.5);
+      @include svg-fill($BASE_WHITE-COLOR);
+    }
+  }
+
+  &--drawer {
+    &--content {
+      width: 20.5rem;
+      padding: 0.5rem 1rem;
+      display: flex;
+      gap: 0.625rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-header {
+      padding-left: 0.5rem;
+      justify-content: flex-start;
+
+      &--title {
+        font-size: 0.875rem;
+      }
+    }
+
+    &--groups {
+      width: 8.75rem;
+      font-size: 0.75rem;
+      overflow: auto;
+    }
+
+    &--outcome-groups {
+      width: 100%;
+    }
+
+    &--groups-title {
+      line-height: 2rem;
+      font-weight: 500;
+      color: rgba(84, 94, 107, 1);
+    }
+
+    &--groups-item {
+      @include reduce-text(100%);
+      @include flex-center;
+      padding: 0 0.5rem;
+      gap: 0.5rem;
+      line-height: 2rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+
+      &:hover {
+        color: $BASE_WHITE-COLOR;
+        background-color: $BASE_BLUE_COLOR;
+        @include svg-fill($BASE_WHITE-COLOR);
+      }
+    }
+  }
+}

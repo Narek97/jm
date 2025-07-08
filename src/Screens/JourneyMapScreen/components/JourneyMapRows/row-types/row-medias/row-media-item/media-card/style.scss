@@ -1,0 +1,50 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.media-card {
+  position: relative;
+  width: 100%;
+  border: 0.0625rem solid #d8d8d8;
+  height: inherit;
+  cursor: pointer;
+
+  &--header--note {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &:hover {
+    .media-card--header {
+      visibility: visible;
+    }
+
+    .card-header--tag {
+      @include svg-fill($BASE_WHITE-COLOR);
+    }
+
+    .custom-vertical-menu {
+      display: flex;
+      color: $BASE_WHITE-COLOR;
+      @include svg-fill($BASE-WHITE-COLOR);
+    }
+
+    .wm-more-vert {
+      color: $BASE_WHITE-COLOR !important;
+    }
+  }
+
+  &--header {
+    @include video-image-header();
+  }
+
+  &--media-block {
+    @include flex-center-center;
+    height: inherit;
+  }
+
+  &--play-btn {
+    @include absolute-center();
+    z-index: 10;
+    pointer-events: auto !important;
+  }
+}

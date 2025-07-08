@@ -1,0 +1,68 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.cons-pros-interaction {
+  border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  border-right: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+
+  &--column {
+    position: relative;
+    padding: 0.5rem;
+    background-color: $BASE-WHITE-COLOR;
+    height: 100%;
+
+    &:hover {
+      .add-row-box-element-button,
+      .unmerge-column {
+        visibility: visible;
+      }
+    }
+
+    &--item {
+      height: 100%;
+    }
+  }
+
+  &--card {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.active-map-card,
+.active-video-card,
+.active-image-card,
+.active-media-card {
+  ~ .react-card-flip--btn,
+  .card-header--tag,
+  .card-header--comment,
+  .image-card-header,
+  .card-header--note,
+  .card-header--menu {
+    visibility: visible;
+    opacity: 1;
+    .custom-vertical-menu {
+      display: block;
+    }
+  }
+
+  .card-header--base-icon {
+    display: none;
+  }
+
+  .card-header--drag-icon {
+    display: flex;
+  }
+
+  ~ div > span > .react-card-flip--btn {
+    visibility: visible !important;
+  }
+
+  .card-header--tag,
+  .text-insights--header-tag,
+  .image-card--header--tag > span > button {
+    @include svg-fill($DARK_BLUE);
+    //background: $BASE-LIGHT-GRAY-COLOR;
+    border-radius: 0.2rem;
+  }
+}

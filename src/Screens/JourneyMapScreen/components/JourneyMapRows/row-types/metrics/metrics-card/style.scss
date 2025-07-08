@@ -1,0 +1,96 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.metrics-item {
+  border-bottom-left-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  color: $BASE_GRAY_COLOR;
+  @include map-card-header-hover();
+
+  &--content {
+    padding: 0.5rem 0.75rem;
+    background-color: #edf6fd;
+  }
+
+  &--title-description-block {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.25rem;
+  }
+
+  &--title {
+    @include reduce-text(100%);
+    font-weight: 500;
+  }
+
+  &--score-block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &--goal-date-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  &--goal-block,
+  &--average-block {
+    @include flex-center;
+    font-size: 0.875rem;
+    gap: 0.25rem;
+  }
+
+  &--nps-negative-value {
+    color: $BASE-ERROR-COLOR;
+  }
+
+  &--chart-block {
+    position: relative;
+    width: 8rem;
+    height: 6.25rem;
+
+    &--score-range-1,
+    &--score-range-2 {
+      font-size: 0.625rem;
+      position: absolute;
+      bottom: 1rem;
+      color: #9b9b9b;
+    }
+
+    &--score-range-1 {
+      left: -0.25rem;
+    }
+
+    &--score-range-2 {
+      right: -0.25rem;
+    }
+
+    &--score-number {
+      @include absolute-center;
+      @include flex-center-center;
+      top: 87%;
+      flex-direction: column;
+      &--block {
+        line-height: normal;
+      }
+    }
+
+    &--score-number-title {
+      font-weight: 500;
+    }
+
+    &--nps-arrow,
+    &--goal-arrow {
+      position: absolute;
+      bottom: 1.875rem;
+      transform-origin: 100% 50%;
+    }
+
+    &--goal-arrow {
+      bottom: 2.188rem;
+    }
+  }
+}

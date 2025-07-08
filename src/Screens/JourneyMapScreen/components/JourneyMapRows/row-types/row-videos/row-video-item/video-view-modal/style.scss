@@ -1,0 +1,21 @@
+@import 'src/assets/styles/mixins';
+
+.video-view {
+  width: 50dvw;
+  height: 37.5rem;
+  padding: 2.25rem;
+
+  &--mp3-block {
+    @include absolute-center();
+    z-index: 10;
+
+    svg {
+      width: 10rem;
+    }
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+  }
+}

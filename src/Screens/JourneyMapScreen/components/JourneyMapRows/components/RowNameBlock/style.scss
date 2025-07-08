@@ -1,0 +1,116 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.journey-map-row-name {
+  &--loading {
+    position: relative;
+    width: 10.875rem;
+    height: 5rem;
+    padding-top: 0.5rem;
+  }
+
+  &--header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    width: 100%;
+    height: 2rem;
+
+    .row-icon {
+      min-width: 1.5rem;
+      height: 1.5rem;
+      @include flex-center-center();
+    }
+  }
+
+  &--first-header {
+    margin-top: 1.25rem;
+  }
+
+  &--drag-area {
+    min-width: 1.5rem;
+    height: 1.5rem;
+    display: none;
+    z-index: 1;
+    text-align: center;
+    border-radius: 0.125rem;
+
+    &--icon {
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      @include svg-fill(#1b3380);
+    }
+  }
+
+  &--collapse-and-options {
+    display: flex;
+    position: relative;
+    top: 0;
+
+    &--collapse-btn {
+      border-radius: 0.125rem;
+      min-width: 1.5rem;
+      height: 1.5rem;
+      @include flex-center-center;
+      visibility: hidden;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+
+        svg {
+          path {
+            stroke: #1b3380;
+          }
+        }
+      }
+
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    &--collapse-close-btn {
+      svg {
+        transform: rotate(-90deg);
+      }
+    }
+
+    &--menu {
+      .custom-vertical-menu--btn {
+        border-radius: 0.125rem;
+      }
+
+      @include svg-fill(#545e6b);
+
+      &:hover {
+        @include svg-fill(#1b3380);
+      }
+    }
+
+    &--collapse-btn {
+      .custom-vertical-menu--btn {
+        border-radius: 0.125rem;
+      }
+    }
+  }
+
+  &--divider {
+    width: 100%;
+    height: 0.25rem;
+    position: absolute;
+    left: 0;
+    top: 0.875rem;
+    background-color: $BASE-LIGHT-GRAY-COLOR-2;
+  }
+}
+
+.last-long-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}

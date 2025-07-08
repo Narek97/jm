@@ -1,0 +1,36 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.unmerge-column {
+  min-width: 1.875rem;
+  min-height: 1.875rem;
+  visibility: hidden;
+  border-radius: 0.125rem;
+  margin-left: 0.5rem;
+  border: 0.0625rem solid $BASE_BLUE_COLOR;
+  @include flex-center-center;
+  @include svg-fill($BASE_BLUE_COLOR);
+  cursor: pointer;
+
+  &-button {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    @include svg-fill(white);
+    background-color: #54a5ec;
+  }
+}
+
+.confirm-unmerge-modal {
+  padding: 1rem 1rem 0.5rem 1rem;
+  font-size: 0.875rem;
+
+  &--text {
+    padding: 0 1rem;
+    margin-bottom: 2.25rem;
+    color: rgba(84, 94, 107, 1);
+  }
+  @include base-modal-footer;
+}

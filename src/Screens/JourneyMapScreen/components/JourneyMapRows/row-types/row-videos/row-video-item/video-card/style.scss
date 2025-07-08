@@ -1,0 +1,57 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.video-card {
+  position: relative;
+  width: 100%;
+  border: 0.0625rem solid #d8d8d8;
+  height: inherit;
+
+  &:hover {
+    .video-card--header {
+      visibility: visible;
+    }
+    .custom-vertical-menu {
+      display: flex;
+    }
+    .card-header--tag {
+      @include svg-fill($BASE-WHITE-COLOR);
+    }
+    .wm-more-vert {
+      color: $BASE_WHITE-COLOR !important;
+    }
+  }
+
+  &--video{
+    position: absolute;
+    top: 0;
+  }
+
+  &--header {
+    @include video-image-header();
+
+    &--note,
+    &--comment {
+      @include flex-center-center;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &--video-block {
+    position: relative;
+    height: inherit;
+  }
+
+  &--play-btn {
+    @include absolute-center();
+    z-index: 10;
+    pointer-events: auto !important;
+  }
+
+  &--mp3-block {
+    @include flex-center-center;
+    width: 100%;
+    height: 100%;
+  }
+}
