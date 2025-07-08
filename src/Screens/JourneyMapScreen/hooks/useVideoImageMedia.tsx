@@ -1,49 +1,78 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { useCrudMapBoxElement } from '@/containers/journey-map-container/hooks/useCRUDMapBoxElement';
-import { useAddBoxElementMutation } from '@/gql/mutations/generated/addBoxElement.generated';
-import { useRemoveBoxElementMutation } from '@/gql/mutations/generated/removeBoxElement.generated';
-import { useUpdateBoxElementMutation } from '@/gql/mutations/generated/updateBoxElement.generated';
-import { AttachmentsEnum } from '@/gql/types';
-import { selectedJourneyMapPersona } from '@/store/atoms/journeyMap.atom';
-import { snackbarState } from '@/store/atoms/snackbar.atom';
-import { validateFile } from '@/utils/helpers/general';
-import { UploadFile } from '@/utils/helpers/uploader';
-import { ActionsEnum, FileTypeEnum } from '@/utils/ts/enums/global-enums';
-import { ObjectKeysType } from '@/utils/ts/types/global-types';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
+import {
+  AddBoxElementMutation,
+  useAddBoxElementMutation,
+} from '@/api/mutations/generated/addBoxElement.generated';
+import {
+  RemoveBoxElementMutation,
+  useRemoveBoxElementMutation,
+} from '@/api/mutations/generated/removeBoxElement.generated.ts';
+import {
+  UpdateBoxElementMutation,
+  useUpdateBoxElementMutation,
+} from '@/api/mutations/generated/updateBoxElement.generated.ts';
+import { AttachmentsEnum } from '@/api/types.ts';
+import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
+import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
+import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { ObjectKeysType } from '@/types';
+import { ActionsEnum, FileTypeEnum } from '@/types/enum.ts';
+import { UploadFile } from '@/utils/uploader.ts';
 
-const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxItemType; rowId: number }) => {
+const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxElementType; rowId: number }) => {
   const { crudBoxElement } = useCrudMapBoxElement();
+  const { showToast } = useWuShowToast();
 
-  const setSnackbar = useSetRecoilState(snackbarState);
-
-  const selectedPerson = useRecoilValue(selectedJourneyMapPersona);
+  const { selectedJourneyMapPersona } = useJourneyMapStore();
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isViewModalOpen, setIsOpenViewModal] = useState<boolean>(false);
-  const [currentUrl, setCurrentUrl] = useState<any>({});
+  const [currentUrl, setCurrentUrl] = useState<string>('');
 
-  const { mutate: addBoxElement } = useAddBoxElementMutation({
+  const { mutate: addBoxElement } = useAddBoxElementMutation<Error, AddBoxElementMutation>({
     onSuccess: response => {
       crudBoxElement(response.addBoxElement, ActionsEnum.CREATE);
       setIsUploading(false);
     },
-  });
-
-  const { mutate: updateBoxElement } = useUpdateBoxElementMutation({
-    onSuccess: response => {
-      crudBoxElement(response?.updateBoxElement, ActionsEnum.UPDATE);
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
     },
   });
 
-  const { mutate: removeBoxElement } = useRemoveBoxElementMutation({
-    onSuccess: response => {
-      crudBoxElement(response?.removeBoxElement, ActionsEnum.DELETE);
+  const { mutate: updateBoxElement } = useUpdateBoxElementMutation<Error, UpdateBoxElementMutation>(
+    {
+      onSuccess: response => {
+        crudBoxElement(response?.updateBoxElement, ActionsEnum.UPDATE);
+      },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
     },
-  });
+  );
+
+  const { mutate: removeBoxElement } = useRemoveBoxElementMutation<Error, RemoveBoxElementMutation>(
+    {
+      onSuccess: response => {
+        crudBoxElement(response?.removeBoxElement, ActionsEnum.DELETE);
+      },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
+    },
+  );
 
   const deleteItem = useCallback(
     (boxElementId: number) => {
@@ -76,12 +105,10 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxItemType; rowId: n
       const { valid, extension, allowedExtensions } = await validateFile(file, fileType);
 
       if (!valid || !extension) {
-        setSnackbar(prev => ({
-          ...prev,
-          open: true,
-          type: 'warning',
+        showToast({
+          variant: 'warning',
           message: `Only ${allowedExtensions.join(', ')} files are allowed.`,
-        }));
+        });
         return;
       }
 
@@ -101,17 +128,15 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxItemType; rowId: n
 
         uploadFile.onError(() => {
           setIsUploading(false);
-          setSnackbar(prev => ({
-            ...prev,
-            open: true,
-            type: 'error',
-            message: 'File upload failed. Please try again.',
-          }));
+          showToast({
+            variant: 'error',
+            message: `'File upload failed. Please try again.'`,
+          });
           reject(new Error('File upload failed'));
         });
       });
     },
-    [rowId, setSnackbar],
+    [rowId, showToast],
   );
 
   const addItem = useCallback(
@@ -122,17 +147,17 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxItemType; rowId: n
         addBoxElement({
           addBoxElementInput: {
             rowId: rowId,
-            imageId: uploadFilesData?.id,
-            columnId: rowItem?.columnId!,
-            text: uploadFilesData?.key,
-            personaId: selectedPerson?.id || null,
+            imageId: uploadFilesData.id,
+            text: uploadFilesData.key,
+            columnId: rowItem.columnId,
+            personaId: selectedJourneyMapPersona?.id || null,
             stepId,
           },
         });
       }
       setIsUploading(false);
     },
-    [addBoxElement, handleFileUpload, rowId, rowItem?.columnId, selectedPerson?.id],
+    [addBoxElement, handleFileUpload, rowId, rowItem.columnId, selectedJourneyMapPersona?.id],
   );
 
   const updateItem = useCallback(
@@ -150,9 +175,9 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxItemType; rowId: n
         updateBoxElement(
           {
             updateBoxDataInput: {
-              attachmentId: uploadFilesData?.id,
+              attachmentId: uploadFilesData.id,
+              text: uploadFilesData.key,
               boxElementId,
-              text: uploadFilesData?.key,
               imageId,
             },
           },

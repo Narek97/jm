@@ -1,14 +1,12 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import './style.scss';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import MergeIcon from '@/public/base-icons/merge.svg';
-import { ActionsEnum, JourneyMapRowActionEnum } from '@/utils/ts/enums/global-enums';
-
-import ModalHeader from '../../../../components/molecules/modal-header';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
+import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum';
 
 interface IMergeColumnsButton {
   rowId: number;
@@ -29,10 +27,12 @@ const MergeColumnsButton: FC<IMergeColumnsButton> = ({
   connectionEnd,
   previousBoxDetails,
 }) => {
+  const { updateMapByType } = useUpdateMap();
+
   const { stepId, mergeCount, columnId } = previousBoxDetails;
+
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState<boolean>(false);
-  const { updateMapByType } = useUpdateMap();
 
   const openConfirmationModal = () => {
     setIsOpenConfirmationModal(true);
@@ -67,7 +67,7 @@ const MergeColumnsButton: FC<IMergeColumnsButton> = ({
     <>
       <div className="merge-column">
         <button className="merge-column-button" onClick={openConfirmationModal}>
-          <MergeIcon />
+          <span className={'wc-merge-1'} />
         </button>
       </div>
       {isOpenConfirmationModal && (
@@ -76,7 +76,7 @@ const MergeColumnsButton: FC<IMergeColumnsButton> = ({
           modalSize={'sm'}
           handleClose={() => setIsOpenConfirmationModal(false)}
           canCloseWithOutsideClick={true}>
-          <ModalHeader title={'Merge cards'} />
+          <CustomModalHeader title={'Merge cards'} />
           <div className="confirm-merge-modal">
             <div className="confirm-merge-modal--text">
               The whole text from the cards will be combined into a single text card. Do you want to
@@ -89,15 +89,12 @@ const MergeColumnsButton: FC<IMergeColumnsButton> = ({
                 disabled={isLoading}>
                 Cancel
               </button>
-              <CustomButton
-                startIcon={false}
+              <WuButton
                 data-testid={'crop-btn-test-id'}
-                sxStyles={{ width: '6.125rem' }}
                 onClick={mergeColumns}
-                disabled={isLoading}
-                isLoading={isLoading}>
+                disabled={isLoading}>
                 Continue
-              </CustomButton>
+              </WuButton>
             </div>
           </div>
         </CustomModal>

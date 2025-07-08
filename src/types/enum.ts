@@ -122,3 +122,9 @@ export enum UndoRedoEnum {
   UNDO = 'UNDO',
   REDO = 'REDO',
 }
+
+export enum FileTypeEnum {
+  VIDEO = 'VIDEO',
+  IMAGE = 'IMAGE',
+  MEDIA = 'MEDIA',
+}

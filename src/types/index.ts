@@ -135,3 +135,8 @@ export type NotesAndCommentsDrawerType = {
   columnId?: number;
   stepId?: number | null;
 };
+
+export type FileTypeConfigType = {
+  accept: string;
+  extensions: string[];
+};

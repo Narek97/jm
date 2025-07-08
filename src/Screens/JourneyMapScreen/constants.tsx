@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 
 import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType } from '@/types';
+import { FileTypeEnum } from '@/types/enum';
 
 const MAP_HEADER_OPTIONS = ({
   isDebugMode,
@@ -209,6 +210,77 @@ const JOURNEY_MAP_COLUM_ROW_OPTIONS = ({
   ];
 };
 
+const JOURNEY_MAP_IMAGE_OPTIONS = ({
+  onHandleOpenViewModal,
+  onHandleFileUpload,
+  onHandleFit,
+  onHandleFill,
+  onHandleCrop,
+  onHandleDelete,
+}: {
+  onHandleOpenViewModal: () => void;
+  onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
+  onHandleFit: (data: CommentButtonItemType) => void;
+  onHandleFill: (data: CommentButtonItemType) => void;
+  onHandleCrop: (data: CommentButtonItemType) => void;
+  onHandleDelete: (data: CommentButtonItemType) => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-eye-tracking'} />,
+      name: 'View',
+      onClick: onHandleOpenViewModal,
+    },
+    {
+      icon: (
+        <>
+          <span className={'wm-edit'} />
+          <input
+            style={{
+              opacity: 0,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '6.25rem',
+              height: '100%',
+              cursor: 'pointer',
+            }}
+            id={'file'}
+            type="file"
+            data-testid={'file-input-test-id'}
+            accept="image/jpeg, image/png"
+            onChange={e => {
+              onHandleFileUpload(e, FileTypeEnum.IMAGE);
+            }}
+          />
+        </>
+      ),
+      name: 'Update',
+      isFileUpload: true,
+    },
+    {
+      icon: <span className={'wm-zoom-in-map'} />,
+      name: 'Fit',
+      onClick: item => onHandleFit(item),
+    },
+    {
+      icon: <span className={'wm-zoom-out-map'} />,
+      name: 'Fill',
+      onClick: item => onHandleFill(item),
+    },
+    {
+      icon: <span className={'wm-crop'} />,
+      name: 'Crop',
+      onClick: item => onHandleCrop(item),
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: item => onHandleDelete(item),
+    },
+  ];
+};
+
 const JOURNEY_MAP_LOADING_ROW = {
   id: 99999,
   isLoading: true,
@@ -245,6 +317,7 @@ export {
   JOURNEY_MAP_COLUM_OPTIONS,
   JOURNEY_MAP_STEP_OPTIONS,
   JOURNEY_MAP_COLUM_ROW_OPTIONS,
+  JOURNEY_MAP_IMAGE_OPTIONS,
   JOURNEY_MAP_LOADING_ROW,
   JOURNEY_MAP_LOADING_COLUMN,
 };

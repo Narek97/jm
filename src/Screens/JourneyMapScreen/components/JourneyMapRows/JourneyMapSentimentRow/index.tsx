@@ -11,7 +11,7 @@ import {
 } from '@/api/mutations/generated/disablePersonaForRow.generated.ts';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
-import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/row-types/sentiment';
+import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/sentiment';
 import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';

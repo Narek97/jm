@@ -4,13 +4,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useCreateJourneyMapRowMutation } from '@/api/mutations/generated/createJourneyMapRow.generated';
+import { useCreateJourneyMapRowMutation } from '@/api/mutations/generated/createJourneyMapRow.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes.tsx';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ObjectKeysType } from '@/types';
-import { JourneyMapRowActionEnum } from '@/types/enum';
+import { JourneyMapRowActionEnum } from '@/types/enum.ts';
 import { ActionsEnum } from '@/types/enum.ts';
 
 export const useAddNewRow = (onToggleDrawer: () => void) => {

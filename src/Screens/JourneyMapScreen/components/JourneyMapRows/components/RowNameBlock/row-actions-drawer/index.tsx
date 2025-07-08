@@ -36,7 +36,7 @@ import VideoIcon from '@/assets/public/mapRow/video.svg';
 import VideoInfoIcon from '@/assets/public/mapRow/video_info.svg';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
-import { useAddNewRow } from '@/Screens/JourneyMapScreen/helpers/addNewRow.tsx';
+import { useAddNewRow } from '@/Screens/JourneyMapScreen/hooks/useAddNewRow.tsx';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
 

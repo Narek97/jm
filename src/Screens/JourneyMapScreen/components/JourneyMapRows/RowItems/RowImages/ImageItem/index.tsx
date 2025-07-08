@@ -1,36 +1,34 @@
-import React, { FC, memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import './style.scss';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import { FILE_TYPE_CONFIG } from '@/constants';
+import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowFileUploader';
+import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
+import ImageCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard';
+import useVideoImageMedia from '@/Screens/JourneyMapScreen/hooks/useVideoImageMedia.tsx';
+import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useLayerStore } from '@/store/layers.ts';
+import { FileTypeEnum } from '@/types/enum.ts';
 
-import { useRecoilValue } from 'recoil';
-
-import CustomLoader from '@/components/molecules/custom-loader/custom-loader';
-import MapRowFileUploader from '@/components/molecules/map-row-file-uploader';
-import useVideoImageMedia from '@/containers/journey-map-container/hooks/useVideoImageMedia';
-import ImageCard from '@/containers/journey-map-container/journey-map-rows/row-types/row-images/row-images-item/image-card';
-import UnMergeColumnsButton from '@/containers/journey-map-container/journey-map-rows/unmerge-columns-btn';
-import { currentLayerState } from '@/store/atoms/layers.atom';
-import { FILE_TYPE_CONFIG } from '@/utils/constants/general';
-import { FileTypeEnum } from '@/utils/ts/enums/global-enums';
-import { BoxItemType, JourneyMapRowType } from '@/utils/ts/types/journey-map/journey-map-types';
-
-interface IRowImagesItem {
-  rowItem: BoxItemType;
+interface IImagesItem {
+  rowItem: BoxElementType;
   rowId: number;
   disabled: boolean;
   row: JourneyMapRowType;
   boxIndex: number;
 }
 
-const RowImagesItem: FC<IRowImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIndex }) => {
+const ImagesItem: FC<IImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIndex }) => {
   const { deleteItem, addItem, updateItem, isUploading } = useVideoImageMedia({
     rowItem,
     rowId,
   });
-  const [isActiveMode, setIsActiveMode] = useState<boolean>(false);
+  const { currentLayer } = useLayerStore();
 
-  const currentLayer = useRecoilValue(currentLayerState);
   const isLayerModeOn = !currentLayer?.isBase;
+
+  const [isActiveMode, setIsActiveMode] = useState<boolean>(false);
 
   return (
     <div
@@ -66,7 +64,7 @@ const RowImagesItem: FC<IRowImagesItem> = memo(({ rowItem, rowId, disabled, row,
               <>
                 {disabled ? null : (
                   <>
-                    <MapRowFileUploader
+                    <RowFileUploader
                       rowItem={rowItem}
                       index={rowId}
                       addItem={addItem}
@@ -92,4 +90,4 @@ const RowImagesItem: FC<IRowImagesItem> = memo(({ rowItem, rowId, disabled, row,
   );
 });
 
-export default RowImagesItem;
+export default ImagesItem;

@@ -43,6 +43,7 @@ import { MapRowTypeEnum, UpdateOutcomePositionInput } from '@/api/types';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { debounced400 } from '@/hooks/useDebounce';
+import JourneyMapRegularRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapRegularRow';
 import JourneyMapSentimentRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useLayerStore } from '@/store/layers.ts';
@@ -550,15 +551,14 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
                                       },
                                       key: rowItem.rowFunction!,
                                       defaultPage: (
-                                        <div>hello</div>
-                                        // <JourneyMapRegularRow
-                                        //   key={rowItem?.id}
-                                        //   dragHandleProps={provided2?.dragHandleProps}
-                                        //   rowItem={rowItem}
-                                        //   index={index}
-                                        //   updateLabel={updateLabel}
-                                        //   rowsLength={journeyMap?.rows.length - 1}
-                                        // />
+                                        <JourneyMapRegularRow
+                                          key={rowItem?.id}
+                                          dragHandleProps={provided2?.dragHandleProps}
+                                          rowItem={rowItem}
+                                          index={index}
+                                          updateLabel={updateLabel}
+                                          rowsLength={journeyMap?.rows.length - 1}
+                                        />
                                       ),
                                     })}
                                   </div>

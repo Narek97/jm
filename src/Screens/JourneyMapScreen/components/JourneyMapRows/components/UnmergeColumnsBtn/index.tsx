@@ -1,28 +1,28 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import './style.scss';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import UnMergeIcon from '@/public/base-icons/unmerge.svg';
-import { findStartMergedItem } from '@/utils/helpers/general';
-import { ActionsEnum, JourneyMapRowActionEnum } from '@/utils/ts/enums/global-enums';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
-
-import ModalHeader from '../../../../components/molecules/modal-header';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { findStartMergedItem } from '@/Screens/JourneyMapScreen/helpers/findStartMergedItem.ts';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
+import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { JourneyMapRowActionEnum } from '@/types/enum';
+import { ActionsEnum } from '@/types/enum.ts';
 
 interface IUnMergeColumnsButton {
   boxIndex: number;
   rowId: number;
-  rowItem: BoxItemType;
-  boxes: BoxItemType[];
+  rowItem: BoxElementType;
+  boxes: BoxElementType[];
 }
 
 const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowItem, boxes }) => {
+  const { updateMapByType } = useUpdateMap();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState<boolean>(false);
-  const { updateMapByType } = useUpdateMap();
 
   const openConfirmationModal = () => {
     setIsOpenConfirmationModal(true);
@@ -37,8 +37,8 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowI
         JourneyMapRowActionEnum.MERGE_UNMERGE_COLUMNS,
         ActionsEnum.UNMERGE,
         {
-          startStepId: startBox?.step.id,
-          endStepId: rowItem.step.id,
+          startStepId: startBox.step?.id,
+          endStepId: rowItem.step?.id,
           startColumnId: startBox?.columnId,
           endColumnId: rowItem.columnId,
           startBoxId: startBox?.id,
@@ -68,7 +68,7 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowI
   return (
     <>
       <button className="unmerge-column" onClick={openConfirmationModal}>
-        <UnMergeIcon />
+        <span className={'wc-unmerge-1'} />
       </button>
       {isOpenConfirmationModal && (
         <CustomModal
@@ -76,7 +76,7 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowI
           modalSize={'sm'}
           handleClose={() => setIsOpenConfirmationModal(false)}
           canCloseWithOutsideClick={true}>
-          <ModalHeader title={'Unmerge cards'} />
+          <CustomModalHeader title={'Unmerge cards'} />
           <div className="confirm-unmerge-modal">
             <div className="confirm-unmerge-modal--text">
               When merging the cells, only the items on the left will be preserved, and the rest
@@ -89,15 +89,12 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowI
                 disabled={isLoading}>
                 Cancel
               </button>
-              <CustomButton
-                startIcon={false}
+              <WuButton
                 data-testid={'unmerge-column-btn-test-id'}
-                sxStyles={{ width: '6.125rem' }}
                 onClick={unmergeColumns}
-                disabled={isLoading}
-                isLoading={isLoading}>
+                disabled={isLoading}>
                 Continue
-              </CustomButton>
+              </WuButton>
             </div>
           </div>
         </CustomModal>

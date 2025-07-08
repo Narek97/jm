@@ -1,45 +1,36 @@
-import React, { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+
 import './style.scss';
-
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-
 import { Skeleton } from '@mui/material';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useLocation } from '@tanstack/react-router';
 import Cropper from 'react-easy-crop';
-import { useRecoilValue } from 'recoil';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomLongMenu from '@/components/atoms/custom-long-menu/custom-long-menu';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import CropImage from '@/components/molecules/crop-image';
-import ModalHeader from '@/components/molecules/modal-header';
-import { useCrudMapBoxElement } from '@/containers/journey-map-container/hooks/useCRUDMapBoxElement';
-import CommentBtn from '@/containers/journey-map-container/journey-map-card-comments-drawer/comment-btn';
-import JourneyMapCardNote from '@/containers/journey-map-container/journey-map-card-note';
-import NoteBtn from '@/containers/journey-map-container/journey-map-note-btn';
-import ImageViewModal from '@/containers/journey-map-container/journey-map-rows/row-types/row-images/row-images-item/image-view-modal';
-import JourneyMapCardTags from '@/containers/journey-map-container/journey-map-tags-popover';
 import {
   UpdateAttachmentCroppedAreaMutation,
   useUpdateAttachmentCroppedAreaMutation,
-} from '@/gql/mutations/generated/updateAttachmentCroppedArea.generated';
+} from '@/api/mutations/generated/updateAttachmentCroppedArea.generated.ts';
 import {
   UpdateAttachmentScaleTypeMutation,
   useUpdateAttachmentScaleTypeMutation,
-} from '@/gql/mutations/generated/updateAttachmentScaleType.generated';
-import { CommentAndNoteModelsEnum, ImgScaleTypeEnum, MapCardTypeEnum } from '@/gql/types';
-import { noteStateFamily } from '@/store/atoms/note.atom';
-import { IMAGE_ASPECT } from '@/utils/constants/general';
-import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/utils/constants/options';
-import { getResizedFileName } from '@/utils/helpers/general';
-import { ActionsEnum, menuViewTypeEnum } from '@/utils/ts/enums/global-enums';
-import { CommentButtonItemType } from '@/utils/ts/types/global-types';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
+} from '@/api/mutations/generated/updateAttachmentScaleType.generated.ts';
+import { CommentAndNoteModelsEnum, ImgScaleTypeEnum } from '@/api/types.ts';
+import CropImage from '@/Components/Shared/CropImage';
+import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { IMAGE_ASPECT } from '@/constants';
+import ImageViewModal from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard/ImageViewModal';
+import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
+import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
+import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { ActionsEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 const CROP_AREA_ASPECT = 3 / 3;
 
 interface IImageCard {
-  rowItem: BoxItemType;
+  rowItem: BoxElementType;
   deleteImage: (boxElementId: number) => void;
   disabled: boolean;
   handleUpdateFile: (e: ChangeEvent<HTMLInputElement>, onFinish: () => void) => void;
@@ -48,8 +39,11 @@ interface IImageCard {
 
 const ImageCard: FC<IImageCard> = memo(
   ({ rowItem, deleteImage, disabled, handleUpdateFile, changeActiveMode }) => {
-    const pathname = usePathname();
-    const isGuest = pathname.includes('/guest');
+    const { showToast } = useWuShowToast();
+
+    const location = useLocation();
+    const isGuest = location.pathname.includes('/guest');
+
     const { crudBoxElement } = useCrudMapBoxElement();
 
     const boxImage = rowItem?.boxElements[0];
@@ -90,20 +84,35 @@ const ImageCard: FC<IImageCard> = memo(
       },
     );
 
-    const noteData = useRecoilValue(
-      noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxImage.id }),
-    );
-    const hasNote = noteData ? noteData.text.length : boxImage.note?.text.length;
+    // todo
+    // const noteData = useRecoilValue(
+    //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxImage.id }),
+    // );
+    // const hasNote = noteData ? noteData.text.length : boxImage.note?.text.length;
+    const hasNote = false;
 
     const { mutate: updateAttachmentScaleType } = useUpdateAttachmentScaleTypeMutation<
-      UpdateAttachmentScaleTypeMutation,
-      Error
-    >();
+      Error,
+      UpdateAttachmentScaleTypeMutation
+    >({
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
+    });
 
-    const { mutate: updateAttachmentCroppedArea, isLoading: isLoadingAttachmentCroppedArea } =
-      useUpdateAttachmentCroppedAreaMutation<UpdateAttachmentCroppedAreaMutation, Error>({
+    const { mutate: updateAttachmentCroppedArea, isPending: isLoadingAttachmentCroppedArea } =
+      useUpdateAttachmentCroppedAreaMutation<Error, UpdateAttachmentCroppedAreaMutation>({
         onSuccess: () => {
           setIsOpenCropModal(false);
+        },
+        onError: error => {
+          showToast({
+            variant: 'error',
+            message: error?.message,
+          });
         },
       });
 
@@ -126,7 +135,7 @@ const ImageCard: FC<IImageCard> = memo(
               crudBoxElement(
                 {
                   ...boxImage,
-                  stepId: rowItem.step.id,
+                  stepId: rowItem.step?.id,
                   previousScale: imgScaleType,
                   attachment: {
                     ...boxImage.attachment,
@@ -139,7 +148,7 @@ const ImageCard: FC<IImageCard> = memo(
           },
         );
       },
-      [boxImage, crudBoxElement, imgScaleType, rowItem.step.id, updateAttachmentScaleType],
+      [boxImage, crudBoxElement, imgScaleType, rowItem.step?.id, updateAttachmentScaleType],
     );
 
     const onHandleSaveCropImage = () => {
@@ -172,7 +181,7 @@ const ImageCard: FC<IImageCard> = memo(
           setIsOpenCropModal(true);
         },
         onHandleDelete: item => {
-          deleteImage(item?.itemId!);
+          deleteImage(item?.itemId);
           setIsLoading(true);
         },
       });
@@ -182,14 +191,14 @@ const ImageCard: FC<IImageCard> = memo(
       title: rowItem?.boxTextElement?.text || '',
       itemId: boxImage.id,
       rowId: boxImage.rowId,
-      columnId: rowItem.columnId!,
-      stepId: rowItem.step.id,
+      columnId: rowItem.columnId,
+      stepId: rowItem.step?.id,
       type: CommentAndNoteModelsEnum.BoxElement,
     };
 
     const imageSrc = boxImage?.attachment?.hasResizedVersions
-      ? `${process.env.NEXT_PUBLIC_AWS_URL}/${getResizedFileName(boxImage.text, IMAGE_ASPECT)}`
-      : `${process.env.NEXT_PUBLIC_AWS_URL}/${boxImage.text}`;
+      ? `${import.meta.env.VITE_AWS_URL}/${getResizedFileName(boxImage.text || '', IMAGE_ASPECT)}`
+      : `${import.meta.env.VITE_AWS_URL}/${boxImage.text}`;
 
     useEffect(() => {
       setImgScaleType(boxImage.attachment?.imgScaleType || ImgScaleTypeEnum.Fit);
@@ -213,13 +222,13 @@ const ImageCard: FC<IImageCard> = memo(
             modalSize={'md'}
             handleClose={() => setIsOpenCropModal(false)}
             canCloseWithOutsideClick={true}>
-            <ModalHeader title={'Crop image'} />
+            <CustomModalHeader title={'Crop image'} />
             <div
               className="image-card-cropper-modal"
               data-testid="image-card-cropper-modal-test-id">
               <div className="image-card-cropper">
                 <Cropper
-                  image={`${process.env.NEXT_PUBLIC_AWS_URL}/${boxImage?.text}`}
+                  image={`${import.meta.env.VITE_AWS_URL}/${boxImage?.text}`}
                   aspect={CROP_AREA_ASPECT}
                   crop={crop}
                   zoom={zoom}
@@ -235,56 +244,54 @@ const ImageCard: FC<IImageCard> = memo(
                   disabled={isLoadingAttachmentCroppedArea}>
                   Cancel
                 </button>
-                <CustomButton
-                  startIcon={false}
+                <WuButton
                   data-testid={'crop-btn-test-id'}
-                  sxStyles={{ width: '6.125rem' }}
                   onClick={onHandleSaveCropImage}
-                  disabled={isLoadingAttachmentCroppedArea}
-                  isLoading={isLoadingAttachmentCroppedArea}>
+                  disabled={isLoadingAttachmentCroppedArea}>
                   Save
-                </CustomButton>
+                </WuButton>
               </div>
             </div>
           </CustomModal>
         )}
 
         <div key={boxImage?.id} className={'image-card'} data-testid={'image-card-test-id'}>
-          {isOpenNote && (
-            <JourneyMapCardNote
-              type={CommentAndNoteModelsEnum.BoxElement}
-              itemId={boxImage.id}
-              rowId={boxImage.rowId}
-              stepId={rowItem.step.id}
-              onClickAway={onHandleToggleNote}
-            />
-          )}
+          {/*{isOpenNote && (*/}
+          {/*  <JourneyMapCardNote*/}
+          {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
+          {/*    itemId={boxImage.id}*/}
+          {/*    rowId={boxImage.rowId}*/}
+          {/*    stepId={rowItem.step.id}*/}
+          {/*    onClickAway={onHandleToggleNote}*/}
+          {/*  />*/}
+          {/*)}*/}
 
           {!isGuest && (
             <div className={'image-card--header'}>
               <div className={'image-card--header--comment'}>
-                <CommentBtn commentsCount={boxImage.commentsCount} item={commentRelatedData} />
+                {/*<CommentBtn commentsCount={boxImage.commentsCount} item={commentRelatedData} />*/}
               </div>
               <div className={'image-card--header--note'}>
-                <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
+                {/*<NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />*/}
               </div>
               <div className={'image-card--header--tag card-header--tag'}>
-                <JourneyMapCardTags
-                  cardType={MapCardTypeEnum.BoxElement}
-                  itemId={boxImage.id}
-                  changeActiveMode={changeActiveMode}
-                  attachedTagsCount={boxImage.tagsCount || 0}
-                  createTagItemAttrs={{
-                    stepId: rowItem.step.id,
-                    columnId: rowItem.columnId!,
-                    rowId: boxImage.rowId,
-                  }}
-                />
+                {/*todo*/}
+                {/*<JourneyMapCardTags*/}
+                {/*  cardType={MapCardTypeEnum.BoxElement}*/}
+                {/*  itemId={boxImage.id}*/}
+                {/*  changeActiveMode={changeActiveMode}*/}
+                {/*  attachedTagsCount={boxImage.tagsCount || 0}*/}
+                {/*  createTagItemAttrs={{*/}
+                {/*    stepId: rowItem.step?.id,*/}
+                {/*    columnId: rowItem.columnId,*/}
+                {/*    rowId: boxImage.rowId,*/}
+                {/*  }}*/}
+                {/*/>*/}
               </div>
 
               <div className={'image-card--header--menu'}>
                 <CustomLongMenu
-                  type={menuViewTypeEnum.VERTICAL}
+                  type={MenuViewTypeEnum.VERTICAL}
                   anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',
@@ -327,14 +334,11 @@ const ImageCard: FC<IImageCard> = memo(
                 </div>
               ) : (
                 <div className="output">
-                  <Image
+                  <img
                     src={imageSrc}
                     alt="Img"
                     loading="eager"
                     onClick={() => setIsViewModalOpen(true)}
-                    width={260}
-                    height={260}
-                    priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{
                       width: '100%',

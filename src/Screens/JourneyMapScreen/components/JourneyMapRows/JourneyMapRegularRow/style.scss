@@ -1,15 +1,18 @@
-@import 'src/assets/styles/variables';
-@import 'src/assets/styles/mixins';
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
 .journey-map-row {
   display: flex;
   gap: 0.0625rem;
-  //CHECK ADDITIONALLY
-  //z-index: 1;
   position: relative;
   transition: 0.3s;
   background-color: #e8e8e8;
   border-right: 0.125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+
+  .error-boundary{
+    width: 279px;
+    min-width: 279px;
+  }
 
   &--name-block {
     width: 10.875rem;
