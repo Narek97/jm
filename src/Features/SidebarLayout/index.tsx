@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 
 import { WuSidebar } from '@npm-questionpro/wick-ui-lib';
 
@@ -13,8 +13,21 @@ interface ISidebarLayout {
 }
 
 const SidebarLayout: FC<ISidebarLayout> = ({ children, topTabs, bottomTabs }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(localStorage.getItem('isOpenSidebar') === 'true');
+
   return (
-    <WuSidebar Sidebar={<HoverMenuPanel topTabs={topTabs} bottomTabs={bottomTabs} />}>
+    <WuSidebar
+      className="sidebar-content"
+      open={isOpen}
+      defaultOpen={localStorage.getItem('isOpenSidebar') === 'true'}
+      onOpenChange={e => {
+        setIsOpen(e);
+        localStorage.setItem(
+          'isOpenSidebar',
+          String(!(localStorage.getItem('isOpenSidebar') === 'true')),
+        );
+      }}
+      Sidebar={<HoverMenuPanel topTabs={topTabs} bottomTabs={bottomTabs} />}>
       <div className={'h-full'}>{children}</div>
       <Footer />
     </WuSidebar>

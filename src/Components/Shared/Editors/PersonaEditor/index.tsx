@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import './style.scss';
 
-import Quill from 'quill';
+import Quill, { Delta } from 'quill';
 import 'quill/dist/quill.snow.css';
 import 'quill-mention/dist/quill.mention.css';
 import 'quill/dist/quill.js';
@@ -46,6 +46,11 @@ const PersonaEditor: FC<IMapEditor> = ({
 
       const quill = initializeQuill(quillRef, color);
       quill.root.innerHTML = initValue || '';
+
+      quill.clipboard.addMatcher(Node.ELEMENT_NODE, node => {
+        const plainText = node.textContent || '';
+        return new Delta().insert(plainText);
+      });
 
       return () => {
         quill.off('text-change');
