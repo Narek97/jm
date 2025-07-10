@@ -2,7 +2,7 @@ import { FC, useState, useMemo } from 'react';
 
 import './style.scss';
 import { WuButton, WuMenu, WuMenuItem } from '@npm-questionpro/wick-ui-lib';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { ControlledTreeEnvironment, Tree, TreeItem, TreeItemIndex } from 'react-complex-tree';
 
 import 'react-complex-tree/src/style.css';
@@ -14,14 +14,16 @@ import { querySlateTime } from '@/constants';
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
 interface IParentMapItem {
-  boardId: number;
   map: JourneyType;
   createMap: (parentId: number) => void;
   onHandleDeleteJourney: (journeyMap: JourneyType) => void;
 }
 
-const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDeleteJourney }) => {
+const ParentMapItem: FC<IParentMapItem> = ({ map, createMap, onHandleDeleteJourney }) => {
   const navigate = useNavigate();
+  const { boardId } = useParams({
+    from: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journies/',
+  });
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
@@ -128,7 +130,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDe
                     }
                     context.toggleExpandedState();
                   }}
-                  className={`${context.isExpanded ? 'wm-keyboard-arrow-up' : 'wm-keyboard-arrow-down'}
+                  className={`${context.isExpanded ? 'wm-keyboard-arrow-up' : 'wm-keyboard-arrow-right'}
                      icon-button`}
                 />
               );
@@ -170,29 +172,31 @@ const ParentMapItem: FC<IParentMapItem> = ({ boardId, map, createMap, onHandleDe
                           <div
                             onClick={() => onNavigateMap(item?.data?.id)}
                             className={'node-title'}>
-                            {title}
+                            {(title as string)?.trim() || 'Untitled'}
                           </div>
-                          {item?.data?.isParent && (
-                            <div className={'journeys-count'}>{item?.data?.mapCount}</div>
-                          )}
+
                           <WuMenu
                             Trigger={
                               <WuButton
-                                className={'child-option wicki-button'}
+                                className={'child-option wicki-button journeys-hover-wrapper'}
                                 onClick={e => e.stopPropagation()}
-                                Icon={<span className={'wm-more-vert'} />}
+                                Icon={
+                                  <>
+                                    <span className={'wm-more-vert journeys-menu'} />
+                                    {item?.data?.isParent && (
+                                      <div className={'journeys-count'}>{item?.data?.mapCount}</div>
+                                    )}
+                                  </>
+                                }
                                 variant="iconOnly"
                               />
                             }>
-                            <WuMenuItem>
-                              <button
-                                className={'w-full'}
-                                data-testid={'delete-menu-option'}
-                                onClick={() => {
-                                  onHandleDeleteJourney({ ...item?.data, parentId: map?.id });
-                                }}>
-                                Delete
-                              </button>
+                            <WuMenuItem
+                              className="cursor-pointer"
+                              onSelect={() => {
+                                onHandleDeleteJourney({ ...item?.data, parentId: map?.id });
+                              }}>
+                              <button data-testid={'delete-menu-option'}>Delete</button>
                             </WuMenuItem>
                           </WuMenu>
                         </div>
