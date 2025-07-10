@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
@@ -28,6 +28,7 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeys,
 } from '@/hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 
 const OutcomeScreen = () => {
   const { workspaceId, outcomeId } = useParams({
@@ -38,6 +39,7 @@ const OutcomeScreen = () => {
   const setRemoveOutcomeGroupQuery = useRemoveQueriesByKey();
 
   const { showToast } = useWuShowToast();
+  const { setBreadcrumbs } = useBreadcrumbStore();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOutcome, setSelectedOutcome] = useState<OutcomeType | null>(null);
@@ -46,7 +48,7 @@ const OutcomeScreen = () => {
   const [sortBy, setSortBy] = useState<SortByEnum>(SortByEnum.CreatedAt);
   const [orderBy, setOrderBy] = useState<OrderByEnum>(OrderByEnum.Desc);
 
-  const setOutcomeGroup = useSetQueryDataByKeys('GetOutcomeGroup.infinite', [
+  const setOutcomeGroup = useSetQueryDataByKeys('GetOutcomeGroup', [
     {
       key: ['sortBy', 'orderBy'],
       value: [sortBy, orderBy],
@@ -107,7 +109,27 @@ const OutcomeScreen = () => {
     setIsOpenCreateUpdateModal(prev => !prev);
   }, []);
 
-  const onHandleUpdateOutcome = async () => {
+  const onHandleUpdateOutcome = async (updatedData: OutcomeType) => {
+    setOutcomeGroup((oldData: any) => {
+      if (oldData) {
+        return {
+          ...oldData,
+          getOutcomeGroup: {
+            ...oldData.getOutcomeGroup,
+            outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
+            outcomes: oldData.getOutcomeGroup.outcomes.map((item: OutcomeType) => {
+              if (item.id === selectedOutcome?.id) {
+                return {
+                  ...item,
+                  ...updatedData,
+                };
+              }
+              return item;
+            }),
+          },
+        };
+      }
+    });
     setIsOpenCreateUpdateModal(false);
   };
 
@@ -126,19 +148,13 @@ const OutcomeScreen = () => {
 
     setOutcomeGroup((oldData: any) => {
       if (oldData) {
-        const updatedPages = ((oldData?.pages || []) as Array<any>).map(page => {
-          return {
-            ...page,
-            getOutcomeGroup: {
-              ...page.getOutcomeGroup,
-              outcomesCount: page.getOutcomeGroup.outcomesCount + 1,
-              outcomes: [newOutcome, ...page.getOutcomeGroup.outcomes],
-            },
-          };
-        });
         return {
           ...oldData,
-          pages: updatedPages,
+          getOutcomeGroup: {
+            ...oldData.getOutcomeGroup,
+            outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
+            outcomes: [newOutcome, ...oldData.getOutcomeGroup.outcomes],
+          },
         };
       }
     });
@@ -225,6 +241,15 @@ const OutcomeScreen = () => {
     setCurrentPage(newPage);
     setOffset((newPage - 1) * OUTCOMES_LIMIT);
   }, []);
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        name: 'Workspaces',
+        pathname: '/workspaces',
+      },
+    ]);
+  }, [setBreadcrumbs]);
 
   if (isLoadingOutcomesGroup && !outcomesGroup.length) {
     return <CustomLoader />;
