@@ -18,7 +18,7 @@ import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import PersonaImages from '@/Features/PersonaImages';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
-import { JourneyMaps } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaJourneyMap } from '@/Screens/PersonaScreen/types.ts';
 import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 dayjs.extend(fromNow);
@@ -37,12 +37,13 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
   const navigate = useNavigate();
   const childRef = useRef<HTMLUListElement>(null);
 
+
   const {
-    data: organizationPersonasData,
-    isLoading: organizationPersonasIsLoading,
-    isFetching: organizationPersonasIsFetchingNextPage,
-    hasNextPage: organizationPersonasHasNextPage,
-    fetchNextPage: organizationPersonasFetchNextPage,
+    data: mapsData,
+    isLoading: mapsDataIsLoading,
+    isFetching: mapsDataIsFetchingNextPage,
+    hasNextPage: mapsDataHasNextPage,
+    fetchNextPage: mapsDataFetchNextPage,
   } = useInfiniteGetMapsQuery<{ pages: Array<GetMapsQuery> }, Error>(
     {
       getMapsInput: {
@@ -71,17 +72,17 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     },
   );
 
-  const renderedMaps = useMemo<JourneyMaps>(() => {
-    if (!organizationPersonasData?.pages) {
+  const renderedMaps = useMemo<Array<PersonaJourneyMap>>(() => {
+    if (!mapsData?.pages) {
       return [];
     }
-    return organizationPersonasData.pages.reduce((acc: JourneyMaps, curr) => {
+    return mapsData.pages.reduce<Array<PersonaJourneyMap>>((acc, curr) => {
       if (curr?.getMaps.maps) {
-        return [...acc, ...(curr.getMaps.maps as JourneyMaps)];
+        return [...acc, ...curr.getMaps.maps];
       }
       return acc;
     }, []);
-  }, [organizationPersonasData?.pages]);
+  }, [mapsData?.pages]);
 
   const onHandleFetch = (e: React.UIEvent<HTMLElement>, childOffsetHeight: number) => {
     const target = e.currentTarget as HTMLDivElement | null;
@@ -89,10 +90,10 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
       target &&
       childOffsetHeight &&
       target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
-      !organizationPersonasIsFetchingNextPage &&
-      organizationPersonasHasNextPage
+      !mapsDataIsFetchingNextPage &&
+      mapsDataHasNextPage
     ) {
-      organizationPersonasFetchNextPage().then();
+      mapsDataFetchNextPage().then();
     }
   };
 
@@ -102,24 +103,16 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     }).then();
   };
 
-  const disconnectPersonaFromMap = (personaId: number, mapId: number) => {
-    renderedMaps.forEach(map => {
-      if (map?.id === mapId) {
-        map.selectedPersonas = map.selectedPersonas?.filter(persona => persona?.id !== personaId);
-      }
-    });
-  };
-
   return (
     <CustomModal
       isOpen={isOpen}
       modalSize={'md'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!organizationPersonasIsLoading}>
+      canCloseWithOutsideClick={!mapsDataIsLoading}>
       <CustomModalHeader title={<div className={'assign-modal-header'}>Assigned journeys</div>} />
       <div className={'journeys-contains-current-maps'}>
         <div className={'journeys-contains-current-maps--content'}>
-          {organizationPersonasIsLoading && !renderedMaps?.length ? (
+          {mapsDataIsLoading && !renderedMaps?.length ? (
             <div className={'journeys-contains-current-maps-loading-section'}>
               <CustomLoader />
             </div>
@@ -154,9 +147,6 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
                             disableDisconnect={true}
                             viewMode={SelectedPersonasViewModeEnum.MAP}
                             personas={itm.selectedPersonas as PersonaType[]}
-                            disconnectPersona={personaId =>
-                              disconnectPersonaFromMap(personaId, itm?.id)
-                            }
                           />
                         </li>
                       </ErrorBoundary>
