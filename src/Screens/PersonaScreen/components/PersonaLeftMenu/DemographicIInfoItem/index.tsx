@@ -26,6 +26,13 @@ interface IDemographicInfoItem {
   options: Array<MenuOptionsType>;
 }
 
+interface FieldConfig {
+  regex: RegExp;
+  maxLength?: number;
+  minValue?: number;
+  maxValue?: number;
+}
+
 const DemographicInfoItem: FC<IDemographicInfoItem> = ({
   demographicInfo,
   index,
@@ -36,6 +43,18 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
 }) => {
   const ref = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const fieldConfigs: Record<string, FieldConfig> = {
+    Age: {
+      regex: /[^0-9]/g,
+      minValue: 0,
+      maxValue: 100,
+    },
+    default: {
+      regex: /[^a-zA-Z0-9 ]/g,
+      maxLength: 1000,
+    },
+  };
 
   useEffect(() => {
     if (selectedDemographicInfoId === demographicInfo.id) {
@@ -128,6 +147,7 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
         {demographicInfo.key === 'Gender' ? (
           <CustomDropDown
             id={'gender-dropdown'}
+            name={`gender-${demographicInfo.id}`}
             data-testid={`demographic-info-item-${index}-test-id`}
             disabled={demographicInfo.isHidden!}
             menuItems={PERSONA_GENDER_MENU_ITEMS}
@@ -152,12 +172,25 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
             value={demographicInfo.value}
             data-testid={`${demographicInfo.id}-test-id`}
             onChange={e => {
-              onHandleChangeDemographicInfo(
-                demographicInfo.id,
-                e.target.value,
-                'value',
-                PersonaFieldCategoryTypeEnum.DEMOGRAPHIC_INFO_FIELDS,
-              );
+              const config = fieldConfigs[demographicInfo.key] || fieldConfigs.default;
+              const value = e.target.value.replace(config.regex, '');
+
+              let isValid = value === '';
+              if (config.minValue !== undefined && config.maxValue !== undefined) {
+                const numValue = Number(value);
+                isValid = isValid || (numValue >= config.minValue && numValue <= config.maxValue);
+              } else if (config.maxLength !== undefined) {
+                isValid = isValid || value.length <= config.maxLength;
+              }
+
+              if (isValid) {
+                onHandleChangeDemographicInfo(
+                  demographicInfo.id,
+                  value,
+                  'value',
+                  PersonaFieldCategoryTypeEnum.DEMOGRAPHIC_INFO_FIELDS,
+                );
+              }
             }}
             sxStyles={{
               opacity: demographicInfo.isHidden ? 0.5 : 1,

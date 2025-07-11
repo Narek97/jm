@@ -125,7 +125,7 @@ const JourneyCard: FC<IJourneyCard> = ({
           </>
         )}
 
-        <WuTooltip content={cardName}>
+        <WuTooltip className="wu-tooltip-content" content={cardName}>
           <div className={'journey-card--name-block'}>
             {isEditName ? (
               <ClickAwayListener onClickAway={() => setIsEditName(false)}>

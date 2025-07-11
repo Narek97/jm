@@ -131,3 +131,12 @@ svg {
   font-size: 1rem;
   cursor: pointer;
 }
+
+.wu-tooltip-content {
+  word-break: break-all;
+
+  svg {
+    margin-right: 0.4rem;
+    display: inline-block;
+  }
+}

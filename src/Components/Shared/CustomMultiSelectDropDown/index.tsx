@@ -107,7 +107,7 @@ const CustomMultiSelectDropDown: FC<ICustomMultiSelectDropDown> = ({
           },
         }}
         renderValue={selected => (
-          <div>
+          <div data-testid={'selected-values'}>
             {selected.map((menuItem, index) => (
               <Chip
                 className={'custom-multi-select-dropdown--delete-btn'}
@@ -122,6 +122,7 @@ const CustomMultiSelectDropDown: FC<ICustomMultiSelectDropDown> = ({
                 onDelete={() => onHandleDelete(menuItem, index)}
                 deleteIcon={
                   <span
+                    data-testid={'delete-item-btn'}
                     onMouseDown={event => event.stopPropagation()}
                     style={{
                       margin: '0 5px',
@@ -152,7 +153,7 @@ const CustomMultiSelectDropDown: FC<ICustomMultiSelectDropDown> = ({
                   backgroundColor: '#deebf7',
                 },
               }}
-              data-testid={`${menuItem.name}-item-test-id`}
+              data-testid={`${menuItem.id}-item-test-id`}
               onClick={() => {
                 if (isSelected) {
                   onHandleDelete(menuItem, index);

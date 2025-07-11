@@ -238,7 +238,7 @@ const AiModel = () => {
       ) : (
         <>
           {aiJourneyModels.length ? (
-            <div className={'ai-model--list'}>
+            <div className={'ai-model--list'} data-testid={'ai-model-list'}>
               {aiJourneyModels.map(aiModel => (
                 <ErrorBoundary key={aiModel.id}>
                   <AiModelCard
