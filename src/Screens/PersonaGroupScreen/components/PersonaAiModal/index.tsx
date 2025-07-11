@@ -52,10 +52,11 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
         to: `/workspace/${workspaceId}/persona/${response.createPersonaByAi}`,
       }).then();
     },
-    onError: error => {
+    onError: () => {
       showToast({
+        message: 'Failed to create AI persona.',
         variant: 'error',
-        message: error?.message,
+        duration: 2000,
       });
     },
   });

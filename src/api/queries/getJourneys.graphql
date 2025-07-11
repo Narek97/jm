@@ -1,49 +1,50 @@
 query GetJourneys($getMapsInput: GetMapsInput!) {
-  getMaps(getMapsInput: $getMapsInput) {
-    count
-    maps {
-      title
-      id
-      type
-      createdAt
-      updatedAt
-      owner {
-        firstName
-        lastName
-        emailAddress
-      }
-      selectedPersonas {
-        croppedArea {
-          width
-          height
-          x
-          y
+    getMaps(getMapsInput: $getMapsInput) {
+        count
+        maps {
+            title
+            id
+            type
+            boardId
+            createdAt
+            updatedAt
+            owner {
+                firstName
+                lastName
+                emailAddress
+            }
+            selectedPersonas {
+                croppedArea {
+                    width
+                    height
+                    x
+                    y
+                }
+                attachment {
+                    url
+                    key
+                    croppedArea {
+                        width
+                        height
+                        x
+                        y
+                    }
+                }
+                type
+                name
+                color
+                id
+            }
+            parentMaps {
+                parentMap {
+                    id
+                    title
+                }
+            }
+            childMaps {
+                childId
+                id
+            }
         }
-        attachment {
-          url
-          key
-          croppedArea {
-            width
-            height
-            x
-            y
-          }
-        }
-        type
-        name
-        color
-        id
-      }
-      parentMaps {
-        parentMap {
-          id
-          title
-        }
-      }
-      childMaps {
-        childId
-        id
-      }
     }
-  }
 }

@@ -117,12 +117,12 @@ const SectionField: FC<ISectionField> = memo(
                 data-testid={`item-${item.id}-hide-show`}>
                 {item.isHidden ? (
                   <span
-                    className={'wm-eye-tracking'}
+                    className={'wm-visibility'}
                     data-testid={`pin-persona-info-${item.id}-${index}-eye-test-id`}
                   />
                 ) : (
                   <span
-                    className={'wm-eye-tracking'}
+                    className={'wm-visibility-off'}
                     data-testid={`pin-persona-${item.id}-info-${index}-close-eye-test-id`}
                   />
                 )}

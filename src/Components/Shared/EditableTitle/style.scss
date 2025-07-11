@@ -10,6 +10,12 @@
 
   &--name-option-block {
     @include flex-center;
+    span {
+      @include reduce-text(17.625rem);
+      font-weight: 500;
+      max-width: 84%;
+      color: $BASE_BLUE_COLOR;
+    }
   }
 
   &--name {

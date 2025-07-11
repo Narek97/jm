@@ -54,13 +54,6 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
     setIsEditTitleModeOn(true);
   }, []);
 
-  const onHandleUpdateCrop = useCallback(
-    (item: AttachmentType) => {
-      onHandleUpdateCroppedArea(item);
-    },
-    [onHandleUpdateCroppedArea],
-  );
-
   const onHandleDelete = useCallback(
     (item: AttachmentType) => {
       mutateDeleteAttachment({ id: item.id });
@@ -84,9 +77,8 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
     return PERSONA_GALLERY_IMAGE_OPTIONS({
       onHandleRename,
       onHandleDelete,
-      onHandleUpdateCrop,
     });
-  }, [onHandleDelete, onHandleRename, onHandleUpdateCrop]);
+  }, [onHandleDelete, onHandleRename]);
 
   useEffect(() => {
     if (isEditTitleModeOn && inputRef.current) {
@@ -101,7 +93,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   return (
     <figure
       key={item.id}
-      data-testid={`persona-gallery-test-id`}
+      data-testid={`persona-gallery-test-id-${item.id}`}
       className={`persona-gallery-modal--gallery--item ${
         selectedPersonaImgId === item.id
           ? 'persona-gallery-modal--gallery--item--selected-item'

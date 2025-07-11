@@ -24,8 +24,9 @@
 
   .slick-prev,
   .slick-next {
-    background-color: $BASE_GRAY_COLOR_2;
-    line-height: 19px;
+    &::before{
+      color: $BASE_GRAY_COLOR_2;
+    }
   }
   .slick-prev{
     left: 0;
