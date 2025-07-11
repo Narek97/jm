@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useRef } from 'react';
 
 import './style.scss';
-import { Box, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
@@ -41,6 +41,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     data: organizationPersonasData,
     isLoading: organizationPersonasIsLoading,
     isFetching: organizationPersonasIsFetchingNextPage,
+    hasNextPage: organizationPersonasHasNextPage,
     fetchNextPage: organizationPersonasFetchNextPage,
   } = useInfiniteGetMapsQuery<{ pages: Array<GetMapsQuery> }, Error>(
     {
@@ -52,15 +53,20 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     },
     {
       getNextPageParam(lastPage, allPages) {
-        const totalItemsFetched = allPages.reduce(
-          (acc, page) => acc + (page.getMaps.maps?.length || 0),
-          0
-        );
-        return lastPage.getMaps.maps.length < JOURNIES_LIMIT
-          ? undefined
-          : { getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: totalItemsFetched } };
+        if (!lastPage.getMaps.maps || !lastPage.getMaps.maps.length) {
+          return undefined;
+        }
+        return {
+          getMapsInput: {
+            personaIds: [personaId],
+            limit: JOURNIES_LIMIT,
+            offset: allPages.length * JOURNIES_LIMIT,
+          },
+        };
       },
-      initialPageParam: { getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: 0 } },
+      initialPageParam: {
+        getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: 0 },
+      },
       enabled: !!personaId,
     },
   );
@@ -84,7 +90,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
       childOffsetHeight &&
       target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
       !organizationPersonasIsFetchingNextPage &&
-      !organizationPersonasIsLoading
+      organizationPersonasHasNextPage
     ) {
       organizationPersonasFetchNextPage().then();
     }
@@ -158,7 +164,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
                   </ul>
                 </div>
               ) : (
-                <EmptyDataInfo icon={<Box />} message={'There are no journeys yet'} />
+                <EmptyDataInfo message={'There are no journeys yet'} />
               )}
             </>
           )}
