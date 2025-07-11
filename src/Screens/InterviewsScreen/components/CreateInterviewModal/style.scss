@@ -43,7 +43,8 @@
     }
 
     &--description {
-      @include line-clamp(3);
+      font-size: 0.8rem;
+      @include line-clamp(2);
       font-weight: 300;
     }
   }
