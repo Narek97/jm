@@ -134,7 +134,7 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
                               <div className="workspaces-list--content-workspaces-item--left">
                                 <div className={'persona-text-info'}>
                                   <div className={'persona-text-info'}>
-                                    <WuTooltip content={itm?.name} position="bottom">
+                                    <WuTooltip className="wu-tooltip-content" content={itm?.name} position="bottom">
                                       <div className={'persona-text-info--title'}>{itm?.name}</div>
                                     </WuTooltip>
                                   </div>

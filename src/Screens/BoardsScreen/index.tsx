@@ -269,7 +269,7 @@ const BoardsScreen = () => {
           pathname: '/workspaces',
         },
         {
-          name: dataBoards.getMyBoards.workspace.name || '...',
+          name: dataBoards.getMyBoards.workspace.name ?? 'Untitled',
           pathname: `/workspace/${workspaceId}/boards`,
         },
       ]);

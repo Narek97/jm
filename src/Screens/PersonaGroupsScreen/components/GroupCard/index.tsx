@@ -11,7 +11,7 @@ import {
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import EditableTitle from '@/Components/Shared/EditableTitle';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import useWindowResize from '@/hooks/useWindowResize.ts';
+import useCardLayout from '@/hooks/useWindowResize.ts';
 import { PersonaGroupType } from '@/Screens/PersonaGroupsScreen/types.ts';
 import { EditableInputType } from '@/types';
 import { ImageSizeEnum } from '@/types/enum.ts';
@@ -32,7 +32,7 @@ const GroupCard: FC<IGroupCard> = ({
   const navigate = useNavigate();
   const { showToast } = useWuShowToast();
 
-  const { maxCardNumber } = useWindowResize();
+  const { maxCardNumber } = useCardLayout();
 
   const { mutate } = useUpdatePersonaGroupMutation<Error, UpdatePersonaGroupMutation>();
 
@@ -84,6 +84,7 @@ const GroupCard: FC<IGroupCard> = ({
           item={group}
           onHandleUpdate={onHandleUpdate}
           onHandleDelete={onTogglePersonaGroupDeleteModal}
+          maxLength={100}
         />
       </div>
       <div className={'group-card--right'}>
