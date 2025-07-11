@@ -13,7 +13,9 @@
 
   @include card-borders;
   &--left {
-    min-width: 17.625rem;
+    max-width: 17.625rem;
+    min-width: 12rem;
+    width: 100%;
   }
   &--right,
   &--right-personas {

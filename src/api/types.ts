@@ -495,6 +495,7 @@ export type CreateMetricsInput = {
   descriptionEnabled?: Scalars['Boolean']['input'];
   endDate?: InputMaybe<Scalars['Timestamp']['input']>;
   goal?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   mapId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
   personaId?: InputMaybe<Scalars['Int']['input']>;
@@ -1784,6 +1785,7 @@ export type MapForOutcome = {
 export type MapLog = {
   action: ActionTypeEnum;
   createdAt: Scalars['Timestamp']['output'];
+  flag: Scalars['Int']['output'];
   from?: Maybe<Scalars['JSONObject']['output']>;
   id: Scalars['Int']['output'];
   mapId: Scalars['Int']['output'];
@@ -2141,7 +2143,7 @@ export type Mutation = {
   restoreMetrics: Metrics;
   retrieveColumn: MapColumn;
   retrieveColumnStep: ColumnStep;
-  retrieveMetricsData: Metrics;
+  retrieveMetricsData: MetricsResponse;
   retrieveRow: MapRow;
   selectItems?: Maybe<Scalars['Int']['output']>;
   setMapForItem: SuccessTypeModel;
@@ -3904,6 +3906,7 @@ export type UpdateMetricsInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   descriptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   endDate?: InputMaybe<Scalars['Timestamp']['input']>;
+  fromRetrieve?: InputMaybe<Scalars['Boolean']['input']>;
   goal?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['Int']['input'];
   name?: InputMaybe<Scalars['String']['input']>;

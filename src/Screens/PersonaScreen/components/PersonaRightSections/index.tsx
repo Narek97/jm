@@ -25,9 +25,10 @@ import {
   UpdatePersonaSectionMutation,
   useUpdatePersonaSectionMutation,
 } from '@/api/mutations/generated/updatePersonSections.generated';
+import CustomLoader from '@/Components/Shared/CustomLoader';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
 import { debounced400 } from '@/hooks/useDebounce.ts';
-import { PersonSectionType } from '@/Screens/PersonaScreen/types.ts';
+import { PersonSectionType } from '@/Screens/JourneyMapScreen/types.ts';
 import { getIsDarkColor } from '@/utils/getIsDarkColor.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 
@@ -38,7 +39,7 @@ const ResponsiveGridLayout: any = WidthProvider(Responsive);
 
 interface IPersonaSections {
   isLoadingPersonaSections: boolean;
-  onHandleAddSection: (layout: PersonSectionType | null) => void;
+  onHandleAddSection: (layout: PersonSectionType) => void;
   dataPersonaSections: Array<PersonSectionType>;
 }
 
@@ -220,7 +221,7 @@ const PersonaRightSections: FC<
                 key={index}
                 sx={{
                   width: `calc(50% - 0.34rem)`,
-                  height: '8rem',
+                  height: '16rem',
                 }}
                 animation="wave"
                 variant="rectangular"
@@ -296,6 +297,8 @@ const SectionCard: FC<ISectionCard> = memo(
     changeVersion,
   }) => {
     const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
     return (
       <>
         <div
@@ -306,6 +309,7 @@ const SectionCard: FC<ISectionCard> = memo(
             color,
             background: getIsDarkColor(layout.color) ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.04)',
           }}>
+          {isDeleting && <CustomLoader />}
           <div className={'persona-sections--section-menu--left-actions'}>
             <span className={'persona-sections--section-menu--drag-drop-btn drag-handle'}>
               <span className={'wm-drag-indicator'} />
@@ -375,7 +379,10 @@ const SectionCard: FC<ISectionCard> = memo(
               disabled={isDisable}
               aria-label={'delete'}
               className={`${getIsDarkColor(layout.color) ? 'dark-mode-icon' : ''} persona-sections--section-menu--delete-btn`}
-              onClick={() => onHandleDeletePersonaSection(layout.id)}>
+              onClick={() => {
+                setIsDeleting(true);
+                onHandleDeletePersonaSection(layout.id);
+              }}>
               <span className={'wm-delete'} />
             </button>
           </div>

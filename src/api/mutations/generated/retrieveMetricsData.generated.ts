@@ -8,7 +8,7 @@ export type RetrieveMetricsDataMutationVariables = Types.Exact<{
 }>;
 
 
-export type RetrieveMetricsDataMutation = { __typename?: 'Mutation', retrieveMetricsData: { __typename?: 'Metrics', rowId: number, columnId: number, id: number, name: string, commentsCount: number, descriptionEnabled: boolean, description?: string | null, type: Types.MetricsTypeEnum, value?: number | null, goal?: number | null, flippedText?: string | null, surveyId?: number | null, questionId?: number | null, source: Types.MetricsSourceEnum, startDate?: any | null, endDate?: any | null, dateRange?: Types.MetricsDateRangeEnum | null, overall: number, nps: number, csat: number, ces: number, x: number, y: number, z: number, persona?: { __typename?: 'personas', id: number, name: string, type: string, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null } };
+export type RetrieveMetricsDataMutation = { __typename?: 'Mutation', retrieveMetricsData: { __typename?: 'MetricsResponse', rowId: number, columnId: number, id: number, name: string, commentsCount: number, descriptionEnabled: boolean, description?: string | null, type: Types.MetricsTypeEnum, value?: number | null, goal?: number | null, flippedText?: string | null, surveyId?: number | null, questionId?: number | null, source: Types.MetricsSourceEnum, startDate?: any | null, endDate?: any | null, dateRange?: Types.MetricsDateRangeEnum | null, overall: number, nps: number, csat: number, ces: number, x: number, y: number, z: number, persona?: { __typename?: 'personas', id: number, name: string, type: string, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null } };
 
 
 

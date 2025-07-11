@@ -9,7 +9,7 @@ import fromNow from 'dayjs/plugin/relativeTime';
 import DragHandle from '@/Components/Shared/DragHandle';
 import EditableTitle from '@/Components/Shared/EditableTitle';
 import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
-import useWindowResize from '@/hooks/useWindowResize';
+import useCardLayout from '@/hooks/useWindowResize';
 import { BoardType } from '@/Screens/BoardsScreen/types';
 import JourneyCard from '@/Screens/JourniesScreen/components/SortableJourneys/JourneyCard';
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
@@ -36,7 +36,7 @@ const BoardCard: FC<IBoardCard> = ({
   sortableListeners,
 }) => {
   const navigate = useNavigate();
-  const { maxCardNumber } = useWindowResize();
+  const { maxCardNumber } = useCardLayout();
 
   const onNavigateWhiteboardPage = () => {
     navigate({

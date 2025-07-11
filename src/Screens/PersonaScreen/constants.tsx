@@ -48,22 +48,15 @@ const PERSONA_FIELD_SECTIONS_TYPES: {
 const PERSONA_GALLERY_IMAGE_OPTIONS = ({
   onHandleRename,
   onHandleDelete,
-  onHandleUpdateCrop,
 }: {
   onHandleRename: (galleryItem: PersonaDemographicInfoType) => void;
   onHandleDelete: (galleryItem: PersonaDemographicInfoType) => void;
-  onHandleUpdateCrop: (galleryItem: PersonaDemographicInfoType) => void;
 }): Array<MenuOptionsType> => {
   return [
     {
       icon: <span className={'wm-edit'} />,
       name: 'Rename',
       onClick: onHandleRename,
-    },
-    {
-      icon: <span className={'wm-crop'} />,
-      name: 'Update cropped area',
-      onClick: onHandleUpdateCrop,
     },
     {
       icon: <span className={'wm-delete'} />,

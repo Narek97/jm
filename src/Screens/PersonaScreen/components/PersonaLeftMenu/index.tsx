@@ -439,7 +439,10 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             />
           </div>
           <p className={'persona-left-menu--block-2-title !text-heading-3'}>Demographic info</p>
-          <div className={'persona-left-menu--demographic-info-block'} ref={demographicInfoRef}>
+          <div
+            className={'persona-left-menu--demographic-info-block'}
+            ref={demographicInfoRef}
+            data-testid="demographic-info-section">
             {demographicInfos.demographicInfoFields.map((demographicInfo, index) => (
               <DemographicInfoItem
                 key={demographicInfo.id}

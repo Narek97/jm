@@ -5,6 +5,7 @@ query GetJourneys($getMapsInput: GetMapsInput!) {
             title
             id
             type
+            boardId
             createdAt
             updatedAt
             owner {
@@ -36,6 +37,7 @@ query GetJourneys($getMapsInput: GetMapsInput!) {
             }
             parentMaps {
                 parentMap {
+                    id
                     title
                 }
             }

@@ -376,7 +376,7 @@ const Outcomes = () => {
           <WuPopover
             Trigger={
               <div>
-                <WuTooltip content="Select an icon" position="bottom">
+                <WuTooltip className="wu-tooltip-content" content="Select an icon" position="bottom">
                   <div className={'selected-icon'}>
                     <img
                       src={iconUrl}

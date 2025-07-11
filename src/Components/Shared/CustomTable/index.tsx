@@ -192,6 +192,7 @@ const CustomTable: FC<ICustomTable> = ({
                         </ul>
                       ) : (
                         <WuTooltip
+                          className="wu-tooltip-content"
                           content={
                             !['icon', 'checkbox', 'toggle'].includes(String(column.id)) &&
                             (column?.renderFunction

@@ -35,6 +35,7 @@ const JourneyDeleteModal: FC<IDeleteCxMapTable> = ({
         await Promise.all([
           queryClient.invalidateQueries({ queryKey: ['GetBoardOutcomesStat'] }),
           queryClient.invalidateQueries({ queryKey: ['GetJourneys'] }),
+          queryClient.invalidateQueries({ queryKey: ['GetParentMapChildren'] }),
         ]);
       } else {
         setJourneys((oldData: any) => {

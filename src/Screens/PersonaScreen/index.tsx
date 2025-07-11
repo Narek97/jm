@@ -452,7 +452,7 @@ const PersonaScreen = () => {
       <div className={'persona-container--body'}>
         <div className={'persona-container--left-menu'}>
           <PersonaLeftMenu
-            personaId={personaId}
+            personaId={+personaId}
             personaInfo={dataPersonaInfo?.getPersonaById || null}
             demographicInfos={demographicInfos}
             onHandleUpdateInfo={onHandleUpdateInfo}

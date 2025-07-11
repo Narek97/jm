@@ -1,5 +1,5 @@
 import './style.scss';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
@@ -29,6 +29,7 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/hooks/useQueryKey';
+import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { EditableInputType } from '@/types';
 
 const PersonaGroups = () => {
@@ -38,6 +39,7 @@ const PersonaGroups = () => {
 
   const { showToast } = useWuShowToast();
 
+  const { setBreadcrumbs } = useBreadcrumbStore();
   const setPersonaGroup = useSetQueryDataByKeyAdvanced();
   const setAllPersonaGroup = useSetAllQueryDataByKey('GetPersonaGroupsWithPersonas');
   const setRemovePersonaGroupQuery = useRemoveQueriesByKey();
@@ -232,6 +234,15 @@ const PersonaGroups = () => {
     },
     [offset, setPersonaGroup],
   );
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        name: 'Workspaces',
+        pathname: '/workspaces',
+      },
+    ]);
+  }, [setBreadcrumbs]);
 
   const onTogglePersonaGroupDeleteModal = useCallback((personaGroup?: PersonaGroupType) => {
     setSelectedPersonaGroup(personaGroup || null);

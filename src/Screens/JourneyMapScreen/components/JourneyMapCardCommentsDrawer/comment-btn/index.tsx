@@ -34,7 +34,7 @@ const CommentBtn: FC<ICommentBtn> = ({ item, commentsCount }) => {
   const hoverIcon = commentsCount ? <CommentIndicatorHoverIcon /> : <CommentHoverIcon />;
 
   return (
-    <WuTooltip positionOffset={10} position={'bottom'} content={'Comment'}>
+    <WuTooltip className="wu-tooltip-content" positionOffset={10} position={'bottom'} content={'Comment'}>
       <button
         data-testid="comment-button-test-id"
         className={'comments-btn'}

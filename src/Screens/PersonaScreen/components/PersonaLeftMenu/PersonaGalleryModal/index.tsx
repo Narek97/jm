@@ -3,6 +3,7 @@ import { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'reac
 import './style.scss';
 
 import { Skeleton } from '@mui/material';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 
 import {
@@ -25,12 +26,15 @@ import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import Pagination from '@/Components/Shared/Pagination';
 import { PERSONA_FILE_TYPES } from '@/constants';
 import { BOARDS_LIMIT, PERSONAS_GALLERY_LIMIT } from '@/constants/pagination.ts';
+import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import CropImageModal from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/CropImageModal';
 import PersonaGalleryItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal/PersonaGalleryItem';
 import { PersonaImageContainedComponentType } from '@/Screens/PersonaScreen/types.ts';
 import { useUserStore } from '@/store/user.ts';
 import { AttachmentType, CroppedAreaType } from '@/types';
+import { FileTypeEnum } from '@/types/enum.ts';
 import { UploadFile } from '@/utils/uploader.ts';
+
 
 interface IPersonaGalleryModal {
   isOpen: boolean;
@@ -53,6 +57,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   onHandleChangeAvatar,
 }) => {
   const { user } = useUserStore();
+  const { showToast } = useWuShowToast();
 
   const [cropModalData, setCropModalData] = useState<null | {
     source: string;
@@ -187,19 +192,27 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
     async (file: File) => {
       if (!file) return;
 
+      const { valid, extension, allowedExtensions } = await validateFile(file, FileTypeEnum.IMAGE);
+      if (!valid || !extension) {
+        showToast({
+          variant: 'warning',
+          message: `Only ${allowedExtensions.join(', ')} files are allowed.`,
+        });
+        return;
+      }
+
       let percentage: number | undefined = undefined;
-      const indexLastsSlash = file.type.lastIndexOf('/');
-      const fType = file.type.substring(indexLastsSlash + 1);
 
       const videoUploaderOptions = {
-        fileType: fType,
-        file: file,
+        fileType: extension,
+        file,
         relatedId: user?.orgID,
         type: AttachmentsEnum.PersonaGallery,
       };
 
       setUploadProgress(1);
       const uploadFile = new UploadFile(videoUploaderOptions);
+
       uploadFile
         .onProgress(({ percentage: newPercentage }: any) => {
           if (newPercentage !== percentage) {
@@ -226,12 +239,16 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
           setUploadProgress(0);
         })
         .onError(() => {
+          showToast({
+            variant: 'error',
+            message: 'File upload failed. Please try again.',
+          });
           setUploadProgress(0);
         });
 
       uploadFile.start();
     },
-    [allGallery, dataPersonaGallery?.getPersonaGallery.count, user?.orgID],
+    [allGallery, dataPersonaGallery?.getPersonaGallery.count, showToast, user?.orgID],
   );
 
   const onHandleSaveCropImage = useCallback(

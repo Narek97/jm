@@ -8,6 +8,7 @@ import { PersonaInfoType, PersonaSectionType } from '../../types';
 
 import CustomInput from '@/Components/Shared/CustomInput';
 import { TOKEN_NAME } from '@/constants';
+import PersonaContainsJourneysModal from '@/Screens/PersonaScreen/components/PersonaContainsJourneysModal';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
 import { getCookie } from '@/utils/cookieHelper.ts';
 
@@ -49,11 +50,12 @@ const PersonaHeader: FC<IPersonaHeader> = ({
 
   const onHandleDownloadPdf = async () => {
     showToast({
-      variant: 'success',
+      variant: 'info',
       message: 'Download is in progress. It may take a few seconds.',
+      duration: 2000,
     });
 
-    const url = `${import.meta.env.NEXT_PUBLIC_SOCKET_URL}/pdf/persona/${personaInfo?.id}`;
+    const url = `${import.meta.env.VITE_API_URL}/pdf/persona/${personaInfo?.id}`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -76,19 +78,20 @@ const PersonaHeader: FC<IPersonaHeader> = ({
       showToast({
         variant: 'error',
         message: `Failed to download PDF | Message: ${JSON.parse(errorMessage).message || 'Not supported'}`,
+        duration: 2000,
       });
     }
   };
 
   return (
     <div className={'persona-header'}>
-      {/*{isOpenSelectedPersonasModal && (*/}
-      {/*  <PersonaContainsJourneysModal*/}
-      {/*    personaId={personaInfo?.id}*/}
-      {/*    isOpen={isOpenSelectedPersonasModal}*/}
-      {/*    handleClose={toggleJourneysModal}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {isOpenSelectedPersonasModal && (
+        <PersonaContainsJourneysModal
+          personaId={personaInfo?.id as number}
+          isOpen={isOpenSelectedPersonasModal}
+          handleClose={toggleJourneysModal}
+        />
+      )}
       <div className={'persona-header--left-block'}>
         <button
           aria-label={'Back'}
@@ -136,22 +139,23 @@ const PersonaHeader: FC<IPersonaHeader> = ({
       </div>
       <div className={'persona-header--right-block'}>
         {journeysCount > 0 && (
-          <button
-            onClick={toggleJourneysModal}
-            className={`persona-header--right-block--journeys-btn `}>
-            <div className={'persona-header--right-block--journeys-btn--icon'}>
+          <WuButton
+            Icon={
               <span
                 className="wm-map"
                 style={{
                   color: '#1B87E6',
                 }}
               />
-            </div>
-            <div className={'persona-header--right-block--journeys-btn-content'}>
-              <span>{journeysCount}</span>
-              <span>{journeysCount > 1 ? 'Journeys' : 'Journey'}</span>
-            </div>
-          </button>
+            }
+            color="primary"
+            iconPosition="left"
+            onClick={toggleJourneysModal}
+            size="md"
+            variant="secondary">
+            <span>{journeysCount}</span>
+            <span>{journeysCount > 1 ? 'Journeys' : 'Journey'}</span>
+          </WuButton>
         )}
         <WuButton
           Icon={<span className="wm-add" />}

@@ -4,7 +4,7 @@ import {
   GetOutcomeGroupsQuery,
   useInfiniteGetOutcomeGroupsQuery,
 } from '@/api/infinite-queries/generated/getOutcomeGroups.generated.ts';
-import { OutcomeGroup } from '@/api/types.ts';
+import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
 
 const useGetOutcomeGroups = (needToGet: boolean) => {
@@ -18,6 +18,8 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
       getOutcomeGroupsInput: {
         limit: OUTCOME_GROUPS_LIMIT,
         offset: 0,
+        sortBy: OutcomeGroupSortByEnum.CreatedAt,
+        orderBy: OrderByEnum.Asc,
       },
     },
     {

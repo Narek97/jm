@@ -20,7 +20,7 @@ const WorkspaceBoardItem: FC<IWorkspaceBoardItem> = memo(
         onClick={() => handleSelectBoard(itm?.id, !isSelected)}>
         <div>
           <div className={'board-item-text-info'}>
-            <WuTooltip content={itm?.name} position="bottom">
+            <WuTooltip className="wu-tooltip-content" content={itm?.name} position="bottom">
               <div className={'persona-text-info--title'}>{truncateName(itm?.name || '', 25)}</div>
             </WuTooltip>
           </div>
