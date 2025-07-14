@@ -37,6 +37,7 @@ query GetJourneys($getMapsInput: GetMapsInput!) {
             }
             parentMaps {
                 parentMap {
+                    id
                     title
                 }
             }

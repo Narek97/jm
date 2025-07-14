@@ -48,6 +48,7 @@ import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
 import { debounced400 } from '@/hooks/useDebounce.ts';
 import { useSetAllQueryDataByKey, useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey';
 import { JourniesRoute } from '@/routes/_authenticated/_secondary-sidebar-layout/board/$boardId/journies';
+import BoardPinnedOutcomesModal from '@/Screens/BoardsScreen/components/PinnedOutcomeModal';
 import JourneysFilter from '@/Screens/JourniesScreen/components/JourneysFilter';
 import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
 import { useCopyMapStore } from '@/store/copyMap.ts';
@@ -109,10 +110,11 @@ const JourniesScreen = () => {
     },
   );
 
-  const { data: dataJourneys, isLoading: isLoadingJourneys } = useGetJourneysQuery<
-    GetJourneysQuery,
-    Error
-  >(
+  const {
+    data: dataJourneys,
+    isLoading: isLoadingJourneys,
+    isFetching: isFetchingJourneys,
+  } = useGetJourneysQuery<GetJourneysQuery, Error>(
     {
       getMapsInput: {
         boardId: +boardId,
@@ -489,11 +491,11 @@ const JourniesScreen = () => {
         )}
         {isOpenAllPinnedOutcomesModal && (
           <Suspense fallback={''}>
-            {/*<BoardPinnedOutcomesModal*/}
-            {/*  handleClose={onToggleAllPinnedOutcomesModal}*/}
-            {/*  isOpen={isOpenAllPinnedOutcomesModal}*/}
-            {/*  boardId={+boardID}*/}
-            {/*/>*/}
+            <BoardPinnedOutcomesModal
+              handleClose={onToggleAllPinnedOutcomesModal}
+              isOpen={isOpenAllPinnedOutcomesModal}
+              boardId={+boardId}
+            />
           </Suspense>
         )}
         {isOpenCopyPasteMapModal && user?.orgID && (
@@ -511,7 +513,9 @@ const JourniesScreen = () => {
         <div className="journeys--top-section">
           <div className="journeys--top-section--name-block">
             <div className={'journeys--top-section--name-block--container'}>
-              <p className={'base-title !text-heading-2'}>{dataBoard?.getBoardById.name}</p>
+              <p className={'base-title !text-heading-2'}>
+                {dataBoard?.getBoardById.name?.trim() || 'Untitled'}
+              </p>
               {dataBoard?.getBoardById.workspace.id && (
                 <JourneysFilter
                   workspaceId={dataBoard?.getBoardById.workspace.id}
@@ -594,7 +598,7 @@ const JourniesScreen = () => {
           </div>
         </div>
 
-        {isLoadingJourneys ? (
+        {isLoadingJourneys || isFetchingJourneys ? (
           <CustomLoader />
         ) : (
           <>
@@ -613,8 +617,6 @@ const JourniesScreen = () => {
                 ) : tab === 'atlas' ? (
                   <>
                     <AtlasView
-                      boardId={boardId}
-                      maps={journeysData}
                       onHandleDeleteJourney={data => {
                         setCreateMode('child');
                         onHandleDeleteJourney(data);
@@ -623,6 +625,7 @@ const JourniesScreen = () => {
                         setCreateMode('child');
                         onHandleCreateNewJourney(callback);
                       }}
+                      maps={journeysData}
                     />
                   </>
                 ) : (

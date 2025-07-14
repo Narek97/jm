@@ -7,7 +7,7 @@ export type GetJourneysQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetJourneysQuery = { __typename?: 'Query', getMaps: { __typename?: 'GetMapsModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, boardId: number, createdAt: any, updatedAt: any, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string }, selectedPersonas: Array<{ __typename?: 'personas', type: string, name: string, color?: string | null, id: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }>, parentMaps: Array<{ __typename?: 'ParentMap', parentMap: { __typename?: 'Map', title?: string | null } }>, childMaps: Array<{ __typename?: 'ParentMap', childId: number, id: number }> }> } };
+export type GetJourneysQuery = { __typename?: 'Query', getMaps: { __typename?: 'GetMapsModel', count?: number | null, maps: Array<{ __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, boardId: number, createdAt: any, updatedAt: any, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string }, selectedPersonas: Array<{ __typename?: 'personas', type: string, name: string, color?: string | null, id: number, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null, attachment?: { __typename?: 'Attachment', url: string, key: string, croppedArea?: { __typename?: 'Position', width?: number | null, height?: number | null, x?: number | null, y?: number | null } | null } | null }>, parentMaps: Array<{ __typename?: 'ParentMap', parentMap: { __typename?: 'Map', id: number, title?: string | null } }>, childMaps: Array<{ __typename?: 'ParentMap', childId: number, id: number }> }> } };
 
 
 
@@ -51,6 +51,7 @@ export const GetJourneysDocument = `
       }
       parentMaps {
         parentMap {
+          id
           title
         }
       }
@@ -70,7 +71,7 @@ export const useGetJourneysQuery = <
       variables: GetJourneysQueryVariables,
       options?: Omit<UseQueryOptions<GetJourneysQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetJourneysQuery, TError, TData>['queryKey'] }
     ) => {
-    
+
     return useQuery<GetJourneysQuery, TError, TData>(
       {
     queryKey: ['GetJourneys', variables],
