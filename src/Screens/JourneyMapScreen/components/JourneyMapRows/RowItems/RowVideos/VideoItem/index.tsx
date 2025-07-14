@@ -8,18 +8,18 @@ import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyM
 import VideoCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowVideos/VideoItem/VideoCard';
 import VideoViewModal from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowVideos/VideoItem/VideoViewModal';
 import useVideoImageMedia from '@/Screens/JourneyMapScreen/hooks/useVideoImageMedia.tsx';
-import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { FileTypeEnum } from '@/types/enum.ts';
 
 interface IVideoItem {
-  rowItem: BoxElementType;
+  boxItem: BoxType;
   rowId: number;
   disabled: boolean;
   row: JourneyMapRowType;
   boxIndex: number;
 }
 
-const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxIndex }) => {
+const VideoItem: FC<IVideoItem> = memo(({ boxItem, rowId, disabled, row, boxIndex }) => {
   const {
     addItem,
     deleteItem,
@@ -30,7 +30,7 @@ const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxInde
     currentUrl,
     closeViewModal,
   } = useVideoImageMedia({
-    rowItem,
+    boxItem,
     rowId,
   });
 
@@ -44,12 +44,12 @@ const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxInde
       <div
         className={`row-video-item--card-block map-item ${isActiveMode ? 'active-video-card' : ''}`}>
         <div className={`box-controls-container--blank-type`}>
-          {rowItem?.boxElements.length ? (
+          {boxItem?.boxElements.length ? (
             <VideoCard
               changeActiveMode={isActive => {
                 setIsActiveMode(isActive);
               }}
-              rowItem={rowItem}
+              boxItem={boxItem}
               deleteVideo={deleteItem}
               viewVideo={viewItem}
               disabled={disabled}
@@ -57,9 +57,9 @@ const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxInde
                 updateItem(
                   e,
                   {
-                    boxElementId: rowItem?.boxElements[0].id,
+                    boxElementId: boxItem?.boxElements[0].id,
                     callback,
-                    imageId: rowItem?.boxElements[0].id,
+                    imageId: boxItem?.boxElements[0].id,
                   },
                   FileTypeEnum.VIDEO,
                 )
@@ -75,7 +75,7 @@ const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxInde
                 <>
                   {disabled ? null : (
                     <RowFileUploader
-                      rowItem={rowItem}
+                      boxItem={boxItem}
                       index={rowId}
                       addItem={addItem}
                       accept={FILE_TYPE_CONFIG[FileTypeEnum.VIDEO].accept}
@@ -86,11 +86,11 @@ const VideoItem: FC<IVideoItem> = memo(({ rowItem, rowId, disabled, row, boxInde
               )}
             </>
           )}
-          {rowItem.mergeCount > 1 && row?.boxes && (
+          {boxItem.mergeCount > 1 && row?.boxes && (
             <UnMergeColumnsButton
-              boxIndex={rowItem.mergeCount - 1 + boxIndex}
+              boxIndex={boxItem.mergeCount - 1 + boxIndex}
               rowId={row?.id}
-              rowItem={row.boxes[boxIndex + rowItem.mergeCount - 1]}
+              boxItem={row.boxes[boxIndex + boxItem.mergeCount - 1]}
               boxes={row?.boxes}
             />
           )}

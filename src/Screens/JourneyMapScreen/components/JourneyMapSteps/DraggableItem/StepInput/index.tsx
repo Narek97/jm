@@ -14,7 +14,7 @@ interface IStepInput {
   columnId: number;
   index: number;
   stepColor: string;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
 }
 
 const StepInput: FC<IStepInput> = memo(

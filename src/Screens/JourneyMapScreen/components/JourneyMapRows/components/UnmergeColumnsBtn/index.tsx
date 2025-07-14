@@ -7,18 +7,18 @@ import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { findStartMergedItem } from '@/Screens/JourneyMapScreen/helpers/findStartMergedItem.ts';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { JourneyMapRowActionEnum } from '@/types/enum';
 import { ActionsEnum } from '@/types/enum.ts';
 
 interface IUnMergeColumnsButton {
   boxIndex: number;
   rowId: number;
-  rowItem: BoxElementType;
-  boxes: BoxElementType[];
+  boxItem: BoxType;
+  boxes: BoxType[];
 }
 
-const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowItem, boxes }) => {
+const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, boxItem, boxes }) => {
   const { updateMapByType } = useUpdateMap();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -38,11 +38,11 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, rowI
         ActionsEnum.UNMERGE,
         {
           startStepId: startBox.step?.id,
-          endStepId: rowItem.step?.id,
+          endStepId: boxItem.step?.id,
           startColumnId: startBox?.columnId,
-          endColumnId: rowItem.columnId,
+          endColumnId: boxItem.columnId,
           startBoxId: startBox?.id,
-          endBoxId: rowItem.id,
+          endBoxId: boxItem.id,
           startBoxMergeCount: index + 1,
           endBoxMergeCount: startBox?.mergeCount - (index + 1),
           rowId,

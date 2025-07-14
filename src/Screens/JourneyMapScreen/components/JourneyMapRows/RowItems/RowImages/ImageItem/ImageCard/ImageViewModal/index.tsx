@@ -5,7 +5,7 @@ import { ImgScaleTypeEnum } from '@/api/types';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomModal from '@/Components/Shared/CustomModal';
 import { IMAGE_ASPECT_LARGE } from '@/constants';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxElementType, BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { CroppedAreaType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
@@ -35,13 +35,13 @@ const ImageViewModal: FC<IImageViewModal> = ({
       <div className={'image-view'}>
         {imgScaleType === ImgScaleTypeEnum.Crop ? (
           <CropImage
-            imageSource={`${import.meta.env.VITE_AWS_URL}/${boxImage?.attachment?.hasResizedVersions ? getResizedFileName(boxImage.text, IMAGE_ASPECT_LARGE) : boxImage.text}`}
+            imageSource={`${import.meta.env.VITE_AWS_URL}/${boxImage?.attachment?.hasResizedVersions ? getResizedFileName(boxImage?.text || '', IMAGE_ASPECT_LARGE) : boxImage?.text}`}
             croppedArea={croppedArea}
             CROP_AREA_ASPECT={CROP_AREA_ASPECT}
           />
         ) : (
           <img
-            src={`${import.meta.env.VITE_AWS_URL}/${boxImage?.attachment?.hasResizedVersions ? getResizedFileName(boxImage.text, IMAGE_ASPECT_LARGE) : boxImage.text}`}
+            src={`${import.meta.env.VITE_AWS_URL}/${boxImage?.attachment?.hasResizedVersions ? getResizedFileName(boxImage?.text || '', IMAGE_ASPECT_LARGE) : boxImage?.text}`}
             alt="Img"
             style={{
               width: '100%',

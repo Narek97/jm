@@ -1,0 +1,106 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.card-header {
+  @include flex-center-between;
+  border-top-left-radius: 0.125rem;
+  border-top-right-radius: 0.125rem;
+  height: 2rem;
+  padding: 0.25rem;
+
+  &--base-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    @include flex-center-center;
+  }
+
+  &--drag-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    @include flex-center-center;
+    display: none;
+    cursor: grab;
+  }
+
+  &--hide-icon {
+    display: none;
+  }
+
+  &--show-icon {
+    display: flex !important;
+  }
+
+  &--left-block,
+  &--right-block {
+    position: relative;
+    height: 100%;
+  }
+
+  &--left-block {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &--right-block {
+    flex: 1;
+    button {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 0.125rem;
+      @include flex-center-center;
+    }
+  }
+
+  &--menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &--tag-cons-pros {
+    position: absolute;
+    right: 7rem;
+  }
+
+  &--note {
+    visibility: hidden;
+    position: absolute;
+    right: 3.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &--comment {
+    visibility: hidden;
+    position: absolute;
+    right: 5.25rem;
+  }
+
+  &--dark {
+    .card-header--left-block,
+    .card-header--menu {
+      button {
+        @include svg-fill(white);
+        color: #e9ebf2;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+      }
+    }
+  }
+
+  &--light {
+    .card-header--left-block,
+    .card-header--menu {
+      button {
+        @include svg-fill(rgba(84, 94, 107, 1));
+        color: rgba(84, 94, 107, 1);
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}

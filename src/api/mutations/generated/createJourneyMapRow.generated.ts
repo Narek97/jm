@@ -18,6 +18,7 @@ export const CreateJourneyMapRowDocument = `
       id
       columnId
       average
+      mergeCount
       boxTextElement {
         id
       }

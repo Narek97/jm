@@ -29,7 +29,7 @@ import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import { JOURNEY_MAP_STEP_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
@@ -42,7 +42,7 @@ interface ChildRef {
 }
 
 interface IDraggableItem {
-  stepItem: BoxElementType;
+  stepItem: BoxType;
   columnColor: string;
   index: number;
   stageStepCount: number;
@@ -128,7 +128,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
   );
 
   const onHandleDelete = useCallback(
-    (deletedStepItem: BoxElementType) => {
+    (deletedStepItem: BoxType) => {
       if (deletedStepItem.step) {
         deleteColumnStepMutate(
           {
@@ -268,18 +268,18 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
               width: '12.5rem',
             }}>
             <StepInput
-              rowId={stepItem.id}
+              rowId={stepItem.id || 0}
               index={index}
               columnId={stepItem.columnId!}
               updateStepColumn={data => {
                 onHandleUpdateStepColumn({
                   value: data.value,
-                  columnId: stepItem.columnId!,
-                  id: stepItem.step?.id,
+                  columnId: stepItem.columnId,
+                  id: stepItem.step?.id || 0,
                 });
               }}
               label={stepItem?.step?.name?.trim() || 'Untitled'}
-              id={stepItem.step.id!}
+              id={stepItem.step?.id || 0}
               disabled={!!stepItem?.isDisabled}
               inputRef={inputRef}
               stepColor={

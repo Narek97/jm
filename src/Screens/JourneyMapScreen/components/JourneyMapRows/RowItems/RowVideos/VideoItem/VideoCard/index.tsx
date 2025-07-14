@@ -9,11 +9,11 @@ import { CommentAndNoteModelsEnum } from '@/api/types';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { JOURNEY_MAP_VIDEO_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IVideoCard {
-  rowItem: BoxElementType;
+  boxItem: BoxType;
   deleteVideo: (boxElementId: number) => void;
   viewVideo: (imageUrl: string) => void;
   disabled: boolean;
@@ -22,7 +22,7 @@ interface IVideoCard {
 }
 
 const VideoCard: FC<IVideoCard> = ({
-  rowItem,
+  boxItem,
   deleteVideo,
   viewVideo,
   disabled,
@@ -37,7 +37,7 @@ const VideoCard: FC<IVideoCard> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
 
-  const boxVideo = rowItem?.boxElements[0];
+  const boxVideo = boxItem?.boxElements[0];
   const fileExtension = boxVideo?.text?.split('.').pop()?.toLowerCase();
   const isAudioOnly = fileExtension === 'mp3';
 
@@ -47,18 +47,16 @@ const VideoCard: FC<IVideoCard> = ({
   // );
   // const hasNote = noteData ? noteData.text.length : boxVideo.note?.text.length;
 
-  const hasNote = false;
-
   const onHandleToggleNote = useCallback(() => {
     setIsOpenNote(prev => !prev);
   }, []);
 
   const commentRelatedData: CommentButtonItemType = {
-    title: rowItem?.boxTextElement?.text || '',
+    title: boxItem?.boxTextElement?.text || '',
     itemId: boxVideo.id,
     rowId: boxVideo.rowId,
-    columnId: rowItem.columnId!,
-    stepId: rowItem.step?.id,
+    columnId: boxItem.columnId!,
+    stepId: boxItem.step?.id,
     type: CommentAndNoteModelsEnum.BoxElement,
   };
 
@@ -88,7 +86,7 @@ const VideoCard: FC<IVideoCard> = ({
         {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
         {/*    itemId={boxVideo.id}*/}
         {/*    rowId={boxVideo.rowId}*/}
-        {/*    stepId={rowItem.step.id}*/}
+        {/*    stepId={boxItem.step.id}*/}
         {/*    onClickAway={onHandleToggleNote}*/}
         {/*  />*/}
         {/*)}*/}
@@ -105,10 +103,10 @@ const VideoCard: FC<IVideoCard> = ({
               {/*  cardType={MapCardTypeEnum.BoxElement}*/}
               {/*  itemId={boxVideo.id}*/}
               {/*  changeActiveMode={changeActiveMode}*/}
-              {/*  attachedTagsCount={rowItem.boxTextElement?.tagsCount || 0}*/}
+              {/*  attachedTagsCount={boxItem.boxTextElement?.tagsCount || 0}*/}
               {/*  createTagItemAttrs={{*/}
-              {/*    stepId: rowItem.step.id,*/}
-              {/*    columnId: rowItem.columnId!,*/}
+              {/*    stepId: boxItem.step.id,*/}
+              {/*    columnId: boxItem.columnId!,*/}
               {/*    rowId: boxVideo?.rowId,*/}
               {/*  }}*/}
               {/*/>*/}

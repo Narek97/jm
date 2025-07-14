@@ -23,14 +23,15 @@ import { IMAGE_ASPECT } from '@/constants';
 import ImageViewModal from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard/ImageViewModal';
 import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { CroppedAreaType } from '@/types';
 import { ActionsEnum, MenuViewTypeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 const CROP_AREA_ASPECT = 3 / 3;
 
 interface IImageCard {
-  rowItem: BoxElementType;
+  boxItem: BoxType;
   deleteImage: (boxElementId: number) => void;
   disabled: boolean;
   handleUpdateFile: (e: ChangeEvent<HTMLInputElement>, onFinish: () => void) => void;
@@ -38,7 +39,7 @@ interface IImageCard {
 }
 
 const ImageCard: FC<IImageCard> = memo(
-  ({ rowItem, deleteImage, disabled, handleUpdateFile, changeActiveMode }) => {
+  ({ boxItem, deleteImage, disabled, handleUpdateFile, changeActiveMode }) => {
     const { showToast } = useWuShowToast();
 
     const location = useLocation();
@@ -46,7 +47,7 @@ const ImageCard: FC<IImageCard> = memo(
 
     const { crudBoxElement } = useCrudMapBoxElement();
 
-    const boxImage = rowItem?.boxElements[0];
+    const boxImage = boxItem?.boxElements[0];
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
@@ -56,12 +57,7 @@ const ImageCard: FC<IImageCard> = memo(
     const [zoom, setZoom] = useState(1);
     const [imgScaleType, setImgScaleType] = useState<ImgScaleTypeEnum>(ImgScaleTypeEnum.Fit);
 
-    const [croppedArea, setCroppedArea] = useState<{
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }>(
+    const [croppedArea, setCroppedArea] = useState<CroppedAreaType>(
       boxImage.attachmentPosition || {
         x: 0,
         y: 0,
@@ -70,12 +66,7 @@ const ImageCard: FC<IImageCard> = memo(
       },
     );
 
-    const [newCroppedArea, setNewCroppedArea] = useState<{
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }>(
+    const [newCroppedArea, setNewCroppedArea] = useState<CroppedAreaType>(
       boxImage.attachmentPosition || {
         x: 0,
         y: 0,
@@ -89,7 +80,7 @@ const ImageCard: FC<IImageCard> = memo(
     //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxImage.id }),
     // );
     // const hasNote = noteData ? noteData.text.length : boxImage.note?.text.length;
-    const hasNote = false;
+    // const hasNote = false;
 
     const { mutate: updateAttachmentScaleType } = useUpdateAttachmentScaleTypeMutation<
       Error,
@@ -135,7 +126,7 @@ const ImageCard: FC<IImageCard> = memo(
               crudBoxElement(
                 {
                   ...boxImage,
-                  stepId: rowItem.step?.id,
+                  stepId: boxItem.step?.id,
                   previousScale: imgScaleType,
                   attachment: {
                     ...boxImage.attachment,
@@ -148,7 +139,7 @@ const ImageCard: FC<IImageCard> = memo(
           },
         );
       },
-      [boxImage, crudBoxElement, imgScaleType, rowItem.step?.id, updateAttachmentScaleType],
+      [boxImage, crudBoxElement, imgScaleType, boxItem.step?.id, updateAttachmentScaleType],
     );
 
     const onHandleSaveCropImage = () => {
@@ -188,11 +179,11 @@ const ImageCard: FC<IImageCard> = memo(
     }, [deleteImage, handleUpdateFile, onHandleChangeImgScale]);
 
     const commentRelatedData: CommentButtonItemType = {
-      title: rowItem?.boxTextElement?.text || '',
+      title: boxItem?.boxTextElement?.text || '',
       itemId: boxImage.id,
       rowId: boxImage.rowId,
-      columnId: rowItem.columnId,
-      stepId: rowItem.step?.id,
+      columnId: boxItem.columnId,
+      stepId: boxItem.step?.id || 0,
       type: CommentAndNoteModelsEnum.BoxElement,
     };
 
@@ -261,7 +252,7 @@ const ImageCard: FC<IImageCard> = memo(
           {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
           {/*    itemId={boxImage.id}*/}
           {/*    rowId={boxImage.rowId}*/}
-          {/*    stepId={rowItem.step.id}*/}
+          {/*    stepId={boxItem.step.id}*/}
           {/*    onClickAway={onHandleToggleNote}*/}
           {/*  />*/}
           {/*)}*/}
@@ -282,8 +273,8 @@ const ImageCard: FC<IImageCard> = memo(
                 {/*  changeActiveMode={changeActiveMode}*/}
                 {/*  attachedTagsCount={boxImage.tagsCount || 0}*/}
                 {/*  createTagItemAttrs={{*/}
-                {/*    stepId: rowItem.step?.id,*/}
-                {/*    columnId: rowItem.columnId,*/}
+                {/*    stepId: boxItem.step?.id,*/}
+                {/*    columnId: boxItem.columnId,*/}
                 {/*    rowId: boxImage.rowId,*/}
                 {/*  }}*/}
                 {/*/>*/}

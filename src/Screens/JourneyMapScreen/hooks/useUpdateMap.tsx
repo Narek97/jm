@@ -34,7 +34,8 @@ import { useUpdateLinkBgColorMutation } from '@/api/mutations/generated/updateLi
 import { useUpdateMetricsMutation } from '@/api/mutations/generated/updateMetrics.generated';
 import { useUpdateTouchPointMutation } from '@/api/mutations/generated/updateTouchPoint.generated';
 import { LinkTypeEnum } from '@/api/types.ts';
-import { JourneyMapColumnType } from '@/Screens/JourneyMapScreen/types.ts';
+import { onDragEndMap } from '@/Screens/JourneyMapScreen/helpers/onDragEndMap.ts';
+import { JourneyMapColumnType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import {
@@ -106,19 +107,19 @@ export const useUpdateMap = () => {
         destination = data.destination;
       }
 
-      // const dropData: any = onDragEndMap(
-      //   {
-      //     source,
-      //     destination,
-      //   },
-      //   data.isDroppedAnotherRow,
-      //   type,
-      //   journeyMap.rows,
-      // );
-      //
-      // updateJourneyMap({
-      //   rows: dropData.rows,
-      // });
+      const dropData: any = onDragEndMap(
+        {
+          source,
+          destination,
+        },
+        data.isDroppedAnotherRow,
+        type,
+        journeyMap.rows,
+      );
+
+      updateJourneyMap({
+        rows: dropData.rows,
+      });
     },
     [journeyMap.rows, updateJourneyMap],
   );
@@ -1115,6 +1116,9 @@ export const useUpdateMap = () => {
               // todo
               if (undoRedo) {
                 const linkInput = {
+                  title: '',
+                  url: '',
+                  linkedMapId: null,
                   personaId: selectedJourneyMapPersona?.id || null,
                   stepId: data.stepId,
                   rowId: data.rowId,
@@ -1181,7 +1185,7 @@ export const useUpdateMap = () => {
                   return {
                     ...r,
                     boxes: r.boxes?.map(box => {
-                      if (box.step.id === data.stepId) {
+                      if (box.step?.id === data.stepId) {
                         return {
                           ...box,
                           links: box.links.map(linkElement => {
@@ -1214,6 +1218,9 @@ export const useUpdateMap = () => {
             case ActionsEnum.UPDATE: {
               if (undoRedo) {
                 const linkInout = {
+                  title: '',
+                  url: '',
+                  linkedMapId: null,
                   id: data.id,
                   type: data.type,
                 };
@@ -1607,7 +1614,7 @@ export const useUpdateMap = () => {
                     let mergePointRight: null | number = null;
                     let mergeSecondPointArray: JourneyMapColumnType[] = [];
 
-                    const rows = journeyMap.rows.map(r => {
+                    const rows: JourneyMapRowType[] = journeyMap.rows.map(r => {
                       if (r.id === data.rowId) {
                         return {
                           ...r,
@@ -1623,42 +1630,45 @@ export const useUpdateMap = () => {
                               return {
                                 ...box,
                                 id: box?.id || startBoxId,
-                                step: {
-                                  ...box.step,
-                                  isMerged: true,
-                                  isNextColumnMerged:
-                                    box.mergeCount === 1 &&
-                                    r?.boxes &&
-                                    r.boxes[index + 1] &&
-                                    box.columnId !== r?.boxes[index + 1]?.columnId
-                                      ? true
-                                      : box.step?.isNextColumnMerged,
-                                },
-                                mergeCount: box.mergeCount + endColumn.mergeCount || 0,
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: true,
+                                      isNextColumnMerged: !!(
+                                        box.mergeCount === 1 &&
+                                        r?.boxes &&
+                                        r.boxes[index + 1] &&
+                                        box.columnId !== r?.boxes[index + 1]?.columnId
+                                      ),
+                                    }
+                                  : null,
+                                mergeCount: box.mergeCount + (endColumn?.mergeCount || 0),
                               };
                             } else if (r.boxes && r.boxes[index + 1]?.step?.id === data.endStepId) {
                               mergePointLeft = box.columnId!;
                               return {
                                 ...box,
                                 id: box?.id || endBoxId,
-                                step: {
-                                  ...box.step,
-                                  isMerged: true,
-                                  isNextColumnMerged:
-                                    box.columnId !== r.boxes[index + 1]?.columnId
-                                      ? true
-                                      : box.step?.isNextColumnMerged,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: true,
+                                      isNextColumnMerged:
+                                        box.columnId !== r.boxes[index + 1]?.columnId,
+                                    }
+                                  : null,
                               };
                             } else if (box.step?.id === data.endStepId) {
                               mergePointRight = box.columnId!;
                               return {
                                 ...box,
                                 id: box?.id || endBoxId,
-                                step: {
-                                  ...box?.step,
-                                  isMerged: true,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box?.step,
+                                      isMerged: true,
+                                    }
+                                  : null,
                                 mergeCount: 0,
                               };
                             }
@@ -1673,23 +1683,25 @@ export const useUpdateMap = () => {
                               return {
                                 ...box,
                                 // id: endBoxId,
-                                step: {
-                                  ...box.step,
-                                  isMerged: true,
-                                  isNextColumnMerged:
-                                    box.columnId !== r.boxes[boxIndex + 1]?.columnId
-                                      ? true
-                                      : box.step?.isNextColumnMerged,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: true,
+                                      isNextColumnMerged:
+                                        box.columnId !== r.boxes[boxIndex + 1]?.columnId,
+                                    }
+                                  : null,
                               };
                             } else if (box?.step?.id === data.endStepId) {
                               return {
                                 ...box,
                                 // id: endBoxId,
-                                step: {
-                                  ...box.step,
-                                  isMerged: true,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: true,
+                                    }
+                                  : null,
                               };
                             }
                             return box;
@@ -1769,7 +1781,7 @@ export const useUpdateMap = () => {
                     };
                     let isColumnTheSameOnSlicePoint = false;
 
-                    const rows = journeyMap.rows.map(r => {
+                    const rows: JourneyMapRowType[] = journeyMap.rows.map(r => {
                       if (r.id === data.rowId) {
                         return {
                           ...r,
@@ -1779,10 +1791,12 @@ export const useUpdateMap = () => {
                                 ...box,
                                 mergeCount: data.startBoxMergeCount,
                                 isMerged: data.isMerged,
-                                step: {
-                                  ...box.step,
-                                  isMerged: startStepIsMerged || false,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: startStepIsMerged || false,
+                                    }
+                                  : null,
                               };
                             } else if (box.step?.id === data.endStepId) {
                               isColumnTheSameOnSlicePoint =
@@ -1791,10 +1805,12 @@ export const useUpdateMap = () => {
                                 ...box,
                                 isNextColumnMerged: data.isNextColumnMerged,
                                 mergeCount: data.endBoxMergeCount,
-                                step: {
-                                  ...box.step,
-                                  isMerged: endStepIsMerged || false,
-                                },
+                                step: box.step
+                                  ? {
+                                      ...box.step,
+                                      isMerged: endStepIsMerged || false,
+                                    }
+                                  : null,
                               };
                             }
                             return box;
@@ -1807,18 +1823,22 @@ export const useUpdateMap = () => {
                           if (box.step?.id === data.startStepId) {
                             return {
                               ...box,
-                              step: {
-                                ...box.step,
-                                isMerged: startStepIsMerged || false,
-                              },
+                              step: box.step
+                                ? {
+                                    ...box.step,
+                                    isMerged: startStepIsMerged || false,
+                                  }
+                                : null,
                             };
                           } else if (box.step?.id === data.endStepId) {
                             return {
                               ...box,
-                              step: {
-                                ...box.step,
-                                isMerged: endStepIsMerged || false,
-                              },
+                              step: box.step
+                                ? {
+                                    ...box.step,
+                                    isMerged: endStepIsMerged || false,
+                                  }
+                                : null,
                             };
                           }
 

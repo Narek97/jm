@@ -1,0 +1,74 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.touchpoint-icons {
+  position: relative;
+  min-height: calc(100dvh - 22.25rem);
+
+  &--header {
+    @include flex-center-between;
+  }
+
+  &--add-touchpoint-btn {
+    @include flex-center-center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    margin-right: 1rem;
+    color: $BASE_BLUE_COLOR;
+  }
+
+  &--content {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    gap: 1.25rem;
+    max-height: calc(100dvh - 27.5rem);
+    overflow: auto;
+    border: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  }
+
+  &--icon-block {
+    position: relative;
+    @include flex-center-center;
+    flex-direction: column;
+    padding: 0.5rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 0.125rem;
+    border: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+    cursor: pointer;
+    &:hover {
+      .touchpoint--menu .custom-vertical-menu {
+        display: flex;
+      }
+      border-color: $BASE_BLUE_COLOR;
+    }
+    .touchpoint--menu {
+      position: absolute;
+      top: 0.25rem;
+      right: 0.25rem;
+    }
+  }
+
+  &--selected-icon-block {
+    border: 0.0625rem solid $BASE_BLUE_COLOR;
+    background-color: $BASE-WHITE-COLOR;
+  }
+
+  &--icon-title {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    @include reduce-text(100%);
+  }
+
+  &--icon-loading-block {
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    margin: auto;
+  }
+}

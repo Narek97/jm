@@ -404,6 +404,10 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
             });
             const lastQuery = queries[queries.length - 1];
             const lastVariables = lastQuery?.[1];
+            console.log(lastVariables, 'lastVariables');
+            if (!lastVariables) {
+              return;
+            }
 
             updateRowByFieldName({
               fieldName: 'index',
@@ -414,7 +418,7 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
                   {
                     compareJourneyMapJsonInput: {
                       frontJsonHash: JSON.stringify(selectedFields),
-                      getJourneyMapInput: lastVariables!,
+                      getJourneyMapInput: lastVariables,
                     },
                   },
                   {
@@ -523,7 +527,6 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
                       {journeyMap?.rows.map((rowItem, index: number) => {
                         if (rowItem?.rowFunction !== MapRowTypeEnum.Steps) {
                           return (
-                            //   10000 is for identification * issue
                             <Draggable
                               key={rowItem?.id + '_row_' + index}
                               draggableId={String(rowItem?.id + 10000)}
