@@ -1,9 +1,25 @@
 import { ChangeEvent } from 'react';
 
+import {
+  COMMUNICATION,
+  HEALTHCARE,
+  HUMAN_RESOURCES,
+  RETAIL,
+  SALES_MARKETING,
+  SOCIAL_MEDIA,
+} from './components/JourneyMapRows/RowItems/Touchpoints/constants';
+
 import { FILE_TYPE_CONFIG } from '@/constants';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
-import { MenuOptionsType } from '@/types';
-import { FileTypeEnum } from '@/types/enum';
+import { FINANCE } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/constants.ts';
+import TouchpointIcons from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/TouchpointDrawer/TouchpointIcons';
+import {
+  BoxType,
+  CommentButtonItemType,
+  JourneyMapTouchpointIconsType,
+  TouchPointType,
+} from '@/Screens/JourneyMapScreen/types.ts';
+import { MenuOptionsType, TabPanelType, TabType } from '@/types';
+import { FileTypeEnum, TouchpointIconsEnum } from '@/types/enum';
 
 const MAP_HEADER_OPTIONS = ({
   isDebugMode,
@@ -71,7 +87,7 @@ const JOURNEY_MAP_COLUM_OPTIONS = ({
   isDeleteDisable,
   color,
 }: {
-  onHandleDelete: (data: BoxElementType) => void;
+  onHandleDelete: (data: BoxType) => void;
   onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
   isDeleteDisable: boolean;
   color?: string;
@@ -125,7 +141,7 @@ const JOURNEY_MAP_STEP_OPTIONS = ({
   color,
   isSingleStep,
 }: {
-  onHandleDelete: (data: BoxElementType) => void;
+  onHandleDelete: (data: BoxType) => void;
   onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
   isSingleStep: boolean;
@@ -332,6 +348,245 @@ const JOURNEY_MAP_VIDEO_OPTIONS = ({
   ];
 };
 
+const JOURNEY_MAP_MEDIA_OPTIONS = ({
+  onHandleOpenViewModal,
+  onHandleFileUpload,
+  onHandleDelete,
+}: {
+  onHandleOpenViewModal: () => void;
+  onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
+  onHandleDelete: (data: CommentButtonItemType) => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-eye-tracking'} />,
+      name: 'View',
+      onClick: onHandleOpenViewModal,
+    },
+    {
+      icon: (
+        <>
+          <span className={'wm-edit'} />
+          <input
+            style={{
+              opacity: 0,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '6.25rem',
+              height: '100%',
+              cursor: 'pointer',
+            }}
+            id={'file'}
+            type="file"
+            data-testid={'file-input-test-id'}
+            accept={FILE_TYPE_CONFIG[FileTypeEnum.MEDIA].accept}
+            onChange={e => {
+              onHandleFileUpload(e, FileTypeEnum.MEDIA);
+            }}
+          />
+        </>
+      ),
+      name: 'Update',
+      isFileUpload: true,
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: item => onHandleDelete(item),
+    },
+  ];
+};
+
+const JOURNEY_MAP_TEXT_FIELD_OPTIONS = ({
+  onHandleDelete,
+  onHandleChangeBgColor,
+  color,
+}: {
+  onHandleDelete: (data: { itemId: number }) => void;
+  onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
+  color?: string;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: (
+        <>
+          <label
+            htmlFor="text-field-color-picker"
+            className={'custom-vertical-menu--menu-item-content-icon'}>
+            <span className={'wm-colorize'} />
+            <input
+              data-testid={'color-picker'}
+              type={'color'}
+              value={color}
+              id={'text-field-color-picker'}
+              onChange={onHandleChangeBgColor}
+              style={{
+                width: 0,
+                opacity: 0,
+              }}
+            />
+          </label>
+        </>
+      ),
+      isColorPicker: true,
+      name: 'Background',
+      label: (
+        <label htmlFor="text-field-color-picker" style={{ height: '2rem', lineHeight: '2rem' }}>
+          Background
+        </label>
+      ),
+      onClick: () => {},
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+  ];
+};
+
+const TOUCHPOINT_OPTIONS = ({
+  onHandleEdit,
+  onHandleDelete,
+}: {
+  onHandleEdit: (data: JourneyMapTouchpointIconsType) => void;
+  onHandleDelete: (data: JourneyMapTouchpointIconsType) => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-edit'} />,
+      name: 'Edit',
+      onClick: onHandleEdit,
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+  ];
+};
+
+const TOUCHPOINT_ITEM_OPTIONS = ({
+  onHandleDelete,
+  onHandleChangeBgColor,
+  color,
+}: {
+  onHandleDelete: (data: TouchPointType) => void;
+  onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
+  color?: string;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+    {
+      icon: (
+        <>
+          <label htmlFor="head" className={'custom-vertical-menu--menu-item-content-icon'}>
+            <span className={'wm-colorize'} />
+            <input
+              data-testid={'color-picker'}
+              type={'color'}
+              value={color}
+              id={'head'}
+              onChange={onHandleChangeBgColor}
+              style={{
+                width: 0,
+                opacity: 0,
+              }}
+            />
+          </label>
+        </>
+      ),
+      isColorPicker: true,
+      name: 'Background',
+      label: (
+        <label htmlFor="head" style={{ height: '2rem', lineHeight: '2rem' }}>
+          Background
+        </label>
+      ),
+      onClick: () => {},
+    },
+  ];
+};
+
+const JOURNEY_TOUCHPOINT_SETTINGS_TABS = (customIconCount: number = 0): TabType[] => {
+  return [
+    {
+      label: `All (${COMMUNICATION.length + FINANCE.length})`,
+      value: TouchpointIconsEnum.ALL,
+    },
+    {
+      label: `Communication (${COMMUNICATION.length})`,
+      value: TouchpointIconsEnum.COMMUNICATION,
+    },
+    {
+      label: `Social Media (${SOCIAL_MEDIA.length})`,
+      value: TouchpointIconsEnum.SOCIAL_MEDIA,
+    },
+    {
+      label: `Sales & Marketing (${SALES_MARKETING.length})`,
+      value: TouchpointIconsEnum.SALES_MARKETING,
+    },
+    {
+      label: `Finance (${FINANCE.length})`,
+      value: TouchpointIconsEnum.FINANCE,
+    },
+    { label: `Retail (${RETAIL.length})`, value: TouchpointIconsEnum.RETAIL },
+    {
+      label: `Healthcare (${HEALTHCARE.length})`,
+      value: TouchpointIconsEnum.HEALTHCARE,
+    },
+    {
+      label: `Human Resources (${HUMAN_RESOURCES.length})`,
+      value: TouchpointIconsEnum.HUMAN_RESOURCES,
+    },
+    { label: `Custom (${customIconCount})`, value: TouchpointIconsEnum.CUSTOM },
+  ];
+};
+
+const JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS: TabPanelType[] = [
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.ALL} />,
+    value: TouchpointIconsEnum.ALL,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.COMMUNICATION} />,
+    value: TouchpointIconsEnum.COMMUNICATION,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.SOCIAL_MEDIA} />,
+    value: TouchpointIconsEnum.SOCIAL_MEDIA,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.SALES_MARKETING} />,
+    value: TouchpointIconsEnum.SALES_MARKETING,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.FINANCE} />,
+    value: TouchpointIconsEnum.FINANCE,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.RETAIL} />,
+    value: TouchpointIconsEnum.RETAIL,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.HEALTHCARE} />,
+    value: TouchpointIconsEnum.HEALTHCARE,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.HUMAN_RESOURCES} />,
+    value: TouchpointIconsEnum.HUMAN_RESOURCES,
+  },
+  {
+    page: <TouchpointIcons type={TouchpointIconsEnum.CUSTOM} />,
+    value: TouchpointIconsEnum.CUSTOM,
+  },
+];
+
 const JOURNEY_MAP_LOADING_ROW = {
   id: 99999,
   isLoading: true,
@@ -370,6 +625,12 @@ export {
   JOURNEY_MAP_COLUM_ROW_OPTIONS,
   JOURNEY_MAP_IMAGE_OPTIONS,
   JOURNEY_MAP_VIDEO_OPTIONS,
+  JOURNEY_MAP_MEDIA_OPTIONS,
+  JOURNEY_MAP_TEXT_FIELD_OPTIONS,
+  TOUCHPOINT_OPTIONS,
+  TOUCHPOINT_ITEM_OPTIONS,
+  JOURNEY_TOUCHPOINT_SETTINGS_TABS,
+  JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS,
   JOURNEY_MAP_LOADING_ROW,
   JOURNEY_MAP_LOADING_COLUMN,
 };

@@ -60,18 +60,16 @@ import JourneyMapRows from '@/Screens/JourneyMapScreen/components/JourneyMapRows
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
 import JourneyMapSteps from '@/Screens/JourneyMapScreen/components/JourneyMapSteps';
 import {
-  BoxElementType,
+  BoxType,
   JourneyMapRowType,
   JourneyMapType,
   MapSelectedPersonasType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useLayerStore } from '@/store/layers.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
-import { useUserStore } from '@/store/user.ts';
-import { ErrorWithStatus, UserType } from '@/types';
+import { ErrorWithStatus } from '@/types';
 import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 
 const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
@@ -81,7 +79,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
   const { showToast } = useWuShowToast();
 
-  const { user } = useUserStore();
+  // const { user } = useUserStore();
 
   const {
     journeyMap,
@@ -101,13 +99,13 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
   const { setBreadcrumbs } = useBreadcrumbStore();
-  const { notesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
+  // const { notesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
 
   const isLayerModeOn = !currentLayer?.isBase;
 
   const [isLoadingFullJourneyMap, setIsLoadingFullJourneyMap] = useState<boolean>(false);
   const [isLoadingJourneyMapRows, setIsLoadingJourneyMapRows] = useState<boolean>(true);
-  const [replaceMapUser, setReplaceMapUser] = useState<UserType | null>(null);
+  // const [replaceMapUser, setReplaceMapUser] = useState<UserType | null>(null);
 
   const { mutate: clearUserMapsHistory } = useClearUserMapsHistoryMutation<
     Error,
@@ -350,8 +348,8 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
           const newJourneyMapRows = journeyMapRows.map(row => {
             const boxes = row.boxes ? [...row.boxes] : [];
-            const newBoxes: Array<BoxElementType> = [...boxes];
-            const dragBoxes: Array<BoxElementType> = [];
+            const newBoxes: Array<BoxType> = [...boxes];
+            const dragBoxes: Array<BoxType> = [];
 
             boxes.forEach((box, index) => {
               if (box.columnId === +result.draggableId) {
@@ -457,12 +455,12 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     }
   }, [fetchNextPageJourneyMapRows, hasNextPageJourneyMapRows, isLayerModeOn]);
 
-  const onHandleCloseDrawer = () => {
-    // setCommentsDrawer(prev => ({
-    //   ...prev,
-    //   isOpen: !prev?.isOpen,
-    // }));
-  };
+  // const onHandleCloseDrawer = () => {
+  //   // setCommentsDrawer(prev => ({
+  //   //   ...prev,
+  //   //   isOpen: !prev?.isOpen,
+  //   // }));
+  // };
 
   const mapColumns = useMemo(() => {
     return journeyMap?.columns || [];

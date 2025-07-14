@@ -1,0 +1,38 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.react-card-flip {
+  @include map-card-header-hover();
+
+  &:hover {
+    .react-card-flip--btn {
+      visibility: visible;
+    }
+  }
+
+  &--btn {
+    visibility: hidden;
+    @include flex-center-center;
+    top: 0.25rem;
+    right: 2rem;
+    z-index: 10;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.125rem;
+  }
+
+  &--back-btn {
+    visibility: visible;
+    right: 0.75rem;
+    transform: rotate(180deg);
+    @include svg-fill($BASE-WHITE-COLOR);
+  }
+
+  .tooltip-section {
+    position: absolute;
+    top: 0.25rem;
+    right: 2rem;
+  }
+}
+

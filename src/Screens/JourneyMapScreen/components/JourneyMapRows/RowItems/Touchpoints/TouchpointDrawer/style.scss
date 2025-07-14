@@ -1,0 +1,122 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.add-touchpoint-drawer {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  min-width: 41.25rem;
+  height: 100%;
+  color: $BASE_GRAY_COLOR;
+
+  &--header {
+    @include flex-center-center;
+    width: 100%;
+    height: 3rem;
+    background-color: #eeeeee;
+
+    &--title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #555555;
+    }
+  }
+
+  &--clos-btn {
+    position: absolute;
+    right: 1rem;
+  }
+
+  &--content {
+    flex: 1;
+    padding: 1rem 2rem;
+  }
+
+  .custom-tabs {
+    display: flex;
+    gap: 1.25rem;
+
+    &--content {
+      min-width: fit-content;
+      background-color: $BASE-LIGHT-GRAY-COLOR;
+    }
+
+    &--tab {
+      align-items: flex-start;
+    }
+  }
+
+  &--tabs {
+    height: calc(100dvh - 22.25rem);
+    .MuiTabs-indicator {
+      left: 0;
+    }
+  }
+
+  &--selected-touchpoints {
+    margin-top: 1rem;
+    &--title {
+      font-size: 0.75rem;
+      color: $BASE_GRAY_COLOR;
+    }
+
+    &--content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      height: 6.2rem;
+      margin-top: 0.5rem;
+      padding: 1rem;
+      overflow: auto;
+      background-color: $BASE-LIGHT-GRAY-COLOR;
+    }
+
+    &--nod-data {
+      color: $BASE_GRAY_COLOR_2;
+    }
+  }
+
+  &--selected-touchpoint {
+    @include flex-center-center;
+    gap: 0.5rem;
+    width: 11rem;
+    height: 2rem;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border: 0.0625rem solid $BASE-LIGHT-GRAY-COLOR-2;
+    border-radius: 0.125rem;
+    background-color: $BASE-WHITE-COLOR;
+
+    &:hover {
+      .add-touchpoint-drawer--selected-touchpoint--delete-btn {
+        visibility: visible;
+      }
+    }
+
+    &--name {
+      width: 6rem;
+      @include reduce-text(6rem);
+    }
+
+    &--delete-btn {
+      visibility: hidden;
+    }
+  }
+
+  &--footer {
+    position: relative;
+    @include flex-center;
+    justify-content: flex-end;
+    height: 5rem;
+    padding: 1rem;
+
+    &--divider {
+      position: absolute;
+      top: 0;
+      width: calc(100% - 2.5rem);
+      height: 0.0625rem;
+      background-color: $BASE-LIGHT-GRAY-COLOR-2;
+    }
+  }
+}

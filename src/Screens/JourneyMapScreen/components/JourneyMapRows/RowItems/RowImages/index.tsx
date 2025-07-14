@@ -7,7 +7,7 @@ import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMap
 import ImagesItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem';
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
 import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
-import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 
@@ -24,11 +24,11 @@ const RowImages: FC<IRowImages> = ({ row, disabled }) => {
 
   return (
     <div className={'row-images'} data-testid={`row-images-${row.id}-test-id`}>
-      {row?.boxes?.map((rowItem: BoxElementType, index) => {
-        if (rowItem.mergeCount) {
+      {row?.boxes?.map((boxItem: BoxType, index) => {
+        if (boxItem.mergeCount) {
           return (
-            <React.Fragment key={rowItem.id + '_' + index}>
-              {rowItem.isLoading ? (
+            <React.Fragment key={boxItem.id + '_' + index}>
+              {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'} data-testid="image-row-loading-test-id">
                   <CustomLoader />
                 </div>
@@ -37,13 +37,13 @@ const RowImages: FC<IRowImages> = ({ row, disabled }) => {
                   <div
                     className={'row-images-item'}
                     style={{
-                      width: `${rowItem.mergeCount * 279 + rowItem.mergeCount - 1}px`,
+                      width: `${boxItem.mergeCount * 279 + boxItem.mergeCount - 1}px`,
                       minWidth: `279px`,
                     }}>
                     <ImagesItem
                       row={row}
                       boxIndex={index}
-                      rowItem={rowItem}
+                      boxItem={boxItem}
                       rowId={row?.id}
                       disabled={disabled}
                     />
@@ -51,12 +51,12 @@ const RowImages: FC<IRowImages> = ({ row, disabled }) => {
                     {index > 0 && row?.boxes && !isLayerModeOn && (
                       <MergeColumnsButton
                         connectionStart={getConnectionDetails(row.boxes[index - 1], journeyMap)}
-                        connectionEnd={getConnectionDetails(rowItem, journeyMap)}
+                        connectionEnd={getConnectionDetails(boxItem, journeyMap)}
                         rowId={row?.id}
                         previousBoxDetails={findPreviousBox(row.boxes, index)}
-                        endStepId={rowItem.step?.id || 0}
-                        endColumnId={rowItem.columnId}
-                        endBoxMergeCount={rowItem.mergeCount}
+                        endStepId={boxItem.step?.id || 0}
+                        endColumnId={boxItem.columnId}
+                        endBoxMergeCount={boxItem.mergeCount}
                       />
                     )}
                   </div>

@@ -1,9 +1,10 @@
 mutation CreateJourneyMapRow($createRowInput: CreateRowInput!) {
   createJourneyMapRow(createRowInput: $createRowInput) {
     boxesWithElements {
-      id
-      columnId
-      average
+     id
+     columnId
+     average
+     mergeCount
       boxTextElement {
         id
       }

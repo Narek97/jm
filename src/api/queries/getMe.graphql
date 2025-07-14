@@ -10,7 +10,6 @@ query GetMe {
     orgLanguage
     apiToken
     userAPIKey
-    accountLanguage
     businessType {
       value
     }

@@ -7,7 +7,7 @@ import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMap
 import VideoItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowVideos/VideoItem';
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
 import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
-import { JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 
@@ -24,11 +24,11 @@ const RowVideos: FC<IRowVideos> = ({ row, disabled }) => {
 
   return (
     <div className={'row-videos'} data-testid={`row-videos-${row.id}-test-id`}>
-      {row?.boxes?.map((rowItem, index) => {
-        if (rowItem.mergeCount) {
+      {row.boxes?.map((boxItem: BoxType, index) => {
+        if (boxItem.mergeCount) {
           return (
-            <React.Fragment key={rowItem.id + '_' + index}>
-              {rowItem.isLoading ? (
+            <React.Fragment key={boxItem.id + '_' + index}>
+              {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'} data-testid="video-row-loading-test-id">
                   <CustomLoader />
                 </div>
@@ -37,11 +37,11 @@ const RowVideos: FC<IRowVideos> = ({ row, disabled }) => {
                   <div
                     className={'row-video-item'}
                     style={{
-                      width: `${rowItem.mergeCount * 17.438 + rowItem.mergeCount - 1}px`,
+                      width: `${boxItem.mergeCount * 17.438 + boxItem.mergeCount - 1}px`,
                       minWidth: `279px`,
                     }}>
                     <VideoItem
-                      rowItem={rowItem}
+                      boxItem={boxItem}
                       rowId={row?.id}
                       disabled={disabled}
                       row={row}
@@ -51,12 +51,12 @@ const RowVideos: FC<IRowVideos> = ({ row, disabled }) => {
                     {index > 0 && row?.boxes && !isLayerModeOn && (
                       <MergeColumnsButton
                         connectionStart={getConnectionDetails(row.boxes[index - 1], journeyMap)}
-                        connectionEnd={getConnectionDetails(rowItem, journeyMap)}
+                        connectionEnd={getConnectionDetails(boxItem, journeyMap)}
                         rowId={row?.id}
                         previousBoxDetails={findPreviousBox(row.boxes, index)}
-                        endStepId={rowItem.step?.id || 0}
-                        endColumnId={rowItem.columnId}
-                        endBoxMergeCount={rowItem.mergeCount}
+                        endStepId={boxItem.step?.id || 0}
+                        endColumnId={boxItem.columnId}
+                        endBoxMergeCount={boxItem.mergeCount}
                       />
                     )}
                   </div>

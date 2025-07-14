@@ -240,7 +240,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
       handleClose={handleClose}
       canCloseWithOutsideClick={true}>
       <CustomModalHeader title={<>{aiModel ? 'Edit' : 'Create'} AI model</>} />
-      <div className={'create-update-ai-model-modal'}>
+      <div className={'create-update-ai-model-modal'} data-testid={'create-update-ai-model-modal'}>
         <form
           className={'create-update-ai-model-modal--form'}
           onSubmit={handleSubmit(onHandleSaveLink)}

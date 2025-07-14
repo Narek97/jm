@@ -1,5 +1,5 @@
 import { MapRowTypeEnum } from '@/api/types';
-import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 
 export class FieldExtractor {
   private data: JourneyMapRowType[];
@@ -10,7 +10,7 @@ export class FieldExtractor {
 
   extractFields(
     fields: (keyof JourneyMapRowType)[],
-    boxFields: (keyof BoxElementType)[],
+    boxFields: (keyof BoxType)[],
   ): Partial<JourneyMapRowType>[] {
     return this.data.map(item => {
       const extracted: Partial<JourneyMapRowType & any> = {};
@@ -26,12 +26,12 @@ export class FieldExtractor {
   }
 
   private extractBoxFields(
-    boxes: BoxElementType[],
-    boxFields: (keyof BoxElementType)[],
+    boxes: BoxType[],
+    boxFields: (keyof BoxType)[],
     type: MapRowTypeEnum,
-  ): Partial<BoxElementType>[] {
+  ): Partial<BoxType>[] {
     return boxes.map(box => {
-      const extractedBox: Partial<BoxElementType & any> = {};
+      const extractedBox: Partial<BoxType & any> = {};
       boxFields.forEach(boxField => {
         if (Array.isArray(box[boxField])) {
           if ((box[boxField] as any[])?.length) {

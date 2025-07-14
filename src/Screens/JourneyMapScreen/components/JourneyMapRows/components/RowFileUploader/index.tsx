@@ -1,31 +1,31 @@
 import { ChangeEvent, FC } from 'react';
 
 import './style.scss';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { FileTypeEnum } from '@/types/enum.ts';
 
 interface IRowFileUploader {
-  rowItem: BoxElementType;
+  boxItem: BoxType;
   index: number;
   accept: string;
   type: FileTypeEnum;
   addItem: (e: ChangeEvent<HTMLInputElement>, stepId: number, type: FileTypeEnum) => void;
 }
 
-const RowFileUploader: FC<IRowFileUploader> = ({ rowItem, index, accept, type, addItem }) => {
+const RowFileUploader: FC<IRowFileUploader> = ({ boxItem, index, accept, type, addItem }) => {
   return (
     <div
       className={`map-row-file-uploader ${
-        rowItem?.boxElements.length ? '' : 'map-row-file-uploader--firs-card'
+        boxItem?.boxElements.length ? '' : 'map-row-file-uploader--firs-card'
       }`}>
       <label
         htmlFor={
-          rowItem.id
-            ? type + rowItem.id?.toString() + rowItem.step?.id
-            : `file+${index}+${type}+${rowItem.step?.id}`
+          boxItem.id
+            ? type + boxItem.id?.toString() + boxItem.step?.id
+            : `file+${index}+${type}+${boxItem.step?.id}`
         }
         className={`map-row-file-uploader--add-image-label ${
-          rowItem?.boxElements.length ? '' : 'map-row-file-uploader--add-image-first-label'
+          boxItem?.boxElements.length ? '' : 'map-row-file-uploader--add-image-first-label'
         }`}>
         <span
           className={'wm-add'}
@@ -36,13 +36,13 @@ const RowFileUploader: FC<IRowFileUploader> = ({ rowItem, index, accept, type, a
         <input
           className={'image-upload-input'}
           id={
-            rowItem.id
-              ? type + rowItem.id?.toString() + rowItem.step?.id
-              : `file+${index}+${type}+${rowItem.step?.id}`
+            boxItem.id
+              ? type + boxItem.id?.toString() + boxItem.step?.id
+              : `file+${index}+${type}+${boxItem.step?.id}`
           }
           type="file"
           accept={accept}
-          onChange={e => addItem(e, rowItem.step?.id || 0, type)}
+          onChange={e => addItem(e, boxItem.step?.id || 0, type)}
         />
       </label>
     </div>

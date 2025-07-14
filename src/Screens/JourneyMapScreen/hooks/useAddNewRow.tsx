@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useCreateJourneyMapRowMutation } from '@/api/mutations/generated/createJourneyMapRow.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes.tsx';
+import { BoxType, JourneyMapRowType, OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ObjectKeysType } from '@/types';
@@ -40,14 +41,14 @@ export const useAddNewRow = (onToggleDrawer: () => void) => {
 
   const { mutate: createRow, isPending: isLoadingCreateRow } = useCreateJourneyMapRowMutation({
     onSuccess: async response => {
-      const newRow = {
-        boxes: response.createJourneyMapRow.boxesWithElements,
+      const newRow: JourneyMapRowType = {
+        boxes: response.createJourneyMapRow.boxesWithElements as BoxType[],
         id: response.createJourneyMapRow.row.id,
         isCollapsed: false,
         isLocked: false,
         isPersonaAverageDisabled: false,
         label: response.createJourneyMapRow.row.label,
-        outcomeGroup: response.createJourneyMapRow.row.outcomeGroup || null,
+        outcomeGroup: (response.createJourneyMapRow.row.outcomeGroup as OutcomeGroupType) || null,
         rowFunction: response.createJourneyMapRow.row.rowFunction,
         rowWithPersonas: [],
         size: 1,
@@ -110,7 +111,7 @@ export const useAddNewRow = (onToggleDrawer: () => void) => {
       const name = getMapColumnNameByType(type?.toLowerCase());
       let label = name.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
       if (type === MapRowTypeEnum.Outcomes) {
-        label = additionalFields?.label;
+        label = (additionalFields?.label as string) || '';
         updateMapOutcomeGroups(
           mapOutcomeGroups?.filter(itm => {
             return +itm?.id !== additionalFields?.outcomeGroupId;
@@ -121,14 +122,14 @@ export const useAddNewRow = (onToggleDrawer: () => void) => {
         createRowInput: {
           index: rowIndex,
           size: 1,
-          mapId,
+          mapId: +mapId,
           label,
           rowFunction: type as MapRowTypeEnum,
           ...additionalFields,
         },
       });
     },
-    [],
+    [createRow, getMapColumnNameByType, mapId, mapOutcomeGroups, updateMapOutcomeGroups],
   );
 
   return { createJourneyMapRow, isLoadingCreateRow };

@@ -1,6 +1,6 @@
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 
-export const findPreviousBox = (boxes: BoxElementType[], boxIndex: number) => {
+export const findPreviousBox = (boxes: BoxType[], boxIndex: number) => {
   for (let i = boxIndex - 1; i >= 0; i--) {
     if (boxes[i].mergeCount >= 1) {
       return {

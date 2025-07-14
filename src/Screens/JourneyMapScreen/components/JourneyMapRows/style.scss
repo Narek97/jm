@@ -1,7 +1,6 @@
 @use '@assets/styles/variables' as *;
 @use '@assets/styles/mixins' as *;
 
-
 .journey-map-rows {
   max-height: calc(100dvh - 17.5rem);
   overflow: auto;

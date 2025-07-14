@@ -1032,6 +1032,35 @@ export type GetJourneyMapRowsAndColumnsInput = {
   mapId: Scalars['Int']['input'];
 };
 
+export type GetJourneyMapsByDateInput = {
+  endDate: Scalars['Timestamp']['input'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+  startDate: Scalars['Timestamp']['input'];
+};
+
+export type GetJourneyMapsByDateMapsModel = {
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id: Scalars['Int']['output'];
+  owner?: Maybe<GetJourneyMapsByDateOwnerModel>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+};
+
+export type GetJourneyMapsByDateModel = {
+  count?: Maybe<Scalars['Int']['output']>;
+  limit: Scalars['Int']['output'];
+  maps: Array<GetJourneyMapsByDateMapsModel>;
+  offset: Scalars['Int']['output'];
+};
+
+export type GetJourneyMapsByDateOwnerModel = {
+  emailAddress?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  orgId?: Maybe<Scalars['Int']['output']>;
+};
+
 export type GetLayersInput = {
   mapId: Scalars['Int']['input'];
 };
@@ -1363,6 +1392,35 @@ export type GetUserBoardsModel = {
   limit: Scalars['Int']['output'];
   offset: Scalars['Int']['output'];
   workspace: Workspace;
+};
+
+export type GetUserSessionInput = {
+  endDate: Scalars['Timestamp']['input'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+  startDate: Scalars['Timestamp']['input'];
+};
+
+export type GetUserSessionMemberModel = {
+  emailAddress?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  orgId?: Maybe<Scalars['Int']['output']>;
+};
+
+export type GetUserSessionModel = {
+  count?: Maybe<Scalars['Int']['output']>;
+  limit: Scalars['Int']['output'];
+  offset: Scalars['Int']['output'];
+  session: Array<GetUserSessionModelUserModel>;
+};
+
+export type GetUserSessionModelUserModel = {
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id: Scalars['Int']['output'];
+  member?: Maybe<GetUserSessionMemberModel>;
+  sessionCount?: Maybe<Scalars['Int']['output']>;
+  userId: Scalars['Int']['output'];
 };
 
 export type GetUserWorkspacesModel = {
@@ -1867,9 +1925,11 @@ export type Member = {
   isShared?: Maybe<Scalars['Boolean']['output']>;
   lastName: Scalars['String']['output'];
   online?: Maybe<Scalars['Boolean']['output']>;
+  orgId: Scalars['Int']['output'];
   superAdmin: Scalars['Boolean']['output'];
   updatedAt: Scalars['Timestamp']['output'];
   userId: Scalars['Int']['output'];
+  userSessions: Array<UserSession>;
 };
 
 export type MergeColumnInput = {
@@ -2028,6 +2088,7 @@ export type MetricsVersionResponse = {
   goal?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  note?: Maybe<Note>;
   nps: Scalars['Float']['output'];
   overall: Scalars['Float']['output'];
   persona?: Maybe<Personas>;
@@ -2037,6 +2098,7 @@ export type MetricsVersionResponse = {
   source: MetricsSourceEnum;
   startDate: Scalars['String']['output'];
   surveyId?: Maybe<Scalars['Int']['output']>;
+  tagsCount: Scalars['Int']['output'];
   type: MetricsTypeEnum;
   typeData?: Maybe<Scalars['JSON']['output']>;
   value?: Maybe<Scalars['Int']['output']>;
@@ -2116,7 +2178,6 @@ export type Mutation = {
   deleteMetrics: RemoveMetricsResponseModel;
   deleteOutcome: Scalars['Int']['output'];
   deleteOutcomeGroup: Scalars['Int']['output'];
-  deleteParentMap: Scalars['Int']['output'];
   deletePerformanceLogs: Scalars['Int']['output'];
   deletePersona: Scalars['Int']['output'];
   deletePersonaGroup: Scalars['Int']['output'];
@@ -2456,11 +2517,6 @@ export type MutationDeleteOutcomeArgs = {
 
 
 export type MutationDeleteOutcomeGroupArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationDeleteParentMapArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -3149,6 +3205,7 @@ export type Query = {
   getJourneyMap: GetJourneyMapResponse;
   getJourneyMapColumnSteps: GetJourneyMapColumnStepsResponse;
   getJourneyMapRowsAndColumns: GetJourneyMapRowsAndColumnResponse;
+  getJourneyMapsByDate?: Maybe<GetJourneyMapsByDateModel>;
   getLayersByMapId: GetLayersModel;
   getLinkMapsByBoard: GetLinkMapsModel;
   getMapByVersionId: GetMapByVersionIdModel;
@@ -3187,6 +3244,7 @@ export type Query = {
   getSuiteUsers: GetUsersModel;
   getTouchPointIcons: GetTouchPointIconsModel;
   getUserLastPerformanceLog: PerformanceLog;
+  getUserSession?: Maybe<GetUserSessionModel>;
   getWhiteboard: GetWhiteboardModel;
   getWhiteboardDataItems: GetWhiteboardDataItemsModel;
   getWhiteboardUsers: Array<WhiteboardUser>;
@@ -3308,6 +3366,11 @@ export type QueryGetJourneyMapColumnStepsArgs = {
 
 export type QueryGetJourneyMapRowsAndColumnsArgs = {
   getJourneyMapRowsAndColumnsInput: GetJourneyMapRowsAndColumnsInput;
+};
+
+
+export type QueryGetJourneyMapsByDateArgs = {
+  getJourneyMapsByDateInput: GetJourneyMapsByDateInput;
 };
 
 
@@ -3490,6 +3553,11 @@ export type QueryGetSuiteUsersArgs = {
 
 export type QueryGetTouchPointIconsArgs = {
   getTouchpointIconsInput: GetTouchpointIconsInput;
+};
+
+
+export type QueryGetUserSessionArgs = {
+  getUserSessionInput: GetUserSessionInput;
 };
 
 
@@ -4019,7 +4087,6 @@ export type UpdateWhiteboardUserInput = {
 };
 
 export type User = {
-  accountLanguage: LanguagesEnum;
   apiToken: Scalars['String']['output'];
   businessType?: Maybe<Array<KeyValue>>;
   debugMode?: Maybe<Scalars['Boolean']['output']>;
@@ -4045,6 +4112,15 @@ export enum UserActionEnum {
   Owner = 'OWNER',
   View = 'VIEW'
 }
+
+export type UserSession = {
+  createdAt: Scalars['Timestamp']['output'];
+  id: Scalars['Int']['output'];
+  member?: Maybe<Member>;
+  sessionCount: Scalars['Int']['output'];
+  updatedAt: Scalars['Timestamp']['output'];
+  userId: Scalars['Int']['output'];
+};
 
 export type Whiteboard = {
   canvas?: Maybe<Whiteboard>;

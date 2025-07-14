@@ -1,0 +1,20 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+
+.text-insights {
+  min-width: 17.5rem;
+  background-color: $BASE-WHITE-COLOR;
+  border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  border-right: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+
+  &--header {
+    height: 2rem;
+    padding: 0 0.5rem;
+    align-items: center;
+  }
+
+  &--content {
+    padding: 0.5rem;
+  }
+}

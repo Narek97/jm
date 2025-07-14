@@ -1,0 +1,15 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.row-medias {
+  @include map-row();
+
+  .row-media-item {
+    min-width: 17.4375rem;
+    min-height: 10.5rem;
+    max-height: 10.5rem;
+    border-radius: 0.125rem;
+    border-bottom: 0.0625rem solid #e8e8e8;
+    background-color: $BASE-WHITE-COLOR;
+  }
+}

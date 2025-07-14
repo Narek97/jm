@@ -17,13 +17,13 @@ import {
 import { AttachmentsEnum } from '@/api/types.ts';
 import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
 import { ActionsEnum, FileTypeEnum } from '@/types/enum.ts';
 import { UploadFile } from '@/utils/uploader.ts';
 
-const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxElementType; rowId: number }) => {
+const useVideoImageMedia = ({ boxItem, rowId }: { boxItem: BoxType; rowId: number }) => {
   const { crudBoxElement } = useCrudMapBoxElement();
   const { showToast } = useWuShowToast();
 
@@ -147,9 +147,9 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxElementType; rowId
         addBoxElement({
           addBoxElementInput: {
             rowId: rowId,
-            imageId: uploadFilesData.id,
-            text: uploadFilesData.key,
-            columnId: rowItem.columnId,
+            imageId: uploadFilesData.id as number,
+            text: (uploadFilesData.key as string) || '',
+            columnId: boxItem.columnId,
             personaId: selectedJourneyMapPersona?.id || null,
             stepId,
           },
@@ -157,7 +157,7 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxElementType; rowId
       }
       setIsUploading(false);
     },
-    [addBoxElement, handleFileUpload, rowId, rowItem.columnId, selectedJourneyMapPersona?.id],
+    [addBoxElement, handleFileUpload, rowId, boxItem.columnId, selectedJourneyMapPersona?.id],
   );
 
   const updateItem = useCallback(
@@ -175,8 +175,8 @@ const useVideoImageMedia = ({ rowId, rowItem }: { rowItem: BoxElementType; rowId
         updateBoxElement(
           {
             updateBoxDataInput: {
-              attachmentId: uploadFilesData.id,
-              text: uploadFilesData.key,
+              attachmentId: uploadFilesData.id as number,
+              text: (uploadFilesData.key as string) || '',
               boxElementId,
               imageId,
             },

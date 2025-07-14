@@ -12,7 +12,7 @@ import {
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
 import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/sentiment';
-import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { ObjectKeysType } from '@/types';
@@ -104,7 +104,7 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
   const sentimentData = useMemo(() => {
     setLoadingIndex(null);
     const newData: SentimentBoxType[] = [];
-    rowItem.boxes?.forEach((box: BoxElementType, boxIndex) => {
+    rowItem.boxes?.forEach((box: BoxType, boxIndex) => {
       const averageDetails: ObjectKeysType = {};
       if (box.isLoading) {
         setLoadingIndex(boxIndex);

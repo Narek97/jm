@@ -1,4 +1,4 @@
-import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 
 export const onDragEndMap = (
   result: any,
@@ -20,7 +20,7 @@ export const onDragEndMap = (
   const key = keyByType[type] || 'boxElements';
   const { source, destination } = result;
   const rowBoxes = rows[source.rowIndex];
-  let newData: BoxElementType[];
+  let newData: BoxType[];
   const boxes = [...(rowBoxes?.boxes || [])];
   const sourceColumn = boxes[source.droppableId];
   const sourceItems = [...sourceColumn[key]];
@@ -40,7 +40,7 @@ export const onDragEndMap = (
         ...sourceColumn,
         [key]: sourceItems,
       },
-    }) as BoxElementType[];
+    }) as BoxType[];
     const destinationRowBoxes = rows[destination.rowIndex];
     const destinationBoxes = [...(destinationRowBoxes?.boxes || [])];
     const destColumnForRow = destinationBoxes[destination.droppableId];

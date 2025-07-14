@@ -53,8 +53,6 @@ const JourneyMapSelectedPersona = ({ mapId }: { mapId: number }) => {
     [dataPinnedPersonaItems?.getPinnedPersonaItems.pinnedSections],
   );
 
-  console.log(pinnedSections, 'pinnedSections');
-
   const onHandleAddPersonaInfoItem = useCallback(
     (newItem: PinPersonaDemographicInfoType) => {
       setPinnedPersonaItemsQuery(

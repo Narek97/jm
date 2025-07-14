@@ -1,8 +1,8 @@
+import { GetMapsQuery } from '@/api/infinite-queries/generated/getJourneyMaps.generated.ts';
 import { GetPersonaByIdQuery } from '@/api/queries/generated/getPersonaById.generated.ts';
 import { GetPersonaDemographicInfosQuery } from '@/api/queries/generated/getPersonaDemographicInfos.generated.ts';
 import { GetPersonaSectionsQuery } from '@/api/queries/generated/getPersonaSections.generated.ts';
 import { AttachmentType } from '@/types';
-import { GetJourneysQuery } from '@/api/queries/generated/getJourneys.generated.ts';
 
 export type PersonaInfoType = GetPersonaByIdQuery['getPersonaById'];
 
@@ -22,4 +22,4 @@ export type PersonaImageContainedComponentType = {
 
 export type PersonaSectionType = GetPersonaSectionsQuery['getPersonaSections'][number];
 
-export type JourneyMaps = GetJourneysQuery['getMaps']['maps'];
+export type PersonaJourneyMap = GetMapsQuery["getMaps"]['maps'][number];

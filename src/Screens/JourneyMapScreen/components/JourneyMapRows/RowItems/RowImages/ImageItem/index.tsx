@@ -7,21 +7,21 @@ import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRow
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
 import ImageCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard';
 import useVideoImageMedia from '@/Screens/JourneyMapScreen/hooks/useVideoImageMedia.tsx';
-import { BoxElementType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { FileTypeEnum } from '@/types/enum.ts';
 
 interface IImagesItem {
-  rowItem: BoxElementType;
+  boxItem: BoxType;
   rowId: number;
   disabled: boolean;
   row: JourneyMapRowType;
   boxIndex: number;
 }
 
-const ImagesItem: FC<IImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIndex }) => {
+const ImagesItem: FC<IImagesItem> = memo(({ boxItem, rowId, disabled, row, boxIndex }) => {
   const { deleteItem, addItem, updateItem, isUploading } = useVideoImageMedia({
-    rowItem,
+    boxItem,
     rowId,
   });
   const { currentLayer } = useLayerStore();
@@ -34,21 +34,21 @@ const ImagesItem: FC<IImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIn
     <div
       className={`row-images-item--card-block ${isActiveMode ? 'active-image-card' : ''}  map-item`}>
       <div className={`box-controls-container--blank-type`}>
-        {rowItem?.boxElements.length ? (
+        {boxItem?.boxElements.length ? (
           <ImageCard
             changeActiveMode={isActive => {
               setIsActiveMode(isActive);
             }}
-            rowItem={rowItem}
+            boxItem={boxItem}
             deleteImage={deleteItem}
             disabled={disabled}
             handleUpdateFile={(e, callback) =>
               updateItem(
                 e,
                 {
-                  boxElementId: rowItem?.boxElements[0].id,
+                  boxElementId: boxItem?.boxElements[0].id,
                   callback,
-                  imageId: rowItem?.boxElements[0].id,
+                  imageId: boxItem?.boxElements[0].id,
                 },
                 FileTypeEnum.IMAGE,
               )
@@ -65,7 +65,7 @@ const ImagesItem: FC<IImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIn
                 {disabled ? null : (
                   <>
                     <RowFileUploader
-                      rowItem={rowItem}
+                      boxItem={boxItem}
                       index={rowId}
                       addItem={addItem}
                       accept={FILE_TYPE_CONFIG[FileTypeEnum.IMAGE].accept}
@@ -77,11 +77,11 @@ const ImagesItem: FC<IImagesItem> = memo(({ rowItem, rowId, disabled, row, boxIn
             )}
           </>
         )}
-        {rowItem.mergeCount > 1 && row?.boxes && !isLayerModeOn && (
+        {boxItem.mergeCount > 1 && row?.boxes && !isLayerModeOn && (
           <UnMergeColumnsButton
-            boxIndex={rowItem.mergeCount - 1 + boxIndex}
+            boxIndex={boxItem.mergeCount - 1 + boxIndex}
             rowId={row?.id}
-            rowItem={row.boxes[boxIndex + rowItem.mergeCount - 1]}
+            boxItem={row.boxes[boxIndex + boxItem.mergeCount - 1]}
             boxes={row?.boxes}
           />
         )}

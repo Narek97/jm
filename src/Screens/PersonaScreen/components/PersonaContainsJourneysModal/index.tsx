@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useRef } from 'react';
 
 import './style.scss';
-import { Box, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
@@ -18,7 +18,7 @@ import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import PersonaImages from '@/Features/PersonaImages';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
-import { JourneyMaps } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaJourneyMap } from '@/Screens/PersonaScreen/types.ts';
 import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 dayjs.extend(fromNow);
@@ -37,11 +37,13 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
   const navigate = useNavigate();
   const childRef = useRef<HTMLUListElement>(null);
 
+
   const {
-    data: organizationPersonasData,
-    isLoading: organizationPersonasIsLoading,
-    isFetching: organizationPersonasIsFetchingNextPage,
-    fetchNextPage: organizationPersonasFetchNextPage,
+    data: mapsData,
+    isLoading: mapsDataIsLoading,
+    isFetching: mapsDataIsFetchingNextPage,
+    hasNextPage: mapsDataHasNextPage,
+    fetchNextPage: mapsDataFetchNextPage,
   } = useInfiniteGetMapsQuery<{ pages: Array<GetMapsQuery> }, Error>(
     {
       getMapsInput: {
@@ -52,30 +54,35 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     },
     {
       getNextPageParam(lastPage, allPages) {
-        const totalItemsFetched = allPages.reduce(
-          (acc, page) => acc + (page.getMaps.maps?.length || 0),
-          0
-        );
-        return lastPage.getMaps.maps.length < JOURNIES_LIMIT
-          ? undefined
-          : { getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: totalItemsFetched } };
+        if (!lastPage.getMaps.maps || !lastPage.getMaps.maps.length) {
+          return undefined;
+        }
+        return {
+          getMapsInput: {
+            personaIds: [personaId],
+            limit: JOURNIES_LIMIT,
+            offset: allPages.length * JOURNIES_LIMIT,
+          },
+        };
       },
-      initialPageParam: { getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: 0 } },
+      initialPageParam: {
+        getMapsInput: { personaIds: [personaId], limit: JOURNIES_LIMIT, offset: 0 },
+      },
       enabled: !!personaId,
     },
   );
 
-  const renderedMaps = useMemo<JourneyMaps>(() => {
-    if (!organizationPersonasData?.pages) {
+  const renderedMaps = useMemo<Array<PersonaJourneyMap>>(() => {
+    if (!mapsData?.pages) {
       return [];
     }
-    return organizationPersonasData.pages.reduce((acc: JourneyMaps, curr) => {
+    return mapsData.pages.reduce<Array<PersonaJourneyMap>>((acc, curr) => {
       if (curr?.getMaps.maps) {
-        return [...acc, ...(curr.getMaps.maps as JourneyMaps)];
+        return [...acc, ...curr.getMaps.maps];
       }
       return acc;
     }, []);
-  }, [organizationPersonasData?.pages]);
+  }, [mapsData?.pages]);
 
   const onHandleFetch = (e: React.UIEvent<HTMLElement>, childOffsetHeight: number) => {
     const target = e.currentTarget as HTMLDivElement | null;
@@ -83,10 +90,10 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
       target &&
       childOffsetHeight &&
       target.offsetHeight + target.scrollTop + 100 >= childOffsetHeight &&
-      !organizationPersonasIsFetchingNextPage &&
-      !organizationPersonasIsLoading
+      !mapsDataIsFetchingNextPage &&
+      mapsDataHasNextPage
     ) {
-      organizationPersonasFetchNextPage().then();
+      mapsDataFetchNextPage().then();
     }
   };
 
@@ -96,24 +103,16 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
     }).then();
   };
 
-  const disconnectPersonaFromMap = (personaId: number, mapId: number) => {
-    renderedMaps.forEach(map => {
-      if (map?.id === mapId) {
-        map.selectedPersonas = map.selectedPersonas?.filter(persona => persona?.id !== personaId);
-      }
-    });
-  };
-
   return (
     <CustomModal
       isOpen={isOpen}
       modalSize={'md'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!organizationPersonasIsLoading}>
+      canCloseWithOutsideClick={!mapsDataIsLoading}>
       <CustomModalHeader title={<div className={'assign-modal-header'}>Assigned journeys</div>} />
       <div className={'journeys-contains-current-maps'}>
         <div className={'journeys-contains-current-maps--content'}>
-          {organizationPersonasIsLoading && !renderedMaps?.length ? (
+          {mapsDataIsLoading && !renderedMaps?.length ? (
             <div className={'journeys-contains-current-maps-loading-section'}>
               <CustomLoader />
             </div>
@@ -148,9 +147,6 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
                             disableDisconnect={true}
                             viewMode={SelectedPersonasViewModeEnum.MAP}
                             personas={itm.selectedPersonas as PersonaType[]}
-                            disconnectPersona={personaId =>
-                              disconnectPersonaFromMap(personaId, itm?.id)
-                            }
                           />
                         </li>
                       </ErrorBoundary>
@@ -158,7 +154,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
                   </ul>
                 </div>
               ) : (
-                <EmptyDataInfo icon={<Box />} message={'There are no journeys yet'} />
+                <EmptyDataInfo message={'There are no journeys yet'} />
               )}
             </>
           )}
