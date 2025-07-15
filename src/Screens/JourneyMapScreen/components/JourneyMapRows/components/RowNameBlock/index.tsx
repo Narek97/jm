@@ -271,7 +271,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                 defaultPage: <></>,
               })}
               {!isLayerModeOn ? (
-                <button {...dragHandleProps} className={'journey-map-row-name--drag-area'}>
+                <div {...dragHandleProps} className={'journey-map-row-name--drag-area'}>
                   {!rowItem.isLocked && (
                     <span
                       className={'wm-drag-indicator'}
@@ -280,7 +280,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                       }}
                     />
                   )}
-                </button>
+                </div>
               ) : (
                 <div {...dragHandleProps} />
               )}

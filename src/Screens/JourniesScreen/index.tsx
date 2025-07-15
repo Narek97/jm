@@ -198,7 +198,6 @@ const JourniesScreen = () => {
           onSuccess: async response => {
             await queryClient.refetchQueries({
               queryKey: [['GetParentMapsByBoardId'], ['GetJourneys']],
-              exact: true,
               type: 'active',
             });
             if (parentId) {
@@ -567,7 +566,11 @@ const JourniesScreen = () => {
           <div className={'journeys--header--search-pagination-block'}>
             <ul className={'journeys--header--view-list-block'}>
               {JOURNEYS_VIEW_TABS?.map(({ iconClassName, name, tooltipContent }) => (
-                <WuTooltip className="wu-tooltip-content" content={tooltipContent} position="top" key={name}>
+                <WuTooltip
+                  className="wu-tooltip-content"
+                  content={tooltipContent}
+                  position="top"
+                  key={name}>
                   <li data-testid={name} className={'journeys--header--view-list-block--list'}>
                     <WuButton
                       className={`${tab === name ? 'active-tab' : ''} `}

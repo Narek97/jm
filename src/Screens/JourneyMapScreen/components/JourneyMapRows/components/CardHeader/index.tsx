@@ -81,17 +81,17 @@ const CardHeader: FC<ICardHeader> = ({
       <div className={'card-header--left-block'}>
         <div>
           <button
-            className={`${isDragging ? 'card-header--hide-icon' : 'card-header--base-icon'}     ${isLayerModeOn ? 'always-show-icon' : ''} `}>
+            className={`${isDragging ? 'card-header--hide-icon' : 'card-header--base-icon'} ${isLayerModeOn ? 'always-show-icon' : ''} `}>
             {icon}
           </button>
-          {!isLayerModeOn ? (
-            <button
+          {isLayerModeOn ? (
+            <div {...dragHandleProps} />
+          ) : (
+            <div
               className={`card-header--drag-icon ${isDragging ? 'card-header--show-icon' : ''}`}
               {...dragHandleProps}>
               <span className={'wm-drag-indicator'} />
-            </button>
-          ) : (
-            <div {...dragHandleProps} />
+            </div>
           )}
         </div>
 

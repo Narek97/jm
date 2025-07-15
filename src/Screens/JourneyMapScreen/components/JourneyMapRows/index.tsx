@@ -400,15 +400,12 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
 
             const queries = queryClient.getQueriesData({
               queryKey: ['GetJourneyMapRows.infinite'],
-              exact: true,
             });
             const lastQuery = queries[queries.length - 1];
-            const lastVariables = lastQuery?.[1];
-            console.log(lastVariables, 'lastVariables');
-            if (!lastVariables) {
+            const getJourneyMapInput = (lastQuery?.[0][1] as any)?.getJourneyMapInput;
+            if (!getJourneyMapInput) {
               return;
             }
-
             updateRowByFieldName({
               fieldName: 'index',
               fieldValue: destination?.index + 1,
@@ -418,7 +415,7 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
                   {
                     compareJourneyMapJsonInput: {
                       frontJsonHash: JSON.stringify(selectedFields),
-                      getJourneyMapInput: lastVariables,
+                      getJourneyMapInput,
                     },
                   },
                   {
@@ -429,6 +426,12 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
                           message: `Something went wrong! | ID: ${data?.compareJourneyMapJson?.id}`,
                         });
                       }
+                    },
+                    onError: error => {
+                      showToast({
+                        variant: 'error',
+                        message: error?.message,
+                      });
                     },
                   },
                 );
