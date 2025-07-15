@@ -23,8 +23,6 @@ export type BoxType = NonNullable<
 
 export type BoxElementType = BoxType['boxElements'][number];
 
-export type TouchPointType = BoxType['touchPoints'][number];
-
 export type OutcomeGroupType = JourneyMapRowType['outcomeGroup'];
 
 export type JourneyMapColumnType = GetJourneyMapQuery['getJourneyMap']['columns'][number] & {
@@ -77,7 +75,7 @@ export type JourneyMapDraggableTextFields =
 
 export type JourneyMapTouchpointIconsType = {
   id: number | string;
-  name: string;
+  name?: string | null;
   key: string;
   uuid?: string;
   url?: string;

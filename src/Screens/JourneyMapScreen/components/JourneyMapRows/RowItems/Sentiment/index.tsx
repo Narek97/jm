@@ -5,6 +5,8 @@ import './style.scss';
 import Konva from 'konva';
 import { Layer, Stage } from 'react-konva';
 
+import { SentimentBoxType } from '../../JourneyMapSentimentRow/types';
+
 import KonvaEventObject = Konva.KonvaEventObject;
 
 import {

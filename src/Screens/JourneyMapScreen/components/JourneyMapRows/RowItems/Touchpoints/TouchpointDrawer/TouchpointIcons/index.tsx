@@ -11,6 +11,7 @@ import {
   RETAIL,
   SALES_MARKETING,
   SOCIAL_MEDIA,
+  TOUCHPOINT_OPTIONS,
 } from '../../constants';
 import CreateTouchpointModal from '../CreateTouchpointModal';
 import DeleteTouchPointConfirmModal from '../DeleteTouchpointConfirmModal';
@@ -18,7 +19,6 @@ import DeleteTouchPointConfirmModal from '../DeleteTouchpointConfirmModal';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import { TOUCHPOINT_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types';
 import { useTouchpointsStore } from '@/store/touchpoints.ts';
 import { AttachmentType, ObjectKeysType } from '@/types';
@@ -244,7 +244,7 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
                     onClick={() => onHandleSelectTouchpoint(icon)}>
                     <img
                       src={`${import.meta.env.VITE_SVG_URL}custom-touchpoints/${icon.key}`}
-                      alt={icon.name}
+                      alt={icon.name || 'Icon'}
                       style={{
                         width: '1.25rem',
                         height: '1.25rem',

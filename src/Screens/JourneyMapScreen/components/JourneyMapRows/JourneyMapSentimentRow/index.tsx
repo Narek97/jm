@@ -3,8 +3,10 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import './style.scss';
 
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+import { useParams } from '@tanstack/react-router';
 
 import { EMOTION_TYPES, EMOTION_VALUES } from './constants';
+import { SentimentBoxType } from './types';
 import JourneyMapSelectedPersonas from '../components/JourneyMapSelectedPersonas';
 
 import {
@@ -37,6 +39,10 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
   rowsLength,
   disabled,
 }) => {
+  const { mapId } = useParams({
+    from: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/',
+  });
+
   const { journeyMap, isDragging, updateJourneyMap } = useJourneyMapStore();
   const { currentLayer } = useLayerStore();
 
@@ -128,8 +134,9 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
               ...(personaItem.personaStates ? personaItem.personaStates[boxIndex] : {}),
               stepId: box?.step?.id,
               personaId: personaItem?.id,
-              isDraggable: !personaItem?.isDisabledForSocket,
-              isDisabled: personaItem?.isDisabledForSocket,
+              // todo
+              // isDraggable: !personaItem?.isDisabledForSocket,
+              // isDisabled: personaItem?.isDisabledForSocket,
               color: personaItem.color,
               text: personaItem?.name + ', ' + personaItem?.type?.toLowerCase(),
             },
@@ -182,11 +189,12 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
 
             <JourneyMapSelectedPersonas
               viewMode={SelectedPersonasViewModeEnum.SENTIMENT}
+              personas={rowItem?.rowWithPersonas}
+              mapId={+mapId}
               showFullItems={true}
+              showActives={true}
               disabled={disabled}
               updatePersonas={handleSelectJourneyMapFooter}
-              personas={rowItem?.rowWithPersonas}
-              showActives={true}
             />
           </div>
         )}

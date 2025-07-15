@@ -2,12 +2,14 @@ import { FC, useCallback } from 'react';
 
 import './style.scss';
 import PersonaImages from '@/Features/PersonaImages';
+import { RowWithPersonasType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow/types.ts';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 interface ISelectedPersonas {
   viewMode: SelectedPersonasViewModeEnum;
-  personas: PersonaType[];
+  personas: PersonaType[] | RowWithPersonasType[];
+  mapId: number;
   showActives: boolean;
   showFullItems?: boolean;
   disabled?: boolean;
@@ -17,6 +19,7 @@ interface ISelectedPersonas {
 const JourneyMapSelectedPersonas: FC<ISelectedPersonas> = ({
   viewMode,
   personas,
+  mapId,
   showActives,
   showFullItems = false,
   disabled,
@@ -35,6 +38,7 @@ const JourneyMapSelectedPersonas: FC<ISelectedPersonas> = ({
     <>
       <div className="persona-add-images">
         <PersonaImages
+          mapId={mapId}
           viewMode={viewMode}
           showFullItems={showFullItems}
           handleSelectPersonaItem={showActives && !disabled ? handleSelectJourneyMapFooter : null}

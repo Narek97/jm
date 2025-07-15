@@ -136,6 +136,7 @@ const DeleteTouchPointConfirmModal: FC<IDeleteTouchPointAttachmentModal> = ({
     selectedTouchpoints,
     setSelectedCustomTouchpoints,
     setSelectedTouchpoints,
+    showToast,
     touchPointAttachment,
   ]);
 

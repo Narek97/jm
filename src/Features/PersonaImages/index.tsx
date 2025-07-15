@@ -7,6 +7,8 @@ import { Tooltip } from '@mui/material';
 import DeleteAssignedPersona from '@/Components/Feature/DeleteAssignedPersona';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import { RowWithPersonasType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow/types.ts';
+import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 import {
   ImageSizeEnum,
   MenuItemIconPositionEnum,
@@ -16,7 +18,7 @@ import {
 
 interface IPersonaImages {
   mapId: number;
-  personas: PersonaType[];
+  personas: PersonaType[] | RowWithPersonasType[];
   disconnectPersona?: (personaId: number) => void;
   handleSelectPersonaItem?: ((id: number) => void) | null;
   disabled?: boolean;

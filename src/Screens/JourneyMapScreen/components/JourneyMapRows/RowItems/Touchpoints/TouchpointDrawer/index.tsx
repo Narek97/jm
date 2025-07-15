@@ -96,7 +96,7 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
     setSelectedTouchpoints(selectedTouchpoints.filter(el => el.uuid !== uuid));
   };
 
-  const onHandleDeleteCustomTouchpoint = (uuid: string) => {
+  const onHandleDeleteCustomTouchpoint = (uuid?: string) => {
     setSelectedCustomTouchpoints(selectedCustomTouchpoints.filter(el => el.uuid !== uuid));
   };
 
@@ -246,7 +246,7 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
                             ? touchpoint.url || ''
                             : `${import.meta.env.VITE_SVG_URL}custom-touchpoints/${touchpoint.key}`
                         }
-                        alt={touchpoint.name}
+                        alt={touchpoint.name || 'Icon'}
                         style={{
                           width: '1rem',
                           height: '1rem',

@@ -46,7 +46,7 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
   const { journeyMap, updateJourneyMap } = useJourneyMapStore();
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [fileName, setFileName] = useState<string>(touchPointData ? touchPointData?.name : '');
+  const [fileName, setFileName] = useState<string>(touchPointData ? touchPointData.name || '' : '');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileExtension, setFileExtension] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(touchPointData?.url || '');

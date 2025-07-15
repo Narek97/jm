@@ -5,6 +5,9 @@ import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { v4 as uuidv4 } from 'uuid';
 
+import { TOUCHPOINT_ITEM_OPTIONS } from '../constants';
+import { TouchPointType } from '../types';
+
 import {
   DeleteTouchPointMutation,
   useDeleteTouchPointMutation,
@@ -17,13 +20,8 @@ import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import TouchpointIcon from '@/assets/public/mapRow/touchpoint.svg';
 import { debounced1 } from '@/hooks/useDebounce';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
-import { TOUCHPOINT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
-import {
-  BoxType,
-  CommentButtonItemType,
-  TouchPointType,
-} from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';

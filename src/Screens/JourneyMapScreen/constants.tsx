@@ -12,12 +12,7 @@ import {
 import { FILE_TYPE_CONFIG } from '@/constants';
 import { FINANCE } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/constants.ts';
 import TouchpointIcons from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/TouchpointDrawer/TouchpointIcons';
-import {
-  BoxType,
-  CommentButtonItemType,
-  JourneyMapTouchpointIconsType,
-  TouchPointType,
-} from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType, TabPanelType, TabType } from '@/types';
 import { FileTypeEnum, TouchpointIconsEnum } from '@/types/enum';
 
@@ -446,73 +441,6 @@ const JOURNEY_MAP_TEXT_FIELD_OPTIONS = ({
   ];
 };
 
-const TOUCHPOINT_OPTIONS = ({
-  onHandleEdit,
-  onHandleDelete,
-}: {
-  onHandleEdit: (data: JourneyMapTouchpointIconsType) => void;
-  onHandleDelete: (data: JourneyMapTouchpointIconsType) => void;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-edit'} />,
-      name: 'Edit',
-      onClick: onHandleEdit,
-    },
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
-
-const TOUCHPOINT_ITEM_OPTIONS = ({
-  onHandleDelete,
-  onHandleChangeBgColor,
-  color,
-}: {
-  onHandleDelete: (data: TouchPointType) => void;
-  onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
-  color?: string;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-    {
-      icon: (
-        <>
-          <label htmlFor="head" className={'custom-vertical-menu--menu-item-content-icon'}>
-            <span className={'wm-colorize'} />
-            <input
-              data-testid={'color-picker'}
-              type={'color'}
-              value={color}
-              id={'head'}
-              onChange={onHandleChangeBgColor}
-              style={{
-                width: 0,
-                opacity: 0,
-              }}
-            />
-          </label>
-        </>
-      ),
-      isColorPicker: true,
-      name: 'Background',
-      label: (
-        <label htmlFor="head" style={{ height: '2rem', lineHeight: '2rem' }}>
-          Background
-        </label>
-      ),
-      onClick: () => {},
-    },
-  ];
-};
-
 const JOURNEY_TOUCHPOINT_SETTINGS_TABS = (customIconCount: number = 0): TabType[] => {
   return [
     {
@@ -627,8 +555,6 @@ export {
   JOURNEY_MAP_VIDEO_OPTIONS,
   JOURNEY_MAP_MEDIA_OPTIONS,
   JOURNEY_MAP_TEXT_FIELD_OPTIONS,
-  TOUCHPOINT_OPTIONS,
-  TOUCHPOINT_ITEM_OPTIONS,
   JOURNEY_TOUCHPOINT_SETTINGS_TABS,
   JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS,
   JOURNEY_MAP_LOADING_ROW,

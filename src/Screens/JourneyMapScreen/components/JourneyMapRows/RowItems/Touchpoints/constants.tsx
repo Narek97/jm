@@ -1,8 +1,12 @@
+import { ChangeEvent } from 'react';
+
 import { v4 as uuidv4 } from 'uuid';
 
+import { TouchPointType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/types.ts';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types.ts';
+import { MenuOptionsType } from '@/types';
 
-export const COMMUNICATION: Array<JourneyMapTouchpointIconsType> = [
+const COMMUNICATION: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Application',
@@ -150,7 +154,7 @@ export const COMMUNICATION: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const FINANCE: Array<JourneyMapTouchpointIconsType> = [
+const FINANCE: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'ATM',
@@ -183,7 +187,7 @@ export const FINANCE: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const HEALTHCARE: Array<JourneyMapTouchpointIconsType> = [
+const HEALTHCARE: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Doctor',
@@ -231,7 +235,7 @@ export const HEALTHCARE: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const RETAIL: Array<JourneyMapTouchpointIconsType> = [
+const RETAIL: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Cart',
@@ -259,7 +263,7 @@ export const RETAIL: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const SALES_MARKETING: Array<JourneyMapTouchpointIconsType> = [
+const SALES_MARKETING: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Advertisement',
@@ -292,7 +296,7 @@ export const SALES_MARKETING: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const SOCIAL_MEDIA: Array<JourneyMapTouchpointIconsType> = [
+const SOCIAL_MEDIA: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Facebook',
@@ -340,7 +344,7 @@ export const SOCIAL_MEDIA: Array<JourneyMapTouchpointIconsType> = [
   },
 ];
 
-export const HUMAN_RESOURCES: Array<JourneyMapTouchpointIconsType> = [
+const HUMAN_RESOURCES: Array<JourneyMapTouchpointIconsType> = [
   {
     id: uuidv4(),
     name: 'Employee Portal',
@@ -397,3 +401,82 @@ export const HUMAN_RESOURCES: Array<JourneyMapTouchpointIconsType> = [
     key: 'human_resources/work_station.svg',
   },
 ];
+
+const TOUCHPOINT_OPTIONS = ({
+  onHandleEdit,
+  onHandleDelete,
+}: {
+  onHandleEdit: (data: JourneyMapTouchpointIconsType) => void;
+  onHandleDelete: (data: JourneyMapTouchpointIconsType) => void;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-edit'} />,
+      name: 'Edit',
+      onClick: onHandleEdit,
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+  ];
+};
+
+const TOUCHPOINT_ITEM_OPTIONS = ({
+  onHandleDelete,
+  onHandleChangeBgColor,
+  color,
+}: {
+  onHandleDelete: (data: TouchPointType) => void;
+  onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
+  color?: string;
+}): Array<MenuOptionsType> => {
+  return [
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+    {
+      icon: (
+        <>
+          <label htmlFor="head" className={'custom-vertical-menu--menu-item-content-icon'}>
+            <span className={'wm-colorize'} />
+            <input
+              data-testid={'color-picker'}
+              type={'color'}
+              value={color}
+              id={'head'}
+              onChange={onHandleChangeBgColor}
+              style={{
+                width: 0,
+                opacity: 0,
+              }}
+            />
+          </label>
+        </>
+      ),
+      isColorPicker: true,
+      name: 'Background',
+      label: (
+        <label htmlFor="head" style={{ height: '2rem', lineHeight: '2rem' }}>
+          Background
+        </label>
+      ),
+      onClick: () => {},
+    },
+  ];
+};
+
+export {
+  COMMUNICATION,
+  FINANCE,
+  HEALTHCARE,
+  RETAIL,
+  SALES_MARKETING,
+  SOCIAL_MEDIA,
+  HUMAN_RESOURCES,
+  TOUCHPOINT_OPTIONS,
+  TOUCHPOINT_ITEM_OPTIONS,
+};

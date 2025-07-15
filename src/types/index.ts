@@ -117,6 +117,8 @@ export type AttachmentType = Pick<
   'id' | 'key' | 'url' | 'name' | 'hasResizedVersions'
 > & {
   croppedArea?: CroppedAreaType | null;
+  uuid?: string;
+  type?: string;
 };
 
 export type JourneyMapNounProjectIconsType = {
