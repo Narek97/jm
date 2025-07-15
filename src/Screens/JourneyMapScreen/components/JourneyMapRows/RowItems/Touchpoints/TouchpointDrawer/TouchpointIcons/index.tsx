@@ -21,7 +21,7 @@ import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { TOUCHPOINT_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types';
 import { useTouchpointsStore } from '@/store/touchpoints.ts';
-import { ObjectKeysType } from '@/types';
+import { AttachmentType, ObjectKeysType } from '@/types';
 import { MenuViewTypeEnum, TouchpointIconsEnum } from '@/types/enum';
 
 interface ITouchpointIcons {
@@ -85,7 +85,7 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
     setSelectedTouchpoints([...selectedTouchpoints, { ...icon, uuid: uuidv4() }]);
   };
 
-  const onHandleSelectCustomTouchpoint = (icon: PersonaGalleryType) => {
+  const onHandleSelectCustomTouchpoint = (icon: AttachmentType) => {
     setSelectedCustomTouchpoints([...selectedCustomTouchpoints, { ...icon, uuid: uuidv4() }]);
   };
 
@@ -186,9 +186,9 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
                     }`}
                     onClick={() => {
                       if (icon.type === 'TOUCHPOINT_ICON') {
-                        onHandleSelectCustomTouchpoint(icon as PersonaGalleryType);
+                        onHandleSelectCustomTouchpoint(icon as AttachmentType);
                       } else {
-                        onHandleSelectTouchpoint(icon as PersonaGalleryType);
+                        onHandleSelectTouchpoint(icon as AttachmentType);
                       }
                     }}>
                     <div className={'touchpoint--menu'}>

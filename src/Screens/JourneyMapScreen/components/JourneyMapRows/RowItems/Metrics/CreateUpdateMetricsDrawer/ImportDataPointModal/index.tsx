@@ -1,20 +1,20 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import './style.scss';
 
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 import * as XLSX from 'xlsx';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomFileUploader from '@/components/atoms/custom-file-uploader/custom-file-uploader';
-import CustomFileUploader2 from '@/components/atoms/custom-file-uploader/custom-file-uploader2';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import ModalHeader from '@/components/molecules/modal-header';
-import { MetricsTypeEnum } from '@/gql/types';
-import Import from '@/public/base-icons/file-import.svg';
-import { EXEL_FILE_TYPES } from '@/utils/constants/general';
-import { CES_TEMPLATE, CSAT_TEMPLATE, NPS_TEMPLATE } from '@/utils/constants/metrics';
-import { ObjectKeysType } from '@/utils/ts/types/global-types';
+import { CES_TEMPLATE, CSAT_TEMPLATE, NPS_TEMPLATE } from '../../constants';
+
+import { MetricsTypeEnum } from '@/api/types.ts';
+import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
+import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { EXEL_FILE_TYPES } from '@/constants';
+import { ObjectKeysType } from '@/types';
 
 interface IImportDataPointModal {
   metricsType: MetricsTypeEnum;
@@ -87,7 +87,7 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
       [MetricsTypeEnum.Ces]: CES_TEMPLATE,
     };
 
-    const ws = XLSX.utils.json_to_sheet(templates[metricsType]);
+    const ws = XLSX.utils.json_to_sheet(templates[metricsType] as Array<ObjectKeysType>);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, `example-${metricsType}.xlsx`);
@@ -99,7 +99,7 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
 
   return (
     <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={true}>
-      <ModalHeader title={'Import data points'} />
+      <CustomModalHeader title={'Import data points'} />
       <div className={'import-data-point-modal'}>
         <p className={'import-data-point-modal--title'}>
           You can import your Excel or CSV files here to upload the data points to your journey.
@@ -124,29 +124,20 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
           className={'import-data-point-modal--file-download'}
           onClick={handleFileExport}>
           <p className={'import-data-point-modal--file-download--title'}>
-            <Import /> Download import template
+            <span className={'wc-data-import'} /> Download import template
           </p>
         </button>
         <div className={'base-modal-footer'}>
-          <CustomButton
-            onClick={handleClose}
-            data-testid="cansel-data-point-test-id"
-            variant={'text'}
-            startIcon={false}
-            style={{
-              textTransform: 'inherit',
-            }}>
+          <WuButton onClick={handleClose} data-testid="cansel-data-point-test-id">
             Cancel
-          </CustomButton>
-          <CustomButton
+          </WuButton>
+          <WuButton
             type={'submit'}
             data-testid="next-data-point-btn-test-id"
-            variant={'contained'}
-            startIcon={false}
             disabled={!isFileUpload}
             onClick={onHandleNext}>
             Next
-          </CustomButton>
+          </WuButton>
         </div>
       </div>
     </CustomModal>

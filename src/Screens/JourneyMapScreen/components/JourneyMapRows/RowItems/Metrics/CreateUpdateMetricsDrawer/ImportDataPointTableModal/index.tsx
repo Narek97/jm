@@ -1,28 +1,24 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import CustomTable from '@/components/atoms/custom-table/custom-table';
-import ModalHeader from '@/components/molecules/modal-header';
-import { MetricsTypeEnum } from '@/gql/types';
-import { METRICS_DATA_POINT_EXEL_OPTIONS } from '@/utils/constants/options';
+import { DatapointType } from '../../types';
+
+import { MetricsTypeEnum } from '@/api/types';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import CustomTable from '@/Components/Shared/CustomTable';
 import {
   METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS,
   METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS,
   METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS,
-} from '@/utils/constants/table';
-import { isValidNumberFormat } from '@/utils/helpers/general';
-import {
-  ObjectKeysType,
-  TableColumnType,
-  TableRowItemChangeType,
-} from '@/utils/ts/types/global-types';
-import { DatapointType } from '@/utils/ts/types/metrics/metrics-type';
+  METRICS_DATA_POINT_EXEL_OPTIONS,
+} from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
+import { ObjectKeysType, TableColumnType, TableRowItemChangeType } from '@/types';
+import { isValidNumberFormat } from '@/utils/isValidNumberFormat';
 
 interface IImportDataPointTableModal {
   metricsType: MetricsTypeEnum;
@@ -89,12 +85,14 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
   const onHandleSaveDataPoint = () => {
     let isError = false;
     rows.forEach(object => {
-      for (let key in object) {
+      for (const key in object) {
         if (key !== 'id') {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           if (key.toLowerCase() === 'date' && typeof object[key] !== 'string') {
             isError = true;
           }
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           if (key.toLowerCase() !== 'date' && typeof object[key] !== 'number') {
             isError = true;
@@ -164,7 +162,7 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
       handleClose={handleClose}
       canCloseWithOutsideClick={true}
       modalSize={'lg'}>
-      <ModalHeader title={'Map data points'} />
+      <CustomModalHeader title={'Map data points'} />
       <div className={'import-data-point-table-modal'}>
         <p className={'import-data-point-table-modal--title'}>
           Remap your data before importing it into your new metric
@@ -174,23 +172,13 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
         </div>
 
         <div className={'base-modal-footer'}>
-          <CustomButton
-            onClick={handleClose}
-            variant={'text'}
-            startIcon={false}
-            style={{
-              textTransform: 'inherit',
-            }}>
-            Cancel
-          </CustomButton>
-          <CustomButton
+          <WuButton onClick={handleClose}>Cancel</WuButton>
+          <WuButton
             type={'submit'}
             data-testid="submit-outcome-test-id"
-            variant={'contained'}
-            startIcon={false}
             onClick={onHandleSaveDataPoint}>
             Save
-          </CustomButton>
+          </WuButton>
         </div>
       </div>
     </CustomModal>

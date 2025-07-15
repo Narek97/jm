@@ -1,49 +1,42 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import { Skeleton, Tooltip } from '@mui/material';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomPieChart from '@/components/atoms/custom-pie-chart/custom-pie-chart';
-import CardHeader from '@/containers/journey-map-container/journey-map-rows/card-header';
-import { useDeleteMetricsMutation } from '@/gql/mutations/generated/deleteMetrics.generated';
+import {
+  DeleteMetricsMutation,
+  useDeleteMetricsMutation,
+} from '@/api/mutations/generated/deleteMetrics.generated';
 import {
   CommentAndNoteModelsEnum,
   MapCardTypeEnum,
   MetricsDateRangeEnum,
   MetricsSourceEnum,
   MetricsTypeEnum,
-} from '@/gql/types';
-import BottomArrowIcon from '@/public/base-icons/bottom-arrow.svg';
-import CalendarIcon from '@/public/base-icons/calendar.svg';
-import InfoIcon from '@/public/base-icons/info.svg';
-import GoalIcon from '@/public/journey-map/goal.svg';
-import GoalArrowIcon from '@/public/journey-map/goal_arrow.svg';
-import MetricsIcon from '@/public/journey-map/metrics.svg';
-import NpsArrowIcon from '@/public/journey-map/nps_arrow.svg';
-import { noteStateFamily } from '@/store/atoms/note.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import { userState } from '@/store/atoms/user.atom';
-import { JOURNEY_MAP_METRICS_OPTIONS } from '@/utils/constants/options';
-import { scaleValue } from '@/utils/helpers/general';
-import { getCurrentAndPreviousWeekDates } from '@/utils/helpers/get-current-and-previous-week-dates';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-} from '@/utils/ts/enums/global-enums';
-import { ObjectKeysType } from '@/utils/ts/types/global-types';
-import { BoxItemType, MetricsType } from '@/utils/ts/types/journey-map/journey-map-types';
+} from '@/api/types.ts';
+import GoalIcon from '@/assets/public/base/goal.svg';
+import GoalArrowIcon from '@/assets/public/base/goalArrow.svg';
+import NpsArrowIcon from '@/assets/public/base/npsArrow.svg';
+import MetricsIcon from '@/assets/public/mapRow/metrics.svg';
+import CustomPieChart from '@/Components/Shared/CustomPieChart';
+import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
+import { JOURNEY_MAP_METRICS_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
+import { MetricsType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useUserStore } from '@/store/user.ts';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
+import { getCurrentAndPreviousWeekDates } from '@/utils/getCurrentAndPreviousWeekDates.ts';
 
 interface IMetricsCard {
   metrics: MetricsType;
+  boxItem: BoxType;
   disabled: boolean;
-  rowItem: BoxItemType;
-  dragHandleProps: ObjectKeysType;
   onHandleToggleCreateMetricsDrawer: (
     columnId?: number,
     stepId?: number,
@@ -54,21 +47,20 @@ interface IMetricsCard {
     action: ActionsEnum,
     data: any,
   ) => void;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const MetricsCard: FC<IMetricsCard> = memo(
   ({
     metrics,
     disabled,
-    rowItem,
-    dragHandleProps,
+    boxItem,
     onHandleToggleCreateMetricsDrawer,
     onHandleUpdateMapByType,
+    dragHandleProps,
   }) => {
-    const user = useRecoilValue(userState);
-
-    const setUndoActions = useSetRecoilState(undoActionsState);
-    const setRedoActions = useSetRecoilState(redoActionsState);
+    const { user } = useUserStore();
+    const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [answers, setAnswers] = useState<
@@ -81,11 +73,11 @@ const MetricsCard: FC<IMetricsCard> = memo(
     const [isPastAnswersLoading, setIsPastAnswersLoading] = useState<boolean>(false);
     const [isActiveMode, setIsActiveMode] = useState<boolean>(false);
 
-    const noteData = useRecoilValue(
-      noteStateFamily({ type: CommentAndNoteModelsEnum.Metrics, id: metrics.id }),
-    );
-    const hasNote = noteData ? noteData?.text.length : metrics.note?.text.length;
-
+    // const noteData = useRecoilValue(
+    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Metrics, id: metrics.id }),
+    // );
+    // const hasNote = noteData ? noteData?.text.length : metrics.note?.text.length;
+    const hasNote = false;
     const getMetricsValue = () => {
       if (metrics.source === MetricsSourceEnum.Custom) {
         return metrics.value || 0;
@@ -120,6 +112,16 @@ const MetricsCard: FC<IMetricsCard> = memo(
       }
     };
 
+    const scaleValue = (
+      value: number,
+      inputMin: number,
+      inputMax: number,
+      outputMin: number,
+      outputMax: number,
+    ): number => {
+      return ((value - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
+    };
+
     const metricsValue = getMetricsValue();
     const pastMetricsValue = getPastMetricsValue();
     const scaledValue = scaleValue(metricsValue, -100, 100, 0, 100); // Precompute the scaled value
@@ -129,18 +131,18 @@ const MetricsCard: FC<IMetricsCard> = memo(
         ? metricsValue - pastMetricsValue
         : metrics.overall;
 
-    const { mutate: removeBoxMetrics, isLoading: isLoadingCreateMetrics } =
-      useDeleteMetricsMutation({
+    const { mutate: removeBoxMetrics, isPending: isLoadingCreateMetrics } =
+      useDeleteMetricsMutation<Error, DeleteMetricsMutation>({
         onSuccess: () => {
           const data = {
             ...metrics,
-            stepId: rowItem.step.id,
+            stepId: boxItem.step?.id || 0,
           };
 
           onHandleUpdateMapByType(JourneyMapRowTypesEnum.METRICS, ActionsEnum.DELETE, data);
-          setRedoActions([]);
-          setUndoActions(undoPrev => [
-            ...undoPrev,
+          updateRedoActions([]);
+          updateUndoActions([
+            ...undoActions,
             {
               id: uuidv4(),
               type: JourneyMapRowTypesEnum.METRICS,
@@ -155,20 +157,20 @@ const MetricsCard: FC<IMetricsCard> = memo(
       async (startDate: string | null = null, endDate: string | null = null) => {
         setIsAnswersLoading(true);
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_QP_API}/surveys/${metrics.surveyId}/questions/${metrics.questionId}/analytics`,
+          `${import.meta.env.VITE_QP_API}}/surveys/${metrics.surveyId}/questions/${metrics.questionId}/analytics`,
           {
             startDate,
             endDate,
           },
           {
             headers: {
-              'api-key': user.userAPIKey,
+              'api-key': user?.userAPIKey,
             },
           },
         );
         return res.data.response;
       },
-      [metrics.questionId, metrics.surveyId, user.userAPIKey],
+      [metrics.questionId, metrics.surveyId, user?.userAPIKey],
     );
 
     const calcMetricsStartAndEndDate = useCallback(
@@ -281,8 +283,8 @@ const MetricsCard: FC<IMetricsCard> = memo(
     };
 
     const onHandleEditMetricsItem = useCallback(() => {
-      onHandleToggleCreateMetricsDrawer(rowItem.columnId, rowItem.step.id, metrics);
-    }, [metrics, onHandleToggleCreateMetricsDrawer, rowItem.columnId, rowItem.step.id]);
+      onHandleToggleCreateMetricsDrawer(boxItem.columnId, boxItem.step?.id, metrics);
+    }, [metrics, onHandleToggleCreateMetricsDrawer, boxItem.columnId, boxItem.step?.id]);
 
     const onHandleDeleteMetricsItem = useCallback(() => {
       removeBoxMetrics({
@@ -302,11 +304,11 @@ const MetricsCard: FC<IMetricsCard> = memo(
     }, [onHandleDeleteMetricsItem, onHandleEditMetricsItem]);
 
     const commentRelatedData = {
-      title: rowItem?.boxTextElement?.text || '',
+      title: boxItem.boxTextElement?.text || '',
       itemId: metrics.id,
       rowId: metrics.rowId,
-      columnId: rowItem.columnId!,
-      stepId: rowItem.step.id,
+      columnId: boxItem.columnId,
+      stepId: boxItem.step?.id || 0,
       type: CommentAndNoteModelsEnum.Metrics,
     };
 
@@ -341,7 +343,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
 
         <CardHeader
           cardType={MapCardTypeEnum.Metrics}
-          icon={<MetricsIcon />}
+          icon={<img className={'w-1/2'} src={MetricsIcon} alt="Metrics" />}
           changeActiveMode={isActive => {
             setIsActiveMode(isActive);
           }}
@@ -358,7 +360,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
             id: metrics.id,
             type: CommentAndNoteModelsEnum.Metrics,
             rowId: metrics.rowId,
-            stepId: rowItem?.step.id,
+            stepId: boxItem.step?.id || 0,
             onHandleOpenNote: onHandleToggleNote,
             onClickAway: onHandleToggleNote,
             hasValue: Boolean(hasNote),
@@ -369,8 +371,8 @@ const MetricsCard: FC<IMetricsCard> = memo(
           }}
           attachedTagsCount={metrics?.tagsCount || 0}
           createTagItemAttrs={{
-            columnId: rowItem.columnId!,
-            stepId: rowItem.step.id,
+            columnId: boxItem.columnId,
+            stepId: boxItem.step?.id || 0,
             rowId: metrics.rowId,
           }}
           menu={{
@@ -390,7 +392,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
             {metrics.description && metrics.descriptionEnabled && (
               <Tooltip title={metrics.description} placement="right" arrow data-testid="tooltip">
                 <div className={'metrics-item--description'}>
-                  <InfoIcon />
+                  <span className={'wm-info'} />
                 </div>
               </Tooltip>
             )}
@@ -399,7 +401,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
           <div className={'metrics-item--score-block'}>
             <div className={'metrics-item--goal-date-block'}>
               <div className={'metrics-item--goal-block'}>
-                <GoalIcon />
+                <img src={GoalIcon} alt="GoalIcon" />
                 <p>Goal:</p>
                 <span data-testid={'metrics-card-goal'}>{metrics.goal}</span>
               </div>
@@ -408,10 +410,10 @@ const MetricsCard: FC<IMetricsCard> = memo(
                   <Skeleton width={40} />
                 ) : (
                   <>
-                    <CalendarIcon />
+                    <span className={'wm-calendar-month'} />
 
                     <span className={'metrics-item--nps-date-range'}>
-                      {getCurrentDateRange(metrics.dateRange)}:
+                      {getCurrentDateRange(metrics.dateRange || MetricsDateRangeEnum.Daily)}:
                     </span>
                     <span
                       className={`${
@@ -419,7 +421,12 @@ const MetricsCard: FC<IMetricsCard> = memo(
                           ? 'metrics-item--nps-positive'
                           : 'metrics-item--nps-negative'
                       }`}>
-                      <BottomArrowIcon fill={metricsAverage >= 0 ? '#545E6B' : '#e53251'} />
+                      <span
+                        className={'wm-arrow-drop-down'}
+                        style={{
+                          color: metricsAverage >= 0 ? '#545E6B' : '#e53251',
+                        }}
+                      />
                     </span>
                     <span
                       className={`${
@@ -482,18 +489,22 @@ const MetricsCard: FC<IMetricsCard> = memo(
                       </div>
                     </div>
                     <>
-                      <NpsArrowIcon
-                        className={'metrics-item--chart-block--nps-arrow'}
+                      <img
+                        src={NpsArrowIcon}
+                        alt="NpsArrowIcon"
+                        className={'metrics-item--chart-block--goal-arrow'}
                         style={{
-                          transform: `rotate(${calculateOutput(metricsValue)}deg)`,
+                          transform: `rotate(${calculateOutput(metrics.goal || 0)}deg)`,
                         }}
                       />
                     </>
                     <>
-                      <GoalArrowIcon
+                      <img
+                        src={GoalArrowIcon}
+                        alt="GoalArrowIcon"
                         className={'metrics-item--chart-block--goal-arrow'}
                         style={{
-                          transform: `rotate(${calculateOutput(metrics.goal)}deg)`,
+                          transform: `rotate(${calculateOutput(metrics.goal || 0)}deg)`,
                         }}
                       />
                     </>

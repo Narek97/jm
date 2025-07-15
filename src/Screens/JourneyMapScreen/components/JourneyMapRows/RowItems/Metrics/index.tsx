@@ -3,29 +3,26 @@ import React, { FC, useCallback, useState } from 'react';
 import './style.scss';
 
 import { Draggable, Droppable } from '@hello-pangea/dnd';
-import Drawer from '@mui/material/Drawer';
-import { useRecoilValue } from 'recoil';
+import { Drawer } from '@mui/material';
 
-import CustomLoader from '@/components/molecules/custom-loader/custom-loader';
-import ErrorBoundary from '@/components/templates/error-boundary';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import AddRowBoxElementBtn from '@/containers/journey-map-container/journey-map-rows/add-row-box-element-btn';
-import MergeColumnsButton from '@/containers/journey-map-container/journey-map-rows/merge-columns-btn';
-import CreateUpdateMetricsDrawer from '@/containers/journey-map-container/journey-map-rows/row-types/metrics/create-update-metrics-drawer';
-import MetricsCard from '@/containers/journey-map-container/journey-map-rows/row-types/metrics/metrics-card';
-import UnMergeColumnsButton from '@/containers/journey-map-container/journey-map-rows/unmerge-columns-btn';
-import { journeyMapState } from '@/store/atoms/journeyMap.atom';
-import { currentLayerState } from '@/store/atoms/layers.atom';
-import { findPreviousBox, getConnectionDetails } from '@/utils/helpers/general';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-} from '@/utils/ts/enums/global-enums';
-import { JourneyMapRowType, MetricsType } from '@/utils/ts/types/journey-map/journey-map-types';
+import MetricsCard from './MetricsCard';
+import AddRowBoxElementBtn from '../../components/AddRowBoxElementBtn';
 
-import CardFlip from '../../../../../components/molecules/card-flip';
-import MapItemBackCard from '../../../../../components/organisms/map-item-back-card';
+import CardFlip from '@/Components/Shared/CardFlip';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
+import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
+import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
+import CreateUpdateMetricsDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/CreateUpdateMetricsDrawer';
+import { MetricsType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
+import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
+import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useLayerStore } from '@/store/layers.ts';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum.ts';
 
 interface IMetrics {
   width: number;
@@ -37,8 +34,9 @@ interface IMetrics {
 const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
   const { updateMapByType } = useUpdateMap();
 
-  const journeyMap = useRecoilValue(journeyMapState);
-  const currentLayer = useRecoilValue(currentLayerState);
+  const { journeyMap } = useJourneyMapStore();
+  const { currentLayer } = useLayerStore();
+
   const isLayerModeOn = !currentLayer?.isBase;
 
   const [isOpenCreateMetricsDrawer, setIsOpenCreateMetricsDrawer] = useState<boolean>(false);
@@ -60,8 +58,7 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
     (type: JourneyMapRowActionEnum | JourneyMapRowTypesEnum, action: ActionsEnum, data: any) => {
       updateMapByType(type, action, data);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [updateMapByType],
   );
 
   return (
@@ -79,12 +76,12 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
         />
       </Drawer>
 
-      {row?.boxes?.map((rowItem, boxIndex) => (
+      {row?.boxes?.map((boxItem: BoxType, boxIndex) => (
         <React.Fragment
           key={`${JourneyMapRowTypesEnum.METRICS}*${rowIndex}*${String(row.id)}*${boxIndex}`}>
-          {!!rowItem.mergeCount && (
+          {!!boxItem.mergeCount && (
             <>
-              {rowItem.isLoading ? (
+              {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'}>
                   <CustomLoader />
                 </div>
@@ -92,7 +89,7 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                 <Droppable
                   droppableId={`${JourneyMapRowTypesEnum.METRICS}*${rowIndex}*${String(
                     row.id,
-                  )}*${boxIndex}*${rowItem.step.id}`}
+                  )}*${boxIndex}*${boxItem.step?.id}`}
                   key={`${JourneyMapRowTypesEnum.METRICS}*${rowIndex}*${String(row.id)}*${boxIndex}`}
                   type={JourneyMapRowTypesEnum.METRICS}>
                   {provided => (
@@ -102,11 +99,11 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                       className={'journey-map-metrics--column'}
                       data-testid={`metrics-column-${boxIndex}-test-id`}
                       style={{
-                        width: `${rowItem.mergeCount * width + rowItem.mergeCount - 1}px`,
+                        width: `${boxItem.mergeCount * width + boxItem.mergeCount - 1}px`,
                         minWidth: `${width}px`,
                       }}>
                       <div className={'journey-map-metrics--column--item map-item'}>
-                        {rowItem?.metrics?.map((metrics, metricsIndex: number) => {
+                        {boxItem.metrics?.map((metrics, metricsIndex: number) => {
                           return (
                             <Draggable
                               key={
@@ -125,7 +122,9 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                                 return (
                                   <div
                                     {...provided2.draggableProps}
+                                    id={`metrics-item-${metrics?.id}`}
                                     className={'journey-map-metrics--card'}
+                                    data-testid={'metrics-item-test-id'}
                                     ref={provided2.innerRef}>
                                     <CardFlip
                                       cardId={`${row.id}-${metrics.id}`}
@@ -134,22 +133,22 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                                         <ErrorBoundary>
                                           <MetricsCard
                                             metrics={metrics}
-                                            rowItem={rowItem}
+                                            boxItem={boxItem}
                                             disabled={disabled}
-                                            dragHandleProps={provided2.dragHandleProps!}
                                             onHandleToggleCreateMetricsDrawer={
                                               onHandleToggleCreateMetricsDrawer
                                             }
                                             onHandleUpdateMapByType={onHandleUpdateMapByType}
+                                            dragHandleProps={provided2.dragHandleProps}
                                           />
                                         </ErrorBoundary>
                                       }
                                       backCard={
-                                        <MapItemBackCard
+                                        <MapRowItemBackCard
                                           className={`journey-map-metrics--back-card`}
-                                          annotationValue={metrics.flippedText}
+                                          annotationValue={metrics.flippedText || ''}
                                           rowId={row.id}
-                                          stepId={rowItem.step.id}
+                                          stepId={boxItem.step?.id || 0}
                                           itemId={metrics.id}
                                           itemKey={'metrics'}
                                         />
@@ -162,20 +161,20 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                           );
                         })}
                         <div
-                          className={`${rowItem?.metrics.length ? 'unmerge-btn-section-elements-type' : 'box-controls-container--blank-type'}`}>
+                          className={`${boxItem.metrics.length ? 'unmerge-btn-section-elements-type' : 'box-controls-container--blank-type'}`}>
                           <AddRowBoxElementBtn
-                            itemsLength={rowItem?.metrics.length}
+                            itemsLength={boxItem.metrics.length}
                             label={row?.label?.toLowerCase() || ''}
                             boxIndex={boxIndex}
                             handleClick={() => {
-                              onHandleToggleCreateMetricsDrawer(rowItem.columnId, rowItem.step.id);
+                              onHandleToggleCreateMetricsDrawer(boxItem.columnId, boxItem.step?.id);
                             }}
                           />
-                          {rowItem.mergeCount > 1 && row.boxes && !isLayerModeOn && (
+                          {boxItem.mergeCount > 1 && row.boxes && !isLayerModeOn && (
                             <UnMergeColumnsButton
-                              boxIndex={rowItem.mergeCount - 1 + boxIndex}
+                              boxIndex={boxItem.mergeCount - 1 + boxIndex}
                               rowId={row?.id}
-                              rowItem={row.boxes[boxIndex + rowItem.mergeCount - 1]}
+                              boxItem={row.boxes[boxIndex + boxItem.mergeCount - 1]}
                               boxes={row?.boxes}
                             />
                           )}
@@ -187,12 +186,12 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
                             row.boxes[boxIndex - 1],
                             journeyMap,
                           )}
-                          connectionEnd={getConnectionDetails(rowItem, journeyMap)}
+                          connectionEnd={getConnectionDetails(boxItem, journeyMap)}
                           rowId={row?.id}
                           previousBoxDetails={findPreviousBox(row.boxes, boxIndex)}
-                          endStepId={rowItem?.step?.id!}
-                          endColumnId={rowItem?.columnId!}
-                          endBoxMergeCount={rowItem.mergeCount}
+                          endStepId={boxItem.step?.id || 0}
+                          endColumnId={boxItem.columnId!}
+                          endBoxMergeCount={boxItem.mergeCount}
                         />
                       )}
                       {provided.placeholder}

@@ -130,7 +130,7 @@ const LinkItem: FC<ILinkItem> = memo(
     });
 
     const getLinkHref = () => {
-      let url = `${process.env.NEXT_PUBLIC_APP}/board/${boardID}/journey-map/${link.linkedMapId}`;
+      let url = `${import.meta.env.VITE_API_URL}/graphql/board/${boardID}/journey-map/${link.linkedMapId}`;
       if (!token) {
         url += '/guest';
       }

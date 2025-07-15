@@ -8,6 +8,7 @@ import { MapRowTypeEnum } from '@/api/types';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import Divider from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Divider';
+import Metrics from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics';
 import RowImages from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages';
 import RowMedias from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias';
 import RowTextFields from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowTextFields';
@@ -168,11 +169,11 @@ const JourneyMapRegularRow: FC<IJourneyMapRow> = memo(
                   <Touchpoints width={279} row={rowItem} rowIndex={index} disabled={disabled} />
                 </ErrorBoundary>
               ),
-              // [JourneyMapRowTypesEnum.METRICS]: (
-              //   <ErrorBoundary>
-              //     <Metrics width={279} row={rowItem} rowIndex={index} disabled={disabled} />
-              //   </ErrorBoundary>
-              // ),
+              [JourneyMapRowTypesEnum.METRICS]: (
+                <ErrorBoundary>
+                  <Metrics width={279} row={rowItem} rowIndex={index} disabled={disabled} />
+                </ErrorBoundary>
+              ),
               // [JourneyMapRowTypesEnum.OUTCOMES]: (
               //   <ErrorBoundary>
               //     <Outcomes width={279} row={rowItem} rowIndex={index} disabled={disabled} />

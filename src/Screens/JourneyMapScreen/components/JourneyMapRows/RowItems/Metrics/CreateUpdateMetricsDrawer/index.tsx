@@ -1,58 +1,30 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import dynamic from 'next/dynamic';
-import { useParams } from 'next/navigation';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Switch } from '@mui/material';
-import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useParams } from '@tanstack/react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 import { Controller, useForm } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomDatePicker from '@/components/atoms/custom-date-picker/custom-date-picker';
-import CustomDropDown from '@/components/atoms/custom-drop-down/custom-drop-down';
-import CustomInput from '@/components/atoms/custom-input/custom-input';
-import CustomPopover from '@/components/atoms/custom-popover/custom-popover';
-import CustomTable from '@/components/atoms/custom-table/custom-table';
-import CustomLoader from '@/components/molecules/custom-loader/custom-loader';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import { useCreateMetricsMutation } from '@/gql/mutations/generated/createMetrics.generated';
 import {
-  UpdateMetricsMutation,
-  useUpdateMetricsMutation,
-} from '@/gql/mutations/generated/updateMetrics.generated';
-import { useGetCustomMetricsItemsQuery } from '@/gql/queries/generated/getCustomMetricsItems.generated';
-import { useGetDataPointsQuery } from '@/gql/queries/generated/getDataPoints.generated';
-import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/gql/types';
-import CalendarIcon from '@/public/base-icons/calendar.svg';
-import { selectedJourneyMapPersona } from '@/store/atoms/journeyMap.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import { userState } from '@/store/atoms/user.atom';
-import { workspaceState } from '@/store/atoms/workspace.atom';
-import {
-  metricsSourceItems,
-  metricsTrackItems,
-  metricsTypeItems,
-} from '@/utils/constants/dropdown';
-import { CREATE_METRICS_VALIDATION_SCHEMA } from '@/utils/constants/form/yup-validation';
-import { METRICS_DEFAULT_DATA } from '@/utils/constants/metrics';
-import { CUSTOM_METRICS_OPTIONS, METRICS_DATA_POINT_EXEL_OPTIONS } from '@/utils/constants/options';
-import {
+  CREATE_METRICS_VALIDATION_SCHEMA,
+  CUSTOM_METRICS_OPTIONS,
   CUSTOM_METRICS_TABLE_COLUMNS,
   METRIC_CES_DATA_POINT_TABLE_COLUMNS,
   METRIC_CSAT_DATA_POINT_TABLE_COLUMNS,
   METRIC_NPS_DATA_POINT_TABLE_COLUMNS,
-} from '@/utils/constants/table';
-import { ActionsEnum, JourneyMapRowTypesEnum } from '@/utils/ts/enums/global-enums';
-import { ObjectKeysType, TableColumnType } from '@/utils/ts/types/global-types';
-import { MetricsType } from '@/utils/ts/types/journey-map/journey-map-types';
+  METRICS_DATA_POINT_EXEL_OPTIONS,
+  METRICS_DEFAULT_DATA,
+  METRICS_SOURCE_ITEM,
+  METRICS_TRACK_ITEM,
+  METRICS_TYPE_ITEM,
+} from '../constants';
 import {
   CesType,
   CsatType,
@@ -61,21 +33,43 @@ import {
   MetricsFormType,
   MetricsSurveyItemType,
   MetricsSurveyQuestionItemType,
+  MetricsType,
   NpsType,
-} from '@/utils/ts/types/metrics/metrics-type';
+} from '../types';
 
-import ModalHeader from '../../../../../../components/molecules/modal-header';
+import {
+  CreateMetricsMutation,
+  useCreateMetricsMutation,
+} from '@/api/mutations/generated/createMetrics.generated';
+import {
+  UpdateMetricsMutation,
+  useUpdateMetricsMutation,
+} from '@/api/mutations/generated/updateMetrics.generated';
+import { useGetCustomMetricsItemsQuery } from '@/api/queries/generated/getCustomMetricsItems.generated';
+import {
+  GetDataPointsQuery,
+  useGetDataPointsQuery,
+} from '@/api/queries/generated/getDataPoints.generated.ts';
+import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/types';
+import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
+import CustomDropDown from '@/Components/Shared/CustomDropDown';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import CustomPopover from '@/Components/Shared/CustomPopover';
+import CustomTable from '@/Components/Shared/CustomTable';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
+import { useJourneyMapStore } from '@/store/journeyMap';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useUserStore } from '@/store/user.ts';
+import { useWorkspaceStore } from '@/store/workspace.ts';
+import { ObjectKeysType, TableColumnType } from '@/types';
+import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 
-const AddDataPointModal = dynamic(() => import('./add-data-point-modal'), {
-  ssr: false,
-});
-const AddCustomMetricsModal = dynamic(() => import('./add-custom-metrics-modal'), {
-  ssr: false,
-});
-const ImportDataPointModal = dynamic(() => import('./import-data-point-modal'), { ssr: false });
-const ImportDataPointTableModal = dynamic(() => import('./import-data-point-table-modal'), {
-  ssr: false,
-});
+const AddDataPointModal = lazy(() => import('./AddDataPointModal/index.tsx'));
+const AddCustomMetricsModal = lazy(() => import('./AddCustomMetricsModal/index.tsx'));
+const ImportDataPointModal = lazy(() => import('./ImportDataPointModal/index.tsx'));
+const ImportDataPointTableModal = lazy(() => import('./ImportDataPointTableModal/index.tsx'));
 
 dayjs.extend(fromNow);
 
@@ -96,22 +90,25 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
   selectedMetrics,
   onHandleCloseDrawer,
 }) => {
-  const { mapID } = useParams();
+  const { mapId } = useParams({
+    from: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/',
+  });
+
   const { updateMapByType } = useUpdateMap();
 
-  const user = useRecoilValue(userState);
-  const workspace = useRecoilValue(workspaceState);
-  const selectedPerson = useRecoilValue(selectedJourneyMapPersona);
-  const setUndoActions = useSetRecoilState(undoActionsState);
-  const setRedoActions = useSetRecoilState(redoActionsState);
   const { showToast } = useWuShowToast();
+
+  const { user } = useUserStore();
+  const { workspace } = useWorkspaceStore();
+  const { selectedJourneyMapPersona } = useJourneyMapStore();
+  const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(initialEndDate);
   const [surveys, setSurveys] = useState<Array<MetricsSurveyItemType>>([]);
   const [questions, setQuestions] = useState<Array<MetricsSurveyQuestionItemType>>([]);
-  const [datapointFile, setDatapointFile] = useState<ObjectKeysType[]>([]);
   const [dataPoints, setDataPoints] = useState<Array<DatapointType>>([]);
+  const [datapointFile, setDatapointFile] = useState<ObjectKeysType[]>([]);
   const [customMetrics, setCustomMetrics] = useState<Array<CustomMetricsType>>([]);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState<boolean>(false);
   const [isOpenAddDataPointModal, setIsOpenAddDataPointModal] = useState<boolean>(false);
@@ -122,32 +119,35 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
   const [deletedDataPointsIds, setDeletedDataPointsIds] = useState<Array<number>>([]);
   const [deletedCustomMetricsIds, setDeletedCustomMetricsIds] = useState<Array<number>>([]);
 
-  const { data: dataDataPoints, isLoading: isLoadingDataPoint } = useGetDataPointsQuery(
+  const { data: dataDataPoints, isLoading: isLoadingDataPoint } = useGetDataPointsQuery<
+    GetDataPointsQuery,
+    Error
+  >(
     {
       getDataPointsInput: {
-        metricsId: selectedMetrics?.id!,
-        type: selectedMetrics?.type!,
+        metricsId: selectedMetrics?.id || 0,
+        type: selectedMetrics?.type || MetricsTypeEnum.Nps,
         offset: 0,
         limit: 100,
       },
     },
     {
-      enabled: selectedMetrics?.source === MetricsSourceEnum.Manual,
+      enabled: !!selectedMetrics && selectedMetrics.source === MetricsSourceEnum.Manual,
     },
   );
 
   const { data: dataCustomMetricsItems, isLoading: isLoadingCustomMetricsItems } =
     useGetCustomMetricsItemsQuery(
       {
-        metricsId: selectedMetrics?.id!,
+        metricsId: selectedMetrics?.id || 0,
       },
       {
-        enabled: selectedMetrics?.source === MetricsSourceEnum.Custom,
+        enabled: !!selectedMetrics && selectedMetrics.source === MetricsSourceEnum.Custom,
       },
     );
 
-  const { mutate: mutateCreateMetrics, isLoading: isLoadingCreateMetrics } =
-    useCreateMetricsMutation({
+  const { mutate: mutateCreateMetrics, isPending: isLoadingCreateMetrics } =
+    useCreateMetricsMutation<Error, CreateMetricsMutation>({
       onSuccess: response => {
         const data = {
           stepId: selectedStepId,
@@ -155,9 +155,9 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
         };
 
         updateMapByType(JourneyMapRowTypesEnum.METRICS, ActionsEnum.CREATE, data);
-        setRedoActions([]);
-        setUndoActions(undoPrev => [
-          ...undoPrev,
+        updateRedoActions([]);
+        updateUndoActions([
+          ...undoActions,
           {
             id: uuidv4(),
             type: JourneyMapRowTypesEnum.METRICS,
@@ -167,7 +167,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
         ]);
         onHandleCloseDrawer();
       },
-      onError: (error: any) => {
+      onError: error => {
         showToast({
           message: error?.message,
           variant: 'error',
@@ -175,33 +175,40 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
       },
     });
 
-  const { mutate: mutateUpdateMetrics, isLoading: isLoadingUpdateMetrics } =
-    useUpdateMetricsMutation();
+  const { mutate: mutateUpdateMetrics, isPending: isLoadingUpdateMetrics } =
+    useUpdateMetricsMutation<Error, UpdateMetricsMutation>({
+      onError: error => {
+        showToast({
+          message: error?.message,
+          variant: 'error',
+        });
+      },
+    });
 
   const getSurveys = useCallback(async () => {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_QP_API}/cx/feedbacks/${workspace.feedbackId}/surveys`,
+      `${import.meta.env.VITE_QP_API}/cx/feedbacks/${workspace?.feedbackId}/surveys`,
       {
         headers: {
-          'api-key': user.userAPIKey,
+          'api-key': user?.userAPIKey,
         },
       },
     );
     setSurveys(res.data?.response || []);
-  }, [user.userAPIKey, workspace.feedbackId]);
+  }, [user?.userAPIKey, workspace?.feedbackId]);
 
   const getQuestions = useCallback(
     async (id: number) => {
       setIsLoadingQuestions(true);
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_QP_API}/surveys/${id}/questions`, {
+      const res = await axios.get(`${import.meta.env.VITE_QP_API}/surveys/${id}/questions`, {
         headers: {
-          'api-key': user.userAPIKey,
+          'api-key': user?.userAPIKey,
         },
       });
       setQuestions(res.data.response);
       setIsLoadingQuestions(false);
     },
-    [user.userAPIKey],
+    [user?.userAPIKey],
   );
 
   const {
@@ -222,7 +229,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
   const dateRange = watch('dateRange');
 
   const filterType: ObjectKeysType = {
-    NPS: 'net_promoter_score',
+    NPS: ['net_promoter_score'],
     CSAT: [
       'customer_satisfaction_numeric',
       'customer_satisfaction_star',
@@ -308,9 +315,9 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
     };
 
     updateMapByType(JourneyMapRowTypesEnum.METRICS, ActionsEnum.UPDATE, data);
-    setRedoActions([]);
-    setUndoActions(undoPrev => [
-      ...undoPrev,
+    updateRedoActions([]);
+    updateUndoActions([
+      ...undoActions,
       {
         id: uuidv4(),
         type: JourneyMapRowTypesEnum.METRICS,
@@ -480,9 +487,9 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
               dateRange: formData.dateRange || MetricsDateRangeEnum.Custom,
               columnId: selectedColumnId,
               rowId: rowItemID,
-              mapId: +mapID!,
+              mapId: +mapId,
               stepId: selectedStepId,
-              personaId: selectedPerson?.id || null,
+              personaId: selectedJourneyMapPersona?.id || null,
             },
           });
           break;
@@ -497,9 +504,9 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
               dateRange: formData.dateRange || MetricsDateRangeEnum.Custom,
               columnId: selectedColumnId,
               rowId: rowItemID,
-              mapId: +mapID!,
+              mapId: +mapId,
               stepId: selectedStepId,
-              personaId: selectedPerson?.id || null,
+              personaId: selectedJourneyMapPersona?.id || null,
               value: Math.floor(average),
             },
             createCustomMetricsInput: {
@@ -559,9 +566,9 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
               ...reqBody,
               columnId: selectedColumnId,
               rowId: rowItemID,
-              mapId: +mapID!,
+              mapId: +mapId,
               stepId: selectedStepId,
-              personaId: selectedPerson?.id || null,
+              personaId: selectedJourneyMapPersona?.id || null,
             },
           });
           break;
@@ -655,7 +662,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
         type: selectedMetrics.type,
         survey: selectedMetrics.surveyId,
         question: selectedMetrics.questionId,
-        goal: selectedMetrics.goal,
+        goal: selectedMetrics.goal || 0,
         dateRange: selectedMetrics.dateRange || MetricsDateRangeEnum.Daily,
       });
       if (selectedMetrics.source === MetricsSourceEnum.Survey) {
@@ -712,44 +719,52 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
   return (
     <>
       {isOpenAddDataPointModal && (
-        <AddDataPointModal
-          metricsType={type}
-          isOpen={isOpenAddDataPointModal}
-          onHandleAddDataPont={onHandleAddDataPont}
-          handleClose={onToggleAddDataPointModal}
-        />
+        <Suspense fallback={''}>
+          <AddDataPointModal
+            metricsType={type}
+            isOpen={isOpenAddDataPointModal}
+            onHandleAddDataPont={onHandleAddDataPont}
+            handleClose={onToggleAddDataPointModal}
+          />
+        </Suspense>
       )}
       {isOpenAddCustomMetricsModal && (
-        <AddCustomMetricsModal
-          metricsType={type}
-          isOpen={isOpenAddCustomMetricsModal}
-          onHandleAddCustomMetrics={onHandleAddCustomMetrics}
-          handleClose={onToggleAddCustomMetricsModal}
-        />
+        <Suspense fallback={''}>
+          <AddCustomMetricsModal
+            metricsType={type}
+            isOpen={isOpenAddCustomMetricsModal}
+            onHandleAddCustomMetrics={onHandleAddCustomMetrics}
+            handleClose={onToggleAddCustomMetricsModal}
+          />
+        </Suspense>
       )}
 
       {isOpenImportDataPointModal && (
-        <ImportDataPointModal
-          metricsType={type}
-          isOpen={isOpenImportDataPointModal}
-          onHandleSetUploadFile={onHandleSetUploadFile}
-          onToggleImportDataPointTableModal={onToggleImportDataPointTableModal}
-          handleClose={onToggleImportDataPointModal}
-        />
+        <Suspense fallback={''}>
+          <ImportDataPointModal
+            metricsType={type}
+            isOpen={isOpenImportDataPointModal}
+            onHandleSetUploadFile={onHandleSetUploadFile}
+            onToggleImportDataPointTableModal={onToggleImportDataPointTableModal}
+            handleClose={onToggleImportDataPointModal}
+          />
+        </Suspense>
       )}
       {isOpenImportDataPointTableModal && (
-        <ImportDataPointTableModal
-          metricsType={type}
-          isOpen={isOpenImportDataPointTableModal}
-          datapointFile={datapointFile}
-          onHandleAddDataPont={onHandleAddDataPont}
-          handleClose={onToggleImportDataPointTableModal}
-        />
+        <Suspense fallback={''}>
+          <ImportDataPointTableModal
+            metricsType={type}
+            isOpen={isOpenImportDataPointTableModal}
+            datapointFile={datapointFile}
+            onHandleAddDataPont={onHandleAddDataPont}
+            handleClose={onToggleImportDataPointTableModal}
+          />
+        </Suspense>
       )}
       <div
         className={'create-update-metrics-drawer'}
         data-testid={'create-update-metrics-drawer-test-id'}>
-        <ModalHeader title={`${selectedMetrics ? 'Update' : 'Create new'} metric`} />
+        <CustomModalHeader title={`${selectedMetrics ? 'Update' : 'Create new'} metric`} />
         <form
           onSubmit={handleSubmit(onFormSubmit)}
           className={'create-update-metrics-drawer--form'}>
@@ -836,7 +851,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                 'source',
                 'Source',
                 'Select source',
-                metricsSourceItems,
+                METRICS_SOURCE_ITEM,
                 item => {
                   const actionsMap = {
                     [MetricsSourceEnum.Survey]: () => {
@@ -864,8 +879,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                   'Type',
                   'Select source',
                   source === MetricsSourceEnum.Survey
-                    ? metricsTypeItems.slice(0, 2)
-                    : metricsTypeItems,
+                    ? METRICS_TYPE_ITEM.slice(0, 2)
+                    : METRICS_TYPE_ITEM,
                   () => {
                     setDataPoints([]);
                   },
@@ -894,7 +909,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     'Select Question',
                     'Select',
                     questions
-                      .filter(q => filterType[type].includes(q.type))
+                      .filter(q => (filterType[type] as Array<string>).includes(q.type))
                       .map(q => ({
                         id: q.questionID,
                         name: q.text,
@@ -904,7 +919,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     !survey || isLoadingQuestions,
                   )}
 
-                  {renderDropdownBlock('dateRange', 'Track changes', 'Select', metricsTrackItems)}
+                  {renderDropdownBlock('dateRange', 'Track changes', 'Select', METRICS_TRACK_ITEM)}
 
                   {dateRange === MetricsDateRangeEnum.Custom ? (
                     <div
@@ -931,7 +946,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                                 <span> - </span>
                                 <span>{dayjs(endDate).format('MM/DD/YYYY')}</span>
                               </div>
-                              <CalendarIcon />
+                              <span className={'wm-calendar-month'} />
                             </div>
                           }>
                           <div
@@ -1014,7 +1029,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                             <span> - </span>
                             <span>{dayjs(endDate).format('MM/DD/YYYY')}</span>
                           </div>
-                          <CalendarIcon />
+                          <span className={'wm-calendar-month'} />
                         </div>
                       }>
                       <div
@@ -1042,24 +1057,23 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                       <p className={'create-update-metrics-drawer--title'}>Data Points</p>
                       <div
                         className={'create-update-metrics-drawer--data-points-block--btns-block'}>
-                        <CustomButton
+                        <WuButton
                           data-testid={'add-data-point-btn-test-id'}
-                          startIcon={false}
-                          variant={'outlined'}
+                          variant={'outline'}
+                          type={'button'}
                           onClick={
                             source === MetricsSourceEnum.Manual
                               ? onToggleAddDataPointModal
                               : onToggleAddCustomMetricsModal
                           }>
                           Add data point
-                        </CustomButton>
+                        </WuButton>
                         {source === MetricsSourceEnum.Manual && (
-                          <CustomButton
+                          <WuButton
                             data-testid={'import-data-point-btn-test-id'}
-                            startIcon={false}
                             onClick={onToggleImportDataPointModal}>
                             Import in bulk
-                          </CustomButton>
+                          </WuButton>
                         )}
                       </div>
                     </div>
@@ -1112,15 +1126,12 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                 disabled={isLoadingCreateMetrics || isLoadingUpdateMetrics}>
                 Cancel
               </button>
-              <CustomButton
+              <WuButton
                 type={'submit'}
                 data-testid={'create-update-metrics-submit-btn-test-id'}
-                startIcon={false}
-                sxStyles={{ width: '6.125rem' }}
-                disabled={isLoadingCreateMetrics || isLoadingUpdateMetrics}
-                isLoading={isLoadingCreateMetrics || isLoadingUpdateMetrics}>
+                disabled={isLoadingCreateMetrics || isLoadingUpdateMetrics}>
                 {selectedMetrics ? 'Update' : 'Create'}
-              </CustomButton>
+              </WuButton>
             </div>
           </div>
         </form>

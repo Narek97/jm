@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -39,11 +40,11 @@ interface ITouchpointItem {
     action: ActionsEnum,
     data: any,
   ) => void;
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const TouchpointCard: FC<ITouchpointItem> = memo(
-  ({ touchpoint, disabled, boxItem, rowId, mapId, dragHandleProps, onHandleUpdateMapByType }) => {
+  ({ touchpoint, disabled, boxItem, rowId, mapId, onHandleUpdateMapByType, dragHandleProps }) => {
     const { showToast } = useWuShowToast();
 
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();

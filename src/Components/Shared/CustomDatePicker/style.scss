@@ -1,0 +1,92 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.custom-date-picker {
+  .react-datepicker__triangle {
+    display: none;
+  }
+  .react-datepicker__current-month {
+    display: none;
+  }
+  .react-datepicker {
+    border: none;
+  }
+  .react-datepicker__header {
+    background-color: transparent;
+    border: none;
+  }
+  .react-datepicker__month-container {
+    width: 15.75rem;
+  }
+  .react-datepicker__month {
+    margin: 0;
+  }
+  .react-datepicker__day-name,
+  .react-datepicker__day {
+    text-align: center;
+    font-size: 0.875rem;
+    width: 2.25rem;
+    margin: 0;
+    color: $BASE_GRAY_COLOR;
+  }
+
+  .react-datepicker__day-names {
+    background-color: $BASE-EXTRA-LIGHT-GRAY-2;
+  }
+
+  .react-datepicker__day-name {
+    line-height: 2.5rem;
+  }
+
+  .react-datepicker__day {
+    font-size: 0.75rem;
+    line-height: 1.875rem;
+    border: 0.03125rem solid $BASE-EXTRA-LIGHT-GRAY-2;
+  }
+
+  .react-datepicker__header__dropdown {
+    height: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .react-datepicker__year-dropdown-container,
+  .react-datepicker__month-dropdown-container {
+    font-size: 0.875rem;
+    margin: 0 1.875rem;
+    color: $BASE_GRAY_COLOR;
+  }
+
+  .react-datepicker__day--keyboard-selected,
+  .react-datepicker__day--selected,
+  .react-datepicker__day--in-range {
+    color: $BASE-WHITE-COLOR;
+    background-color: $BASE_BLUE_COLOR;
+    border-radius: 0;
+  }
+  .react-datepicker__day--keyboard-selected {
+    background-color: #c2c2e3;
+    &:hover {
+      color: $BASE-WHITE-COLOR;
+      background-color: $BASE_BLUE_COLOR;
+    }
+  }
+
+  .react-datepicker__navigation-icon::before {
+    border-width: 0.125rem 0.125rem 0 0;
+    top: 0.5rem;
+    height: 0.375rem;
+    width: 0.375rem;
+    border-color: $BASE_GRAY_COLOR;
+  }
+
+  .react-datepicker__year-read-view--down-arrow,
+  .react-datepicker__month-read-view--down-arrow {
+    border-width: 0.125rem 0.125rem 0 0;
+    top: 0.125rem;
+    border-color: $BASE_GRAY_COLOR;
+  }
+
+  .react-datepicker__day--disabled {
+    background-color: $BASE-LIGHT-GRAY-COLOR-2;
+  }
+}

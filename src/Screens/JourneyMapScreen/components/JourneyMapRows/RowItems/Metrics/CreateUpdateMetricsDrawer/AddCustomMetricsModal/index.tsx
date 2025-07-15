@@ -1,21 +1,21 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomDatePicker from '@/components/atoms/custom-date-picker/custom-date-picker';
-import CustomInput from '@/components/atoms/custom-input/custom-input';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import ModalHeader from '@/components/molecules/modal-header';
-import { MetricsTypeEnum } from '@/gql/types';
-import { ADD_CUSTOM_METRICS_VALIDATION_SCHEMA } from '@/utils/constants/form/yup-validation';
-import { CustomMetricsFormType, CustomMetricsType } from '@/utils/ts/types/metrics/metrics-type';
 
 import './style.scss';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { CustomMetricsFormType, CustomMetricsType } from '../../types';
+
+import { MetricsTypeEnum } from '@/api/types.ts';
+import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { ADD_CUSTOM_METRICS_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 
 interface IAddCustomMetricsModal {
   metricsType: MetricsTypeEnum;
@@ -57,7 +57,7 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
       handleClose={handleClose}
       modalSize={'custom'}
       canCloseWithOutsideClick={true}>
-      <ModalHeader title={`Add custom ${metricsType}`} />
+      <CustomModalHeader title={`Add custom ${metricsType}`} />
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={'add-custom-metrics-modal'}
@@ -76,7 +76,6 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
                 render={({ field: { onChange, value } }) => (
                   <CustomInput
                     data-testid={`metrics-value-data-point-input-test-id`}
-                    className={''}
                     inputType={'primary'}
                     placeholder={'Write metrics value'}
                     id={'metricsValue'}
@@ -104,23 +103,15 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
           </div>
         </div>
         <div className={'base-modal-footer'}>
-          <CustomButton
+          <WuButton
             onClick={handleClose}
             data-testid="cansel-data-point-test-id"
-            variant={'text'}
-            startIcon={false}
-            style={{
-              textTransform: 'inherit',
-            }}>
+            variant={'outline'}>
             Cancel
-          </CustomButton>
-          <CustomButton
-            type={'submit'}
-            data-testid="submit-data-point-test-id"
-            variant={'contained'}
-            startIcon={false}>
+          </WuButton>
+          <WuButton type={'submit'} data-testid="submit-data-point-test-id">
             Add
-          </CustomButton>
+          </WuButton>
         </div>
       </form>
     </CustomModal>

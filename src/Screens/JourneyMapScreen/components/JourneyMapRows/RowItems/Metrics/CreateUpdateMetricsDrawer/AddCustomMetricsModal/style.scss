@@ -1,7 +1,7 @@
-@import 'src/assets/styles/mixins';
-@import 'src/assets/styles/variables';
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
 
-.add-data-point-modal {
+.add-custom-metrics-modal {
   color: $BASE_GRAY_COLOR;
   @include base-modal-footer;
 
@@ -16,10 +16,6 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.5rem;
-  }
-
-  &--input-item {
-    min-height: 4.875rem;
   }
 
   &--label {

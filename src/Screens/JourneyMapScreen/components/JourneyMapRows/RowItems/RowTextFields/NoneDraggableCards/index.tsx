@@ -52,7 +52,7 @@ async function updateBoxElementText(
 ) {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      `${import.meta.env.VITE_API_URL}/graphql`,
       {
         query: UPDATE_BOX_ELEMENT_MUTATION,
         variables: { updateTextRowInput },

@@ -11,6 +11,7 @@ export const IMAGE_ASPECT_LARGE = 800;
 export const DEFAULT_OUTCOME_ICON = `${import.meta.env.VITE_AWS_URL}/default/outcome-group/icon/action.svg`;
 
 export const PERSONA_FILE_TYPES = ['JPG', 'PNG', 'GIF'];
+export const EXEL_FILE_TYPES = ['XLS', 'XLSX', 'CSV'];
 
 export const DEFAULT_OUTCOMES_GROUP = [
   {

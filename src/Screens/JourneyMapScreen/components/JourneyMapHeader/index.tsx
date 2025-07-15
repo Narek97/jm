@@ -180,7 +180,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
         message: 'Download is in progress. It may take a few seconds.',
         duration: 2000,
       });
-      const url = `${process.env.NEXT_PUBLIC_SOCKET_URL}/pdf/map/${mapId}`;
+      const url = `${import.meta.env.VITE_QP_API}}/pdf/map/${mapId}`;
       try {
         await $apiClient.get(url);
       } catch (error) {

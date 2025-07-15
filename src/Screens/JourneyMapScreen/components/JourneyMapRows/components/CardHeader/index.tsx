@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react';
 
 import './style.scss';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
@@ -43,10 +45,10 @@ interface ICardHeader {
     onCloseFunction?: () => void;
   };
   createTagItemAttrs: { columnId: number; stepId: number; rowId: number };
-  dragHandleProps: any;
   headerColor?: string;
   attachedTagsCount?: number;
   isDarkColor?: boolean;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const CardHeader: FC<ICardHeader> = ({
@@ -59,11 +61,11 @@ const CardHeader: FC<ICardHeader> = ({
   note,
   comment,
   menu,
-  dragHandleProps,
   createTagItemAttrs,
   headerColor = '#f5f7ff',
   attachedTagsCount = 0,
   isDarkColor,
+  dragHandleProps,
 }) => {
   const { currentLayer } = useLayerStore();
   const { selectedJourneyMapPersona, isDragging } = useJourneyMapStore();

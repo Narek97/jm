@@ -1,33 +1,33 @@
-import React, { FC, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomDatePicker from '@/components/atoms/custom-date-picker/custom-date-picker';
-import CustomInput from '@/components/atoms/custom-input/custom-input';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import ModalHeader from '@/components/molecules/modal-header';
-import { MetricsTypeEnum } from '@/gql/types';
-import {
-  CES_DATA_POINT_ELEMENTS,
-  CSAT_DATA_POINT_ELEMENTS,
-  NPS_DATA_POINT_ELEMENTS,
-} from '@/utils/constants/form/form-elements';
-import { ADD_DATA_POINT_VALIDATION_SCHEMA } from '@/utils/constants/form/yup-validation';
-import { NPSDataPointElementType } from '@/utils/ts/types/form/form-elements-type';
+import 'react-datepicker/dist/react-datepicker.css';
 import {
   CesType,
   CsatType,
   DataPointFormType,
   DatapointType,
+  NPSDataPointElementType,
   NpsType,
-} from '@/utils/ts/types/metrics/metrics-type';
+} from '../../types';
 
-import 'react-datepicker/dist/react-datepicker.css';
+import { MetricsTypeEnum } from '@/api/types';
+import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import {
+  ADD_DATA_POINT_VALIDATION_SCHEMA,
+  CES_DATA_POINT_ELEMENTS,
+  CSAT_DATA_POINT_ELEMENTS,
+  NPS_DATA_POINT_ELEMENTS,
+} from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 
 interface IAddDataPointModal {
   metricsType: MetricsTypeEnum;
@@ -120,7 +120,7 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
       handleClose={handleClose}
       modalSize={'custom'}
       canCloseWithOutsideClick={true}>
-      <ModalHeader title={'Add data point'} />
+      <CustomModalHeader title={'Add data point'} />
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={'add-data-point-modal'}
@@ -173,25 +173,15 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
           </div>
         </div>
         <div className={'base-modal-footer'}>
-          <CustomButton
+          <WuButton
             onClick={handleClose}
             data-testid="cansel-data-point-test-id"
-            variant={'text'}
-            startIcon={false}
-            style={{
-              textTransform: 'inherit',
-            }}>
+            variant={'outline'}>
             Cancel
-          </CustomButton>
-          <CustomButton
-            type={'submit'}
-            data-testid="submit-data-point-test-id"
-            variant={'contained'}
-            startIcon={false}
-            // isLoading={isLoadingCrateUpdate}
-          >
+          </WuButton>
+          <WuButton type={'submit'} data-testid="submit-data-point-test-id">
             Add data point
-          </CustomButton>
+          </WuButton>
         </div>
       </form>
     </CustomModal>
