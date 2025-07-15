@@ -1,0 +1,16 @@
+query GetUserSession($getUserSessionInput: GetUserSessionInput!) {
+  getUserSession(getUserSessionInput: $getUserSessionInput) {
+    count
+    session{
+      id
+      userId
+      sessionCount
+      createdAt
+      member{
+        id
+        emailAddress
+        orgId
+      }
+    }
+  }
+}

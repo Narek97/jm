@@ -1,0 +1,38 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.paginated-search-table {
+  margin-top: 1.25rem;
+  &--top-section {
+    @include flex-center-between;
+    width: 100%;
+    gap: 2rem;
+    &--params {
+      @include flex-center;
+      gap: 2rem;
+      &--date-picker {
+        @include flex-center;
+        justify-content: space-between;
+        width: 18.75rem;
+        height: 2rem;
+        padding: 0.5rem;
+        background-color: $BASE-LIGHT-GRAY-COLOR;
+        cursor: pointer;
+      }
+      &--date-picker-block {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+
+  &--table-container {
+    margin-top: 1.125rem;
+    height: calc(100dvh - 18.2rem);
+  }
+}
+
+div[role='dialog'] {
+  width: 100% !important;
+  border: none;
+}
