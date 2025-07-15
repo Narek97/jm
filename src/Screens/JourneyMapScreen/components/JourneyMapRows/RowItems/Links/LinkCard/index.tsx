@@ -31,7 +31,7 @@ import { getCookie } from '@/utils/cookieHelper.ts';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';
 import { lightenColor } from '@/utils/lightenColor';
 
-interface ILinkItem {
+interface ILinkCard {
   link: LinkType;
   boardId: number;
   disabled: boolean;
@@ -45,7 +45,7 @@ interface ILinkItem {
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
-const LinkItem: FC<ILinkItem> = memo(
+const LinkCard: FC<ILinkCard> = memo(
   ({
     link,
     boardId,
@@ -280,4 +280,4 @@ const LinkItem: FC<ILinkItem> = memo(
   },
 );
 
-export default LinkItem;
+export default LinkCard;

@@ -1,6 +1,8 @@
 import { FC, memo } from 'react';
 
 import './style.scss';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+
 import RowNameBlock from '../components/RowNameBlock';
 import RowVideos from '../RowItems/RowVideos';
 
@@ -8,8 +10,9 @@ import { MapRowTypeEnum } from '@/api/types';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import Divider from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Divider';
-import Links from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/links';
+import Links from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Links';
 import Metrics from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics';
+import Outcomes from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes';
 import RowImages from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages';
 import RowMedias from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias';
 import RowTextFields from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowTextFields';
@@ -21,7 +24,7 @@ import { getPageContentByKey } from '@/utils/getPageContentByKey';
 
 interface IJourneyMapRow {
   updateLabel: (data: { rowId: number; previousLabel: string; label: string }) => void;
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
   rowItem: JourneyMapRowType;
   index: number;
   rowsLength: number;
@@ -175,11 +178,11 @@ const JourneyMapRegularRow: FC<IJourneyMapRow> = memo(
                   <Metrics width={279} row={rowItem} rowIndex={index} disabled={disabled} />
                 </ErrorBoundary>
               ),
-              // [JourneyMapRowTypesEnum.OUTCOMES]: (
-              //   <ErrorBoundary>
-              //     <Outcomes width={279} row={rowItem} rowIndex={index} disabled={disabled} />
-              //   </ErrorBoundary>
-              // ),
+              [JourneyMapRowTypesEnum.OUTCOMES]: (
+                <ErrorBoundary>
+                  <Outcomes width={279} row={rowItem} rowIndex={index} disabled={disabled} />
+                </ErrorBoundary>
+              ),
               [JourneyMapRowTypesEnum.LINKS]: (
                 <ErrorBoundary>
                   <Links width={279} row={rowItem} rowIndex={index} disabled={disabled} />

@@ -2,6 +2,7 @@ import { FC, memo, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
 
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import { Tooltip } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -49,7 +50,7 @@ interface IRowNameBlock {
   index: number;
   rowsLength: number;
   disabled?: boolean;
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
   isLayerModeOn: boolean;
 }
 

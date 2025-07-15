@@ -1,12 +1,14 @@
 import { FC, useState } from 'react';
 
 import './style.scss';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+
 import { getIsDarkColor } from '@/utils/getIsDarkColor.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground';
 
 interface IStepColumnDrag {
   columnColor: string;
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const StepColumnDrag: FC<IStepColumnDrag> = ({ columnColor, dragHandleProps }) => {

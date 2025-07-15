@@ -2,8 +2,9 @@ import { ChangeEvent } from 'react';
 
 import * as yup from 'yup';
 
+import { LinkType } from './types';
+
 import { LinkTypeEnum } from '@/api/types.ts';
-import { LinkType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/links/types.ts';
 import { MenuOptionsType } from '@/types';
 
 const LINK_ITEM_OPTIONS = ({

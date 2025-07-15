@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, memo, useCallback, useEffect, useState } from '
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -29,8 +29,10 @@ import { OutcomeStatusEnum } from '@/api/types.ts';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import { WORKSPACE_MAPS_LIMIT } from '@/constants/pagination.ts';
+import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants';
-import { OutcomeFormType, OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
+import { OutcomeFormType, OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useUserStore } from '@/store/user.ts';
 import { DropdownSelectItemType, ObjectKeysType } from '@/types';
 import { OutcomeLevelEnum } from '@/types/enum';
@@ -40,19 +42,18 @@ interface IAddUpdateOutcomeFormType {
   outcomeGroupId: number;
   defaultMapId: number | null;
   level: OutcomeLevelEnum;
-  selectedOutcome: OutcomeType | null;
+  selectedOutcome: OutcomeGroupOutcomeType | OutcomeType | null;
   selectedColumnStepId?: {
     columnId: number;
     stepId: number;
   } | null;
-  create: (data: OutcomeType) => void;
-  update: (data: OutcomeType) => void;
+  create: (data: OutcomeGroupOutcomeType) => void;
+  update: (data: OutcomeGroupOutcomeType) => void;
   handleClose: () => void;
 }
 
 const defaultPersonaOption = { id: 0, name: 'Overview', value: 'Overview' };
 
-// todo logic
 const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
   ({
     workspaceId,
@@ -66,8 +67,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
     handleClose,
   }) => {
     const { user } = useUserStore();
+    const { showToast } = useWuShowToast();
 
-    const selectedPerson = {};
+    const { selectedJourneyMapPersona } = useJourneyMapStore();
 
     const [currentColumnId, setCurrentColumnId] = useState<number | null>(
       selectedOutcome?.columnId || selectedColumnStepId?.columnId || null,
@@ -91,7 +93,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         map: defaultMapId,
         stage: selectedOutcome?.columnId || selectedColumnStepId?.columnId,
         step: selectedOutcome?.stepId || selectedColumnStepId?.stepId,
-        persona: selectedOutcome?.personaId || selectedPerson?.id,
+        persona: selectedOutcome?.personaId || selectedJourneyMapPersona?.id,
       },
     });
 
@@ -100,7 +102,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       isLoading: isLoadingMaps,
       isFetchingNextPage: isFetchingNextPageMaps,
       fetchNextPage: fetchNextPageGetMaps,
-    } = useInfiniteGetWorkspaceMapsQuery<GetWorkspaceMapsQuery, Error>(
+    } = useInfiniteGetWorkspaceMapsQuery<{ pages: Array<GetWorkspaceMapsQuery> }, Error>(
       {
         getWorkspaceMapsInput: {
           workspaceId,
@@ -124,27 +126,18 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       },
     );
 
-    // onSuccess: (response) => {
-    //   const mapsData = response.pages[
-    //   response.pages?.length - 1
-    //     ]?.getWorkspaceMaps?.maps.map((itm) => ({
-    //     id: itm?.id,
-    //     name: itm?.title,
-    //     label: "",
-    //     value: String(itm?.id),
-    //   }));
-    //   setMaps((prev) => [...prev, ...mapsData]);
-    // },
-
     const { isPending: isLoadingCrateUpdate, mutate: creatUpdateOutcome } =
-      useCreateUpdateOutcomeMutation<CreateUpdateOutcomeMutation, Error>();
+      useCreateUpdateOutcomeMutation<Error, CreateUpdateOutcomeMutation>();
 
     const {
       data: dataStages,
       isLoading: isLoadingStages,
       isFetchingNextPage: isFetchingNextPageStages,
       fetchNextPage: fetchNextStages,
-    } = useInfiniteGetMapColumnsForOutcomeQuery<GetMapColumnsForOutcomeQuery, Error>(
+    } = useInfiniteGetMapColumnsForOutcomeQuery<
+      { pages: Array<GetMapColumnsForOutcomeQuery> },
+      Error
+    >(
       {
         getMapColumnsForOutcomeInput: {
           mapId: selectedMapId!,
@@ -168,24 +161,15 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       },
     );
 
-    // onSuccess: (response: any) => {
-    //   const newData = response?.pages[
-    //   response.pages?.length - 1
-    //     ]?.getMapColumnsForOutcome?.columns?.map((itm: any) => ({
-    //     id: itm?.id,
-    //     name: itm?.label,
-    //     value: String(itm?.id),
-    //   }));
-    //
-    //   setStages((prev) => [...prev, ...newData]);
-    // },
-
     const {
       data: dataMapPersonas,
       isLoading: isLoadingMapPersonas,
       isFetchingNextPage: isFetchingNextPageMapPersonas,
       fetchNextPage: fetchNextMapPersonas,
-    } = useInfiniteGetMapPersonasForOutcomeQuery<GetMapPersonasForOutcomeQuery, Error>(
+    } = useInfiniteGetMapPersonasForOutcomeQuery<
+      { pages: Array<GetMapPersonasForOutcomeQuery> },
+      Error
+    >(
       {
         getMapPersonasInput: {
           mapId: selectedMapId!,
@@ -208,17 +192,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       },
     );
 
-    // onSuccess: (response) => {
-    //   const newData = response?.pages[
-    //   response.pages?.length - 1
-    //     ]?.getMapPersonasForOutcome?.personas?.map((itm: any) => ({
-    //     id: itm?.id,
-    //     name: itm?.name,
-    //     value: String(itm?.id),
-    //   }));
-    //   setPersonas((prev) => [...prev, ...newData]);
-    // },
-
     const { data: dataSteps } = useGetColumnStepsQuery<GetColumnStepsQuery, Error>(
       {
         columnId: currentColumnId!,
@@ -228,16 +201,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         staleTime: 0,
       },
     );
-
-    // onSuccess: (response) => {
-    //   setSteps(
-    //     response?.getColumnSteps?.map((itm) => ({
-    //       id: itm?.id,
-    //       name: itm?.name,
-    //       value: itm?.id,
-    //     })) || [],
-    //   );
-    // },
 
     const onHandleFetchStages = useCallback(
       (e: React.UIEvent<HTMLElement>) => {
@@ -270,7 +233,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         await fetchNextMapPersonas();
       }
     };
-
     const onHandleSaveOutcome: SubmitHandler<OutcomeFormType> = useCallback(
       formNewData => {
         const { stage: stageId, map: mapId, step: stepId, persona: personaId } = formNewData;
@@ -284,17 +246,20 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         if (selectedOutcome) {
           requestData.id = selectedOutcome?.id;
           if (mapId) {
-            requestData.positionInput = {} as {
+            type positionInputType = {
               mapId?: number;
               index?: number;
             };
-            const columnOrStepChange: {
+
+            type columnOrStepChangeType = {
               columnId?: number;
               stepId?: number;
-            } = {};
+            };
+            requestData.positionInput = {} as positionInputType;
+            const columnOrStepChange: columnOrStepChangeType = {};
 
             if (+mapId !== defaultMapId) {
-              requestData.positionInput.mapId = +mapId!;
+              (requestData.positionInput as positionInputType).mapId = +mapId!;
               columnOrStepChange.columnId = +stageId!;
               columnOrStepChange.stepId = +stepId!;
             } else if (stageId && stageId !== selectedOutcome?.columnId) {
@@ -304,7 +269,11 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               columnOrStepChange.stepId = +stepId!;
             }
             if (Object.keys(columnOrStepChange).length) {
-              requestData.positionInput.positionChange = columnOrStepChange;
+              (
+                requestData.positionInput as {
+                  positionChange?: columnOrStepChangeType;
+                }
+              ).positionChange = columnOrStepChange;
             }
           }
         } else {
@@ -321,7 +290,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
             ...requestData,
             outcomeGroupId,
             workspaceId,
-            personaId: personaId ? +personaId : selectedPerson?.id || null,
+            personaId: personaId ? +personaId : selectedJourneyMapPersona?.id || null,
           };
         }
 
@@ -353,6 +322,12 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               }
               setSelectedMapId(null);
             },
+            onError: error => {
+              showToast({
+                variant: 'error',
+                message: error?.message,
+              });
+            },
           },
         );
       },
@@ -362,13 +337,66 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         defaultMapId,
         outcomeGroupId,
         selectedOutcome,
-        selectedPerson?.id,
+        selectedJourneyMapPersona?.id,
         update,
         user?.firstName,
         user?.lastName,
         workspaceId,
       ],
     );
+
+    useEffect(() => {
+      if (dataMaps) {
+        const mapsData = dataMaps.pages[dataMaps.pages?.length - 1]?.getWorkspaceMaps?.maps.map(
+          itm => ({
+            id: itm?.id,
+            name: itm?.title,
+            label: '',
+            value: String(itm?.id),
+          }),
+        );
+        setMaps(prev => [...prev, ...mapsData]);
+      }
+    }, [dataMaps]);
+
+    useEffect(() => {
+      if (dataStages) {
+        const newData = dataStages.pages[
+          dataStages.pages?.length - 1
+        ]?.getMapColumnsForOutcome?.columns?.map((itm: any) => ({
+          id: itm?.id,
+          name: itm?.label,
+          value: String(itm?.id),
+        }));
+
+        setStages(prev => [...prev, ...newData]);
+      }
+    }, [dataStages]);
+
+    useEffect(() => {
+      if (dataMapPersonas) {
+        const newData = dataMapPersonas.pages[
+          dataMapPersonas.pages?.length - 1
+        ]?.getMapPersonasForOutcome?.personas?.map((itm: any) => ({
+          id: itm?.id,
+          name: itm?.name,
+          value: String(itm?.id),
+        }));
+        setPersonas(prev => [...prev, ...newData]);
+      }
+    }, [dataMapPersonas]);
+
+    useEffect(() => {
+      if (dataSteps) {
+        setSteps(
+          dataSteps.getColumnSteps?.map(itm => ({
+            id: itm?.id,
+            name: itm?.name,
+            value: itm?.id,
+          })) || [],
+        );
+      }
+    }, [dataSteps]);
 
     useEffect(() => {
       if (selectedMapId) {

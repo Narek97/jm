@@ -6,7 +6,7 @@ import { useParams } from '@tanstack/react-router';
 
 import AddUpdateOutcomeItemModal from './components/AddUpdateOutcomeModal';
 import { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS } from './constants';
-import { OutcomeType } from './types';
+import { OutcomeGroupOutcomeType } from './types';
 
 import {
   DeleteOutcomeMutation,
@@ -42,7 +42,7 @@ const OutcomeScreen = () => {
   const { setBreadcrumbs } = useBreadcrumbStore();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOutcome, setSelectedOutcome] = useState<OutcomeType | null>(null);
+  const [selectedOutcome, setSelectedOutcome] = useState<OutcomeGroupOutcomeType | null>(null);
   const [isOpenCreateUpdateModal, setIsOpenCreateUpdateModal] = useState(false);
   const [offset, setOffset] = useState(0);
   const [sortBy, setSortBy] = useState<SortByEnum>(SortByEnum.CreatedAt);
@@ -109,7 +109,7 @@ const OutcomeScreen = () => {
     setIsOpenCreateUpdateModal(prev => !prev);
   }, []);
 
-  const onHandleUpdateOutcome = async (updatedData: OutcomeType) => {
+  const onHandleUpdateOutcome = async (updatedData: OutcomeGroupOutcomeType) => {
     setOutcomeGroup((oldData: any) => {
       if (oldData) {
         return {
@@ -117,7 +117,7 @@ const OutcomeScreen = () => {
           getOutcomeGroup: {
             ...oldData.getOutcomeGroup,
             outcomesCount: oldData.getOutcomeGroup.outcomesCount + 1,
-            outcomes: oldData.getOutcomeGroup.outcomes.map((item: OutcomeType) => {
+            outcomes: oldData.getOutcomeGroup.outcomes.map((item: OutcomeGroupOutcomeType) => {
               if (item.id === selectedOutcome?.id) {
                 return {
                   ...item,
@@ -133,12 +133,12 @@ const OutcomeScreen = () => {
     setIsOpenCreateUpdateModal(false);
   };
 
-  const onHandleEditOutcome = useCallback((outcome: OutcomeType) => {
+  const onHandleEditOutcome = useCallback((outcome: OutcomeGroupOutcomeType) => {
     setSelectedOutcome(outcome);
     setIsOpenCreateUpdateModal(true);
   }, []);
 
-  const onHandleCreateOutcome = async (newOutcome: OutcomeType) => {
+  const onHandleCreateOutcome = async (newOutcome: OutcomeGroupOutcomeType) => {
     setIsOpenCreateUpdateModal(false);
     setRemoveOutcomeGroupQuery('GetOutcomeGroup', {
       input: 'getOutcomesInput',
@@ -163,7 +163,7 @@ const OutcomeScreen = () => {
   };
 
   const onHandleDeleteOutcome = useCallback(
-    (outcome: OutcomeType) => {
+    (outcome: OutcomeGroupOutcomeType) => {
       const { id } = outcome;
       deleteOutcome(
         { id },
@@ -194,7 +194,7 @@ const OutcomeScreen = () => {
                     ...oldData.getOutcomeGroup.outcomeGroups,
                     outcomesCount: oldData.getMyBoards.count - 1,
                     outcomes: oldData.getMyBoards.outcomeGroups.filter(
-                      (outcome: OutcomeType) => outcome.id !== id,
+                      (outcome: OutcomeGroupOutcomeType) => outcome.id !== id,
                     ),
                   },
                 };

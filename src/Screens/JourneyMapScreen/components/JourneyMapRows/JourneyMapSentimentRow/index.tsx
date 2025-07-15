@@ -2,6 +2,8 @@ import { FC, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
 
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+
 import { EMOTION_TYPES, EMOTION_VALUES } from './constants';
 import JourneyMapSelectedPersonas from '../components/JourneyMapSelectedPersonas';
 
@@ -11,7 +13,7 @@ import {
 } from '@/api/mutations/generated/disablePersonaForRow.generated.ts';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
-import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/sentiment';
+import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Sentiment';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
@@ -19,7 +21,7 @@ import { ObjectKeysType } from '@/types';
 import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 interface IJourneyMapSentimentRow {
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
   rowItem: JourneyMapRowType;
   index: number;
   rowsLength: number;

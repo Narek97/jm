@@ -25,8 +25,7 @@ export type BoxElementType = BoxType['boxElements'][number];
 
 export type TouchPointType = BoxType['touchPoints'][number];
 
-export type OutcomeGroupType =
-  GetJourneyMapRowsQuery['getJourneyMap']['rows'][number]['outcomeGroup'];
+export type OutcomeGroupType = JourneyMapRowType['outcomeGroup'];
 
 export type JourneyMapColumnType = GetJourneyMapQuery['getJourneyMap']['columns'][number] & {
   isLoading?: boolean;

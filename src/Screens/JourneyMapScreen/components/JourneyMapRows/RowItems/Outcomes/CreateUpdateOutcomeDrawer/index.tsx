@@ -1,73 +1,61 @@
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 import './style.scss';
 
-import { useParams } from 'next/navigation';
-
 import Drawer from '@mui/material/Drawer';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import AddUpdateOutcomeForm from '@/containers/outcome-container/add-update-outcome-item-modal/add-update-outcome-form';
-import CloseIcon from '@/public/base-icons/close.svg';
-import { mapAssignedPersonasState, selectedJourneyMapPersona } from '@/store/atoms/journeyMap.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import {
-  ActionsEnum,
-  JourneyMapRowTypesEnum,
-  OutcomeLevelEnum,
-} from '@/utils/ts/enums/global-enums';
-import {
-  MapOutcomeItemType,
-  OutcomeGroupItemType,
-  OutcomeGroupType,
-} from '@/utils/ts/types/outcome/outcome-type';
+import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
+import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
+import AddUpdateOutcomeForm from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm';
+import { OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { ActionsEnum, JourneyMapRowTypesEnum, OutcomeLevelEnum } from '@/types/enum';
 
 interface IOutcomeDrawer {
   workspaceId: number | null;
+  mapId: number;
   singularNameType: string;
   isOpenDrawer: boolean;
-  level: OutcomeLevelEnum;
-  outcomeGroup: OutcomeGroupType | null;
+  outcomeGroup: OutcomeGroupOutcomeType | OutcomeGroupType;
   selectedColumnStepId: {
     columnId: number;
     stepId: number;
   } | null;
-  selectedOutcome: MapOutcomeItemType | null;
+  selectedOutcome: OutcomeType | null;
   onHandleToggleOutcomeDrawer: () => void;
 }
 
 const OutcomeDrawer: FC<IOutcomeDrawer> = ({
-  outcomeGroup,
-  singularNameType,
   workspaceId,
+  mapId,
+  singularNameType,
+  isOpenDrawer,
+  outcomeGroup,
   selectedColumnStepId,
   selectedOutcome,
-  isOpenDrawer,
   onHandleToggleOutcomeDrawer,
 }) => {
-  const { mapID } = useParams();
   const { updateMapByType } = useUpdateMap();
 
-  const mapAssignedPersonas = useRecoilValue(mapAssignedPersonasState);
-  const selectedPersona = useRecoilValue(selectedJourneyMapPersona);
-  const setUndoActions = useSetRecoilState(undoActionsState);
-  const setRedoActions = useSetRecoilState(redoActionsState);
+  const { mapAssignedPersonas, selectedJourneyMapPersona } = useJourneyMapStore();
+  const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
   const onHandleClose = useCallback(() => {
     onHandleToggleOutcomeDrawer();
   }, [onHandleToggleOutcomeDrawer]);
 
   const onHandleCreate = useCallback(
-    (outcome: OutcomeGroupItemType) => {
+    (outcome: OutcomeGroupOutcomeType) => {
       updateMapByType(JourneyMapRowTypesEnum.OUTCOMES, ActionsEnum.CREATE, {
         ...outcome,
         workspaceId,
       });
-      setRedoActions([]);
-      setUndoActions(undoPrev => [
-        ...undoPrev,
+      updateRedoActions([]);
+      updateUndoActions([
+        ...undoActions,
         {
           id: uuidv4(),
           type: JourneyMapRowTypesEnum.OUTCOMES,
@@ -80,11 +68,18 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
       ]);
       onHandleClose();
     },
-    [onHandleClose, setRedoActions, setUndoActions, updateMapByType, workspaceId],
+    [
+      onHandleClose,
+      undoActions,
+      updateMapByType,
+      updateRedoActions,
+      updateUndoActions,
+      workspaceId,
+    ],
   );
 
   const onHandleUpdate = useCallback(
-    (outcome: OutcomeGroupItemType) => {
+    (outcome: OutcomeGroupOutcomeType) => {
       const mapAssignedPersona = mapAssignedPersonas.find(p => p.id === outcome.personaId);
       let subAction: ActionsEnum | null = null;
 
@@ -96,7 +91,7 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
       }
       if (
         (outcome.personaId && !mapAssignedPersona?.isSelected) ||
-        (selectedPersona && outcome.personaId !== selectedPersona.id)
+        (selectedJourneyMapPersona && outcome.personaId !== selectedJourneyMapPersona.id)
       ) {
         subAction = ActionsEnum.DELETE;
       }
@@ -116,9 +111,9 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
         null,
         subAction,
       );
-      setRedoActions([]);
-      setUndoActions(undoPrev => [
-        ...undoPrev,
+      updateRedoActions([]);
+      updateUndoActions([
+        ...undoActions,
         {
           id: uuidv4(),
           type: JourneyMapRowTypesEnum.OUTCOMES,
@@ -140,11 +135,16 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
     [
       mapAssignedPersonas,
       onHandleClose,
-      selectedOutcome,
-      selectedPersona,
-      setRedoActions,
-      setUndoActions,
+      selectedJourneyMapPersona,
+      selectedOutcome?.columnId,
+      selectedOutcome?.description,
+      selectedOutcome?.rowId,
+      selectedOutcome?.stepId,
+      selectedOutcome?.title,
+      undoActions,
       updateMapByType,
+      updateRedoActions,
+      updateUndoActions,
       workspaceId,
     ],
   );
@@ -162,13 +162,13 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
             data-testid={'outcome-drawer-close-test-id'}
             className={'add-outcome-drawer--clos-btn'}
             onClick={onHandleClose}>
-            <CloseIcon />
+            <span className={'wm-close'} />
           </button>
         </div>
         <AddUpdateOutcomeForm
           workspaceId={workspaceId!}
-          outcomeGroupId={outcomeGroup?.id!}
-          defaultMapId={mapID ? +mapID : null}
+          outcomeGroupId={outcomeGroup!.id}
+          defaultMapId={mapId || null}
           level={OutcomeLevelEnum.MAP}
           selectedOutcome={selectedOutcome}
           selectedColumnStepId={selectedColumnStepId}

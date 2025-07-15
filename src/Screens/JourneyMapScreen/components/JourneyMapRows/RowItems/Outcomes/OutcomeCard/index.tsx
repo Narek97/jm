@@ -1,61 +1,57 @@
-import React, { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { v4 as uuidv4 } from 'uuid';
 
-import CardHeader from '@/containers/journey-map-container/journey-map-rows/card-header';
+import CardHeader from '../../../components/CardHeader';
+import { JOURNEY_MAP_OUTCOME_ITEM_OPTIONS } from '../constants';
+import { OutcomeType } from '../types';
+
 import {
   DeleteOutcomeMutation,
   useDeleteOutcomeMutation,
-} from '@/gql/mutations/generated/deleteOutcome.generated';
-import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/gql/types';
+} from '@/api/mutations/generated/deleteOutcome.generated.ts';
+import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
 import { debounced1 } from '@/hooks/useDebounce';
-import { noteStateFamily } from '@/store/atoms/note.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import { JOURNEY_MAP_OUTCOME_ITEM_OPTIONS } from '@/utils/constants/options';
-import { onHandleChangeFlipCardIconColor } from '@/utils/helpers/general';
-import { getIsDarkColor, lightenColor } from '@/utils/helpers/get-complementary-color';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-} from '@/utils/ts/enums/global-enums';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
-import { MapOutcomeItemType } from '@/utils/ts/types/outcome/outcome-type';
+import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
+import { getIsDarkColor } from '@/utils/getIsDarkColor';
+import { lightenColor } from '@/utils/lightenColor.ts';
 
 interface IOutcomeCard {
-  outcome: MapOutcomeItemType;
-  disabled: boolean;
+  outcome: OutcomeType;
+  boxItem: BoxType;
   workspaceId: number | null;
-  rowItem: BoxItemType;
-  dragHandleProps: any;
-  openDrawer: (data?: MapOutcomeItemType) => void;
+  mapId: number;
+  disabled: boolean;
+  openDrawer: (data?: OutcomeType) => void;
   onHandleUpdateMapByType: (
     type: JourneyMapRowActionEnum | JourneyMapRowTypesEnum,
     action: ActionsEnum,
     data: any,
   ) => void;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const OutcomeCard: FC<IOutcomeCard> = memo(
   ({
     outcome,
-    disabled,
+    boxItem,
     workspaceId,
-    rowItem,
-    dragHandleProps,
+    mapId,
+    disabled,
     openDrawer,
     onHandleUpdateMapByType,
+    dragHandleProps,
   }) => {
-    const { mapID } = useParams();
+    const { showToast } = useWuShowToast();
 
-    const setUndoActions = useSetRecoilState(undoActionsState);
-    const setRedoActions = useSetRecoilState(redoActionsState);
+    const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,12 +63,21 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
     const isDarkColor = getIsDarkColor(cardBgColor || '#e9ebf2');
     const color = isDarkColor ? '#ffffff' : '#545e6b';
 
-    const noteData = useRecoilValue(
-      noteStateFamily({ type: CommentAndNoteModelsEnum.Outcome, id: outcome.id }),
-    );
-    const hasNote = noteData ? noteData?.text.length : outcome.note?.text.length;
+    // const noteData = useRecoilValue(
+    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Outcome, id: outcome.id }),
+    // );
+    // const hasNote = noteData ? noteData?.text.length : outcome.note?.text.length;
 
-    const { mutate: deleteOutcome } = useDeleteOutcomeMutation<DeleteOutcomeMutation, Error>();
+    const hasNote = false;
+
+    const { mutate: deleteOutcome } = useDeleteOutcomeMutation<Error, DeleteOutcomeMutation>({
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
+    });
 
     const onHandleUpdateOutcome = useCallback(() => {
       if (outcome.bgColor !== cardBgColor) {
@@ -82,9 +87,9 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
           previousBgColor: outcome.bgColor,
         };
         onHandleUpdateMapByType(JourneyMapRowTypesEnum.OUTCOMES, ActionsEnum['COLOR-CHANGE'], data);
-        setRedoActions([]);
-        setUndoActions(undoPrev => [
-          ...undoPrev,
+        updateRedoActions([]);
+        updateUndoActions([
+          ...undoActions,
           {
             id: uuidv4(),
             type: JourneyMapRowTypesEnum.OUTCOMES,
@@ -93,7 +98,14 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
           },
         ]);
       }
-    }, [cardBgColor, onHandleUpdateMapByType, outcome, setRedoActions, setUndoActions]);
+    }, [
+      cardBgColor,
+      onHandleUpdateMapByType,
+      outcome,
+      undoActions,
+      updateRedoActions,
+      updateUndoActions,
+    ]);
 
     const onHandleToggleNote = useCallback(() => {
       setIsOpenNote(prev => !prev);
@@ -116,14 +128,14 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
               previousStepId: outcome.stepId,
               workspaceId,
               map: {
-                id: +mapID!,
+                id: mapId,
               },
             };
 
             onHandleUpdateMapByType(JourneyMapRowTypesEnum.OUTCOMES, ActionsEnum.DELETE, data);
-            setRedoActions([]);
-            setUndoActions(undoPrev => [
-              ...undoPrev,
+            updateRedoActions([]);
+            updateUndoActions([
+              ...undoActions,
               {
                 id: uuidv4(),
                 type: JourneyMapRowTypesEnum.OUTCOMES,
@@ -137,11 +149,12 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
       );
     }, [
       deleteOutcome,
-      mapID,
+      mapId,
       onHandleUpdateMapByType,
       outcome,
-      setRedoActions,
-      setUndoActions,
+      undoActions,
+      updateRedoActions,
+      updateUndoActions,
       workspaceId,
     ]);
 
@@ -149,11 +162,11 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
       (e: ChangeEvent<HTMLInputElement>) => {
         setCardInitialBgColor(e.target.value);
         debounced1(() => {
-          onHandleChangeFlipCardIconColor(cardInitialBgColor, `${rowItem.id}-${outcome.id}`);
+          onHandleChangeFlipCardIconColor(cardInitialBgColor, `${boxItem.id}-${outcome.id}`);
           setCardBgColor(cardInitialBgColor);
         });
       },
-      [cardInitialBgColor, outcome.id, rowItem.id],
+      [boxItem.id, cardInitialBgColor, outcome.id],
     );
 
     const options = useMemo(() => {
@@ -166,18 +179,18 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
     }, [cardBgColor, onHandleChangeBgColor, onHandleDelete, onHandleEdit]);
 
     const commentRelatedData = {
-      title: outcome.title,
+      title: outcome.title || 'Untitled',
       itemId: outcome.id,
-      rowId: outcome.rowId,
-      columnId: rowItem.columnId!,
-      stepId: rowItem.step.id,
+      rowId: outcome.rowId || 0,
+      columnId: boxItem.columnId,
+      stepId: boxItem.step?.id || 0,
       type: CommentAndNoteModelsEnum.Outcome,
     };
 
     useEffect(() => {
-      onHandleChangeFlipCardIconColor(outcome.bgColor || '#f5f7ff', `${rowItem.id}-${outcome.id}`);
-      setCardBgColor(outcome.bgColor);
-    }, [outcome.bgColor, outcome.id, rowItem.id]);
+      onHandleChangeFlipCardIconColor(outcome.bgColor || '#f5f7ff', `${boxItem.id}-${outcome.id}`);
+      setCardBgColor(outcome.bgColor || '');
+    }, [boxItem.id, outcome.bgColor, outcome.id]);
 
     return (
       <div className={`outcome-item ${isActiveMode ? 'active-map-card' : ''}`}>
@@ -192,11 +205,9 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
           isDarkColor={getIsDarkColor(cardBgColor || outcome.bgColor || '#e9ebf2')}
           icon={
             <>
-              <Image
+              <img
                 src={outcome.icon || ''}
-                alt="Icon"
-                width={100}
-                height={100}
+                alt="OutcomeIcon"
                 style={{ width: '1rem', height: '1rem' }}
               />
             </>
@@ -213,8 +224,8 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
           note={{
             id: outcome.id,
             type: CommentAndNoteModelsEnum.Outcome,
-            rowId: outcome.rowId,
-            stepId: rowItem?.step.id,
+            rowId: outcome.rowId || 0,
+            stepId: boxItem.step?.id || 0,
             onHandleOpenNote: onHandleToggleNote,
             onClickAway: onHandleToggleNote,
             hasValue: Boolean(hasNote),
@@ -225,9 +236,9 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
           }}
           attachedTagsCount={outcome?.tagsCount || 0}
           createTagItemAttrs={{
-            columnId: rowItem.columnId!,
-            stepId: rowItem.step.id,
-            rowId: outcome.rowId,
+            columnId: boxItem.columnId,
+            stepId: boxItem.step?.id || 0,
+            rowId: outcome.rowId || 0,
           }}
           menu={{
             item: commentRelatedData,

@@ -6,7 +6,7 @@ import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { useParams } from '@tanstack/react-router';
 
 import CreateUpdateLinkModal from './CreateUpdateLinkModal';
-import LinkItem from './LinkItem';
+import LinkCard from './LinkCard';
 import { LinkType } from './types';
 import AddRowBoxElementBtn from '../../components/AddRowBoxElementBtn';
 import UnMergeColumnsButton from '../../components/UnmergeColumnsBtn';
@@ -119,7 +119,7 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                                         hasFlippedText={!!link.flippedText?.length}
                                         frontCard={
                                           <ErrorBoundary>
-                                            <LinkItem
+                                            <LinkCard
                                               link={link}
                                               boardId={+boardId}
                                               boxItem={boxItem}

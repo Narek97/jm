@@ -3,7 +3,7 @@ import { FC, memo } from 'react';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import AddUpdateOutcomeForm from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm';
-import { OutcomeType } from '@/Screens/OutcomeScreen/types.ts';
+import { OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 import { OutcomeLevelEnum } from '@/types/enum';
 
 interface IAddUpdateOutcomeItem {
@@ -11,9 +11,9 @@ interface IAddUpdateOutcomeItem {
   workspaceId: number;
   outcomeGroupId: number;
   singularName: string;
-  selectedOutcome: OutcomeType | null;
-  create: (data: OutcomeType) => void;
-  update: (data: OutcomeType) => void;
+  selectedOutcome: OutcomeGroupOutcomeType | null;
+  create: (data: OutcomeGroupOutcomeType) => void;
+  update: (data: OutcomeGroupOutcomeType) => void;
   handleClose: () => void;
 }
 
