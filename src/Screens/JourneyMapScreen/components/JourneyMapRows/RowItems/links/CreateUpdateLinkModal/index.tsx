@@ -1,48 +1,46 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import './style.scss';
-
-import { useParams } from 'next/navigation';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomButton from '@/components/atoms/custom-button/custom-button';
-import CustomDropDown from '@/components/atoms/custom-drop-down/custom-drop-down';
-import CustomInput from '@/components/atoms/custom-input/custom-input';
-import CustomModal from '@/components/atoms/custom-modal/custom-modal';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
+import { CREATE_LINK_VALIDATION_SCHEMA } from '../constants';
+import { LinkFormType, LinkType } from '../types';
+
 import {
   GetLinkMapsByBoardQuery,
   useInfiniteGetLinkMapsByBoardQuery,
-} from '@/gql/infinite-queries/generated/getLinkMapsByBoard.generated';
+} from '@/api/infinite-queries/generated/getLinkMapsByBoard.generated';
 import {
   CreateMapLinkMutation,
   useCreateMapLinkMutation,
-} from '@/gql/mutations/generated/createLink.generated';
+} from '@/api/mutations/generated/createLink.generated';
 import {
   UpdateMapLinkMutation,
   useUpdateMapLinkMutation,
-} from '@/gql/mutations/generated/updateLink.generated';
-import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/gql/types';
-import { selectedJourneyMapPersona } from '@/store/atoms/journeyMap.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import { CREATE_LINK_VALIDATION_SCHEMA } from '@/utils/constants/form/yup-validation';
-import { queryCacheTime, querySlateTime } from '@/utils/constants/general';
-import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/utils/constants/pagination';
-import { ActionsEnum, JourneyMapRowTypesEnum } from '@/utils/ts/enums/global-enums';
-import { DropdownSelectItemType } from '@/utils/ts/types/global-types';
-import { LinkFormType, LinkType } from '@/utils/ts/types/link/link-type';
-
-import ModalHeader from '../../../../../../components/molecules/modal-header';
+} from '@/api/mutations/generated/updateLink.generated.ts';
+import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/api/types';
+import CustomDropDown from '@/Components/Shared/CustomDropDown';
+import CustomInput from '@/Components/Shared/CustomInput';
+import CustomModal from '@/Components/Shared/CustomModal';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { querySlateTime } from '@/constants';
+import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/constants/pagination';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { DropdownSelectItemType } from '@/types';
+import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum.ts';
 
 interface ICreateUpdateLinkModal {
   selectedRowId: number;
   selectedStepId: number;
+  boardId: number;
   link: LinkType | null;
   isOpen: boolean;
   handleClose: () => void;
@@ -51,59 +49,80 @@ interface ICreateUpdateLinkModal {
 const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
   selectedRowId,
   selectedStepId,
+  boardId,
   link,
   isOpen,
   handleClose,
 }) => {
-  const { boardID } = useParams();
   const { updateMapByType } = useUpdateMap();
+  const { showToast } = useWuShowToast();
 
-  const selectedPerson = useRecoilValue(selectedJourneyMapPersona);
-  const setUndoActions = useSetRecoilState(undoActionsState);
-  const setRedoActions = useSetRecoilState(redoActionsState);
+  const { selectedJourneyMapPersona } = useJourneyMapStore();
+  const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
+
   const [collapsed, setCollapsed] = useState<boolean>(link?.type === LinkTypeEnum.External);
   const [boardMaps, setBoardMaps] = useState<Array<DropdownSelectItemType>>([]);
 
   const {
     data: dataMaps,
     isFetching: isFetchingMaps,
+    hasNextPage: hasNextMapMaps,
     fetchNextPage: fetchNextMapMaps,
-  } = useInfiniteGetLinkMapsByBoardQuery<GetLinkMapsByBoardQuery, Error>(
+  } = useInfiniteGetLinkMapsByBoardQuery<{ pages: Array<GetLinkMapsByBoardQuery> }, Error>(
     {
       getMapsInput: {
-        boardId: +boardID!,
+        boardId,
         offset: 0,
         limit: JOURNEY_MAP_LINKS_MAPS_LIMIT,
       },
     },
     {
-      onSuccess: response => {
-        const mapsArray = response.pages.map(page => page.getLinkMapsByBoard.maps).flat();
-
-        const transformedArray = mapsArray.map(map => {
-          return {
-            id: map.mapId,
-            name: map.title,
-            value: map.mapId,
-          };
-        });
-
-        setBoardMaps(transformedArray);
-      },
-      cacheTime: queryCacheTime,
       staleTime: querySlateTime,
+      getNextPageParam: function (
+        lastPage: GetLinkMapsByBoardQuery,
+        allPages: GetLinkMapsByBoardQuery[],
+      ) {
+        if (
+          !lastPage.getLinkMapsByBoard.maps ||
+          lastPage.getLinkMapsByBoard.maps.length < JOURNEY_MAP_LINKS_MAPS_LIMIT
+        ) {
+          return undefined;
+        }
+        return {
+          getMapsInput: {
+            boardId,
+            offset: 0,
+            limit: allPages.length * JOURNEY_MAP_LINKS_MAPS_LIMIT,
+          },
+        };
+      },
+      initialPageParam: 0,
     },
   );
 
-  const { mutate: mutateCreateLink, isLoading: isLoadingCreateLink } = useCreateMapLinkMutation<
-    CreateMapLinkMutation,
-    Error
-  >();
+  const { mutate: mutateCreateLink, isPending: isLoadingCreateLink } = useCreateMapLinkMutation<
+    Error,
+    CreateMapLinkMutation
+  >({
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
-  const { mutate: mutateUpdateLink, isLoading: isLoadingUpdateLink } = useUpdateMapLinkMutation<
-    UpdateMapLinkMutation,
-    Error
-  >();
+  const { mutate: mutateUpdateLink, isPending: isLoadingUpdateLink } = useUpdateMapLinkMutation<
+    Error,
+    UpdateMapLinkMutation
+  >({
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const {
     handleSubmit,
@@ -127,25 +146,13 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
     async (e: React.UIEvent<HTMLElement>) => {
       const bottom =
         e.currentTarget.scrollHeight <=
-        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 10;
+        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
 
-      if (
-        bottom &&
-        !isFetchingMaps &&
-        boardMaps?.length < dataMaps?.pages[0].getLinkMapsByBoard.count!
-      ) {
-        await fetchNextMapMaps({
-          pageParam: {
-            getMapsInput: {
-              boardId: +boardID!,
-              limit: JOURNEY_MAP_LINKS_MAPS_LIMIT,
-              offset: boardMaps.length,
-            },
-          },
-        });
+      if (bottom && !isFetchingMaps && hasNextMapMaps) {
+        await fetchNextMapMaps();
       }
     },
-    [boardID, boardMaps.length, dataMaps?.pages, fetchNextMapMaps, isFetchingMaps],
+    [fetchNextMapMaps, hasNextMapMaps, isFetchingMaps],
   );
 
   const onHandleSaveLink = (formData: LinkFormType) => {
@@ -174,9 +181,9 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
             };
 
             updateMapByType(JourneyMapRowTypesEnum.LINKS, ActionsEnum.UPDATE, data);
-            setRedoActions([]);
-            setUndoActions(undoPrev => [
-              ...undoPrev,
+            updateRedoActions([]);
+            updateUndoActions([
+              ...undoActions,
               {
                 id: uuidv4(),
                 type: JourneyMapRowTypesEnum.LINKS,
@@ -198,7 +205,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
       );
     } else {
       const linkInput: AddLinkInput = {
-        personaId: selectedPerson?.id || null,
+        personaId: selectedJourneyMapPersona?.id || null,
         stepId: selectedStepId,
         rowId: selectedRowId,
         type: formData.type as LinkTypeEnum,
@@ -222,9 +229,9 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
             };
 
             updateMapByType(JourneyMapRowTypesEnum.LINKS, ActionsEnum.CREATE, data);
-            setRedoActions([]);
-            setUndoActions(undoPrev => [
-              ...undoPrev,
+            updateRedoActions([]);
+            updateUndoActions([
+              ...undoActions,
               {
                 id: uuidv4(),
                 type: JourneyMapRowTypesEnum.LINKS,
@@ -239,13 +246,27 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
     }
   };
 
+  useEffect(() => {
+    if (dataMaps) {
+      const mapsArray = dataMaps.pages.map(page => page.getLinkMapsByBoard.maps).flat();
+      const transformedArray = mapsArray.map(map => {
+        return {
+          id: map.mapId,
+          name: map.title,
+          value: map.mapId,
+        };
+      });
+      setBoardMaps(transformedArray);
+    }
+  }, [dataMaps]);
+
   return (
     <CustomModal
       modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
       canCloseWithOutsideClick={true}>
-      <ModalHeader
+      <CustomModalHeader
         title={
           <div className={'add-update-outcome-modal-header'}>{link ? 'Update' : 'Create'}</div>
         }
@@ -379,16 +400,13 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
             disabled={isLoadingCreateLink || isLoadingUpdateLink}>
             Cancel
           </button>
-          <CustomButton
-            startIcon={false}
-            sxStyles={{ width: '6.125rem' }}
+          <WuButton
             type={'submit'}
             form="linkform"
             data-testid={'create-update-link-btn-test-id'}
-            disabled={isLoadingCreateLink || isLoadingUpdateLink}
-            isLoading={isLoadingCreateLink || isLoadingUpdateLink}>
+            disabled={isLoadingCreateLink || isLoadingUpdateLink}>
             Save
-          </CustomButton>
+          </WuButton>
         </div>
       </div>
     </CustomModal>

@@ -71,7 +71,7 @@ export const useGetJourneysQuery = <
       variables: GetJourneysQueryVariables,
       options?: Omit<UseQueryOptions<GetJourneysQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetJourneysQuery, TError, TData>['queryKey'] }
     ) => {
-
+    
     return useQuery<GetJourneysQuery, TError, TData>(
       {
     queryKey: ['GetJourneys', variables],

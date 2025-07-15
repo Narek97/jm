@@ -8,6 +8,7 @@ import { MapRowTypeEnum } from '@/api/types';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import Divider from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Divider';
+import Links from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/links';
 import Metrics from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics';
 import RowImages from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages';
 import RowMedias from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias';
@@ -179,11 +180,11 @@ const JourneyMapRegularRow: FC<IJourneyMapRow> = memo(
               //     <Outcomes width={279} row={rowItem} rowIndex={index} disabled={disabled} />
               //   </ErrorBoundary>
               // ),
-              // [JourneyMapRowTypesEnum.LINKS]: (
-              //   <ErrorBoundary>
-              //     <Links width={279} row={rowItem} rowIndex={index} disabled={disabled} />
-              //   </ErrorBoundary>
-              // ),
+              [JourneyMapRowTypesEnum.LINKS]: (
+                <ErrorBoundary>
+                  <Links width={279} row={rowItem} rowIndex={index} disabled={disabled} />
+                </ErrorBoundary>
+              ),
             },
             key: rowItem?.rowFunction || '',
             defaultPage: <></>,

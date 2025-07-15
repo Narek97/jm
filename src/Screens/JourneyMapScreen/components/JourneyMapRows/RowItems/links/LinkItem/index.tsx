@@ -1,71 +1,68 @@
-import React, { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import Image from 'next/image';
-import { useParams, usePathname } from 'next/navigation';
-
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useLocation } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
 
-import CardHeader from '@/containers/journey-map-container/journey-map-rows/card-header';
+import { LINK_ITEM_OPTIONS } from '../constants';
+import { LinkType } from '../types';
+
 import {
   DeleteMapLinkMutation,
   useDeleteMapLinkMutation,
-} from '@/gql/mutations/generated/deleteLink.generated';
+} from '@/api/mutations/generated/deleteLink.generated';
 import {
   UpdateLinkBgColorMutation,
   useUpdateLinkBgColorMutation,
-} from '@/gql/mutations/generated/updateLinkBGColor.generated';
-import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/gql/types';
-import { debounced1 } from '@/hooks/useDebounce';
-import JourneyIcon from '@/public/journey-map/journey.svg';
-import LinkIcon from '@/public/journey-map/link.svg';
-import { noteStateFamily } from '@/store/atoms/note.atom';
-import { redoActionsState, undoActionsState } from '@/store/atoms/undoRedo.atom';
-import { TOKEN_NAME } from '@/utils/constants/general';
-import { LINK_ITEM_OPTIONS } from '@/utils/constants/options';
-import { getCookies } from '@/utils/helpers/cookies';
-import { onHandleChangeFlipCardIconColor } from '@/utils/helpers/general';
-import { getIsDarkColor, lightenColor } from '@/utils/helpers/get-complementary-color';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-} from '@/utils/ts/enums/global-enums';
-import { ObjectKeysType } from '@/utils/ts/types/global-types';
-import { BoxItemType } from '@/utils/ts/types/journey-map/journey-map-types';
-import { LinkType } from '@/utils/ts/types/link/link-type';
+} from '@/api/mutations/generated/updateLinkBGColor.generated.ts';
+import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
+import LinkIcon from '@/assets/public/mapRow/link.svg';
+import { TOKEN_NAME } from '@/constants';
+import { debounced1 } from '@/hooks/useDebounce.ts';
+import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
+import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
+import { getCookie } from '@/utils/cookieHelper.ts';
+import { getIsDarkColor } from '@/utils/getIsDarkColor';
+import { lightenColor } from '@/utils/lightenColor';
 
 interface ILinkItem {
   link: LinkType;
+  boardId: number;
   disabled: boolean;
-  rowItem: BoxItemType;
-  dragHandleProps: ObjectKeysType;
+  boxItem: BoxType;
   onHandleToggleCreateUpdateModal: (stepId?: number, link?: LinkType) => void;
   onHandleUpdateMapByType: (
     type: JourneyMapRowActionEnum | JourneyMapRowTypesEnum,
     action: ActionsEnum,
     data: any,
   ) => void;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 const LinkItem: FC<ILinkItem> = memo(
   ({
     link,
+    boardId,
     disabled,
-    rowItem,
-    dragHandleProps,
+    boxItem,
     onHandleToggleCreateUpdateModal,
     onHandleUpdateMapByType,
+    dragHandleProps,
   }) => {
-    const pathname = usePathname();
-    const isGuest = pathname.includes('guest');
+    const location = useLocation();
+    const isGuest = location.pathname.includes('/guest');
 
-    const { boardID } = useParams();
-    const token = getCookies(TOKEN_NAME);
-    const setUndoActions = useSetRecoilState(undoActionsState);
-    const setRedoActions = useSetRecoilState(redoActionsState);
+    const { showToast } = useWuShowToast();
+
+    const token = getCookie(TOKEN_NAME);
+
+    const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -77,22 +74,23 @@ const LinkItem: FC<ILinkItem> = memo(
     const isDarkColor = getIsDarkColor(cardBgColor || '#e3e9fa');
     const color = isDarkColor ? '#ffffff' : '#545e6b';
 
-    const noteData = useRecoilValue(
-      noteStateFamily({ type: CommentAndNoteModelsEnum.Links, id: link.id }),
-    );
-    const hasNote = noteData ? noteData?.text.length : link.note?.text.length;
+    // const noteData = useRecoilValue(
+    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Links, id: link.id }),
+    // );
+    // const hasNote = noteData ? noteData?.text.length : link.note?.text.length;
+    const hasNote = false;
 
-    const { mutate: mutateDeleteLink } = useDeleteMapLinkMutation<DeleteMapLinkMutation, Error>({
+    const { mutate: mutateDeleteLink } = useDeleteMapLinkMutation<Error, DeleteMapLinkMutation>({
       onSuccess: () => {
         const data = {
           ...link,
-          stepId: rowItem.step.id,
+          stepId: boxItem.step?.id,
         };
 
         onHandleUpdateMapByType(JourneyMapRowTypesEnum.LINKS, ActionsEnum.DELETE, data);
-        setRedoActions([]);
-        setUndoActions(undoPrev => [
-          ...undoPrev,
+        updateRedoActions([]);
+        updateUndoActions([
+          ...undoActions,
           {
             id: uuidv4(),
             type: JourneyMapRowTypesEnum.LINKS,
@@ -101,24 +99,30 @@ const LinkItem: FC<ILinkItem> = memo(
           },
         ]);
       },
+      onError: error => {
+        showToast({
+          variant: 'error',
+          message: error?.message,
+        });
+      },
     });
 
     const { mutate: mutateUpdateLink } = useUpdateLinkBgColorMutation<
-      UpdateLinkBgColorMutation,
-      Error
+      Error,
+      UpdateLinkBgColorMutation
     >({
       onSuccess: () => {
         const data = {
           ...link,
           bgColor: cardBgColor,
           previousBgColor: link.bgColor,
-          stepId: rowItem.step.id,
+          stepId: boxItem.step?.id,
         };
 
         onHandleUpdateMapByType(JourneyMapRowTypesEnum.LINKS, ActionsEnum['COLOR-CHANGE'], data);
-        setRedoActions([]);
-        setUndoActions(undoPrev => [
-          ...undoPrev,
+        updateRedoActions([]);
+        updateUndoActions([
+          ...undoActions,
           {
             id: uuidv4(),
             type: JourneyMapRowTypesEnum.LINKS,
@@ -130,7 +134,7 @@ const LinkItem: FC<ILinkItem> = memo(
     });
 
     const getLinkHref = () => {
-      let url = `${import.meta.env.VITE_API_URL}/graphql/board/${boardID}/journey-map/${link.linkedMapId}`;
+      let url = `${import.meta.env.VITE_APP_URL}/graphql/board/${boardId}/journey-map/${link.linkedMapId}`;
       if (!token) {
         url += '/guest';
       }
@@ -144,8 +148,8 @@ const LinkItem: FC<ILinkItem> = memo(
     }, [cardBgColor, link.bgColor, link.id, mutateUpdateLink]);
 
     const onHandleEdit = useCallback(() => {
-      onHandleToggleCreateUpdateModal(rowItem.step.id, link);
-    }, [link, onHandleToggleCreateUpdateModal, rowItem.step.id]);
+      onHandleToggleCreateUpdateModal(boxItem.step?.id, link);
+    }, [link, onHandleToggleCreateUpdateModal, boxItem.step?.id]);
 
     const onHandleDelete = useCallback(async () => {
       setIsLoading(true);
@@ -162,11 +166,11 @@ const LinkItem: FC<ILinkItem> = memo(
       (e: ChangeEvent<HTMLInputElement>) => {
         setCardInitialBgColor(e.target.value);
         debounced1(() => {
-          onHandleChangeFlipCardIconColor(cardInitialBgColor, `${rowItem.id}-${link.id}`);
+          onHandleChangeFlipCardIconColor(cardInitialBgColor, `${boxItem.id}-${link.id}`);
           setCardBgColor(cardInitialBgColor);
         });
       },
-      [cardInitialBgColor, link.id, rowItem.id],
+      [cardInitialBgColor, link.id, boxItem.id],
     );
 
     const options = useMemo(() => {
@@ -179,18 +183,18 @@ const LinkItem: FC<ILinkItem> = memo(
     }, [cardBgColor, onHandleChangeBgColor, onHandleDelete, onHandleEdit]);
 
     const commentRelatedData = {
-      title: link.title,
+      title: link.title || 'Untitled',
       itemId: link.id,
       rowId: link.rowId,
-      columnId: rowItem.columnId!,
-      stepId: rowItem.step.id,
+      columnId: boxItem.columnId,
+      stepId: boxItem.step?.id || 0,
       type: CommentAndNoteModelsEnum.Links,
     };
 
     useEffect(() => {
-      onHandleChangeFlipCardIconColor(link.bgColor || '#e3e9fa', `${rowItem.id}-${link.id}`);
-      setCardBgColor(link.bgColor);
-    }, [link.bgColor, link.id, rowItem.id]);
+      onHandleChangeFlipCardIconColor(link.bgColor || '#e3e9fa', `${boxItem.id}-${link.id}`);
+      setCardBgColor(link.bgColor || '');
+    }, [boxItem.id, link.bgColor, link.id]);
 
     return (
       <div
@@ -204,21 +208,21 @@ const LinkItem: FC<ILinkItem> = memo(
             setIsActiveMode(isActive);
           }}
           isDarkColor={getIsDarkColor(cardBgColor || link.bgColor || '#e3e9fa')}
-          icon={<LinkIcon />}
+          icon={<img src={LinkIcon} alt="LinkIcon" />}
           isShowPerson={!!link.personaImage}
           persona={{
             name: '',
             url: link.personaImage?.url || '',
             key: link.personaImage?.key || '',
             color: link.personaImage?.color || '#B052A7',
-            croppedArea: link.personaImage?.croppedArea || null,
+            croppedArea: null,
           }}
           isShowNote={isOpenNote}
           note={{
             id: link.id,
             type: CommentAndNoteModelsEnum.Links,
             rowId: link.rowId,
-            stepId: rowItem?.step.id,
+            stepId: boxItem.step?.id || 0,
             onHandleOpenNote: onHandleToggleNote,
             onClickAway: onHandleToggleNote,
             hasValue: Boolean(hasNote),
@@ -229,8 +233,8 @@ const LinkItem: FC<ILinkItem> = memo(
           }}
           attachedTagsCount={link?.tagsCount || 0}
           createTagItemAttrs={{
-            columnId: rowItem.columnId!,
-            stepId: rowItem.step.id,
+            columnId: boxItem.columnId!,
+            stepId: boxItem.step?.id || 0,
             rowId: link.rowId,
           }}
           menu={{
@@ -250,14 +254,14 @@ const LinkItem: FC<ILinkItem> = memo(
           <div data-testid={`link-item-${link.id}-logo-title-test-id`}>
             {link.type === 'JOURNEY' ? (
               <span className={'link-item--content--logo-title'}>
-                <JourneyIcon />
+                <span className="wm-map" />
                 <a href={getLinkHref()} target={'_blank'} rel="noreferrer" style={{ color }}>
                   {link.title}
                 </a>
               </span>
             ) : (
               <span className={'link-item--content--logo-title'}>
-                <Image
+                <img
                   className={'link-item--content--logo-image'}
                   width={50}
                   height={50}

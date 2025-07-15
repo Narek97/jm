@@ -1,7 +1,6 @@
 @use '@assets/styles/variables' as *;
 @use '@assets/styles/mixins' as *;
 
-
 .journey-map-metrics {
   @include map-row();
 }

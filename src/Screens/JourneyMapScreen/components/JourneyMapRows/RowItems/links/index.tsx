@@ -3,28 +3,26 @@ import React, { FC, useCallback, useState } from 'react';
 import './style.scss';
 
 import { Draggable, Droppable } from '@hello-pangea/dnd';
-import { useRecoilValue } from 'recoil';
+import { useParams } from '@tanstack/react-router';
 
-import CardFlip from '@/components/molecules/card-flip';
-import CustomLoader from '@/components/molecules/custom-loader/custom-loader';
-import MapItemBackCard from '@/components/organisms/map-item-back-card';
-import ErrorBoundary from '@/components/templates/error-boundary';
-import { useUpdateMap } from '@/containers/journey-map-container/hooks/useUpdateMap';
-import AddRowBoxElementBtn from '@/containers/journey-map-container/journey-map-rows/add-row-box-element-btn';
-import MergeColumnsButton from '@/containers/journey-map-container/journey-map-rows/merge-columns-btn';
-import CreateUpdateLinkModal from '@/containers/journey-map-container/journey-map-rows/row-types/links/create-update-link-modal';
-import LinkItem from '@/containers/journey-map-container/journey-map-rows/row-types/links/link-item';
-import UnMergeColumnsButton from '@/containers/journey-map-container/journey-map-rows/unmerge-columns-btn';
-import { journeyMapState } from '@/store/atoms/journeyMap.atom';
-import { currentLayerState } from '@/store/atoms/layers.atom';
-import { findPreviousBox, getConnectionDetails } from '@/utils/helpers/general';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-} from '@/utils/ts/enums/global-enums';
-import { JourneyMapRowType } from '@/utils/ts/types/journey-map/journey-map-types';
-import { LinkType } from '@/utils/ts/types/link/link-type';
+import CreateUpdateLinkModal from './CreateUpdateLinkModal';
+import LinkItem from './LinkItem';
+import { LinkType } from './types';
+import AddRowBoxElementBtn from '../../components/AddRowBoxElementBtn';
+import UnMergeColumnsButton from '../../components/UnmergeColumnsBtn';
+
+import CardFlip from '@/Components/Shared/CardFlip';
+import CustomLoader from '@/Components/Shared/CustomLoader';
+import ErrorBoundary from '@/Features/ErrorBoundary';
+import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
+import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
+import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
+import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
+import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
+import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useLayerStore } from '@/store/layers.ts';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 
 interface ILinks {
   width: number;
@@ -34,11 +32,17 @@ interface ILinks {
 }
 
 const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
+  const { boardId } = useParams({
+    from: '/_authenticated/_secondary-sidebar-layout/board/$boardId/journey-map/$mapId/',
+  });
+
   const { updateMapByType } = useUpdateMap();
 
-  const journeyMap = useRecoilValue(journeyMapState);
-  const currentLayer = useRecoilValue(currentLayerState);
+  const { journeyMap } = useJourneyMapStore();
+  const { currentLayer } = useLayerStore();
+
   const isLayerModeOn = !currentLayer?.isBase;
+
   const [isOpenCreateUpdateLinkModal, setIsOpenCreateUpdateLinkModal] = useState<boolean>(false);
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
   const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
@@ -53,8 +57,7 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
     (type: JourneyMapRowActionEnum | JourneyMapRowTypesEnum, action: ActionsEnum, data: any) => {
       updateMapByType(type, action, data);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [updateMapByType],
   );
 
   return (
@@ -63,18 +66,19 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
         <CreateUpdateLinkModal
           selectedRowId={row.id}
           selectedStepId={selectedStepId!}
+          boardId={+boardId}
           link={selectedLink}
           isOpen={isOpenCreateUpdateLinkModal}
           handleClose={onHandleToggleCreateUpdateModal}
         />
       )}
-      {row?.boxes?.map((rowItem, boxIndex) => (
+      {row?.boxes?.map((boxItem: BoxType, boxIndex) => (
         <React.Fragment
           key={`${JourneyMapRowTypesEnum.LINKS}*${rowIndex}*${String(row.id)}*${boxIndex}`}>
-          {!!rowItem.mergeCount &&
-            (currentLayer?.isBase || currentLayer?.columnIds?.includes(rowItem.columnId!)) && (
+          {!!boxItem.mergeCount &&
+            (currentLayer?.isBase || currentLayer?.columnIds?.includes(boxItem.columnId!)) && (
               <>
-                {rowItem.isLoading ? (
+                {boxItem.isLoading ? (
                   <div className={'journey-map-row--loading'}>
                     <CustomLoader />
                   </div>
@@ -82,7 +86,7 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                   <Droppable
                     droppableId={`${JourneyMapRowTypesEnum.LINKS}*${rowIndex}*${String(
                       row.id,
-                    )}*${boxIndex}*${rowItem.step.id}`}
+                    )}*${boxIndex}*${boxItem.step?.id}`}
                     key={`${JourneyMapRowTypesEnum.LINKS}*${rowIndex}*${String(row.id)}*${boxIndex}`}
                     type={JourneyMapRowTypesEnum.LINKS}>
                     {provided => (
@@ -92,11 +96,11 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                         className={'journey-map-links--column'}
                         data-testid={`links-column-${boxIndex}-test-id`}
                         style={{
-                          width: `${rowItem.mergeCount * width + rowItem.mergeCount - 1}px`,
+                          width: `${boxItem.mergeCount * width + boxItem.mergeCount - 1}px`,
                           minWidth: `${width}px`,
                         }}>
                         <div className={'journey-map-links--column--item map-item'}>
-                          {rowItem?.links?.map((link, linkIndex: number) => {
+                          {boxItem.links?.map((link, linkIndex: number) => {
                             return (
                               <Draggable
                                 key={
@@ -111,13 +115,14 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                                       className={'journey-map-links--card'}
                                       ref={provided2.innerRef}>
                                       <CardFlip
-                                        cardId={`${rowItem.id}-${link.id}`}
+                                        cardId={`${boxItem.id}-${link.id}`}
                                         hasFlippedText={!!link.flippedText?.length}
                                         frontCard={
                                           <ErrorBoundary>
                                             <LinkItem
                                               link={link}
-                                              rowItem={rowItem}
+                                              boardId={+boardId}
+                                              boxItem={boxItem}
                                               disabled={disabled}
                                               dragHandleProps={provided2.dragHandleProps!}
                                               onHandleToggleCreateUpdateModal={
@@ -128,11 +133,11 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                                           </ErrorBoundary>
                                         }
                                         backCard={
-                                          <MapItemBackCard
+                                          <MapRowItemBackCard
                                             className={`journey-map-links--back-card`}
-                                            annotationValue={link.flippedText}
+                                            annotationValue={link.flippedText || ''}
                                             rowId={row.id}
-                                            stepId={rowItem.step.id}
+                                            stepId={boxItem.step?.id || 0}
                                             itemId={link.id}
                                             itemKey={'links'}
                                           />
@@ -145,20 +150,20 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                             );
                           })}
                           <div
-                            className={`${rowItem?.links.length ? 'unmerge-btn-section-elements-type' : 'box-controls-container--blank-type'}`}>
+                            className={`${boxItem.links.length ? 'unmerge-btn-section-elements-type' : 'box-controls-container--blank-type'}`}>
                             <AddRowBoxElementBtn
-                              itemsLength={rowItem?.links.length}
+                              itemsLength={boxItem.links.length}
                               label={row?.label?.toLowerCase() || ''}
                               boxIndex={boxIndex}
                               handleClick={() => {
-                                onHandleToggleCreateUpdateModal(rowItem.step.id);
+                                onHandleToggleCreateUpdateModal(boxItem.step?.id);
                               }}
                             />
-                            {rowItem.mergeCount > 1 && row.boxes && !isLayerModeOn && (
+                            {boxItem.mergeCount > 1 && row.boxes && !isLayerModeOn && (
                               <UnMergeColumnsButton
-                                boxIndex={rowItem.mergeCount - 1 + boxIndex}
+                                boxIndex={boxItem.mergeCount - 1 + boxIndex}
                                 rowId={row?.id}
-                                rowItem={row.boxes[boxIndex + rowItem.mergeCount - 1]}
+                                boxItem={row.boxes[boxIndex + boxItem.mergeCount - 1]}
                                 boxes={row?.boxes}
                               />
                             )}
@@ -170,12 +175,12 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
                               row.boxes[boxIndex - 1],
                               journeyMap,
                             )}
-                            connectionEnd={getConnectionDetails(rowItem, journeyMap)}
+                            connectionEnd={getConnectionDetails(boxItem, journeyMap)}
                             rowId={row?.id}
                             previousBoxDetails={findPreviousBox(row.boxes, boxIndex)}
-                            endStepId={rowItem?.step?.id!}
-                            endColumnId={rowItem?.columnId!}
-                            endBoxMergeCount={rowItem.mergeCount}
+                            endStepId={boxItem.step?.id || 0}
+                            endColumnId={boxItem.columnId}
+                            endBoxMergeCount={boxItem.mergeCount}
                           />
                         )}
                         {provided.placeholder}
