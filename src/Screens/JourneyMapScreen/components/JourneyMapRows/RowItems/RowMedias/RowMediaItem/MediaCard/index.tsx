@@ -5,7 +5,7 @@ import './style.scss';
 import { Skeleton } from '@mui/material';
 import { useLocation } from '@tanstack/react-router';
 
-import { CommentAndNoteModelsEnum } from '@/api/types';
+import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import CSV_SVG from '@/assets/public/media/CSV.svg';
 import DOC_SVG from '@/assets/public/media/DOC.svg';
 import DOCX_SVG from '@/assets/public/media/DOCX.svg';
@@ -15,7 +15,10 @@ import PPTX_SVG from '@/assets/public/media/PPTX.svg';
 import XLS_SVG from '@/assets/public/media/XLS.svg';
 import XLSX_SVG from '@/assets/public/media/XLSX.svg';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
+import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
+import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { JOURNEY_MAP_MEDIA_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useNote } from '@/store/note.ts';
@@ -109,35 +112,35 @@ const MediaCard: FC<IMediaCard> = ({
         onClick={() => {
           viewMedia(boxMedia?.text || '');
         }}>
-        {/*{isOpenNote && (*/}
-        {/*  <JourneyMapCardNote*/}
-        {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
-        {/*    itemId={boxMedia.id}*/}
-        {/*    rowId={boxMedia.rowId}*/}
-        {/*    stepId={boxItem.step.id}*/}
-        {/*    onClickAway={onHandleToggleNote}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {isOpenNote && (
+          <JourneyMapCardNote
+            type={CommentAndNoteModelsEnum.BoxElement}
+            itemId={boxMedia.id}
+            rowId={boxMedia.rowId}
+            stepId={boxItem.step?.id || 0}
+            onClickAway={onHandleToggleNote}
+          />
+        )}
         {!isGuest && (
           <div className={'media-card--header'}>
             <div className={'media-card--header--comment'}>
-              {/*<CommentBtn commentsCount={boxMedia.commentsCount} item={commentRelatedData} />*/}
+              <CommentBtn commentsCount={boxMedia.commentsCount} item={commentRelatedData} />
             </div>
             <div className={'media-card--header--note'}>
               <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
             </div>
             <div className={'card-header--tag'}>
-              {/*<JourneyMapCardTags*/}
-              {/*  cardType={MapCardTypeEnum.BoxElement}*/}
-              {/*  itemId={boxMedia.id}*/}
-              {/*  changeActiveMode={changeActiveMode}*/}
-              {/*  attachedTagsCount={boxMedia.tagsCount || 0}*/}
-              {/*  createTagItemAttrs={{*/}
-              {/*    stepId: boxItem.step.id,*/}
-              {/*    columnId: boxItem.columnId!,*/}
-              {/*    rowId: boxMedia.rowId,*/}
-              {/*  }}*/}
-              {/*/>*/}
+              <JourneyMapCardTags
+                cardType={MapCardTypeEnum.BoxElement}
+                itemId={boxMedia.id}
+                changeActiveMode={changeActiveMode}
+                attachedTagsCount={boxMedia.tagsCount || 0}
+                createTagItemAttrs={{
+                  stepId: boxItem.step?.id || 0,
+                  columnId: boxItem.columnId,
+                  rowId: boxMedia.rowId,
+                }}
+              />
             </div>
 
             <div className={'media-card--header--menu'}>

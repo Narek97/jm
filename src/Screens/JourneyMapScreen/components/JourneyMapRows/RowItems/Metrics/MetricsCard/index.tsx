@@ -330,7 +330,6 @@ const MetricsCard: FC<IMetricsCard> = memo(
           });
       }
     }, [calcMetricsStartAndEndDate, getMetricsAnalytics, metrics.dateRange, metrics.source]);
-
     return (
       <div
         className={`metrics-item  ${isActiveMode ? 'active-map-card' : ''}`}

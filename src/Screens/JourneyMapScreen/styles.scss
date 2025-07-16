@@ -212,7 +212,7 @@
   width: 1.5rem;
   height: 1.5rem;
   position: initial;
-  opacity: 0;
+  visibility: hidden;
   @include flex-center-center;
   button {
     padding: 0 !important;

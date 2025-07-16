@@ -1,4 +1,5 @@
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
+import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 
 export const useUpdateCommentOrTagsCount = () => {
@@ -57,7 +58,7 @@ const changeMapItemCommentsOrTagsCountByType = (
   type: MapCardTypeEnum | CommentAndNoteModelsEnum,
   actionType: 'increment' | 'decrement',
   itemId: number,
-  block: BoxItemType,
+  block: BoxType,
   count: number,
 ) => {
   switch (type) {

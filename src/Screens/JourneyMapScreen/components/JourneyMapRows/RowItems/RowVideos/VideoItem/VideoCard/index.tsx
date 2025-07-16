@@ -5,12 +5,13 @@ import './style.scss';
 import { Skeleton } from '@mui/material';
 import { useLocation } from '@tanstack/react-router';
 
-import { CommentAndNoteModelsEnum } from '@/api/types';
+import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
+import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
+import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { JOURNEY_MAP_VIDEO_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
-import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useNote } from '@/store/note.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
@@ -35,7 +36,6 @@ const VideoCard: FC<IVideoCard> = ({
   const location = useLocation();
   const isGuest = location.pathname.includes('/guest');
 
-  const { crudBoxElement } = useCrudMapBoxElement();
   const hasNote = useNote(CommentAndNoteModelsEnum.BoxElement, boxItem.id || 0);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -91,23 +91,23 @@ const VideoCard: FC<IVideoCard> = ({
         {!isGuest && (
           <div className={'video-card--header'}>
             <div className={'video-card--header--comment'}>
-              {/*<CommentBtn commentsCount={boxVideo.commentsCount} item={commentRelatedData} />*/}
+              <CommentBtn commentsCount={boxVideo.commentsCount} item={commentRelatedData} />
             </div>
             <div className={'video-card--header--note'}>
               <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
             </div>
             <div className={'card-header--tag'}>
-              {/*<JourneyMapCardTags*/}
-              {/*  cardType={MapCardTypeEnum.BoxElement}*/}
-              {/*  itemId={boxVideo.id}*/}
-              {/*  changeActiveMode={changeActiveMode}*/}
-              {/*  attachedTagsCount={boxItem.boxTextElement?.tagsCount || 0}*/}
-              {/*  createTagItemAttrs={{*/}
-              {/*    stepId: boxItem.step.id,*/}
-              {/*    columnId: boxItem.columnId!,*/}
-              {/*    rowId: boxVideo?.rowId,*/}
-              {/*  }}*/}
-              {/*/>*/}
+              <JourneyMapCardTags
+                cardType={MapCardTypeEnum.BoxElement}
+                itemId={boxVideo.id}
+                changeActiveMode={changeActiveMode}
+                attachedTagsCount={boxItem.boxTextElement?.tagsCount || 0}
+                createTagItemAttrs={{
+                  stepId: boxItem.step?.id || 0,
+                  columnId: boxItem.columnId!,
+                  rowId: boxVideo?.rowId,
+                }}
+              />
             </div>
 
             <div className={'video-card--header--menu'}>

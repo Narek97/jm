@@ -3,7 +3,9 @@ import { FC, memo, ReactNode, useCallback, useState } from 'react';
 import './style.scss';
 import { useLocation } from '@tanstack/react-router';
 
+import { MapCardTypeEnum } from '@/api/types.ts';
 import MapEditor from '@/Components/Shared/Editors/MapEditor';
+import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 
 interface ICardInput {
@@ -46,29 +48,30 @@ const CardInput: FC<ICardInput> = memo(
         <div className={'text-insights--header'} style={{ backgroundColor: headerColor }}>
           <div className={'text-insights--header-icon'}>{icon}</div>
           <div className={'card-header--tag text-insights--header-tag'}>
-            {/*{!isGuest && (*/}
-            {/*  <JourneyMapCardTags*/}
-            {/*    cardType={MapCardTypeEnum.BoxElement}*/}
-            {/*    itemId={boxItem.boxTextElement?.id || null}*/}
-            {/*    changeActiveMode={updateActiveMode}*/}
-            {/*    attachedTagsCount={boxItem.boxTextElement?.tagsCount || 0}*/}
-            {/*    createTagItemAttrs={{*/}
-            {/*      stepId: boxItem.step.id,*/}
-            {/*      columnId: boxItem.columnId!,*/}
-            {/*      rowId: rowId,*/}
-            {/*      cardType: MapCardTypeEnum.BoxTextElement,*/}
-            {/*    }}*/}
-            {/*    onClick={() => {*/}
-            {/*      !boxItem.boxTextElement?.id &&*/}
-            {/*        onHandleUpdateBoxElement({*/}
-            {/*          previousText: '',*/}
-            {/*          value: '',*/}
-            {/*          columnId: boxItem.columnId!,*/}
-            {/*          stepId: boxItem.step.id,*/}
-            {/*        });*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*)}*/}
+            {!isGuest && (
+              <JourneyMapCardTags
+                cardType={MapCardTypeEnum.BoxElement}
+                itemId={boxItem.boxTextElement?.id || null}
+                changeActiveMode={updateActiveMode}
+                attachedTagsCount={boxItem.boxTextElement?.tagsCount || 0}
+                createTagItemAttrs={{
+                  stepId: boxItem.step?.id || 0,
+                  columnId: boxItem.columnId,
+                  rowId: rowId,
+                  cardType: MapCardTypeEnum.BoxTextElement,
+                }}
+                onClick={() => {
+                  if (!boxItem.boxTextElement?.id) {
+                    onHandleUpdateBoxElement({
+                      previousText: '',
+                      value: '',
+                      columnId: boxItem.columnId,
+                      stepId: boxItem.step?.id || 0,
+                    });
+                  }
+                }}
+              />
+            )}
           </div>
         </div>
 

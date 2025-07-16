@@ -9,6 +9,8 @@ import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
+import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
+import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
@@ -125,17 +127,17 @@ const CardHeader: FC<ICardHeader> = ({
             onClickAway={note.onClickAway}
           />
         )}
-        {/*<div className={'card-header--tag card-header--tag-cons-pros'}>*/}
-        {/*  <JourneyMapCardTags*/}
-        {/*    cardType={cardType}*/}
-        {/*    itemId={note.id}*/}
-        {/*    changeActiveMode={changeActiveMode}*/}
-        {/*    attachedTagsCount={attachedTagsCount}*/}
-        {/*    createTagItemAttrs={createTagItemAttrs}*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div className={'card-header--tag card-header--tag-cons-pros'}>
+          <JourneyMapCardTags
+            cardType={cardType}
+            itemId={note.id}
+            changeActiveMode={changeActiveMode}
+            attachedTagsCount={attachedTagsCount}
+            createTagItemAttrs={createTagItemAttrs}
+          />
+        </div>
         <div className={'card-header--comment'}>
-          {/*<CommentBtn commentsCount={comment.count} item={comment.item} />*/}
+          <CommentBtn commentsCount={comment.count} item={comment.item} />
         </div>
         <div className={'card-header--note'}>
           <NoteBtn hasValue={note.hasValue || false} handleClick={note.onHandleOpenNote} />

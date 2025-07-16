@@ -1,0 +1,78 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.tags-menu-section {
+  padding: 0.4rem;
+  &--save-btn {
+    cursor: pointer;
+  }
+}
+
+.board-tags-section {
+  height: 14rem;
+  overflow-y: auto;
+
+  .empty-data-info {
+    min-height: 10rem;
+  }
+
+  &-list {
+    &--attached-tags {
+      max-height: 6rem;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      .focus\:bg-blue-focus:focus {
+        background-color: transparent !important;
+      }
+      &-item {
+        display: inline-block;
+        position: relative;
+        padding: 0.1rem 1.4rem 0.1rem 0.4rem;
+        border-radius: 0.25rem;
+        margin: 0 0.5rem 0.5rem 0;
+        background: $BASE_LIGHT-GRAY-COLOR;
+      }
+      .delete-attached-tag {
+        width: 0.5rem;
+        height: 0.5rem;
+        min-width: 0.5rem;
+        min-height: 0.5rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    &--item {
+      @include flex-center-between;
+      padding: 0.5rem;
+      color: #3a3a3a;
+      cursor: pointer;
+      &:hover {
+        background: $BASE_LIGHT-GRAY-COLOR;
+      }
+      &-name {
+        @include reduce-text(11rem);
+      }
+      &-option {
+        width: 1.5rem;
+        height: 1.5rem;
+        span {
+          width: 1.5rem;
+          height: 1.5rem;
+
+          padding: 0.1rem;
+          @include flex-center-center;
+          cursor: pointer;
+          &:hover {
+            background: #d1d1d1;
+          }
+        }
+        &:hover {
+          span {
+            color: $BASE_BLUE_COLOR;
+          }
+        }
+      }
+    }
+  }
+}

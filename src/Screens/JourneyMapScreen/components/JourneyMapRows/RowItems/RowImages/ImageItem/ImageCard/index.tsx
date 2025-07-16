@@ -14,14 +14,17 @@ import {
   UpdateAttachmentScaleTypeMutation,
   useUpdateAttachmentScaleTypeMutation,
 } from '@/api/mutations/generated/updateAttachmentScaleType.generated.ts';
-import { CommentAndNoteModelsEnum, ImgScaleTypeEnum } from '@/api/types.ts';
+import { CommentAndNoteModelsEnum, ImgScaleTypeEnum, MapCardTypeEnum } from '@/api/types.ts';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { IMAGE_ASPECT } from '@/constants';
+import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
+import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
 import ImageViewModal from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard/ImageViewModal';
+import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -243,37 +246,36 @@ const ImageCard: FC<IImageCard> = memo(
         )}
 
         <div key={boxImage?.id} className={'image-card'} data-testid={'image-card-test-id'}>
-          {/*{isOpenNote && (*/}
-          {/*  <JourneyMapCardNote*/}
-          {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
-          {/*    itemId={boxImage.id}*/}
-          {/*    rowId={boxImage.rowId}*/}
-          {/*    stepId={boxItem.step.id}*/}
-          {/*    onClickAway={onHandleToggleNote}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {isOpenNote && (
+            <JourneyMapCardNote
+              type={CommentAndNoteModelsEnum.BoxElement}
+              itemId={boxImage.id}
+              rowId={boxImage.rowId}
+              stepId={boxItem.step?.id || 0}
+              onClickAway={onHandleToggleNote}
+            />
+          )}
 
           {!isGuest && (
             <div className={'image-card--header'}>
               <div className={'image-card--header--comment'}>
-                {/*<CommentBtn commentsCount={boxImage.commentsCount} item={commentRelatedData} />*/}
+                <CommentBtn commentsCount={boxImage.commentsCount} item={commentRelatedData} />
               </div>
               <div className={'image-card--header--note'}>
                 <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
               </div>
               <div className={'image-card--header--tag card-header--tag'}>
-                {/*todo*/}
-                {/*<JourneyMapCardTags*/}
-                {/*  cardType={MapCardTypeEnum.BoxElement}*/}
-                {/*  itemId={boxImage.id}*/}
-                {/*  changeActiveMode={changeActiveMode}*/}
-                {/*  attachedTagsCount={boxImage.tagsCount || 0}*/}
-                {/*  createTagItemAttrs={{*/}
-                {/*    stepId: boxItem.step?.id,*/}
-                {/*    columnId: boxItem.columnId,*/}
-                {/*    rowId: boxImage.rowId,*/}
-                {/*  }}*/}
-                {/*/>*/}
+                <JourneyMapCardTags
+                  cardType={MapCardTypeEnum.BoxElement}
+                  itemId={boxImage.id}
+                  changeActiveMode={changeActiveMode}
+                  attachedTagsCount={boxImage.tagsCount || 0}
+                  createTagItemAttrs={{
+                    stepId: boxItem.step?.id || 0,
+                    columnId: boxItem.columnId,
+                    rowId: boxImage.rowId,
+                  }}
+                />
               </div>
 
               <div className={'image-card--header--menu'}>
