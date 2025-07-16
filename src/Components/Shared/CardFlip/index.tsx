@@ -5,11 +5,6 @@ import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import ReactCardFlip from 'react-card-flip';
 
-import FlipHoverIcon from '@/public/operations/flip-hover.svg';
-import FlipIndicatorHoverIcon from '@/public/operations/flip-indicator-hover.svg';
-import FlipIndicatorIcon from '@/public/operations/flip-indicator.svg';
-import FlipIcon from '@/public/operations/flip.svg';
-
 interface ICardFlip {
   frontCard: React.ReactNode;
   backCard: React.ReactNode;
@@ -50,6 +45,13 @@ const CardFlip: FC<ICardFlip> = ({
         {frontCard}
         <div className={'tooltip-section'}>
           <WuTooltip positionOffset={10} position={'bottom'} content={'Flip'}>
+            {hasFlippedText ? (
+              <div
+                className={
+                  'absolute w-[6px] h-[6px] rounded-[50px] bg-[#1B87E6] top-[2px] left-[2px]'
+                }
+              />
+            ) : null}
             <button
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -58,7 +60,12 @@ const CardFlip: FC<ICardFlip> = ({
               data-testid={'react-card-flip--btn'}
               id={cardId}
               aria-label={'flip'}>
-              <span className={'wm-flip-to-back'} />
+              <span
+                className={'wm-flip-to-back'}
+                style={{
+                  color: isHovered ? '#1B3380' : '#545E6B',
+                }}
+              />
             </button>
           </WuTooltip>
         </div>
@@ -74,7 +81,12 @@ const CardFlip: FC<ICardFlip> = ({
               data-testid={'react-card-flip--btn-back'}
               id={cardId}
               aria-label={'flip'}>
-              <span className={'wm-flip-to-front'} />
+              <span
+                className={'wm-flip-to-front'}
+                style={{
+                  color: isHovered ? '#1B3380' : '#545E6B',
+                }}
+              />
             </button>
           </WuTooltip>
         </div>

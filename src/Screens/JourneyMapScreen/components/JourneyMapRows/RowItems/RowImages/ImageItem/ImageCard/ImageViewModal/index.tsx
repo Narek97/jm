@@ -5,7 +5,7 @@ import { ImgScaleTypeEnum } from '@/api/types';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomModal from '@/Components/Shared/CustomModal';
 import { IMAGE_ASPECT_LARGE } from '@/constants';
-import { BoxElementType, BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { CroppedAreaType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 

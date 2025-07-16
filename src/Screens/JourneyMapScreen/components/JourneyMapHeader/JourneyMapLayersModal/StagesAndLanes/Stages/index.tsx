@@ -24,12 +24,12 @@ import {
 import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import CustomLoader from '@/Components/Shared/CustomLoader';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
 import { ObjectKeysType } from '@/types';
 import { getGroupedIds } from '@/utils/getGroupedIds.ts';
-import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface IStages {
   ref: React.Ref<HTMLDivElement>;
@@ -318,7 +318,6 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
               icon={
                 currentCheckedStages?.length > 0 &&
                 currentCheckedStages.length < stagesAndLanesForLayer?.stages.length ? (
-                  // todo
                   UNSELECT_ICON
                 ) : (
                   <CustomCheckboxIcon />

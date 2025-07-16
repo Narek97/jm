@@ -4,9 +4,9 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 
 import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useLayerStore } from '@/store/layers.ts';
-import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface ILanes {
   mode: ActionEnum;
@@ -84,7 +84,6 @@ const Lanes: FC<ILanes> = ({ mode, updatesCurrentLayer, defaultCheckedTagIds, se
             icon={
               currentCheckedLanes.length > 0 &&
               currentCheckedLanes.length < stagesAndLanesForLayer.lanes.length ? (
-                //   todo
                 UNSELECT_ICON
               ) : (
                 <CustomCheckboxIcon />
