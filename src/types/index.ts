@@ -142,3 +142,16 @@ export type FileTypeConfigType = {
   accept: string;
   extensions: string[];
 };
+
+export type NoteType = {
+  id: number;
+  text: string;
+  itemId: number;
+  updatedAt: any;
+  owner: {
+    color?: string;
+    emailAddress: string;
+    firstName: string;
+    lastName: string;
+  };
+};

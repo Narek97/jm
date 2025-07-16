@@ -1,0 +1,49 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.note-section {
+  position: absolute;
+  top: 0.375rem;
+  right: 0;
+  z-index: 12;
+  background-color: #fff3c2;
+  border-radius: 0.25rem;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0 0.3125rem 0.3125rem -0.1875rem,
+    rgba(0, 0, 0, 0.14) 0rem 0.5rem 0.625rem 0.0625rem,
+    rgba(0, 0, 0, 0.12) 0rem 0.1875rem 0.875rem 0.125rem;
+  width: 16.5625rem;
+  min-height: 4rem;
+  padding: 0.5rem;
+
+  &:hover {
+    .add-row-btn {
+      display: flex;
+    }
+  }
+
+  &--content {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: $BASE_GRAY_COLOR;
+
+    &--icon {
+      min-width: 1rem;
+    }
+
+    &--max-length {
+      position: absolute;
+      right: 20px;
+      top: 0;
+    }
+
+    .custom-input {
+      margin-top: 10px;
+    }
+
+    path {
+      fill: #545e6b;
+    }
+  }
+}

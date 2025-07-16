@@ -22,6 +22,7 @@ import { debounced1 } from '@/hooks/useDebounce';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';
@@ -46,6 +47,7 @@ const TouchpointCard: FC<ITouchpointItem> = memo(
     const { showToast } = useWuShowToast();
 
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
+    const hasNote = useNote(CommentAndNoteModelsEnum.Touchpoint, touchpoint.id);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
@@ -56,13 +58,6 @@ const TouchpointCard: FC<ITouchpointItem> = memo(
     const lightenBackgroundColor = cardBgColor ? lightenColor(cardBgColor, 12) : '#f5f7ff';
     const isDarkColor = getIsDarkColor(cardBgColor || '#e3e9fa');
     const color = isDarkColor ? '#ffffff' : '#545e6b';
-
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Touchpoint, id: touchpoint.id }),
-    // );
-    // const hasNote = noteData ? noteData.text.length : touchpoint.note?.text.length;
-
-    const hasNote = false;
 
     const { mutate: mutateUpdateTouchPoint } = useUpdateTouchPointMutation<
       Error,

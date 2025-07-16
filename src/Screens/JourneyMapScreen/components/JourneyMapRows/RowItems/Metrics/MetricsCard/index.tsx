@@ -28,6 +28,7 @@ import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/com
 import { JOURNEY_MAP_METRICS_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 import { MetricsType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { useUserStore } from '@/store/user.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
@@ -61,7 +62,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
   }) => {
     const { user } = useUserStore();
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
-
+    const hasNote = useNote(CommentAndNoteModelsEnum.Metrics, metrics.id);
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [answers, setAnswers] = useState<
       Array<{ count: number; percentage: number; title: string }>
@@ -73,11 +74,6 @@ const MetricsCard: FC<IMetricsCard> = memo(
     const [isPastAnswersLoading, setIsPastAnswersLoading] = useState<boolean>(false);
     const [isActiveMode, setIsActiveMode] = useState<boolean>(false);
 
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Metrics, id: metrics.id }),
-    // );
-    // const hasNote = noteData ? noteData?.text.length : metrics.note?.text.length;
-    const hasNote = false;
     const getMetricsValue = () => {
       if (metrics.source === MetricsSourceEnum.Custom) {
         return metrics.value || 0;

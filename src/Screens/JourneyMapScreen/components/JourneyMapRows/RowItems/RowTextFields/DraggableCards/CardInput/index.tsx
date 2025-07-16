@@ -30,6 +30,7 @@ import { JOURNEY_MAP_TEXT_FIELD_OPTIONS } from '@/Screens/JourneyMapScreen/const
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxElementType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { ObjectKeysType } from '@/types';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCookie } from '@/utils/cookieHelper.ts';
@@ -110,6 +111,7 @@ const CardInput: FC<ICardInput> = memo(
   }) => {
     const { showToast } = useWuShowToast();
     const { crudBoxElement } = useCrudMapBoxElement();
+    const hasNote = useNote(CommentAndNoteModelsEnum.BoxElement, item.id);
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [cardInitialBgColor, setCardInitialBgColor] = useState<string>('');
@@ -143,12 +145,6 @@ const CardInput: FC<ICardInput> = memo(
       [JourneyMapRowTypesEnum.INTERACTIONS]: <img src={InteractionIcon} alt={'Interaction'} />,
       [JourneyMapRowTypesEnum.LIST_ITEM]: <img src={ListIcon} alt={'List'} />,
     };
-
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: item.id }),
-    // );
-    // const hasNote = noteData ? noteData.text.length : item.note?.text.length;
-    const hasNote = false;
 
     const onHandleToggleNote = useCallback(() => {
       setIsOpenNote(prev => !prev);

@@ -7,9 +7,12 @@ import { useLocation } from '@tanstack/react-router';
 
 import { CommentAndNoteModelsEnum } from '@/api/types';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
+import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
 import { JOURNEY_MAP_VIDEO_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IVideoCard {
@@ -33,6 +36,7 @@ const VideoCard: FC<IVideoCard> = ({
   const isGuest = location.pathname.includes('/guest');
 
   const { crudBoxElement } = useCrudMapBoxElement();
+  const hasNote = useNote(CommentAndNoteModelsEnum.BoxElement, boxItem.id || 0);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
@@ -41,22 +45,16 @@ const VideoCard: FC<IVideoCard> = ({
   const fileExtension = boxVideo?.text?.split('.').pop()?.toLowerCase();
   const isAudioOnly = fileExtension === 'mp3';
 
-  // todo
-  // const noteData = useRecoilValue(
-  //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxVideo.id }),
-  // );
-  // const hasNote = noteData ? noteData.text.length : boxVideo.note?.text.length;
-
   const onHandleToggleNote = useCallback(() => {
     setIsOpenNote(prev => !prev);
   }, []);
 
   const commentRelatedData: CommentButtonItemType = {
-    title: boxItem?.boxTextElement?.text || '',
+    title: boxItem?.boxTextElement?.text || 'Untitled',
     itemId: boxVideo.id,
     rowId: boxVideo.rowId,
-    columnId: boxItem.columnId!,
-    stepId: boxItem.step?.id,
+    columnId: boxItem.columnId,
+    stepId: boxItem.step?.id || 0,
     type: CommentAndNoteModelsEnum.BoxElement,
   };
 
@@ -81,22 +79,22 @@ const VideoCard: FC<IVideoCard> = ({
   return (
     <>
       <div key={boxVideo?.id} className={'video-card'} data-testid={'video-card-test-id'}>
-        {/*{isOpenNote && (*/}
-        {/*  <JourneyMapCardNote*/}
-        {/*    type={CommentAndNoteModelsEnum.BoxElement}*/}
-        {/*    itemId={boxVideo.id}*/}
-        {/*    rowId={boxVideo.rowId}*/}
-        {/*    stepId={boxItem.step.id}*/}
-        {/*    onClickAway={onHandleToggleNote}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {isOpenNote && (
+          <JourneyMapCardNote
+            type={CommentAndNoteModelsEnum.BoxElement}
+            itemId={boxVideo.id}
+            rowId={boxVideo.rowId}
+            stepId={boxItem.step?.id || 0}
+            onClickAway={onHandleToggleNote}
+          />
+        )}
         {!isGuest && (
           <div className={'video-card--header'}>
             <div className={'video-card--header--comment'}>
               {/*<CommentBtn commentsCount={boxVideo.commentsCount} item={commentRelatedData} />*/}
             </div>
             <div className={'video-card--header--note'}>
-              {/*<NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />*/}
+              <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
             </div>
             <div className={'card-header--tag'}>
               {/*<JourneyMapCardTags*/}

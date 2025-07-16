@@ -15,8 +15,10 @@ import PPTX_SVG from '@/assets/public/media/PPTX.svg';
 import XLS_SVG from '@/assets/public/media/XLS.svg';
 import XLSX_SVG from '@/assets/public/media/XLSX.svg';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
 import { JOURNEY_MAP_MEDIA_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IMediaCard {
@@ -43,13 +45,10 @@ const MediaCard: FC<IMediaCard> = ({
 
   const boxMedia = boxItem.boxElements[0];
 
+  const hasNote = useNote(CommentAndNoteModelsEnum.BoxElement, boxItem.id || 0);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
-
-  // const noteData = useRecoilValue(
-  //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxMedia.id }),
-  // );
-  // const hasNote = noteData ? noteData.text.length : boxMedia.note?.text.length;
 
   const onHandleToggleNote = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -125,7 +124,7 @@ const MediaCard: FC<IMediaCard> = ({
               {/*<CommentBtn commentsCount={boxMedia.commentsCount} item={commentRelatedData} />*/}
             </div>
             <div className={'media-card--header--note'}>
-              {/*<NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />*/}
+              <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
             </div>
             <div className={'card-header--tag'}>
               {/*<JourneyMapCardTags*/}

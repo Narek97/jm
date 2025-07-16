@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 
 import {
   COMMUNICATION,
+  FINANCE,
   HEALTHCARE,
   HUMAN_RESOURCES,
   RETAIL,
@@ -10,7 +11,6 @@ import {
 } from './components/JourneyMapRows/RowItems/Touchpoints/constants';
 
 import { FILE_TYPE_CONFIG } from '@/constants';
-import { FINANCE } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/constants.ts';
 import TouchpointIcons from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/TouchpointDrawer/TouchpointIcons';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType, TabPanelType, TabType } from '@/types';

@@ -25,6 +25,7 @@ import { debounced1 } from '@/hooks/useDebounce.ts';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCookie } from '@/utils/cookieHelper.ts';
@@ -63,6 +64,7 @@ const LinkCard: FC<ILinkCard> = memo(
     const token = getCookie(TOKEN_NAME);
 
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
+    const hasNote = useNote(CommentAndNoteModelsEnum.Links, link.id);
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -73,12 +75,6 @@ const LinkCard: FC<ILinkCard> = memo(
     const lightenBackgroundColor = cardBgColor ? lightenColor(cardBgColor, 12) : '#f5f7ff';
     const isDarkColor = getIsDarkColor(cardBgColor || '#e3e9fa');
     const color = isDarkColor ? '#ffffff' : '#545e6b';
-
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Links, id: link.id }),
-    // );
-    // const hasNote = noteData ? noteData?.text.length : link.note?.text.length;
-    const hasNote = false;
 
     const { mutate: mutateDeleteLink } = useDeleteMapLinkMutation<Error, DeleteMapLinkMutation>({
       onSuccess: () => {

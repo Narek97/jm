@@ -3,9 +3,12 @@ import { FC, ReactNode } from 'react';
 import './style.scss';
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
+import NoteBtn from './NoteBtn';
+
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import { CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
@@ -113,15 +116,15 @@ const CardHeader: FC<ICardHeader> = ({
         )}
       </div>
       <div className={'card-header--right-block'}>
-        {/*{isShowNote && (*/}
-        {/*  <JourneyMapCardNote*/}
-        {/*    type={note.type}*/}
-        {/*    itemId={note.id}*/}
-        {/*    rowId={note.rowId}*/}
-        {/*    stepId={note.stepId}*/}
-        {/*    onClickAway={note.onClickAway}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {isShowNote && (
+          <JourneyMapCardNote
+            type={note.type}
+            itemId={note.id}
+            rowId={note.rowId}
+            stepId={note.stepId}
+            onClickAway={note.onClickAway}
+          />
+        )}
         {/*<div className={'card-header--tag card-header--tag-cons-pros'}>*/}
         {/*  <JourneyMapCardTags*/}
         {/*    cardType={cardType}*/}
@@ -135,7 +138,7 @@ const CardHeader: FC<ICardHeader> = ({
           {/*<CommentBtn commentsCount={comment.count} item={comment.item} />*/}
         </div>
         <div className={'card-header--note'}>
-          {/*<NoteBtn hasValue={!!note.hasValue} handleClick={note.onHandleOpenNote} />*/}
+          <NoteBtn hasValue={note.hasValue || false} handleClick={note.onHandleOpenNote} />
         </div>
 
         <div className={'card-header--menu'}>

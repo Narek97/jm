@@ -20,10 +20,12 @@ import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { IMAGE_ASPECT } from '@/constants';
+import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
 import ImageViewModal from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard/ImageViewModal';
 import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { CroppedAreaType } from '@/types';
 import { ActionsEnum, MenuViewTypeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
@@ -46,6 +48,7 @@ const ImageCard: FC<IImageCard> = memo(
     const isGuest = location.pathname.includes('/guest');
 
     const { crudBoxElement } = useCrudMapBoxElement();
+    const hasNote = useNote(CommentAndNoteModelsEnum.BoxElement, boxItem.id || 0);
 
     const boxImage = boxItem?.boxElements[0];
 
@@ -74,13 +77,6 @@ const ImageCard: FC<IImageCard> = memo(
         height: 100,
       },
     );
-
-    // todo
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.BoxElement, id: boxImage.id }),
-    // );
-    // const hasNote = noteData ? noteData.text.length : boxImage.note?.text.length;
-    // const hasNote = false;
 
     const { mutate: updateAttachmentScaleType } = useUpdateAttachmentScaleTypeMutation<
       Error,
@@ -263,7 +259,7 @@ const ImageCard: FC<IImageCard> = memo(
                 {/*<CommentBtn commentsCount={boxImage.commentsCount} item={commentRelatedData} />*/}
               </div>
               <div className={'image-card--header--note'}>
-                {/*<NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />*/}
+                <NoteBtn hasValue={!!hasNote} handleClick={onHandleToggleNote} />
               </div>
               <div className={'image-card--header--tag card-header--tag'}>
                 {/*todo*/}

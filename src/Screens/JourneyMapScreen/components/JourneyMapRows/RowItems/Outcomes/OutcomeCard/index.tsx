@@ -18,6 +18,7 @@ import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
 import { debounced1 } from '@/hooks/useDebounce';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
+import { useNote } from '@/store/note.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';
@@ -52,6 +53,7 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
     const { showToast } = useWuShowToast();
 
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
+    const hasNote = useNote(CommentAndNoteModelsEnum.Outcome, outcome.id);
 
     const [isOpenNote, setIsOpenNote] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,13 +64,6 @@ const OutcomeCard: FC<IOutcomeCard> = memo(
     const lightenBackgroundColor = cardBgColor ? lightenColor(cardBgColor, 12) : '#f5f7ff';
     const isDarkColor = getIsDarkColor(cardBgColor || '#e9ebf2');
     const color = isDarkColor ? '#ffffff' : '#545e6b';
-
-    // const noteData = useRecoilValue(
-    //   noteStateFamily({ type: CommentAndNoteModelsEnum.Outcome, id: outcome.id }),
-    // );
-    // const hasNote = noteData ? noteData?.text.length : outcome.note?.text.length;
-
-    const hasNote = false;
 
     const { mutate: deleteOutcome } = useDeleteOutcomeMutation<Error, DeleteOutcomeMutation>({
       onError: error => {
