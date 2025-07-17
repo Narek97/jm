@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useLayerStore } from '@/store/layers.ts';
 
@@ -18,8 +19,8 @@ export const useSelectLayerForMap = () => {
     (item: LayerType, isBase: boolean) => {
       let columnIdsEqual = false;
       let rowIdsEqual = false;
-      columnIdsEqual = areArraysEqual(currentLayer.columnIds, item.columnIds);
-      rowIdsEqual = areArraysEqual(currentLayer.rowIds, item.rowIds);
+      columnIdsEqual = areArraysEqual(currentLayer.columnIds || [], item.columnIds || []);
+      rowIdsEqual = areArraysEqual(currentLayer.rowIds || [], item.rowIds || []);
       setCurrentLayer({ ...item, isBase });
       updateJourneyMapRowsCount(0);
       updateJourneyMap({

@@ -73,6 +73,7 @@ import {
   BoxType,
   JourneyMapRowType,
   JourneyMapType,
+  MapOutcomeGroupsForRowCreationType,
   MapSelectedPersonasType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
@@ -575,7 +576,10 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
   useEffect(() => {
     if (dataMapOutcomeGroups) {
-      updateMapOutcomeGroups(dataMapOutcomeGroups.getMapOutcomeGroupsForRowCreation || []);
+      updateMapOutcomeGroups(
+        (dataMapOutcomeGroups.getMapOutcomeGroupsForRowCreation as MapOutcomeGroupsForRowCreationType[]) ||
+          [],
+      );
     }
   }, [dataMapOutcomeGroups, updateMapOutcomeGroups]);
 

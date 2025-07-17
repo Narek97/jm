@@ -114,7 +114,7 @@ export const useAddNewRow = (onToggleDrawer: () => void) => {
         label = (additionalFields?.label as string) || '';
         updateMapOutcomeGroups(
           mapOutcomeGroups?.filter(itm => {
-            return +itm?.id !== additionalFields?.outcomeGroupId;
+            return +itm!.id !== additionalFields?.outcomeGroupId;
           }),
         );
       }

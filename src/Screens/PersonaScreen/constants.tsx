@@ -1,5 +1,5 @@
 import { DemographicInfoTypeEnum } from '@/api/types';
-import { PersonaDemographicInfoType } from '@/Screens/PersonaScreen/types.ts';
+import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
 import { DropdownSelectItemType, MenuOptionsType } from '@/types';
 import { PersonaGenderEnum, PersonaTypeEnum } from '@/types/enum';
 

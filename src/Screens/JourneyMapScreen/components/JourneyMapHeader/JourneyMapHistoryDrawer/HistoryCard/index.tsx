@@ -12,6 +12,7 @@ import {
   SubActionTypeEnum,
 } from '@/api/types';
 import { MapLogsType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+import { TouchPointType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/types.ts';
 import { ObjectKeysType } from '@/types';
 
 dayjs.extend(fromNow);
@@ -66,7 +67,7 @@ const HistoryCard = ({ history }: { history: MapLogsType }) => {
             return `Added "${history.to?.name}" outcome.`;
           }
           case LoggerTypeEnum.Touchpoint: {
-            return `Added  ${history.to?.touchPoints?.map(touchPoint => ` "${touchPoint.title}"`)} touchpoint in ${history.to?.rowFunction} lane.`;
+            return `Added  ${history.to?.touchPoints?.map((touchPoint: TouchPointType) => ` "${touchPoint.title}"`)} touchpoint in ${history.to?.rowFunction} lane.`;
           }
           case LoggerTypeEnum.Metrics: {
             return `Added "${history.to?.name}" in ${row[history.to?.rowFunction]} lane.`;

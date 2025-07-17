@@ -37,6 +37,7 @@ import VideoInfoIcon from '@/assets/public/mapRow/video_info.svg';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { useAddNewRow } from '@/Screens/JourneyMapScreen/hooks/useAddNewRow.tsx';
+import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
 
@@ -132,10 +133,10 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
   ];
 
   const planning = mapOutcomeGroups.map(oc => ({
-    id: oc.id,
-    pluralName: oc.pluralName,
-    icon: oc.icon,
-    title: oc.name,
+    id: (oc as OutcomeGroupType)?.id,
+    pluralName: (oc as OutcomeGroupType)?.pluralName,
+    icon: (oc as OutcomeGroupType)?.icon,
+    title: (oc as OutcomeGroupType)?.name,
     type: MapRowTypeEnum.Outcomes,
   }));
 

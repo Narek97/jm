@@ -1,5 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
+import { CommentType } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/types.ts';
+
 const useKeepScrollPosition = (deps: CommentType[][] = []) => {
   const containerRef = useRef(null);
   const previousScrollPosition = useRef(0);

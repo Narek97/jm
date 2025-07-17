@@ -100,7 +100,7 @@ const PersonaImages: FC<IPersonaImages> = ({
                   color: imageItem?.color || '#B052A7',
                   isSelected: true,
                   attachment: {
-                    id: imageItem?.attachment?.id || '',
+                    id: 0,
                     url: imageItem?.attachment?.url || '',
                     key: imageItem?.attachment?.key || '',
                     croppedArea: imageItem?.croppedArea,

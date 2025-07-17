@@ -249,7 +249,7 @@ export const createEmojiLineGroup = ({
     });
     emojiData.on('dragstart', function () {
       const mainLayer = stageRef?.current?.getChildren()[0];
-      const tooltip: Konva.Label = mainLayer?.findOne('#tooltip')!;
+      const tooltip: Konva.Label = mainLayer.findOne('#tooltip')!;
       tooltip.visible(false);
     });
     emojiData.on('mouseenter', function () {
@@ -260,7 +260,7 @@ export const createEmojiLineGroup = ({
         emojiId: emojiData.attrs.id,
         mode: 'mouseEnter',
       });
-      const tooltip: Konva.Label = mainLayer?.findOne('#tooltip')!;
+      const tooltip: Konva.Label = mainLayer.findOne('#tooltip')!;
       if (stageRef.current) {
         tooltip.x(50);
         tooltip.children[1].setAttrs({
@@ -273,7 +273,7 @@ export const createEmojiLineGroup = ({
         });
         const mousePosition = stageRef.current.getPointerPosition();
         let y = group.attrs.y + 30;
-        if (SENTIMENT_HEIGHT - mousePosition?.y! < 70) {
+        if (SENTIMENT_HEIGHT - (mousePosition?.y || 0) < 70) {
           y = 180;
           tooltip.children[1].setAttrs({
             x: 16,

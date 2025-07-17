@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 import { OutcomesElementType } from './types';
 
-import { OrderByEnum, OutcomeGroupSortByEnum } from '@/api/types.ts';
+import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import { MenuOptionsType, TableColumnType } from '@/types';
 
 dayjs.extend(fromNow);
@@ -13,8 +13,8 @@ const OUTCOME_OPTIONS = ({
   onHandleDelete,
   onHandleEdit,
 }: {
-  onHandleEdit: (data?: any) => void;
-  onHandleDelete: (data: any) => void;
+  onHandleEdit: (data: OutcomeGroup) => void;
+  onHandleDelete: (data: OutcomeGroup) => void;
   color?: string;
 }): Array<MenuOptionsType> => {
   return [
@@ -113,6 +113,6 @@ export const OUTCOMES_FORM_ELEMENTS: Array<OutcomesElementType> = [
 export const DEFAULT_GET_OUTCOMES_PARAMS = {
   sortBy: OutcomeGroupSortByEnum.CreatedAt,
   orderBy: OrderByEnum.Desc,
-}
+};
 
 export { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS, OUTCOMES_VALIDATION_SCHEMA };

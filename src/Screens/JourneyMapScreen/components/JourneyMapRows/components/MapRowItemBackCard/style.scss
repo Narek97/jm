@@ -5,6 +5,9 @@
 @include map-item-quill();
 
 .map-item-back-card {
+  min-height: 6.25rem;
+  border-radius: 0.125rem;
+  border: 1px solid $BASE_GRAY_COLOR;
   &--header {
     @include flex-center;
     height: 2rem;
@@ -12,7 +15,4 @@
     color: $BASE-WHITE-COLOR;
     background-color: #3d3d3d;
   }
-  min-height: 6.25rem;
-  border-radius: 0.125rem;
-  border: 1px solid $BASE_GRAY_COLOR;
 }

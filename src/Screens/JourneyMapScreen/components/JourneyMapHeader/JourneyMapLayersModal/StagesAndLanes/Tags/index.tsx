@@ -6,11 +6,11 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import {
   BoardTagType,
   LayerFormType,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
-import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 
 interface IJourneyMapLayersModal {
   mode: ActionEnum;

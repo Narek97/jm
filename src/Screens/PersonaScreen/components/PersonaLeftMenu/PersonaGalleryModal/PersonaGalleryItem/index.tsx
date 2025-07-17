@@ -13,6 +13,7 @@ import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { IMAGE_ASPECT } from '@/constants';
 import { debounced400 } from '@/hooks/useDebounce.ts';
+import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
 import { PERSONA_GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants.tsx';
 import { AttachmentType } from '@/types';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
@@ -55,7 +56,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   }, []);
 
   const onHandleDelete = useCallback(
-    (item: AttachmentType) => {
+    (item: PersonaDemographicInfoType) => {
       mutateDeleteAttachment({ id: item.id });
     },
     [mutateDeleteAttachment],

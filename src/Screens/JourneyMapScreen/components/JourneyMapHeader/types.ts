@@ -24,9 +24,15 @@ export type LayerStagesStepsType = {
   }[];
 };
 
+export type LayerStagesStageType =
+  GetJourneyMapRowsAndColumnsQuery['getJourneyMapRowsAndColumns']['columns'][number];
+
+export type LayerStagesLaneType =
+  GetJourneyMapRowsAndColumnsQuery['getJourneyMapRowsAndColumns']['rows'][number];
+
 export type LayerStagesAndLanesType = {
-  stages: GetJourneyMapRowsAndColumnsQuery['getJourneyMapRowsAndColumns']['columns'];
-  lanes: GetJourneyMapRowsAndColumnsQuery['getJourneyMapRowsAndColumns']['rows'];
+  stages: LayerStagesStageType[];
+  lanes: LayerStagesLaneType[];
   steps: LayerStagesStepsType | null;
 };
 

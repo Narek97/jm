@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { Attachment, CommentAndNoteModelsEnum, User } from '@/api/types.ts';
 
-export type ObjectKeysType<T = unknown> = {
+export type ObjectKeysType<T = any> = {
   [key: string]: T;
 };
 

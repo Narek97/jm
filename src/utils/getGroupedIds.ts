@@ -1,3 +1,5 @@
+import { LayerStagesStageType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
+
 function mergeGroup(index: number, group: number[], arrays: number[][], visited: boolean[]) {
   if (visited[index]) return;
   visited[index] = true;
@@ -24,11 +26,11 @@ function mergeConnectedArrays(arrays: number[][]): number[][] {
   return result;
 }
 
-export const getGroupedIds = (columns: StageAndLaneItemType[]) => {
+export const getGroupedIds = (columns: LayerStagesStageType[]) => {
   const result: number[][] = [];
-  columns?.forEach(item => {
-    if (item?.mergedIds?.length) {
-      result.push(item?.mergedIds);
+  columns.forEach(item => {
+    if (item.mergedIds?.length) {
+      result.push(item.mergedIds);
     }
   });
   return mergeConnectedArrays(result);

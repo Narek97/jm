@@ -123,7 +123,9 @@ const Sentiment: FC<ISentiment> = ({
   const handleShowTransferCircles = ({ isShow, x }: { isShow: boolean; x?: number }) => {
     const layer = layerRef.current?.findOne('#transfer_circles');
     layer?.visible(isShow);
-    x && layer?.setAttr('x', x);
+    if (x) {
+      layer?.setAttr('x', x);
+    }
   };
 
   const drawTransferCircles = useCallback(() => {
@@ -457,7 +459,7 @@ const Sentiment: FC<ISentiment> = ({
                     mode: 'dragEnd',
                   });
                 } else {
-                  const type: any = detectedTransferLineType?.emotionType!;
+                  const type: any = detectedTransferLineType.emotionType!;
                   const previousId = emoji.attrs.parentId;
                   let start = 0;
                   // arranging side by side / fixings empty spaces after remove
