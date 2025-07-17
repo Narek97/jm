@@ -54,7 +54,7 @@ const Header = () => {
   }, [getProductSwitcher, updateUser]);
 
   return (
-    <>
+    <div data-testid={'header-test-id'}>
       {productSwitcherData && (
         <WuAppHeader
           productName="Journey Management"
@@ -78,7 +78,7 @@ const Header = () => {
           onLogout={logout}
         />
       )}
-    </>
+    </div>
   );
 };
 
