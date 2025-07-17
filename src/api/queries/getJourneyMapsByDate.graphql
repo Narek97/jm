@@ -1,0 +1,16 @@
+query GetJourneyMapsByDate($getJourneyMapsByDateInput: GetJourneyMapsByDateInput!) {
+  getJourneyMapsByDate(getJourneyMapsByDateInput: $getJourneyMapsByDateInput) {
+    count
+    maps{
+    id
+      updatedAt
+      createdAt
+      title
+      owner{
+        orgId
+        id
+        emailAddress
+      }
+    }
+  }
+}
