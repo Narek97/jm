@@ -1,17 +1,16 @@
-import React, { FC, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import './style.scss';
 
 import dayjs from 'dayjs';
-import { useRecoilValue } from 'recoil';
 
-import CustomLongMenu from '@/components/atoms/custom-long-menu/custom-long-menu';
-import { userState } from '@/store/atoms/user.atom';
-import { COMMENT_ITEM_OPTIONS } from '@/utils/constants/options';
-import { menuViewTypeEnum } from '@/utils/ts/enums/global-enums';
-import { CommentType } from '@/utils/ts/types/global-types';
+import CommentInput from '../CommentInput';
+import { CommentType } from '../types';
 
-import CommentInput from '../../../../components/molecules/comment-Input';
+import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import { COMMENT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/constants.tsx';
+import { useUserStore } from '@/store/user.ts';
+import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface ICommentItem {
   isFirstLevel: boolean;
@@ -40,7 +39,8 @@ const CommentItem: FC<ICommentItem> = ({
   addComment,
   updateComment,
 }) => {
-  const user = useRecoilValue(userState);
+  const { user } = useUserStore();
+
   const [isShowReplyInput, setIsShowReplyInput] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
@@ -60,15 +60,16 @@ const CommentItem: FC<ICommentItem> = ({
       className={'comment-item'}
       data-testid="comment-item-test-id"
       key={comment?.id}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref={ref => (index === 0 ? setLastMessageRef(ref) : null)}>
       <div className={'comment-item--author'}>
         <div
           className={'comment-item--author-logo'}
-          style={{ backgroundColor: comment?.owner?.color }}>
-          {comment?.owner?.firstName || comment?.owner?.lastName
-            ? comment?.owner?.firstName?.slice(0, 1) + comment?.owner?.lastName?.slice(0, 1)
-            : comment?.owner?.emailAddress?.slice(0, 2)!}
+          style={{ backgroundColor: comment.owner?.color }}>
+          {comment.owner?.firstName || comment.owner?.lastName
+            ? comment.owner?.firstName?.slice(0, 1) + comment.owner?.lastName?.slice(0, 1)
+            : comment.owner?.emailAddress?.slice(0, 2)}
         </div>
         <div>
           <div>
@@ -80,12 +81,12 @@ const CommentItem: FC<ICommentItem> = ({
       <div>
         {isEditMode ? (
           <CommentInput
-            focus={() => {
-              // scrollToBottom();
-            }}
             value={comment?.text}
             addComment={text => {
-              updateComment && updateComment({ text, commentId: comment?.id });
+              if (updateComment) {
+                updateComment({ text, commentId: comment?.id });
+              }
+
               setIsEditMode(false);
             }}
           />
@@ -110,7 +111,7 @@ const CommentItem: FC<ICommentItem> = ({
               deleteComment={() => {
                 deleteComment(replyComment?.id, comment?.id);
               }}
-              comment={replyComment}
+              comment={replyComment as CommentType}
               index={index}
               setLastMessageRef={ref => {
                 setLastMessageRef(ref);
@@ -132,7 +133,7 @@ const CommentItem: FC<ICommentItem> = ({
 
       {user?.userID === comment?.owner?.userId && (
         <CustomLongMenu
-          type={menuViewTypeEnum.VERTICAL}
+          type={MenuViewTypeEnum.VERTICAL}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'right',

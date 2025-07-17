@@ -1,0 +1,21 @@
+@use '@assets/styles/variables' as *;
+@use '@assets/styles/mixins' as *;
+
+.comment-input {
+  position: relative;
+  border: none;
+
+  .ql-container.ql-snow {
+    border: none !important;
+    background-color: $BASE-LIGHT-GRAY-COLOR;
+    border-bottom: 0.0625rem solid $BASE-LIGHT-GRAY-COLOR-2 !important;
+  }
+
+  .ql-editor {
+    height: fit-content;
+    max-height: 4.5rem;
+    padding: 0.5rem 1.875rem 0.5rem 0.625rem;
+    overflow: auto;
+  }
+
+}

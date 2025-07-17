@@ -11,17 +11,18 @@ mutation AddComment($addCommentInput: AddCommentInput!) {
       lastName
     }
     replies {
-      id
       text
-      itemId
-      updatedAt
       owner {
+        id
         userId
         color
         emailAddress
         firstName
         lastName
       }
+      itemId
+      id
+      updatedAt
     }
     updatedAt
   }

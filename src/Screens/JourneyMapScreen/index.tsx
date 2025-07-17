@@ -2,10 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
+import { Modal } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
 
+import CommentsDrawer from './components/JourneyMapCardCommentsDrawer';
 import JourneyMapFooter from './components/JourneyMapFooter';
 
 import {
@@ -51,7 +54,9 @@ import {
 import { MapRowTypeEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import { JOURNEY_MAP_LIMIT } from '@/constants/pagination';
+import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
+import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
@@ -60,17 +65,24 @@ import JourneyMapRows from '@/Screens/JourneyMapScreen/components/JourneyMapRows
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
 import JourneyMapSteps from '@/Screens/JourneyMapScreen/components/JourneyMapSteps';
 import {
+  emitToSocketMap,
+  socketMap,
+  unEmitToSocketMap,
+} from '@/Screens/JourneyMapScreen/helpers/socketConnection.ts';
+import {
   BoxType,
   JourneyMapRowType,
   JourneyMapType,
   MapSelectedPersonasType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useLayerStore } from '@/store/layers.ts';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
-import { ErrorWithStatus } from '@/types';
-import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
+import { useUserStore } from '@/store/user.ts';
+import { ErrorWithStatus, UserType } from '@/types';
+import { ActionsEnum, JourneyMapEventsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 
 const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   const { boardId, mapId } = useParams({
@@ -78,9 +90,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   });
 
   const { showToast } = useWuShowToast();
-
-  // const { user } = useUserStore();
-
+  const { user } = useUserStore();
   const {
     journeyMap,
     journeyMapVersion,
@@ -99,13 +109,13 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
   const { setBreadcrumbs } = useBreadcrumbStore();
-  // const { notesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
+  const { notesAndCommentsDrawer, updateNotesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
 
   const isLayerModeOn = !currentLayer?.isBase;
 
   const [isLoadingFullJourneyMap, setIsLoadingFullJourneyMap] = useState<boolean>(false);
   const [isLoadingJourneyMapRows, setIsLoadingJourneyMapRows] = useState<boolean>(true);
-  // const [replaceMapUser, setReplaceMapUser] = useState<UserType | null>(null);
+  const [replaceMapUser, setReplaceMapUser] = useState<UserType | null>(null);
 
   const { mutate: clearUserMapsHistory } = useClearUserMapsHistoryMutation<
     Error,
@@ -126,7 +136,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     {
       paginationInput: {
         page: 1,
-        perPage: 100,
+        perPage: USERS_LIMIT,
       },
     },
     {
@@ -455,12 +465,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     }
   }, [fetchNextPageJourneyMapRows, hasNextPageJourneyMapRows, isLayerModeOn]);
 
-  // const onHandleCloseDrawer = () => {
-  //   // setCommentsDrawer(prev => ({
-  //   //   ...prev,
-  //   //   isOpen: !prev?.isOpen,
-  //   // }));
-  // };
+  const onHandleCloseDrawer = () => {
+    updateNotesAndCommentsDrawer({
+      isOpen: false,
+    });
+  };
 
   const mapColumns = useMemo(() => {
     return journeyMap?.columns || [];
@@ -497,21 +506,20 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   ]);
 
   useEffect(() => {
-    // todo
-    // emitToSocketMap(JourneyMapEventsEnum.JOIN_MAP, {
-    //   id: mapID,
-    //   // personaId: selectedPersona?.id,
-    // });
-    // socketMap?.on(JourneyMapEventsEnum.REPLACE_MAP_VERSION, ({ user }: { user: Usertype }) => {
-    //   setReplaceMapUser(user);
-    // });
-    // return () => {
-    //   unEmitToSocketMap(JourneyMapEventsEnum.LEAVE_MAP, {
-    //     id: mapID,
-    //     // personaId: selectedPersona?.id,
-    //   });
-    // };
-  }, []);
+    emitToSocketMap(JourneyMapEventsEnum.JOIN_MAP, {
+      id: mapId,
+      // personaId: selectedPersona?.id,
+    });
+    socketMap?.on(JourneyMapEventsEnum.REPLACE_MAP_VERSION, ({ user }: { user: UserType }) => {
+      setReplaceMapUser(user);
+    });
+    return () => {
+      unEmitToSocketMap(JourneyMapEventsEnum.LEAVE_MAP, {
+        id: mapId,
+        // personaId: selectedPersona?.id,
+      });
+    };
+  }, [mapId]);
 
   useEffect(() => {
     if (dataLayers) {
@@ -642,30 +650,30 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
   return (
     <>
-      {/*{replaceMapUser && user.userID !== replaceMapUser.userID && (*/}
-      {/*  <Modal open={true}>*/}
-      {/*    <div className={'version-modal'}>*/}
-      {/*      <ModalHeader title={'Version'} />*/}
-      {/*      <div className={'version-modal--content'}>*/}
-      {/*        <span>{replaceMapUser.emailAddress} changed map version</span>*/}
-      {/*      </div>*/}
+      {replaceMapUser && user?.userID !== replaceMapUser.userID && (
+        <Modal open={true}>
+          <div className={'version-modal'}>
+            <CustomModalHeader title={'Version'} />
+            <div className={'version-modal--content'}>
+              <span>{replaceMapUser.emailAddress} changed map version</span>
+            </div>
 
-      {/*      <ModalFooterButtons*/}
-      {/*        handleSecondButtonClick={() => window.location.reload()}*/}
-      {/*        secondButtonName={'Reload'}*/}
-      {/*      />*/}
-      {/*    </div>*/}
-      {/*  </Modal>*/}
-      {/*)}*/}
-      {/*<ErrorBoundary>*/}
-      {/*  <Drawer*/}
-      {/*    anchor={'left'}*/}
-      {/*    data-testid="drawer-test-id"*/}
-      {/*    open={notesAndCommentsDrawer.isOpen}*/}
-      {/*    onClose={() => onHandleCloseDrawer()}>*/}
-      {/*    <CommentsDrawer onClose={() => onHandleCloseDrawer()} />*/}
-      {/*  </Drawer>*/}
-      {/*</ErrorBoundary>*/}
+            <CustomModalFooterButtons
+              handleSecondButtonClick={() => window.location.reload()}
+              secondButtonName={'Reload'}
+            />
+          </div>
+        </Modal>
+      )}
+      <ErrorBoundary>
+        <Drawer
+          anchor={'left'}
+          data-testid="drawer-test-id"
+          open={notesAndCommentsDrawer.isOpen}
+          onClose={onHandleCloseDrawer}>
+          <CommentsDrawer onClose={onHandleCloseDrawer} />
+        </Drawer>
+      </ErrorBoundary>
       <JourneyMapHeader
         title={journeyMap?.title}
         mapId={+mapId}
