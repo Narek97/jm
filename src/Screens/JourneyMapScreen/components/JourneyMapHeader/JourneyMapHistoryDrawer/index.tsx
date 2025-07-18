@@ -9,8 +9,8 @@ import {
   GetMapLogsQuery,
   useInfiniteGetMapLogsQuery,
 } from '@/api/infinite-queries/generated/getMapLogs.generated';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { JOURNEY_MAP_HISTORY_LIMIT } from '@/constants/pagination.ts';
 import HistoryCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapHistoryDrawer/HistoryCard';
 import { MapLogsType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
@@ -82,7 +82,7 @@ const HistoryDrawer: FC<IHistoryDrawer> = ({ mapID, onHandleClose }) => {
 
   return (
     <div className={'history-drawer'} data-testid="history-drawer">
-      <CustomModalHeader title={'History'} />
+      <BaseWuModalHeader title={'History'} />
       <button onClick={onHandleClose} aria-label={'close drawer'} className={'close-drawer'}>
         <span className={'wm-close'} />
       </button>

@@ -7,6 +7,10 @@ import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
+import {
+  ModalConfirmButton,
+} from '../../../../../../../../Components/Shared/ModalConfirmButton';
+
 import { DeleteAiJourneyModelMutation } from '@/api/mutations/generated/deleteAiJourneyModel.generated';
 import { useDeleteTouchPointAttachmentMutation } from '@/api/mutations/generated/deleteTouchPointAttachment.generated.ts';
 import {
@@ -14,9 +18,7 @@ import {
   useGetAttachmentTouchPointMapsQuery,
 } from '@/api/queries/generated/getAttachmentTouchPointMaps.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { querySlateTime } from '@/constants';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
@@ -153,12 +155,19 @@ const DeleteTouchPointConfirmModal: FC<IDeleteTouchPointAttachmentModal> = ({
   }, [attachmentTouchPointMapsData?.getAttachmentTouchPointMaps?.touchpoints]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Delete attachment'}
       isOpen={isOpen}
       modalSize={'md'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={`Delete attachment`} />
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isLoadingDeleteTouchPointAttachmentMutate}
+          buttonName={'Delete'}
+          onClick={handleDeleteTouchPoint}
+        />
+      }>
       <div className={'delete-touch-point-attachments--frame'}>
         <div className={'delete-touch-point-attachments--frame--message'}>
           Are you sure you want to delete attachment ?
@@ -185,13 +194,7 @@ const DeleteTouchPointConfirmModal: FC<IDeleteTouchPointAttachmentModal> = ({
           <EmptyDataInfo message={`Touchpoint isn't used in any map.`} />
         )}
       </div>
-      <CustomModalFooterButtons
-        handleFirstButtonClick={handleClose}
-        handleSecondButtonClick={handleDeleteTouchPoint}
-        isLoading={isLoadingDeleteTouchPointAttachmentMutate}
-        secondButtonName={'Delete'}
-      />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

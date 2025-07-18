@@ -8,8 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DatapointType } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomTable from '@/Components/Shared/CustomTable';
 import {
   METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS,
@@ -157,12 +156,20 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
   }, [datapointFile, getTableRowByType]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Map data points'}
       isOpen={isOpen}
       handleClose={handleClose}
       canCloseWithOutsideClick={true}
-      modalSize={'lg'}>
-      <CustomModalHeader title={'Map data points'} />
+      modalSize={'lg'}
+      ModalConfirmButton={
+        <WuButton
+          type={'button'}
+          data-testid="submit-outcome-test-id"
+          onClick={onHandleSaveDataPoint}>
+          Save
+        </WuButton>
+      }>
       <div className={'import-data-point-table-modal'}>
         <p className={'import-data-point-table-modal--title'}>
           Remap your data before importing it into your new metric
@@ -170,18 +177,8 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
         <div className={'import-data-point-table-modal--table-block'}>
           <CustomTable columns={columns[metricsType]} rows={rows} options={options} />
         </div>
-
-        <div className={'base-modal-footer'}>
-          <WuButton onClick={handleClose}>Cancel</WuButton>
-          <WuButton
-            type={'submit'}
-            data-testid="submit-outcome-test-id"
-            onClick={onHandleSaveDataPoint}>
-            Save
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

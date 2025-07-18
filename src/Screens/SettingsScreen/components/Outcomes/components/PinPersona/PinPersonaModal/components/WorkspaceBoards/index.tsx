@@ -113,7 +113,6 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
   }, [data]);
 
   return (
-    <div className={'boards-list'}>
       <div className={'boards-list--content'}>
         {organizationBoardsIsLoading && !boards?.length ? (
           <div className={'boards-list-loading-section'}>
@@ -155,7 +154,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
           </>
         )}
       </div>
-    </div>
+
   );
 };
 export default WorkspaceBoards;

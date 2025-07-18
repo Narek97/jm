@@ -2,11 +2,13 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
+import { ModalConfirmButton } from '../../../../Components/Shared/ModalConfirmButton';
+
 import {
   DeletePersonaMutation,
   useDeletePersonaMutation,
 } from '@/api/mutations/generated/deletePersona.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IPersonaDeleteModal {
@@ -48,17 +50,22 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
   };
 
   return (
-    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
+    <BaseWuModal
+      headerTitle={'Delete Persona'}
+      isOpen={isOpen}
+      handleClose={handleClose}
+      canCloseWithOutsideClick={!isPending}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton disabled={isPending} buttonName={'Delete'} onClick={handleDeletePersona} />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'persona',
           name: 'Persona',
         }}
-        handleClose={handleClose}
-        handleDelete={handleDeletePersona}
-        isLoading={isPending}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

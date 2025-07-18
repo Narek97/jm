@@ -3,8 +3,7 @@ import { FC, useState } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import { findStartMergedItem } from '@/Screens/JourneyMapScreen/helpers/findStartMergedItem.ts';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -71,33 +70,27 @@ const UnMergeColumnsButton: FC<IUnMergeColumnsButton> = ({ boxIndex, rowId, boxI
         <span className={'wc-unmerge-1'} />
       </button>
       {isOpenConfirmationModal && (
-        <CustomModal
+        <BaseWuModal
+          headerTitle={'Unmerge cards'}
           isOpen={isOpenConfirmationModal}
           modalSize={'sm'}
           handleClose={() => setIsOpenConfirmationModal(false)}
-          canCloseWithOutsideClick={true}>
-          <CustomModalHeader title={'Unmerge cards'} />
+          canCloseWithOutsideClick={true}
+          ModalConfirmButton={
+            <WuButton
+              data-testid={'unmerge-column-btn-test-id'}
+              onClick={unmergeColumns}
+              disabled={isLoading}>
+              Continue
+            </WuButton>
+          }>
           <div className="confirm-unmerge-modal">
             <div className="confirm-unmerge-modal--text">
               When merging the cells, only the items on the left will be preserved, and the rest
               will be deleted. Do you want to continue?
             </div>
-            <div className={'base-modal-footer'}>
-              <button
-                className={'base-modal-footer--cancel-btn'}
-                onClick={() => setIsOpenConfirmationModal(false)}
-                disabled={isLoading}>
-                Cancel
-              </button>
-              <WuButton
-                data-testid={'unmerge-column-btn-test-id'}
-                onClick={unmergeColumns}
-                disabled={isLoading}>
-                Continue
-              </WuButton>
-            </div>
           </div>
-        </CustomModal>
+        </BaseWuModal>
       )}
     </>
   );

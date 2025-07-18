@@ -3,9 +3,11 @@ import { FC } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { ModalConfirmButton } from '../../../../../../Components/Shared/ModalConfirmButton';
+
 import { useDeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated';
 import { DeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IErrorLogDeleteModal {
@@ -43,21 +45,28 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({ isOpen, handleClose }) 
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isLoadingDeleteErrorLogs}>
+      canCloseWithOutsideClick={!isLoadingDeleteErrorLogs}
+      headerTitle={'Delete error logs'}
+      isProcessing={isLoadingDeleteErrorLogs}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isLoadingDeleteErrorLogs}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }
+    >
       <DeleteModalTemplate
         item={{
           type: 'Error logs',
           name: 'error logs',
         }}
-        handleClose={onHandleCloseModal}
-        handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isLoadingDeleteErrorLogs}
         text={'Are you sure you want to delete all error logs'}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

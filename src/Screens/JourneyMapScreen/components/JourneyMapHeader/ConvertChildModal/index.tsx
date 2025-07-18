@@ -3,6 +3,8 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
+import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
+
 import {
   CreateParentMapMutation,
   useCreateParentMapMutation,
@@ -12,11 +14,9 @@ import {
   useGetParentMapsByBoardIdQuery,
 } from '@/api/queries/generated/getParentMapsByBoardId.generated.ts';
 import { OrderByEnum } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
@@ -163,13 +163,20 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
   }
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Convert to child map'}
       isOpen={isOpenLayersModal}
       modalSize={'lg'}
       className={'convert-child-modal'}
       handleClose={closeLayersModal}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={'Convert to child map'} />
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={!selectedParentJourney}
+          buttonName={'Apply'}
+          onClick={convertToChildMap}
+        />
+      }>
       <div className={'convert-child-modal--content'}>
         <div className={'convert-child-modal--content--moving-info'}>
           <div className={'convert-child-modal--content--moving-info-title'}>Moving map from</div>
@@ -215,13 +222,7 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
           <EmptyDataInfo message={'There are no maps yet'} />
         )}
       </div>
-      <CustomModalFooterButtons
-        handleSecondButtonClick={convertToChildMap}
-        isLoading={false}
-        isDisableSecondButton={!selectedParentJourney}
-        secondButtonName={'Apply'}
-      />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

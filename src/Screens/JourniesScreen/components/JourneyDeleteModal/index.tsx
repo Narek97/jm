@@ -1,10 +1,12 @@
 import { FC } from 'react';
 
+import { ModalConfirmButton } from '../../../../Components/Shared/ModalConfirmButton';
+
 import {
   MapsBulkDeleteMutation,
   useMapsBulkDeleteMutation,
 } from '@/api/mutations/generated/mapsBulkDelete.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 import { queryClient } from '@/providers/constants';
@@ -75,20 +77,26 @@ const JourneyDeleteModal: FC<IDeleteCxMapTable> = ({
   const title = `Journey${ids.length > 1 ? 's' : ''}`;
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={`Delete ${title}`}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!isLoadingDeleteWorkspaceItem}>
+      canCloseWithOutsideClick={!isLoadingDeleteWorkspaceItem}
+      isProcessing={isLoadingDeleteWorkspaceItem}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isLoadingDeleteWorkspaceItem}
+          buttonName={'Delete'}
+          onClick={handleDeleteMapItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{
           type: title,
           name: title,
         }}
-        handleClose={handleClose}
-        handleDelete={handleDeleteMapItem}
-        isLoading={isLoadingDeleteWorkspaceItem}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

@@ -20,11 +20,10 @@ import {
 } from '@/api/mutations/generated/updateAiJourneyModel.generated.ts';
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import { AttachmentsEnum } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import CustomMultiSelectDropDown from '@/Components/Shared/CustomMultiSelectDropDown';
 import { querySlateTime } from '@/constants';
 import {
@@ -234,12 +233,27 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   );
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={`${aiModel ? 'Edit' : 'Create'} AI model`}
+      maxHeight={'800'}
       modalSize={'lg'}
       isOpen={isOpen}
+      isProcessing={
+        isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
+      }
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={<>{aiModel ? 'Edit' : 'Create'} AI model</>} />
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton
+          type="submit"
+          data-testid={'submit-interview-btn-test-id'}
+          disabled={
+            isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
+          }>
+          {aiModel ? 'Update' : 'Create'}
+        </WuButton>
+      }
+    >
       <div className={'create-update-ai-model-modal'} data-testid={'create-update-ai-model-modal'}>
         <form
           className={'create-update-ai-model-modal--form'}
@@ -374,27 +388,19 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
               )}
             </>
           )}
-          <div className={'base-modal-footer'}>
-            <button
-              className={'base-modal-footer--cancel-btn'}
-              onClick={handleClose}
-              disabled={
-                isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
-              }>
-              Cancel
-            </button>
-            <WuButton
-              type="submit"
-              data-testid={'submit-interview-btn-test-id'}
-              disabled={
-                isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
-              }>
-              {aiModel ? 'Update' : 'Create'}
-            </WuButton>
-          </div>
+          {/*<div className={'base-modal-footer'}>*/}
+          {/*  <button*/}
+          {/*    className={'base-modal-footer--cancel-btn'}*/}
+          {/*    onClick={handleClose}*/}
+          {/*    disabled={*/}
+          {/*      isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress*/}
+          {/*    }>*/}
+          {/*    Cancel*/}
+          {/*  </button>*/}
+          {/*</div>*/}
         </form>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

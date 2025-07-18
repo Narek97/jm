@@ -28,8 +28,8 @@ import {
 } from '@/api/mutations/generated/updateComment.generated.ts';
 import { ActionEnum, CommentAndNoteModelsEnum } from '@/api/types.ts';
 import EmptyCommentsIcon from '@/assets/public/base/emptyComments.svg';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { COMMENTS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import CommentItem from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/CommentItem';
@@ -333,7 +333,7 @@ const CommentsDrawer: FC<ICommentsDrawer> = ({ onClose }) => {
 
   return (
     <div className={'comments-drawer'} data-testid="comments-drawer">
-      <CustomModalHeader title={'Comments'} />
+      <BaseWuModalHeader title={'Comments'} />
       <button onClick={handleCloseDrawer} aria-label={'close drawer'} className={'close-drawer'}>
         <span className={'wm-close'} />
       </button>

@@ -2,11 +2,13 @@ import { FC, useCallback } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
+import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
+
 import {
   DeleteAllDemographicInfoFieldsMutation,
   useDeleteAllDemographicInfoFieldsMutation,
 } from '@/api/mutations/generated/deleteAllDemographicInfoFields.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IDeleteCxMapTable {
@@ -47,21 +49,27 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
   }, [deleteFields, onSuccess, personaId, showToast]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Delete demographic info section'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!connectPersonasIsLoading}>
+      canCloseWithOutsideClick={!connectPersonasIsLoading}
+      isProcessing={connectPersonasIsLoading}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={connectPersonasIsLoading}
+          buttonName={'Delete'}
+          onClick={handleDeleteMapItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'demographic info section',
           name: 'demographic info section',
         }}
         text={'Are you sure you want to delete demographic info section?'}
-        handleClose={handleClose}
-        handleDelete={handleDeleteMapItem}
-        isLoading={connectPersonasIsLoading}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

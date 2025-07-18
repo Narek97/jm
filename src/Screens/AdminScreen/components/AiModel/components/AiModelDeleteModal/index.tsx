@@ -2,13 +2,14 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
+import { ModalConfirmButton } from '../../../../../../Components/Shared/ModalConfirmButton';
 import { AiModelType } from '../../types';
 
 import {
   DeleteAiJourneyModelMutation,
   useDeleteAiJourneyModelMutation,
 } from '@/api/mutations/generated/deleteAiJourneyModel.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IAiModelDeleteModal {
@@ -53,17 +54,21 @@ const AiModelDeleteModal: FC<IAiModelDeleteModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPending}>
-      <DeleteModalTemplate
-        item={{ type: 'Ai Model', name: aiModel?.name || 'Ai Model' }}
-        handleClose={onHandleCloseModal}
-        handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isPending}
-      />
-    </CustomModal>
+      canCloseWithOutsideClick={!isPending}
+      headerTitle={`Delete ${aiModel?.name || 'Ai Model'}`}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPending}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }>
+      <DeleteModalTemplate item={{ type: 'Ai Model', name: aiModel?.name || 'Ai Model' }} />
+    </BaseWuModal>
   );
 };
 
