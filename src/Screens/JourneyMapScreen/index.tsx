@@ -616,11 +616,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         pathname: '/workspaces',
       },
       {
-        name: `${dataBoardById?.getBoardById.workspace.name || '...'}`,
+        name: `${dataBoardById?.getBoardById.workspace.name?.trim() || 'Untitled'}`,
         pathname: `/workspace/${dataBoardById?.getBoardById.workspace.id}/boards`,
       },
       {
-        name: `${dataBoardById?.getBoardById.name || '...'}`,
+        name: `${dataBoardById?.getBoardById.name?.trim() || 'Untitled'}`,
         pathname: `/board/${dataBoardById?.getBoardById.id}/journies`,
       },
       {

@@ -142,11 +142,11 @@ const PersonaGroupScreen = () => {
           pathname: '/workspaces',
         },
         {
-          name: dataGetPersonas.getPersonas.workspace?.name || '...',
+          name: dataGetPersonas.getPersonas.workspace?.name?.trim() || 'Untitled',
           pathname: `/workspace/${dataGetPersonas?.getPersonas.workspace?.id}/boards`,
         },
         {
-          name: dataGetPersonas.getPersonas.personaGroup?.name || '...',
+          name: dataGetPersonas.getPersonas.personaGroup?.name?.trim() || 'Untitled',
           pathname: `/workspace/${dataGetPersonas.getPersonas.workspace?.id}/persona-group/${dataGetPersonas.getPersonas.personaGroup?.id}`,
         },
       ]);
