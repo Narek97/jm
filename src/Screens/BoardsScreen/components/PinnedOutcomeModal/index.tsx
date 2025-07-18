@@ -5,9 +5,8 @@ import {
   GetBoardOutcomesStatQuery,
   useGetBoardOutcomesStatQuery,
 } from '@/api/queries/generated/getBoardOutcomesStat.generated';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 
 interface IBoardPinnedOutcomesModal {
   isOpen: boolean;
@@ -33,11 +32,11 @@ const BoardPinnedOutcomesModal: FC<IBoardPinnedOutcomesModal> = ({
   );
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Pinned outcomes'}
       isOpen={isOpen}
       handleClose={handleClose}
       canCloseWithOutsideClick={!isLoadingPinnedOutcomes}>
-      <CustomModalHeader title={'Pinned outcomes'} />
       <div data-testid={'pinned-outcomes'} className={'outcomes-section'}>
         <div className={'outcomes-section--content'}>
           {isLoadingPinnedOutcomes ? (
@@ -72,7 +71,7 @@ const BoardPinnedOutcomesModal: FC<IBoardPinnedOutcomesModal> = ({
           )}
         </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

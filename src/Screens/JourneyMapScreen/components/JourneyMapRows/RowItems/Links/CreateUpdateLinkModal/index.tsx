@@ -25,10 +25,9 @@ import {
   useUpdateMapLinkMutation,
 } from '@/api/mutations/generated/updateLink.generated.ts';
 import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { querySlateTime } from '@/constants';
 import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/constants/pagination';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
@@ -261,17 +260,22 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
   }, [dataMaps]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={link ? 'Update' : 'Create'}
       modalSize={'md'}
       isOpen={isOpen}
+      isProcessing={isLoadingCreateLink || isLoadingUpdateLink}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader
-        title={
-          <div className={'add-update-outcome-modal-header'}>{link ? 'Update' : 'Create'}</div>
-        }
-      />
-
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton
+          type={'submit'}
+          form="linkform"
+          data-testid={'create-update-link-btn-test-id'}
+          disabled={isLoadingCreateLink || isLoadingUpdateLink}>
+          Save
+        </WuButton>
+      }>
       <div className={'create-update-link-modal'}>
         <form
           className={'create-update-link-modal--form'}
@@ -392,24 +396,8 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
             </div>
           )}
         </form>
-
-        <div className={'base-modal-footer'}>
-          <button
-            className={'base-modal-footer--cancel-btn'}
-            onClick={handleClose}
-            disabled={isLoadingCreateLink || isLoadingUpdateLink}>
-            Cancel
-          </button>
-          <WuButton
-            type={'submit'}
-            form="linkform"
-            data-testid={'create-update-link-btn-test-id'}
-            disabled={isLoadingCreateLink || isLoadingUpdateLink}>
-            Save
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

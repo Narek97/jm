@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
@@ -18,10 +18,9 @@ import {
 } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import {
   ADD_DATA_POINT_VALIDATION_SCHEMA,
   CES_DATA_POINT_ELEMENTS,
@@ -42,6 +41,8 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
   onHandleAddDataPont,
   handleClose,
 }) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const [date, setDate] = useState(new Date());
 
   const {
@@ -114,14 +115,26 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
     [MetricsTypeEnum.Ces]: CES_DATA_POINT_ELEMENTS,
   };
 
+  const onHandleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
+
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Add data point'}
       isOpen={isOpen}
       handleClose={handleClose}
-      modalSize={'custom'}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={'Add data point'} />
+      modalSize={'md'}
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton onClick={onHandleSubmit} type={'submit'} data-testid="submit-data-point-test-id">
+          Add data point
+        </WuButton>
+      }>
       <form
+        ref={formRef}
         onSubmit={handleSubmit(onFormSubmit)}
         className={'add-data-point-modal'}
         data-testid="add-data-point-modal">
@@ -172,19 +185,8 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
             </div>
           </div>
         </div>
-        <div className={'base-modal-footer'}>
-          <WuButton
-            onClick={handleClose}
-            data-testid="cansel-data-point-test-id"
-            variant={'outline'}>
-            Cancel
-          </WuButton>
-          <WuButton type={'submit'} data-testid="submit-data-point-test-id">
-            Add data point
-          </WuButton>
-        </div>
       </form>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

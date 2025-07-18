@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './style.scss';
 
-import CustomModal from '@/Components/Shared/CustomModal';
+import { WuModal } from '@npm-questionpro/wick-ui-lib';
 
 interface IVideoViewModal {
   url: string;
@@ -15,11 +15,10 @@ const VideoViewModal: FC<IVideoViewModal> = ({ isOpen, url, handleClose }) => {
   const isAudioOnly = fileExtension === 'mp3';
 
   return (
-    <CustomModal
-      modalSize={'custom'}
-      isOpen={isOpen}
-      handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
+    <WuModal
+      // modalSize={'custom'}
+      open={isOpen}
+      onOpenChange={handleClose}>
       <div className={'video-view'}>
         {isAudioOnly && (
           <div className={'video-view--mp3-block'}>
@@ -32,7 +31,7 @@ const VideoViewModal: FC<IVideoViewModal> = ({ isOpen, url, handleClose }) => {
           Your browser does not support the video tag.
         </video>
       </div>
-    </CustomModal>
+    </WuModal>
   );
 };
 

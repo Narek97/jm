@@ -2,26 +2,34 @@
 @use '@assets/styles/mixins' as *;
 
 .boards-list {
-  padding: 0.5rem 2rem;
-  height: 27rem;
+  height: 22.875rem;
 
   &--content {
+    height: 99%;
+    //height: 22.875rem;
+    max-height: 22.875rem;
     &-boards {
-      height: 22.875rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
+      max-height: 19.375rem;
       overflow-x: auto;
-
       &::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 0.5rem;
         height: 0.5rem;
       }
 
+      padding: 1rem;
+      margin-bottom: 1rem;
+
       .selected-persona {
         border-left: 0.375rem solid $BASE_BLUE_COLOR;
       }
     }
+    .go-back {
+      margin-left: 1rem;
+    }
+  }
+  &-loading-section {
+    height: 22rem;
   }
 }
 

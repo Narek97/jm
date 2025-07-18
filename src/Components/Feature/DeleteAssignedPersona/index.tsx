@@ -3,12 +3,14 @@ import { FC, useCallback } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { ModalConfirmButton } from '../../Shared/ModalConfirmButton';
+
 import {
   ConnectPersonasToMapMutation,
   useConnectPersonasToMapMutation,
 } from '@/api/mutations/generated/assignPersonaToJourneyMap.generated.ts';
 import { useGetMapSelectedPersonasQuery } from '@/api/queries/generated/getMapSelectedPersonas.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 
 interface IDeleteCxMapTable {
@@ -74,20 +76,26 @@ const DeleteAssignedPersona: FC<IDeleteCxMapTable> = ({
   ]);
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!connectPersonasIsLoading}>
+      canCloseWithOutsideClick={!connectPersonasIsLoading}
+      headerTitle={'Delete persona'}
+      isProcessing={connectPersonasIsLoading}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={connectPersonasIsLoading}
+          buttonName={'Delete'}
+          onClick={handleDeleteMapItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'persona',
           name: 'persona',
         }}
-        handleClose={handleClose}
-        handleDelete={handleDeleteMapItem}
-        isLoading={connectPersonasIsLoading}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

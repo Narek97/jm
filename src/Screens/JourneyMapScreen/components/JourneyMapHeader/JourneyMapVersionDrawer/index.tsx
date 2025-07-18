@@ -2,7 +2,6 @@ import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
-import { Modal } from '@mui/material';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
@@ -11,10 +10,11 @@ import {
   ReplaceMapVersionMutation,
   useReplaceMapVersionMutation,
 } from '@/api/mutations/generated/replaceMapVersion.generated.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { JOURNEY_MAP_VERSION_LIMIT } from '@/constants/pagination';
 import DeleteVersionModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/DeleteVersionModal';
 import VersionCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/VersionCard';
@@ -143,29 +143,32 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
         />
       )}
       {selectedVersion && (
-        <Modal
-          open={!!selectedVersion}
-          onClose={() => {
+        <BaseWuModal
+          headerTitle={'Version'}
+          isOpen={!!selectedVersion}
+          canCloseWithOutsideClick={true}
+          handleClose={() => {
             if (!isLoadingReplaceMapVersion) {
               updateJourneyMapVersion(null);
             }
-          }}>
-          <div className={'version-modal'}>
-            <CustomModalHeader title={'Version'} />
+            onHandleCloseConfirmRestore();
+          }}
+          ModalConfirmButton={
+            <ModalConfirmButton
+              disabled={isLoadingReplaceMapVersion}
+              buttonName={'Yes'}
+              onClick={onHandleConfirmRestore}
+            />
+          }>
+          <div>
             <div className={'version-modal--content'}>
               <p>Are you sure you want to restore "{selectedVersion?.versionName}"</p>
             </div>
-            <CustomModalFooterButtons
-              handleFirstButtonClick={onHandleCloseConfirmRestore}
-              handleSecondButtonClick={onHandleConfirmRestore}
-              isLoading={isLoadingReplaceMapVersion}
-              secondButtonName={'Yes'}
-            />
           </div>
-        </Modal>
+        </BaseWuModal>
       )}
 
-      <CustomModalHeader title={'Version history'} />
+      <BaseWuModalHeader title={'Version history'} />
       <button onClick={onHandleClose} aria-label={'close drawer'} className={'close-drawer'}>
         <span className={'wm-close'} />
       </button>

@@ -51,11 +51,11 @@ import {
   useGetDataPointsQuery,
 } from '@/api/queries/generated/getDataPoints.generated.ts';
 import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/types';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import CustomPopover from '@/Components/Shared/CustomPopover';
 import CustomTable from '@/Components/Shared/CustomTable';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
@@ -764,7 +764,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
       <div
         className={'create-update-metrics-drawer'}
         data-testid={'create-update-metrics-drawer-test-id'}>
-        <CustomModalHeader title={`${selectedMetrics ? 'Update' : 'Create new'} metric`} />
+        <BaseWuModalHeader title={`${selectedMetrics ? 'Update' : 'Create new'} metric`} />
         <form
           onSubmit={handleSubmit(onFormSubmit)}
           className={'create-update-metrics-drawer--form'}>

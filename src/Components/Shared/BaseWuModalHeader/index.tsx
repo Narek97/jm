@@ -2,11 +2,11 @@ import { FC, ReactNode } from 'react';
 
 import './style.scss';
 
-interface ICustomModalHeader {
+interface IBaseWuModalHeader {
   title: string | ReactNode;
   infoLink?: string;
 }
-const CustomModalHeader: FC<ICustomModalHeader> = ({ title, infoLink }) => {
+const BaseWuModalHeader: FC<IBaseWuModalHeader> = ({ title, infoLink }) => {
   return (
     <div className={'modal-header'}>
       <div className={'modal-header--title'} data-testid="modal-header-title-test-id">
@@ -26,4 +26,4 @@ const CustomModalHeader: FC<ICustomModalHeader> = ({ title, infoLink }) => {
   );
 };
 
-export default CustomModalHeader;
+export default BaseWuModalHeader;

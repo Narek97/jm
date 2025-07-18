@@ -23,10 +23,9 @@ import {
   useGetAiJourneyModelsQuery,
 } from '@/api/queries/generated/getAiJourneyModels.generated.ts';
 import { BoardResponse } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import SlickCarousel from '@/Components/Shared/SlickCarousel';
 import { querySlateTime } from '@/constants';
 import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/constants/pagination';
@@ -189,13 +188,21 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       modalSize={'lg'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={<>{interview ? 'View' : 'Create'} interview</>} />
-
+      headerTitle={`${interview ? 'View' : 'Create'} interview`}
+      canCloseWithOutsideClick={true}
+      isProcessing={isLoadingCreateInterview}
+      ModalConfirmButton={
+        <WuButton
+          type="submit"
+          data-testid={'submit-interview-btn-test-id'}
+          disabled={!!interview || isLoadingCreateInterview}>
+          Add
+        </WuButton>
+      }>
       <div className={'create-interview-modal'}>
         <form
           className={'create-interview-modal--form'}
@@ -316,24 +323,9 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
             />
             <span className={'validation-error'}>{(errors && errors.text?.message) || ''}</span>
           </div>
-
-          <div className={'base-modal-footer'}>
-            <button
-              className={'base-modal-footer--cancel-btn'}
-              onClick={handleClose}
-              disabled={isLoadingCreateInterview}>
-              Cancel
-            </button>
-            <WuButton
-              type="submit"
-              data-testid={'submit-interview-btn-test-id'}
-              disabled={!!interview || isLoadingCreateInterview}>
-              Add
-            </WuButton>
-          </div>
         </form>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

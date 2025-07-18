@@ -14,11 +14,10 @@ import {
 } from '@/api/mutations/generated/createIconAttachment.generated';
 import { useUpdateAttachmentTouchPointMutation } from '@/api/mutations/generated/updateAttachmentTouchPoint.generated.ts';
 import { AttachmentsEnum, MapRowTypeEnum, UpdateAttachmentTouchPointInput } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
@@ -330,11 +329,25 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
   }, []);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Media library'}
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isLoading || !isLoadingIconAttachment}>
-      <CustomModalHeader title={'Media library'} />
+      canCloseWithOutsideClick={!isLoading || !isLoadingIconAttachment}
+      isProcessing={isLoading || isLoadingIconAttachment || isLoadingUpdateAttachment}
+      ModalConfirmButton={
+        <WuButton
+          data-testid={'create-touchpoint-btn-test-id'}
+          onClick={() =>
+            touchPointData ? updateAttachment(isNounProjectIcon) : addAttachment(isNounProjectIcon)
+          }
+          disabled={
+            isLoading || isLoadingIconAttachment || isLoadingUpdateAttachment || !imagePreview
+          }
+          className={imagePreview ? '' : 'disabled-btn'}>
+          {touchPointData ? 'Update' : 'Add'}
+        </WuButton>
+      }>
       <div className={'create-touchpoint-modal'}>
         <div className={'create-touchpoint-modal--content'}>
           <div className={'create-touchpoint-modal--name-block'}>
@@ -379,30 +392,8 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
           </div>
           <SearchNounProjectIcon onIconSelect={handleSelectIcon} />
         </div>
-
-        <div className={'base-modal-footer'}>
-          <button
-            className={'base-modal-footer--cancel-btn'}
-            onClick={onHandleCloseModal}
-            disabled={isLoading || isLoadingIconAttachment || isLoadingUpdateAttachment}>
-            Cancel
-          </button>
-          <WuButton
-            data-testid={'create-touchpoint-btn-test-id'}
-            onClick={() =>
-              touchPointData
-                ? updateAttachment(isNounProjectIcon)
-                : addAttachment(isNounProjectIcon)
-            }
-            disabled={
-              isLoading || isLoadingIconAttachment || isLoadingUpdateAttachment || !imagePreview
-            }
-            className={imagePreview ? '' : 'disabled-btn'}>
-            {touchPointData ? 'Update' : 'Add'}
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

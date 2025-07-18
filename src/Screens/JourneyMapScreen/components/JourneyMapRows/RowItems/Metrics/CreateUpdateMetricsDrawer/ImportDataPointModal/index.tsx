@@ -9,10 +9,9 @@ import * as XLSX from 'xlsx';
 import { CES_TEMPLATE, CSAT_TEMPLATE, NPS_TEMPLATE } from '../../constants';
 
 import { MetricsTypeEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { EXEL_FILE_TYPES } from '@/constants';
 import { ObjectKeysType } from '@/types';
 
@@ -98,8 +97,20 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
   };
 
   return (
-    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={'Import data points'} />
+    <BaseWuModal
+      headerTitle={'Import data points'}
+      isOpen={isOpen}
+      handleClose={handleClose}
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton
+          type={'submit'}
+          data-testid="next-data-point-btn-test-id"
+          disabled={!isFileUpload}
+          onClick={onHandleNext}>
+          Next
+        </WuButton>
+      }>
       <div className={'import-data-point-modal'}>
         <p className={'import-data-point-modal--title'}>
           You can import your Excel or CSV files here to upload the data points to your journey.
@@ -118,7 +129,6 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
             />
           </FileUploader>
         </div>
-
         <button
           data-testid="export-data-point-exel-test-id"
           className={'import-data-point-modal--file-download'}
@@ -127,20 +137,8 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
             <span className={'wc-data-import'} /> Download import template
           </p>
         </button>
-        <div className={'base-modal-footer'}>
-          <WuButton onClick={handleClose} data-testid="cansel-data-point-test-id">
-            Cancel
-          </WuButton>
-          <WuButton
-            type={'submit'}
-            data-testid="next-data-point-btn-test-id"
-            disabled={!isFileUpload}
-            onClick={onHandleNext}>
-            Next
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

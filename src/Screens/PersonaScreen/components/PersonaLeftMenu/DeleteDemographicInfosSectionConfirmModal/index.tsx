@@ -6,8 +6,9 @@ import {
   DeleteAllDemographicInfoFieldsMutation,
   useDeleteAllDemographicInfoFieldsMutation,
 } from '@/api/mutations/generated/deleteAllDemographicInfoFields.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IDeleteCxMapTable {
   personaId: number;
@@ -47,21 +48,27 @@ const DeleteDemographicInfosSectionConfirmModal: FC<IDeleteCxMapTable> = ({
   }, [deleteFields, onSuccess, personaId, showToast]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Delete demographic info section'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!connectPersonasIsLoading}>
+      canCloseWithOutsideClick={!connectPersonasIsLoading}
+      isProcessing={connectPersonasIsLoading}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={connectPersonasIsLoading}
+          buttonName={'Delete'}
+          onClick={handleDeleteMapItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'demographic info section',
           name: 'demographic info section',
         }}
         text={'Are you sure you want to delete demographic info section?'}
-        handleClose={handleClose}
-        handleDelete={handleDeleteMapItem}
-        isLoading={connectPersonasIsLoading}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

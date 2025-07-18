@@ -3,8 +3,7 @@ import { FC, useState } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum';
 
@@ -71,33 +70,27 @@ const MergeColumnsButton: FC<IMergeColumnsButton> = ({
         </button>
       </div>
       {isOpenConfirmationModal && (
-        <CustomModal
+        <BaseWuModal
+          headerTitle={'Merge cards'}
           isOpen={isOpenConfirmationModal}
           modalSize={'sm'}
           handleClose={() => setIsOpenConfirmationModal(false)}
-          canCloseWithOutsideClick={true}>
-          <CustomModalHeader title={'Merge cards'} />
+          canCloseWithOutsideClick={true}
+          ModalConfirmButton={
+            <WuButton
+              data-testid={'merge-column-btn-test-id'}
+              onClick={mergeColumns}
+              disabled={isLoading}>
+              Continue
+            </WuButton>
+          }>
           <div className="confirm-merge-modal">
             <div className="confirm-merge-modal--text">
               The whole text from the cards will be combined into a single text card. Do you want to
               continue?
             </div>
-            <div className={'base-modal-footer'}>
-              <button
-                className={'base-modal-footer--cancel-btn'}
-                onClick={() => setIsOpenConfirmationModal(false)}
-                disabled={isLoading}>
-                Cancel
-              </button>
-              <WuButton
-                data-testid={'crop-btn-test-id'}
-                onClick={mergeColumns}
-                disabled={isLoading}>
-                Continue
-              </WuButton>
-            </div>
           </div>
-        </CustomModal>
+        </BaseWuModal>
       )}
     </>
   );

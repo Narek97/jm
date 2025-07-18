@@ -14,9 +14,8 @@ import {
   GetWorkspacesByOrganizationIdQuery,
   useGetWorkspacesByOrganizationIdQuery,
 } from '@/api/queries/generated/getWorkspaces.generated';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { querySlateTime } from '@/constants';
 import { WORKSPACES_LIMIT } from '@/constants/pagination';
@@ -58,7 +57,14 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
       }));
       setSelectedIdList(data?.getAllPinnedBoards || []);
     }
-  }, [data, isSuccess, outcomeGroupId, outcomePinnedBoardIds, setOutcomePinnedBoardIds, setSelectedIdList]);
+  }, [
+    data,
+    isSuccess,
+    outcomeGroupId,
+    outcomePinnedBoardIds,
+    setOutcomePinnedBoardIds,
+    setSelectedIdList,
+  ]);
 
   const orgId = user?.orgID ? Number(user.orgID) : undefined;
 
@@ -83,12 +89,33 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
   const workspaces = dataWorkspaces?.getWorkspacesByOrganizationId?.workspaces;
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       modalSize={'md'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!isLoadingWorkspaces}>
-      <CustomModalHeader title={<div className={'assign-modal-header'}>Pin boards</div>} />
+      canCloseWithOutsideClick={!isLoadingWorkspaces}
+      headerTitle={'Pin board'}
+      ModalConfirmButton={
+        <WuButton
+          data-testid={'apply-layer-button'}
+          style={{ width: '98px' }}
+          type={'submit'}
+          onClick={() => {
+            // update MODE | outcome existst
+            setOutcomePinnedBoardIds((prev: any) => {
+              return {
+                ...prev,
+                [outcomeGroupId || 'new']: {
+                  default: prev[outcomeGroupId || 'new']?.default,
+                  selected: [...selectedIdList],
+                },
+              };
+            });
+            handleClose();
+          }}>
+          Apply
+        </WuButton>
+      }>
       <div className={'pin-persona-modal-container'}>
         {errorWorkspaces ? (
           <div className={'pin-persona-error'}>
@@ -134,7 +161,10 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
                               <div className="workspaces-list--content-workspaces-item--left">
                                 <div className={'persona-text-info'}>
                                   <div className={'persona-text-info'}>
-                                    <WuTooltip className="wu-tooltip-content" content={itm?.name} position="bottom">
+                                    <WuTooltip
+                                      className="wu-tooltip-content"
+                                      content={itm?.name}
+                                      position="bottom">
                                       <div className={'persona-text-info--title'}>{itm?.name}</div>
                                     </WuTooltip>
                                   </div>
@@ -153,36 +183,8 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
             )}
           </>
         )}
-        <div className={'base-modal-footer'}>
-          <button
-            className={'base-modal-footer--cancel-btn'}
-            onClick={() => {
-              handleClose();
-            }}>
-            Cancel
-          </button>
-          <WuButton
-            data-testid={'apply-layer-button'}
-            style={{ width: '98px' }}
-            type={'submit'}
-            onClick={() => {
-              // update MODE | outcome existst
-              setOutcomePinnedBoardIds((prev: any) => {
-                return {
-                  ...prev,
-                  [outcomeGroupId || 'new']: {
-                    default: prev[outcomeGroupId || 'new']?.default,
-                    selected: [...selectedIdList],
-                  },
-                };
-              });
-              handleClose();
-            }}>
-            Apply
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 
