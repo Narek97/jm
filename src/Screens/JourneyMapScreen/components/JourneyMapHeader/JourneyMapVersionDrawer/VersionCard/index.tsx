@@ -146,7 +146,7 @@ const VersionCard: FC<IVersionCard> = ({
             <span
               onClick={() => onHandleSelectPreliminaryVersion(version)}
               className={'version-card--title'}>
-              {versionName}
+              {versionName} {isDisabled && `(version not available)`}
             </span>
           )}
         </div>

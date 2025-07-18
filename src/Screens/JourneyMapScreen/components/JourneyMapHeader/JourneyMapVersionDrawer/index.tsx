@@ -197,10 +197,10 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
         }}>
         {renderedVersionsData.length ? (
           <ul data-testid="versions-list-ul" ref={childRef}>
-            {renderedVersionsData.map((version, index) => (
+            {renderedVersionsData.map(version => (
               <li key={version.id}>
                 <VersionCard
-                  isDisabled={DISABLED_VERSIONS.includes(version.id) || index === 0}
+                  isDisabled={DISABLED_VERSIONS.includes(version.id)}
                   version={version}
                   onHandleRestoreVersion={onHandleRestoreVersion}
                   onHandleDeleteVersion={onHandleToggleDeleteVersion}
