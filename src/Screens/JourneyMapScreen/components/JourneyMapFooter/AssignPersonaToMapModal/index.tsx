@@ -23,10 +23,10 @@ import {
 } from '@/api/queries/generated/getPersonaGroups.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
 import { PersonaType } from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/types.ts';
@@ -207,7 +207,7 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
         <div className={'assign-persona-to-map--content'}>
           {isLoadingPersonaGroup || isFetching ? (
             <div className={'assign-persona-to-map-loading-section'}>
-              <CustomLoader />
+              <WuBaseLoader />
             </div>
           ) : (
             <>

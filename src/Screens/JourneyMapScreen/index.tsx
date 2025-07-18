@@ -53,9 +53,9 @@ import {
 } from '@/api/queries/generated/getOutcomeGroupsForMap.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
@@ -639,7 +639,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   if (isLoadingJourneyMap || isLoadingFullJourneyMap || (isLayerModeOn && isFetchingJourneyMap)) {
     return (
       <div className={'journey-map-wrapper'}>
-        <CustomLoader />
+        <WuBaseLoader />
       </div>
     );
   }
@@ -707,7 +707,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
 
               {isLoadingJourneyMapRows ? (
                 <>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </>
               ) : (
                 <>

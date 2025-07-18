@@ -18,10 +18,10 @@ import {
 } from '@/api/queries/generated/getOutcomeGroup.generated.ts';
 import { OrderByEnum, OutcomeListEnum, SortByEnum } from '@/api/types';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { OUTCOMES_LIMIT } from '@/constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
@@ -252,7 +252,7 @@ const OutcomeScreen = () => {
   }, [setBreadcrumbs]);
 
   if (isLoadingOutcomesGroup && !outcomesGroup.length) {
-    return <CustomLoader />;
+    return <WuBaseLoader />;
   }
 
   if (errorOutcomesGroup) {
@@ -295,7 +295,7 @@ const OutcomeScreen = () => {
         </div>
       </div>
 
-      {isLoadingOutcomesGroup && <CustomLoader />}
+      {isLoadingOutcomesGroup && <WuBaseLoader />}
 
       {!isLoadingOutcomesGroup && !outcomesGroup.length && (
         <EmptyDataInfo message={`There are no ${pluralName} yet`} />

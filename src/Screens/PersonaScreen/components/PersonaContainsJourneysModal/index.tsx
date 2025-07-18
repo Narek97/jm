@@ -10,10 +10,10 @@ import {
   GetMapsQuery,
   useInfiniteGetMapsQuery,
 } from '@/api/infinite-queries/generated/getJourneyMaps.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import PersonaImages from '@/Features/PersonaImages';
@@ -114,7 +114,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
         <div className={'journeys-contains-current-maps--content'}>
           {mapsDataIsLoading && !renderedMaps?.length ? (
             <div className={'journeys-contains-current-maps-loading-section'}>
-              <CustomLoader />
+              <WuBaseLoader />
             </div>
           ) : (
             <>

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { rootRoute } from '../__root';
 
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { TOKEN_NAME } from '@/constants';
 import { setCookie } from '@/utils/cookieHelper.ts';
 
@@ -57,5 +57,5 @@ function RouteComponent() {
     navigate({ to: '/workspaces', replace: true }).then();
   }, [navigate]);
 
-  return <CustomLoader />;
+  return <WuBaseLoader />;
 }

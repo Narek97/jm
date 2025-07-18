@@ -13,7 +13,7 @@ import {
   DisablePersonaForRowMutation,
   useDisablePersonaForRowMutation,
 } from '@/api/mutations/generated/disablePersonaForRow.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
 import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Sentiment';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -209,7 +209,7 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
         <div className={'journey-map-row--loading-block'}>
           {rowItem?.boxes?.map((_, skeletonIndex) => (
             <div className={'journey-map-row--loading'} key={'skeleton_' + skeletonIndex}>
-              <CustomLoader />
+              <WuBaseLoader />
             </div>
           ))}
         </div>
@@ -220,7 +220,7 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
               className={'journey-map-sentiment--loading'}
               style={{ left: loadingIndex * 279 + loadingIndex }}>
               <div className={'journey-map-row--loading'}>
-                <CustomLoader />
+                <WuBaseLoader />
               </div>
             </div>
           )}

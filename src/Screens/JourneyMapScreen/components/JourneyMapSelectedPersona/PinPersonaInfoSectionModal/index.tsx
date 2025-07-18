@@ -20,9 +20,9 @@ import {
 } from '@/api/queries/generated/getPersonaSections.generated.ts';
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey.ts';
 import {
   PersonaDemographicInfoType,
@@ -214,7 +214,7 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
       <CustomModalHeader title={'Show/hide persona details'} />
       <div className={'pin-persona-info-section'}>
         {isFetchingDemographicInfos || isFetchingPersonaSections ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <div
             className={'pin-persona-info-section--content'}

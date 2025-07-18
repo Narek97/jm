@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 
 import { ADMIN_TABS } from './constants';
 
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTabs from '@/Components/Shared/CustomTabs';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { AdminRoute } from '@/routes/_authenticated/_primary-sidebar-layout/admin';
 import { ADMIN_TAB_PANELS } from '@/Screens/AdminScreen/constants.tsx';
 import { useUserStore } from '@/store/user';
@@ -40,7 +40,7 @@ const AdminScreen = () => {
     tabs.push({ label: 'Super admin', value: 'super-admin' });
     tabPanels.push({
       page: (
-        <Suspense fallback={<CustomLoader />}>
+        <Suspense fallback={<WuBaseLoader />}>
           <SuperAdmin />
         </Suspense>
       ),
@@ -53,7 +53,7 @@ const AdminScreen = () => {
     tabPanels.push(
       {
         page: (
-          <Suspense fallback={<CustomLoader />}>
+          <Suspense fallback={<WuBaseLoader />}>
             <CopyMap />
           </Suspense>
         ),
@@ -61,7 +61,7 @@ const AdminScreen = () => {
       },
       {
         page: (
-          <Suspense fallback={<CustomLoader />}>
+          <Suspense fallback={<WuBaseLoader />}>
             <AiModel />
           </Suspense>
         ),

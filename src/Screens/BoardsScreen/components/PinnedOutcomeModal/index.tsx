@@ -5,9 +5,9 @@ import {
   GetBoardOutcomesStatQuery,
   useGetBoardOutcomesStatQuery,
 } from '@/api/queries/generated/getBoardOutcomesStat.generated';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModal from '@/Components/Shared/CustomModal';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 
 interface IBoardPinnedOutcomesModal {
   isOpen: boolean;
@@ -42,7 +42,7 @@ const BoardPinnedOutcomesModal: FC<IBoardPinnedOutcomesModal> = ({
         <div className={'outcomes-section--content'}>
           {isLoadingPinnedOutcomes ? (
             <>
-              <CustomLoader />
+              <WuBaseLoader />
             </>
           ) : (
             <div className={'outcomes-section--content-outcomes'}>

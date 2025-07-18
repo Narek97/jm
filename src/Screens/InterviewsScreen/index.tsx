@@ -14,9 +14,9 @@ import {
   useGetInterviewsByWorkspaceIdQuery,
 } from '@/api/queries/generated/getInterviewsByWorkspaceIdQuery.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { INTERVIEWS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -171,7 +171,7 @@ const InterviewsScreen = () => {
   }, []);
 
   if (isLoadingInterviews && !renderedInterviewsData.length) {
-    return <CustomLoader />;
+    return <WuBaseLoader />;
   }
 
   if (errorInterviews) {
@@ -217,7 +217,7 @@ const InterviewsScreen = () => {
       </div>
       <div className={'interviews-container--body'}>
         {isLoadingInterviews && !renderedInterviewsData.length ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <>
             {renderedInterviewsData.length ? (

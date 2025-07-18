@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { TabPanelType, TabType } from '@/types';
 
 const Outcomes = lazy(() => import('./components/Outcomes'));
@@ -13,7 +13,7 @@ const SETTINGS_TABS: TabType[] = [
 const SETTINGS_TAB_PANELS: TabPanelType[] = [
   {
     page: (
-      <Suspense fallback={<CustomLoader />}>
+      <Suspense fallback={<WuBaseLoader />}>
         <Outcomes />
       </Suspense>
     ),
@@ -21,7 +21,7 @@ const SETTINGS_TAB_PANELS: TabPanelType[] = [
   },
   {
     page: (
-      <Suspense fallback={<CustomLoader />}>
+      <Suspense fallback={<WuBaseLoader />}>
         <UserDebug />
       </Suspense>
     ),

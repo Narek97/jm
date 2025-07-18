@@ -5,7 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { Tab, Tabs } from '@mui/material';
 
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { TabPanelType, TabType } from '@/types';
 
 type indicatorTypes = 'linear' | 'circular';
@@ -115,7 +115,7 @@ const CustomTabs: FC<ICustomTabs> = ({
         </div>
         {tabPanels.map(({ page, value }, index) => (
           <TabPanel value={value} key={index} className={'custom-tabs--panel'} sx={{ padding: 0 }}>
-            <Suspense fallback={<CustomLoader />}>{page}</Suspense>
+            <Suspense fallback={<WuBaseLoader />}>{page}</Suspense>
           </TabPanel>
         ))}
       </TabContext>

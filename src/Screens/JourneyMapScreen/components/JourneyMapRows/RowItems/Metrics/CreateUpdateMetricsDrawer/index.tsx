@@ -54,10 +54,10 @@ import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import CustomPopover from '@/Components/Shared/CustomPopover';
 import CustomTable from '@/Components/Shared/CustomTable';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/store/journeyMap';
 import { useUndoRedoStore } from '@/store/undoRedo.ts';
@@ -1083,7 +1083,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                         isLoadingDataPoint) ||
                       (selectedMetrics?.source === MetricsSourceEnum.Custom &&
                         isLoadingCustomMetricsItems) ? (
-                        <CustomLoader />
+                        <WuBaseLoader />
                       ) : dataPoints.length > 0 || customMetrics.length > 0 ? (
                         <>
                           {/* Render the table if rows exist */}

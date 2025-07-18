@@ -18,10 +18,10 @@ import {
 } from '@/api/queries/generated/getOrganizationUsers.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { USERS_LIMIT } from '@/constants/pagination.ts';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 
@@ -196,7 +196,7 @@ const UsersScreen = () => {
         </div>
       </div>
       {isPending ? (
-        <CustomLoader />
+        <WuBaseLoader />
       ) : (
         <div className={'org-users--table-block'}>
           {usersData?.length ? (
