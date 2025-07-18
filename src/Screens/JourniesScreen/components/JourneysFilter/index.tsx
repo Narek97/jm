@@ -14,9 +14,9 @@ import {
   useGetPersonaGroupsModelQuery,
 } from '@/api/queries/generated/getPersonaGroups.generated.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomPopover from '@/Components/Shared/CustomPopover';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
@@ -193,7 +193,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                       </ul>
                       {isFetching && (
                         <div className={'relative w-full h-[40px]'}>
-                          <CustomLoader />
+                          <WuBaseLoader />
                         </div>
                       )}
                     </>
@@ -206,7 +206,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
               <p className={`journeys-filter--container--persona-group-title`}>Persona Group</p>
 
               {isLoadingPersonaGroup ? (
-                <CustomLoader />
+                <WuBaseLoader />
               ) : (
                 <ul className="journeys-filter--container--persona-group">
                   {dataPersonaGroup?.getPersonaGroups.personaGroups.map(personaGroup => (

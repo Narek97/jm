@@ -6,10 +6,10 @@ import {
 } from '@/api/queries/generated/getErrorLogs.generated.ts';
 import { ErrorLog } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { ERROR_LOGS_LIMIT } from '@/constants/pagination';
 import { ERROR_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/ErrorLogs/constants.tsx';
@@ -76,7 +76,7 @@ const ErrorLogs = () => {
           />
         </div>
       )}
-      {isLoading && <CustomLoader />}
+      {isLoading && <WuBaseLoader />}
       {!isLoading && <CustomTable isTableHead={true} rows={logsData} columns={columns} />}
     </div>
   );

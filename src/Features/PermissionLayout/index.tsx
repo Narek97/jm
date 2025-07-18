@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { TOKEN_NAME } from '@/constants';
 import { useUserStore } from '@/store/user.ts';
 import { deleteCookie } from '@/utils/cookieHelper.ts';
@@ -37,7 +37,7 @@ const PermissionLayout: FC<IPermissionLayout> = ({ children }) => {
         <>{children}</>
       ) : (
         <>
-          <CustomLoader />
+          <WuBaseLoader />
         </>
       )}
     </>

@@ -6,8 +6,8 @@ import OrgItem from './OrgItem';
 
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced400 } from '@/hooks/useDebounce';
@@ -65,7 +65,7 @@ const Orgs: FC = () => {
             <div className={'orgs-list--content'}>
               {isLoadingOrgs && !orgs?.length ? (
                 <div className={'orgs-list-loading-section'}>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </div>
               ) : (
                 <>

@@ -34,8 +34,8 @@ import TouchpointIcon from '@/assets/public/mapRow/touchpoint.svg';
 import TouchpointInfoIcon from '@/assets/public/mapRow/touchpoint_info.svg';
 import VideoIcon from '@/assets/public/mapRow/video.svg';
 import VideoInfoIcon from '@/assets/public/mapRow/video_info.svg';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useAddNewRow } from '@/Screens/JourneyMapScreen/hooks/useAddNewRow.tsx';
 import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
@@ -177,7 +177,7 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
 
         {isLoadingCreateRow && (
           <div className={'row-actions-drawer--loading-block'}>
-            <CustomLoader />
+            <WuBaseLoader />
           </div>
         )}
 

@@ -23,7 +23,7 @@ import {
 } from '@/api/queries/generated/getJourneyMapColumnSteps.generated';
 import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -409,7 +409,7 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
                   },
                 }}>
                 <div className={'columns-content-summary'}>
-                  {currentColumnIds.includes(column.id) && isFetching && <CustomLoader />}
+                  {currentColumnIds.includes(column.id) && isFetching && <WuBaseLoader />}
                   {stagesStepsForLayer[column.id]?.map((stepItem: any) => (
                     <FormControlLabel
                       key={stepItem.id}

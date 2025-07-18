@@ -23,9 +23,9 @@ import {
   DeleteColumnStepMutation,
   useDeleteColumnStepMutation,
 } from '@/api/mutations/generated/deleteColumnStep.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import { JOURNEY_MAP_STEP_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
@@ -241,7 +241,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
       {stepItem.isLoading ? (
         <div className={'step-draggable-item--loading'}>
           <div {...dragHandleProps} />
-          <CustomLoader />
+          <WuBaseLoader />
         </div>
       ) : (
         <div

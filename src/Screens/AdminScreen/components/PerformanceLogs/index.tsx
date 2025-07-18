@@ -6,9 +6,9 @@ import {
   useGetPerformanceLogsQuery,
 } from '@/api/queries/generated/getPerformance.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { PERFORMANCE_LOGS_LIMIT } from '@/constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
@@ -66,7 +66,7 @@ const PerformanceLogs = () => {
 
   return (
     <div className={`performance-logs`}>
-      {isLoading && <CustomLoader />}
+      {isLoading && <WuBaseLoader />}
       {isOpenDeleteModal && (
         <PerformanceLogsDeleteModal handleClose={toggleDeleteModal} isOpen={isOpenDeleteModal} />
       )}

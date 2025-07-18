@@ -38,10 +38,10 @@ import {
 import { OrderByEnum } from '@/api/types';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { BOARD_JOURNEYS_LIMIT, PINNED_OUTCOMES_LIMIT } from '@/constants/pagination';
 import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
@@ -602,7 +602,7 @@ const JourniesScreen = () => {
         </div>
 
         {isLoadingJourneys || isFetchingJourneys ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <>
             {journeysData.length ? (

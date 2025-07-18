@@ -13,7 +13,7 @@ import {
   useRemoveBoxElementMutation,
 } from '@/api/mutations/generated/removeBoxElement.generated';
 import CardFlip from '@/Components/Shared/CardFlip';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import AddRowBoxElementBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/AddRowBoxElementBtn';
 import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
@@ -108,7 +108,7 @@ const DraggableCards: FC<IDraggableCards> = ({
             <div className={'cons-pros-interaction'}>
               {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'}>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </div>
               ) : (
                 <Droppable

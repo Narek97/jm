@@ -1,7 +1,7 @@
 import { FC, memo, useState } from 'react';
 
 import './style.scss';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { FILE_TYPE_CONFIG } from '@/constants';
 import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowFileUploader';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
@@ -69,7 +69,7 @@ const VideoItem: FC<IVideoItem> = memo(({ boxItem, rowId, disabled, row, boxInde
             <>
               {isUploading ? (
                 <div className={'row-video-item--card-block--loading'}>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </div>
               ) : (
                 <>

@@ -13,9 +13,9 @@ import {
 } from '@/api/infinite-queries/generated/getPersonas.generated.ts';
 import { useCreatePersonaMutation } from '@/api/mutations/generated/createPersona.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -164,7 +164,7 @@ const PersonaGroupScreen = () => {
   if (isLoadingGetPersonas) {
     return (
       <div className={'personas-container'}>
-        <CustomLoader />
+        <WuBaseLoader />
       </div>
     );
   }

@@ -10,7 +10,7 @@ import {
 } from '@/api/queries/generated/getNounProjectIcons.generated';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { NOUN_PROJECT_ICONS_LIMIT } from '@/constants/pagination';
 import { debounced400 } from '@/hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
@@ -62,7 +62,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
               {errorNounProjectIcons ? (
                 <CustomError />
               ) : isLoadingNounProjectIcons ? (
-                <CustomLoader />
+                <WuBaseLoader />
               ) : (
                 <>
                   {nounProjectIcons.icons?.length ? (

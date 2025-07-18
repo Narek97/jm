@@ -23,10 +23,10 @@ import {
 } from '@/api/mutations/generated/updateBoard.generated';
 import { CreateBoardInput } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EditableItemForm from '@/Components/Shared/EditableItemForm';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { DEFAULT_OUTCOMES_GROUP, querySlateTime } from '@/constants';
 import { BOARDS_LIMIT } from '@/constants/pagination.ts';
 import {
@@ -320,7 +320,7 @@ const BoardsScreen = () => {
       </div>
       <div className={'boards--body'}>
         {isLoadingBoards && !boardsData.length ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <>
             {boardsData.length ? (

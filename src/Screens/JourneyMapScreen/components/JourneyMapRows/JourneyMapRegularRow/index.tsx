@@ -7,7 +7,7 @@ import RowNameBlock from '../components/RowNameBlock';
 import RowVideos from '../RowItems/RowVideos';
 
 import { MapRowTypeEnum } from '@/api/types';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import Divider from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Divider';
 import Links from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Links';
@@ -63,7 +63,7 @@ const JourneyMapRegularRow: FC<IJourneyMapRow> = memo(
           <div className={'journey-map-row--loading-block'} data-testid="row-loading-test-id">
             {rowItem.boxes?.map((_, i) => (
               <div className={'journey-map-row--loading'} key={i}>
-                <CustomLoader />
+                <WuBaseLoader />
               </div>
             ))}
           </div>

@@ -3,9 +3,9 @@ import { ChangeEvent, lazy, Suspense, useMemo, useState } from 'react';
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { debounced400 } from '@/hooks/useDebounce.ts';
 import { ORGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/CopyMap/constants.tsx';
@@ -76,7 +76,7 @@ const CopyMap = () => {
       </div>
 
       {isLoadingOrgs ? (
-        <CustomLoader />
+        <WuBaseLoader />
       ) : !isLoadingOrgs && !rows?.length ? (
         <EmptyDataInfo message="Map not found" />
       ) : (

@@ -11,10 +11,10 @@ import {
   ReplaceMapVersionMutation,
   useReplaceMapVersionMutation,
 } from '@/api/mutations/generated/replaceMapVersion.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
 import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNEY_MAP_VERSION_LIMIT } from '@/constants/pagination';
 import DeleteVersionModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/DeleteVersionModal';
 import VersionCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/VersionCard';
@@ -192,7 +192,7 @@ const VersionDrawer: FC<IVersionDrawer> = ({ mapID, onHandleClose }) => {
           <>
             {versionsIsFetchingNextPage ? (
               <>
-                <CustomLoader />
+                <WuBaseLoader />
               </>
             ) : (
               <EmptyDataInfo message={'There are no versions yet'} />
