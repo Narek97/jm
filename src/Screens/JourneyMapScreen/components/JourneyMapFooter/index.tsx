@@ -81,35 +81,12 @@ const JourneyMapFooter: FC<IJourneyMapFooter> = ({ workspaceId, mapId, isGuest }
         </button>
       ))}
       {!isGuest && workspaceId && (
-        <>
-          {/*<WuModal*/}
-          {/*  open={isOpenSelectedPersonasModal}*/}
-          {/*  onOpenChange={setIsOpenSelectedPersonasModal}*/}
-          {/*  Trigger={*/}
-          {/*    <Tooltip placement="top" title={'Add new persona'} arrow>*/}
-          {/*      <button*/}
-          {/*        data-testid="add-btn-id"*/}
-          {/*        disabled={false}*/}
-          {/*        onClick={handleToggleAssignPersonaModal}*/}
-          {/*        className={'journey-map-footer--add-new-persona-btn'}>*/}
-          {/*        <span*/}
-          {/*          className={'wm-person-add'}*/}
-          {/*          style={{*/}
-          {/*            color: '#1b87e6',*/}
-          {/*          }}*/}
-          {/*        />*/}
-          {/*      </button>*/}
-          {/*    </Tooltip>*/}
-          {/*  }*/}
-          {/*>*/}
-          <AssignPersonaToMapModal
-            isOpen={isOpenSelectedPersonasModal}
-            workspaceId={workspaceId}
-            mapId={mapId}
-            handleClose={handleToggleAssignPersonaModal}
-          />
-          {/*</WuModal>*/}
-        </>
+        <AssignPersonaToMapModal
+          isOpen={isOpenSelectedPersonasModal}
+          workspaceId={workspaceId}
+          mapId={mapId}
+          handleClose={handleToggleAssignPersonaModal}
+        />
       )}
     </div>
   );

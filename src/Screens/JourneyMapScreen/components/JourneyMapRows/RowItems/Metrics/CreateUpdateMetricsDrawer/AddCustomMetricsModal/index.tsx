@@ -115,17 +115,6 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
             </div>
           </div>
         </div>
-        {/*<div className={'base-modal-footer'}>*/}
-        {/*  <WuButton*/}
-        {/*    onClick={handleClose}*/}
-        {/*    data-testid="cansel-data-point-test-id"*/}
-        {/*    variant={'outline'}>*/}
-        {/*    Cancel*/}
-        {/*  </WuButton>*/}
-        {/*  <WuButton type={'submit'} data-testid="submit-data-point-test-id">*/}
-        {/*    Add*/}
-        {/*  </WuButton>*/}
-        {/*</div>*/}
       </form>
     </BaseWuModal>
   );

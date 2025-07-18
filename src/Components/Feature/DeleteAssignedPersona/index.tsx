@@ -3,8 +3,6 @@ import { FC, useCallback } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ModalConfirmButton } from '../../Shared/ModalConfirmButton';
-
 import {
   ConnectPersonasToMapMutation,
   useConnectPersonasToMapMutation,
@@ -12,6 +10,7 @@ import {
 import { useGetMapSelectedPersonasQuery } from '@/api/queries/generated/getMapSelectedPersonas.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IDeleteCxMapTable {
   mapId: number;
