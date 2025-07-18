@@ -5,8 +5,6 @@ import './style.scss';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
-import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
-
 import { useInfiniteGetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import {
   ReplaceMapVersionMutation,
@@ -16,6 +14,7 @@ import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { JOURNEY_MAP_VERSION_LIMIT } from '@/constants/pagination';
 import DeleteVersionModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/DeleteVersionModal';
 import VersionCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/VersionCard';

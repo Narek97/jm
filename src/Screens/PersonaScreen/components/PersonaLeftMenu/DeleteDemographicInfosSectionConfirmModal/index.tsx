@@ -2,14 +2,13 @@ import { FC, useCallback } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
-
 import {
   DeleteAllDemographicInfoFieldsMutation,
   useDeleteAllDemographicInfoFieldsMutation,
 } from '@/api/mutations/generated/deleteAllDemographicInfoFields.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IDeleteCxMapTable {
   personaId: number;

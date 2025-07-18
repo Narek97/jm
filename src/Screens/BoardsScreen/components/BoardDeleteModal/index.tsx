@@ -2,14 +2,13 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { ModalConfirmButton } from '../../../../Components/Shared/ModalConfirmButton';
-
 import {
   DeleteBoardMutation,
   useDeleteBoardMutation,
 } from '@/api/mutations/generated/deleteBoard.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IBoardDeleteModal {
   isOpen: boolean;

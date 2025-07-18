@@ -3,12 +3,11 @@ import { FC } from 'react';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ModalConfirmButton } from '../../../../../../Components/Shared/ModalConfirmButton';
-
 import { useDeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated';
 import { DeleteErrorLogsMutation } from '@/api/mutations/generated/deleteErrorLogs.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IErrorLogDeleteModal {
   isOpen: boolean;

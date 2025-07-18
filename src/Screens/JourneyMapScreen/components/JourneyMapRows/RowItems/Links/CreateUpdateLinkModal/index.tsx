@@ -396,22 +396,6 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
             </div>
           )}
         </form>
-
-        {/*<div className={'base-modal-footer'}>*/}
-        {/*  <button*/}
-        {/*    className={'base-modal-footer--cancel-btn'}*/}
-        {/*    onClick={handleClose}*/}
-        {/*    disabled={isLoadingCreateLink || isLoadingUpdateLink}>*/}
-        {/*    Cancel*/}
-        {/*  </button>*/}
-        {/*  <WuButton*/}
-        {/*    type={'submit'}*/}
-        {/*    form="linkform"*/}
-        {/*    data-testid={'create-update-link-btn-test-id'}*/}
-        {/*    disabled={isLoadingCreateLink || isLoadingUpdateLink}>*/}
-        {/*    Save*/}
-        {/*  </WuButton>*/}
-        {/*</div>*/}
       </div>
     </BaseWuModal>
   );

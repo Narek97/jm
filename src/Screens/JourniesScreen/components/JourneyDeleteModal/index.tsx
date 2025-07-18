@@ -1,13 +1,12 @@
 import { FC } from 'react';
 
-import { ModalConfirmButton } from '../../../../Components/Shared/ModalConfirmButton';
-
 import {
   MapsBulkDeleteMutation,
   useMapsBulkDeleteMutation,
 } from '@/api/mutations/generated/mapsBulkDelete.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 import { queryClient } from '@/providers/constants';
 import { JourneyChildType, JourneyType } from '@/Screens/JourniesScreen/types.ts';

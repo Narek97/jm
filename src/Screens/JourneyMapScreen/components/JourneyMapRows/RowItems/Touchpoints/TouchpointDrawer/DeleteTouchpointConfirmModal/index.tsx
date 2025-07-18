@@ -7,10 +7,6 @@ import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import {
-  ModalConfirmButton,
-} from '../../../../../../../../Components/Shared/ModalConfirmButton';
-
 import { DeleteAiJourneyModelMutation } from '@/api/mutations/generated/deleteAiJourneyModel.generated';
 import { useDeleteTouchPointAttachmentMutation } from '@/api/mutations/generated/deleteTouchPointAttachment.generated.ts';
 import {
@@ -20,6 +16,9 @@ import {
 import { MapRowTypeEnum } from '@/api/types.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import {
+  ModalConfirmButton,
+} from '@/Components/Shared/ModalConfirmButton';
 import { querySlateTime } from '@/constants';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useTouchpointsStore } from '@/store/touchpoints.ts';

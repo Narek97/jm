@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { ModalConfirmButton } from '../../../../../../Components/Shared/ModalConfirmButton';
+
 import { AiModelType } from '../../types';
 
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/api/mutations/generated/deleteAiJourneyModel.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IAiModelDeleteModal {
   isOpen: boolean;

@@ -2,8 +2,6 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { ModalConfirmButton } from '../../../../../../Components/Shared/ModalConfirmButton';
-
 import { GetMapVersionsQuery } from '@/api/infinite-queries/generated/getMapVersions.generated.ts';
 import {
   DeleteMapVersionMutation,
@@ -11,6 +9,7 @@ import {
 } from '@/api/mutations/generated/deleteMapVersion.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
 
 interface IDeleteVersionModal {

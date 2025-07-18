@@ -388,16 +388,6 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
               )}
             </>
           )}
-          {/*<div className={'base-modal-footer'}>*/}
-          {/*  <button*/}
-          {/*    className={'base-modal-footer--cancel-btn'}*/}
-          {/*    onClick={handleClose}*/}
-          {/*    disabled={*/}
-          {/*      isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress*/}
-          {/*    }>*/}
-          {/*    Cancel*/}
-          {/*  </button>*/}
-          {/*</div>*/}
         </form>
       </div>
     </BaseWuModal>

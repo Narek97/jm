@@ -9,9 +9,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import CommentsDrawer from './components/JourneyMapCardCommentsDrawer';
 import JourneyMapFooter from './components/JourneyMapFooter';
-import {
-  ModalConfirmButton,
-} from '../../Components/Shared/ModalConfirmButton';
 
 import {
   GetJourneyMapRowsQuery,
@@ -57,6 +54,9 @@ import { MapRowTypeEnum } from '@/api/types.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
+import {
+  ModalConfirmButton,
+} from '@/Components/Shared/ModalConfirmButton';
 import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';

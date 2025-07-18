@@ -5,8 +5,6 @@ import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
-
 import {
   GetPersonasQuery,
   useInfiniteGetPersonasQuery,
@@ -28,6 +26,7 @@ import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
 import { PersonaType } from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/types.ts';

@@ -3,8 +3,6 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-import { ModalConfirmButton } from '../../../../../Components/Shared/ModalConfirmButton';
-
 import {
   CreateParentMapMutation,
   useCreateParentMapMutation,
@@ -19,6 +17,7 @@ import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import Pagination from '@/Components/Shared/Pagination';
 import { querySlateTime } from '@/constants';
 import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
