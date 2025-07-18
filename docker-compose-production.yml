@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  suitecx-react-app:
+    image: registry.questionpro.net/suitecx/production/frontend:${TAG:-latest}
+    container_name: suitecx-frontend
+    restart: always
+    env_file:
+      - /opt/.env_suitecx-frontend
+    network_mode: host

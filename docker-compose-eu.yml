@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  suitecx-react-app:
+    image: registry.questionpro.net/suitecx/eu/frontend:${TAG:-latest}
+    container_name: journeymanagement_frontend_eu
+    restart: always
+    env_file:
+      - /opt/.env_journeymanagement_frontend_eu
+    ports:
+      - "3022:3003"
