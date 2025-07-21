@@ -10,7 +10,6 @@ interface IConfirmButtonProps {
   buttonName: string;
 }
 
-
 const ModalConfirmButton: FC<IConfirmButtonProps> = ({
   onClick,
   disabled,

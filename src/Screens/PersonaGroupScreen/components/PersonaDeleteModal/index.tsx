@@ -56,7 +56,11 @@ const PersonaDeleteModal: FC<IPersonaDeleteModal> = ({
       canCloseWithOutsideClick={!isPending}
       isProcessing={isPending}
       ModalConfirmButton={
-        <ModalConfirmButton disabled={isPending} buttonName={'Delete'} onClick={handleDeletePersona} />
+        <ModalConfirmButton
+          disabled={isPending}
+          buttonName={'Delete'}
+          onClick={handleDeletePersona}
+        />
       }>
       <DeleteModalTemplate
         item={{

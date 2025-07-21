@@ -113,48 +113,47 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
   }, [data]);
 
   return (
-      <div className={'boards-list--content'}>
-        {organizationBoardsIsLoading && !boards?.length ? (
-          <div className={'boards-list-loading-section'}>
-            <CustomLoader />
-          </div>
-        ) : (
-          <>
-            <div onClick={handleClose} className={'go-back'}>
-              <div className={'go-back--icon'}>
-                <span className="wm-arrow-back-ios-new"></span>
-              </div>
-              <div className={'go-back--text'}>Go to workspaces</div>
+    <div className={'boards-list--content'}>
+      {organizationBoardsIsLoading && !boards?.length ? (
+        <div className={'boards-list-loading-section'}>
+          <CustomLoader />
+        </div>
+      ) : (
+        <>
+          <div onClick={handleClose} className={'go-back'}>
+            <div className={'go-back--icon'}>
+              <span className="wm-arrow-back-ios-new"></span>
             </div>
-            {boards?.length ? (
-              <div
-                data-testid={'boards-list--content-boards'}
-                className={'boards-list--content-boards'}
-                onScroll={e => {
-                  onHandleFetch(e, childRef.current?.offsetHeight || 0);
-                }}>
-                <ul ref={childRef} data-testid="boards-list--content-board-ul">
-                  {boards?.map(itm => (
-                    <ErrorBoundary key={itm?.id}>
-                      <WorkspaceBoardItem
-                        key={itm?.id}
-                        itm={itm}
-                        isSelected={!!selectedIdList?.find(idItem => idItem === itm?.id)}
-                        handleSelectBoard={(id: number, isSelected: boolean) =>
-                          handleSelectBoard(id, isSelected)
-                        }
-                      />
-                    </ErrorBoundary>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <EmptyDataInfo message={'There are no workspaces yet'} />
-            )}
-          </>
-        )}
-      </div>
-
+            <div className={'go-back--text'}>Go to workspaces</div>
+          </div>
+          {boards?.length ? (
+            <div
+              data-testid={'boards-list--content-boards'}
+              className={'boards-list--content-boards'}
+              onScroll={e => {
+                onHandleFetch(e, childRef.current?.offsetHeight || 0);
+              }}>
+              <ul ref={childRef} data-testid="boards-list--content-board-ul">
+                {boards?.map(itm => (
+                  <ErrorBoundary key={itm?.id}>
+                    <WorkspaceBoardItem
+                      key={itm?.id}
+                      itm={itm}
+                      isSelected={!!selectedIdList?.find(idItem => idItem === itm?.id)}
+                      handleSelectBoard={(id: number, isSelected: boolean) =>
+                        handleSelectBoard(id, isSelected)
+                      }
+                    />
+                  </ErrorBoundary>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <EmptyDataInfo message={'There are no workspaces yet'} />
+          )}
+        </>
+      )}
+    </div>
   );
 };
 export default WorkspaceBoards;

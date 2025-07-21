@@ -252,8 +252,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
           }>
           {aiModel ? 'Update' : 'Create'}
         </WuButton>
-      }
-    >
+      }>
       <div className={'create-update-ai-model-modal'} data-testid={'create-update-ai-model-modal'}>
         <form
           className={'create-update-ai-model-modal--form'}

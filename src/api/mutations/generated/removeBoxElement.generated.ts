@@ -6,10 +6,17 @@ export type RemoveBoxElementMutationVariables = Types.Exact<{
   removeBoxElementInput: Types.RemoveBoxElementInput;
 }>;
 
-
-export type RemoveBoxElementMutation = { __typename?: 'Mutation', removeBoxElement: { __typename?: 'BoxElementResponseModel', id: number, columnId: number, rowId: number, text?: string | null, stepId: number } };
-
-
+export type RemoveBoxElementMutation = {
+  __typename?: 'Mutation';
+  removeBoxElement: {
+    __typename?: 'BoxElementResponseModel';
+    id: number;
+    columnId: number;
+    rowId: number;
+    text?: string | null;
+    stepId: number;
+  };
+};
 
 export const RemoveBoxElementDocument = `
     mutation RemoveBoxElement($removeBoxElementInput: RemoveBoxElementInput!) {
@@ -23,17 +30,23 @@ export const RemoveBoxElementDocument = `
 }
     `;
 
-export const useRemoveBoxElementMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RemoveBoxElementMutation, TError, RemoveBoxElementMutationVariables, TContext>) => {
-    
-    return useMutation<RemoveBoxElementMutation, TError, RemoveBoxElementMutationVariables, TContext>(
-      {
-    mutationKey: ['RemoveBoxElement'],
-    mutationFn: axiosRequest<RemoveBoxElementMutation, RemoveBoxElementMutationVariables>(RemoveBoxElementDocument),
-    ...options
-  }
-    )};
+export const useRemoveBoxElementMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    RemoveBoxElementMutation,
+    TError,
+    RemoveBoxElementMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<RemoveBoxElementMutation, TError, RemoveBoxElementMutationVariables, TContext>(
+    {
+      mutationKey: ['RemoveBoxElement'],
+      mutationFn: axiosRequest<RemoveBoxElementMutation, RemoveBoxElementMutationVariables>(
+        RemoveBoxElementDocument,
+      ),
+      ...options,
+    },
+  );
+};
 
 useRemoveBoxElementMutation.getKey = () => ['RemoveBoxElement'];

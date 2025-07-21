@@ -6,10 +6,19 @@ export type GetBoardTagsQueryVariables = Types.Exact<{
   getBoardTagsInput: Types.GetBoardTagsInput;
 }>;
 
-
-export type GetBoardTagsQuery = { __typename?: 'Query', getBoardTags: { __typename?: 'GetBoardsTagsModel', count?: number | null, tags: Array<{ __typename?: 'GetCardAttachedTagsModel', color: string, id: number, name: string }> } };
-
-
+export type GetBoardTagsQuery = {
+  __typename?: 'Query';
+  getBoardTags: {
+    __typename?: 'GetBoardsTagsModel';
+    count?: number | null;
+    tags: Array<{
+      __typename?: 'GetCardAttachedTagsModel';
+      color: string;
+      id: number;
+      name: string;
+    }>;
+  };
+};
 
 export const GetBoardTagsDocument = `
     query GetBoardTags($getBoardTagsInput: GetBoardTagsInput!) {
@@ -24,20 +33,23 @@ export const GetBoardTagsDocument = `
 }
     `;
 
-export const useGetBoardTagsQuery = <
-      TData = GetBoardTagsQuery,
-      TError = unknown
-    >(
-      variables: GetBoardTagsQueryVariables,
-      options?: Omit<UseQueryOptions<GetBoardTagsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetBoardTagsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetBoardTagsQuery, TError, TData>(
-      {
+export const useGetBoardTagsQuery = <TData = GetBoardTagsQuery, TError = unknown>(
+  variables: GetBoardTagsQueryVariables,
+  options?: Omit<UseQueryOptions<GetBoardTagsQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetBoardTagsQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetBoardTagsQuery, TError, TData>({
     queryKey: ['GetBoardTags', variables],
-    queryFn: axiosRequest<GetBoardTagsQuery, GetBoardTagsQueryVariables>(GetBoardTagsDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<GetBoardTagsQuery, GetBoardTagsQueryVariables>(GetBoardTagsDocument).bind(
+      null,
+      variables,
+    ),
+    ...options,
+  });
+};
 
-useGetBoardTagsQuery.getKey = (variables: GetBoardTagsQueryVariables) => ['GetBoardTags', variables];
+useGetBoardTagsQuery.getKey = (variables: GetBoardTagsQueryVariables) => [
+  'GetBoardTags',
+  variables,
+];

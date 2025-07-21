@@ -6,10 +6,18 @@ export type UnMergeJourneyMapColumnMutationVariables = Types.Exact<{
   unmergeColumnInput: Types.UnmergeColumnInput;
 }>;
 
-
-export type UnMergeJourneyMapColumnMutation = { __typename?: 'Mutation', unMergeJourneyMapColumn: { __typename?: 'UnmergeColumnModel', endColumnIsMerged: boolean, endStepIsMerged: boolean, nextColumnMergedCandidateIds: Array<number>, nextColumnUnMergedCandidateIds: Array<number>, startColumnIsMerged: boolean, startStepIsMerged: boolean } };
-
-
+export type UnMergeJourneyMapColumnMutation = {
+  __typename?: 'Mutation';
+  unMergeJourneyMapColumn: {
+    __typename?: 'UnmergeColumnModel';
+    endColumnIsMerged: boolean;
+    endStepIsMerged: boolean;
+    nextColumnMergedCandidateIds: Array<number>;
+    nextColumnUnMergedCandidateIds: Array<number>;
+    startColumnIsMerged: boolean;
+    startStepIsMerged: boolean;
+  };
+};
 
 export const UnMergeJourneyMapColumnDocument = `
     mutation UnMergeJourneyMapColumn($unmergeColumnInput: UnmergeColumnInput!) {
@@ -24,17 +32,27 @@ export const UnMergeJourneyMapColumnDocument = `
 }
     `;
 
-export const useUnMergeJourneyMapColumnMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UnMergeJourneyMapColumnMutation, TError, UnMergeJourneyMapColumnMutationVariables, TContext>) => {
-    
-    return useMutation<UnMergeJourneyMapColumnMutation, TError, UnMergeJourneyMapColumnMutationVariables, TContext>(
-      {
+export const useUnMergeJourneyMapColumnMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UnMergeJourneyMapColumnMutation,
+    TError,
+    UnMergeJourneyMapColumnMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UnMergeJourneyMapColumnMutation,
+    TError,
+    UnMergeJourneyMapColumnMutationVariables,
+    TContext
+  >({
     mutationKey: ['UnMergeJourneyMapColumn'],
-    mutationFn: axiosRequest<UnMergeJourneyMapColumnMutation, UnMergeJourneyMapColumnMutationVariables>(UnMergeJourneyMapColumnDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<
+      UnMergeJourneyMapColumnMutation,
+      UnMergeJourneyMapColumnMutationVariables
+    >(UnMergeJourneyMapColumnDocument),
+    ...options,
+  });
+};
 
 useUnMergeJourneyMapColumnMutation.getKey = () => ['UnMergeJourneyMapColumn'];

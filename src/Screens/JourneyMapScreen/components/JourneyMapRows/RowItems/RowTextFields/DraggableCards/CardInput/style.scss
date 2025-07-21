@@ -1,7 +1,6 @@
 @use '@assets/styles/variables' as *;
 @use '@assets/styles/mixins' as *;
 
-
 .draggable-input {
   @include map-card-header-hover();
   border-bottom-left-radius: 0.125rem;

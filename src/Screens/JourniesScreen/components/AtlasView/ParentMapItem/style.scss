@@ -1,4 +1,5 @@
-@import 'src/assets/styles/mixins';
+@use '@assets/styles/mixins' as *;
+@use '@assets/styles/variables' as *;
 
 .atlas-view--maps--item {
   position: relative;

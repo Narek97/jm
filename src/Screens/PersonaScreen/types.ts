@@ -22,4 +22,4 @@ export type PersonaImageContainedComponentType = {
 
 export type PersonaSectionType = GetPersonaSectionsQuery['getPersonaSections'][number];
 
-export type PersonaJourneyMap = GetMapsQuery["getMaps"]['maps'][number];
+export type PersonaJourneyMap = GetMapsQuery['getMaps']['maps'][number];

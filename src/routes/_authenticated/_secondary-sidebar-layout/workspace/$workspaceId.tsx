@@ -6,7 +6,6 @@ import {
   GetWorkspaceByIdQuery,
   useGetWorkspaceByIdQuery,
 } from '@/api/queries/generated/getWorkspaceById.generated.ts';
-import CustomError from '@/Components/Shared/CustomError';
 import { MENU_PANEL_BOTTOM_TABS } from '@/constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
 import TechnicalProblemTemplate from '@/Features/TechnicalProblem';
@@ -27,7 +26,7 @@ function RouteComponent() {
 
   const { setWorkspace } = useWorkspaceStore();
 
-  const { data, error } = useGetWorkspaceByIdQuery<GetWorkspaceByIdQuery, Error>(
+  const { data } = useGetWorkspaceByIdQuery<GetWorkspaceByIdQuery, Error>(
     {
       id: +workspaceId!,
     },
@@ -43,10 +42,6 @@ function RouteComponent() {
   }, [data, setWorkspace]);
 
   const { topTabs } = useGetLeftMenuTabs(+workspaceId!);
-
-  if (error) {
-    return <CustomError error={error?.message} />;
-  }
 
   return (
     <SidebarLayout topTabs={topTabs} bottomTabs={MENU_PANEL_BOTTOM_TABS}>

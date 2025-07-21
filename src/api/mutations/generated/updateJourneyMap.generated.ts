@@ -6,10 +6,7 @@ export type UpdateJourneyMapMutationVariables = Types.Exact<{
   updateJourneyMapInput: Types.UpdateJourneyMapInput;
 }>;
 
-
-export type UpdateJourneyMapMutation = { __typename?: 'Mutation', updateJourneyMap: number };
-
-
+export type UpdateJourneyMapMutation = { __typename?: 'Mutation'; updateJourneyMap: number };
 
 export const UpdateJourneyMapDocument = `
     mutation UpdateJourneyMap($updateJourneyMapInput: UpdateJourneyMapInput!) {
@@ -17,17 +14,23 @@ export const UpdateJourneyMapDocument = `
 }
     `;
 
-export const useUpdateJourneyMapMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateJourneyMapMutation, TError, UpdateJourneyMapMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateJourneyMapMutation, TError, UpdateJourneyMapMutationVariables, TContext>(
-      {
-    mutationKey: ['UpdateJourneyMap'],
-    mutationFn: axiosRequest<UpdateJourneyMapMutation, UpdateJourneyMapMutationVariables>(UpdateJourneyMapDocument),
-    ...options
-  }
-    )};
+export const useUpdateJourneyMapMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateJourneyMapMutation,
+    TError,
+    UpdateJourneyMapMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<UpdateJourneyMapMutation, TError, UpdateJourneyMapMutationVariables, TContext>(
+    {
+      mutationKey: ['UpdateJourneyMap'],
+      mutationFn: axiosRequest<UpdateJourneyMapMutation, UpdateJourneyMapMutationVariables>(
+        UpdateJourneyMapDocument,
+      ),
+      ...options,
+    },
+  );
+};
 
 useUpdateJourneyMapMutation.getKey = () => ['UpdateJourneyMap'];

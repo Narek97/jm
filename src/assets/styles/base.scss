@@ -23,6 +23,11 @@ input[type='checkbox'] {
 
 main {
   overflow-x: hidden !important;
+  min-height: calc(100dvh - 41rem);
+}
+
+footer {
+  margin-top: auto;
 }
 
 button,

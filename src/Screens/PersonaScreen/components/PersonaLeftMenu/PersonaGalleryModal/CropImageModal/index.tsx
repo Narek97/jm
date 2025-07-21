@@ -147,7 +147,8 @@ const CropImageModal: FC<ICropImageModal> = memo(
                 onClick={() => zoomInAndOut('out')}>
                 <span className={'wm-chrome-minimize'} />
               </button>
-              <Slider className={'!w-full'}
+              <Slider
+                className={'!w-full'}
                 aria-label="Small steps"
                 defaultValue={3}
                 min={1}

@@ -56,8 +56,7 @@ const ErrorLogDeleteModal: FC<IErrorLogDeleteModal> = ({ isOpen, handleClose }) 
           buttonName={'Delete'}
           onClick={onHandleDeleteWorkspaceItem}
         />
-      }
-    >
+      }>
       <DeleteModalTemplate
         item={{
           type: 'Error logs',

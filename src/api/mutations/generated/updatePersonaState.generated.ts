@@ -6,10 +6,10 @@ export type UpdatePersonaStateMutationVariables = Types.Exact<{
   updatePersonaStateInput: Types.UpdatePersonaStateInput;
 }>;
 
-
-export type UpdatePersonaStateMutation = { __typename?: 'Mutation', updatePersonaState: Types.PersonaStateEnum };
-
-
+export type UpdatePersonaStateMutation = {
+  __typename?: 'Mutation';
+  updatePersonaState: Types.PersonaStateEnum;
+};
 
 export const UpdatePersonaStateDocument = `
     mutation UpdatePersonaState($updatePersonaStateInput: UpdatePersonaStateInput!) {
@@ -17,17 +17,26 @@ export const UpdatePersonaStateDocument = `
 }
     `;
 
-export const useUpdatePersonaStateMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdatePersonaStateMutation, TError, UpdatePersonaStateMutationVariables, TContext>) => {
-    
-    return useMutation<UpdatePersonaStateMutation, TError, UpdatePersonaStateMutationVariables, TContext>(
-      {
+export const useUpdatePersonaStateMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdatePersonaStateMutation,
+    TError,
+    UpdatePersonaStateMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdatePersonaStateMutation,
+    TError,
+    UpdatePersonaStateMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdatePersonaState'],
-    mutationFn: axiosRequest<UpdatePersonaStateMutation, UpdatePersonaStateMutationVariables>(UpdatePersonaStateDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<UpdatePersonaStateMutation, UpdatePersonaStateMutationVariables>(
+      UpdatePersonaStateDocument,
+    ),
+    ...options,
+  });
+};
 
 useUpdatePersonaStateMutation.getKey = () => ['UpdatePersonaState'];

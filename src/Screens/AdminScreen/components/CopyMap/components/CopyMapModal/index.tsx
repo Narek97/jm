@@ -113,14 +113,16 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
         reset();
         handleClose();
       }}
-      canCloseWithOutsideClick={!isProcessing} ModalConfirmButton={<WuButton
-      type={'button'}
-      disabled={!(mapId && boardId)}
-      data-testid="submit-outcome-test-id"
-      onClick={handleCopyMap}>
-      Copy
-    </WuButton>}
-    >
+      canCloseWithOutsideClick={!isProcessing}
+      ModalConfirmButton={
+        <WuButton
+          type={'button'}
+          disabled={!(mapId && boardId)}
+          data-testid="submit-outcome-test-id"
+          onClick={handleCopyMap}>
+          Copy
+        </WuButton>
+      }>
       <div className={'copy-map-modal--info'}>
         {mapId
           ? ' * Select workspace, then board for pasting the map'

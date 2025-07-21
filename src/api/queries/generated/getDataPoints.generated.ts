@@ -6,10 +6,41 @@ export type GetDataPointsQueryVariables = Types.Exact<{
   getDataPointsInput: Types.GetDataPointsInput;
 }>;
 
-
-export type GetDataPointsQuery = { __typename?: 'Query', getDataPoints: { __typename?: 'GetDataPointsResponse', offset: number, limit: number, count?: number | null, dataPoints: Array<{ __typename?: 'CESPoint', id: number, date: any, neutral: number, difficult: number, easy: number } | { __typename?: 'CSATPoint', id: number, date: any, dissatisfied: number, satisfied: number, neutral: number } | { __typename?: 'NPSPoint', id: number, date: any, passive: number, promoter: number, detractor: number }> } };
-
-
+export type GetDataPointsQuery = {
+  __typename?: 'Query';
+  getDataPoints: {
+    __typename?: 'GetDataPointsResponse';
+    offset: number;
+    limit: number;
+    count?: number | null;
+    dataPoints: Array<
+      | {
+          __typename?: 'CESPoint';
+          id: number;
+          date: any;
+          neutral: number;
+          difficult: number;
+          easy: number;
+        }
+      | {
+          __typename?: 'CSATPoint';
+          id: number;
+          date: any;
+          dissatisfied: number;
+          satisfied: number;
+          neutral: number;
+        }
+      | {
+          __typename?: 'NPSPoint';
+          id: number;
+          date: any;
+          passive: number;
+          promoter: number;
+          detractor: number;
+        }
+    >;
+  };
+};
 
 export const GetDataPointsDocument = `
     query GetDataPoints($getDataPointsInput: GetDataPointsInput!) {
@@ -44,20 +75,22 @@ export const GetDataPointsDocument = `
 }
     `;
 
-export const useGetDataPointsQuery = <
-      TData = GetDataPointsQuery,
-      TError = unknown
-    >(
-      variables: GetDataPointsQueryVariables,
-      options?: Omit<UseQueryOptions<GetDataPointsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetDataPointsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetDataPointsQuery, TError, TData>(
-      {
+export const useGetDataPointsQuery = <TData = GetDataPointsQuery, TError = unknown>(
+  variables: GetDataPointsQueryVariables,
+  options?: Omit<UseQueryOptions<GetDataPointsQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetDataPointsQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetDataPointsQuery, TError, TData>({
     queryKey: ['GetDataPoints', variables],
-    queryFn: axiosRequest<GetDataPointsQuery, GetDataPointsQueryVariables>(GetDataPointsDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<GetDataPointsQuery, GetDataPointsQueryVariables>(
+      GetDataPointsDocument,
+    ).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetDataPointsQuery.getKey = (variables: GetDataPointsQueryVariables) => ['GetDataPoints', variables];
+useGetDataPointsQuery.getKey = (variables: GetDataPointsQueryVariables) => [
+  'GetDataPoints',
+  variables,
+];

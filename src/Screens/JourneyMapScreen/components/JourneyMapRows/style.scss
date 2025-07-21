@@ -2,7 +2,7 @@
 @use '@assets/styles/mixins' as *;
 
 .journey-map-rows {
-  max-height: calc(100dvh - 17.5rem);
+  max-height: calc(100dvh - 18rem);
   overflow: auto;
 
   &-guest-view {
