@@ -25,14 +25,15 @@
 
 .orgs-list {
   padding: 0.5rem;
-  height: 27.125rem;
+  height: 24.125rem;
 
   &--content {
+    height: 100%;
+    overflow-x: auto;
+
     &-orgs {
-      height: 23.75rem;
       padding: 1rem;
 
-      overflow-x: auto;
 
       &::-webkit-scrollbar {
         -webkit-appearance: none;

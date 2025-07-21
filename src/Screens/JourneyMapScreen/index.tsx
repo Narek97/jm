@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
-import { Modal } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
@@ -52,11 +51,13 @@ import {
   useGetMapOutcomeGroupsForRowCreationQuery,
 } from '@/api/queries/generated/getOutcomeGroupsForMap.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
-import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination';
+import {
+  ModalConfirmButton,
+} from '@/Components/Shared/ModalConfirmButton';
+import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/hooks/useDebounce.ts';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
@@ -655,19 +656,20 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   return (
     <>
       {replaceMapUser && user?.userID !== replaceMapUser.userID && (
-        <Modal open={true}>
-          <div className={'version-modal'}>
-            <CustomModalHeader title={'Version'} />
+        <BaseWuModal
+          headerTitle={'Version'}
+          handleClose={() => {}}
+          modalSize={'sm'}
+          ModalConfirmButton={
+            <ModalConfirmButton buttonName={'Reload'} onClick={() => () => window.location.reload()} />
+          }
+          isOpen={true}>
+          <div>
             <div className={'version-modal--content'}>
               <span>{replaceMapUser.emailAddress} changed map version</span>
             </div>
-
-            <CustomModalFooterButtons
-              handleSecondButtonClick={() => window.location.reload()}
-              secondButtonName={'Reload'}
-            />
           </div>
-        </Modal>
+        </BaseWuModal>
       )}
       <ErrorBoundary>
         <Drawer

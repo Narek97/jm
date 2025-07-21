@@ -15,10 +15,9 @@ import {
   useUpdateAttachmentScaleTypeMutation,
 } from '@/api/mutations/generated/updateAttachmentScaleType.generated.ts';
 import { CommentAndNoteModelsEnum, ImgScaleTypeEnum, MapCardTypeEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { IMAGE_ASPECT } from '@/constants';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
@@ -207,12 +206,21 @@ const ImageCard: FC<IImageCard> = memo(
         )}
 
         {isOpenCropModal && (
-          <CustomModal
+          <BaseWuModal
+            headerTitle={'Crop image'}
+            isProcessing={isLoadingAttachmentCroppedArea}
             isOpen={isOpenCropModal}
             modalSize={'md'}
             handleClose={() => setIsOpenCropModal(false)}
-            canCloseWithOutsideClick={true}>
-            <CustomModalHeader title={'Crop image'} />
+            canCloseWithOutsideClick={true}
+            ModalConfirmButton={
+              <WuButton
+                data-testid={'crop-btn-test-id'}
+                onClick={onHandleSaveCropImage}
+                disabled={isLoadingAttachmentCroppedArea}>
+                Save
+              </WuButton>
+            }>
             <div
               className="image-card-cropper-modal"
               data-testid="image-card-cropper-modal-test-id">
@@ -227,22 +235,8 @@ const ImageCard: FC<IImageCard> = memo(
                   onCropAreaChange={setNewCroppedArea}
                 />
               </div>
-              <div className={'base-modal-footer'}>
-                <button
-                  className={'base-modal-footer--cancel-btn'}
-                  onClick={() => setIsOpenCropModal(false)}
-                  disabled={isLoadingAttachmentCroppedArea}>
-                  Cancel
-                </button>
-                <WuButton
-                  data-testid={'crop-btn-test-id'}
-                  onClick={onHandleSaveCropImage}
-                  disabled={isLoadingAttachmentCroppedArea}>
-                  Save
-                </WuButton>
-              </div>
             </div>
-          </CustomModal>
+          </BaseWuModal>
         )}
 
         <div key={boxImage?.id} className={'image-card'} data-testid={'image-card-test-id'}>

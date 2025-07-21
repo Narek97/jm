@@ -94,16 +94,6 @@ svg {
   height: fit-content !important;
 }
 
-.version-modal {
-  @include absolute-center;
-  width: 25rem;
-  background-color: $BASE-WHITE-COLOR;
-  &--content {
-    padding: 1rem;
-    color: $BASE_GRAY_COLOR;
-  }
-}
-
 .input-element {
   background: none;
 }

@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 
 interface IPerformanceLogsQueryModal {
   isOpen: boolean;
@@ -15,13 +14,13 @@ const PerformanceLogsQueryModal: FC<IPerformanceLogsQueryModal> = ({
   handleClose,
 }) => {
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Queries'}
       modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={'Queries'} />
-
+      canCloseWithOutsideClick={true}
+    >
       <ul className={'!p-4 !max-h-[60dvh] overflow-y-auto'}>
         {queries.map((query, index) => (
           <li className={'!mt-[10px]'} key={query}>
@@ -29,7 +28,7 @@ const PerformanceLogsQueryModal: FC<IPerformanceLogsQueryModal> = ({
           </li>
         ))}
       </ul>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

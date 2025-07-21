@@ -34,8 +34,8 @@ import TouchpointIcon from '@/assets/public/mapRow/touchpoint.svg';
 import TouchpointInfoIcon from '@/assets/public/mapRow/touchpoint_info.svg';
 import VideoIcon from '@/assets/public/mapRow/video.svg';
 import VideoInfoIcon from '@/assets/public/mapRow/video_info.svg';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomLoader from '@/Components/Shared/CustomLoader';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { useAddNewRow } from '@/Screens/JourneyMapScreen/hooks/useAddNewRow.tsx';
 import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
@@ -182,7 +182,7 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
         )}
 
         <div className={`row-actions-drawer--drawer`}>
-          <CustomModalHeader title={`Add lane`} />
+          <BaseWuModalHeader title={`Add lane`} />
           <div className={`row-actions-drawer--drawer--content`}>
             <ul className={`row-actions-drawer--drawer--groups`}>
               <p className={`row-actions-drawer--drawer--groups-title`}>Analysis</p>

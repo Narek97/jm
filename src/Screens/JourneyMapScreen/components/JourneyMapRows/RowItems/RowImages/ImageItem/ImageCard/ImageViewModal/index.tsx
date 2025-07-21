@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import './style.scss';
 import { ImgScaleTypeEnum } from '@/api/types';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CropImage from '@/Components/Shared/CropImage';
-import CustomModal from '@/Components/Shared/CustomModal';
 import { IMAGE_ASPECT_LARGE } from '@/constants';
 import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { CroppedAreaType } from '@/types';
@@ -27,7 +27,9 @@ const ImageViewModal: FC<IImageViewModal> = ({
   handleClose,
 }) => {
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={''}
+      maxHeight={'900'}
       modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
@@ -51,7 +53,7 @@ const ImageViewModal: FC<IImageViewModal> = ({
           />
         )}
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

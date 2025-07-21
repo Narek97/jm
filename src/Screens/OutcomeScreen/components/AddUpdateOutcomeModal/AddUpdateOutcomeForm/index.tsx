@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, memo, useCallback, useEffect, useState } from '
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -50,6 +50,8 @@ interface IAddUpdateOutcomeFormType {
   create: (data: OutcomeGroupOutcomeType) => void;
   update: (data: OutcomeGroupOutcomeType) => void;
   handleClose: () => void;
+  handleChangeIsLoading?: () => void;
+  formRef?: React.RefObject<HTMLFormElement | null>;
 }
 
 const defaultPersonaOption = { id: 0, name: 'Overview', value: 'Overview' };
@@ -64,7 +66,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
     selectedColumnStepId,
     create,
     update,
-    handleClose,
+    handleChangeIsLoading,
+    formRef,
   }) => {
     const { user } = useUserStore();
     const { showToast } = useWuShowToast();
@@ -126,8 +129,10 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       },
     );
 
-    const { isPending: isLoadingCrateUpdate, mutate: creatUpdateOutcome } =
-      useCreateUpdateOutcomeMutation<Error, CreateUpdateOutcomeMutation>();
+    const { mutate: creatUpdateOutcome } = useCreateUpdateOutcomeMutation<
+      Error,
+      CreateUpdateOutcomeMutation
+    >();
 
     const {
       data: dataStages,
@@ -293,7 +298,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
             personaId: personaId ? +personaId : selectedJourneyMapPersona?.id || null,
           };
         }
-
+        if (handleChangeIsLoading) {
+          handleChangeIsLoading();
+        }
         creatUpdateOutcome(
           {
             createUpdateOutcomeInput: {
@@ -302,6 +309,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
           },
           {
             onSuccess: response => {
+              if (handleChangeIsLoading) {
+                handleChangeIsLoading();
+              }
               if (selectedOutcome) {
                 update({
                   ...response?.createUpdateOutcome,
@@ -332,16 +342,18 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         );
       },
       [
+        selectedOutcome,
+        handleChangeIsLoading,
         creatUpdateOutcome,
-        create,
         defaultMapId,
         outcomeGroupId,
-        selectedOutcome,
+        workspaceId,
         selectedJourneyMapPersona?.id,
         update,
         user?.firstName,
         user?.lastName,
-        workspaceId,
+        create,
+        showToast,
       ],
     );
 
@@ -406,6 +418,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
 
     return (
       <form
+        ref={formRef}
         data-testid="add-update-outcome-modal-test-id"
         onSubmit={handleSubmit(onHandleSaveOutcome)}
         className={'add-update-outcome-form'}>
@@ -575,17 +588,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               <span className={'validation-error'}>{errors?.persona?.message}</span>
             )}
           </div>
-        </div>
-        <div className={'base-modal-footer'}>
-          <WuButton onClick={handleClose} variant="secondary">
-            Cancel
-          </WuButton>
-          <WuButton
-            type={'submit'}
-            data-testid="save-outcome-test-id"
-            disabled={isLoadingCrateUpdate}>
-            Save
-          </WuButton>
         </div>
       </form>
     );

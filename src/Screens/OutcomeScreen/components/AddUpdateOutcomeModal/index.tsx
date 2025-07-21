@@ -1,7 +1,8 @@
-import { FC, memo } from 'react';
+import { FC, memo, useRef, useState } from 'react';
 
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { WuButton } from '@npm-questionpro/wick-ui-lib';
+
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import AddUpdateOutcomeForm from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm';
 import { OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
 import { OutcomeLevelEnum } from '@/types/enum';
@@ -28,19 +29,32 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
     update,
     handleClose,
   }) => {
+    const [isLoadingCrateUpdate, setIsLoadingCrateUpdate] = useState(false);
+    const formRef = useRef<HTMLFormElement>(null);
+    const handleConfirmClick = () => {
+      if (formRef.current) {
+        formRef.current.requestSubmit();
+      }
+    };
+
     return (
-      <CustomModal
+      <BaseWuModal
+        headerTitle={`${selectedOutcome ? 'Update' : 'New'} ${singularName}`}
         isOpen={isOpen}
         modalSize={'md'}
         handleClose={handleClose}
-        canCloseWithOutsideClick={true}>
-        <CustomModalHeader
-          title={
-            <div className={'add-update-outcome-modal-header'}>
-              {selectedOutcome ? 'Update' : 'New'} {singularName}
-            </div>
-          }
-        />
+        canCloseWithOutsideClick={true}
+        isProcessing={isLoadingCrateUpdate}
+        ModalConfirmButton={
+          <WuButton
+            type="button"
+            data-testid="save-outcome-test-id"
+            disabled={isLoadingCrateUpdate}
+            onClick={handleConfirmClick}
+          >
+            Save
+          </WuButton>
+        }>
         <AddUpdateOutcomeForm
           workspaceId={workspaceId!}
           outcomeGroupId={outcomeGroupId}
@@ -50,8 +64,12 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
           create={create}
           update={update}
           handleClose={handleClose}
+          handleChangeIsLoading={() => {
+            setIsLoadingCrateUpdate(prev => !prev);
+          }}
+          formRef={formRef}
         />
-      </CustomModal>
+      </BaseWuModal>
     );
   },
 );

@@ -6,8 +6,9 @@ import {
   DeletePersonaGroupMutation,
   useDeletePersonaGroupMutation,
 } from '@/api/mutations/generated/deletePersonaGroup.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IGroupDeleteModal {
   isOpen: boolean;
@@ -46,17 +47,22 @@ const PersonaGroupDeleteModal: FC<IGroupDeleteModal> = ({
   };
 
   return (
-    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
+    <BaseWuModal
+      headerTitle={`Delete Persona Group}`}
+      isOpen={isOpen}
+      handleClose={handleClose}
+      canCloseWithOutsideClick={!isPending}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton disabled={isPending} buttonName={'Delete'} onClick={handleDeleteBoard} />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'persona group',
           name: 'Persona Group',
         }}
-        handleClose={handleClose}
-        handleDelete={handleDeleteBoard}
-        isLoading={isPending}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 
