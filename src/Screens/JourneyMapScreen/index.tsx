@@ -55,9 +55,9 @@ import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination';
+import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { debounced800 } from '@/hooks/useDebounce.ts';
+import { debounced800 } from '@/Hooks/useDebounce.ts';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
 import JourneyMapRows from '@/Screens/JourneyMapScreen/components/JourneyMapRows';
@@ -75,12 +75,12 @@ import {
   MapOutcomeGroupsForRowCreationType,
   MapSelectedPersonasType,
 } from '@/Screens/JourneyMapScreen/types.ts';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
-import { useJourneyMapStore } from '@/store/journeyMap';
-import { useLayerStore } from '@/store/layers.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { useNotesAndCommentsDrawerStore } from '@/Store/comments.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap';
+import { useLayerStore } from '@/Store/layers.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { ErrorWithStatus, UserType } from '@/types';
 import { ActionsEnum, JourneyMapEventsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 

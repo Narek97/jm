@@ -6,7 +6,7 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { EditableInputType, MenuOptionsType } from '@/types';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 

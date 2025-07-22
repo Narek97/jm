@@ -8,9 +8,9 @@ import { useGetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspa
 import { GetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated.ts';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
+import { querySlateTime } from '@/Constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IOrgWorkspace {

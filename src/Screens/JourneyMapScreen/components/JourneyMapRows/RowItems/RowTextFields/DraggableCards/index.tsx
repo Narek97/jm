@@ -27,8 +27,8 @@ import {
   JourneyMapDraggableTextFields,
   JourneyMapRowType,
 } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { ActionsEnum } from '@/types/enum.ts';
 
 interface IDraggableCards {

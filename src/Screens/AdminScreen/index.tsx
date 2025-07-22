@@ -10,7 +10,7 @@ import CustomTabs from '@/Components/Shared/CustomTabs';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { AdminRoute } from '@/routes/_authenticated/_primary-sidebar-layout/admin';
 import { ADMIN_TAB_PANELS } from '@/Screens/AdminScreen/constants.tsx';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/Store/user';
 import { SearchParamsType } from '@/types';
 
 const SuperAdmin = lazy(() => import('./components/SuperAdmin'));

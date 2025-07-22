@@ -10,7 +10,7 @@ import {
   SOCIAL_MEDIA,
 } from './components/JourneyMapRows/RowItems/Touchpoints/constants';
 
-import { FILE_TYPE_CONFIG } from '@/constants';
+import { FILE_TYPE_CONFIG } from '@/Constants';
 import TouchpointIcons from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/TouchpointDrawer/TouchpointIcons';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType, TabPanelType, TabType } from '@/types';

@@ -19,7 +19,7 @@ import {
   UpdateBoardMutation,
   useUpdateBoardMutation,
 } from '@/api/mutations/generated/updateBoard.generated.ts';
-import { BOARDS_LIMIT } from '@/constants/pagination.ts';
+import { BOARDS_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { EditableInputType } from '@/types';
 

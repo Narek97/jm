@@ -9,7 +9,7 @@ import fromNow from 'dayjs/plugin/relativeTime';
 import DragHandle from '@/Components/Shared/DragHandle';
 import EditableTitle from '@/Components/Shared/EditableTitle';
 import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
-import useCardLayout from '@/hooks/useWindowResize';
+import useCardLayout from '@/Hooks/useWindowResize';
 import { BoardType } from '@/Screens/BoardsScreen/types';
 import JourneyCard from '@/Screens/JourniesScreen/components/SortableJourneys/JourneyCard';
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';

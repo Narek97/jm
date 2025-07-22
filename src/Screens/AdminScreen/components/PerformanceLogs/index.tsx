@@ -9,7 +9,7 @@ import CustomError from '@/Components/Shared/CustomError';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { PERFORMANCE_LOGS_LIMIT } from '@/constants/pagination.ts';
+import { PERFORMANCE_LOGS_LIMIT } from '@/Constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
 import { PERFORMANCE_LOGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/PerformanceLogs/constants.tsx';

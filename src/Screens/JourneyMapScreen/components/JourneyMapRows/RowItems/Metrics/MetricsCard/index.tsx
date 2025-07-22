@@ -19,18 +19,18 @@ import {
   MetricsSourceEnum,
   MetricsTypeEnum,
 } from '@/api/types.ts';
-import GoalIcon from '@/assets/public/base/goal.svg';
-import GoalArrowIcon from '@/assets/public/base/goalArrow.svg';
-import NpsArrowIcon from '@/assets/public/base/npsArrow.svg';
-import MetricsIcon from '@/assets/public/mapRow/metrics.svg';
+import GoalIcon from '@/Assets/public/base/goal.svg';
+import GoalArrowIcon from '@/Assets/public/base/goalArrow.svg';
+import NpsArrowIcon from '@/Assets/public/base/npsArrow.svg';
+import MetricsIcon from '@/Assets/public/mapRow/metrics.svg';
 import CustomPieChart from '@/Components/Shared/CustomPieChart';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { JOURNEY_MAP_METRICS_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 import { MetricsType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useNote } from '@/Store/note.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCurrentAndPreviousWeekDates } from '@/utils/getCurrentAndPreviousWeekDates.ts';
 

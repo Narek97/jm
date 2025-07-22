@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 export const useSelectLayerForMap = () => {
   const { currentLayer, setCurrentLayer } = useLayerStore();

@@ -1,6 +1,6 @@
 import { useGetJourneyMapsByDateQuery } from '@/api/queries/generated/getJourneyMapsByDate.generated.ts';
 import PaginatedSearchTable from '@/Components/Shared/PaginatedSearchTable';
-import { MAPS_LIMIT } from '@/constants/pagination.ts';
+import { MAPS_LIMIT } from '@/Constants/pagination.ts';
 import { MAPS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/Maps/constants.tsx';
 
 const Maps = () => {

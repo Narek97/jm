@@ -12,20 +12,20 @@ import {
   useDeleteMapRowMutation,
 } from '@/api/mutations/generated/deleteMapRow.generated';
 import { MapRowTypeEnum } from '@/api/types';
-import HappyIcon from '@/assets/public/emotions/happy.svg';
-import ConsIcon from '@/assets/public/mapRow/cons.svg';
-import DividerIcon from '@/assets/public/mapRow/divider.svg';
-import ImageIcon from '@/assets/public/mapRow/image.svg';
-import InsightsIcon from '@/assets/public/mapRow/insights.svg';
-import InteractionIcon from '@/assets/public/mapRow/interaction.svg';
-import LinkIcon from '@/assets/public/mapRow/link.svg';
-import ListIcon from '@/assets/public/mapRow/list.svg';
-import MediaIcon from '@/assets/public/mapRow/media.svg';
-import MetricsIcon from '@/assets/public/mapRow/metrics.svg';
-import ProsIcon from '@/assets/public/mapRow/pros.svg';
-import TextIcon from '@/assets/public/mapRow/text.svg';
-import TouchpointIcon from '@/assets/public/mapRow/touchpoint.svg';
-import VideoIcon from '@/assets/public/mapRow/video.svg';
+import HappyIcon from '@/Assets/public/emotions/happy.svg';
+import ConsIcon from '@/Assets/public/mapRow/cons.svg';
+import DividerIcon from '@/Assets/public/mapRow/divider.svg';
+import ImageIcon from '@/Assets/public/mapRow/image.svg';
+import InsightsIcon from '@/Assets/public/mapRow/insights.svg';
+import InteractionIcon from '@/Assets/public/mapRow/interaction.svg';
+import LinkIcon from '@/Assets/public/mapRow/link.svg';
+import ListIcon from '@/Assets/public/mapRow/list.svg';
+import MediaIcon from '@/Assets/public/mapRow/media.svg';
+import MetricsIcon from '@/Assets/public/mapRow/metrics.svg';
+import ProsIcon from '@/Assets/public/mapRow/pros.svg';
+import TextIcon from '@/Assets/public/mapRow/text.svg';
+import TouchpointIcon from '@/Assets/public/mapRow/touchpoint.svg';
+import VideoIcon from '@/Assets/public/mapRow/video.svg';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -34,8 +34,8 @@ import { JOURNEY_MAP_COLUM_ROW_OPTIONS } from '@/Screens/JourneyMapScreen/consta
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes';
 import { JourneyMapRowType } from '@/Screens/JourneyMapScreen/types';
-import { useJourneyMapStore } from '@/store/journeyMap';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import {
   ActionsEnum,
   JourneyMapRowActionEnum,

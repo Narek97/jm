@@ -30,12 +30,12 @@ import {
 } from '@/api/mutations/generated/updateLayer.generated.ts';
 import { ActionEnum } from '@/api/types.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
-import { queryClient } from '@/providers/constants.ts';
+import { queryClient } from '@/Providers/constants.ts';
 import { UPDATE_LAYER_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useSelectLayerForMap } from '@/Screens/JourneyMapScreen/hooks/useSelectLayerForMap.tsx';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { ErrorWithStatus } from '@/types';
 
 interface IJourneyMapLayers {

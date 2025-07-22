@@ -39,8 +39,8 @@ import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import CustomColorPicker from '@/Components/Shared/CustomColorPicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import { debounced400 } from '@/hooks/useDebounce';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { debounced400 } from '@/Hooks/useDebounce';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import DemographicInfoItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/DemographicIInfoItem';
 import PersonaGalleryModal from '@/Screens/PersonaScreen/components/PersonaLeftMenu/PersonaGalleryModal';
 import {

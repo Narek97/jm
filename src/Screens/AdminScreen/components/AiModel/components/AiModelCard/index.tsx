@@ -4,7 +4,7 @@ import './style.scss';
 import { AI_MODEL_CARD_OPTIONS } from '../../constants';
 import { AiModelType } from '../../types';
 
-import QPLogo from '@/assets/public/base/qp-logo.svg';
+import QPLogo from '@/Assets/public/base/qp-logo.svg';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 

@@ -6,14 +6,14 @@ import { Skeleton } from '@mui/material';
 import { useLocation } from '@tanstack/react-router';
 
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
-import CSV_SVG from '@/assets/public/media/CSV.svg';
-import DOC_SVG from '@/assets/public/media/DOC.svg';
-import DOCX_SVG from '@/assets/public/media/DOCX.svg';
-import PDF_SVG from '@/assets/public/media/PDF.svg';
-import PPT_SVG from '@/assets/public/media/PPT.svg';
-import PPTX_SVG from '@/assets/public/media/PPTX.svg';
-import XLS_SVG from '@/assets/public/media/XLS.svg';
-import XLSX_SVG from '@/assets/public/media/XLSX.svg';
+import CSV_SVG from '@/Assets/public/media/CSV.svg';
+import DOC_SVG from '@/Assets/public/media/DOC.svg';
+import DOCX_SVG from '@/Assets/public/media/DOCX.svg';
+import PDF_SVG from '@/Assets/public/media/PDF.svg';
+import PPT_SVG from '@/Assets/public/media/PPT.svg';
+import PPTX_SVG from '@/Assets/public/media/PPTX.svg';
+import XLS_SVG from '@/Assets/public/media/XLS.svg';
+import XLSX_SVG from '@/Assets/public/media/XLSX.svg';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
@@ -21,7 +21,7 @@ import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/compon
 import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { JOURNEY_MAP_MEDIA_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
+import { useNote } from '@/Store/note.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IMediaCard {

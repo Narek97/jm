@@ -11,8 +11,8 @@ import {
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { NOUN_PROJECT_ICONS_LIMIT } from '@/constants/pagination';
-import { debounced400 } from '@/hooks/useDebounce';
+import { NOUN_PROJECT_ICONS_LIMIT } from '@/Constants/pagination';
+import { debounced400 } from '@/Hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
 
 interface ISearchNounProjectIcon {

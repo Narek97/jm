@@ -19,14 +19,14 @@ import {
   useUpdateLinkBgColorMutation,
 } from '@/api/mutations/generated/updateLinkBGColor.generated.ts';
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
-import LinkIcon from '@/assets/public/mapRow/link.svg';
-import { TOKEN_NAME } from '@/constants';
-import { debounced1 } from '@/hooks/useDebounce.ts';
+import LinkIcon from '@/Assets/public/mapRow/link.svg';
+import { TOKEN_NAME } from '@/Constants';
+import { debounced1 } from '@/Hooks/useDebounce.ts';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useNote } from '@/Store/note.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCookie } from '@/utils/cookieHelper.ts';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';

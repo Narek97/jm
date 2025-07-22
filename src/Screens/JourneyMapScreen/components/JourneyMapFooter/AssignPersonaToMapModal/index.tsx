@@ -27,8 +27,8 @@ import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { PERSONAS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { PERSONAS_LIMIT } from '@/Constants/pagination';
 import { PersonaType } from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/types.ts';
 import { ImageSizeEnum } from '@/types/enum';
 

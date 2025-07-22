@@ -16,11 +16,11 @@ import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { PERSONAS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { PERSONAS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { useRemoveQueriesByKey, useSetAllQueryDataByKey } from '@/hooks/useQueryKey.ts';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useRemoveQueriesByKey, useSetAllQueryDataByKey } from '@/Hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 
 const PersonaDeleteModal = lazy(() => import('./components/PersonaDeleteModal'));
 const PersonaAIModal = lazy(() => import('./components/PersonaAiModal'));

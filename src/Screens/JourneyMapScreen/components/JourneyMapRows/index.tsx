@@ -42,12 +42,12 @@ import {
 import { MapRowTypeEnum, UpdateOutcomePositionInput } from '@/api/types';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced400 } from '@/hooks/useDebounce';
+import { debounced400 } from '@/Hooks/useDebounce';
 import JourneyMapRegularRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapRegularRow';
 import JourneyMapSentimentRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow';
-import { useJourneyMapStore } from '@/store/journeyMap';
-import { useLayerStore } from '@/store/layers.ts';
-import { useUndoRedoStore } from '@/store/undoRedo';
+import { useJourneyMapStore } from '@/Store/journeyMap';
+import { useLayerStore } from '@/Store/layers.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getPageContentByKey } from '@/utils/getPageContentByKey.ts';
 import { scrollNeighbours } from '@/utils/scrollNeighbours.ts';

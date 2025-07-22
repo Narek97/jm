@@ -8,8 +8,8 @@ import ImagesItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/Row
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
 import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 interface IRowImages {
   row: JourneyMapRowType;

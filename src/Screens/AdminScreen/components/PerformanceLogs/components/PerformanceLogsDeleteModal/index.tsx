@@ -7,7 +7,7 @@ import {
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 
 interface IPerformanceLogsDeleteModal {
   isOpen: boolean;

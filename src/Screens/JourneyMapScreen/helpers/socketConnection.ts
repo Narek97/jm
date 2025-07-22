@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '@/Constants';
 import { getCookie } from '@/utils/cookieHelper.ts';
 
 export let socket: any;

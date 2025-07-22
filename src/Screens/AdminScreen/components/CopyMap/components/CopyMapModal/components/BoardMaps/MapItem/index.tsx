@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material';
 
 import { JourneysForCopyType } from '../types';
 
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IBoardItem {

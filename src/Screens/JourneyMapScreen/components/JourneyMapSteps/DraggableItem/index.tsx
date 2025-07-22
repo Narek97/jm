@@ -26,13 +26,13 @@ import {
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced800 } from '@/hooks/useDebounce.ts';
+import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { JOURNEY_MAP_STEP_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, MenuViewTypeEnum } from '@/types/enum.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 import { lightenColor } from '@/utils/lightenColor.ts';

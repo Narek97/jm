@@ -19,11 +19,11 @@ import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { querySlateTime } from '@/Constants';
+import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import { PARENT_JOURNEY_MAPS_TABLE_COLUMNS } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 
 interface IJourneyMapLayers {
   isOpenLayersModal: boolean;

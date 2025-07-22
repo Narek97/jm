@@ -29,15 +29,15 @@ import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { DEFAULT_OUTCOME_ICON, querySlateTime } from '@/constants';
-import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
+import { DEFAULT_OUTCOME_ICON, querySlateTime } from '@/Constants';
+import { OUTCOME_GROUPS_LIMIT } from '@/Constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from '@/hooks/useQueryKey.ts';
-import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
-import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
+} from '@/Hooks/useQueryKey.ts';
+import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
 import { ObjectKeysType } from '@/types';
 
 const Outcomes = () => {

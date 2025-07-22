@@ -3,7 +3,7 @@ import { FC, memo } from 'react';
 import './style.scss';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
-import { IMAGE_ASPECT } from '@/constants';
+import { IMAGE_ASPECT } from '@/Constants';
 import { CroppedAreaType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName';
 

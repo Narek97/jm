@@ -7,9 +7,9 @@ import { useNavigate } from '@tanstack/react-router';
 import { PersonaInfoType, PersonaSectionType } from '../../types';
 
 import CustomInput from '@/Components/Shared/CustomInput';
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '@/Constants';
 import PersonaContainsJourneysModal from '@/Screens/PersonaScreen/components/PersonaContainsJourneysModal';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 import { getCookie } from '@/utils/cookieHelper.ts';
 
 interface IPersonaHeader {

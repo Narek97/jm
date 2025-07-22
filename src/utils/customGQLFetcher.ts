@@ -1,4 +1,4 @@
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '@/Constants';
 import { getCookie } from '@/utils/cookieHelper.ts';
 
 const token = getCookie(TOKEN_NAME);

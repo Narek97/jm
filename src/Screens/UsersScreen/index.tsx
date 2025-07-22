@@ -22,8 +22,8 @@ import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { USERS_LIMIT } from '@/constants/pagination.ts';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { USERS_LIMIT } from '@/Constants/pagination.ts';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 
 const UsersScreen = () => {
   const [currentPage, setCurrentPage] = useState(1);

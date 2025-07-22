@@ -4,14 +4,14 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { GetMeQuery, useGetMeQuery } from '@/api/queries/generated/getMe.generated.ts';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { LOGIN_ERROR_NAME, TOKEN_NAME } from '@/constants';
+import { LOGIN_ERROR_NAME, TOKEN_NAME } from '@/Constants';
 import Header from '@/Features/Header';
 import PermissionLayout from '@/Features/PermissionLayout';
 import {
   disconnectSocketMap,
   initiateSocketMapConnection,
 } from '@/Screens/JourneyMapScreen/helpers/socketConnection';
-import { useUserStore } from '@/store/user.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { UserType } from '@/types';
 import { deleteCookie, getCookie } from '@/utils/cookieHelper.ts';
 

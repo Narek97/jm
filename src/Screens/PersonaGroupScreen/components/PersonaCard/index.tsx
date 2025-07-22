@@ -7,7 +7,7 @@ import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.ge
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { IMAGE_ASPECT } from '@/constants';
+import { IMAGE_ASPECT } from '@/Constants';
 import { PERSONA_OPTIONS } from '@/Screens/PersonaGroupScreen/constnats.tsx';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';

@@ -29,7 +29,7 @@ import {
   drawDividers,
   haveIntersection,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow/helpers';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
 
 interface ISentiment {

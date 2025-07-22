@@ -1,6 +1,6 @@
 import JSZip from 'jszip';
 
-import { FILE_TYPE_CONFIG, SIGNATURE_TO_EXTENSION } from '@/constants';
+import { FILE_TYPE_CONFIG, SIGNATURE_TO_EXTENSION } from '@/Constants';
 import { FileTypeEnum } from '@/types/enum';
 
 const getFileSignature = (file: File): Promise<{ signature: string; riffSubtype?: string }> => {

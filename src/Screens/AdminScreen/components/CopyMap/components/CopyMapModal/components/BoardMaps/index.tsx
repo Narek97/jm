@@ -10,10 +10,10 @@ import {
 } from '@/api/infinite-queries/generated/getJourniesForCopy.generated.ts';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
+import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { JourneysForCopyType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/components/BoardMaps/types.ts';
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IWorkspaceBoardsModal {

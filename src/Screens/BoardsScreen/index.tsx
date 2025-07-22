@@ -27,15 +27,15 @@ import EditableItemForm from '@/Components/Shared/EditableItemForm';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { DEFAULT_OUTCOMES_GROUP, querySlateTime } from '@/constants';
-import { BOARDS_LIMIT } from '@/constants/pagination.ts';
+import { DEFAULT_OUTCOMES_GROUP, querySlateTime } from '@/Constants';
+import { BOARDS_LIMIT } from '@/Constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from '@/hooks/useQueryKey.ts';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useWorkspaceStore } from '@/store/workspace.ts';
+} from '@/Hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { useWorkspaceStore } from '@/Store/workspace.ts';
 import { EditableInputType } from '@/types';
 
 const BoardsScreen = () => {

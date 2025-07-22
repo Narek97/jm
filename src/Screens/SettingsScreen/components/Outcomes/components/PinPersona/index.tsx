@@ -6,8 +6,8 @@ import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import PinPersonaModal from './PinPersonaModal';
 
-import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
-import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
+import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
 
 const PinPersona = ({
   outcomeGroupId,

@@ -45,10 +45,10 @@ import {
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced400 } from '@/hooks/useDebounce';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { debounced400 } from '@/Hooks/useDebounce';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import PersonaLeftMenu from '@/Screens/PersonaScreen/components/PersonaLeftMenu';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 import { PersonaFieldCategoryTypeEnum } from '@/types/enum';
 import { getDemographicFiledKey } from '@/utils/getDemographicFiledKey.ts';
 

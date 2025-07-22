@@ -5,7 +5,7 @@ import {
   useInfiniteGetOutcomeGroupsQuery,
 } from '@/api/infinite-queries/generated/getOutcomeGroups.generated.ts';
 import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
-import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
+import { OUTCOME_GROUPS_LIMIT } from '@/Constants/pagination.ts';
 
 const useGetOutcomeGroups = (needToGet: boolean) => {
   const {

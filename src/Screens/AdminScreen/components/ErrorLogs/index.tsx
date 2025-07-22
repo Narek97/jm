@@ -10,8 +10,8 @@ import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { ERROR_LOGS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { ERROR_LOGS_LIMIT } from '@/Constants/pagination';
 import { ERROR_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/ErrorLogs/constants.tsx';
 
 const ErrorLogDeleteModal = lazy(() => import('./components/ErrorLogDeleteModal'));

@@ -12,9 +12,9 @@ import {
   useUpdateItemFlippedTextMutation,
 } from '@/api/mutations/generated/updateItemFlippedText.generated.ts';
 import MapEditor from '@/Components/Shared/Editors/MapEditor';
-import { debounced800 } from '@/hooks/useDebounce.ts';
+import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 
 interface IMapRowItemBackCard {

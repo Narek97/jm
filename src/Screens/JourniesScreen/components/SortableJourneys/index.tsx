@@ -11,7 +11,7 @@ import {
   UpdateJourneyMapMutation,
   useUpdateJourneyMapMutation,
 } from '@/api/mutations/generated/updateJourneyMap.generated';
-import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
+import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import JourneyCard from '@/Screens/JourniesScreen/components/SortableJourneys/JourneyCard';
 import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';

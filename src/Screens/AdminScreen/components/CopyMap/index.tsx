@@ -6,10 +6,10 @@ import CustomInput from '@/Components/Shared/CustomInput';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { querySlateTime } from '@/Constants';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { ORGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/CopyMap/constants.tsx';
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelEnum } from '@/types/enum.ts';
 
 const CopyMapModal = lazy(() => import('./components/CopyMapModal'));

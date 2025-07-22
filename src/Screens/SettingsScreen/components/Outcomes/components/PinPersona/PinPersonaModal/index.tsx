@@ -17,11 +17,11 @@ import {
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { WORKSPACES_LIMIT } from '@/constants/pagination';
-import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
-import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
-import { useUserStore } from '@/store/user';
+import { querySlateTime } from '@/Constants';
+import { WORKSPACES_LIMIT } from '@/Constants/pagination';
+import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
+import { useUserStore } from '@/Store/user';
 
 interface IPinPersonaModal {
   isOpen: boolean;

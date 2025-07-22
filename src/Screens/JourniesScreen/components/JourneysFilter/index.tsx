@@ -17,8 +17,8 @@ import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import CustomPopover from '@/Components/Shared/CustomPopover';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { PERSONAS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { PERSONAS_LIMIT } from '@/Constants/pagination';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 
 interface IJourneysFilter {

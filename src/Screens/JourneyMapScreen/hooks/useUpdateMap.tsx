@@ -36,8 +36,8 @@ import { useUpdateTouchPointMutation } from '@/api/mutations/generated/updateTou
 import { LinkTypeEnum } from '@/api/types.ts';
 import { onDragEndMap } from '@/Screens/JourneyMapScreen/helpers/onDragEndMap.ts';
 import { JourneyMapColumnType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import {
   ActionsEnum,
   JourneyMapRowActionEnum,

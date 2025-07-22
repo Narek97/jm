@@ -7,7 +7,7 @@ import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import DraggableItem from '@/Screens/JourneyMapScreen/components/JourneyMapColumns/DraggableItem';
 import useScrollObserver from '@/Screens/JourneyMapScreen/hooks/useScrollObserver.tsx';
 import { JourneyMapColumnType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { lightenColor } from '@/utils/lightenColor.ts';
 import { scrollNeighbours } from '@/utils/scrollNeighbours.ts';
 

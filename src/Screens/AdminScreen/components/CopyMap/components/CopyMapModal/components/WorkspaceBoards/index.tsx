@@ -11,9 +11,9 @@ import {
 } from '@/api/infinite-queries/generated/getWorkspaceBoards.generated.ts';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { BOARDS_LIMIT } from '@/constants/pagination';
+import { BOARDS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { useCopyMapStore } from '@/store/copyMap';
+import { useCopyMapStore } from '@/Store/copyMap';
 import { CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 
 interface IWorkspaceBoards {

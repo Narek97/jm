@@ -6,7 +6,7 @@ import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 interface ILanes {
   mode: ActionEnum;

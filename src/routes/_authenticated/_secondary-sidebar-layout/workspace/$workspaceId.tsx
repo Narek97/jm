@@ -6,11 +6,11 @@ import {
   GetWorkspaceByIdQuery,
   useGetWorkspaceByIdQuery,
 } from '@/api/queries/generated/getWorkspaceById.generated.ts';
-import { MENU_PANEL_BOTTOM_TABS } from '@/constants/tabs.tsx';
+import { MENU_PANEL_BOTTOM_TABS } from '@/Constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
 import TechnicalProblemTemplate from '@/Features/TechnicalProblem';
-import useGetLeftMenuTabs from '@/hooks/useGetLeftMenuTabs.tsx';
-import { useWorkspaceStore } from '@/store/workspace.ts';
+import useGetLeftMenuTabs from '@/Hooks/useGetLeftMenuTabs.tsx';
+import { useWorkspaceStore } from '@/Store/workspace.ts';
 
 export const Route = createFileRoute(
   '/_authenticated/_secondary-sidebar-layout/workspace/$workspaceId',

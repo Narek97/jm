@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import QPLogo from '@/assets/public/base/qp-logo.svg';
+import QPLogo from '@/Assets/public/base/qp-logo.svg';
 
 interface ISliderCard {
   card: {

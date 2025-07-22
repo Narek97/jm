@@ -8,8 +8,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { OUTCOMES_FORM_ELEMENTS, OUTCOMES_VALIDATION_SCHEMA } from '../../constants';
 import PinPersona from '../PinPersona';
 
-import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
-import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds';
+import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
 import { CreatUpdateFormGeneralType } from '@/types';
 
 interface ICreateUpdateOutcome {

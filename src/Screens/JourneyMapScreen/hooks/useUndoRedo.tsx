@@ -4,7 +4,7 @@ import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 
 import { useUpdateMap } from './useUpdateMap';
 
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, UndoRedoEnum } from '@/types/enum.ts';
 
 const actions = {

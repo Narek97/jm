@@ -18,9 +18,9 @@ import {
   JourneyMapRowType,
   JourneyMapType,
 } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { lightenColor } from '@/utils/lightenColor.ts';
 import { scrollNeighbours } from '@/utils/scrollNeighbours.ts';

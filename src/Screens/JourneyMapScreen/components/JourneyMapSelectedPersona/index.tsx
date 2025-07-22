@@ -7,14 +7,14 @@ import {
 } from '@/api/queries/generated/getPinnedPersonaItems.generated.ts';
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
-import { useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey.ts';
+import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
 import PinPersonaInfoSectionModal from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona/PinPersonaInfoSectionModal';
 import {
   PinPersonaDemographicInfoType,
   PinPersonFieldSectionType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import ImageViewAndUpload from '@/Screens/PersonaScreen/components/PersonaLeftMenu/SectionField/ImageViewAndUpload';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ImageSizeEnum } from '@/types/enum';
 
 const JourneyMapSelectedPersona = ({ mapId }: { mapId: number }) => {

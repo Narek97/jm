@@ -3,7 +3,7 @@ import { FC } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 
 interface IAddRowBoxElementBtn {
   itemsLength: number;

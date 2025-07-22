@@ -10,8 +10,8 @@ import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx'
 import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
 import AddUpdateOutcomeForm from '@/Screens/OutcomeScreen/components/AddUpdateOutcomeModal/AddUpdateOutcomeForm';
 import { OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowTypesEnum, OutcomeLevelEnum } from '@/types/enum';
 
 interface IOutcomeDrawer {

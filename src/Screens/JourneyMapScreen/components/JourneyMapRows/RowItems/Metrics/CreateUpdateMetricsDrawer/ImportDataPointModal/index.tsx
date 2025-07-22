@@ -12,7 +12,7 @@ import { MetricsTypeEnum } from '@/api/types.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
-import { EXEL_FILE_TYPES } from '@/constants';
+import { EXEL_FILE_TYPES } from '@/Constants';
 import { ObjectKeysType } from '@/types';
 
 interface IImportDataPointModal {

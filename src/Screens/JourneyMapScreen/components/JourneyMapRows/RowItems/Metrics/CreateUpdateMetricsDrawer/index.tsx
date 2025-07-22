@@ -59,10 +59,10 @@ import CustomPopover from '@/Components/Shared/CustomPopover';
 import CustomTable from '@/Components/Shared/CustomTable';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
-import { useJourneyMapStore } from '@/store/journeyMap';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
-import { useUserStore } from '@/store/user.ts';
-import { useWorkspaceStore } from '@/store/workspace.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
+import { useUserStore } from '@/Store/user.ts';
+import { useWorkspaceStore } from '@/Store/workspace.ts';
 import { ObjectKeysType, TableColumnType } from '@/types';
 import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 

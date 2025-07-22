@@ -1,6 +1,6 @@
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 
 export const useUpdateCommentOrTagsCount = () => {
   const { journeyMap, updateJourneyMap } = useJourneyMapStore();

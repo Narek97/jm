@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from 'uuid';
 import CardInput from './CardInput';
 import UnMergeColumnsButton from '../../../components/UnmergeColumnsBtn';
 
-import InsightsIcon from '@/assets/public/mapRow/insights.svg';
-import TextIcon from '@/assets/public/mapRow/text.svg';
+import InsightsIcon from '@/Assets/public/mapRow/insights.svg';
+import TextIcon from '@/Assets/public/mapRow/text.svg';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { TOKEN_NAME } from '@/constants';
-import { debounced600 } from '@/hooks/useDebounce.ts';
+import { TOKEN_NAME } from '@/Constants';
+import { debounced600 } from '@/Hooks/useDebounce.ts';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox';
 import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
@@ -22,9 +22,9 @@ import {
   JourneyMapRowType,
   JourneyMapTextAreaRowsType,
 } from '@/Screens/JourneyMapScreen/types';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
-import { useUndoRedoStore } from '@/store/undoRedo';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo';
 import { ObjectKeysType } from '@/types';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCookie } from '@/utils/cookieHelper.ts';

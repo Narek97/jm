@@ -27,17 +27,17 @@ import {
   useUpdateCommentMutation,
 } from '@/api/mutations/generated/updateComment.generated.ts';
 import { ActionEnum, CommentAndNoteModelsEnum } from '@/api/types.ts';
-import EmptyCommentsIcon from '@/assets/public/base/emptyComments.svg';
+import EmptyCommentsIcon from '@/Assets/public/base/emptyComments.svg';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { COMMENTS_LIMIT } from '@/constants/pagination.ts';
+import { COMMENTS_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import CommentItem from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/CommentItem';
 import { commentSocket } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/helpers/commentSocket.ts';
 import { CommentType } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/types.ts';
 import { useUpdateCommentOrTagsCount } from '@/Screens/JourneyMapScreen/hooks/useUpdateCommentOrTagsCount.tsx';
-import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useNotesAndCommentsDrawerStore } from '@/Store/comments.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { CommentEventsEnum } from '@/types/enum';
 
 interface ICommentsDrawer {

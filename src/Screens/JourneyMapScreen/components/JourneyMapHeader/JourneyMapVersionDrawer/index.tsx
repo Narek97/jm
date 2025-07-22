@@ -15,11 +15,11 @@ import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { JOURNEY_MAP_VERSION_LIMIT } from '@/constants/pagination';
+import { JOURNEY_MAP_VERSION_LIMIT } from '@/Constants/pagination';
 import DeleteVersionModal from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/DeleteVersionModal';
 import VersionCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapVersionDrawer/VersionCard';
 import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 
 interface IVersionDrawer {
   mapID: number;

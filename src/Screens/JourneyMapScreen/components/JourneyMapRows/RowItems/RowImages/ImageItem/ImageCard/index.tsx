@@ -18,7 +18,7 @@ import { CommentAndNoteModelsEnum, ImgScaleTypeEnum, MapCardTypeEnum } from '@/a
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { IMAGE_ASPECT } from '@/constants';
+import { IMAGE_ASPECT } from '@/Constants';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
@@ -27,7 +27,7 @@ import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMap
 import { JOURNEY_MAP_IMAGE_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
+import { useNote } from '@/Store/note.ts';
 import { CroppedAreaType } from '@/types';
 import { ActionsEnum, MenuViewTypeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';

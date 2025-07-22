@@ -7,7 +7,7 @@ import 'quill/dist/quill.snow.css';
 import 'quill-mention/dist/quill.mention.css';
 import { Mention, MentionBlot } from 'quill-mention';
 
-import { useGetQueryDataByKey } from '@/hooks/useQueryKey';
+import { useGetQueryDataByKey } from '@/Hooks/useQueryKey';
 import { OrganizationUserType } from '@/Screens/UsersScreen/types.ts';
 
 interface ICommentInput {

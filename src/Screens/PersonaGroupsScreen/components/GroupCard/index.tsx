@@ -11,7 +11,7 @@ import {
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import EditableTitle from '@/Components/Shared/EditableTitle';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import useCardLayout from '@/hooks/useWindowResize.ts';
+import useCardLayout from '@/Hooks/useWindowResize.ts';
 import { PersonaGroupType } from '@/Screens/PersonaGroupsScreen/types.ts';
 import { EditableInputType } from '@/types';
 import { ImageSizeEnum } from '@/types/enum.ts';

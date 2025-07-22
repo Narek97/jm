@@ -25,13 +25,13 @@ import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomMultiSelectDropDown from '@/Components/Shared/CustomMultiSelectDropDown';
-import { querySlateTime } from '@/constants';
+import { querySlateTime } from '@/Constants';
 import {
   AI_MODEL_FILE_TYPES,
   AI_MODEL_FORM_ELEMENTS,
   CREATE_AI_MODEL_VALIDATION_SCHEMA,
 } from '@/Screens/AdminScreen/components/AiModel/constants.tsx';
-import { useUserStore } from '@/store/user.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { UploadFile } from '@/utils/uploader';
 
 interface ICreateUpdateAiModelModal {

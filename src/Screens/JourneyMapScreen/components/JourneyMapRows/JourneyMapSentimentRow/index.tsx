@@ -17,8 +17,8 @@ import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
 import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Sentiment';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { ObjectKeysType } from '@/types';
 import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 

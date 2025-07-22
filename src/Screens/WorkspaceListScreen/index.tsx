@@ -14,11 +14,11 @@ import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { WORKSPACES_LIMIT } from '@/constants/pagination.ts';
+import { querySlateTime } from '@/Constants';
+import { WORKSPACES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { useUserStore } from '@/Store/user.ts';
 
 const WorkspaceListScreen = () => {
   const { t } = useTranslation();

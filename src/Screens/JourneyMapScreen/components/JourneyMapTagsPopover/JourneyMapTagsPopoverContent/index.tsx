@@ -29,15 +29,15 @@ import {
 import { MapCardTypeEnum } from '@/api/types.ts';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { BOARD_TAGS_LIMIT } from '@/constants/pagination';
-import { debounced400 } from '@/hooks/useDebounce.ts';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
+import { BOARD_TAGS_LIMIT } from '@/Constants/pagination';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import {
   BoardTagType,
   CreateTagType,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useUpdateCommentOrTagsCount } from '@/Screens/JourneyMapScreen/hooks/useUpdateCommentOrTagsCount';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 interface IJourneyMapCardNote {
   cardType: MapCardTypeEnum;

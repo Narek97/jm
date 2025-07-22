@@ -13,7 +13,7 @@ import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/compon
 import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { JOURNEY_MAP_VIDEO_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
+import { useNote } from '@/Store/note.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IVideoCard {

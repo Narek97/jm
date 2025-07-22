@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { SECONDARY_MENU_PANEL_TOP_TABS } from '@/constants/tabs.tsx';
-import useGetOutcomeGroups from '@/hooks/useGetOutcomeGroups';
-import { useUserStore } from '@/store/user.ts';
+import { SECONDARY_MENU_PANEL_TOP_TABS } from '@/Constants/tabs.tsx';
+import useGetOutcomeGroups from '@/Hooks/useGetOutcomeGroups';
+import { useUserStore } from '@/Store/user.ts';
 
 const useGetLeftMenuTabs = (workspaceId: number | null) => {
   const { renderedDataOutcomes } = useGetOutcomeGroups(true);

@@ -12,8 +12,8 @@ import {
 import { Link, useLocation } from '@tanstack/react-router';
 
 import { MenuTabType } from '@/Features/SidebarLayout/types.ts';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { useUserStore } from '@/Store/user.ts';
 
 interface IHoverMenuPanel {
   topTabs: Array<MenuTabType>;

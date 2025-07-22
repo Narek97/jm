@@ -22,7 +22,7 @@ import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey.ts';
+import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
 import {
   PersonaDemographicInfoType,
   PersonSectionType,
@@ -30,7 +30,7 @@ import {
   PinPersonFieldSectionType,
 } from '@/Screens/JourneyMapScreen/types.ts';
 import ImageViewAndUpload from '@/Screens/PersonaScreen/components/PersonaLeftMenu/SectionField/ImageViewAndUpload';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ImageSizeEnum } from '@/types/enum';
 import { getDemographicFiledKey } from '@/utils/getDemographicFiledKey.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';

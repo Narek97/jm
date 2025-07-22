@@ -5,12 +5,12 @@ import MediaViewModal from './MediaViewModal';
 import RowFileUploader from '../../../components/RowFileUploader';
 
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { FILE_TYPE_CONFIG } from '@/constants';
+import { FILE_TYPE_CONFIG } from '@/Constants';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
 import MediaCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias/RowMediaItem/MediaCard';
 import useVideoImageMedia from '@/Screens/JourneyMapScreen/hooks/useVideoImageMedia';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { FileTypeEnum } from '@/types/enum.ts';
 
 interface IRowMediaItem {

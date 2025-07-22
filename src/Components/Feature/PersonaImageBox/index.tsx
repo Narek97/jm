@@ -5,7 +5,7 @@ import './style.scss';
 import { Tooltip } from '@mui/material';
 
 import CropImage from '@/Components/Shared/CropImage';
-import { IMAGE_ASPECT } from '@/constants';
+import { IMAGE_ASPECT } from '@/Constants';
 import { PersonaImageBoxType } from '@/types';
 import { ImageSizeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';

@@ -10,8 +10,8 @@ import {
   useUpdateAttachmentNameMutation,
 } from '@/api/mutations/generated/updateAttachmentName.generated.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
-import { IMAGE_ASPECT } from '@/constants';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { IMAGE_ASPECT } from '@/Constants';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
 import { PERSONA_GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants.tsx';
 import { AttachmentType } from '@/types';

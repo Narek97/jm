@@ -13,7 +13,7 @@ import {
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
+import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import PersonaImages from '@/Features/PersonaImages';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';

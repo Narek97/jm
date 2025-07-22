@@ -9,8 +9,8 @@ import RowMediaItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/R
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
 import { getConnectionDetails } from '@/Screens/JourneyMapScreen/helpers/getConnectionDetails.ts';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 interface IRowMedias {
   row: JourneyMapRowType;

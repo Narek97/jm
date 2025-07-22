@@ -9,7 +9,7 @@ import ImageViewAndUpload from './ImageViewAndUpload';
 import { DemographicInfoTypeEnum } from '@/api/types';
 import CustomInput from '@/Components/Shared/CustomInput';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonaFieldSectionsType } from '@/Screens/PersonaScreen/types.ts';
 import { PersonaFieldCategoryTypeEnum } from '@/types/enum.ts';
 

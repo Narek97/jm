@@ -4,7 +4,7 @@ import './style.scss';
 import { ImgScaleTypeEnum } from '@/api/types';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CropImage from '@/Components/Shared/CropImage';
-import { IMAGE_ASPECT_LARGE } from '@/constants';
+import { IMAGE_ASPECT_LARGE } from '@/Constants';
 import { BoxElementType } from '@/Screens/JourneyMapScreen/types.ts';
 import { CroppedAreaType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';

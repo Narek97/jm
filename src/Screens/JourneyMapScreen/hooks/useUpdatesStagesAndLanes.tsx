@@ -1,6 +1,6 @@
 import { JourneyMapColumnType } from '../types';
 
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { ActionsEnum } from '@/types/enum.ts';
 
 export const useUpdatesStagesAndLanes = () => {

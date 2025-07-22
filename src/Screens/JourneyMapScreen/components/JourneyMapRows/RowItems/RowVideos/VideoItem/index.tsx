@@ -2,7 +2,7 @@ import { FC, memo, useState } from 'react';
 
 import './style.scss';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { FILE_TYPE_CONFIG } from '@/constants';
+import { FILE_TYPE_CONFIG } from '@/Constants';
 import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowFileUploader';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
 import VideoCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowVideos/VideoItem/VideoCard';

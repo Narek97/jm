@@ -7,8 +7,8 @@ import {
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
-import { queryClient } from '@/providers/constants';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
+import { queryClient } from '@/Providers/constants';
 import { JourneyChildType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
 interface IDeleteCxMapTable {

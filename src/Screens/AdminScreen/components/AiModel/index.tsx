@@ -16,14 +16,14 @@ import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { AI_MODEL_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { AI_MODEL_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from '@/hooks/useQueryKey.ts';
+} from '@/Hooks/useQueryKey.ts';
 import { BoardType } from '@/Screens/BoardsScreen/types.ts';
 
 const AiModel = () => {

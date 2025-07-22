@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { MENU_PANEL_BOTTOM_TABS, PRIMARY_MENU_PANEL_TOP_TABS } from '@/constants/tabs.tsx';
+import { MENU_PANEL_BOTTOM_TABS, PRIMARY_MENU_PANEL_TOP_TABS } from '@/Constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
 import TechnicalProblemTemplate from '@/Features/TechnicalProblem';
 

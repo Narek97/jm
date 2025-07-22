@@ -18,7 +18,7 @@ import { AttachmentsEnum } from '@/api/types.ts';
 import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
 import { ActionsEnum, FileTypeEnum } from '@/types/enum.ts';
 import { UploadFile } from '@/utils/uploader.ts';

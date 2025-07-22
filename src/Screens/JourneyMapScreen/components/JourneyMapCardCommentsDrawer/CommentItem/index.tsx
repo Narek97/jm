@@ -9,7 +9,7 @@ import { CommentType } from '../types';
 
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { COMMENT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/constants.tsx';
-import { useUserStore } from '@/store/user.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface ICommentItem {

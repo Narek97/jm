@@ -28,11 +28,11 @@ import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/api/types';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import { querySlateTime } from '@/constants';
-import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/Constants/pagination';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { DropdownSelectItemType } from '@/types';
 import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum.ts';
 

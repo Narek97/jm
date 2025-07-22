@@ -11,7 +11,7 @@ import {
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced400 } from '@/hooks/useDebounce';
+import { debounced400 } from '@/Hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
 
 interface ISearchNounProjectIcon {

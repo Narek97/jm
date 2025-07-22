@@ -21,15 +21,15 @@ import EditableItemForm from '@/Components/Shared/EditableItemForm';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { PERSONA_GROUP_LIMIT } from '@/constants/pagination.ts';
+import { querySlateTime } from '@/Constants';
+import { PERSONA_GROUP_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from '@/hooks/useQueryKey';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+} from '@/Hooks/useQueryKey';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 import { EditableInputType } from '@/types';
 
 const PersonaGroups = () => {

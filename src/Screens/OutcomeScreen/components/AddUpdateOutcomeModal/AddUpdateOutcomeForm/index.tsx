@@ -28,12 +28,12 @@ import {
 import { OutcomeStatusEnum } from '@/api/types.ts';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import { WORKSPACE_MAPS_LIMIT } from '@/constants/pagination.ts';
+import { WORKSPACE_MAPS_LIMIT } from '@/Constants/pagination.ts';
 import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants';
 import { OutcomeFormType, OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { DropdownSelectItemType, ObjectKeysType } from '@/types';
 import { OutcomeLevelEnum } from '@/types/enum';
 

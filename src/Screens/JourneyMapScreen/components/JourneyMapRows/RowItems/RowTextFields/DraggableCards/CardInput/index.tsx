@@ -18,19 +18,19 @@ import {
   useUpdateBoxElementMutation,
 } from '@/api/mutations/generated/updateBoxElement.generated.ts';
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
-import ConsIcon from '@/assets/public/mapRow/cons.svg';
-import InteractionIcon from '@/assets/public/mapRow/interaction.svg';
-import ListIcon from '@/assets/public/mapRow/list.svg';
-import ProsIcon from '@/assets/public/mapRow/pros.svg';
+import ConsIcon from '@/Assets/public/mapRow/cons.svg';
+import InteractionIcon from '@/Assets/public/mapRow/interaction.svg';
+import ListIcon from '@/Assets/public/mapRow/list.svg';
+import ProsIcon from '@/Assets/public/mapRow/pros.svg';
 import MapEditor from '@/Components/Shared/Editors/MapEditor';
-import { TOKEN_NAME } from '@/constants';
-import { debounced1, debounced400, debounced600 } from '@/hooks/useDebounce.ts';
+import { TOKEN_NAME } from '@/Constants';
+import { debounced1, debounced400, debounced600 } from '@/Hooks/useDebounce.ts';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { JOURNEY_MAP_TEXT_FIELD_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMapBoxElement.tsx';
 import { BoxElementType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
+import { useNote } from '@/Store/note.ts';
 import { ObjectKeysType } from '@/types';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getCookie } from '@/utils/cookieHelper.ts';

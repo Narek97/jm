@@ -6,12 +6,12 @@ import {
   GetBoardByIdQuery,
   useGetBoardByIdQuery,
 } from '@/api/queries/generated/getBoardById.generated';
-import { querySlateTime } from '@/constants';
-import { MENU_PANEL_BOTTOM_TABS } from '@/constants/tabs.tsx';
+import { querySlateTime } from '@/Constants';
+import { MENU_PANEL_BOTTOM_TABS } from '@/Constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
 import TechnicalProblemTemplate from '@/Features/TechnicalProblem';
-import useGetLeftMenuTabs from '@/hooks/useGetLeftMenuTabs';
-import { useWorkspaceStore } from '@/store/workspace.ts';
+import useGetLeftMenuTabs from '@/Hooks/useGetLeftMenuTabs';
+import { useWorkspaceStore } from '@/Store/workspace.ts';
 
 export const Route = createFileRoute('/_authenticated/_secondary-sidebar-layout/board/$boardId')({
   component: RouteComponent,

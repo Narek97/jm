@@ -2,13 +2,13 @@ import { FC, memo, useState } from 'react';
 
 import './style.scss';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { FILE_TYPE_CONFIG } from '@/constants';
+import { FILE_TYPE_CONFIG } from '@/Constants';
 import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowFileUploader';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
 import ImageCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowImages/ImageItem/ImageCard';
 import useVideoImageMedia from '@/Screens/JourneyMapScreen/hooks/useVideoImageMedia.tsx';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { FileTypeEnum } from '@/types/enum.ts';
 
 interface IImagesItem {

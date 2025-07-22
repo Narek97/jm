@@ -10,10 +10,10 @@ import {
 } from '@/api/infinite-queries/generated/getBoardsForOutcomeGroup.generated';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { BOARDS_LIMIT } from '@/constants/pagination';
+import { BOARDS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
-import { useOutcomePinnedBoardIdsStore } from '@/store/outcomePinBoardsIds.ts';
+import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
+import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds.ts';
 
 interface IWorkspaceBoards {
   workspaceId: number;

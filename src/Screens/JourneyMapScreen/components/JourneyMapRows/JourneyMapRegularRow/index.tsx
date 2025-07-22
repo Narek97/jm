@@ -18,7 +18,7 @@ import RowMedias from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowI
 import RowTextFields from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowTextFields';
 import Touchpoints from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints';
 import { JourneyMapRowType } from '@/Screens/JourneyMapScreen/types';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { JourneyMapRowTypesEnum } from '@/types/enum.ts';
 import { getPageContentByKey } from '@/utils/getPageContentByKey';
 

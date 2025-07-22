@@ -5,7 +5,7 @@ import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNotesAndCommentsDrawerStore } from '@/store/comments.ts';
+import { useNotesAndCommentsDrawerStore } from '@/Store/comments.ts';
 
 interface ICommentBtn {
   item: CommentButtonItemType;

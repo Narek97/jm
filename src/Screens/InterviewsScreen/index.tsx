@@ -17,14 +17,14 @@ import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { INTERVIEWS_LIMIT } from '@/constants/pagination.ts';
+import { querySlateTime } from '@/Constants';
+import { INTERVIEWS_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
-} from '@/hooks/useQueryKey.ts';
+} from '@/Hooks/useQueryKey.ts';
 
 const InterviewsScreen = () => {
   const { workspaceId } = useParams({

@@ -8,8 +8,8 @@ import { useCreateJourneyMapRowMutation } from '@/api/mutations/generated/create
 import { MapRowTypeEnum } from '@/api/types.ts';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes.tsx';
 import { BoxType, JourneyMapRowType, OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ObjectKeysType } from '@/types';
 import { JourneyMapRowActionEnum } from '@/types/enum.ts';
 import { ActionsEnum } from '@/types/enum.ts';

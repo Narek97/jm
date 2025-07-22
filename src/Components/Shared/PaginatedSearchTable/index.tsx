@@ -10,8 +10,8 @@ import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { querySlateTime } from '@/Constants';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 
 interface IPaginatedSearchTableProps<T> {
   queryHook: (

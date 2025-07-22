@@ -15,11 +15,11 @@ import {
   useDeleteOutcomeMutation,
 } from '@/api/mutations/generated/deleteOutcome.generated.ts';
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types.ts';
-import { debounced1 } from '@/hooks/useDebounce';
+import { debounced1 } from '@/Hooks/useDebounce';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor';
 import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useNote } from '@/Store/note.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';
 import { lightenColor } from '@/utils/lightenColor.ts';

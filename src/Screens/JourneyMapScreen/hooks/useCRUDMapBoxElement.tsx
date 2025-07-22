@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum';
 
 export const useCrudMapBoxElement = () => {

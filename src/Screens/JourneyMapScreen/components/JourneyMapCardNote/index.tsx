@@ -16,9 +16,9 @@ import {
 import { CommentAndNoteModelsEnum } from '@/api/types';
 import CustomInput from '@/Components/Shared/CustomInput';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced800 } from '@/hooks/useDebounce.ts';
-import { useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey.ts';
-import { useNote, useSetNote } from '@/store/note.ts';
+import { debounced800 } from '@/Hooks/useDebounce.ts';
+import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
+import { useNote, useSetNote } from '@/Store/note.ts';
 
 interface IJourneyMapCardNote {
   itemId: number;

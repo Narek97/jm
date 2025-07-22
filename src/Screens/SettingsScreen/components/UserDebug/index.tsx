@@ -4,7 +4,7 @@ import './style.scss';
 import { Switch } from '@mui/material';
 
 import { useToggleDebugModeMutation } from '@/api/mutations/generated/toggleDebugMode.generated';
-import { useUserStore } from '@/store/user.ts';
+import { useUserStore } from '@/Store/user.ts';
 
 const UserDebug = () => {
   const { user, updateUser } = useUserStore();

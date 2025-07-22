@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import AssignPersonaToMapModal from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/AssignPersonaToMapModal';
 import { MapSelectedPersonasType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ImageSizeEnum } from '@/types/enum';
 
 interface IJourneyMapFooter {

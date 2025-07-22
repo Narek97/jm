@@ -17,15 +17,15 @@ import {
   useGetTouchPointIconsQuery,
 } from '@/api/queries/generated/getTouchPointIcons.generated.ts';
 import CustomTabs from '@/Components/Shared/CustomTabs';
-import { TOUCHPOINT_ICONS_LIMIT } from '@/constants/pagination';
+import { TOUCHPOINT_ICONS_LIMIT } from '@/Constants/pagination';
 import {
   JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS,
   JOURNEY_TOUCHPOINT_SETTINGS_TABS,
 } from '@/Screens/JourneyMapScreen/constants';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useTouchpointsStore } from '@/store/touchpoints.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useTouchpointsStore } from '@/Store/touchpoints.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowTypesEnum, TouchpointIconsEnum } from '@/types/enum.ts';
 
 interface ITouchpointDrawer {

@@ -17,13 +17,13 @@ import {
   useUpdateTouchPointMutation,
 } from '@/api/mutations/generated/updateTouchPoint.generated';
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
-import TouchpointIcon from '@/assets/public/mapRow/touchpoint.svg';
-import { debounced1 } from '@/hooks/useDebounce';
+import TouchpointIcon from '@/Assets/public/mapRow/touchpoint.svg';
+import { debounced1 } from '@/Hooks/useDebounce';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { onHandleChangeFlipCardIconColor } from '@/Screens/JourneyMapScreen/helpers/onHandleChangeFlipCardIconColor.ts';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useNote } from '@/store/note.ts';
-import { useUndoRedoStore } from '@/store/undoRedo.ts';
+import { useNote } from '@/Store/note.ts';
+import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getIsDarkColor } from '@/utils/getIsDarkColor';
 import { lightenColor } from '@/utils/lightenColor';

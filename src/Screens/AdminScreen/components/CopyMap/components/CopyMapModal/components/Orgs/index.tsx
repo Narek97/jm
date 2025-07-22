@@ -8,10 +8,10 @@ import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.g
 import CustomInput from '@/Components/Shared/CustomInput';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { querySlateTime } from '@/constants';
+import { querySlateTime } from '@/Constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import { debounced400 } from '@/hooks/useDebounce';
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { debounced400 } from '@/Hooks/useDebounce';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelTemplateEnum } from '@/types/enum';
 
 const Orgs: FC = () => {

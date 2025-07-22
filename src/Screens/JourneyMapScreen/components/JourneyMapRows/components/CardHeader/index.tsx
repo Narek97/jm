@@ -12,8 +12,8 @@ import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMap
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
 import { CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { CroppedAreaType, MenuOptionsType } from '@/types';
 import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
 

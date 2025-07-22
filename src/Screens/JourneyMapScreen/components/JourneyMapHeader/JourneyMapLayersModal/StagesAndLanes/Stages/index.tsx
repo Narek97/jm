@@ -27,7 +27,7 @@ import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 import { ObjectKeysType } from '@/types';
 import { getGroupedIds } from '@/utils/getGroupedIds.ts';
 

@@ -20,7 +20,7 @@ import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types';
-import { useTouchpointsStore } from '@/store/touchpoints.ts';
+import { useTouchpointsStore } from '@/Store/touchpoints.ts';
 import { AttachmentType, ObjectKeysType } from '@/types';
 import { MenuViewTypeEnum, TouchpointIconsEnum } from '@/types/enum';
 

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 
-import { queryClient } from '@/providers/constants.ts';
+import { queryClient } from '@/Providers/constants.ts';
 
 interface IRecoilProvider {
   children: React.ReactNode;

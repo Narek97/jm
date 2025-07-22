@@ -22,13 +22,13 @@ import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { OUTCOMES_LIMIT } from '@/constants/pagination.ts';
+import { OUTCOMES_LIMIT } from '@/Constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
   useSetAllQueryDataByKey,
   useSetQueryDataByKeys,
-} from '@/hooks/useQueryKey.ts';
-import { useBreadcrumbStore } from '@/store/breadcrumb.ts';
+} from '@/Hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
 
 const OutcomeScreen = () => {
   const { workspaceId, outcomeId } = useParams({

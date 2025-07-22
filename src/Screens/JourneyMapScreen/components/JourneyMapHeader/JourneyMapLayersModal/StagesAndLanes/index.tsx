@@ -28,7 +28,7 @@ import { ActionEnum } from '@/api/types.ts';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useLayerStore } from '@/store/layers.ts';
+import { useLayerStore } from '@/Store/layers.ts';
 
 interface IJourneyMapLayersModal {
   mode: ActionEnum;

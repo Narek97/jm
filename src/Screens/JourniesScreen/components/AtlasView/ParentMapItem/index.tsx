@@ -10,7 +10,7 @@ import {
   GetParentMapChildrenQuery,
   useGetParentMapChildrenQuery,
 } from '@/api/queries/generated/getParentMapChildren.generated.ts';
-import { querySlateTime } from '@/constants';
+import { querySlateTime } from '@/Constants';
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
 interface IParentMapItem {

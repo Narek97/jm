@@ -10,7 +10,7 @@ import {
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey';
 
 interface IDeleteVersionModal {
   isOpen: boolean;

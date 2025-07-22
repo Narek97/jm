@@ -20,8 +20,8 @@ import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.t
 import CustomInput from '@/Components/Shared/CustomInput';
 import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
-import { useUserStore } from '@/store/user.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useUserStore } from '@/Store/user.ts';
 import { ObjectKeysType } from '@/types';
 import { FileTypeEnum, TouchpointIconsEnum } from '@/types/enum.ts';
 import { UploadFile } from '@/utils/uploader.ts';

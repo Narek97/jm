@@ -27,8 +27,8 @@ import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
 import SlickCarousel from '@/Components/Shared/SlickCarousel';
-import { querySlateTime } from '@/constants';
-import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/constants/pagination';
+import { querySlateTime } from '@/Constants';
+import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/Constants/pagination';
 import { DropdownSelectItemType } from '@/types';
 
 interface ICreateInterviewModal {

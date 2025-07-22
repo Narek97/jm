@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getCookie, deleteCookie } from '../utils/cookieHelper.ts';
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '@/Constants';
 
 const $apiClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/graphql`,

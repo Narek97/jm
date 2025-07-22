@@ -8,7 +8,7 @@ import Quill from 'quill';
 
 import EditorModal from '@/Components/Shared/Editors/EditorModal';
 import { getQuillConfig, setEditorValue } from '@/Components/Shared/Editors/QuilConfig';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 
 interface IMapEditor {
   initValue: string;

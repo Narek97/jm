@@ -6,7 +6,7 @@ import axios from 'axios';
 import { rootRoute } from '../__root';
 
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { TOKEN_NAME } from '@/constants';
+import { TOKEN_NAME } from '@/Constants';
 import { setCookie } from '@/utils/cookieHelper.ts';
 
 // Define the expected response shape for the token API

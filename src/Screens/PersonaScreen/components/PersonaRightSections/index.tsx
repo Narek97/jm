@@ -27,7 +27,7 @@ import {
 } from '@/api/mutations/generated/updatePersonSections.generated';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { debounced400 } from '@/hooks/useDebounce.ts';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonSectionType } from '@/Screens/JourneyMapScreen/types.ts';
 import { getIsDarkColor } from '@/utils/getIsDarkColor.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';

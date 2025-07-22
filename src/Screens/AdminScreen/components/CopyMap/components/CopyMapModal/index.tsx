@@ -12,7 +12,7 @@ import WorkspaceBoards from './components/WorkspaceBoards';
 import { CopyMapMutation, useCopyMapMutation } from '@/api/mutations/generated/copyMap.generated';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import { CopyMapType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/types.ts';
-import { useCopyMapStore } from '@/store/copyMap.ts';
+import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from '@/types/enum.ts';
 import { getPageContentByKey } from '@/utils/getPageContentByKey.ts';
 

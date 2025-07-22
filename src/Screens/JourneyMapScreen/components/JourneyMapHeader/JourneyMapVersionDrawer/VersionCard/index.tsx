@@ -16,10 +16,10 @@ import {
 } from '@/api/mutations/generated/updateMapVersionName.generated.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { debounced400 } from '@/hooks/useDebounce.ts';
-import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
+import { debounced400 } from '@/Hooks/useDebounce.ts';
+import { useSetQueryDataByKey } from '@/Hooks/useQueryKey';
 import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
-import { useJourneyMapStore } from '@/store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 import { isDateFormat } from '@/utils/isDateFormat.ts';
 
