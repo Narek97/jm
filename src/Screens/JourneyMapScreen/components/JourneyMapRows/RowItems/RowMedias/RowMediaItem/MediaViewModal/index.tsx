@@ -5,7 +5,7 @@ import './style.scss';
 import '@cyntler/react-doc-viewer/dist/index.css';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 
 interface IMediaViewModal {
   isOpen: boolean;
@@ -15,7 +15,8 @@ interface IMediaViewModal {
 
 const MediaViewModal: FC<IMediaViewModal> = ({ isOpen, url, handleClose }) => {
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={''}
       modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
@@ -29,7 +30,7 @@ const MediaViewModal: FC<IMediaViewModal> = ({ isOpen, url, handleClose }) => {
           pluginRenderers={DocViewerRenderers}
         />
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

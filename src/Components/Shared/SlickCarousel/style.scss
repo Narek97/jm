@@ -18,20 +18,20 @@
     gap: 1.25rem;
   }
 
-  .slick-list{
+  .slick-list {
     width: 90%;
   }
 
   .slick-prev,
   .slick-next {
-    &::before{
+    &::before {
       color: $BASE_GRAY_COLOR_2;
     }
   }
-  .slick-prev{
+  .slick-prev {
     left: 0;
   }
-  .slick-next{
+  .slick-next {
     right: 0;
   }
 }

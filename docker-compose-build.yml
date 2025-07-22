@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_SVG_URL: ${VITE_SVG_URL}
+        VITE_AUTHORIZATION_URL: ${VITE_AUTHORIZATION_URL}
+        VITE_APP_URL: ${VITE_APP_URL}
+        VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+        VITE_APP_KEY: ${VITE_APP_KEY}
+        VITE_CALLBACK_URL: ${VITE_CALLBACK_URL}
+        VITE_COOKIE_DOMAIN: ${VITE_COOKIE_DOMAIN}
+        VITE_AWS_URL: ${VITE_AWS_URL}
+        VITE_HOST: ${VITE_HOST}
+        VITE_QP_API: ${VITE_QP_API}
+    image: registry.questionpro.net/suitecx/${BUILD_DC}/frontend

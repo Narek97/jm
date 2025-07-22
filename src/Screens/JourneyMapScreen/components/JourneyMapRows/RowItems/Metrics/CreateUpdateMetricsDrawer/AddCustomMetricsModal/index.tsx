@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
@@ -11,10 +11,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { CustomMetricsFormType, CustomMetricsType } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import { ADD_CUSTOM_METRICS_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 
 interface IAddCustomMetricsModal {
@@ -30,6 +29,8 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
   onHandleAddCustomMetrics,
   handleClose,
 }) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const [date, setDate] = useState(new Date());
 
   const {
@@ -43,6 +44,12 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
     },
   });
 
+  const onHandleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
+
   const onFormSubmit = (formData: CustomMetricsFormType) => {
     onHandleAddCustomMetrics({
       id: uuidv4(),
@@ -52,13 +59,19 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={`Add custom ${metricsType}`}
       isOpen={isOpen}
       handleClose={handleClose}
-      modalSize={'custom'}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={`Add custom ${metricsType}`} />
+      modalSize={'md'}
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton onClick={onHandleSubmit} type={'submit'} data-testid="submit-data-point-test-id">
+          Add
+        </WuButton>
+      }>
       <form
+        ref={formRef}
         onSubmit={handleSubmit(onFormSubmit)}
         className={'add-custom-metrics-modal'}
         data-testid="add-custom-metrics-modal">
@@ -102,19 +115,8 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
             </div>
           </div>
         </div>
-        <div className={'base-modal-footer'}>
-          <WuButton
-            onClick={handleClose}
-            data-testid="cansel-data-point-test-id"
-            variant={'outline'}>
-            Cancel
-          </WuButton>
-          <WuButton type={'submit'} data-testid="submit-data-point-test-id">
-            Add
-          </WuButton>
-        </div>
       </form>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

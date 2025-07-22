@@ -292,7 +292,7 @@
   &:hover {
     background-color: #1b87e6;
     outline: 0.125rem solid #1b87e680;
-    .wm-add{
+    .wm-add {
       color: $BASE_WHITE-COLOR;
     }
   }
@@ -666,11 +666,11 @@
 @mixin copy-map-board-list {
   .boards-list {
     padding: 0.5rem;
-    height: 26.875rem;
+    height: 22.875rem;
 
     &--content {
       &-boards {
-        height: 22.875rem;
+        height: 18rem;
         padding: 1rem;
         margin-bottom: 1rem;
         overflow-x: auto;
@@ -753,11 +753,11 @@
 @mixin workspaces-list {
   .workspaces-list {
     padding: 0.5rem;
-    height: 26.875rem;
+    height: 23.3rem;
 
     &--content {
       &-workspaces {
-        height: 23.75rem;
+        height: 22rem;
         padding: 1rem;
 
         overflow-x: auto;

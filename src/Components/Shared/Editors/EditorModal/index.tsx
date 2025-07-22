@@ -4,10 +4,8 @@ import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import Quill from 'quill';
 
-import CustomModal from '../../CustomModal';
+import BaseWuModal from '../../BaseWuModal';
 import { QUILL_EDITOR_FONTS, QUILL_TOOLBAR } from '../QuilConfig/constnats.tsx';
-
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 
 interface IEditorModal {
   initValue: string;
@@ -61,27 +59,21 @@ const EditorModal: FC<IEditorModal> = ({ initValue, isOpen, handleClose, onSave 
   }, [isOpen]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Rich Text Editor'}
       isOpen={isOpen}
       modalSize={'lg'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}>
-      <CustomModalHeader title={<div className={'editor-header'}>Rich Text Editor</div>} />
+      canCloseWithOutsideClick={true}
+      ModalConfirmButton={
+        <WuButton type={'button'} data-testid="submit-data-point-test-id" onClick={handleSave}>
+          Save
+        </WuButton>
+      }>
       <div className={'map-item--editor'}>
         <div className={'editor-container'} ref={editorRef} />
-        <div className={'base-modal-footer'}>
-          <WuButton
-            onClick={handleClose}
-            data-testid="cancel-data-point-test-id"
-            variant="secondary">
-            Close
-          </WuButton>
-          <WuButton type={'button'} data-testid="submit-data-point-test-id" onClick={handleSave}>
-            Save
-          </WuButton>
-        </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

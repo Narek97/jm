@@ -27,4 +27,3 @@ export const AI_JOURNEYS_MODEL_LIMIT = 1000;
 export const NOUN_PROJECT_ICONS_LIMIT = 100;
 export const MAPS_LIMIT = 100;
 export const ADMIN_USERS_LIMIT = 100;
-

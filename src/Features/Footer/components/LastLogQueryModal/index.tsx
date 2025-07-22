@@ -5,8 +5,7 @@ import {
   GetUserLastPerformanceLogQuery,
   useGetUserLastPerformanceLogQuery,
 } from '@/api/queries/generated/getUserLastPerformanceLog.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 
 interface ILastLogQueryModal {
@@ -41,13 +40,12 @@ const LastLogQueryModal: FC<ILastLogQueryModal> = ({ handleClose, isOpen }) => {
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'User last Query'}
       isOpen={isOpen}
       handleClose={handleClose}
       canCloseWithOutsideClick={true}
       modalSize={'md'}>
-      <CustomModalHeader title={'User last Query'} />
-
       <div className={'last-user-query-modal'} data-testid="last-user-query-modal-test-id">
         {isLoadingQuery ? (
           <WuBaseLoader />
@@ -101,7 +99,7 @@ const LastLogQueryModal: FC<ILastLogQueryModal> = ({ handleClose, isOpen }) => {
           </>
         )}
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

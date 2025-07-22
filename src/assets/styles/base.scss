@@ -23,6 +23,11 @@ input[type='checkbox'] {
 
 main {
   overflow-x: hidden !important;
+  min-height: calc(100dvh - 41rem);
+}
+
+footer {
+  margin-top: auto;
 }
 
 button,
@@ -92,16 +97,6 @@ svg {
 .ql-editor,
 .ql-container {
   height: fit-content !important;
-}
-
-.version-modal {
-  @include absolute-center;
-  width: 25rem;
-  background-color: $BASE-WHITE-COLOR;
-  &--content {
-    padding: 1rem;
-    color: $BASE_GRAY_COLOR;
-  }
 }
 
 .input-element {

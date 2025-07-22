@@ -26,6 +26,7 @@ import { isDateFormat } from '@/utils/isDateFormat.ts';
 dayjs.extend(fromNow);
 
 interface IVersionCard {
+  isDisabled: boolean;
   version: MapVersionType;
   onHandleRestoreVersion: (version: MapVersionType) => void;
   onHandleSelectPreliminaryVersion: (version: MapVersionType) => void;
@@ -33,6 +34,7 @@ interface IVersionCard {
 }
 
 const VersionCard: FC<IVersionCard> = ({
+  isDisabled,
   version,
   onHandleRestoreVersion,
   onHandleDeleteVersion,
@@ -128,10 +130,12 @@ const VersionCard: FC<IVersionCard> = ({
 
   return (
     <ClickAwayListener onClickAway={() => setIsEditName(false)}>
-      <div className={'version-card'}>
+      <div
+        className={`flex items-center justify-between m-3 px-2 py-2 leading-6 ${isDisabled ? 'cursor-not-allowed text-[#878f99] hover:bg-transparent' : 'cursor-pointer text-[#545e6b] hover:bg-[#f5f5f5]'}`}>
         <div>
           {isEditName ? (
             <CustomInput
+              disabled={isDisabled}
               inputRef={inputRef}
               inputType={'secondary'}
               type="text"
@@ -142,13 +146,14 @@ const VersionCard: FC<IVersionCard> = ({
             <span
               onClick={() => onHandleSelectPreliminaryVersion(version)}
               className={'version-card--title'}>
-              {versionName}
+              {versionName} {isDisabled && `(version not available)`}
             </span>
           )}
         </div>
         <div>
-          {journeyMapVersion?.id !== version.id && (
+          {journeyMapVersion?.id !== version.id && !isDisabled && (
             <CustomLongMenu
+              disabled={isDisabled}
               options={options}
               type={MenuViewTypeEnum.VERTICAL}
               isDefaultOpen={true}

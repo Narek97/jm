@@ -1,7 +1,6 @@
 @use '@assets/styles/variables' as *;
 @use '@assets/styles/mixins' as *;
 
-
 .react-card-flip {
   @include map-card-header-hover();
 
@@ -35,4 +34,3 @@
     right: 2rem;
   }
 }
-

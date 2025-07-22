@@ -6,10 +6,19 @@ export type CopyMapMutationVariables = Types.Exact<{
   copyMapInput: Types.CopyMapInput;
 }>;
 
-
-export type CopyMapMutation = { __typename?: 'Mutation', copyMap: { __typename?: 'Map', title?: string | null, id: number, type: Types.MapTypeEnum, createdAt: any, updatedAt: any, boardId: number, owner: { __typename?: 'Member', firstName: string, lastName: string, emailAddress: string } } };
-
-
+export type CopyMapMutation = {
+  __typename?: 'Mutation';
+  copyMap: {
+    __typename?: 'Map';
+    title?: string | null;
+    id: number;
+    type: Types.MapTypeEnum;
+    createdAt: any;
+    updatedAt: any;
+    boardId: number;
+    owner: { __typename?: 'Member'; firstName: string; lastName: string; emailAddress: string };
+  };
+};
 
 export const CopyMapDocument = `
     mutation CopyMap($copyMapInput: CopyMapInput!) {
@@ -29,17 +38,14 @@ export const CopyMapDocument = `
 }
     `;
 
-export const useCopyMapMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CopyMapMutation, TError, CopyMapMutationVariables, TContext>) => {
-    
-    return useMutation<CopyMapMutation, TError, CopyMapMutationVariables, TContext>(
-      {
+export const useCopyMapMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<CopyMapMutation, TError, CopyMapMutationVariables, TContext>,
+) => {
+  return useMutation<CopyMapMutation, TError, CopyMapMutationVariables, TContext>({
     mutationKey: ['CopyMap'],
     mutationFn: axiosRequest<CopyMapMutation, CopyMapMutationVariables>(CopyMapDocument),
-    ...options
-  }
-    )};
+    ...options,
+  });
+};
 
 useCopyMapMutation.getKey = () => ['CopyMap'];

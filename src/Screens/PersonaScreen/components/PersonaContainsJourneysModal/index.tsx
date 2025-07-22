@@ -10,8 +10,7 @@ import {
   GetMapsQuery,
   useInfiniteGetMapsQuery,
 } from '@/api/infinite-queries/generated/getJourneyMaps.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
@@ -36,7 +35,6 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
 }) => {
   const navigate = useNavigate();
   const childRef = useRef<HTMLUListElement>(null);
-
 
   const {
     data: mapsData,
@@ -104,12 +102,13 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Assigned journeys'}
       isOpen={isOpen}
-      modalSize={'md'}
       handleClose={handleClose}
-      canCloseWithOutsideClick={!mapsDataIsLoading}>
-      <CustomModalHeader title={<div className={'assign-modal-header'}>Assigned journeys</div>} />
+      canCloseWithOutsideClick={!mapsDataIsLoading}
+      modalSize={'md'}
+      isProcessing={mapsDataIsLoading}>
       <div className={'journeys-contains-current-maps'}>
         <div className={'journeys-contains-current-maps--content'}>
           {mapsDataIsLoading && !renderedMaps?.length ? (
@@ -160,7 +159,7 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
           )}
         </div>
       </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

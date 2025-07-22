@@ -6,8 +6,7 @@ import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import Cropper from 'react-easy-crop';
 
 import { ActionEnum } from '@/api/types.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 
 const CROP_AREA_ASPECT = 3 / 3;
 
@@ -115,12 +114,17 @@ const CropImageModal: FC<ICropImageModal> = memo(
     };
 
     return (
-      <CustomModal
+      <BaseWuModal
+        headerTitle={'Upload photo'}
         isOpen={isOpenCropModal}
-        modalSize={'sm'}
+        maxHeight={'950'}
         handleClose={closeModal}
-        canCloseWithOutsideClick={true}>
-        <CustomModalHeader title={'Upload photo'} />
+        canCloseWithOutsideClick={true}
+        ModalConfirmButton={
+          <WuButton data-testid={'crop-btn-test-id'} onClick={getCroppedImage}>
+            {mode === ActionEnum.Add ? 'Upload' : 'Update'}
+          </WuButton>
+        }>
         <div className="persona-image-card-cropper-modal">
           <div className="persona-image-card-cropper-modal--content">
             <div className="image-card-cropper">
@@ -144,6 +148,7 @@ const CropImageModal: FC<ICropImageModal> = memo(
                 <span className={'wm-chrome-minimize'} />
               </button>
               <Slider
+                className={'!w-full'}
                 aria-label="Small steps"
                 defaultValue={3}
                 min={1}
@@ -163,16 +168,8 @@ const CropImageModal: FC<ICropImageModal> = memo(
               </button>
             </div>
           </div>
-          <div className={'base-modal-footer'}>
-            <button className={'base-modal-footer--cancel-btn'} onClick={closeModal}>
-              Cancel
-            </button>
-            <WuButton data-testid={'crop-btn-test-id'} onClick={getCroppedImage}>
-              {mode === ActionEnum.Add ? 'Upload' : 'Update'}
-            </WuButton>
-          </div>
         </div>
-      </CustomModal>
+      </BaseWuModal>
     );
   },
 );

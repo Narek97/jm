@@ -1,7 +1,7 @@
 import { FC, UIEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
-import { WuModalHeader, WuTooltip } from '@npm-questionpro/wick-ui-lib';
+import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
@@ -22,10 +22,10 @@ import {
   useGetPersonaGroupsModelQuery,
 } from '@/api/queries/generated/getPersonaGroups.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { PERSONAS_LIMIT } from '@/constants/pagination';
@@ -40,6 +40,7 @@ interface IAssignPersonaToMapModal {
 }
 
 const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
+  isOpen,
   workspaceId,
   mapId,
   handleClose,
@@ -194,148 +195,156 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
 
   return (
     <>
-      <WuModalHeader>
-        <CustomModalHeader
-          title={
-            <div className={'assign-modal-header'}>
-              Add personas <span className={'question-sign'}>?</span>
-            </div>
-          }
-        />
-      </WuModalHeader>
-      <div className={'assign-persona-to-map'}>
-        <div className={'assign-persona-to-map--content'}>
-          {isLoadingPersonaGroup || isFetching ? (
-            <div className={'assign-persona-to-map-loading-section'}>
-              <WuBaseLoader />
-            </div>
-          ) : (
-            <>
-              {personaGroupId ? (
-                <>
-                  <div className={'assign-persona-to-map--content--go-back-btn-block'}>
-                    <button
-                      className={'assign-persona-to-map--content--go-back-btn'}
-                      onClick={() => setPersonaGroupId(null)}>
-                      <span
-                        className={'wm-arrow-back-ios'}
-                        style={{
-                          color: '#1b87e6',
-                        }}
-                      />
-                      Go back
-                    </button>
-                  </div>
+      <BaseWuModal
+        handleClose={handleClose}
+        isOpen={isOpen}
+        headerTitle={'Add personas'}
+        cancelButton={
+          <WuButton
+            data-testid="first-btn-test-id"
+            onClick={handleCreateAndNavigateToPersona}
+            disabled={isLoadingCreatePersona || !personaGroupId}
+            id="confirm-delete-btn"
+            variant="secondary">
+            Create new persona
+          </WuButton>
+        }
+        ModalConfirmButton={
+          <ModalConfirmButton
+            disabled={connectPersonasIsLoading}
+            buttonName={'Add persona'}
+            onClick={onHandleConnectPersonasToMap}
+          />
+        }>
+        <div className={'assign-persona-to-map'}>
+          <div className={'assign-persona-to-map--content'}>
+            {isLoadingPersonaGroup || isFetching ? (
+              <div className={'assign-persona-to-map-loading-section'}>
+                <WuBaseLoader />
+              </div>
+            ) : (
+              <>
+                {personaGroupId ? (
+                  <>
+                    <div className={'assign-persona-to-map--content--go-back-btn-block'}>
+                      <button
+                        className={'assign-persona-to-map--content--go-back-btn'}
+                        onClick={() => setPersonaGroupId(null)}>
+                        <span
+                          className={'wm-arrow-back-ios'}
+                          style={{
+                            color: '#1b87e6',
+                          }}
+                        />
+                        Go back
+                      </button>
+                    </div>
 
-                  {renderPersonaData?.length ? (
-                    <div
-                      data-testid={'assign-persona-to-map--content--persona-block'}
-                      className={'assign-persona-to-map--content--persona-block'}
-                      onScroll={e => {
-                        onHandleFetch(e);
-                      }}>
-                      <ul ref={childRef}>
-                        {renderPersonaData?.map(persona => (
-                          <li
-                            key={persona?.id}
-                            data-testid="persona-item-test-id"
-                            className={`assign-persona-to-map--content--personas-item ${
-                              personaIdList.includes(persona?.id)
-                                ? 'assign-persona-to-map--content--selected-persona'
-                                : ''
-                            }`}
-                            onClick={() => handleSelectPersona(persona?.id)}>
-                            <div className="assign-persona-to-map--content--personas-item-left-block">
-                              <PersonaImageBox
-                                title={''}
-                                size={ImageSizeEnum.MD}
-                                imageItem={{
-                                  color: persona?.color || '',
-                                  attachment: {
-                                    id: persona?.attachment?.id || 0,
-                                    url: persona?.attachment?.url || '',
-                                    key: persona?.attachment?.key || '',
-                                    croppedArea: persona?.croppedArea,
-                                  },
-                                }}
-                              />
-                              <div className={'assign-persona-to-map--content--personas-item-info'}>
-                                <WuTooltip
-                                  className={'wu-tooltip-content'}
-                                  positionOffset={10}
-                                  content={persona?.name}
-                                  position={'bottom'}>
-                                  <div
-                                    className={
-                                      'assign-persona-to-map--content--personas-item-info--title'
-                                    }>
-                                    {persona?.name}
-                                  </div>
-                                </WuTooltip>
-                                <div className="assign-persona-to-map--content--personas-item-info--bottom">
-                                  <div
-                                    className={
-                                      'assign-persona-to-map--content--personas-item-info--bottom--type'
-                                    }>
-                                    {persona?.type}
-                                  </div>
-                                  <div className="assign-persona-to-map--content--personas-item-right-block">
-                                    <span className={'wm-map'} />
-                                    <span className={'journeys-info--text'}>
-                                      {persona?.journeys || 0} journeys
-                                    </span>
+                    {renderPersonaData?.length ? (
+                      <div
+                        data-testid={'assign-persona-to-map--content--persona-block'}
+                        className={'assign-persona-to-map--content--persona-block'}
+                        onScroll={e => {
+                          onHandleFetch(e);
+                        }}>
+                        <ul ref={childRef}>
+                          {renderPersonaData?.map(persona => (
+                            <li
+                              key={persona?.id}
+                              data-testid="persona-item-test-id"
+                              className={`assign-persona-to-map--content--personas-item ${
+                                personaIdList.includes(persona?.id)
+                                  ? 'assign-persona-to-map--content--selected-persona'
+                                  : ''
+                              }`}
+                              onClick={() => handleSelectPersona(persona?.id)}>
+                              <div className="assign-persona-to-map--content--personas-item-left-block">
+                                <PersonaImageBox
+                                  title={''}
+                                  size={ImageSizeEnum.MD}
+                                  imageItem={{
+                                    color: persona?.color || '',
+                                    attachment: {
+                                      id: persona?.attachment?.id || 0,
+                                      url: persona?.attachment?.url || '',
+                                      key: persona?.attachment?.key || '',
+                                      croppedArea: persona?.croppedArea,
+                                    },
+                                  }}
+                                />
+                                <div
+                                  className={'assign-persona-to-map--content--personas-item-info'}>
+                                  <WuTooltip
+                                    className={'wu-tooltip-content'}
+                                    positionOffset={10}
+                                    content={persona?.name}
+                                    position={'bottom'}>
+                                    <div
+                                      className={
+                                        'assign-persona-to-map--content--personas-item-info--title'
+                                      }>
+                                      {persona?.name}
+                                    </div>
+                                  </WuTooltip>
+                                  <div className="assign-persona-to-map--content--personas-item-info--bottom">
+                                    <div
+                                      className={
+                                        'assign-persona-to-map--content--personas-item-info--bottom--type'
+                                      }>
+                                      {persona?.type}
+                                    </div>
+                                    <div className="assign-persona-to-map--content--personas-item-right-block">
+                                      <span className={'wm-map'} />
+                                      <span className={'journeys-info--text'}>
+                                        {persona?.journeys || 0} journeys
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <EmptyDataInfo message={'There are no assigned personas yet'} />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <p className={`assign-persona-to-map--content--personas-title`}>
+                        Persona Group
+                      </p>
+                      <ul>
+                        {dataPersonaGroup?.getPersonaGroups.personaGroups.map(personaGroup => (
+                          <li
+                            key={personaGroup.id}
+                            className={`assign-persona-to-map--content--personas-item`}
+                            onClick={() => setPersonaGroupId(personaGroup.id)}>
+                            <div
+                              className={
+                                'assign-persona-to-map--content--personas-item-info--title'
+                              }>
+                              <WuTooltip
+                                className={'wu-tooltip-content'}
+                                positionOffset={10}
+                                content={personaGroup.name?.trim() || 'Untitled'}
+                                position={'bottom'}>
+                                {personaGroup.name?.trim() || 'Untitled'}
+                              </WuTooltip>
                             </div>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  ) : (
-                    <EmptyDataInfo message={'There are no assigned personas yet'} />
-                  )}
-                </>
-              ) : (
-                <>
-                  <div>
-                    <p className={`assign-persona-to-map--content--personas-title`}>
-                      Persona Group
-                    </p>
-                    <ul>
-                      {dataPersonaGroup?.getPersonaGroups.personaGroups.map(personaGroup => (
-                        <li
-                          key={personaGroup.id}
-                          className={`assign-persona-to-map--content--personas-item`}
-                          onClick={() => setPersonaGroupId(personaGroup.id)}>
-                          <div
-                            className={'assign-persona-to-map--content--personas-item-info--title'}>
-                            <WuTooltip
-                              className={'wu-tooltip-content'}
-                              positionOffset={10}
-                              content={personaGroup.name?.trim() || 'Untitled'}
-                              position={'bottom'}>
-                              {personaGroup.name?.trim() || 'Untitled'}
-                            </WuTooltip>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
-            </>
-          )}
+                  </>
+                )}
+              </>
+            )}
+          </div>
         </div>
-        <CustomModalFooterButtons
-          handleFirstButtonClick={handleCreateAndNavigateToPersona}
-          handleSecondButtonClick={onHandleConnectPersonasToMap}
-          isLoading={connectPersonasIsLoading}
-          isDisableFirstButton={isLoadingCreatePersona || !personaGroupId}
-          firstButtonName={'Create new persona'}
-          secondButtonName={'Add persona'}
-        />
-      </div>
+      </BaseWuModal>
     </>
   );
 };

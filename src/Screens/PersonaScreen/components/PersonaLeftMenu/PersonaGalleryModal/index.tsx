@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'reac
 import './style.scss';
 
 import { Skeleton } from '@mui/material';
-import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 
 import {
@@ -19,10 +19,9 @@ import {
   useGetPersonaGalleryQuery,
 } from '@/api/queries/generated/getPersonaGallery.generated.ts';
 import { ActionEnum, AttachmentsEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
 import Pagination from '@/Components/Shared/Pagination';
 import { PERSONA_FILE_TYPES } from '@/constants';
 import { BOARDS_LIMIT, PERSONAS_GALLERY_LIMIT } from '@/constants/pagination.ts';
@@ -34,7 +33,6 @@ import { useUserStore } from '@/store/user.ts';
 import { AttachmentType, CroppedAreaType } from '@/types';
 import { FileTypeEnum } from '@/types/enum.ts';
 import { UploadFile } from '@/utils/uploader.ts';
-
 
 interface IPersonaGalleryModal {
   isOpen: boolean;
@@ -325,16 +323,31 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   }, [dataPersonaGallery?.getPersonaGallery]);
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Media library'}
+      headerIcon={
+        <WuButton
+          Icon={<span className={'wm-question-mark text-xs'} />}
+          data-testid="question-mark-test-id"
+          color="primary"
+          iconPosition="left"
+          className={'bg-blue-200 rounded-full w-4 h-4 p-2'}
+          onClick={() =>
+            window.open(
+              "'https://www.questionpro.com/help/add-image.html'",
+              '',
+              'width=600,height=400',
+            )
+          }
+          size="md"
+          variant="iconOnly"
+        />
+      }
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
       canCloseWithOutsideClick={!isLoadingAttachImageToPersona}
       modalSize={'lg'}>
       <div>
-        <CustomModalHeader
-          title={'Media library'}
-          infoLink={'https://www.questionpro.com/help/add-image.html'}
-        />
         <div className={'persona-gallery-modal'}>
           <div className={'persona-gallery-modal--header'}>
             <div className={'persona-gallery-modal--header--search-block'}>
@@ -431,7 +444,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
           }}
         />
       )}
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

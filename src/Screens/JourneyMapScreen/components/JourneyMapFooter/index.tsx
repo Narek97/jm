@@ -2,7 +2,6 @@ import { FC, useCallback, useState } from 'react';
 import './style.scss';
 
 import { Tooltip } from '@mui/material';
-import { WuModal } from '@npm-questionpro/wick-ui-lib';
 
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import AssignPersonaToMapModal from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/AssignPersonaToMapModal';
@@ -82,34 +81,12 @@ const JourneyMapFooter: FC<IJourneyMapFooter> = ({ workspaceId, mapId, isGuest }
         </button>
       ))}
       {!isGuest && workspaceId && (
-        <>
-          <WuModal
-            open={isOpenSelectedPersonasModal}
-            onOpenChange={setIsOpenSelectedPersonasModal}
-            Trigger={
-              <Tooltip placement="top" title={'Add new persona'} arrow>
-                <button
-                  data-testid="add-btn-id"
-                  disabled={false}
-                  onClick={handleToggleAssignPersonaModal}
-                  className={'journey-map-footer--add-new-persona-btn'}>
-                  <span
-                    className={'wm-person-add'}
-                    style={{
-                      color: '#1b87e6',
-                    }}
-                  />
-                </button>
-              </Tooltip>
-            }>
-            <AssignPersonaToMapModal
-              isOpen={isOpenSelectedPersonasModal}
-              workspaceId={workspaceId}
-              mapId={mapId}
-              handleClose={handleToggleAssignPersonaModal}
-            />
-          </WuModal>
-        </>
+        <AssignPersonaToMapModal
+          isOpen={isOpenSelectedPersonasModal}
+          workspaceId={workspaceId}
+          mapId={mapId}
+          handleClose={handleToggleAssignPersonaModal}
+        />
       )}
     </div>
   );

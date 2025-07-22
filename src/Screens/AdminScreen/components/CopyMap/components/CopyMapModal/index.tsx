@@ -10,8 +10,7 @@ import OrgWorkspaces from './components/OrgWorkspaces';
 import WorkspaceBoards from './components/WorkspaceBoards';
 
 import { CopyMapMutation, useCopyMapMutation } from '@/api/mutations/generated/copyMap.generated';
-import CustomModal from '@/Components/Shared/CustomModal';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import { CopyMapType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/types.ts';
 import { useCopyMapStore } from '@/store/copyMap.ts';
 import { CopyMapLevelEnum, CopyMapLevelTemplateEnum } from '@/types/enum.ts';
@@ -106,15 +105,24 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
+      headerTitle={'Map copy'}
       isOpen={isOpen}
       modalSize={'md'}
       handleClose={() => {
         reset();
         handleClose();
       }}
-      canCloseWithOutsideClick={!isProcessing}>
-      <CustomModalHeader title={<div className={'assign-modal-header'}>Map copy</div>} />
+      canCloseWithOutsideClick={!isProcessing}
+      ModalConfirmButton={
+        <WuButton
+          type={'button'}
+          disabled={!(mapId && boardId)}
+          data-testid="submit-outcome-test-id"
+          onClick={handleCopyMap}>
+          Copy
+        </WuButton>
+      }>
       <div className={'copy-map-modal--info'}>
         {mapId
           ? ' * Select workspace, then board for pasting the map'
@@ -134,16 +142,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
         key: template,
         defaultPage: <OrgWorkspaces level={level} orgId={selectedOrgId || orgId} />,
       })}
-      <div className={'copy-map-modal--footer'}>
-        <WuButton
-          type={'button'}
-          disabled={!(mapId && boardId)}
-          data-testid="submit-outcome-test-id"
-          onClick={handleCopyMap}>
-          Copy
-        </WuButton>
-      </div>
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

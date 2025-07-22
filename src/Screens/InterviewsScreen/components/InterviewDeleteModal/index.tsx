@@ -8,8 +8,9 @@ import {
   DeleteInterviewMutation,
   useDeleteInterviewMutation,
 } from '@/api/mutations/generated/deleteInterview.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IInterviewDeleteModal {
   isOpen: boolean;
@@ -53,17 +54,21 @@ const InterviewDeleteModal: FC<IInterviewDeleteModal> = ({
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPending}>
-      <DeleteModalTemplate
-        item={{ type: 'Interview', name: interview?.name || 'Interview' }}
-        handleClose={onHandleCloseModal}
-        handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isPending}
-      />
-    </CustomModal>
+      canCloseWithOutsideClick={!isPending}
+      headerTitle={`Delete ${interview?.name || 'Interview'}`}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPending}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }>
+      <DeleteModalTemplate item={{ type: 'Interview', name: interview?.name || 'Interview' }} />
+    </BaseWuModal>
   );
 };
 

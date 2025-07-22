@@ -6,8 +6,9 @@ import {
   DeleteBoardMutation,
   useDeleteBoardMutation,
 } from '@/api/mutations/generated/deleteBoard.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 
 interface IBoardDeleteModal {
   isOpen: boolean;
@@ -55,17 +56,26 @@ const BoardDeleteModal: FC<IBoardDeleteModal> = ({
   };
 
   return (
-    <CustomModal isOpen={isOpen} handleClose={handleClose} canCloseWithOutsideClick={!isPending}>
+    <BaseWuModal
+      headerTitle={'Delete board'}
+      isOpen={isOpen}
+      handleClose={handleClose}
+      canCloseWithOutsideClick={!isPending}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPending}
+          buttonName={'Delete'}
+          onClick={handleDeleteBoard}
+        />
+      }>
       <DeleteModalTemplate
         item={{
           type: 'Board',
           name: 'board',
         }}
-        handleClose={handleClose}
-        handleDelete={handleDeleteBoard}
-        isLoading={isPending}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

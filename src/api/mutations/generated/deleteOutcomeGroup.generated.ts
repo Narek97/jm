@@ -6,10 +6,7 @@ export type DeleteOutcomeGroupMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type DeleteOutcomeGroupMutation = { __typename?: 'Mutation', deleteOutcomeGroup: number };
-
-
+export type DeleteOutcomeGroupMutation = { __typename?: 'Mutation'; deleteOutcomeGroup: number };
 
 export const DeleteOutcomeGroupDocument = `
     mutation DeleteOutcomeGroup($id: Int!) {
@@ -17,17 +14,26 @@ export const DeleteOutcomeGroupDocument = `
 }
     `;
 
-export const useDeleteOutcomeGroupMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteOutcomeGroupMutation, TError, DeleteOutcomeGroupMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteOutcomeGroupMutation, TError, DeleteOutcomeGroupMutationVariables, TContext>(
-      {
+export const useDeleteOutcomeGroupMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteOutcomeGroupMutation,
+    TError,
+    DeleteOutcomeGroupMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    DeleteOutcomeGroupMutation,
+    TError,
+    DeleteOutcomeGroupMutationVariables,
+    TContext
+  >({
     mutationKey: ['DeleteOutcomeGroup'],
-    mutationFn: axiosRequest<DeleteOutcomeGroupMutation, DeleteOutcomeGroupMutationVariables>(DeleteOutcomeGroupDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<DeleteOutcomeGroupMutation, DeleteOutcomeGroupMutationVariables>(
+      DeleteOutcomeGroupDocument,
+    ),
+    ...options,
+  });
+};
 
 useDeleteOutcomeGroupMutation.getKey = () => ['DeleteOutcomeGroup'];

@@ -6,10 +6,7 @@ export type DeleteMapVersionMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type DeleteMapVersionMutation = { __typename?: 'Mutation', deleteMapVersion: boolean };
-
-
+export type DeleteMapVersionMutation = { __typename?: 'Mutation'; deleteMapVersion: boolean };
 
 export const DeleteMapVersionDocument = `
     mutation DeleteMapVersion($id: Int!) {
@@ -17,17 +14,23 @@ export const DeleteMapVersionDocument = `
 }
     `;
 
-export const useDeleteMapVersionMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteMapVersionMutation, TError, DeleteMapVersionMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteMapVersionMutation, TError, DeleteMapVersionMutationVariables, TContext>(
-      {
-    mutationKey: ['DeleteMapVersion'],
-    mutationFn: axiosRequest<DeleteMapVersionMutation, DeleteMapVersionMutationVariables>(DeleteMapVersionDocument),
-    ...options
-  }
-    )};
+export const useDeleteMapVersionMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteMapVersionMutation,
+    TError,
+    DeleteMapVersionMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<DeleteMapVersionMutation, TError, DeleteMapVersionMutationVariables, TContext>(
+    {
+      mutationKey: ['DeleteMapVersion'],
+      mutationFn: axiosRequest<DeleteMapVersionMutation, DeleteMapVersionMutationVariables>(
+        DeleteMapVersionDocument,
+      ),
+      ...options,
+    },
+  );
+};
 
 useDeleteMapVersionMutation.getKey = () => ['DeleteMapVersion'];

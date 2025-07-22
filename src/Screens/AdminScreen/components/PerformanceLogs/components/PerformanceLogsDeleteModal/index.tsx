@@ -4,8 +4,9 @@ import {
   DeletePerformanceMutation,
   useDeletePerformanceMutation,
 } from '@/api/mutations/generated/deletePerformancheLogs.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
 
 interface IPerformanceLogsDeleteModal {
@@ -41,18 +42,24 @@ const PerformanceLogsDeleteModal: FC<IPerformanceLogsDeleteModal> = ({ isOpen, h
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPendingDeletePerformanceLogs}>
+      canCloseWithOutsideClick={!isPendingDeletePerformanceLogs}
+      headerTitle={'Delete performance logs'}
+      isProcessing={isPendingDeletePerformanceLogs}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPendingDeletePerformanceLogs}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{ type: 'Performance logs', name: 'performance logs' }}
-        handleClose={onHandleCloseModal}
-        handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isPendingDeletePerformanceLogs}
         text={'Are you sure you want to delete all performance logs'}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

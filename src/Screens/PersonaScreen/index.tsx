@@ -407,15 +407,15 @@ const PersonaScreen = () => {
           pathname: '/workspaces',
         },
         {
-          name: personaInfo.workspaceName || '...',
+          name: personaInfo.workspaceName?.trim() || 'Untitled',
           pathname: `/workspace/${personaInfo.workspaceId}/boards`,
         },
         {
-          name: personaInfo.personaGroupName || '...',
+          name: personaInfo.personaGroupName?.trim() || 'Untitled',
           pathname: `/workspace/${personaInfo.workspaceId}/persona-group/${personaInfo.personaGroupId}`,
         },
         {
-          name: personaInfo.name || '...',
+          name: personaInfo.name?.trim() || 'Untitled',
           pathname: `/workspace/${personaInfo.workspaceId}/persona-group/${personaInfo.personaGroupId}/persona/${personaInfo.id}`,
         },
       ]);

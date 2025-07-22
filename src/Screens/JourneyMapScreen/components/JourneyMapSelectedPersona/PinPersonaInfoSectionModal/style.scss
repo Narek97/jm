@@ -2,10 +2,8 @@
 @use '@assets/styles/mixins' as *;
 
 .pin-persona-info-section {
-  width: 55.375rem;
   height: 32.5rem;
   color: $BASE_GRAY_COLOR;
-
 
   @media screen and (max-width: 900px) {
     width: 25rem;

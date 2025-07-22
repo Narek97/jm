@@ -9,8 +9,6 @@ const Organizations = lazy(() => import('./components/Organizations'));
 const Maps = lazy(() => import('./components/Maps'));
 const Users = lazy(() => import('./components/Users'));
 
-
-
 const ADMIN_TABS: TabType[] = [
   { label: 'Error Logs', value: 'error-logs' },
   { label: 'Performance Logs', value: 'performance-logs' },

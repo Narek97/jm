@@ -28,7 +28,7 @@ import {
 } from '@/api/mutations/generated/updateComment.generated.ts';
 import { ActionEnum, CommentAndNoteModelsEnum } from '@/api/types.ts';
 import EmptyCommentsIcon from '@/assets/public/base/emptyComments.svg';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { COMMENTS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -333,7 +333,7 @@ const CommentsDrawer: FC<ICommentsDrawer> = ({ onClose }) => {
 
   return (
     <div className={'comments-drawer'} data-testid="comments-drawer">
-      <CustomModalHeader title={'Comments'} />
+      <BaseWuModalHeader title={'Comments'} />
       <button onClick={handleCloseDrawer} aria-label={'close drawer'} className={'close-drawer'}>
         <span className={'wm-close'} />
       </button>

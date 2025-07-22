@@ -10,13 +10,11 @@ import {
   useUpdateAttachmentNameMutation,
 } from '@/api/mutations/generated/updateAttachmentName.generated.ts';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { IMAGE_ASPECT } from '@/constants';
 import { debounced400 } from '@/hooks/useDebounce.ts';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
 import { PERSONA_GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants.tsx';
 import { AttachmentType } from '@/types';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 interface IPersonaGalleryItem {
@@ -80,6 +78,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
       onHandleDelete,
     });
   }, [onHandleDelete, onHandleRename]);
+  console.log('options', options);
 
   useEffect(() => {
     if (isEditTitleModeOn && inputRef.current) {
@@ -155,27 +154,28 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
         </figcaption>
       )}
       <div className={'persona-gallery-modal--gallery--item--menu'}>
-        <CustomLongMenu
-          type={MenuViewTypeEnum.VERTICAL}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          options={options}
-          item={item}
-          buttonColor={'#00000'}
-          sxStyles={{
-            display: 'inline-block',
-            background: 'transparent',
-          }}
-          rootStyles={{
-            marginLeft: '0',
-          }}
-        />
+        {/*// Menu should be WuMenu (currently we have conflict between WuModal and Material's menu)*/}
+        {/*<CustomLongMenu*/}
+        {/*  type={MenuViewTypeEnum.VERTICAL}*/}
+        {/*  anchorOrigin={{*/}
+        {/*    vertical: 'bottom',*/}
+        {/*    horizontal: 'right',*/}
+        {/*  }}*/}
+        {/*  transformOrigin={{*/}
+        {/*    vertical: 'top',*/}
+        {/*    horizontal: 'right',*/}
+        {/*  }}*/}
+        {/*  options={options}*/}
+        {/*  item={item}*/}
+        {/*  buttonColor={'#00000'}*/}
+        {/*  sxStyles={{*/}
+        {/*    display: 'inline-block',*/}
+        {/*    background: 'transparent',*/}
+        {/*  }}*/}
+        {/*  rootStyles={{*/}
+        {/*    marginLeft: '0',*/}
+        {/*  }}*/}
+        {/*/>*/}
       </div>
     </figure>
   );

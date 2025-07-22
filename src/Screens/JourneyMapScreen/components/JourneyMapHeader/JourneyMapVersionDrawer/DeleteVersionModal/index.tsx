@@ -7,8 +7,9 @@ import {
   DeleteMapVersionMutation,
   useDeleteMapVersionMutation,
 } from '@/api/mutations/generated/deleteMapVersion.generated.ts';
-import CustomModal from '@/Components/Shared/CustomModal';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import DeleteModalTemplate from '@/Components/Shared/DeleteModalTemplate';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey';
 
 interface IDeleteVersionModal {
@@ -65,18 +66,24 @@ const DeleteVersionModal: FC<IDeleteVersionModal> = ({ isOpen, versionId, handle
   };
 
   return (
-    <CustomModal
+    <BaseWuModal
       isOpen={isOpen}
       handleClose={onHandleCloseModal}
-      canCloseWithOutsideClick={!isPending}>
+      canCloseWithOutsideClick={!isPending}
+      headerTitle={'Delete Version'}
+      isProcessing={isPending}
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPending}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{ type: 'version', name: 'Version' }}
-        handleClose={onHandleCloseModal}
-        handleDelete={onHandleDeleteWorkspaceItem}
-        isLoading={isPending}
         text={'Are you sure you want to delete version'}
       />
-    </CustomModal>
+    </BaseWuModal>
   );
 };
 

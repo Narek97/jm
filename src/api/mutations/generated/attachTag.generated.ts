@@ -6,10 +6,10 @@ export type AttachTagMutationVariables = Types.Exact<{
   attachTagInput: Types.AttachTagInput;
 }>;
 
-
-export type AttachTagMutation = { __typename?: 'Mutation', attachTag: { __typename?: 'Tags', id: number } };
-
-
+export type AttachTagMutation = {
+  __typename?: 'Mutation';
+  attachTag: { __typename?: 'Tags'; id: number };
+};
 
 export const AttachTagDocument = `
     mutation AttachTag($attachTagInput: AttachTagInput!) {
@@ -19,17 +19,14 @@ export const AttachTagDocument = `
 }
     `;
 
-export const useAttachTagMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AttachTagMutation, TError, AttachTagMutationVariables, TContext>) => {
-    
-    return useMutation<AttachTagMutation, TError, AttachTagMutationVariables, TContext>(
-      {
+export const useAttachTagMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<AttachTagMutation, TError, AttachTagMutationVariables, TContext>,
+) => {
+  return useMutation<AttachTagMutation, TError, AttachTagMutationVariables, TContext>({
     mutationKey: ['AttachTag'],
     mutationFn: axiosRequest<AttachTagMutation, AttachTagMutationVariables>(AttachTagDocument),
-    ...options
-  }
-    )};
+    ...options,
+  });
+};
 
 useAttachTagMutation.getKey = () => ['AttachTag'];

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
-import { Modal } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
@@ -52,9 +51,9 @@ import {
   useGetMapOutcomeGroupsForRowCreationQuery,
 } from '@/api/queries/generated/getOutcomeGroupsForMap.generated.ts';
 import { MapRowTypeEnum } from '@/api/types.ts';
+import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomModalFooterButtons from '@/Components/Shared/CustomModalFooterButtons';
-import CustomModalHeader from '@/Components/Shared/CustomModalHeader';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -616,11 +615,11 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         pathname: '/workspaces',
       },
       {
-        name: `${dataBoardById?.getBoardById.workspace.name || '...'}`,
+        name: `${dataBoardById?.getBoardById.workspace.name?.trim() || 'Untitled'}`,
         pathname: `/workspace/${dataBoardById?.getBoardById.workspace.id}/boards`,
       },
       {
-        name: `${dataBoardById?.getBoardById.name || '...'}`,
+        name: `${dataBoardById?.getBoardById.name?.trim() || 'Untitled'}`,
         pathname: `/board/${dataBoardById?.getBoardById.id}/journies`,
       },
       {
@@ -655,19 +654,23 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   return (
     <>
       {replaceMapUser && user?.userID !== replaceMapUser.userID && (
-        <Modal open={true}>
-          <div className={'version-modal'}>
-            <CustomModalHeader title={'Version'} />
+        <BaseWuModal
+          headerTitle={'Version'}
+          handleClose={() => {}}
+          modalSize={'sm'}
+          ModalConfirmButton={
+            <ModalConfirmButton
+              buttonName={'Reload'}
+              onClick={() => () => window.location.reload()}
+            />
+          }
+          isOpen={true}>
+          <div>
             <div className={'version-modal--content'}>
               <span>{replaceMapUser.emailAddress} changed map version</span>
             </div>
-
-            <CustomModalFooterButtons
-              handleSecondButtonClick={() => window.location.reload()}
-              secondButtonName={'Reload'}
-            />
           </div>
-        </Modal>
+        </BaseWuModal>
       )}
       <ErrorBoundary>
         <Drawer

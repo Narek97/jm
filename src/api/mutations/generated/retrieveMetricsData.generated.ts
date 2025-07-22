@@ -7,10 +7,43 @@ export type RetrieveMetricsDataMutationVariables = Types.Exact<{
   previous: Types.Scalars['Boolean']['input'];
 }>;
 
-
-export type RetrieveMetricsDataMutation = { __typename?: 'Mutation', retrieveMetricsData: { __typename?: 'MetricsResponse', rowId: number, columnId: number, id: number, name: string, commentsCount: number, descriptionEnabled: boolean, description?: string | null, type: Types.MetricsTypeEnum, value?: number | null, goal?: number | null, flippedText?: string | null, surveyId?: number | null, questionId?: number | null, source: Types.MetricsSourceEnum, startDate?: any | null, endDate?: any | null, dateRange?: Types.MetricsDateRangeEnum | null, overall: number, nps: number, csat: number, ces: number, x: number, y: number, z: number, persona?: { __typename?: 'personas', id: number, name: string, type: string, attachment?: { __typename?: 'Attachment', url: string, key: string } | null } | null } };
-
-
+export type RetrieveMetricsDataMutation = {
+  __typename?: 'Mutation';
+  retrieveMetricsData: {
+    __typename?: 'MetricsResponse';
+    rowId: number;
+    columnId: number;
+    id: number;
+    name: string;
+    commentsCount: number;
+    descriptionEnabled: boolean;
+    description?: string | null;
+    type: Types.MetricsTypeEnum;
+    value?: number | null;
+    goal?: number | null;
+    flippedText?: string | null;
+    surveyId?: number | null;
+    questionId?: number | null;
+    source: Types.MetricsSourceEnum;
+    startDate?: any | null;
+    endDate?: any | null;
+    dateRange?: Types.MetricsDateRangeEnum | null;
+    overall: number;
+    nps: number;
+    csat: number;
+    ces: number;
+    x: number;
+    y: number;
+    z: number;
+    persona?: {
+      __typename?: 'personas';
+      id: number;
+      name: string;
+      type: string;
+      attachment?: { __typename?: 'Attachment'; url: string; key: string } | null;
+    } | null;
+  };
+};
 
 export const RetrieveMetricsDataDocument = `
     mutation RetrieveMetricsData($id: Int!, $previous: Boolean!) {
@@ -52,17 +85,26 @@ export const RetrieveMetricsDataDocument = `
 }
     `;
 
-export const useRetrieveMetricsDataMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RetrieveMetricsDataMutation, TError, RetrieveMetricsDataMutationVariables, TContext>) => {
-    
-    return useMutation<RetrieveMetricsDataMutation, TError, RetrieveMetricsDataMutationVariables, TContext>(
-      {
+export const useRetrieveMetricsDataMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    RetrieveMetricsDataMutation,
+    TError,
+    RetrieveMetricsDataMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    RetrieveMetricsDataMutation,
+    TError,
+    RetrieveMetricsDataMutationVariables,
+    TContext
+  >({
     mutationKey: ['RetrieveMetricsData'],
-    mutationFn: axiosRequest<RetrieveMetricsDataMutation, RetrieveMetricsDataMutationVariables>(RetrieveMetricsDataDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<RetrieveMetricsDataMutation, RetrieveMetricsDataMutationVariables>(
+      RetrieveMetricsDataDocument,
+    ),
+    ...options,
+  });
+};
 
 useRetrieveMetricsDataMutation.getKey = () => ['RetrieveMetricsData'];
