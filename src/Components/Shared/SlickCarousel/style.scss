@@ -4,6 +4,7 @@
 .slick-carousel {
   .slick-slider {
     @include flex-center-center;
+    //width: calc(100dvw - 172px);
     gap: 1.25rem;
   }
 

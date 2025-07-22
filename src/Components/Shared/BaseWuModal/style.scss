@@ -63,3 +63,11 @@
 .custom {
   width: max-content;
 }
+
+.wu-modal-content {
+  display: contents !important;
+}
+
+.wu-modal-content > div > div > div {
+  display: initial !important;
+}

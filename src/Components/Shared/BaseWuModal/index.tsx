@@ -49,7 +49,10 @@ const BaseWuModal: FC<IBaseWuModal> = ({
         {headerTitle}
         {headerIcon}
       </WuModalHeader>
-      <WuModalContent>{children}</WuModalContent>
+      <div className={'wu-modal-content'}>
+        <WuModalContent>{children}</WuModalContent>
+      </div>
+
       {ModalConfirmButton && (
         <WuModalFooter>
           {cancelButton || (
