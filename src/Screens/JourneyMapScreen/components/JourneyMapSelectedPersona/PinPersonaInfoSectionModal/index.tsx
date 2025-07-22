@@ -21,7 +21,7 @@ import {
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useSetQueryDataByKeyAdvanced } from '@/hooks/useQueryKey.ts';
 import {
   PersonaDemographicInfoType,
@@ -213,7 +213,7 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
       modalSize={'lg'}>
       <div className={'pin-persona-info-section'}>
         {isFetchingDemographicInfos || isFetchingPersonaSections ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <div
             className={'pin-persona-info-section--content'}

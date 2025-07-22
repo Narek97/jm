@@ -9,8 +9,8 @@ import {
   GetWorkspaceBoardsQuery,
   useInfiniteGetWorkspaceBoardsQuery,
 } from '@/api/infinite-queries/generated/getWorkspaceBoards.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { BOARDS_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useCopyMapStore } from '@/store/copyMap';
@@ -115,7 +115,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
       <div className={'boards-list--content'}>
         {workspaceBoardsIsLoading && !renderedOrganizationBoardsData?.length ? (
           <div className={'boards-list-loading-section'}>
-            <CustomLoader />
+            <WuBaseLoader />
           </div>
         ) : (
           <>

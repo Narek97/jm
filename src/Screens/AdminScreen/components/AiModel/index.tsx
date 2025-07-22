@@ -13,9 +13,9 @@ import {
   useGetAiJourneyModelsQuery,
 } from '@/api/queries/generated/getAiJourneyModels.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { AI_MODEL_LIMIT } from '@/constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -234,7 +234,7 @@ const AiModel = () => {
       </div>
 
       {isLoadingAiModels && !dataAiModels ? (
-        <CustomLoader />
+        <WuBaseLoader />
       ) : (
         <>
           {aiJourneyModels.length ? (

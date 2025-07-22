@@ -14,11 +14,11 @@ import {
 import { OrderByEnum } from '@/api/types';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { JOURNIES_LIMIT } from '@/constants/pagination.ts';
 import { useSetQueryDataByKey } from '@/hooks/useQueryKey.ts';
@@ -203,7 +203,7 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
         )}
 
         {(isLoadingGetJourneys || isFetchingGetJourneys) && !journeysData.length ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : journeysData?.length ? (
           <div
             style={{

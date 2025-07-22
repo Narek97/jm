@@ -10,7 +10,7 @@ import {
   useInfiniteGetMapLogsQuery,
 } from '@/api/infinite-queries/generated/getMapLogs.generated';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNEY_MAP_HISTORY_LIMIT } from '@/constants/pagination.ts';
 import HistoryCard from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/JourneyMapHistoryDrawer/HistoryCard';
 import { MapLogsType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
@@ -99,7 +99,7 @@ const HistoryDrawer: FC<IHistoryDrawer> = ({ mapID, onHandleClose }) => {
         {historyIsFetchingNextPage && (
           <div
             className={renderedHistoryData.length ? 'history-drawer--relative-loading-block' : ''}>
-            <CustomLoader />
+            <WuBaseLoader />
           </div>
         )}
       </div>

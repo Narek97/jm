@@ -6,8 +6,8 @@ import WorkspaceItem from './WorkspaceItem';
 
 import { useGetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated';
 import { GetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated.ts';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useCopyMapStore } from '@/store/copyMap.ts';
@@ -77,7 +77,7 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
             <div className={'workspaces-list--content'}>
               {isLoadingWorkspaces && !workspaces?.length ? (
                 <div className={'workspaces-list-loading-section'}>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </div>
               ) : (
                 <>

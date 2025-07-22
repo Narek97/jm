@@ -25,10 +25,10 @@ import {
 } from '@/api/queries/generated/getOutcomeGroups.generated.ts';
 import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { DEFAULT_OUTCOME_ICON, querySlateTime } from '@/constants';
 import { OUTCOME_GROUPS_LIMIT } from '@/constants/pagination.ts';
 import {
@@ -423,7 +423,7 @@ const Outcomes = () => {
         </div>
       </div>
 
-      {isLoadingOutcomes && <CustomLoader />}
+      {isLoadingOutcomes && <WuBaseLoader />}
 
       {!isLoadingOutcomes && !isLoadingDeleteOrUpdateOutcome && !outcomeGroups.length && (
         <EmptyDataInfo message="There are no outcomes yet" />

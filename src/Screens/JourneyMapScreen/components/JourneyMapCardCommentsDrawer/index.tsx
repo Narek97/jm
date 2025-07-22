@@ -29,7 +29,7 @@ import {
 import { ActionEnum, CommentAndNoteModelsEnum } from '@/api/types.ts';
 import EmptyCommentsIcon from '@/assets/public/base/emptyComments.svg';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { COMMENTS_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import CommentItem from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/CommentItem';
@@ -342,7 +342,7 @@ const CommentsDrawer: FC<ICommentsDrawer> = ({ onClose }) => {
         <div className="comments-drawer--comments-block" ref={containerRef}>
           {isLoadingComments ? (
             <div>
-              <CustomLoader />
+              <WuBaseLoader />
             </div>
           ) : comments?.length ? (
             comments?.map((commentItem, index) => (

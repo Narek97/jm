@@ -6,7 +6,7 @@ import {
   useGetUserLastPerformanceLogQuery,
 } from '@/api/queries/generated/getUserLastPerformanceLog.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 
 interface ILastLogQueryModal {
   isOpen: boolean;
@@ -48,7 +48,7 @@ const LastLogQueryModal: FC<ILastLogQueryModal> = ({ handleClose, isOpen }) => {
       modalSize={'md'}>
       <div className={'last-user-query-modal'} data-testid="last-user-query-modal-test-id">
         {isLoadingQuery ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <>
             <div className={'last-user-query-modal--query-item'}>

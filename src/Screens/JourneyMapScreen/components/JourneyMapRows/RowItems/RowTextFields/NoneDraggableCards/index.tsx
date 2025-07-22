@@ -10,7 +10,7 @@ import UnMergeColumnsButton from '../../../components/UnmergeColumnsBtn';
 
 import InsightsIcon from '@/assets/public/mapRow/insights.svg';
 import TextIcon from '@/assets/public/mapRow/text.svg';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { TOKEN_NAME } from '@/constants';
 import { debounced600 } from '@/hooks/useDebounce.ts';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
@@ -154,7 +154,7 @@ const NoneDraggableCards: FC<INoneDraggableCards> = memo(
               <>
                 {boxItem.isLoading ? (
                   <div className={'journey-map-row--loading'}>
-                    <CustomLoader />
+                    <WuBaseLoader />
                   </div>
                 ) : (
                   <div

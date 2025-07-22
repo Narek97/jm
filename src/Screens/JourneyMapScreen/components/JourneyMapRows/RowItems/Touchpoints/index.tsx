@@ -8,7 +8,7 @@ import { useParams } from '@tanstack/react-router';
 import TouchpointCard from './TouchpointCard';
 
 import CardFlip from '@/Components/Shared/CardFlip';
-import CustomLoader from '@/Components/Shared/CustomLoader';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import AddRowBoxElementBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/AddRowBoxElementBtn';
 import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
@@ -78,7 +78,7 @@ const Touchpoints: FC<ITouchpoints> = ({ width, row, rowIndex, disabled }) => {
             <>
               {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'}>
-                  <CustomLoader />
+                  <WuBaseLoader />
                 </div>
               ) : (
                 <Droppable

@@ -17,10 +17,10 @@ import {
   useGetPersonaGroupsWithPersonasQuery,
 } from '@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EditableItemForm from '@/Components/Shared/EditableItemForm';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { PERSONA_GROUP_LIMIT } from '@/constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -286,7 +286,7 @@ const PersonaGroups = () => {
       </div>
       <div className={'persona-groups--body'}>
         {isPendingPersonaGroups ? (
-          <CustomLoader />
+          <WuBaseLoader />
         ) : (
           <>
             {personaGroups.length ? (

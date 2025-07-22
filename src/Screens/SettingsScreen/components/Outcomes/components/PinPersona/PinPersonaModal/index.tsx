@@ -15,8 +15,8 @@ import {
   useGetWorkspacesByOrganizationIdQuery,
 } from '@/api/queries/generated/getWorkspaces.generated';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import CustomLoader from '@/Components/Shared/CustomLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
+import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/constants';
 import { WORKSPACES_LIMIT } from '@/constants/pagination';
 import { useOutcomePinBoardsStore } from '@/store/outcomePinBoards';
@@ -144,7 +144,7 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
                 <div className={'workspaces-list--content'}>
                   {isLoadingWorkspaces && !workspaces?.length ? (
                     <div className={'workspaces-list-loading-section'}>
-                      <CustomLoader />
+                      <WuBaseLoader />
                     </div>
                   ) : (
                     <>
