@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journeys {
   padding: 0.5rem 2rem 0;
@@ -67,6 +67,7 @@
         height: 2rem;
         @include flex-center-center;
         cursor: pointer;
+
         .wm-graph-2 {
           &::before {
             width: 2rem;
@@ -74,6 +75,7 @@
           }
         }
       }
+
       .active-tab {
         background: #eeeeee;
       }
@@ -84,10 +86,12 @@
     height: calc(100% - 8.5rem);
     overflow-y: auto;
     overflow-x: hidden;
+
     .table-title-column {
       display: flex;
       cursor: pointer;
       color: #1b87e6;
+
       svg {
         @include svg-fill(#1b87e6);
         margin-right: 0.4rem;

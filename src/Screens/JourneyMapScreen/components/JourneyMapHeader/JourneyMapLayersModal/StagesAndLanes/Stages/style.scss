@@ -1,9 +1,10 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .columns-content-summary {
   position: relative;
   min-height: 20px;
+
   .wu-loader-section {
     top: 6px;
   }

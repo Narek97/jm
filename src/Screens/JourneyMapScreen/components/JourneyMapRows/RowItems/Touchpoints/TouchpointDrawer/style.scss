@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .add-touchpoint-drawer {
   display: flex;
@@ -48,6 +48,7 @@
 
   &--tabs {
     height: calc(100dvh - 22.25rem);
+
     .MuiTabs-indicator {
       left: 0;
     }
@@ -55,6 +56,7 @@
 
   &--selected-touchpoints {
     margin-top: 1rem;
+
     &--title {
       font-size: 0.75rem;
       color: $BASE_GRAY_COLOR;

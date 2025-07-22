@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .card-header {
   @include flex-center-between;
@@ -44,6 +44,7 @@
 
   &--right-block {
     flex: 1;
+
     button {
       width: 1.5rem;
       height: 1.5rem;
@@ -83,6 +84,7 @@
       button {
         @include svg-fill(white);
         color: #e9ebf2;
+
         &:hover {
           background-color: rgba(255, 255, 255, 0.3);
         }

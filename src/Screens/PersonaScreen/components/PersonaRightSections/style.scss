@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .persona-sections {
   &--skeletons {
@@ -125,12 +125,14 @@
           .persona-sections--section-menu--hide-btn {
             opacity: 1 !important;
             pointer-events: auto;
+
             * {
               opacity: 1;
             }
           }
         }
       }
+
       &-input-block {
         opacity: 0.3;
       }

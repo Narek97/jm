@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .custom-vertical-menu {
   display: none;
@@ -50,6 +50,7 @@
       &:hover {
         color: #1b3380;
         background-color: #eeeeee;
+
         .custom-vertical-menu--menu-item-content-icon {
           @include svg-fill(#1b3380);
         }

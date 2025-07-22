@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .image-card {
   position: relative;
@@ -12,6 +12,7 @@
     .image-card--header {
       visibility: visible;
     }
+
     .wm-more-vert {
       color: $BASE_WHITE-COLOR !important;
     }
@@ -23,6 +24,7 @@
 
   &--header {
     @include video-image-header();
+
     &--tag {
       color: $BASE_WHITE-COLOR;
       @include svg-fill($BASE-WHITE-COLOR);

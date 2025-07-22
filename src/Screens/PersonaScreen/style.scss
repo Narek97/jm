@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .persona-container {
   height: 100%;
@@ -12,16 +12,19 @@
     height: 2rem;
     border: 0.0625rem solid $BASE_BLUE_COLOR;
     border-radius: 0.25rem;
+
     .wm-download {
       color: $BASE_GRAY_COLOR;
       font-size: 1.2rem;
     }
+
     &:hover {
       .wm-download {
         color: $BASE_BLUE_COLOR;
       }
     }
   }
+
   .persona-header--download-section-btn {
     border: none;
   }

@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journey-map--layers-modal--content--right-columns-rows {
   display: flex;
@@ -8,6 +8,7 @@
   gap: 0;
   position: relative;
   justify-content: space-between;
+
   .rows {
     width: calc(33% - 1.5rem);
     margin-right: 1.5rem;

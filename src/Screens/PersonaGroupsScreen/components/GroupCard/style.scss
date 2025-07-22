@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .group-card {
   display: flex;
@@ -12,32 +12,38 @@
   overflow: auto;
 
   @include card-borders;
+
   &--left {
     max-width: 17.625rem;
     min-width: 12rem;
     width: 100%;
   }
+
   &--right,
   &--right-personas {
     @include flex-center;
     gap: 1rem;
     height: 100%;
   }
+
   &--persona-card {
     width: 15rem;
     height: 100%;
     padding: 1rem 2.5rem 1rem 1.5rem;
     @include card-borders;
     @include flex-column-between;
+
     &--name {
       @include reduce-text(100%);
       font-weight: 500;
       color: $BASE_BLUE_COLOR;
     }
+
     &--type {
       font-size: 0.75rem;
     }
   }
+
   &--no-persona-info {
     @include flex-center;
     height: 100%;

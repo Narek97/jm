@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .create-update-link-modal {
   padding: 1rem;
@@ -29,5 +29,6 @@
       flex: 1;
     }
   }
+
   @include base-modal-footer();
 }

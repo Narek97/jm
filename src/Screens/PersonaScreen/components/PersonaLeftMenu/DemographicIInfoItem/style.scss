@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .demographic-info-item {
   &:hover {
@@ -22,6 +22,7 @@
     min-height: 2rem;
     @include flex-center-between;
     font-size: 0.75rem;
+
     .custom-vertical-menu {
       &--btn {
         min-width: 2rem;
@@ -32,17 +33,21 @@
     &-actions {
       display: flex;
       gap: 0.2rem;
+
       .custom-vertical-menu {
         display: block;
         visibility: hidden;
+
         &-open {
           background: $BASE_LIGHT-GRAY-COLOR;
         }
+
         &:hover {
           @include svg-fill(#1b3380);
         }
       }
     }
+
     .hide-show-info-button {
       @include flex-center-center;
       visibility: hidden;
@@ -50,6 +55,7 @@
       height: 2rem;
       @include flex-center-center;
       border-radius: 0.14rem;
+
       &:hover {
         background: rgba(0, 0, 0, 0.1);
         @include svg-fill(#1b3380);
@@ -74,10 +80,12 @@
     @include flex-center-center;
     gap: 0.5rem;
     width: 100%;
+
     .hide-show-info-button {
       width: 1.875rem;
       height: 1.875rem;
       cursor: pointer;
+
       &:hover {
         background: $BASE_LIGHT-GRAY-COLOR;
         @include svg-fill(#1b3380);

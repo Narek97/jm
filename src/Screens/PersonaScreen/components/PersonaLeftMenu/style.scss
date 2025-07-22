@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .persona-left-menu {
   &--content {
@@ -28,6 +28,7 @@
     font-size: $BASE_FONT-SIZE;
     display: flex;
     flex-direction: column;
+
     .wheel-color-picker {
       top: 3rem !important;
       left: -1.8rem !important;
@@ -63,6 +64,7 @@
     background: $BASE_WHITE-COLOR;
     border-radius: 0.5rem;
     padding: 0.5rem;
+
     .delete-demographic-info-section {
       width: 2rem;
       height: 2rem;
@@ -70,6 +72,7 @@
       @include flex-center-center;
       right: 1rem;
       top: 1rem;
+
       &:hover {
         @include svg-fill($BASE_BLUE_COLOR);
       }

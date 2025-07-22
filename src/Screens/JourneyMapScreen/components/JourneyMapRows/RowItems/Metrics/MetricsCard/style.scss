@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .metrics-item {
   border-bottom-left-radius: 0.125rem;
@@ -73,6 +73,7 @@
       @include flex-center-center;
       top: 87%;
       flex-direction: column;
+
       &--block {
         line-height: normal;
       }

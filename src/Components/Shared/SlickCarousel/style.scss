@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .slick-carousel {
   .slick-slider {
@@ -29,9 +29,11 @@
       color: $BASE_GRAY_COLOR_2;
     }
   }
+
   .slick-prev {
     left: 0;
   }
+
   .slick-next {
     right: 0;
   }

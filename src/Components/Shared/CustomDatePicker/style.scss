@@ -1,26 +1,32 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .custom-date-picker {
   .react-datepicker__triangle {
     display: none;
   }
+
   .react-datepicker__current-month {
     display: none;
   }
+
   .react-datepicker {
     border: none;
   }
+
   .react-datepicker__header {
     background-color: transparent;
     border: none;
   }
+
   .react-datepicker__month-container {
     width: 15.75rem;
   }
+
   .react-datepicker__month {
     margin: 0;
   }
+
   .react-datepicker__day-name,
   .react-datepicker__day {
     text-align: center;
@@ -63,8 +69,10 @@
     background-color: $BASE_BLUE_COLOR;
     border-radius: 0;
   }
+
   .react-datepicker__day--keyboard-selected {
     background-color: #c2c2e3;
+
     &:hover {
       color: $BASE-WHITE-COLOR;
       background-color: $BASE_BLUE_COLOR;

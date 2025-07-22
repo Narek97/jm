@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journey-map--layers-modal {
   width: 66dvw;
@@ -30,14 +30,17 @@
 
           &:hover {
             background-color: $BASE-EXTRA-LIGHT-GRAY;
+
             .wm-more-vert {
               display: flex;
             }
+
             .custom-vertical-menu {
               display: block;
               @include svg-fill(#545e6b);
             }
           }
+
           .wm-more-vert {
             display: none;
             min-width: 2rem;

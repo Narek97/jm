@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .copy-map-modal {
   &--info {
@@ -7,6 +7,7 @@
     margin: 1rem 0 0 1.375rem;
     font-weight: 600;
   }
+
   &--footer {
     padding: 1.25rem;
     display: flex;

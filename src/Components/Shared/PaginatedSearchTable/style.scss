@@ -1,15 +1,18 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .paginated-search-table {
   margin-top: 1.25rem;
+
   &--top-section {
     @include flex-center-between;
     width: 100%;
     gap: 2rem;
+
     &--params {
       @include flex-center;
       gap: 2rem;
+
       &--date-picker {
         @include flex-center;
         justify-content: space-between;
@@ -19,6 +22,7 @@
         background-color: $BASE-LIGHT-GRAY-COLOR;
         cursor: pointer;
       }
+
       &--date-picker-block {
         display: flex;
         gap: 0.5rem;

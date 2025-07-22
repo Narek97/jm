@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .image-sections {
   width: 100%;
@@ -7,6 +7,7 @@
   .avatar {
     width: 100%;
     border-radius: 0.25rem;
+
     &-border {
       border-radius: 0.5rem;
       overflow: hidden;

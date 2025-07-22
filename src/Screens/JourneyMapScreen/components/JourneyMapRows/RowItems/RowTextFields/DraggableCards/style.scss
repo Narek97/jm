@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .cons-pros-interaction {
   border-bottom: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
@@ -41,6 +41,7 @@
   .card-header--menu {
     visibility: visible;
     opacity: 1;
+
     .custom-vertical-menu {
       display: block;
     }

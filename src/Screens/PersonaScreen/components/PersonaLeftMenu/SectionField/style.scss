@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .field-section {
   position: relative;
@@ -7,6 +7,7 @@
   border-radius: 0.3rem;
   margin-bottom: 1rem;
   background: $BASE_WHITE-COLOR;
+
   &:hover {
     .field-section--drag {
       visibility: visible;
@@ -17,6 +18,7 @@
       visibility: visible;
     }
   }
+
   &--drag {
     visibility: hidden;
   }
@@ -27,6 +29,7 @@
 
   &-header {
     position: relative;
+
     &--options-block {
       position: absolute;
       top: 0;
@@ -35,6 +38,7 @@
       display: flex;
       justify-content: end;
     }
+
     &--input {
       width: calc(100% - 5rem);
     }
@@ -44,6 +48,7 @@
     background: #f4f4f4;
     border-radius: 0.2rem;
     padding: 0.6rem !important;
+
     &::before {
       left: 0.6rem !important;
     }
@@ -57,12 +62,14 @@
     min-width: 7.5rem;
     overflow: hidden;
     cursor: pointer;
+
     img {
       border-radius: 0.2rem;
     }
 
     .avatar-border {
       padding: 0;
+
       &-content {
         width: 100%;
       }

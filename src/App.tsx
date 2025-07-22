@@ -1,6 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 
-import '@assets/styles/base.scss';
+import '@/Assets/styles/base.scss';
 import '@npm-questionpro/wick-ui-icon/dist/wu-icon.css';
 import '@npm-questionpro/wick-ui-lib/dist/style.css';
 import ReactQueryProvider from '@/Providers/react-query-provider.tsx';

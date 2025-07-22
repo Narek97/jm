@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .video-card {
   position: relative;
@@ -11,12 +11,15 @@
     .video-card--header {
       visibility: visible;
     }
+
     .custom-vertical-menu {
       display: flex;
     }
+
     .card-header--tag {
       @include svg-fill($BASE-WHITE-COLOR);
     }
+
     .wm-more-vert {
       color: $BASE_WHITE-COLOR !important;
     }

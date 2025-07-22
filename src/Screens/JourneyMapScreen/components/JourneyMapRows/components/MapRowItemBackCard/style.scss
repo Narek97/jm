@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 @include map-item-quill();
 
@@ -7,6 +7,7 @@
   min-height: 6.25rem;
   border-radius: 0.125rem;
   border: 1px solid $BASE_GRAY_COLOR;
+
   &--header {
     @include flex-center;
     height: 2rem;

@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journeys-filter {
   &--button {
@@ -24,6 +24,7 @@
       width: 90%;
       background-color: #ffffff;
     }
+
     &--go-back-btn {
       @include flex-center;
       color: $BASE_BLUE_COLOR;
@@ -59,6 +60,7 @@
         @include reduce-text(100%);
         max-width: 8.75rem;
       }
+
       .empty-data-info {
         margin-top: 0 !important;
         min-height: fit-content !important;

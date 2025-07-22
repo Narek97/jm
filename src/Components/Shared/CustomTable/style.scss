@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .custom-table {
   @include main-scrollbar;
@@ -20,6 +20,7 @@
         font-size: 0.75rem;
         font-weight: 500;
         color: $BASE_GRAY_COLOR;
+
         svg {
           cursor: pointer;
         }
@@ -30,6 +31,7 @@
   tbody {
     tr {
       border-radius: 0.25rem;
+
       .custom-vertical-menu {
         display: flex;
       }
@@ -60,11 +62,13 @@
         td {
           background-color: $BASE-LIGHT-GRAY-COLOR;
         }
+
         .operations {
           visibility: visible;
         }
       }
     }
+
     .processing-item {
       td {
         pointer-events: none;
@@ -87,6 +91,7 @@
   &--body-item {
     width: fit-content;
     white-space: nowrap;
+
     &-sort {
       display: flex;
       flex-direction: column;

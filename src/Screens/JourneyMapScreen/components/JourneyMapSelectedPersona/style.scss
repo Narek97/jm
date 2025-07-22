@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journey-map-selected-persona {
   min-width: 20.5rem;
@@ -20,33 +20,40 @@
       flex-direction: column;
       gap: 0.5rem;
     }
+
     &--name,
     &--type {
       width: 80%;
       @include reduce-text(15rem);
       height: 2rem;
     }
+
     &--name {
       font-size: 1.5rem;
       color: $BASE_BLUE_COLOR;
     }
+
     &--type {
       text-transform: capitalize;
     }
+
     &--close {
       position: absolute;
       top: 0.25rem;
       right: 0.75rem;
       padding: 0.25rem;
+
       &:hover {
         background-color: $BASE_BG_COLOR;
       }
     }
+
     &--settings {
       position: absolute;
       right: 0.75rem;
       bottom: 0.5rem;
       padding: 0.25rem;
+
       &:hover {
         background-color: $BASE_BG_COLOR;
       }
@@ -86,6 +93,7 @@
       height: 2rem;
       padding: 0.5rem;
       background-color: $BASE_BG_COLOR;
+
       &--title {
         font-size: 0.875rem;
         font-weight: 500;
@@ -121,6 +129,7 @@
       display: flex;
       justify-content: space-between;
       border-bottom: 0.0625rem solid $BASE-LIGHT-GRAY-COLOR-2;
+
       &--title {
         font-size: 0.875rem;
         font-weight: 500;
@@ -137,6 +146,7 @@
     &--collapse-btn {
       @include flex-center-center;
       width: 1.25rem;
+
       .wm-keyboard-arrow-down {
         transform: rotate(180deg);
       }

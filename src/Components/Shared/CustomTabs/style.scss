@@ -1,10 +1,12 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .custom-tabs {
   width: 100%;
+
   &--content {
     position: relative;
+
     .tabs-divider-line {
       position: absolute;
       bottom: 0;

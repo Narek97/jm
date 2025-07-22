@@ -1,11 +1,12 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 @include map-item-quill();
 
 .map-item-back-card {
   min-height: 6.25rem;
   border-radius: 0.125rem;
+
   &--header {
     @include flex-center;
     height: 2rem;
@@ -14,6 +15,7 @@
     background-color: #3d3d3d;
   }
 }
+
 .ql-editor {
   &::before {
     left: 1rem !important;

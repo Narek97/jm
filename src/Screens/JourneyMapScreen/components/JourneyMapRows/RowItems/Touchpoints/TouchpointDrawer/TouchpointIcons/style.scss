@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .touchpoint-icons {
   position: relative;
@@ -39,12 +39,15 @@
     border-radius: 0.125rem;
     border: 0.0625rem solid $BASE-EXTRA-LIGHT-GRAY-2;
     cursor: pointer;
+
     &:hover {
       .touchpoint--menu .custom-vertical-menu {
         display: flex;
       }
+
       border-color: $BASE_BLUE_COLOR;
     }
+
     .touchpoint--menu {
       position: absolute;
       top: 0.25rem;

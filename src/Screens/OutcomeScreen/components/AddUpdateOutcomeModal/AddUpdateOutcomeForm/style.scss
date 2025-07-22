@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .add-update-outcome {
   &-modal-header {
@@ -24,6 +24,7 @@
           &--content {
             @include flex-center-center;
           }
+
           .validation-error {
             margin-top: 0.625rem;
             margin-left: 5.875rem;

@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .modal-header {
   @include flex-center-center;
@@ -15,9 +15,11 @@
     font-size: 1.125rem;
     font-weight: 500;
     color: $BASE_GRAY_COLOR;
+
     &:first-letter {
       text-transform: uppercase;
     }
+
     @include reduce-text(85%);
   }
 

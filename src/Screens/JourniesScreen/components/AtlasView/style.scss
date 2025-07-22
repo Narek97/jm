@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .atlas-view--maps {
   margin-top: 1rem;
@@ -8,6 +8,7 @@
   justify-content: start;
   gap: 2rem;
   flex-wrap: wrap;
+
   &--item {
     width: 18%;
     min-height: 2rem !important;

@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .unmerge-column {
   min-width: 1.875rem;
@@ -32,5 +32,6 @@
     margin-bottom: 2.25rem;
     color: rgba(84, 94, 107, 1);
   }
+
   @include base-modal-footer;
 }

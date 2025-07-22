@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journeys-contains-current-maps {
   padding: 1rem;
@@ -67,6 +67,7 @@
             font-size: $BASE_FONT-SIZE;
           }
         }
+
         .persona-images {
           min-width: 10.625rem;
           justify-content: flex-end;

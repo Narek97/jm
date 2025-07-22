@@ -1,7 +1,8 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 @include map-item-quill();
+
 .ql-editor.ql-blank::before {
   left: 1.5rem !important;
 }
@@ -22,6 +23,7 @@
   .ql-editor {
     padding: 0;
     height: 100% !important;
+
     &:focus {
       border-bottom: 0.0625rem solid;
     }

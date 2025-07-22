@@ -1,13 +1,15 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .technical-problem {
   @include absolute-center;
   color: $BASE_GRAY_COLOR;
   text-align: center;
+
   &--title {
     font-size: 1.5rem;
   }
+
   &--sub-title {
     font-size: 0.75rem;
     margin-top: 0.625rem;

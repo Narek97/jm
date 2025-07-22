@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journey-map-header {
   background-color: $BASE_WHITE-COLOR;
@@ -14,6 +14,7 @@
     display: flex;
     flex: 1;
     gap: 0.5rem;
+
     .child-parent-map-icon {
       &:hover {
         @include svg-fill(#1b3380);
@@ -65,6 +66,7 @@
         @include flex-center-center;
         width: 1.5rem;
         height: 1.5rem;
+
         &:hover {
           @include svg-fill(#1b3380);
           background-color: #eeeeee;

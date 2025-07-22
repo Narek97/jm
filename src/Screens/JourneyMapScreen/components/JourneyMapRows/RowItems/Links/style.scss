@@ -1,8 +1,9 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .journey-map-links {
   @include map-row();
+
   div:has(div .guest-view-link-item) {
     .add-row-box-element-button,
     .unmerge-column {

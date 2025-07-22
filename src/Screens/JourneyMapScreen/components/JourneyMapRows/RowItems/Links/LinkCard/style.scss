@@ -1,5 +1,5 @@
-@use '@assets/styles/variables' as *;
-@use '@assets/styles/mixins' as *;
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
 
 .link-item {
   position: relative;
@@ -10,6 +10,7 @@
 
   &--content {
     padding: 0.5rem;
+
     a {
       color: $BASE_GRAY_COLOR;
     }
