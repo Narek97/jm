@@ -6,10 +6,10 @@ export type RetrieveColumnStepMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type RetrieveColumnStepMutation = { __typename?: 'Mutation', retrieveColumnStep: { __typename?: 'ColumnStep', id: number } };
-
-
+export type RetrieveColumnStepMutation = {
+  __typename?: 'Mutation';
+  retrieveColumnStep: { __typename?: 'ColumnStep'; id: number };
+};
 
 export const RetrieveColumnStepDocument = `
     mutation RetrieveColumnStep($id: Int!) {
@@ -19,17 +19,26 @@ export const RetrieveColumnStepDocument = `
 }
     `;
 
-export const useRetrieveColumnStepMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RetrieveColumnStepMutation, TError, RetrieveColumnStepMutationVariables, TContext>) => {
-    
-    return useMutation<RetrieveColumnStepMutation, TError, RetrieveColumnStepMutationVariables, TContext>(
-      {
+export const useRetrieveColumnStepMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    RetrieveColumnStepMutation,
+    TError,
+    RetrieveColumnStepMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    RetrieveColumnStepMutation,
+    TError,
+    RetrieveColumnStepMutationVariables,
+    TContext
+  >({
     mutationKey: ['RetrieveColumnStep'],
-    mutationFn: axiosRequest<RetrieveColumnStepMutation, RetrieveColumnStepMutationVariables>(RetrieveColumnStepDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<RetrieveColumnStepMutation, RetrieveColumnStepMutationVariables>(
+      RetrieveColumnStepDocument,
+    ),
+    ...options,
+  });
+};
 
 useRetrieveColumnStepMutation.getKey = () => ['RetrieveColumnStep'];

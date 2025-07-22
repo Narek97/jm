@@ -6,10 +6,7 @@ export type DeleteColumnStepMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type DeleteColumnStepMutation = { __typename?: 'Mutation', removeColumnStep: number };
-
-
+export type DeleteColumnStepMutation = { __typename?: 'Mutation'; removeColumnStep: number };
 
 export const DeleteColumnStepDocument = `
     mutation DeleteColumnStep($id: Int!) {
@@ -17,17 +14,23 @@ export const DeleteColumnStepDocument = `
 }
     `;
 
-export const useDeleteColumnStepMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteColumnStepMutation, TError, DeleteColumnStepMutationVariables, TContext>) => {
-    
-    return useMutation<DeleteColumnStepMutation, TError, DeleteColumnStepMutationVariables, TContext>(
-      {
-    mutationKey: ['DeleteColumnStep'],
-    mutationFn: axiosRequest<DeleteColumnStepMutation, DeleteColumnStepMutationVariables>(DeleteColumnStepDocument),
-    ...options
-  }
-    )};
+export const useDeleteColumnStepMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteColumnStepMutation,
+    TError,
+    DeleteColumnStepMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<DeleteColumnStepMutation, TError, DeleteColumnStepMutationVariables, TContext>(
+    {
+      mutationKey: ['DeleteColumnStep'],
+      mutationFn: axiosRequest<DeleteColumnStepMutation, DeleteColumnStepMutationVariables>(
+        DeleteColumnStepDocument,
+      ),
+      ...options,
+    },
+  );
+};
 
 useDeleteColumnStepMutation.getKey = () => ['DeleteColumnStep'];

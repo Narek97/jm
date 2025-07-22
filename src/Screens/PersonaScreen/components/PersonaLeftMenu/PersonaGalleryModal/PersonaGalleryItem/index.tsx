@@ -78,7 +78,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
       onHandleDelete,
     });
   }, [onHandleDelete, onHandleRename]);
-  console.log("options", options)
+  console.log('options', options);
 
   useEffect(() => {
     if (isEditTitleModeOn && inputRef.current) {

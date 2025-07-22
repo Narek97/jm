@@ -48,8 +48,13 @@ const PerformanceLogsDeleteModal: FC<IPerformanceLogsDeleteModal> = ({ isOpen, h
       canCloseWithOutsideClick={!isPendingDeletePerformanceLogs}
       headerTitle={'Delete performance logs'}
       isProcessing={isPendingDeletePerformanceLogs}
-      ModalConfirmButton={<ModalConfirmButton disabled={isPendingDeletePerformanceLogs} buttonName={'Delete'}  onClick={onHandleDeleteWorkspaceItem}/>}
-    >
+      ModalConfirmButton={
+        <ModalConfirmButton
+          disabled={isPendingDeletePerformanceLogs}
+          buttonName={'Delete'}
+          onClick={onHandleDeleteWorkspaceItem}
+        />
+      }>
       <DeleteModalTemplate
         item={{ type: 'Performance logs', name: 'performance logs' }}
         text={'Are you sure you want to delete all performance logs'}

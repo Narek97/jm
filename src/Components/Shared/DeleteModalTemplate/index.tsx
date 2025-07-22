@@ -5,10 +5,7 @@ interface IDeleteModalTemplate {
   text?: string;
 }
 
-const DeleteModalTemplate: FC<IDeleteModalTemplate> = ({
-  item,
-  text,
-}) => {
+const DeleteModalTemplate: FC<IDeleteModalTemplate> = ({ item, text }) => {
   return (
     <div className={'delete-modal-template'}>
       <div className={'custom-modal-content'}>

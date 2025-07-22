@@ -5,7 +5,11 @@ import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-l
 
 import CreateUpdateOutcome from './components/CreateUpdateOutcome';
 import SearchNounProjectIcon from './components/SearchNounProjectIcon';
-import { DEFAULT_GET_OUTCOMES_PARAMS, OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS } from './constants';
+import {
+  DEFAULT_GET_OUTCOMES_PARAMS,
+  OUTCOME_OPTIONS,
+  WORKSPACE_OUTCOMES_COLUMNS,
+} from './constants';
 
 import {
   CreateOrUpdateOutcomeGroupMutation,
@@ -106,7 +110,7 @@ const Outcomes = () => {
         },
         {
           onSuccess: response => {
-            setSortData(DEFAULT_GET_OUTCOMES_PARAMS)
+            setSortData(DEFAULT_GET_OUTCOMES_PARAMS);
             setIconUrl(DEFAULT_OUTCOME_ICON);
             setTimeout(() => {
               setIsOpenCreateUpdateBoard(false);
@@ -376,7 +380,10 @@ const Outcomes = () => {
           <WuPopover
             Trigger={
               <div>
-                <WuTooltip className="wu-tooltip-content" content="Select an icon" position="bottom">
+                <WuTooltip
+                  className="wu-tooltip-content"
+                  content="Select an icon"
+                  position="bottom">
                   <div className={'selected-icon'}>
                     <img
                       src={iconUrl}

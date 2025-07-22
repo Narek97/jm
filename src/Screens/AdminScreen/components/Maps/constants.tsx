@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 
 import { TableColumnType } from '@/types';
 
-
 const MAPS_TABLE_COLUMNS: Array<TableColumnType> = [
   {
     id: 'title',

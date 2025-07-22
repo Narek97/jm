@@ -19,8 +19,7 @@ const PerformanceLogsQueryModal: FC<IPerformanceLogsQueryModal> = ({
       modalSize={'md'}
       isOpen={isOpen}
       handleClose={handleClose}
-      canCloseWithOutsideClick={true}
-    >
+      canCloseWithOutsideClick={true}>
       <ul className={'!p-4 !max-h-[60dvh] overflow-y-auto'}>
         {queries.map((query, index) => (
           <li className={'!mt-[10px]'} key={query}>

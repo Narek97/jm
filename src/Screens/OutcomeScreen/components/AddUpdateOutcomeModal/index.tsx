@@ -50,8 +50,7 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
             type="button"
             data-testid="save-outcome-test-id"
             disabled={isLoadingCrateUpdate}
-            onClick={handleConfirmClick}
-          >
+            onClick={handleConfirmClick}>
             Save
           </WuButton>
         }>

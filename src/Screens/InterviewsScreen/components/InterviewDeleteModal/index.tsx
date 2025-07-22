@@ -2,7 +2,6 @@ import { FC } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
-
 import { InterviewType } from '../../types';
 
 import {

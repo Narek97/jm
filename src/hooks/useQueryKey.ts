@@ -30,7 +30,9 @@ export const useSetQueryDataByKey = (mayKey: string, data?: DataOptions): any =>
         return JSON.stringify(currentValue) === JSON.stringify(data.value);
       }
 
-      return !data || (key.queryKey[1] as Record<string, unknown>)?.[data.key as string] === data.value;
+      return (
+        !data || (key.queryKey[1] as Record<string, unknown>)?.[data.key as string] === data.value
+      );
     });
 
     queryClient.setQueryData(query?.queryKey || [mayKey], callback);

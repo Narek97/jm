@@ -16,9 +16,7 @@ import {
 import { MapRowTypeEnum } from '@/api/types.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import {
-  ModalConfirmButton,
-} from '@/Components/Shared/ModalConfirmButton';
+import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { querySlateTime } from '@/constants';
 import { useJourneyMapStore } from '@/store/journeyMap.ts';
 import { useTouchpointsStore } from '@/store/touchpoints.ts';

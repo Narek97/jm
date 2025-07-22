@@ -6,10 +6,10 @@ export type CreateIconAttachmentMutationVariables = Types.Exact<{
   createIconInput: Types.CreateIconInput;
 }>;
 
-
-export type CreateIconAttachmentMutation = { __typename?: 'Mutation', createIconAttachment: number };
-
-
+export type CreateIconAttachmentMutation = {
+  __typename?: 'Mutation';
+  createIconAttachment: number;
+};
 
 export const CreateIconAttachmentDocument = `
     mutation CreateIconAttachment($createIconInput: CreateIconInput!) {
@@ -17,17 +17,26 @@ export const CreateIconAttachmentDocument = `
 }
     `;
 
-export const useCreateIconAttachmentMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateIconAttachmentMutation, TError, CreateIconAttachmentMutationVariables, TContext>) => {
-    
-    return useMutation<CreateIconAttachmentMutation, TError, CreateIconAttachmentMutationVariables, TContext>(
-      {
+export const useCreateIconAttachmentMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateIconAttachmentMutation,
+    TError,
+    CreateIconAttachmentMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    CreateIconAttachmentMutation,
+    TError,
+    CreateIconAttachmentMutationVariables,
+    TContext
+  >({
     mutationKey: ['CreateIconAttachment'],
-    mutationFn: axiosRequest<CreateIconAttachmentMutation, CreateIconAttachmentMutationVariables>(CreateIconAttachmentDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<CreateIconAttachmentMutation, CreateIconAttachmentMutationVariables>(
+      CreateIconAttachmentDocument,
+    ),
+    ...options,
+  });
+};
 
 useCreateIconAttachmentMutation.getKey = () => ['CreateIconAttachment'];
