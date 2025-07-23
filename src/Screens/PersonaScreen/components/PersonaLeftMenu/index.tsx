@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   FC,
   FormEvent,
@@ -14,8 +14,7 @@ import './style.scss';
 
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { Skeleton } from '@mui/material';
-import Popover from '@mui/material/Popover';
-import { WuButton, WuMenu, WuMenuItem } from '@npm-questionpro/wick-ui-lib';
+import { WuButton, WuMenu, WuMenuItem, WuPopover } from '@npm-questionpro/wick-ui-lib';
 
 import DeleteDemographicInfosSectionConfirmModal from './DeleteDemographicInfosSectionConfirmModal';
 import SectionField from './SectionField';
@@ -95,7 +94,6 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   const personaTypeInputRef = useRef<HTMLInputElement | null>(null);
 
   const [name, setName] = useState<string>('');
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedDemographicInfoType, setSelectedDemographicInfoType] =
     useState<DemographicInfoTypeEnum | null>(null);
   const [selectedDemographicInfoId, setSelectedDemographicInfoId] = useState<number | null>(null);
@@ -193,13 +191,8 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     setIsOpenGalleryModal(prev => !prev);
   };
 
-  const onHandleTogglePopup = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(anchorEl ? null : event?.currentTarget);
-  };
-
   const onHandleSelectDemographicInfo = (type: DemographicInfoTypeEnum) => {
     setSelectedDemographicInfoType(type);
-    setAnchorEl(null);
   };
 
   const onHandleCreateDemographicInfo = (e: FormEvent) => {
@@ -507,38 +500,14 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               </button>
             </div>
           </form>
-
-          <button
+          <WuPopover
+            side="left"
+            Trigger={<WuButton variant="outline" className="wm-add min-w-0 px-2.5"></WuButton>}
+            className="w-28"
             aria-label={'add'}
             data-testid={'add-demographic-info-test-id'}
-            className={'persona-left-menu--add-demographic-info'}
-            style={{ background: anchorEl ? '#1b87e6' : '' }}
-            onClick={e => {
-              onHandleTogglePopup(e);
-              inputRef.current?.focus();
-            }}
             disabled={isLoadingCreateDemographicInfo}>
-            <span
-              className={'wm-add'}
-              style={{
-                color: anchorEl ? '#ffffff' : '#1b87e6',
-              }}
-            />
-          </button>
-          <Popover
-            sx={{
-              '& .MuiPopover-paper': {
-                borderRadius: '0',
-              },
-            }}
-            open={Boolean(anchorEl)}
-            anchorEl={anchorEl}
-            onClose={onHandleTogglePopup}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}>
-            <ul className={'persona-left-menu--demographic-info-popover'}>
+            <ul>
               {DEMOGRAPHIC_INFO_POPOVER.map(item => (
                 <li
                   key={item.id}
@@ -549,7 +518,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
                 </li>
               ))}
             </ul>
-          </Popover>
+          </WuPopover>
         </div>
       ) : (
         <WuButton
