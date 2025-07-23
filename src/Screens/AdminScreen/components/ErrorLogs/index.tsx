@@ -5,11 +5,10 @@ import {
   useGetErrorLogsQuery,
 } from '@/api/queries/generated/getErrorLogs.generated.ts';
 import { ErrorLog } from '@/api/types.ts';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { ERROR_LOGS_LIMIT } from '@/Constants/pagination';
 import { ERROR_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/ErrorLogs/constants.tsx';
@@ -45,7 +44,10 @@ const ErrorLogs = () => {
     setIsOpenDeleteModal(prev => !prev);
   }, []);
 
-  const columns = useMemo(() => ERROR_TABLE_COLUMNS({ toggleDeleteModal }), [toggleDeleteModal]);
+  const columns = useMemo(
+    () => ERROR_TABLE_COLUMNS({ onHandleRowDelete: toggleDeleteModal }),
+    [toggleDeleteModal],
+  );
 
   const onHandleChangePage = useCallback((newPage: number) => {
     setCurrentPage(newPage);
@@ -76,8 +78,7 @@ const ErrorLogs = () => {
           />
         </div>
       )}
-      {isLoading && <WuBaseLoader />}
-      {!isLoading && <CustomTable isTableHead={true} rows={logsData} columns={columns} />}
+      <BaseWuDataTable isLoading={isLoading} columns={columns} data={logsData} />
     </div>
   );
 };

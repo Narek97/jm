@@ -16,9 +16,9 @@ import {
   GetOrganizationUsersQuery,
   useGetOrganizationUsersQuery,
 } from '@/api/queries/generated/getOrganizationUsers.generated.ts';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -200,7 +200,7 @@ const UsersScreen = () => {
       ) : (
         <div className={'org-users--table-block'}>
           {usersData?.length ? (
-            <CustomTable isTableHead={true} rows={usersData} columns={columns} />
+            <BaseWuDataTable data={usersData} columns={columns} />
           ) : (
             <EmptyDataInfo message={'No org-users Yet'} />
           )}

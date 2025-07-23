@@ -2,70 +2,69 @@ import dayjs from 'dayjs';
 import * as yup from 'yup';
 
 import { OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
-import { MenuOptionsType, TableColumnType } from '@/types';
+import { TableColumnOptionType } from '@/types';
 
-const OUTCOME_OPTIONS = ({
-  onHandleDelete,
-  onHandleEdit,
-}: {
-  onHandleEdit: (data: OutcomeGroupOutcomeType) => void;
-  onHandleDelete: (data: OutcomeGroupOutcomeType) => void;
-  color?: string;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-edit'} />,
-      name: 'Edit',
-      onClick: onHandleEdit,
-    },
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
-
-const OUTCOME_TABLE_COLUMNS: Array<TableColumnType> = [
+const OUTCOME_TABLE_COLUMNS = ({
+  onHandleRowEdit,
+  onHandleRowDelete,
+}: TableColumnOptionType<OutcomeGroupOutcomeType>) => [
   {
-    sortFieldName: 'TITLE',
-    id: 'title',
-    label: 'Title',
-    isAscDescSortable: true,
+    accessorKey: 'title',
+    header: 'Title',
+    enableSorting: true,
   },
   {
-    id: 'status',
-    label: 'Status',
+    accessorKey: 'status',
+    header: 'Status',
   },
   {
-    sortFieldName: 'CREATED_BY',
-    id: 'createdBy',
-    label: 'Created by',
-    isAscDescSortable: true,
-    renderFunction: ({ user }) => user?.firstName + ' ' + user?.lastName,
-  },
-  {
-    sortFieldName: 'CREATED_AT',
-    id: 'createdAt',
-    label: 'Date Created',
-    isAscDescSortable: true,
-    renderFunction: ({ createdAt }) => createdAt && dayjs(createdAt)?.format('MMM DD, YYYY'),
-  },
-  {
-    id: 'mapName',
-    label: 'Map Name',
-    renderFunction: ({ map }) => map?.title,
-  },
-  {
-    id: 'column',
-    label: 'Stage Name',
-    renderFunction: ({ column }) => {
-      return column?.label;
+    accessorKey: 'mapName',
+    header: 'Map Name',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.map.title} </>;
     },
   },
   {
-    id: 'operation',
-    label: ' ',
+    accessorKey: 'column',
+    header: 'Stage Name',
+    cell: ({ cell }: { cell: any }) => {
+      console.log(cell.row.original, 'cell.row.original');
+      return <>{cell.row.original.column.label}</>;
+    },
+  },
+  {
+    accessorKey: 'createdBy',
+    header: 'Created by',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName} </>;
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Date Created',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    },
+  },
+  {
+    accessorKey: 'actions',
+    header: 'Actions',
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <div className={'flex justify-center gap-4'}>
+          <span
+            className={'wm-edit cursor-pointer'}
+            onClick={() => onHandleRowEdit?.(cell.row.original)}
+            style={{
+              fontSize: '1rem',
+            }}
+          />
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        </div>
+      );
+    },
   },
 ];
 
@@ -97,4 +96,4 @@ const OUTCOME_VALIDATION_SCHEMA = yup
   })
   .required();
 
-export { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS, OUTCOME_VALIDATION_SCHEMA };
+export { OUTCOME_TABLE_COLUMNS, OUTCOME_VALIDATION_SCHEMA };

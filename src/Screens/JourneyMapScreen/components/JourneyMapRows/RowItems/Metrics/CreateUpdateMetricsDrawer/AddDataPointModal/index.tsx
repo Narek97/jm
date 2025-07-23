@@ -126,7 +126,7 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
       headerTitle={'Add data point'}
       isOpen={isOpen}
       handleClose={handleClose}
-      modalSize={'md'}
+      modalSize={'lg'}
       canCloseWithOutsideClick={true}
       ModalConfirmButton={
         <WuButton onClick={onHandleSubmit} type={'submit'} data-testid="submit-data-point-test-id">

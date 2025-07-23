@@ -3,13 +3,12 @@ import * as yup from 'yup';
 
 import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/types.ts';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
-import { NPSDataPointElementType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
 import {
-  DropdownSelectItemType,
-  MenuOptionsType,
-  TableColumnOptionType,
-  TableColumnType,
-} from '@/types';
+  CustomMetricsType,
+  DatapointType,
+  NPSDataPointElementType,
+} from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
+import { DropdownSelectItemType, MenuOptionsType, TableColumnOptionType } from '@/types';
 import { isValidNumberFormat } from '@/utils/isValidNumberFormat.ts';
 
 const METRICS_DEFAULT_DATA = {
@@ -69,34 +68,6 @@ const JOURNEY_MAP_METRICS_OPTIONS = ({
   ];
 };
 
-const METRICS_DATA_POINT_EXEL_OPTIONS = ({
-  onHandleDelete,
-}: {
-  onHandleDelete: (data: { id: string | number }) => void;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
-
-const CUSTOM_METRICS_OPTIONS = ({
-  onHandleDelete,
-}: {
-  onHandleDelete: (data: { id: string | number }) => void;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
-
 const CREATE_METRICS_VALIDATION_SCHEMA = yup
   .object()
   .shape({
@@ -141,8 +112,9 @@ const CREATE_METRICS_VALIDATION_SCHEMA = yup
   .required();
 
 const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
+  onHandleRowDelete,
   onHandleRowChange,
-}: TableColumnOptionType): Array<TableColumnType> => {
+}: TableColumnOptionType<DatapointType>) => {
   const getCorrectInputValue = (value: unknown) => {
     return isValidNumberFormat(value) ? (+value).toString() : undefined;
   };
@@ -151,18 +123,18 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'date',
       label: 'Date',
-      renderFunction: row => {
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.date ? '' : '1px solid #e53251',
+              borderBottom: cell.row.original.date ? '' : '1px solid #e53251',
             }}>
             <CustomDatePicker
               isInline={false}
-              defaultDate={row.date}
+              defaultDate={cell.row.original.date}
               onHandleChangeDate={date =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'date', value: date.toString() })
+                  ? onHandleRowChange(cell.row.original, date.toString(), 'date')
                   : {}
               }
             />
@@ -173,8 +145,9 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'detractor',
       label: 'Detractor',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.detractor);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.detractor);
+
         return (
           <div
             style={{
@@ -187,7 +160,7 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'detractor', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'detractor')
                   : {}
               }
             />
@@ -198,8 +171,9 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'passive',
       label: 'Passive',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.passive);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.passive);
+
         return (
           <div
             style={{
@@ -212,7 +186,7 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'passive', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'passive')
                   : {}
               }
             />
@@ -223,8 +197,8 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'promoter',
       label: 'Promoter',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.promoter);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.promoter);
 
         return (
           <div
@@ -238,7 +212,7 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'promoter', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'promoter')
                   : {}
               }
             />
@@ -247,16 +221,21 @@ const METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS = ({
       },
     },
     {
-      id: 'operation',
-      label: ' ',
-      align: 'right',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
 
 const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
   onHandleRowChange,
-}: TableColumnOptionType): Array<TableColumnType> => {
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType>) => {
   const getCorrectInputValue = (value: unknown) => {
     return isValidNumberFormat(value) ? (+value).toString() : undefined;
   };
@@ -265,18 +244,18 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'date',
       label: 'Date',
-      renderFunction: row => {
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.date ? '' : '1px solid #e53251',
+              borderBottom: cell.row.original.date ? '' : '1px solid #e53251',
             }}>
             <CustomDatePicker
               isInline={false}
-              defaultDate={row.date}
+              defaultDate={cell.row.original.date}
               onHandleChangeDate={date =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'date', value: date.toString() })
+                  ? onHandleRowChange(cell.row.original, date.toString(), 'date')
                   : {}
               }
             />
@@ -287,8 +266,8 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'satisfied',
       label: 'Satisfied',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.satisfied);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.satisfied);
 
         return (
           <div
@@ -301,7 +280,7 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'satisfied', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'satisfied')
                   : {}
               }
             />
@@ -312,8 +291,8 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'neutral',
       label: 'Neutral',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.neutral);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.neutral);
 
         return (
           <div
@@ -326,7 +305,7 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'neutral', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'neutral')
                   : {}
               }
             />
@@ -337,8 +316,8 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'dissatisfied',
       label: 'Dissatisfied',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.dissatisfied);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.dissatisfied);
 
         return (
           <div
@@ -351,7 +330,7 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'dissatisfied', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'dissatisfied')
                   : {}
               }
             />
@@ -360,15 +339,21 @@ const METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS = ({
       },
     },
     {
-      id: 'operation',
-      label: ' ',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
 
 const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
   onHandleRowChange,
-}: TableColumnOptionType): Array<TableColumnType> => {
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType>) => {
   const getCorrectInputValue = (value: unknown) => {
     return isValidNumberFormat(value) ? (+value).toString() : undefined;
   };
@@ -377,18 +362,18 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'date',
       label: 'Date',
-      renderFunction: row => {
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.date ? '' : '1px solid #e53251',
+              borderBottom: cell.row.original.date ? '' : '1px solid #e53251',
             }}>
             <CustomDatePicker
               isInline={false}
-              defaultDate={row.date}
+              defaultDate={cell.row.original.date}
               onHandleChangeDate={date =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'date', value: date.toString() })
+                  ? onHandleRowChange(cell.row.original, date.toString(), 'date')
                   : {}
               }
             />
@@ -399,8 +384,8 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'easy',
       label: 'Easy',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.easy);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.easy);
 
         return (
           <div
@@ -413,7 +398,7 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               min={0}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'easy', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'easy')
                   : {}
               }
             />
@@ -424,8 +409,8 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'neutral',
       label: 'Neutral',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.neutral);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.neutral);
 
         return (
           <div
@@ -438,7 +423,7 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'neutral', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'neutral')
                   : {}
               }
             />
@@ -449,8 +434,8 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
     {
       id: 'difficult',
       label: 'Difficult',
-      renderFunction: row => {
-        const value = getCorrectInputValue(row.difficult);
+      cell: ({ cell }: { cell: any }) => {
+        const value = getCorrectInputValue(cell.row.original.difficult);
 
         return (
           <div
@@ -463,7 +448,7 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
               value={value}
               onChange={e =>
                 onHandleRowChange
-                  ? onHandleRowChange({ id: row.id, key: 'difficult', value: +e.target.value })
+                  ? onHandleRowChange(cell.row.original, +e.target.value, 'difficult')
                   : {}
               }
             />
@@ -472,24 +457,31 @@ const METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS = ({
       },
     },
     {
-      id: 'operation',
-      label: ' ',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
 
-const METRIC_NPS_DATA_POINT_TABLE_COLUMNS = (): Array<TableColumnType> => {
+const METRIC_NPS_DATA_POINT_TABLE_COLUMNS = ({
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType | CustomMetricsType>) => {
   return [
     {
       id: 'date',
       label: 'Date',
-      renderFunction: row => {
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.repeat ? '1px solid #e53251' : '',
+              borderBottom: cell.row.original.repeat ? '1px solid #e53251' : '',
             }}>
-            {dayjs(row.date).format('MM-DD-YYYY')}
+            {dayjs(cell.row.original.date).format('MM-DD-YYYY')}
           </div>
         );
       },
@@ -507,79 +499,97 @@ const METRIC_NPS_DATA_POINT_TABLE_COLUMNS = (): Array<TableColumnType> => {
       label: 'Promoter',
     },
     {
-      id: 'operation',
-      label: ' ',
-      align: 'right',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
 
-const METRIC_CSAT_DATA_POINT_TABLE_COLUMNS = (): Array<TableColumnType> => {
+const METRIC_CSAT_DATA_POINT_TABLE_COLUMNS = ({
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType | CustomMetricsType>) => {
   return [
     {
-      id: 'date',
-      label: 'Date',
-      renderFunction: row => {
+      accessorKey: 'date',
+      header: 'Date',
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.repeat ? '1px solid #e53251' : '',
+              borderBottom: cell.row.original.repeat ? '1px solid #e53251' : '',
             }}>
-            {dayjs(row.date).format('MM-DD-YYYY')}
+            {dayjs(cell.row.original.date).format('MM-DD-YYYY')}
           </div>
         );
       },
     },
     {
-      id: 'satisfied',
-      label: 'Satisfied',
+      accessorKey: 'satisfied',
+      header: 'Satisfied',
     },
     {
-      id: 'neutral',
-      label: 'Neutral',
+      accessorKey: 'neutral',
+      header: 'Neutral',
     },
     {
-      id: 'dissatisfied',
-      label: 'Dissatisfied',
+      accessorKey: 'dissatisfied',
+      header: 'Dissatisfied',
     },
     {
-      id: 'operation',
-      label: ' ',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
 
-const METRIC_CES_DATA_POINT_TABLE_COLUMNS = (): Array<TableColumnType> => {
+const METRIC_CES_DATA_POINT_TABLE_COLUMNS = ({
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType | CustomMetricsType>) => {
   return [
     {
-      id: 'date',
+      accessorKey: 'date',
       label: 'Date',
-      renderFunction: row => {
+      cell: ({ cell }: { cell: any }) => {
         return (
           <div
             style={{
-              borderBottom: row.repeat ? '1px solid #e53251' : '',
+              borderBottom: cell.row.original.repeat ? '1px solid #e53251' : '',
             }}>
-            {dayjs(row.date).format('MM-DD-YYYY')}
+            {dayjs(cell.row.original.date).format('MM-DD-YYYY')}
           </div>
         );
       },
     },
     {
-      id: 'easy',
+      accessorKey: 'easy',
       label: 'Easy',
     },
     {
-      id: 'neutral',
+      accessorKey: 'neutral',
       label: 'Neutral',
     },
     {
-      id: 'difficult',
+      accessorKey: 'difficult',
       label: 'Difficult',
     },
     {
-      id: 'operation',
-      label: ' ',
+      accessorKey: 'actions',
+      header: 'Actions',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        );
+      },
     },
   ];
 };
@@ -648,28 +658,35 @@ const METRICS_TRACK_ITEM: Array<DropdownSelectItemType> = [
   },
 ];
 
-const CUSTOM_METRICS_TABLE_COLUMNS: Array<TableColumnType> = [
+const CUSTOM_METRICS_TABLE_COLUMNS = ({
+  onHandleRowDelete,
+}: TableColumnOptionType<DatapointType | CustomMetricsType>) => [
   {
-    id: 'date',
-    label: 'Date',
-    renderFunction: row => {
+    accessorKey: 'date',
+    header: 'Date',
+    cell: ({ cell }: { cell: any }) => {
       return (
         <div
           style={{
-            borderBottom: row.repeat ? '1px solid #e53251' : '',
+            borderBottom: cell.row.original.repeat ? '1px solid #e53251' : '',
           }}>
-          {dayjs(row.date).format('MM-DD-YYYY')}
+          {dayjs(cell.row.original.date).format('MM-DD-YYYY')}
         </div>
       );
     },
   },
   {
-    id: 'value',
-    label: 'Metrics value',
+    accessorKey: 'value',
+    header: 'Metrics value',
   },
   {
-    id: 'operation',
-    label: ' ',
+    accessorKey: 'actions',
+    header: 'Actions',
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+      );
+    },
   },
 ];
 
@@ -761,8 +778,6 @@ export {
   CSAT_TEMPLATE,
   CES_TEMPLATE,
   JOURNEY_MAP_METRICS_OPTIONS,
-  METRICS_DATA_POINT_EXEL_OPTIONS,
-  CUSTOM_METRICS_OPTIONS,
   CREATE_METRICS_VALIDATION_SCHEMA,
   METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS,
   METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS,

@@ -35,10 +35,10 @@ import {
   GetJourneysQuery,
   useGetJourneysQuery,
 } from '@/api/queries/generated/getJourneys.generated.ts';
-import { OrderByEnum } from '@/api/types';
+import { OrderByEnum, SortByEnum } from '@/api/types';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -46,14 +46,14 @@ import { querySlateTime } from '@/Constants';
 import { BOARD_JOURNEYS_LIMIT, PINNED_OUTCOMES_LIMIT } from '@/Constants/pagination';
 import WorkspaceAnalytics from '@/Features/WorkspaceAnalytics';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
-import { useSetAllQueryDataByKey, useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey';
+import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey';
 import { JourniesRoute } from '@/routes/_authenticated/_secondary-sidebar-layout/board/$boardId/journies';
 import BoardPinnedOutcomesModal from '@/Screens/BoardsScreen/components/PinnedOutcomeModal';
 import JourneysFilter from '@/Screens/JourniesScreen/components/JourneysFilter';
 import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
 import { useCopyMapStore } from '@/Store/copyMap.ts';
 import { useUserStore } from '@/Store/user.ts';
-import { SearchParamsType } from '@/types';
+import { SearchParamsType, SortType } from '@/types';
 import { CopyMapLevelEnum, WorkspaceAnalyticsEnumType } from '@/types/enum.ts';
 
 const JourneyDeleteModal = lazy(() => import('./components/JourneyDeleteModal'));
@@ -69,7 +69,6 @@ const JourniesScreen = () => {
   });
 
   const setJourneys = useSetQueryDataByKeyAdvanced();
-  const setAllJourneys = useSetAllQueryDataByKey('GetJourneys');
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ const JourniesScreen = () => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [offset, setOffset] = useState<number>(0);
-  const [selectedJourneyIds, setSelectedJourneyIds] = useState<Array<number>>([]);
+  const [selectedJourneys, setSelectedJourneys] = useState<JourneyType[]>([]);
   const [selectedJourney, setSelectedJourney] = useState<JourneyType | null>(null);
   const [isOpenDeleteMapModal, setIsOpenDeleteMapModal] = useState<boolean>(false);
   const [isOpenAllPinnedOutcomesModal, setIsOpenAllPinnedOutcomesModal] = useState<boolean>(false);
@@ -242,61 +241,6 @@ const JourniesScreen = () => {
     }
   }, [currentPage, journeysData]);
 
-  const onHandleAddOrFilterJourneyIds = useCallback(
-    (id: number) => {
-      if (selectedJourneyIds.includes(id)) {
-        setSelectedJourneyIds(prev => prev.filter(journeyId => journeyId !== id));
-      } else {
-        setSelectedJourneyIds(prev => [...prev, id]);
-      }
-    },
-    [selectedJourneyIds],
-  );
-
-  const onHandleCheckAllMaps = useCallback(() => {
-    const ids: Array<number> = [];
-    setAllJourneys((oldData: any) => {
-      if (oldData) {
-        return {
-          getMaps: {
-            count: oldData.getMaps.count,
-            maps: oldData.getMaps.maps.map((journey: JourneyType) => {
-              if (!selectedJourneyIds.length && journeysData.includes(journey)) {
-                ids.push(journey.id);
-              }
-              journey.checked = !selectedJourneyIds.length && journeysData.includes(journey);
-              return journey;
-            }),
-          },
-        };
-      }
-    });
-    setSelectedJourneyIds(ids);
-  }, [journeysData, selectedJourneyIds.length, setAllJourneys]);
-
-  const onHandleCheckMap = useCallback(
-    (id: number) => {
-      setAllJourneys((oldData: any) => {
-        if (oldData) {
-          return {
-            getMaps: {
-              count: oldData.getMaps.count,
-              maps: oldData.getMaps.maps.map((journey: JourneyType) => {
-                if (journey.id === id) {
-                  journey.checked = !journey.checked;
-                }
-                return journey;
-              }),
-            },
-          };
-        }
-      });
-
-      onHandleAddOrFilterJourneyIds(id);
-    },
-    [onHandleAddOrFilterJourneyIds, setAllJourneys],
-  );
-
   const onHandleNameChange = useCallback(
     (data: JourneyMapNameChangeType) => {
       const { newValue, mapId } = data;
@@ -382,12 +326,15 @@ const JourniesScreen = () => {
 
   const onHandleCloseDeleteModal = useCallback(() => {
     onHandleToggleDeleteModal();
-    setSelectedJourneyIds([]);
+    setSelectedJourneys([]);
   }, [onHandleToggleDeleteModal]);
 
   const onHandleDeleteJourney = useCallback(
-    (journey: JourneyType) => {
-      setSelectedJourney(journey);
+    (journey?: JourneyType) => {
+      console.log(journey, 'journey');
+      if (journey) {
+        setSelectedJourney(journey);
+      }
       onHandleToggleDeleteModal();
     },
     [onHandleToggleDeleteModal],
@@ -416,15 +363,12 @@ const JourniesScreen = () => {
     [boardId, showToast],
   );
 
-  const onHandleSortTableByField = useCallback(
-    (type: OrderByEnum, _: string, id: 'name' | 'createdAt' | 'user') => {
-      setOrder({
-        key: id,
-        orderBY: type,
-      });
-    },
-    [],
-  );
+  const onHandleSortTableByField = useCallback((newOrderBy: SortType) => {
+    setOrder({
+      key: newOrderBy.id as SortByEnum,
+      orderBY: newOrderBy.desc ? OrderByEnum.Desc : OrderByEnum.Asc,
+    });
+  }, []);
 
   const handleCopySuccess = useCallback(() => {
     setCurrentPage(1);
@@ -433,40 +377,17 @@ const JourniesScreen = () => {
 
   const columns = useMemo(() => {
     return JOURNEY_MAPS_TABLE_COLUMNS({
-      checkedItemsCount: selectedJourneyIds.length,
-      toggleDeleteModal: onHandleToggleDeleteModal,
-      onHandleRowClick: (id, key) => {
-        if (key === 'title') {
-          navigate({
-            to: `/board/${boardId}/journey-map/${id}`,
-          }).then();
-        }
-        if (key === 'checkAll') {
-          onHandleCheckAllMaps();
-        }
-        if (key === 'checkbox') {
-          onHandleCheckMap(id);
-        }
-      },
+      onHandleRowDelete: onHandleDeleteJourney,
+      onHandleCopy: onHandleCopyMap,
+      onHandleCopyShareUrl,
     });
-  }, [
-    boardId,
-    navigate,
-    onHandleCheckAllMaps,
-    onHandleCheckMap,
-    onHandleToggleDeleteModal,
-    selectedJourneyIds.length,
-  ]);
+  }, [onHandleCopyMap, onHandleCopyShareUrl, onHandleDeleteJourney]);
 
   const options = useMemo(() => {
     return JOURNEY_MAP_OPTIONS({
       onHandleDelete: onHandleDeleteJourney,
-      onHandleCopy: journey => {
-        onHandleCopyMap(journey);
-      },
-      onHandleCopyShareUrl: journey => {
-        onHandleCopyShareUrl(journey).then();
-      },
+      onHandleCopy: onHandleCopyMap,
+      onHandleCopyShareUrl: onHandleCopyShareUrl,
     });
   }, [onHandleCopyMap, onHandleCopyShareUrl, onHandleDeleteJourney]);
 
@@ -480,7 +401,9 @@ const JourniesScreen = () => {
         {isOpenDeleteMapModal && (
           <Suspense fallback={''}>
             <JourneyDeleteModal
-              ids={selectedJourney ? [selectedJourney.id] : selectedJourneyIds}
+              ids={
+                selectedJourney ? [selectedJourney.id] : selectedJourneys.map(journey => journey.id)
+              }
               isOpen={isOpenDeleteMapModal}
               isHasPagination={journeysDataCount > BOARD_JOURNEYS_LIMIT}
               onHandleFilterJourney={onHandleFilterJourney}
@@ -632,11 +555,15 @@ const JourniesScreen = () => {
                     />
                   </>
                 ) : (
-                  <CustomTable
+                  <BaseWuDataTable<JourneyType>
                     columns={columns}
-                    rows={journeysData}
-                    sortAscDescByField={onHandleSortTableByField}
-                    options={options}
+                    data={journeysData}
+                    selectedRows={selectedJourneys}
+                    onHandleSort={onHandleSortTableByField}
+                    onHandleDelete={onHandleDeleteJourney}
+                    onHandleRowSelect={data => {
+                      setSelectedJourneys(data);
+                    }}
                   />
                 )}
               </>

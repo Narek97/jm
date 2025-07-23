@@ -26,38 +26,13 @@ export type TabPanelType = {
   value: string;
 };
 
-export type TableRowItemChangeType = {
-  id: number | string;
-  key: string;
-  value: number | string;
-};
-
-export type TableColumnOptionType = {
-  toggleDeleteModal?: () => void;
-  onHandleRowChange?: (item: TableRowItemChangeType) => void;
-  onHandleRowDelete?: (item: TableRowItemChangeType) => void;
-  onHandleRowClick?: (id: number, key: string) => void;
-  checkedItemsCount?: number;
-};
-
-export type TableColumnType<T = any> = {
-  id: number | string;
-  label: string | ReactNode;
-  style?: any;
-  renderFunction?: (data: T) => ReactNode;
-  onClick?: () => void;
-  sortFieldName?: string;
-  isAscDescSortable?: boolean;
-  isNameSortable?: boolean;
-  align?: 'right' | 'left' | 'center';
-};
-
-export type TableColumnPropsType = {
-  toggleDeleteModal?: () => void;
-  onHandleRowChange?: (item: TableRowItemChangeType) => void;
-  onHandleRowDelete?: (item: TableRowItemChangeType) => void;
-  onHandleRowClick?: (id: number, key: string) => void;
-  checkedItemsCount?: number;
+export type TableColumnOptionType<T = unknown> = {
+  onHandleRowEdit?: (item: T) => void;
+  onHandleRowDelete?: (item?: T) => void;
+  onHandleRowClick?: (item: T) => void;
+  onHandleCopy?: (item: T) => void;
+  onHandleCopyShareUrl?: (item: T) => void;
+  onHandleRowChange?: (item: T, value: string | number, key: string) => void;
 };
 
 export type MenuOptionsType = {
@@ -154,4 +129,9 @@ export type NoteType = {
     firstName: string;
     lastName: string;
   };
+};
+
+export type SortType = {
+  id: string;
+  desc: boolean;
 };

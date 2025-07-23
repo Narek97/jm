@@ -2,26 +2,25 @@ import dayjs from 'dayjs';
 import * as yup from 'yup';
 
 import { CreateUserFormElementType } from '@/Screens/UsersScreen/types.ts';
-import { TableColumnType } from '@/types';
 
-const USER_TABLE_COLUMNS: Array<TableColumnType> = [
+const USER_TABLE_COLUMNS = [
   {
-    id: 'name',
-    label: 'User Name',
+    accessorKey: 'name',
+    header: 'User Name',
   },
   {
-    id: 'emailAddress',
-    label: 'Email',
+    accessorKey: 'emailAddress',
+    header: 'Email',
   },
   {
-    id: 'lastSeen',
-    label: 'Last Seen',
+    accessorKey: 'lastSeen',
+    header: 'Last Seen',
   },
   {
-    id: 'updatedAt',
-    label: 'Time',
-    renderFunction: row => {
-      return <>{dayjs(row.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    accessorKey: 'updatedAt',
+    header: 'Time',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
     },
   },
 ];

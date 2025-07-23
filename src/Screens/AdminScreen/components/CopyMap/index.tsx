@@ -1,9 +1,9 @@
-import { ChangeEvent, lazy, Suspense, useMemo, useState } from 'react';
+import { ChangeEvent, lazy, Suspense, useCallback, useMemo, useState } from 'react';
 
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
@@ -41,13 +41,18 @@ const CopyMap = () => {
     });
   };
 
-  const rows = useMemo(() => {
-    return dataOrgs?.getOrgs?.map(itm => ({ ...itm, id: itm.orgId }));
-  }, [dataOrgs?.getOrgs]);
+  const onHandleRowSelect = useCallback((orgId: number) => {
+    setOrgId(orgId);
+  }, []);
+
+  const rows =
+    useMemo(() => {
+      return dataOrgs?.getOrgs?.map(itm => ({ ...itm, id: itm.orgId }));
+    }, [dataOrgs?.getOrgs]) || [];
 
   const columns = useMemo(() => {
-    return ORGS_TABLE_COLUMNS(searchedText);
-  }, [searchedText]);
+    return ORGS_TABLE_COLUMNS(searchedText, onHandleRowSelect);
+  }, [onHandleRowSelect, searchedText]);
 
   if (errorOrgs) {
     return <CustomError error={errorOrgs?.message} />;
@@ -80,14 +85,7 @@ const CopyMap = () => {
       ) : !isLoadingOrgs && !rows?.length ? (
         <EmptyDataInfo message="Map not found" />
       ) : (
-        <CustomTable
-          isTableHead={true}
-          rows={rows || []}
-          columns={columns}
-          onClickRow={data => {
-            setOrgId(data?.orgId);
-          }}
-        />
+        <BaseWuDataTable data={rows} columns={columns} />
       )}
     </div>
   );

@@ -1,31 +1,29 @@
 import dayjs from 'dayjs';
 
-import { TableColumnType } from '@/types';
-
-const USERS_TABLE_COLUMNS: Array<TableColumnType> = [
+const USERS_TABLE_COLUMNS = [
   {
-    id: 'email',
-    label: 'Email',
-    renderFunction: row => {
-      return <>{row.member.emailAddress}</>;
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.member.emailAddress}</>;
     },
   },
   {
-    id: 'orgId',
-    label: 'OrgId',
-    renderFunction: row => {
-      return <>{row.member.orgId}</>;
+    accessorKey: 'orgId',
+    header: 'OrgId',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.member.orgId}</>;
     },
   },
   {
-    id: 'sessionCount',
-    label: 'Session Count',
+    accessorKey: 'sessionCount',
+    header: 'Session Count',
   },
   {
-    id: 'createdAt',
-    label: 'Last logged in',
-    renderFunction: row => {
-      return <>{dayjs(row.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    accessorKey: 'createdAt',
+    header: 'Last logged in',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
     },
   },
 ];

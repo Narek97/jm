@@ -1,17 +1,32 @@
 import HighlightedText from '@/Components/Shared/HightlitedText';
-import { TableColumnType } from '@/types';
 
-const ORGS_TABLE_COLUMNS = (search: string): Array<TableColumnType> => {
+const ORGS_TABLE_COLUMNS = (search: string, onHandleRowSelect: (orgId: number) => void) => {
   return [
     {
-      id: 'orgId',
-      label: 'OrgId',
-      renderFunction: ({ orgId }) => <HighlightedText name={String(orgId)} search={search} />,
+      accessorKey: 'orgId',
+      header: 'OrgId',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span
+            className={'h-full flex items-center cursor-pointer'}
+            onClick={() => onHandleRowSelect(cell.row.original.orgId)}>
+            <HighlightedText name={cell.row.original.orgId.toString()} search={search} />
+          </span>
+        );
+      },
     },
     {
-      id: 'name',
-      label: 'Name',
-      renderFunction: ({ name }) => <HighlightedText name={name} search={search} />,
+      accessorKey: 'name',
+      header: 'Name',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <span
+            className={'h-full flex items-center cursor-pointer'}
+            onClick={() => onHandleRowSelect(cell.row.original.orgId)}>
+            <HighlightedText name={cell.row.original.name || ''} search={search} />
+          </span>
+        );
+      },
     },
   ];
 };
