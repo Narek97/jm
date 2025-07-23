@@ -9,6 +9,8 @@ import {
   WuModalHeader,
 } from '@npm-questionpro/wick-ui-lib';
 
+import ErrorBoundary from '@/Features/ErrorBoundary';
+
 interface IBaseWuModal {
   children: React.ReactNode;
   modalSize?: 'sm' | 'md' | 'lg';
@@ -50,7 +52,9 @@ const BaseWuModal: FC<IBaseWuModal> = ({
         {headerIcon}
       </WuModalHeader>
       <div className={'wu-modal-content'}>
-        <WuModalContent>{children}</WuModalContent>
+        <WuModalContent>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </WuModalContent>
       </div>
 
       {ModalConfirmButton && (

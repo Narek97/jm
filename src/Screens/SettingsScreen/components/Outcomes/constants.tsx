@@ -2,81 +2,82 @@ import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 import * as yup from 'yup';
 
-import { OutcomesElementType } from './types';
-
 import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
-import { MenuOptionsType, TableColumnType } from '@/types';
+import { OutcomesElementType } from '@/Screens/SettingsScreen/components/Outcomes/types.ts';
+import { TableColumnOptionType } from '@/types';
 
 dayjs.extend(fromNow);
 
-const OUTCOME_OPTIONS = ({
-  onHandleDelete,
-  onHandleEdit,
-}: {
-  onHandleEdit: (data: OutcomeGroup) => void;
-  onHandleDelete: (data: OutcomeGroup) => void;
-  color?: string;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-edit'} />,
-      name: 'Edit',
-      onClick: onHandleEdit,
-    },
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
+const DEFAULT_OUTCOMES = ['Opportunities', 'Solutions', 'Actions'];
 
-const WORKSPACE_OUTCOMES_COLUMNS: Array<TableColumnType> = [
+const WORKSPACE_OUTCOMES_COLUMNS = ({
+  onHandleRowEdit,
+  onHandleRowDelete,
+}: TableColumnOptionType<OutcomeGroup>) => [
   {
-    sortFieldName: 'ICON',
-    id: 'icon',
-    label: 'Icon',
-    isAscDescSortable: false,
-    renderFunction: ({ icon }) => (
-      <div className={'outcome-icon'}>
-        {icon && (
-          <img
-            src={icon}
-            alt="icon"
+    accessorKey: 'icon',
+    header: 'Icon',
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <>
+          <div className={'outcome-icon'}>
+            {cell.row.original.icon && (
+              <img
+                src={cell.row.original.icon}
+                alt="icon"
+                style={{
+                  minWidth: '1.875rem',
+                  width: '1.875rem',
+                  height: '1.875rem',
+                }}
+              />
+            )}
+          </div>
+        </>
+      );
+    },
+  },
+  {
+    accessorKey: 'name',
+    header: 'Title',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.name + ' / ' + cell.row.original.pluralName} </>;
+    },
+  },
+  {
+    accessorKey: 'createdBy',
+    header: 'Created by',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName} </>;
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Date Created',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    },
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ cell }: { cell: any }) => {
+      return DEFAULT_OUTCOMES.includes(cell.row.original.pluralName) ? null : (
+        <div className={'flex justify-center gap-4'}>
+          <span
+            className={'wm-edit cursor-pointer'}
+            onClick={() => onHandleRowEdit?.(cell.row.original)}
             style={{
-              minWidth: '1.875rem',
-              width: '1.875rem',
-              height: '1.875rem',
+              fontSize: '1rem',
             }}
           />
-        )}
-      </div>
-    ),
-  },
-  {
-    sortFieldName: 'NAME',
-    id: 'name',
-    label: 'Title',
-    isAscDescSortable: true,
-    renderFunction: ({ name, pluralName }) => name + ' / ' + pluralName,
-  },
-  {
-    sortFieldName: 'CREATED_BY',
-    id: 'createdBy',
-    label: 'Created by',
-    isAscDescSortable: true,
-    renderFunction: ({ user }) => (user ? user?.firstName + ' ' + user?.lastName : 'Default'),
-  },
-  {
-    sortFieldName: 'CREATED_AT',
-    id: 'createdAt',
-    label: 'Date Created',
-    isAscDescSortable: true,
-    renderFunction: ({ createdAt }) => createdAt && dayjs(createdAt)?.format('MMM DD, YYYY'),
-  },
-  {
-    id: 'operation',
-    label: ' ',
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
+        </div>
+      );
+    },
   },
 ];
 
@@ -111,8 +112,8 @@ export const OUTCOMES_FORM_ELEMENTS: Array<OutcomesElementType> = [
 ];
 
 export const DEFAULT_GET_OUTCOMES_PARAMS = {
-  sortBy: OutcomeGroupSortByEnum.CreatedAt,
+  sortBy: OutcomeGroupSortByEnum.createdBy,
   orderBy: OrderByEnum.Desc,
 };
 
-export { OUTCOME_OPTIONS, WORKSPACE_OUTCOMES_COLUMNS, OUTCOMES_VALIDATION_SCHEMA };
+export { WORKSPACE_OUTCOMES_COLUMNS, OUTCOMES_VALIDATION_SCHEMA };

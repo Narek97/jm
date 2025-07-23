@@ -5,10 +5,9 @@ import {
   GetPerformanceLogsQuery,
   useGetPerformanceLogsQuery,
 } from '@/api/queries/generated/getPerformance.generated.ts';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { PERFORMANCE_LOGS_LIMIT } from '@/Constants/pagination.ts';
 import PerformanceLogsDeleteModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsDeleteModal';
 import PerformanceLogsQueryModal from '@/Screens/AdminScreen/components/PerformanceLogs/components/PerformanceLogsQueryModal';
@@ -45,7 +44,7 @@ const PerformanceLogs = () => {
     setIsOpenQueriesModal(prev => !prev);
   }, []);
 
-  const onHandleClickRow = useCallback(
+  const onHandleRowClick = useCallback(
     (performanceLogItem: PerformanceLogsType) => {
       toggleQueriesModal(performanceLogItem?.sqlRowQueries || ['']);
     },
@@ -53,8 +52,11 @@ const PerformanceLogs = () => {
   );
 
   const columns = useMemo(() => {
-    return PERFORMANCE_LOGS_TABLE_COLUMNS({ toggleDeleteModal });
-  }, [toggleDeleteModal]);
+    return PERFORMANCE_LOGS_TABLE_COLUMNS({
+      onHandleRowDelete: toggleDeleteModal,
+      onHandleRowClick,
+    });
+  }, [toggleDeleteModal, onHandleRowClick]);
 
   if (error) {
     return <CustomError error={error?.message} />;
@@ -66,7 +68,6 @@ const PerformanceLogs = () => {
 
   return (
     <div className={`performance-logs`}>
-      {isLoading && <WuBaseLoader />}
       {isOpenDeleteModal && (
         <PerformanceLogsDeleteModal handleClose={toggleDeleteModal} isOpen={isOpenDeleteModal} />
       )}
@@ -78,14 +79,7 @@ const PerformanceLogs = () => {
         />
       )}
 
-      {!isLoading && (
-        <CustomTable
-          isTableHead={true}
-          rows={performanceLogs}
-          columns={columns}
-          onClickRow={onHandleClickRow}
-        />
-      )}
+      <BaseWuDataTable isLoading={isLoading} columns={columns} data={performanceLogs} />
     </div>
   );
 };

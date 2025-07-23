@@ -1,12 +1,22 @@
 import { FC } from 'react';
 
 import './style.scss';
+import packageJson from '../../../../../package.json';
+
 import {
   GetUserLastPerformanceLogQuery,
   useGetUserLastPerformanceLogQuery,
 } from '@/api/queries/generated/getUserLastPerformanceLog.generated.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+
+const wickUiVersion = (packageJson.devDependencies['@npm-questionpro/wick-ui-lib'] || '').replace(
+  /^[^\d]*/,
+  '',
+);
+const wickUiIconsVersion = (
+  packageJson.devDependencies['@npm-questionpro/wick-ui-icon'] || ''
+).replace(/^[^\d]*/, '');
 
 interface ILastLogQueryModal {
   isOpen: boolean;
@@ -84,6 +94,14 @@ const LastLogQueryModal: FC<ILastLogQueryModal> = ({ handleClose, isOpen }) => {
             <div className={'last-user-query-modal--query-item'}>
               <p className={'last-user-query-modal--title'}>Query Method: </p>
               <p className={'last-user-query-modal--key'}>{query?.method}</p>
+            </div>
+            <div className={'last-user-query-modal--query-item'}>
+              <p className={'last-user-query-modal--title'}>Wick Ui version: </p>
+              <p>{wickUiVersion}</p>
+            </div>
+            <div className={'last-user-query-modal--query-item'}>
+              <p className={'last-user-query-modal--title'}>Wick Ui icons version: </p>
+              <p>{wickUiIconsVersion}</p>
             </div>
             <div className={'last-user-query-modal--query-item'}>
               <p className={'last-user-query-modal--title'}>Query SQL: </p>

@@ -2,7 +2,7 @@ import { FC, ReactNode, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import DeleteAssignedPersona from '@/Components/Feature/DeleteAssignedPersona';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
@@ -77,11 +77,11 @@ const PersonaImages: FC<IPersonaImages> = ({
       />
       {!disabled && addNewPersonaButton}
       {personas?.slice(0, showFullItems ? personas.length : sliceCount)?.map((imageItem, index) => (
-        <Tooltip
+        <WuTooltip
           key={index}
-          title={disabled ? '' : imageItem?.name + ', ' + (imageItem?.type?.toLowerCase() || '')}
-          placement="bottom"
-          arrow>
+          content={disabled ? '' : imageItem?.name + ', ' + (imageItem?.type?.toLowerCase() || '')}
+          position="bottom"
+          showArrow>
           <div
             className={'persona-images--card'}
             style={{
@@ -132,7 +132,7 @@ const PersonaImages: FC<IPersonaImages> = ({
               </button>
             )}
           </div>
-        </Tooltip>
+        </WuTooltip>
       ))}
       {!showFullItems && personas?.length > sliceCount && (
         <>

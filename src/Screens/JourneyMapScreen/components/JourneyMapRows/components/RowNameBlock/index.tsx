@@ -3,7 +3,7 @@ import { FC, memo, useCallback, useMemo, useState } from 'react';
 import './style.scss';
 
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -285,17 +285,18 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                 <div {...dragHandleProps} />
               )}
               {/*todo*/}
-              <Tooltip
-                title={labelValue}
-                arrow
-                placement="top"
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      maxWidth: '11rem',
-                    },
-                  },
-                }}>
+              <WuTooltip
+                content={labelValue}
+                showArrow
+                position="top"
+                // componentsProps={{
+                //   tooltip: {
+                //     sx: {
+                //       maxWidth: '11rem',
+                //     },
+                //   },
+                // }}
+              >
                 <div>
                   <CustomInput
                     sxStyles={{
@@ -353,7 +354,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                     padding={0}
                   />
                 </div>
-              </Tooltip>
+              </WuTooltip>
 
               <div className="journey-map-row-name--collapse-and-options">
                 <div className={'journey-map-row-name--collapse-and-options--menu'}>
@@ -401,10 +402,10 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                 ) : (
                   <>
                     {rowItem.rowFunction === MapRowTypeEnum.Divider ? null : (
-                      <Tooltip
-                        placement="top"
-                        title={rowItem.isCollapsed ? 'Uncollapse' : 'Collapse'}
-                        arrow>
+                      <WuTooltip
+                        position="top"
+                        content={rowItem.isCollapsed ? 'Uncollapse' : 'Collapse'}
+                        showArrow>
                         <button
                           aria-label={'arrow'}
                           data-testid={'collapse-btn-test-id'}
@@ -416,7 +417,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                           onClick={onHandleCollapse}>
                           <span className={'wm-arrow-drop-down'} />
                         </button>
-                      </Tooltip>
+                      </WuTooltip>
                     )}
                   </>
                 )}

@@ -1,31 +1,32 @@
 import dayjs from 'dayjs';
 
-import { TableColumnType } from '@/types';
-
-const MAPS_TABLE_COLUMNS: Array<TableColumnType> = [
+const MAPS_TABLE_COLUMNS = [
   {
-    id: 'title',
-    label: 'Title',
-  },
-  {
-    id: 'creator_email',
-    label: 'Creator Email',
-    renderFunction: row => {
-      return <>{row.owner.emailAddress}</>;
+    accessorKey: 'title',
+    header: 'Title',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.getValue() || 'Untitled'}</>;
     },
   },
   {
-    id: 'orgId',
-    label: 'OrgId',
-    renderFunction: row => {
-      return <>{row.owner.orgId}</>;
+    accessorKey: 'creator_email',
+    header: 'Creator Email',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.owner.emailAddress}</>;
     },
   },
   {
-    id: 'createdAt',
-    label: 'Created at',
-    renderFunction: row => {
-      return <>{dayjs(row.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    accessorKey: 'orgId',
+    header: 'OrgId',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.owner.orgId}</>;
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created at',
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
     },
   },
 ];

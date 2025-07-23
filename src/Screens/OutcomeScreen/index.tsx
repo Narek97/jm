@@ -5,7 +5,7 @@ import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
 import AddUpdateOutcomeItemModal from './components/AddUpdateOutcomeModal';
-import { OUTCOME_OPTIONS, OUTCOME_TABLE_COLUMNS } from './constants';
+import { OUTCOME_TABLE_COLUMNS } from './constants';
 import { OutcomeGroupOutcomeType } from './types';
 
 import {
@@ -17,8 +17,8 @@ import {
   useGetOutcomeGroupQuery,
 } from '@/api/queries/generated/getOutcomeGroup.generated.ts';
 import { OrderByEnum, OutcomeListEnum, SortByEnum } from '@/api/types';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -29,6 +29,7 @@ import {
   useSetQueryDataByKeys,
 } from '@/Hooks/useQueryKey.ts';
 import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { SortType } from '@/types';
 
 const OutcomeScreen = () => {
   const { workspaceId, outcomeId } = useParams({
@@ -61,10 +62,20 @@ const OutcomeScreen = () => {
     },
   ]);
 
-  const { isPending: isLoadingDeleteOutcome, mutate: deleteOutcome } = useDeleteOutcomeMutation<
-    Error,
-    DeleteOutcomeMutation
-  >();
+  const { mutate: deleteOutcome } = useDeleteOutcomeMutation<Error, DeleteOutcomeMutation>({
+    onSuccess: () => {
+      showToast({
+        variant: 'success',
+        message: 'Outcome deleted successfully',
+      });
+    },
+    onError: error => {
+      showToast({
+        variant: 'error',
+        message: error?.message,
+      });
+    },
+  });
 
   const {
     data: dataOutcomesGroup,
@@ -163,52 +174,53 @@ const OutcomeScreen = () => {
   };
 
   const onHandleDeleteOutcome = useCallback(
-    (outcome: OutcomeGroupOutcomeType) => {
-      const { id } = outcome;
-      deleteOutcome(
-        { id },
-        {
-          onSuccess: () => {
-            if (
-              currentPage * OUTCOMES_LIMIT >= outcomeGroupCount &&
-              dataOutcomesGroup?.getOutcomeGroup.outcomes.length === 1 &&
-              currentPage !== 1
-            ) {
-              setOffset(prev => prev - OUTCOMES_LIMIT);
-              setCurrentPage(prev => prev - 1);
-            } else if (
-              currentPage * OUTCOMES_LIMIT < outcomeGroupCount &&
-              outcomeGroupCount > OUTCOMES_LIMIT
-            ) {
-              setRemoveOutcomeGroupQuery('GetOutcomeGroup', {
-                input: 'getOutcomesInput',
-                key: 'offset',
-                value: offset,
-                deleteUpcoming: true,
-              });
-            }
-            setAllOutcomeGroup((oldData: any) => {
-              if (oldData) {
-                return {
-                  getOutcomeGroup: {
-                    ...oldData.getOutcomeGroup.outcomeGroups,
-                    outcomesCount: oldData.getMyBoards.count - 1,
-                    outcomes: oldData.getMyBoards.outcomeGroups.filter(
-                      (outcome: OutcomeGroupOutcomeType) => outcome.id !== id,
-                    ),
-                  },
-                };
+    (outcome?: OutcomeGroupOutcomeType) => {
+      if (outcome) {
+        deleteOutcome(
+          { id: outcome.id },
+          {
+            onSuccess: () => {
+              if (
+                currentPage * OUTCOMES_LIMIT >= outcomeGroupCount &&
+                dataOutcomesGroup?.getOutcomeGroup.outcomes.length === 1 &&
+                currentPage !== 1
+              ) {
+                setOffset(prev => prev - OUTCOMES_LIMIT);
+                setCurrentPage(prev => prev - 1);
+              } else if (
+                currentPage * OUTCOMES_LIMIT < outcomeGroupCount &&
+                outcomeGroupCount > OUTCOMES_LIMIT
+              ) {
+                setRemoveOutcomeGroupQuery('GetOutcomeGroup', {
+                  input: 'getOutcomesInput',
+                  key: 'offset',
+                  value: offset,
+                  deleteUpcoming: true,
+                });
               }
-            });
+              setAllOutcomeGroup((oldData: any) => {
+                if (oldData) {
+                  return {
+                    getOutcomeGroup: {
+                      ...oldData.getOutcomeGroup.outcomeGroups,
+                      outcomesCount: oldData.getMyBoards.count - 1,
+                      outcomes: oldData.getMyBoards.outcomeGroups.filter(
+                        (oc: OutcomeGroupOutcomeType) => oc.id !== outcome.id,
+                      ),
+                    },
+                  };
+                }
+              });
+            },
+            onError: error => {
+              showToast({
+                variant: 'error',
+                message: error?.message,
+              });
+            },
           },
-          onError: error => {
-            showToast({
-              variant: 'error',
-              message: error?.message,
-            });
-          },
-        },
-      );
+        );
+      }
     },
     [
       currentPage,
@@ -222,20 +234,20 @@ const OutcomeScreen = () => {
     ],
   );
 
-  const sortTableByField = async (newOrderBy: OrderByEnum, newSortBy: string) => {
-    setSortBy(newSortBy as SortByEnum);
-    setOrderBy(newOrderBy);
+  const sortTableByField = (newOrderBy: SortType) => {
+    setSortBy(newOrderBy.id as SortByEnum);
+    setOrderBy(newOrderBy.desc ? OrderByEnum.Desc : OrderByEnum.Asc);
     setCurrentPage(1);
   };
 
-  const options = useMemo(() => {
-    return OUTCOME_OPTIONS({
-      onHandleEdit: onHandleEditOutcome,
-      onHandleDelete: onHandleDeleteOutcome,
-    });
-  }, [onHandleDeleteOutcome, onHandleEditOutcome]);
-
-  const columns = useMemo(() => OUTCOME_TABLE_COLUMNS, []);
+  const columns = useMemo(
+    () =>
+      OUTCOME_TABLE_COLUMNS({
+        onHandleRowEdit: onHandleEditOutcome,
+        onHandleRowDelete: onHandleDeleteOutcome,
+      }),
+    [onHandleDeleteOutcome, onHandleEditOutcome],
+  );
 
   const onHandleChangePage = useCallback((newPage: number) => {
     setCurrentPage(newPage);
@@ -295,21 +307,16 @@ const OutcomeScreen = () => {
         </div>
       </div>
 
-      {isLoadingOutcomesGroup && <WuBaseLoader />}
-
       {!isLoadingOutcomesGroup && !outcomesGroup.length && (
         <EmptyDataInfo message={`There are no ${pluralName} yet`} />
       )}
       {outcomesGroup.length > 0 && (
         <div className="outcome-container--body">
-          <CustomTable
-            sortAscDescByField={sortTableByField}
-            dashedStyle={false}
-            isTableHead
-            rows={outcomesGroup}
+          <BaseWuDataTable
+            isLoading={isLoadingOutcomesGroup}
             columns={columns}
-            options={options}
-            processingItemId={isLoadingDeleteOutcome ? selectedOutcome?.id : null}
+            data={outcomesGroup}
+            onHandleSort={sortTableByField}
           />
         </div>
       )}

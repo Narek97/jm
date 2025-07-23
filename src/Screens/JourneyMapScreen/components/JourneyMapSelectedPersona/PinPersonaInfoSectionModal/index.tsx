@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import {
   PinDemographicInfoMutation,
@@ -234,11 +234,14 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
                   }}
                 />
                 <div className={'pin-persona-info-section--info-block--type-journeys-block'}>
-                  <Tooltip title={selectedJourneyMapPersona?.name} arrow placement={'bottom'}>
+                  <WuTooltip
+                    content={selectedJourneyMapPersona?.name}
+                    showArrow
+                    position={'bottom'}>
                     <p className={'pin-persona-info-section--persona-name'}>
                       {selectedJourneyMapPersona?.name}
                     </p>
-                  </Tooltip>
+                  </WuTooltip>
                   <p className={'pin-persona-info-section--info-block--persona-type'}>
                     {selectedJourneyMapPersona?.type}
                   </p>
@@ -270,11 +273,11 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
                         }`}
                         data-testid="pin-persona-info-test-id"
                         onClick={() => info.value && onHandleInfoSelect(info)}>
-                        <Tooltip title={info.value} key={info.id} placement="right" arrow>
+                        <WuTooltip content={info.value} key={info.id} position="right" showArrow>
                           <span>
                             {info.key}: {info.value || 'N/A'}
                           </span>
-                        </Tooltip>
+                        </WuTooltip>
 
                         <button data-testid={'hide-show-info'}>
                           {info.isPinned ? (
@@ -310,8 +313,8 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
                             onHandleInfoSelect(info);
                           }
                         }}>
-                        <Tooltip
-                          title={
+                        <WuTooltip
+                          content={
                             info.type === DemographicInfoTypeEnum.Content ? (
                               <span
                                 className={'content-field-section'}
@@ -325,8 +328,8 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
                             )
                           }
                           key={info.id}
-                          placement="right"
-                          arrow>
+                          position="right"
+                          showArrow>
                           {info.type === DemographicInfoTypeEnum.Content ? (
                             <span
                               className={'content-field-section'}
@@ -354,7 +357,7 @@ const PinPersonaInfoSectionModal: FC<IPinPersonaInfoSectionModal> = ({
                               )}
                             </span>
                           )}
-                        </Tooltip>
+                        </WuTooltip>
 
                         <button data-testid={'hide-show-info'}>
                           {info.isPinned ? (

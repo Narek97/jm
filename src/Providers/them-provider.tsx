@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { ThemeProvider } from '@mui/material';
 
-import { theme } from '@/Assets/mui/mui-customize';
+import { theme } from '../Assets/mui/mui-customize.ts';
 
 interface IThemProviderProps {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
 
-import { MenuOptionsType, TableColumnPropsType, TableColumnType } from '@/types';
+import { MenuOptionsType } from '@/types';
 
 const UPDATE_LAYER_VALIDATION_SCHEMA = yup
   .object({
@@ -24,87 +24,63 @@ const UPDATE_LAYER_VALIDATION_SCHEMA = yup
   })
   .required();
 
-const PARENT_JOURNEY_MAPS_TABLE_COLUMNS = ({
-  checkedItemsCount,
-}: TableColumnPropsType): Array<TableColumnType> => [
+const PARENT_JOURNEY_MAPS_TABLE_COLUMNS = (
+  onHandleClickRow: (id: number, title: string) => void,
+) => [
   {
-    sortFieldName: 'title',
-    id: 'title',
-    label: (
-      <>
-        <span>Journey map name</span>
-      </>
-    ),
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
+    accessorKey: 'title',
+    header: <span>Journey map name</span>,
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
       return (
-        <span className={'table-title-column'}>
-          <span>{row.title}</span>
+        <span
+          className={'h-full flex items-center cursor-pointer'}
+          onClick={() => onHandleClickRow(cell.row.original.id, cell.row.original.title)}>
+          {cell.row.original.title || 'Untitled'}
         </span>
       );
     },
   },
   {
-    sortFieldName: 'emailAddress',
-    id: 'owner',
-    label: 'Owner',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
+    accessorKey: 'owner',
+    header: 'Owner',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
       return (
-        <span>
-          {row.owner.firstName} {row.owner.lastName}
+        <span
+          className={'h-full flex items-center cursor-pointer'}
+          onClick={() => onHandleClickRow(cell.row.original.id, cell.row.original.title)}>
+          {cell.row.original.owner.firstName} {cell.row.original.owner.lastName}
         </span>
       );
     },
   },
   {
-    sortFieldName: 'createdAt',
-    id: 'createdAt',
-    label: 'Created at',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <span>{dayjs(row.createdAt).format('MMM D YYYY')}</span>;
+    accessorKey: 'createdAt',
+    header: 'Created at',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <span
+          className={'h-full flex items-center cursor-pointer'}
+          onClick={() => onHandleClickRow(cell.row.original.id, cell.row.original.title)}>
+          {dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}
+        </span>
+      );
     },
   },
   {
-    sortFieldName: 'updatedAt',
-    id: 'updatedAt',
-    label: 'Last update',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <span>{dayjs(row.updatedAt).format('MMM D YYYY')}</span>;
+    accessorKey: 'updatedAt',
+    header: 'Last update',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <span
+          className={'h-full flex items-center cursor-pointer'}
+          onClick={() => onHandleClickRow(cell.row.original.id, cell.row.original.title)}>
+          {dayjs(cell.row.original.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}
+        </span>
+      );
     },
   },
 ];

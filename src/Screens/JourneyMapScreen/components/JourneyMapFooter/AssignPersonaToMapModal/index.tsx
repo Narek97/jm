@@ -33,21 +33,16 @@ import { PersonaType } from '@/Screens/JourneyMapScreen/components/JourneyMapFoo
 import { ImageSizeEnum } from '@/types/enum';
 
 interface IAssignPersonaToMapModal {
-  isOpen: boolean;
   workspaceId: number;
   mapId: number;
-  handleClose: () => void;
 }
 
-const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
-  isOpen,
-  workspaceId,
-  mapId,
-  handleClose,
-}) => {
+const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({ workspaceId, mapId }) => {
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [personaGroupId, setPersonaGroupId] = useState<number | null>(null);
   const [personaIdList, setPersonaIdList] = useState<number[]>([]);
@@ -139,6 +134,10 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
     }
   };
 
+  const handleToggleOpenModal = () => {
+    setIsModalOpen((prevState: boolean) => !prevState);
+  };
+
   const onHandleConnectPersonasToMap = () => {
     connectOrDisconnectPersonas(
       {
@@ -151,7 +150,7 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({ queryKey: ['GetMapSelectedPersonas'] });
-          handleClose();
+          setIsModalOpen(false);
         },
       },
     );
@@ -195,10 +194,24 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({
 
   return (
     <>
+      <button
+        data-testid="add-btn-id"
+        disabled={false}
+        onClick={handleToggleOpenModal}
+        className={'journey-map-footer--add-new-persona-btn'}>
+        <span
+          className={'wm-group'}
+          style={{
+            color: '#1b87e6',
+          }}
+        />
+      </button>
       <BaseWuModal
-        handleClose={handleClose}
-        isOpen={isOpen}
+        isOpen={isModalOpen}
+        handleClose={handleToggleOpenModal}
         headerTitle={'Add personas'}
+        canCloseWithOutsideClick
+        modalSize="md"
         cancelButton={
           <WuButton
             data-testid="first-btn-test-id"

@@ -14,12 +14,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   CREATE_METRICS_VALIDATION_SCHEMA,
-  CUSTOM_METRICS_OPTIONS,
   CUSTOM_METRICS_TABLE_COLUMNS,
   METRIC_CES_DATA_POINT_TABLE_COLUMNS,
   METRIC_CSAT_DATA_POINT_TABLE_COLUMNS,
   METRIC_NPS_DATA_POINT_TABLE_COLUMNS,
-  METRICS_DATA_POINT_EXEL_OPTIONS,
   METRICS_DEFAULT_DATA,
   METRICS_SOURCE_ITEM,
   METRICS_TRACK_ITEM,
@@ -51,18 +49,18 @@ import {
   useGetDataPointsQuery,
 } from '@/api/queries/generated/getDataPoints.generated.ts';
 import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/types';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import CustomInput from '@/Components/Shared/CustomInput';
-import CustomTable from '@/Components/Shared/CustomTable';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
 import { useUserStore } from '@/Store/user.ts';
 import { useWorkspaceStore } from '@/Store/workspace.ts';
-import { ObjectKeysType, TableColumnType } from '@/types';
+import { ObjectKeysType } from '@/types';
 import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 
 const AddDataPointModal = lazy(() => import('./AddDataPointModal/index.tsx'));
@@ -289,18 +287,18 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
     [onToggleAddCustomMetricsModal],
   );
 
-  const onHandleDeleteDataPont = useCallback((item: { id: string | number }) => {
-    if (typeof item?.id === 'number') {
-      setDeletedDataPointsIds(prev => [...prev, item.id as number]);
+  const onHandleDeleteDataPont = useCallback((metrics?: DatapointType | CustomMetricsType) => {
+    if (metrics && typeof metrics?.id === 'number') {
+      setDeletedDataPointsIds(prev => [...prev, metrics.id as number]);
     }
-    setDataPoints(prev => prev.filter(r => r.id !== item.id));
+    setDataPoints(prev => prev.filter(r => r.id !== metrics?.id));
   }, []);
 
-  const onHandleDeleteCustomMetrics = useCallback((item: { id: string | number }) => {
-    if (typeof item?.id === 'number') {
-      setDeletedCustomMetricsIds(prev => [...prev, item.id as number]);
+  const onHandleDeleteCustomMetrics = useCallback((metrics?: DatapointType | CustomMetricsType) => {
+    if (metrics && typeof metrics.id === 'number') {
+      setDeletedCustomMetricsIds(prev => [...prev, metrics.id as number]);
     }
-    setCustomMetrics(prev => prev.filter(m => m.id !== item.id));
+    setCustomMetrics(prev => prev.filter(m => m.id !== metrics?.id));
   }, []);
 
   const onHandleSetUploadFile = useCallback((dataFile: ObjectKeysType[]) => {
@@ -576,25 +574,27 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
     }
   };
 
-  const dataPointOptions = useMemo(() => {
-    return METRICS_DATA_POINT_EXEL_OPTIONS({
-      onHandleDelete: onHandleDeleteDataPont,
-    });
+  const dataPointsColumns: ObjectKeysType = useMemo(() => {
+    return {
+      [MetricsTypeEnum.Nps]: METRIC_NPS_DATA_POINT_TABLE_COLUMNS({
+        onHandleRowDelete: onHandleDeleteDataPont,
+      }),
+      [MetricsTypeEnum.Csat]: METRIC_CSAT_DATA_POINT_TABLE_COLUMNS({
+        onHandleRowDelete: onHandleDeleteDataPont,
+      }),
+      [MetricsTypeEnum.Ces]: METRIC_CES_DATA_POINT_TABLE_COLUMNS({
+        onHandleRowDelete: onHandleDeleteDataPont,
+      }),
+    };
   }, [onHandleDeleteDataPont]);
 
-  const customMetricsOptions = useMemo(() => {
-    return CUSTOM_METRICS_OPTIONS({
-      onHandleDelete: onHandleDeleteCustomMetrics,
-    });
-  }, [onHandleDeleteCustomMetrics]);
-
-  const columns: { [key: string]: Array<TableColumnType> } = useMemo(() => {
-    return {
-      [MetricsTypeEnum.Nps]: METRIC_NPS_DATA_POINT_TABLE_COLUMNS(),
-      [MetricsTypeEnum.Csat]: METRIC_CSAT_DATA_POINT_TABLE_COLUMNS(),
-      [MetricsTypeEnum.Ces]: METRIC_CES_DATA_POINT_TABLE_COLUMNS(),
-    };
-  }, []);
+  const customMetricColumns = useMemo(
+    () =>
+      CUSTOM_METRICS_TABLE_COLUMNS({
+        onHandleRowDelete: onHandleDeleteCustomMetrics,
+      }),
+    [onHandleDeleteCustomMetrics],
+  );
 
   const calcIsDateRepeat = useCallback((data: DatapointType[] | CustomMetricsType[]) => {
     data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -1069,6 +1069,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                         </WuButton>
                         {source === MetricsSourceEnum.Manual && (
                           <WuButton
+                            type={'button'}
                             data-testid={'import-data-point-btn-test-id'}
                             onClick={onToggleImportDataPointModal}>
                             Import in bulk
@@ -1087,19 +1088,17 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                         <>
                           {/* Render the table if rows exist */}
                           {dataPoints.length > 0 && (
-                            <CustomTable
-                              columns={columns[type]}
-                              rows={calcIsDateRepeat(dataPoints)}
-                              options={dataPointOptions}
+                            <BaseWuDataTable<DatapointType | CustomMetricsType>
+                              columns={dataPointsColumns[type]}
+                              data={calcIsDateRepeat(dataPoints)}
                             />
                           )}
 
                           {/* Render custom metrics if they exist */}
                           {customMetrics.length > 0 && (
-                            <CustomTable
-                              columns={CUSTOM_METRICS_TABLE_COLUMNS}
-                              rows={calcIsDateRepeat(customMetrics)}
-                              options={customMetricsOptions}
+                            <BaseWuDataTable<DatapointType | CustomMetricsType>
+                              columns={customMetricColumns}
+                              data={calcIsDateRepeat(customMetrics)}
                             />
                           )}
                         </>

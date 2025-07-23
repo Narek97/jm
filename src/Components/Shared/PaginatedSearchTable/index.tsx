@@ -4,12 +4,11 @@ import './style.scss';
 import { useWuShowToast, WuInput, WuPopover } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 
@@ -142,15 +141,13 @@ const PaginatedSearchTable = <T,>({
         )}
       </div>
 
-      {(isLoading || isRefetching) && !rows.length && <WuBaseLoader />}
-
       {!isLoading && !isRefetching && !rows.length && (
         <EmptyDataInfo message={`There are no ${label} yet`} />
       )}
 
       {rows.length > 0 && (
         <div className="paginated-search-table--table-container">
-          <CustomTable dashedStyle={false} isTableHead rows={rows} columns={columns} />
+          <BaseWuDataTable isLoading={isLoading} columns={columns} data={rows} />
         </div>
       )}
     </div>

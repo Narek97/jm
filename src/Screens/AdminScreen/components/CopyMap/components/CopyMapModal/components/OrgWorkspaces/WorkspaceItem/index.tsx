@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { OrgWorkspaceType } from '../types';
 
@@ -19,14 +19,14 @@ const WorkspaceItem: FC<IWorkspaceItem> = ({ workspace, handleClick }) => {
       className={`workspace-list--item`}
       onClick={() => handleClick(workspace)}>
       <div className="workspace-list--item--content">
-        <Tooltip title={workspace?.name} arrow placement={'bottom'}>
+        <WuTooltip content={workspace?.name} showArrow position={'bottom'}>
           <div
             className={`workspace-list--item--content--title ${
               !workspace.name?.length ? 'no-title' : ''
             }`}>
             {workspace?.name || 'No name'}
           </div>
-        </Tooltip>
+        </WuTooltip>
       </div>
     </li>
   );

@@ -1,9 +1,8 @@
-import Checkbox from '@mui/material/Checkbox';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
-import { MenuOptionsType, TableColumnOptionType, TableColumnType } from '@/types';
+import { MenuOptionsType, TableColumnOptionType } from '@/types';
 
 dayjs.extend(fromNow);
 
@@ -14,154 +13,80 @@ const JOURNEYS_VIEW_TABS = [
 ];
 
 const JOURNEY_MAPS_TABLE_COLUMNS = ({
-  onHandleRowClick,
-  toggleDeleteModal,
-  checkedItemsCount,
-}: TableColumnOptionType): Array<TableColumnType> => [
+  onHandleRowDelete,
+  onHandleCopy,
+  onHandleCopyShareUrl,
+}: TableColumnOptionType<JourneyType>) => [
   {
-    id: 'checkbox',
-    label: (
-      <Checkbox
-        checked={!!checkedItemsCount}
-        onChange={() => onHandleRowClick && onHandleRowClick(0, 'checkAll')}
-      />
-    ),
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
+    accessorKey: 'title',
+    header: 'Journey map name',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <span>{cell.row.original.title.trim() || 'Untitled'}</span>;
     },
-    renderFunction: row => {
+  },
+  {
+    accessorKey: 'parent',
+    header: 'Parent',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
       return (
-        <div>
-          <Checkbox
-            checked={!!row.checked}
-            onChange={() => onHandleRowClick && onHandleRowClick(row.id, 'checkbox')}
-          />
-        </div>
+        <>
+          {(cell.row.original.parentMaps?.length &&
+            cell.row.original.parentMaps[0].parentMap?.title) ||
+            'None'}
+        </>
       );
     },
   },
-
   {
-    sortFieldName: 'title',
-    id: 'title',
-    label: (
-      <>
-        {checkedItemsCount ? (
+    accessorKey: 'emailAddress',
+    header: 'Owner',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{cell.row.original.owner.emailAddress}</>;
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created at',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    },
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Last update',
+    enableSorting: true,
+    cell: ({ cell }: { cell: any }) => {
+      return <>{dayjs(cell.row.original.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+    },
+  },
+  {
+    accessorKey: 'actions',
+    header: 'Actions',
+    cell: ({ cell }: { cell: any }) => {
+      return (
+        <div className={'flex justify-center gap-4'}>
           <span
+            className={'wm-content-copy cursor-pointer'}
             style={{
-              color: '#ffffff',
-            }}>
-            {checkedItemsCount} selected
-          </span>
-        ) : (
-          <span>Journey map name</span>
-        )}
-      </>
-    ),
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return (
-        <div
-          className={'table-title-column'}
-          onClick={() => onHandleRowClick && onHandleRowClick(row.id, 'title')}>
-          {!!row?.parentMaps?.length && <span className={'wc-level-child'} />}
-          <span>{row.title.trim() || 'Untitled'}</span>
+              fontSize: '1rem',
+            }}
+            onClick={() => onHandleCopy?.(cell.row.original)}
+          />
+          <span
+            className={'wm-share-windows cursor-pointer'}
+            style={{
+              fontSize: '1rem',
+            }}
+            onClick={() => onHandleCopyShareUrl?.(cell.row.original)}
+          />
+          <span className={'wm-delete'} onClick={() => onHandleRowDelete?.(cell.row.original)} />
         </div>
       );
     },
-  },
-  {
-    sortFieldName: 'parent',
-    id: 'parent',
-    label: 'Parent',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <div>{(row.parentMaps?.length && row.parentMaps[0].parentMap?.title) || 'None'}</div>;
-    },
-  },
-  {
-    sortFieldName: 'emailAddress',
-    id: 'emailAddress',
-    label: 'Owner',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <div>{row.owner.emailAddress}</div>;
-    },
-  },
-  {
-    sortFieldName: 'createdAt',
-    id: 'createdAt',
-    label: 'Created at',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <div>{dayjs(row.createdAt).format('MMM D YYYY')}</div>;
-    },
-  },
-  {
-    sortFieldName: 'updatedAt',
-    id: 'updatedAt',
-    label: 'Last update',
-    isAscDescSortable: true,
-    style: {
-      '.custom-table--header-head': {
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-      '.custom-table--header-item, .custom-table--header-item-sort': {
-        visibility: checkedItemsCount ? 'hidden' : 'visible',
-      },
-    },
-    renderFunction: row => {
-      return <div>{dayjs(row.updatedAt).format('MMM D YYYY')}</div>;
-    },
-  },
-  {
-    id: 'operation',
-    label: checkedItemsCount ? (
-      <span className={'wm-delete text-[#ffffff]'} data-testid={'error-logs-delete-btn'} />
-    ) : (
-      ''
-    ),
-    style: {
-      '.custom-table--header-head': {
-        justifyContent: 'flex-end',
-        backgroundColor: checkedItemsCount ? '#404040' : '',
-      },
-    },
-    onClick: toggleDeleteModal,
   },
 ];
 

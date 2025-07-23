@@ -2827,9 +2827,9 @@ export type OutcomeGroupResponse = {
 };
 
 export enum OutcomeGroupSortByEnum {
-  CreatedAt = 'CREATED_AT',
-  CreatedBy = 'CREATED_BY',
-  Name = 'NAME',
+  createdAt = 'CREATED_AT',
+  createdBy = 'CREATED_BY',
+  name = 'NAME',
 }
 
 export type OutcomeGroupWithOutcomeCounts = {

@@ -2,7 +2,8 @@ import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 
 import './style.scss';
 
-import { Menu, MenuItem, Tooltip } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { MenuOptionsType, ObjectKeysType } from '@/types';
 import { MenuItemIconPositionEnum, MenuViewTypeEnum } from '@/types/enum.ts';
@@ -248,11 +249,11 @@ const Index: FC<ICustomLongMenu> = ({
               {option.isSubOption && (
                 <div className={`${primaryClassName}--sub-options`}>
                   {subOptions?.map((subOption, subIndex) => (
-                    <Tooltip
+                    <WuTooltip
                       key={subOption.name + subIndex}
-                      title={subOption?.name}
-                      placement="right"
-                      arrow>
+                      content={subOption?.name}
+                      position="right"
+                      showArrow>
                       <div
                         className={`${primaryClassName}--item ${primaryClassName}--sub-item`}
                         onClick={e => {
@@ -272,7 +273,7 @@ const Index: FC<ICustomLongMenu> = ({
                           {subOption?.icon}
                         </span>
                       </div>
-                    </Tooltip>
+                    </WuTooltip>
                   ))}
                 </div>
               )}

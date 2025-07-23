@@ -8,15 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { DatapointType } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import CustomTable from '@/Components/Shared/CustomTable';
 import {
   METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS,
   METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS,
   METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS,
-  METRICS_DATA_POINT_EXEL_OPTIONS,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
-import { ObjectKeysType, TableColumnType, TableRowItemChangeType } from '@/types';
+import { ObjectKeysType } from '@/types';
 import { isValidNumberFormat } from '@/utils/isValidNumberFormat';
 
 interface IImportDataPointTableModal {
@@ -111,42 +110,46 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
     }
   };
 
-  const onHandleRowChange = useCallback((item: TableRowItemChangeType) => {
-    setRows(prev =>
-      prev.map(r => {
-        if (r.id === item.id) {
-          return { ...r, [item.key]: item.value };
-        }
-        return r;
-      }),
-    );
-  }, []);
+  const onHandleRowChange = useCallback(
+    (data: DatapointType, value: string | number, key: string) => {
+      setRows(prev =>
+        prev.map(r => {
+          if (r.id === data.id) {
+            return { ...r, [key]: value };
+          }
+          return r;
+        }),
+      );
+    },
+    [],
+  );
 
-  const onHandleDelete = useCallback(
-    (item: { id: string | number }) => {
+  const onHandleRowDelete = useCallback(
+    (data?: DatapointType) => {
       if (rows.length === 1) {
         handleClose();
       }
-      setRows(prev => prev.filter(r => r.id !== item.id));
+      setRows(prev => prev.filter(r => r.id !== data?.id));
     },
     [handleClose, rows.length],
   );
 
-  const options = useMemo(() => {
-    return METRICS_DATA_POINT_EXEL_OPTIONS({
-      onHandleDelete,
-    });
-  }, [onHandleDelete]);
-
-  const columns: {
-    [key: string]: Array<TableColumnType>;
-  } = useMemo(() => {
+  const columns: ObjectKeysType = useMemo(() => {
     return {
-      [MetricsTypeEnum.Nps]: METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS({ onHandleRowChange }),
-      [MetricsTypeEnum.Csat]: METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS({ onHandleRowChange }),
-      [MetricsTypeEnum.Ces]: METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS({ onHandleRowChange }),
+      [MetricsTypeEnum.Nps]: METRIC_NPS_DATA_POINT_EXEL_TABLE_COLUMNS({
+        onHandleRowChange,
+        onHandleRowDelete,
+      }),
+      [MetricsTypeEnum.Csat]: METRIC_CSAT_DATA_POINT_EXEL_TABLE_COLUMNS({
+        onHandleRowChange,
+        onHandleRowDelete,
+      }),
+      [MetricsTypeEnum.Ces]: METRIC_CES_DATA_POINT_EXEL_TABLE_COLUMNS({
+        onHandleRowChange,
+        onHandleRowDelete,
+      }),
     };
-  }, [onHandleRowChange]);
+  }, [onHandleRowDelete, onHandleRowChange]);
 
   useEffect(() => {
     const transformedData = datapointFile
@@ -175,7 +178,7 @@ const ImportDataPointTableModal: FC<IImportDataPointTableModal> = ({
           Remap your data before importing it into your new metric
         </p>
         <div className={'import-data-point-table-modal--table-block'}>
-          <CustomTable columns={columns[metricsType]} rows={rows} options={options} />
+          <BaseWuDataTable columns={columns[metricsType]} data={rows} />
         </div>
       </div>
     </BaseWuModal>

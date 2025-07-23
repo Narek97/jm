@@ -1,34 +1,40 @@
 import dayjs from 'dayjs';
 
-import { TableColumnOptionType, TableColumnType } from '@/types';
+import { PerformanceLogsType } from '@/Screens/AdminScreen/components/PerformanceLogs/types.ts';
+import { TableColumnOptionType } from '@/types';
 
-const ERROR_TABLE_COLUMNS = ({
-  toggleDeleteModal,
-}: TableColumnOptionType): Array<TableColumnType> => {
+const ERROR_TABLE_COLUMNS = ({ onHandleRowDelete }: TableColumnOptionType<PerformanceLogsType>) => {
   return [
     {
-      id: 'path',
-      label: 'Path',
+      accessorKey: 'path',
+      header: 'Path',
     },
     {
-      id: 'message',
-      label: 'Message',
+      accessorKey: 'message',
+      header: 'Message',
     },
     {
-      id: 'status',
-      label: 'Status',
+      accessorKey: 'status',
+      header: 'Status',
     },
     {
-      id: 'updatedAt',
-      label: 'Time',
-      renderFunction: row => {
-        return <>{dayjs(row.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+      accessorKey: 'updatedAt',
+      header: 'Time',
+      cell: ({ cell }: { cell: any }) => {
+        return <>{dayjs(cell.row.original.updatedAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
       },
     },
     {
-      id: 'DeleteTable',
-      label: <span className={'wm-delete'} data-testid={'error-logs-delete-btn'} />,
-      onClick: toggleDeleteModal,
+      accessorKey: 'delete',
+      header: (
+        <div className={'text-center'}>
+          <span
+            className={'wm-delete'}
+            data-testid={'error-logs-delete-btn'}
+            onClick={() => onHandleRowDelete?.()}
+          />
+        </div>
+      ),
     },
   ];
 };

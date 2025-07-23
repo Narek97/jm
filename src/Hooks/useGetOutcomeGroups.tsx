@@ -18,7 +18,7 @@ const useGetOutcomeGroups = (needToGet: boolean) => {
       getOutcomeGroupsInput: {
         limit: OUTCOME_GROUPS_LIMIT,
         offset: 0,
-        sortBy: OutcomeGroupSortByEnum.CreatedAt,
+        sortBy: OutcomeGroupSortByEnum.createdBy,
         orderBy: OrderByEnum.Asc,
       },
     },

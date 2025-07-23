@@ -1,15 +1,11 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import './style.scss';
 
 import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import CreateUpdateOutcome from './components/CreateUpdateOutcome';
 import SearchNounProjectIcon from './components/SearchNounProjectIcon';
-import {
-  DEFAULT_GET_OUTCOMES_PARAMS,
-  OUTCOME_OPTIONS,
-  WORKSPACE_OUTCOMES_COLUMNS,
-} from './constants';
+import { DEFAULT_GET_OUTCOMES_PARAMS, WORKSPACE_OUTCOMES_COLUMNS } from './constants';
 
 import {
   CreateOrUpdateOutcomeGroupMutation,
@@ -24,8 +20,8 @@ import {
   useGetOutcomeGroupsQuery,
 } from '@/api/queries/generated/getOutcomeGroups.generated.ts';
 import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -36,12 +32,14 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/Hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb';
 import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
 import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
-import { ObjectKeysType } from '@/types';
+import { ObjectKeysType, SortType } from '@/types';
 
 const Outcomes = () => {
   const { showToast } = useWuShowToast();
+  const { setBreadcrumbs } = useBreadcrumbStore();
 
   const [selectedOutcomeGroup, setSelectedOutcomeGroup] = useState<{
     id: number;
@@ -248,10 +246,10 @@ const Outcomes = () => {
     );
   };
 
-  const sortTableByField = async (newOrderBy: OrderByEnum, newSortBy: string) => {
+  const sortTableByField = async (newOrderBy: SortType) => {
     setSortData({
-      sortBy: newSortBy as OutcomeGroupSortByEnum,
-      orderBy: newOrderBy,
+      sortBy: OutcomeGroupSortByEnum[newOrderBy.id as keyof typeof OutcomeGroupSortByEnum],
+      orderBy: newOrderBy.desc ? OrderByEnum.Desc : OrderByEnum.Asc,
     });
     setCurrentPage(1);
   };
@@ -303,36 +301,41 @@ const Outcomes = () => {
   );
 
   const onHandleDeleteItem = useCallback(
-    (data: OutcomeGroup) => {
-      deleteOutcome(
-        { id: data?.id },
-        {
-          onSuccess: () => {
-            if (
-              currentPage * OUTCOME_GROUPS_LIMIT >= count &&
-              dataOutcomes?.getOutcomeGroups.outcomeGroups.length === 1 &&
-              currentPage !== 1
-            ) {
-              setOffset(offset - OUTCOME_GROUPS_LIMIT);
-              setCurrentPage(prev => prev - 1);
-            } else if (currentPage * OUTCOME_GROUPS_LIMIT < count && count > OUTCOME_GROUPS_LIMIT) {
-              setRemoveOutcomeGroupsQuery('GetOutcomeGroups', {
-                input: 'getOutcomeGroupsInput',
-                key: 'offset',
-                value: offset,
-                deleteUpcoming: true,
+    (data?: OutcomeGroup) => {
+      if (data) {
+        deleteOutcome(
+          { id: data.id },
+          {
+            onSuccess: () => {
+              if (
+                currentPage * OUTCOME_GROUPS_LIMIT >= count &&
+                dataOutcomes?.getOutcomeGroups.outcomeGroups.length === 1 &&
+                currentPage !== 1
+              ) {
+                setOffset(offset - OUTCOME_GROUPS_LIMIT);
+                setCurrentPage(prev => prev - 1);
+              } else if (
+                currentPage * OUTCOME_GROUPS_LIMIT < count &&
+                count > OUTCOME_GROUPS_LIMIT
+              ) {
+                setRemoveOutcomeGroupsQuery('GetOutcomeGroups', {
+                  input: 'getOutcomeGroupsInput',
+                  key: 'offset',
+                  value: offset,
+                  deleteUpcoming: true,
+                });
+              }
+              onHandleUpdateOutcomeGroups(data.id);
+            },
+            onError: error => {
+              showToast({
+                variant: 'error',
+                message: error?.message,
               });
-            }
-            onHandleUpdateOutcomeGroups(data.id);
+            },
           },
-          onError: error => {
-            showToast({
-              variant: 'error',
-              message: error?.message,
-            });
-          },
-        },
-      );
+        );
+      }
     },
     [
       count,
@@ -346,16 +349,12 @@ const Outcomes = () => {
     ],
   );
 
-  const options = useMemo(() => {
-    return OUTCOME_OPTIONS({
-      onHandleEdit: onHandleEditItem,
-      onHandleDelete: onHandleDeleteItem,
+  const columns = useMemo(() => {
+    return WORKSPACE_OUTCOMES_COLUMNS({
+      onHandleRowEdit: onHandleEditItem,
+      onHandleRowDelete: onHandleDeleteItem,
     });
   }, [onHandleDeleteItem, onHandleEditItem]);
-
-  const columns = useMemo(() => {
-    return WORKSPACE_OUTCOMES_COLUMNS;
-  }, []);
 
   const onHandleChangePage = useCallback((page: number) => {
     setCurrentPage(page);
@@ -365,6 +364,15 @@ const Outcomes = () => {
   const handleSelectIcon = useCallback((thumbnailUrl: string) => {
     setIconUrl(thumbnailUrl);
   }, []);
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        name: 'Workspaces',
+        pathname: '/workspaces',
+      },
+    ]);
+  }, [setBreadcrumbs]);
 
   if (errorOutcomes) {
     return <CustomError error={errorOutcomes?.message} />;
@@ -431,16 +439,7 @@ const Outcomes = () => {
 
       {outcomeGroups.length ? (
         <div className="outcomes--table-container">
-          <CustomTable
-            sortAscDescByField={sortTableByField}
-            dashedStyle={false}
-            isTableHead
-            rows={outcomeGroups}
-            columns={columns}
-            options={options}
-            permissionCheckKey="isDefault"
-            processingItemId={isLoadingOutcomes ? selectedOutcomeGroup?.id : null}
-          />
+          <BaseWuDataTable data={outcomeGroups} columns={columns} onHandleSort={sortTableByField} />
         </div>
       ) : null}
     </div>

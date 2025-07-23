@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { JourneysForCopyType } from '../types';
 
@@ -27,9 +27,9 @@ const MapItem: FC<IBoardItem> = ({ map }) => {
         });
       }}>
       <div className={'board-map-item--content`'}>
-        <Tooltip title={map?.title} arrow placement={'bottom'}>
+        <WuTooltip content={map?.title} showArrow position={'bottom'}>
           <div className={'board-map-item--content--title'}>{map?.title}</div>
-        </Tooltip>
+        </WuTooltip>
       </div>
     </li>
   );

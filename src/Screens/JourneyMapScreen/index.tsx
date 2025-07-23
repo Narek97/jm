@@ -609,31 +609,26 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
   ]);
 
   useEffect(() => {
-    setBreadcrumbs([
-      {
-        name: 'Workspaces',
-        pathname: '/workspaces',
-      },
-      {
-        name: `${dataBoardById?.getBoardById.workspace.name?.trim() || 'Untitled'}`,
-        pathname: `/workspace/${dataBoardById?.getBoardById.workspace.id}/boards`,
-      },
-      {
-        name: `${dataBoardById?.getBoardById.name?.trim() || 'Untitled'}`,
-        pathname: `/board/${dataBoardById?.getBoardById.id}/journies`,
-      },
-      {
-        name: `${journeyMap.title?.trim() || 'Untitled'}`,
-      },
-    ]);
-  }, [
-    dataBoardById?.getBoardById.id,
-    dataBoardById?.getBoardById.name,
-    dataBoardById?.getBoardById.workspace.id,
-    dataBoardById?.getBoardById.workspace.name,
-    journeyMap.title,
-    setBreadcrumbs,
-  ]);
+    if (dataBoardById && journeyMap && !isFetchingJourneyMap) {
+      setBreadcrumbs([
+        {
+          name: 'Workspaces',
+          pathname: '/workspaces',
+        },
+        {
+          name: `${dataBoardById.getBoardById.workspace.name?.trim() || 'Untitled'}`,
+          pathname: `/workspace/${dataBoardById?.getBoardById.workspace.id}/boards`,
+        },
+        {
+          name: `${dataBoardById.getBoardById.name?.trim() || 'Untitled'}`,
+          pathname: `/board/${dataBoardById?.getBoardById.id}/journies`,
+        },
+        {
+          name: `${journeyMap.title?.trim() || 'Untitled'}`,
+        },
+      ]);
+    }
+  }, [dataBoardById, isFetchingJourneyMap, journeyMap, setBreadcrumbs]);
 
   if (isLoadingJourneyMap || isLoadingFullJourneyMap || (isLayerModeOn && isFetchingJourneyMap)) {
     return (

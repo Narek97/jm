@@ -1,7 +1,7 @@
-import { FC, useCallback, useState } from 'react';
+import { FC } from 'react';
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import AssignPersonaToMapModal from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/AssignPersonaToMapModal';
@@ -23,20 +23,13 @@ const JourneyMapFooter: FC<IJourneyMapFooter> = ({ workspaceId, mapId, isGuest }
     updateIsOpenSelectedJourneyMapPersonaInfo,
   } = useJourneyMapStore();
 
-  const [isOpenSelectedPersonasModal, setIsOpenSelectedPersonasModal] = useState<boolean>(false);
-
   const onHandleSelectJourneyMapFooterItem = (item: MapSelectedPersonasType | null) => {
     updateSelectedJourneyMapPersona(item);
   };
 
-  const handleToggleAssignPersonaModal = useCallback(
-    () => setIsOpenSelectedPersonasModal((prevState: boolean) => !prevState),
-    [],
-  );
-
   return (
     <div className={'journey-map-footer'}>
-      <Tooltip placement="top" title={'Overview'} arrow>
+      <WuTooltip position="top" content={'Overview'} showArrow>
         <button
           data-testid="overview-btn-test-id"
           className={`journey-map-footer--overview ${
@@ -55,7 +48,7 @@ const JourneyMapFooter: FC<IJourneyMapFooter> = ({ workspaceId, mapId, isGuest }
             />
           </>
         </button>
-      </Tooltip>
+      </WuTooltip>
 
       {mapAssignedPersonas?.map(item => (
         <button
@@ -81,12 +74,7 @@ const JourneyMapFooter: FC<IJourneyMapFooter> = ({ workspaceId, mapId, isGuest }
         </button>
       ))}
       {!isGuest && workspaceId && (
-        <AssignPersonaToMapModal
-          isOpen={isOpenSelectedPersonasModal}
-          workspaceId={workspaceId}
-          mapId={mapId}
-          handleClose={handleToggleAssignPersonaModal}
-        />
+        <AssignPersonaToMapModal workspaceId={workspaceId} mapId={mapId} />
       )}
     </div>
   );

@@ -12,9 +12,9 @@ import {
   useGetParentMapsByBoardIdQuery,
 } from '@/api/queries/generated/getParentMapsByBoardId.generated.ts';
 import { OrderByEnum } from '@/api/types';
+import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomTable from '@/Components/Shared/CustomTable';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import Pagination from '@/Components/Shared/Pagination';
@@ -24,6 +24,7 @@ import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import { PARENT_JOURNEY_MAPS_TABLE_COLUMNS } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
+import { SortType } from '@/types';
 
 interface IJourneyMapLayers {
   isOpenLayersModal: boolean;
@@ -95,15 +96,12 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
     ? journeysCount
     : dataGetJourneys?.getParentMapsByBoardId.count || 0;
 
-  const onHandleSortTableByField = useCallback(
-    (type: OrderByEnum, _: string, id: 'name' | 'createdAt' | 'user') => {
-      setOrder({
-        key: id,
-        orderBY: type,
-      });
-    },
-    [],
-  );
+  const sortTableByField = useCallback((newOrderBy: SortType) => {
+    setOrder({
+      key: newOrderBy.id,
+      orderBY: newOrderBy.desc ? OrderByEnum.Desc : OrderByEnum.Asc,
+    });
+  }, []);
 
   const convertToChildMap = useCallback(() => {
     if (mapId && selectedParentJourney) {
@@ -143,13 +141,14 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
     setCurrentPage(newPage);
   }, []);
 
-  const onHandleClickRow = useCallback(({ id, title }: { id: number; title: string }) => {
+  const onHandleClickRow = useCallback((id: number, title: string) => {
     setSelectedParentJourney({ id, title });
   }, []);
 
+  // todo selected row scc
   const columns = useMemo(() => {
-    return PARENT_JOURNEY_MAPS_TABLE_COLUMNS({});
-  }, []);
+    return PARENT_JOURNEY_MAPS_TABLE_COLUMNS(onHandleClickRow);
+  }, [onHandleClickRow]);
 
   useEffect(() => {
     if (dataGetJourneys) {
@@ -209,12 +208,10 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
             style={{
               height: journeysCount > JOURNIES_LIMIT ? 'calc(100% - 9rem)' : 'calc(100% - 9.5rem)',
             }}>
-            <CustomTable
+            <BaseWuDataTable
               columns={columns}
-              onClickRow={onHandleClickRow}
-              rows={journeysData || []}
-              processingItemId={selectedParentJourney?.id}
-              sortAscDescByField={onHandleSortTableByField}
+              data={journeysData}
+              onHandleSort={sortTableByField}
             />
           </div>
         ) : (
