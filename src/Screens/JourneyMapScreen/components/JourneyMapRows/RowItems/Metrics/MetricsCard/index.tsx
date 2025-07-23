@@ -3,7 +3,8 @@ import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import './style.scss';
 
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
-import { Skeleton, Tooltip } from '@mui/material';
+import { Skeleton } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -385,11 +386,15 @@ const MetricsCard: FC<IMetricsCard> = memo(
             </p>
 
             {metrics.description && metrics.descriptionEnabled && (
-              <Tooltip title={metrics.description} placement="right" arrow data-testid="tooltip">
+              <WuTooltip
+                content={metrics.description}
+                position="right"
+                showArrow
+                data-testid="tooltip">
                 <div className={'metrics-item--description'}>
                   <span className={'wm-info'} />
                 </div>
-              </Tooltip>
+              </WuTooltip>
             )}
           </div>
 

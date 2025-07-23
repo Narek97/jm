@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { OrgType } from '../types';
 
@@ -21,11 +21,11 @@ const OrgItem: FC<IOrgItem> = ({ org, search, handleClick }) => {
       className={`org-list--item`}
       onClick={() => handleClick(org.orgId)}>
       <div className="org-list--item--content">
-        <Tooltip title={org.name} arrow placement={'bottom'}>
+        <WuTooltip content={org.name} showArrow position={'bottom'}>
           <div className={`org-list--item--content--title ${!org.name?.length ? 'no-title' : ''}`}>
             <HighlightedText name={org.orgId + ' / ' + (org?.name || 'No name')} search={search} />
           </div>
-        </Tooltip>
+        </WuTooltip>
       </div>
     </li>
   );

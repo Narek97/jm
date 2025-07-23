@@ -55,6 +55,7 @@ const EditableItemForm: FC<IEditableItemForm> = ({
           onChange={e => setInputValue(e?.target?.value)}
           disabled={isLoading}
           placeholder={inputPlaceholder}
+          maxLength={100}
         />
         <WuButton
           disabled={isLoading || !inputValue.trim().length}

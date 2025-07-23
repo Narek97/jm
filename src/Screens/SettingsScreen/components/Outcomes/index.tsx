@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import './style.scss';
 
 import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-lib';
@@ -36,12 +36,14 @@ import {
   useSetAllQueryDataByKey,
   useSetQueryDataByKeyAdvanced,
 } from '@/Hooks/useQueryKey.ts';
+import { useBreadcrumbStore } from '@/Store/breadcrumb';
 import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
 import { useOutcomePinnedBoardIdsStore } from '@/Store/outcomePinBoardsIds';
 import { ObjectKeysType } from '@/types';
 
 const Outcomes = () => {
   const { showToast } = useWuShowToast();
+  const { setBreadcrumbs } = useBreadcrumbStore();
 
   const [selectedOutcomeGroup, setSelectedOutcomeGroup] = useState<{
     id: number;
@@ -365,6 +367,15 @@ const Outcomes = () => {
   const handleSelectIcon = useCallback((thumbnailUrl: string) => {
     setIconUrl(thumbnailUrl);
   }, []);
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        name: 'Workspaces',
+        pathname: '/workspaces',
+      },
+    ]);
+  }, [setBreadcrumbs]);
 
   if (errorOutcomes) {
     return <CustomError error={errorOutcomes?.message} />;
