@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import CropImage from '@/Components/Shared/CropImage';
 import { IMAGE_ASPECT } from '@/Constants';
@@ -29,12 +29,12 @@ const PersonaImageBox: FC<IPersonaImageBox> = ({ title, imageItem, size, onPerso
   };
 
   return (
-    <Tooltip title={title}>
-      <div
-        data-testid="persona-image-box-test-id"
-        style={{ borderColor: imageItem?.color || '#545E6B ' }}
-        onClick={handleClick}
-        className={`persona-image-box ${imageSize}-img-size`}>
+    <div
+      data-testid="persona-image-box-test-id"
+      style={{ borderColor: imageItem?.color || '#545E6B ' }}
+      onClick={handleClick}
+      className={`persona-image-box ${imageSize}-img-size`}>
+      <WuTooltip content={title}>
         {imageItem?.attachment.key ? (
           <>
             {imageItem?.attachment?.croppedArea ? (
@@ -60,8 +60,8 @@ const PersonaImageBox: FC<IPersonaImageBox> = ({ title, imageItem, size, onPerso
             />
           </div>
         )}
-      </div>
-    </Tooltip>
+      </WuTooltip>
+    </div>
   );
 };
 export default PersonaImageBox;

@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useRef } from 'react';
 
 import './style.scss';
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
@@ -130,9 +130,9 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
                           onClick={() => handleOpenPersona(itm?.id, itm.boardId)}>
                           <div className="journeys-contains-current-maps--content-journeys-item--left">
                             <div className={'persona-text-info'}>
-                              <Tooltip title={itm?.title} arrow placement={'bottom'}>
+                              <WuTooltip content={itm?.title} position="bottom" showArrow>
                                 <div className={'persona-text-info--title'}>{itm?.title}</div>
-                              </Tooltip>
+                              </WuTooltip>
                               <div className={'persona-text-info--dates'}>
                                 <div>Created at {dayjs(itm?.createdAt).format('MMM D, YYYY')}</div>
                                 <div>

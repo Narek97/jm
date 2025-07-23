@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './style.scss';
 
-import { Tooltip } from '@mui/material';
+import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import { WorkspaceBoardsType } from '../types';
 
@@ -22,9 +22,9 @@ const BoardItem: FC<IBoardItem> = ({ board, handlePasteMap, isLoadingCopyMap, is
       }`}
       onClick={() => handlePasteMap(board?.id)}>
       <div className={'board-item-text-info'}>
-        <Tooltip title={board?.name} arrow placement={'bottom'}>
+        <WuTooltip content={board?.name} showArrow position={'bottom'}>
           <div className={'board-item-text-info--title'}>{board?.name}</div>
-        </Tooltip>
+        </WuTooltip>
       </div>
     </li>
   );

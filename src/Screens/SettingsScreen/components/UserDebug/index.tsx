@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './style.scss';
 
-import { Switch } from '@mui/material';
+import { WuToggle } from '@npm-questionpro/wick-ui-lib';
 
 import { useToggleDebugModeMutation } from '@/api/mutations/generated/toggleDebugMode.generated';
 import { useUserStore } from '@/Store/user.ts';
@@ -24,13 +24,11 @@ const UserDebug = () => {
       <label className={'user-debug-settings--switcher--label'} htmlFor="userDebugMode">
         User debug mode
       </label>
-      <Switch
+      <WuToggle
         id={'userDebugMode'}
-        color="primary"
-        disableRipple={true}
-        data-testid={'create-update-metrics-switch-test-id'}
         checked={isDebugModeOn}
-        onChange={e => handleToggleDebugMode(e?.target?.checked)}
+        onChange={handleToggleDebugMode}
+        data-testid={'create-update-metrics-switch-test-id'}
       />
     </div>
   );

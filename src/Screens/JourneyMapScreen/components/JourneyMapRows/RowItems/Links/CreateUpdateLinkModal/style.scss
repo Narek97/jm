@@ -27,6 +27,7 @@
     &--item {
       width: calc(100% - 4rem);
       flex: 1;
+      @include flex-center;
     }
   }
 

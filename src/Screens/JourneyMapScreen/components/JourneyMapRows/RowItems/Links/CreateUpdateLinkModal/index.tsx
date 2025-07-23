@@ -3,9 +3,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -288,14 +286,11 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                 name="type"
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <Stack
-                    width={'fit-content'}
-                    direction="row"
-                    component="label"
-                    alignItems="center"
-                    justifyContent="center">
-                    <span data-testid={'journey-link-switch-test-id'}>Link a journey</span>
-                    <Switch
+                  <>
+                    <span data-testid={'journey-link-switch-test-id'} className="!mr-3">
+                      Link a journey
+                    </span>
+                    <WuToggle
                       disabled={isLoadingCreateLink || isLoadingUpdateLink}
                       checked={collapsed}
                       onChange={() => {
@@ -304,7 +299,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                       }}
                     />
                     <span data-testid={'external-link-switch-test-id'}>External link</span>
-                  </Stack>
+                  </>
                 )}
               />
             </div>
