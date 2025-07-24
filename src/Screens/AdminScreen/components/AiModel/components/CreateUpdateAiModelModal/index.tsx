@@ -3,8 +3,8 @@ import { FC, useMemo, useState } from 'react';
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Skeleton, Switch } from '@mui/material';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { Skeleton } from '@mui/material';
+import { useWuShowToast, WuButton, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
@@ -345,22 +345,18 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
             </FileUploader>
           </div>
 
-          <label
-            className={'create-update-ai-model-modal--content-input--label'}
-            htmlFor="universal">
-            Universal
-          </label>
           <Controller
             name={'universal'}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <Switch
+              <WuToggle
+                label="Universal"
+                labelPosition="left"
                 id={'universal'}
-                color="primary"
-                disableRipple={true}
                 data-testid={'create-update-ai-model-modal-switch-test-id'}
                 checked={value}
                 onChange={onChange}
+                className="wu-toggle-container wu-toggle-label"
               />
             )}
           />

@@ -15,7 +15,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material';
-import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuCheckbox } from '@npm-questionpro/wick-ui-lib';
 
 import {
   GetJourneyMapColumnStepsQuery,
@@ -24,7 +24,6 @@ import {
 import { ActionEnum } from '@/api/types.ts';
 import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
-import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/Store/layers.ts';
@@ -48,7 +47,6 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
   (
     {
       mapId,
-      unSelectStyles,
       mode,
       updatesCurrentLayer,
       setValue,
@@ -294,46 +292,19 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
 
     return (
       <div className={'rows'}>
-        <FormControlLabel
-          className={'all-columns-option'}
-          label={'Stages'}
-          sx={{
-            color: '#545E6B',
-            '& .MuiFormControlLabel-label': {
-              fontSize: '12px',
-              marginLeft: '16px',
-              color: '#545E6B',
-              fontWeight: '500',
-            },
-          }}
-          control={
-            <Checkbox
-              data-testid={'all-stages'}
-              onChange={() => {
-                const isPartialSelection =
-                  currentCheckedStages?.length > 0 &&
-                  currentCheckedStages.length < stagesAndLanesForLayer?.stages.length;
-                handleSelectAllStage(!(isPartialSelection || isAllIdsSelectedStages));
-              }}
-              icon={
+        <div className="select-all-wrapper">
+          <WuCheckbox
+            label="Stages"
+            checked={isAllIdsSelectedStages}
+            data-testid="all-stages"
+            onChange={() => {
+              const isPartialSelection =
                 currentCheckedStages?.length > 0 &&
-                currentCheckedStages.length < stagesAndLanesForLayer?.stages.length ? (
-                  UNSELECT_ICON
-                ) : (
-                  <CustomCheckboxIcon />
-                )
-              }
-              value={isAllIdsSelectedStages}
-              checked={isAllIdsSelectedStages}
-              sx={
-                currentCheckedStages?.length > 0 &&
-                currentCheckedStages.length < stagesAndLanesForLayer?.stages.length
-                  ? unSelectStyles
-                  : checkboxSxStyles
-              }
-            />
-          }
-        />
+                currentCheckedStages.length < stagesAndLanesForLayer?.stages.length;
+              handleSelectAllStage(!(isPartialSelection || isAllIdsSelectedStages));
+            }}
+          />
+        </div>
         <div data-testid={'layer-columns'} className={'rows-content'}>
           {stagesAndLanesForLayer.stages?.map(column => (
             <Accordion
