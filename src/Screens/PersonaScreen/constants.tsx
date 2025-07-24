@@ -1,9 +1,9 @@
 import { DemographicInfoTypeEnum } from '@/api/types';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
-import { DropdownSelectItemType, MenuOptionsType } from '@/types';
+import { MenuOptionsType } from '@/types';
 import { PersonaGenderEnum, PersonaTypeEnum } from '@/types/enum';
 
-const PERSONA_TYPE_MENU_ITEMS: Array<DropdownSelectItemType> = [
+const PERSONA_TYPE_MENU_ITEMS = [
   {
     id: 1,
     name: 'Customer',
@@ -13,7 +13,7 @@ const PERSONA_TYPE_MENU_ITEMS: Array<DropdownSelectItemType> = [
   { id: 3, name: 'Other', value: PersonaTypeEnum.Others },
 ];
 
-const PERSONA_GENDER_MENU_ITEMS: Array<DropdownSelectItemType> = [
+const PERSONA_GENDER_MENU_ITEMS = [
   {
     id: 1,
     name: PersonaGenderEnum.MALE,
@@ -45,27 +45,6 @@ const PERSONA_FIELD_SECTIONS_TYPES: {
   },
 ];
 
-const PERSONA_GALLERY_IMAGE_OPTIONS = ({
-  onHandleRename,
-  onHandleDelete,
-}: {
-  onHandleRename: (galleryItem: PersonaDemographicInfoType) => void;
-  onHandleDelete: (galleryItem: PersonaDemographicInfoType) => void;
-}): Array<MenuOptionsType> => {
-  return [
-    {
-      icon: <span className={'wm-edit'} />,
-      name: 'Rename',
-      onClick: onHandleRename,
-    },
-    {
-      icon: <span className={'wm-delete'} />,
-      name: 'Delete',
-      onClick: onHandleDelete,
-    },
-  ];
-};
-
 const PERSONA_DEMOGRAPHIC_INFO_OPTIONS = ({
   onHandleEdit,
   onHandleDelete,
@@ -92,6 +71,5 @@ export {
   PERSONA_GENDER_MENU_ITEMS,
   DEMOGRAPHIC_INFO_POPOVER,
   PERSONA_FIELD_SECTIONS_TYPES,
-  PERSONA_GALLERY_IMAGE_OPTIONS,
   PERSONA_DEMOGRAPHIC_INFO_OPTIONS,
 };

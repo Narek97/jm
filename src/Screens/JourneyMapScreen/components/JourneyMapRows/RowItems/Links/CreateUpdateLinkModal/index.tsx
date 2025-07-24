@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CREATE_LINK_VALIDATION_SCHEMA } from '../constants';
-import { LinkFormType, LinkType } from '../types';
+import { LinkFormType, LinkMapsByBoardType, LinkType } from '../types';
 
 import {
   GetLinkMapsByBoardQuery,
@@ -25,13 +25,12 @@ import {
 import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/api/types';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import { querySlateTime } from '@/Constants';
 import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/Constants/pagination';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
-import { DropdownSelectItemType } from '@/types';
 import { ActionsEnum, JourneyMapRowTypesEnum } from '@/types/enum.ts';
 
 interface ICreateUpdateLinkModal {
@@ -58,7 +57,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
   const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
 
   const [collapsed, setCollapsed] = useState<boolean>(link?.type === LinkTypeEnum.External);
-  const [boardMaps, setBoardMaps] = useState<Array<DropdownSelectItemType>>([]);
+  const [boardMaps, setBoardMaps] = useState<Array<LinkMapsByBoardType>>([]);
 
   const {
     data: dataMaps,
@@ -246,14 +245,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
   useEffect(() => {
     if (dataMaps) {
       const mapsArray = dataMaps.pages.map(page => page.getLinkMapsByBoard.maps).flat();
-      const transformedArray = mapsArray.map(map => {
-        return {
-          id: map.mapId,
-          name: map.title,
-          value: map.mapId,
-        };
-      });
-      setBoardMaps(transformedArray);
+      setBoardMaps(mapsArray);
     }
   }, [dataMaps]);
 
@@ -281,7 +273,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
           id="linkform">
           <div className={'create-update-link-modal--row'}>
             <label className={'create-update-link-modal--row--title'}>Type</label>
-            <div className={'create-update-link-modal--row--item'}>
+            <div className={'w-[calc(100%-4rem)] flex-[1] flex items-center'}>
               <Controller
                 name="type"
                 control={control}
@@ -313,7 +305,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                   data-testid={'create-update-link-label-label-test-id'}>
                   Label
                 </label>
-                <div className={'create-update-link-modal--row--item'}>
+                <div className={'w-[calc(100%-4rem)] flex-[1] flex items-center'}>
                   <Controller
                     name={'title'}
                     control={control}
@@ -335,7 +327,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                   data-testid={'create-update-link-url-label-test-id'}>
                   URL
                 </label>
-                <div className={'create-update-link-modal--row--item'}>
+                <div className={'w-[calc(100%-4rem)] flex-[1] flex items-center'}>
                   <Controller
                     name={'url'}
                     control={control}
@@ -364,19 +356,24 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                 data-testid={'create-update-link-journey-label-test-id'}>
                 Journey
               </label>
-              <div className={'create-update-link-modal--row--item'}>
+              <div className={'w-[calc(100%-4rem)]'}>
                 <Controller
                   name={'linkedMapId'}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <CustomDropDown
+                  render={({ field: { onChange } }) => (
+                    <BaseWuSelect<LinkMapsByBoardType>
                       name={'maps'}
                       placeholder={'Select'}
-                      onScroll={onHandleFetchMaps}
-                      menuItems={boardMaps}
-                      onChange={onChange}
+                      accessorKey={{
+                        label: 'name',
+                        value: 'id',
+                      }}
+                      data={boardMaps}
+                      onSelect={data => {
+                        onChange((data as LinkMapsByBoardType).mapId);
+                      }}
                       disabled={isLoadingCreateLink || isLoadingUpdateLink || isFetchingMaps}
-                      selectItemValue={value?.toString() || ''}
+                      // onScroll={onHandleFetchMaps}
                     />
                   )}
                 />

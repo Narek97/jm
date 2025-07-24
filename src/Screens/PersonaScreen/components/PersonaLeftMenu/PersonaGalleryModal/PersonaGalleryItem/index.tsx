@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import './style.scss';
 import {
@@ -13,7 +13,6 @@ import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import { IMAGE_ASPECT } from '@/Constants';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
-import { PERSONA_GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants.tsx';
 import { AttachmentType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
@@ -71,14 +70,6 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
     },
     [item?.id, updateAttachmentName],
   );
-
-  const options = useMemo(() => {
-    return PERSONA_GALLERY_IMAGE_OPTIONS({
-      onHandleRename,
-      onHandleDelete,
-    });
-  }, [onHandleDelete, onHandleRename]);
-  console.log('options', options);
 
   useEffect(() => {
     if (isEditTitleModeOn && inputRef.current) {

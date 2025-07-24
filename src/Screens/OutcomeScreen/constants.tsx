@@ -28,7 +28,6 @@ const OUTCOME_TABLE_COLUMNS = ({
     accessorKey: 'column',
     header: 'Stage Name',
     cell: ({ cell }: { cell: any }) => {
-      console.log(cell.row.original, 'cell.row.original');
       return <>{cell.row.original.column.label}</>;
     },
   },

@@ -35,7 +35,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
 
   // todo : setPersonaInfo
   const [isOpenSelectedPersonasModal, setIsOpenSelectedPersonasModal] = useState<boolean>(false);
-  console.log(isOpenSelectedPersonasModal, 'isOpenSelectedPersonasModal');
+
   const journeysCount = personaInfo?.journeys || 0;
 
   const onHandleGoBack = () => {

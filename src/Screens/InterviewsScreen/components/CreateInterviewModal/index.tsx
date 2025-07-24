@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import SliderCard from './SliderCard';
 import { CREATE_INTERVIEW_VALIDATION_SCHEMA } from '../../constants';
-import { InterviewFormType, InterviewType } from '../../types';
+import { BoardsType, InterviewFormType, InterviewType } from '../../types';
 
 import {
   GetMyBoardsQuery,
@@ -22,15 +22,13 @@ import {
   GetAiJourneyModelsQuery,
   useGetAiJourneyModelsQuery,
 } from '@/api/queries/generated/getAiJourneyModels.generated.ts';
-import { BoardResponse } from '@/api/types.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import SlickCarousel from '@/Components/Shared/SlickCarousel';
 import { querySlateTime } from '@/Constants';
 import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/Constants/pagination';
-import { DropdownSelectItemType } from '@/types';
 
 interface ICreateInterviewModal {
   interview: InterviewType | null;
@@ -90,9 +88,9 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
 
   const {
     data: dataBoards,
-    isFetching: isFetchingBoards,
-    fetchNextPage: fetchNextPageBoards,
-    hasNextPage: hasNextPageBoards,
+    // isFetching: isFetchingBoards,
+    // fetchNextPage: fetchNextPageBoards,
+    // hasNextPage: hasNextPageBoards,
   } = useInfiniteGetMyBoardsQuery<{ pages: Array<GetMyBoardsQuery> }, Error>(
     {
       getMyBoardsInput: {
@@ -118,26 +116,17 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
       initialPageParam: 0,
     },
   );
-
-  const renderedBoardsData = useMemo<Array<DropdownSelectItemType>>(() => {
+  const renderedBoardsData: Array<BoardsType> = useMemo(() => {
     if (!dataBoards?.pages) {
       return [];
     }
 
-    return dataBoards.pages
-      .reduce((acc: Array<BoardResponse>, curr) => {
-        if (curr?.getMyBoards.boards) {
-          return [...acc, ...(curr.getMyBoards.boards as Array<BoardResponse>)];
-        }
-        return acc;
-      }, [])
-      .map(board => {
-        return {
-          id: board.id,
-          name: board.name,
-          value: board.id,
-        };
-      });
+    return dataBoards.pages.reduce((acc: Array<BoardsType>, curr) => {
+      if (curr?.getMyBoards.boards) {
+        return [...acc, ...(curr.getMyBoards.boards as Array<BoardsType>)];
+      }
+      return acc;
+    }, []);
   }, [dataBoards?.pages]);
 
   const {
@@ -167,18 +156,19 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
     [clearErrors, interview, setValue],
   );
 
-  const onHandleFetchBoards = useCallback(
-    async (e: React.UIEvent<HTMLElement>) => {
-      const bottom =
-        e.currentTarget.scrollHeight <=
-        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
-
-      if (bottom && !isFetchingBoards && hasNextPageBoards) {
-        await fetchNextPageBoards();
-      }
-    },
-    [fetchNextPageBoards, hasNextPageBoards, isFetchingBoards],
-  );
+  // todo
+  // const onHandleFetchBoards = useCallback(
+  //   async (e: React.UIEvent<HTMLElement>) => {
+  //     const bottom =
+  //       e.currentTarget.scrollHeight <=
+  //       e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
+  //
+  //     if (bottom && !isFetchingBoards && hasNextPageBoards) {
+  //       await fetchNextPageBoards();
+  //     }
+  //   },
+  //   [fetchNextPageBoards, hasNextPageBoards, isFetchingBoards],
+  // );
 
   const onHandleCreateInterview = (formData: InterviewFormType) => {
     mutateInterview({
@@ -200,6 +190,7 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
         <WuButton
           type="submit"
           data-testid={'submit-interview-btn-test-id'}
+          onClick={handleSubmit(onHandleCreateInterview)}
           disabled={!!interview || isLoadingCreateInterview}>
           Add
         </WuButton>
@@ -243,13 +234,18 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
               <Controller
                 name={'boardId'}
                 control={control}
-                render={({ field: { onChange, value } }) => (
-                  <CustomDropDown
+                render={({ field: { onChange } }) => (
+                  <BaseWuSelect<BoardsType>
                     name={'board'}
-                    menuItems={renderedBoardsData}
-                    onChange={onChange}
-                    onScroll={onHandleFetchBoards}
-                    selectItemValue={value?.toString()}
+                    accessorKey={{
+                      label: 'name',
+                      value: 'id',
+                    }}
+                    data={renderedBoardsData}
+                    onSelect={data => {
+                      onChange((data as BoardsType).id);
+                    }}
+                    // onScroll={onHandleFetchBoards}
                     disabled={!!interview || isLoadingCreateInterview}
                     placeholder={'Select board'}
                   />

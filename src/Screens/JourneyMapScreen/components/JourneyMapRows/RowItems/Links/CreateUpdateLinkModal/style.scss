@@ -20,14 +20,8 @@
     margin-bottom: 1.25rem;
 
     &--title {
-      width: 3rem;
+      width: 4rem;
       padding-top: 0.625rem;
-    }
-
-    &--item {
-      width: calc(100% - 4rem);
-      flex: 1;
-      @include flex-center;
     }
   }
 

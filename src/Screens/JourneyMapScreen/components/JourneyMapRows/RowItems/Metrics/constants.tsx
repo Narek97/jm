@@ -8,7 +8,7 @@ import {
   DatapointType,
   NPSDataPointElementType,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
-import { DropdownSelectItemType, MenuOptionsType, TableColumnOptionType } from '@/types';
+import { MenuOptionsType, TableColumnOptionType } from '@/types';
 import { isValidNumberFormat } from '@/utils/isValidNumberFormat.ts';
 
 const METRICS_DEFAULT_DATA = {
@@ -594,7 +594,7 @@ const METRIC_CES_DATA_POINT_TABLE_COLUMNS = ({
   ];
 };
 
-const METRICS_SOURCE_ITEM: Array<DropdownSelectItemType> = [
+const METRICS_SOURCE_ITEM = [
   {
     id: 1,
     name: 'CX Surveys',
@@ -612,7 +612,7 @@ const METRICS_SOURCE_ITEM: Array<DropdownSelectItemType> = [
   },
 ];
 
-const METRICS_TYPE_ITEM: Array<DropdownSelectItemType> = [
+const METRICS_TYPE_ITEM = [
   {
     id: 1,
     name: MetricsTypeEnum.Nps,
@@ -630,7 +630,7 @@ const METRICS_TYPE_ITEM: Array<DropdownSelectItemType> = [
   },
 ];
 
-const METRICS_TRACK_ITEM: Array<DropdownSelectItemType> = [
+const METRICS_TRACK_ITEM = [
   {
     id: 1,
     name: 'Daily',

@@ -36,8 +36,8 @@ import {
 } from '@/api/mutations/generated/updateDemographicInfoPosition.generated';
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import CustomColorPicker from '@/Components/Shared/CustomColorPicker';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import DemographicInfoItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/DemographicIInfoItem';
@@ -252,7 +252,6 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
         onSuccess: response => {
           setDemographicInfos((oldData: any) => {
             if (oldData) {
-              console.log(oldData, 'old');
               return {
                 getPersonaDemographicInfos: {
                   ...oldData.getPersonaDemographicInfos,
@@ -383,24 +382,27 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
                   />
                 </div>
               )}
-            <CustomDropDown
-              menuItems={PERSONA_TYPE_MENU_ITEMS}
-              onSelect={item => {
-                if (item.value === PersonaTypeEnum.Others) {
+            <BaseWuSelect
+              data={PERSONA_TYPE_MENU_ITEMS}
+              onSelect={data => {
+                if ((data as { value: string }).value === PersonaTypeEnum.Others) {
                   setIsAutoFocusOn(true);
                   setOtherTypeText('');
                   onHandleUpdateInfo('type', '');
                 } else {
-                  onHandleUpdateInfo('type', item.value as string);
+                  onHandleUpdateInfo(
+                    'type',
+                    (data as (typeof PERSONA_TYPE_MENU_ITEMS)[number]).value,
+                  );
                 }
               }}
-              // defaultValue={personaInfo.type}
-              selectItemValue={
-                personaInfo?.type !== PersonaTypeEnum.Customer &&
-                personaInfo?.type !== PersonaTypeEnum.Employee
-                  ? PersonaTypeEnum.Others
-                  : personaInfo?.type
-              }
+              accessorKey={{
+                label: 'name',
+                value: 'id',
+              }}
+              defaultValue={PERSONA_TYPE_MENU_ITEMS.find(
+                persona => persona.value === personaInfo?.type,
+              )}
             />
           </div>
           <div className={'persona-left-menu--color-block'}>

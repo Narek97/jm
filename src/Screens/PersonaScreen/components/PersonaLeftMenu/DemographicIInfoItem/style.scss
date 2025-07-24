@@ -77,10 +77,6 @@
   }
 
   &--input {
-    @include flex-center-center;
-    gap: 0.5rem;
-    width: 100%;
-
     .hide-show-info-button {
       width: 1.875rem;
       height: 1.875rem;

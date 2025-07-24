@@ -5,7 +5,7 @@ import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { PERSONA_GENDER_MENU_ITEMS } from '@/Screens/PersonaScreen/constants.tsx';
 import { DemographicInfoFieldsType } from '@/Screens/PersonaScreen/types.ts';
@@ -143,23 +143,28 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
         </div>
       </div>
 
-      <div className={'demographic-info-item--input'}>
+      <div>
         {demographicInfo.key === 'Gender' ? (
-          <CustomDropDown
-            id={'gender-dropdown'}
+          <BaseWuSelect
             name={`gender-${demographicInfo.id}`}
+            accessorKey={{
+              label: 'name',
+              value: 'id',
+            }}
             data-testid={`demographic-info-item-${index}-test-id`}
-            disabled={demographicInfo.isHidden!}
-            menuItems={PERSONA_GENDER_MENU_ITEMS}
-            onSelect={item => {
+            data={PERSONA_GENDER_MENU_ITEMS}
+            disabled={demographicInfo.isHidden}
+            onSelect={data => {
               onHandleChangeDemographicInfo(
                 demographicInfo.id,
-                item.value as string,
+                (data as (typeof PERSONA_GENDER_MENU_ITEMS)[number]).value,
                 'value',
                 PersonaFieldCategoryTypeEnum.DEMOGRAPHIC_INFO_FIELDS,
               );
             }}
-            selectItemValue={demographicInfo.value || ''}
+            defaultValue={PERSONA_GENDER_MENU_ITEMS.find(
+              gender => gender.value === demographicInfo.value,
+            )}
             placeholder={'Select'}
           />
         ) : (

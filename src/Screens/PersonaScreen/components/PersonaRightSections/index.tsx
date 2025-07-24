@@ -59,9 +59,6 @@ const PersonaRightSections: FC<
     const [mounted, setMounted] = useState<boolean>(false);
     const [initialLayouts, setInitialLayouts] = useState<Array<PersonSectionType>>([]);
     const [changeVersion, setChangeVersion] = useState<number>(0);
-
-    console.log(dataPersonaSections, 'dataPersonaSections');
-
     const { mutate: mutatePersonSections } = useUpdatePersonaSectionMutation<
       Error,
       UpdatePersonaSectionMutation
@@ -393,7 +390,6 @@ const SectionCard: FC<ISectionCard> = memo(
             layoutId={String(changeVersion) + layout.y + '_' + layout.x}
             disabled={isDisable}
             onHandleTextChange={value => {
-              console.log(layout, 'lll');
               onHandleTextChange(value, layout.id, 'content');
             }}
             initValue={layout.content || ''}

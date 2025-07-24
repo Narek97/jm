@@ -331,7 +331,6 @@ const JourniesScreen = () => {
 
   const onHandleDeleteJourney = useCallback(
     (journey?: JourneyType) => {
-      console.log(journey, 'journey');
       if (journey) {
         setSelectedJourney(journey);
       }

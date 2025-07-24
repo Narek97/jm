@@ -1,3 +1,4 @@
+import { GetMyBoardsQuery } from '@/api/infinite-queries/generated/getBoards.generated.ts';
 import { GetInterviewsByWorkspaceIdQuery } from '@/api/queries/generated/getInterviewsByWorkspaceIdQuery.generated.ts';
 
 export type InterviewType =
@@ -9,3 +10,5 @@ export type InterviewFormType = {
   text: string;
   boardId: number;
 };
+
+export type BoardsType = GetMyBoardsQuery['getMyBoards']['boards'][number];

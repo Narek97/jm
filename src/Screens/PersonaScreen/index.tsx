@@ -205,7 +205,6 @@ const PersonaScreen = () => {
 
   const onHandleUpdateSelectedGalleryItem = useCallback((value: number) => {
     // todo
-    console.log(value, 'value');
     // personaInfoState &&
     //   personaInfoState &&
     //   setPersonaInfoState(() => ({

@@ -22,10 +22,10 @@ import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.g
 import { AttachmentsEnum } from '@/api/types';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
-import CustomMultiSelectDropDown from '@/Components/Shared/CustomMultiSelectDropDown';
 import { querySlateTime } from '@/Constants';
 import {
   AI_MODEL_FILE_TYPES,
@@ -150,7 +150,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
 
   const universal = watch('universal');
 
-  const { append, remove } = useFieldArray({
+  const { replace } = useFieldArray({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     name: 'orgIds',
@@ -223,13 +223,12 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
       orgsData?.getOrgs.map(org => ({
         id: org.id,
         name: org.name?.trim() || 'Untitled',
-        value: org.orgId,
       })) || [],
     [orgsData?.getOrgs],
   );
 
   const defaultSelectedItems = useMemo(
-    () => menuItems.filter(item => (aiModel?.selectedOrgIds || []).includes(+item.value)),
+    () => menuItems.filter(item => (aiModel?.selectedOrgIds || []).includes(+item.id)),
     [aiModel?.selectedOrgIds, menuItems],
   );
 
@@ -386,15 +385,19 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                 <Skeleton height={50} />
               ) : (
                 <>
-                  <CustomMultiSelectDropDown
-                    menuItems={menuItems}
-                    defaultSelectedItems={defaultSelectedItems}
-                    onSelect={items => append(items)}
-                    onDelete={(id, index) => {
-                      remove(index);
-                      setDeletedOrgIds(prev => [...prev, id]);
+                  <BaseWuSelect
+                    data={menuItems}
+                    onSelect={data => {
+                      const orgIds = (data as typeof menuItems).map(item => item.id);
+                      replace(orgIds);
+                      setDeletedOrgIds(orgIds);
                     }}
-                    placeholder={'Select org'}
+                    defaultValue={defaultSelectedItems}
+                    multiple={true}
+                    accessorKey={{
+                      label: 'name',
+                      value: 'id',
+                    }}
                   />
                   <span className={'validation-error'}>
                     {(errors && errors.orgIds?.message) || ''}

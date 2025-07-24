@@ -52,9 +52,9 @@ import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap';
@@ -698,15 +698,21 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
         <Controller
           name={name}
           control={control}
-          render={({ field: { onChange: fieldOnChange, value: fieldValue } }) => (
-            <CustomDropDown
+          render={({ field: { onChange } }) => (
+            <BaseWuSelect
               name={name}
-              id={`${name}-dropdown`}
-              menuItems={menuItems}
-              onChange={fieldOnChange}
-              onSelect={onSelect}
-              selectItemValue={fieldValue?.toString()}
               placeholder={placeholder}
+              accessorKey={{
+                label: 'name',
+                value: 'id',
+              }}
+              data={menuItems}
+              onSelect={data => {
+                onChange((data as any).value);
+                if (onSelect) {
+                  onSelect(data as any);
+                }
+              }}
               disabled={disabled}
             />
           )}

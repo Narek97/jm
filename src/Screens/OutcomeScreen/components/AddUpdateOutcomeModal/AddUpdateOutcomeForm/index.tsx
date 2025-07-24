@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, memo, useCallback, useEffect, useState } from 'react';
+import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -27,15 +27,22 @@ import {
 } from '@/api/queries/generated/getColumnSteps.generated.ts';
 import { OutcomeStatusEnum } from '@/api/types.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
-import CustomDropDown from '@/Components/Shared/CustomDropDown';
 import { WORKSPACE_MAPS_LIMIT } from '@/Constants/pagination.ts';
 import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants';
-import { OutcomeFormType, OutcomeGroupOutcomeType } from '@/Screens/OutcomeScreen/types.ts';
+import {
+  ColumnStepsType,
+  MapColumnsForOutcomeType,
+  MapPersonasForOutcomeType,
+  OutcomeFormType,
+  OutcomeGroupOutcomeType,
+  WorkspaceMapsType,
+} from '@/Screens/OutcomeScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useUserStore } from '@/Store/user.ts';
-import { DropdownSelectItemType, ObjectKeysType } from '@/types';
+import { ObjectKeysType } from '@/types';
 import { OutcomeLevelEnum } from '@/types/enum';
 
 interface IAddUpdateOutcomeFormType {
@@ -79,15 +86,16 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       selectedOutcome?.columnId || selectedColumnStepId?.columnId || null,
     );
     const [selectedMapId, setSelectedMapId] = useState<number | null>(defaultMapId);
-    const [maps, setMaps] = useState<DropdownSelectItemType[]>([]);
-    const [stages, setStages] = useState<DropdownSelectItemType[]>([]);
-    const [steps, setSteps] = useState<DropdownSelectItemType[]>([]);
-    const [personas, setPersonas] = useState<DropdownSelectItemType[]>([defaultPersonaOption]);
+    const [maps, setMaps] = useState<WorkspaceMapsType[]>([]);
+    const [stages, setStages] = useState<MapColumnsForOutcomeType[]>([]);
+    const [steps, setSteps] = useState<ColumnStepsType[]>([]);
+    const [personas, setPersonas] = useState<MapPersonasForOutcomeType[]>([defaultPersonaOption]);
 
     const {
       handleSubmit,
       setValue,
       control,
+      watch,
       formState: { errors },
     } = useForm<OutcomeFormType>({
       resolver: yupResolver(OUTCOME_VALIDATION_SCHEMA),
@@ -100,6 +108,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         persona: selectedOutcome?.personaId || selectedJourneyMapPersona?.id,
       },
     });
+
+    const selectedMapIdWatch = watch('map');
+    const selectedStageIdWatch = watch('stage');
 
     const {
       data: dataMaps,
@@ -220,7 +231,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
       [fetchNextStages, isFetchingNextPageStages, isLoadingStages],
     );
 
-    const onHandleFetch = async (e: React.UIEvent<HTMLElement>) => {
+    const onHandleFetchSteps = async (e: React.UIEvent<HTMLElement>) => {
       const bottom =
         e.currentTarget.scrollHeight <=
         e.currentTarget.scrollTop + e.currentTarget.clientHeight + 1;
@@ -360,13 +371,13 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
 
     useEffect(() => {
       if (dataMaps) {
-        const mapsData = dataMaps.pages[dataMaps.pages?.length - 1]?.getWorkspaceMaps?.maps.map(
-          itm => ({
-            id: itm?.id,
-            name: itm?.title,
-            label: '',
-            value: String(itm?.id),
-          }),
+        const mapsData = dataMaps.pages[dataMaps.pages?.length - 1]?.getWorkspaceMaps.maps.map(
+          m => {
+            return {
+              id: m?.id,
+              title: m?.title || 'Untitled',
+            };
+          },
         );
         setMaps(prev => [...prev, ...mapsData]);
       }
@@ -374,13 +385,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
 
     useEffect(() => {
       if (dataStages) {
-        const newData = dataStages.pages[
-          dataStages.pages?.length - 1
-        ]?.getMapColumnsForOutcome?.columns?.map((itm: any) => ({
-          id: itm?.id,
-          name: itm?.label,
-          value: String(itm?.id),
-        }));
+        const newData =
+          dataStages.pages[dataStages.pages?.length - 1]?.getMapColumnsForOutcome?.columns;
 
         setStages(prev => [...prev, ...newData]);
       }
@@ -388,26 +394,16 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
 
     useEffect(() => {
       if (dataMapPersonas) {
-        const newData = dataMapPersonas.pages[
-          dataMapPersonas.pages?.length - 1
-        ]?.getMapPersonasForOutcome?.personas?.map((itm: any) => ({
-          id: itm?.id,
-          name: itm?.name,
-          value: String(itm?.id),
-        }));
+        const newData =
+          dataMapPersonas.pages[dataMapPersonas.pages?.length - 1]?.getMapPersonasForOutcome
+            ?.personas;
         setPersonas(prev => [...prev, ...newData]);
       }
     }, [dataMapPersonas]);
 
     useEffect(() => {
       if (dataSteps) {
-        setSteps(
-          dataSteps.getColumnSteps?.map(itm => ({
-            id: itm?.id,
-            name: itm?.name,
-            value: itm?.id,
-          })) || [],
-        );
+        setSteps(dataSteps.getColumnSteps || []);
       }
     }, [dataSteps]);
 
@@ -476,23 +472,26 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                   <Controller
                     name={'map'}
                     control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <CustomDropDown
-                        name={'maps'}
-                        placeholder={'Select'}
-                        onScroll={onHandleFetch}
-                        menuItems={maps}
-                        onSelect={item => {
-                          if (item?.id !== selectedMapId) {
+                    render={({ field: { onChange } }) => (
+                      <BaseWuSelect<WorkspaceMapsType>
+                        data={maps}
+                        onSelect={data => {
+                          onChange((data as WorkspaceMapsType).id);
+                          if ((data as WorkspaceMapsType).id !== selectedMapId) {
                             setStages([]);
                             setSteps([]);
                             setPersonas([defaultPersonaOption]);
-                            setSelectedMapId(item.id);
+                            setSelectedMapId((data as WorkspaceMapsType).id);
                             setValue('stage', null);
                           }
                         }}
-                        onChange={onChange}
-                        selectItemValue={value?.toString() || ''}
+                        accessorKey={{
+                          label: 'title',
+                          value: 'id',
+                        }}
+                        name={'map'}
+                        placeholder={'Select'}
+                        // onScroll={onHandleFetch}
                       />
                     )}
                   />
@@ -507,21 +506,25 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                 <Controller
                   name={'stage'}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <CustomDropDown
-                      name={'stages'}
-                      placeholder={'Select'}
-                      onScroll={onHandleFetchStages}
-                      menuItems={stages}
-                      onSelect={item => {
-                        if (item.id !== currentColumnId) {
+                  render={({ field: { onChange } }) => (
+                    <BaseWuSelect<MapColumnsForOutcomeType>
+                      data={stages}
+                      onSelect={data => {
+                        onChange((data as MapColumnsForOutcomeType).id);
+                        if ((data as MapColumnsForOutcomeType).id !== currentColumnId) {
                           setValue('step', null);
                           setSteps([]);
-                          setCurrentColumnId(item?.id);
+                          setCurrentColumnId((data as MapColumnsForOutcomeType).id);
                         }
                       }}
-                      onChange={onChange}
-                      selectItemValue={value?.toString() || ''}
+                      accessorKey={{
+                        label: 'label',
+                        value: 'id',
+                      }}
+                      name={'stage'}
+                      placeholder={'Select'}
+                      disabled={!selectedMapIdWatch}
+                      // onScroll={onHandleFetchStages}
                     />
                   )}
                 />
@@ -538,14 +541,20 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                 <Controller
                   name={'step'}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <CustomDropDown
+                  render={({ field: { onChange } }) => (
+                    <BaseWuSelect<ColumnStepsType>
+                      data={steps}
+                      onSelect={data => {
+                        onChange((data as ColumnStepsType).id);
+                      }}
+                      accessorKey={{
+                        label: 'name',
+                        value: 'id',
+                      }}
                       name={'steps'}
                       placeholder={'Select'}
-                      onScroll={onHandleFetch}
-                      menuItems={steps}
-                      onChange={onChange}
-                      selectItemValue={value?.toString()}
+                      disabled={!selectedStageIdWatch}
+                      // onScroll={onHandleFetchSteps}
                     />
                   )}
                 />
@@ -564,19 +573,24 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                 <Controller
                   name={'persona'}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <CustomDropDown
-                      placeholder={'Select'}
-                      onScroll={onHandleFetchPersonas}
-                      menuItems={personas}
-                      onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                        if (e.target.value === 'Overview') {
+                  render={({ field: { onChange } }) => (
+                    <BaseWuSelect<MapPersonasForOutcomeType>
+                      data={personas}
+                      onSelect={data => {
+                        onChange((data as MapPersonasForOutcomeType).id);
+                        if ((data as MapPersonasForOutcomeType).name === 'Overview') {
                           onChange(null);
                         } else {
-                          onChange(e.target.value);
+                          onChange((data as MapPersonasForOutcomeType).id);
                         }
                       }}
-                      selectItemValue={value?.toString() || 'Overview'}
+                      accessorKey={{
+                        label: 'title',
+                        value: 'id',
+                      }}
+                      name={'persona'}
+                      placeholder={'Select'}
+                      // onScroll={onHandleFetchPersonas}
                     />
                   )}
                 />
