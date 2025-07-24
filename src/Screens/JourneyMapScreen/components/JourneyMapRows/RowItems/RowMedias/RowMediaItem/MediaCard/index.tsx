@@ -2,8 +2,8 @@ import React, { ChangeEvent, FC, ReactElement, useCallback, useMemo, useState } 
 
 import './style.scss';
 
-import { Skeleton } from '@mui/material';
 import { useLocation } from '@tanstack/react-router';
+import Skeleton from 'react-loading-skeleton';
 
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import CSV_SVG from '@/Assets/public/media/CSV.svg';
@@ -168,15 +168,7 @@ const MediaCard: FC<IMediaCard> = ({
 
         <>
           {isLoading ? (
-            <Skeleton
-              sx={{
-                borderRadius: 1,
-                width: '100%',
-                height: '100%',
-              }}
-              animation="wave"
-              variant="rectangular"
-            />
+            <Skeleton height={'100%'} />
           ) : (
             <div className={'media-card--media-block'} data-testid={'media-card-icon-test-id'}>
               {getFileIcon(getFileType(boxMedia?.text || '') as FileFormat)}

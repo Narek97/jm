@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import './style.scss';
 
-import LinearProgress from '@mui/material/LinearProgress';
+import { Circle } from 'rc-progress';
 
 const CustomFileUploader = ({
   uploadProgress,
@@ -21,7 +21,7 @@ const CustomFileUploader = ({
           className={'custom-file-uploader-progress'}
           data-testid={'custom-file-uploader-progress-test-id'}>
           <div className={'custom-file-uploader-progress-percentage'}>{uploadProgress}%</div>
-          <LinearProgress variant="determinate" value={uploadProgress} />
+          <Circle percent={uploadProgress} strokeWidth={4} strokeColor="#D3D3D3" />
         </div>
       ) : (
         <>

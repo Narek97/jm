@@ -2,9 +2,9 @@ import { FC, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 
 import SliderCard from './SliderCard';
 import { CREATE_INTERVIEW_VALIDATION_SCHEMA } from '../../constants';
@@ -263,20 +263,7 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
             </label>
 
             {isLoadingAiModels ? (
-              <div
-                style={{
-                  height: '12.5rem',
-                }}>
-                <Skeleton
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 1,
-                  }}
-                  animation="wave"
-                  variant="rectangular"
-                />
-              </div>
+              <Skeleton height={'12.5rem'} />
             ) : (
               <SlickCarousel
                 cards={aiModels}

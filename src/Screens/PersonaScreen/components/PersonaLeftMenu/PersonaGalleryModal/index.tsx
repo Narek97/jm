@@ -2,9 +2,9 @@ import { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'reac
 
 import './style.scss';
 
-import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
+import Skeleton from 'react-loading-skeleton';
 
 import {
   AttachImageToPersonaMutation,
@@ -375,15 +375,7 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
                   .fill('')
                   .map((_, index) => (
                     <div className={'persona-gallery-modal--gallery--item'} key={index}>
-                      <Skeleton
-                        sx={{
-                          width: 160,
-                          height: 160,
-                          borderRadius: 1,
-                        }}
-                        animation="wave"
-                        variant="rectangular"
-                      />
+                      <Skeleton width={160} height={160} />
                     </div>
                   ))}
               </>

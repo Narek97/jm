@@ -3,10 +3,10 @@ import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import './style.scss';
 
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
-import { Skeleton } from '@mui/material';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import Skeleton from 'react-loading-skeleton';
 import { v4 as uuidv4 } from 'uuid';
 
 import {

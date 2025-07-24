@@ -13,8 +13,8 @@ import {
 import './style.scss';
 
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { Skeleton } from '@mui/material';
 import { WuButton, WuMenu, WuMenuItem, WuPopover } from '@npm-questionpro/wick-ui-lib';
+import Skeleton from 'react-loading-skeleton';
 
 import DeleteDemographicInfosSectionConfirmModal from './DeleteDemographicInfosSectionConfirmModal';
 import SectionField from './SectionField';
@@ -452,14 +452,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               DemographicInfoTypeEnum.Number,
             ]?.includes(selectedDemographicInfoType) && (
               <div className={'persona-left-menu--demographic-info-create-loading-block'}>
-                <Skeleton
-                  sx={{
-                    width: '18.2rem',
-                    height: '2.688rem',
-                  }}
-                  animation="wave"
-                  variant="rectangular"
-                />
+                <Skeleton width={'18.2rem'} height={'2.688rem'} />
               </div>
             )}
           <form

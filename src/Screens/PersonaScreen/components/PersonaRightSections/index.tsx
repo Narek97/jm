@@ -12,10 +12,10 @@ import {
 import './style.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import Skeleton from 'react-loading-skeleton';
 
 import {
   DeletePersonaSectionMutation,
@@ -214,15 +214,7 @@ const PersonaRightSections: FC<
           {Array(SKELETON_COUNT)
             .fill('')
             .map((_, index) => (
-              <Skeleton
-                key={index}
-                sx={{
-                  width: `calc(50% - 0.34rem)`,
-                  height: '16rem',
-                }}
-                animation="wave"
-                variant="rectangular"
-              />
+              <Skeleton key={index} width={`calc(50% - 0.34rem)`} height={'16rem'} />
             ))}
         </div>
       );

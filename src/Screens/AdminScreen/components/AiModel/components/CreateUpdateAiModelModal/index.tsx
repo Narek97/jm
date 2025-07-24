@@ -3,10 +3,10 @@ import { FC, useMemo, useState } from 'react';
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuButton, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 
 import { AiModelFormType, AiModelType } from '../../types';
 

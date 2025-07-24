@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './style.scss';
-import { Skeleton } from '@mui/material';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useLocation } from '@tanstack/react-router';
 import Cropper from 'react-easy-crop';
+import Skeleton from 'react-loading-skeleton';
 
 import {
   UpdateAttachmentCroppedAreaMutation,
@@ -296,15 +296,7 @@ const ImageCard: FC<IImageCard> = memo(
           )}
 
           {isLoading ? (
-            <Skeleton
-              sx={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 1,
-              }}
-              animation="wave"
-              variant="rectangular"
-            />
+            <Skeleton height={'100%'} />
           ) : (
             <>
               {imgScaleType === ImgScaleTypeEnum.Crop ? (

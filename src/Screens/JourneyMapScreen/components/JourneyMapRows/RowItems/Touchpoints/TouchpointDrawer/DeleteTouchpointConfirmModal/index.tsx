@@ -2,10 +2,10 @@ import { FC, useCallback, useMemo } from 'react';
 
 import './style.scss';
 
-import { Skeleton } from '@mui/material';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import Skeleton from 'react-loading-skeleton';
 
 import { DeleteAiJourneyModelMutation } from '@/api/mutations/generated/deleteAiJourneyModel.generated';
 import { useDeleteTouchPointAttachmentMutation } from '@/api/mutations/generated/deleteTouchPointAttachment.generated.ts';

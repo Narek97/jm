@@ -2,8 +2,8 @@ import { ChangeEvent, FC, useCallback, useMemo, useState } from 'react';
 
 import './style.scss';
 
-import { Skeleton } from '@mui/material';
 import { useLocation } from '@tanstack/react-router';
+import Skeleton from 'react-loading-skeleton';
 
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
@@ -135,15 +135,7 @@ const VideoCard: FC<IVideoCard> = ({
 
         <>
           {isLoading ? (
-            <Skeleton
-              sx={{
-                borderRadius: 1,
-                width: '100%',
-                height: '100%',
-              }}
-              animation="wave"
-              variant="rectangular"
-            />
+            <Skeleton width={'100%'} height={'100%'} />
           ) : (
             <div className={'video-card--video-block'}>
               <button
