@@ -26,8 +26,9 @@ import {
   useGetColumnStepsQuery,
 } from '@/api/queries/generated/getColumnSteps.generated.ts';
 import { OutcomeStatusEnum } from '@/api/types.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
 import { WORKSPACE_MAPS_LIMIT } from '@/Constants/pagination.ts';
 import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
 import { OUTCOME_VALIDATION_SCHEMA } from '@/Screens/OutcomeScreen/constants';
@@ -431,8 +432,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                   name={'name'}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <CustomInput
-                      inputType={'primary'}
+                    <BaseWuInput
                       id={'outcome-name'}
                       placeholder={'Text here'}
                       onChange={onChange}
@@ -450,10 +450,8 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               name={'description'}
               control={control}
               render={({ field: { onChange, value } }) => (
-                <CustomInput
-                  multiline={true}
-                  minRows={4}
-                  inputType={'primary'}
+                <BaseWuTextarea
+                  rows={4}
                   id={'outcome-description'}
                   placeholder={'Text here'}
                   onChange={onChange}

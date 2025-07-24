@@ -2,8 +2,8 @@ import { ChangeEvent, lazy, Suspense, useCallback, useMemo, useState } from 'rea
 
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomInput from '@/Components/Shared/CustomInput';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
@@ -76,7 +76,11 @@ const CopyMap = () => {
 
       <div className="copy-map--search">
         <div className="copy-map--search--input">
-          <CustomInput placeholder={'Search for an map'} onChange={onHandleSearchOrgs} />
+          <BaseWuInput
+            isIconInput={true}
+            placeholder={'Search for an map'}
+            onChange={onHandleSearchOrgs}
+          />
         </div>
       </div>
 

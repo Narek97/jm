@@ -2,7 +2,7 @@ import { FC, memo, RefObject, useEffect, useState } from 'react';
 
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 
 interface IStepInput {
@@ -20,11 +20,8 @@ interface IStepInput {
 const StepInput: FC<IStepInput> = memo(
   ({ updateStepColumn, label, id, disabled, stepColor, inputRef }) => {
     const [labelValue, setLabelValue] = useState<string>(label || '');
-    const [isFocused, setIsFocused] = useState(false);
 
     const textColor = getTextColorBasedOnBackground(stepColor);
-
-    const toggleFocus = () => setIsFocused(prev => !prev);
 
     useEffect(() => {
       if (label) {
@@ -34,46 +31,14 @@ const StepInput: FC<IStepInput> = memo(
 
     return (
       <WuTooltip className="wu-tooltip-content" content={labelValue} position="top">
-        <CustomInput
+        <BaseWuInput
+          className={'border-[none] bg-transparent text-[0.75rem]!'}
           id={String(id)}
           inputRef={inputRef}
           data-testid={`step-input-${id}-test-id`}
-          sxStyles={{
-            '&.Mui-focused': {
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: `0.313rem dotted red`,
-              },
-            },
-            background: 'transparent',
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: `0.313rem solid green`,
-            },
-            '& .MuiInputBase-input': {
-              maxHeight: '25px !important',
-              padding: '0 10px',
-              fontWeight: '400',
-              fontSize: '0.9rem',
-              color: textColor,
-              textAlign: 'center',
-              wordBreak: 'break-word',
-              WebkitBoxOrient: 'vertical',
-              WebkitLineClamp: 2,
-              ...(isFocused
-                ? {
-                    textOverflow: 'unset',
-                    overflow: 'visible',
-                    display: 'block',
-                    whiteSpace: 'nowrap',
-                  }
-                : {
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    display: '-webkit-box',
-                    whiteSpace: 'normal',
-                  }),
-            },
+          style={{
+            color: textColor,
           }}
-          inputType="secondary"
           placeholder="title..."
           value={labelValue}
           disabled={disabled}
@@ -90,10 +55,6 @@ const StepInput: FC<IStepInput> = memo(
               (event.target as HTMLElement).blur();
             }
           }}
-          onBlur={toggleFocus}
-          onFocus={toggleFocus}
-          multiline
-          maxRows={2}
         />
       </WuTooltip>
     );

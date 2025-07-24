@@ -14,7 +14,7 @@ import {
   useGetItemNoteQuery,
 } from '@/api/queries/generated/getItemNote.generated.ts';
 import { CommentAndNoteModelsEnum } from '@/api/types';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
@@ -128,10 +128,9 @@ const JourneyMapCardNote: FC<IJourneyMapCardNote> = ({
               <div className="note-section--content--max-length">
                 <span>{note?.text.length} / 255</span>
               </div>
-              <CustomInput
-                maxRows={2}
+              <BaseWuTextarea
+                rows={2}
                 maxLength={255}
-                multiline={true}
                 autoFocus={true}
                 onFocus={e => {
                   e.currentTarget.setSelectionRange(
@@ -141,23 +140,8 @@ const JourneyMapCardNote: FC<IJourneyMapCardNote> = ({
                 }}
                 data-testid="note-test-id"
                 placeholder={'Note'}
-                sxStyles={{
-                  background: 'transparent',
-                  '& .Mui-focused': {
-                    backgroundColor: '#FFF3C2',
-                  },
-                  '& .MuiInputBase-formControl,textarea': {
-                    padding: '0 !important',
-                  },
-                }}
                 value={note?.text}
                 onChange={e => createOrUpdateNote(e?.target?.value)}
-                // onKeyDown={event => {
-                //   if (event.keyCode === 13) {
-                //     event.preventDefault();
-                //     (event.target as HTMLElement).blur();
-                //   }
-                // }}
               />
             </div>
           </>

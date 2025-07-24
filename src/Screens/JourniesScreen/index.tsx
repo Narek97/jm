@@ -37,8 +37,8 @@ import {
 } from '@/api/queries/generated/getJourneys.generated.ts';
 import { OrderByEnum, SortByEnum } from '@/api/types';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomInput from '@/Components/Shared/CustomInput';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -505,11 +505,8 @@ const JourniesScreen = () => {
                 </WuTooltip>
               ))}
             </ul>
-            <CustomInput
-              sxStyles={{
-                width: '12.5rem',
-              }}
-              rows={2}
+            <BaseWuInput
+              isIconInput={true}
               placeholder={'Search for your map'}
               onChange={onHandleSearchMap}
             />

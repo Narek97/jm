@@ -3,7 +3,7 @@ import { FC, KeyboardEvent, useRef, useState } from 'react';
 import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 
 interface IEditableItemForm {
   createButtonText: string;
@@ -48,7 +48,7 @@ const EditableItemForm: FC<IEditableItemForm> = ({
     <div className={'create-edit-block'}>
       <div
         className={`create-edit-block--content ${isOpen ? 'create-edit-block--open-content' : ''}`}>
-        <CustomInput
+        <BaseWuInput
           onKeyDown={handleInputKeyDown}
           inputRef={nameInputRef}
           value={inputValue}

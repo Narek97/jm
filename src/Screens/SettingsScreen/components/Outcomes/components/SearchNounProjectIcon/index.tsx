@@ -8,8 +8,8 @@ import {
   GetNounProjectIconsQuery,
   useGetNounProjectIconsQuery,
 } from '@/api/queries/generated/getNounProjectIcons.generated';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomInput from '@/Components/Shared/CustomInput';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { NOUN_PROJECT_ICONS_LIMIT } from '@/Constants/pagination';
 import { debounced400 } from '@/Hooks/useDebounce';
@@ -52,7 +52,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
   return (
     <div className={'search-icon-section'} data-testid="search-icon-section-id">
       <div>
-        <CustomInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
+        <BaseWuInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
         {iconSearchText && isOpenNounProjectIconsPopup ? (
           <ClickAwayListener
             onClickAway={() => {

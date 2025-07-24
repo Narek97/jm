@@ -5,7 +5,7 @@ import './style.scss';
 import OrgItem from './OrgItem';
 
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
@@ -52,7 +52,11 @@ const Orgs: FC = () => {
     <>
       <div className="org-users--search" data-testid="admin-orgs">
         <div className="org-users--search-input">
-          <CustomInput placeholder={'Search for an organization'} onChange={onHandleSearchOrgs} />
+          <BaseWuInput
+            isIconInput={true}
+            placeholder={'Search for an organization'}
+            onChange={onHandleSearchOrgs}
+          />
         </div>
       </div>
       {errorOrgs ? (

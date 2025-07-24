@@ -7,7 +7,7 @@ import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import ImageViewAndUpload from './ImageViewAndUpload';
 
 import { DemographicInfoTypeEnum } from '@/api/types';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonaFieldSectionsType } from '@/Screens/PersonaScreen/types.ts';
@@ -78,13 +78,13 @@ const SectionField: FC<ISectionField> = memo(
         </span>
         <div className={'field-section-header'}>
           <div className={'field-section-header--input'}>
-            <CustomInput
+            <BaseWuInput
               inputRef={ref}
               placeholder={'label'}
-              inputType={'secondary'}
               value={item.key}
               disabled={item?.isHidden}
-              sxStyles={{
+              style={{
+                background: 'none',
                 opacity: item.isHidden ? 0.5 : 1,
               }}
               onChange={e =>

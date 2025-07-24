@@ -30,7 +30,7 @@ import {
   useGetParentMapChildrenQuery,
 } from '@/api/queries/generated/getParentMapChildren.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { querySlateTime } from '@/Constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -369,26 +369,11 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
                   </p>
                 </div>
               ) : (
-                <CustomInput
+                <BaseWuInput
+                  className={'border-[none] bg-transparent'}
                   value={titleValue}
                   data-testid="journey-map-test-id"
-                  // autoFocus={true}
                   id={'map-title'}
-                  sxStyles={{
-                    '&:hover': {
-                      '& .MuiInput-underline::before': {
-                        borderBottom: `1px solid #D8D8D8 !important`,
-                      },
-                    },
-                    '& .MuiInput-underline:after': {
-                      borderBottom: `1px solid #1B87E6`,
-                    },
-                    background: '#ffffff',
-                    '& .MuiInput-input': {
-                      fontSize: '24px',
-                      background: 'transparent',
-                    },
-                  }}
                   onChange={onHandleUpdateTitle}
                   onKeyDown={event => {
                     if (event.keyCode === 13) {

@@ -16,7 +16,7 @@ import {
 import CreateTouchpointModal from '../CreateTouchpointModal';
 import DeleteTouchPointConfirmModal from '../DeleteTouchpointConfirmModal';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types';
@@ -142,14 +142,10 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
         />
       )}
       <div className={'touchpoint-icons--header'}>
-        <CustomInput
+        <BaseWuInput
           isIconInput={true}
-          inputType={'primary'}
           placeholder={`Search touchpoint`}
           type={'text'}
-          sxStyles={{
-            width: '12.5rem',
-          }}
           onChange={e => setSearch(e.target.value)}
         />
         {type === TouchpointIconsEnum.CUSTOM && (

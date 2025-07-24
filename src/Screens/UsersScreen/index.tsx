@@ -17,8 +17,8 @@ import {
   useGetOrganizationUsersQuery,
 } from '@/api/queries/generated/getOrganizationUsers.generated.ts';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomInput from '@/Components/Shared/CustomInput';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -164,12 +164,10 @@ const UsersScreen = () => {
             className={`org-users--search-block-input ${
               isCreateUser ? 'org-users--disable-search-block' : ''
             } `}>
-            <CustomInput
+            <BaseWuInput
               isIconInput={true}
-              inputType={'secondary'}
               data-testid="user-search-field-test-id"
               placeholder={`search user...`}
-              type={'text'}
               value={searchUserText}
               onChange={e => onUserSearch(e.target.value)}
               onKeyDown={event => {

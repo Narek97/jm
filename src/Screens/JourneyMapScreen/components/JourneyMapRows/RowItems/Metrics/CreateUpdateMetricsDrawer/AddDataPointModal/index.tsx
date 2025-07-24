@@ -18,9 +18,9 @@ import {
 } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
-import CustomInput from '@/Components/Shared/CustomInput';
 import {
   ADD_DATA_POINT_VALIDATION_SCHEMA,
   CES_DATA_POINT_ELEMENTS,
@@ -151,10 +151,9 @@ const AddDataPointModal: FC<IAddDataPointModal> = ({
                   name={element.name}
                   control={control}
                   render={({ field: { onChange, value = 0 } }) => (
-                    <CustomInput
+                    <BaseWuInput
                       data-testid={`${element.title.toLowerCase()}-data-point-input-test-id`}
                       className={''}
-                      inputType={'primary'}
                       placeholder={element.placeholder}
                       id={element.name}
                       type={element.type}

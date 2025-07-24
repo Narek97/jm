@@ -6,7 +6,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { PersonaInfoType, PersonaSectionType } from '../../types';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import { TOKEN_NAME } from '@/Constants';
 import PersonaContainsJourneysModal from '@/Screens/PersonaScreen/components/PersonaContainsJourneysModal';
 import { useBreadcrumbStore } from '@/Store/breadcrumb.ts';
@@ -104,27 +104,12 @@ const PersonaHeader: FC<IPersonaHeader> = ({
             }}
           />
         </button>
-        <CustomInput
+        <BaseWuInput
           data-testid={'persona-name-test-id'}
           type="text"
           autoFocus={true}
           placeholder={'name...'}
           value={personaInfo?.name}
-          sxStyles={{
-            '&:hover': {
-              '& .MuiInput-underline::before': {
-                borderBottom: `1px solid #D8D8D8 !important`,
-              },
-            },
-            '& .MuiInput-underline:after': {
-              borderBottom: `1px solid #1B87E6`,
-            },
-            background: '#ffffff',
-            '& .MuiInput-input': {
-              fontSize: '1.5rem',
-              background: 'transparent',
-            },
-          }}
           onChange={e => {
             onHandleUpdateInfo('name', e.target.value);
             updateBreadcrumb(3, { name: e.target.value });

@@ -23,9 +23,10 @@ import {
   useGetAiJourneyModelsQuery,
 } from '@/api/queries/generated/getAiJourneyModels.generated.ts';
 import { BoardResponse } from '@/api/types.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
 import SlickCarousel from '@/Components/Shared/SlickCarousel';
 import { querySlateTime } from '@/Constants';
 import { AI_JOURNEYS_MODEL_LIMIT, BOARDS_LIMIT } from '@/Constants/pagination';
@@ -218,9 +219,8 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
                 name={'name'}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <CustomInput
+                  <BaseWuInput
                     data-testid={'create-interview-name-input-test-id'}
-                    inputType={'primary'}
                     placeholder={'Name'}
                     id={'name'}
                     onChange={onChange}
@@ -308,15 +308,13 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
               name={'text'}
               control={control}
               render={({ field: { onChange, value } }) => (
-                <CustomInput
+                <BaseWuTextarea
                   data-testid={`create-interview-name-input-test-id`}
-                  inputType={'primary'}
                   placeholder={'Transcript'}
                   id={'transcript'}
                   onChange={onChange}
                   disabled={!!interview || isLoadingCreateInterview}
                   value={value || ''}
-                  multiline={true}
                   rows={6}
                 />
               )}
