@@ -4,7 +4,7 @@ import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Switch } from '@mui/material';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton, WuPopover } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -55,7 +55,6 @@ import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomPopover from '@/Components/Shared/CustomPopover';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap';
@@ -935,8 +934,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                         className={
                           'create-update-metrics-drawer--data-settings-block--date-picker'
                         }>
-                        <CustomPopover
-                          popoverButton={
+                        <WuPopover
+                          Trigger={
                             <div
                               className={
                                 'create-update-metrics-drawer--data-settings-block--date-picker'
@@ -966,7 +965,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                               }}
                             />
                           </div>
-                        </CustomPopover>
+                        </WuPopover>
                       </div>
                     </div>
                   ) : null}
@@ -1015,8 +1014,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                       Date range
                     </label>
 
-                    <CustomPopover
-                      popoverButton={
+                    <WuPopover
+                      Trigger={
                         <div
                           className={
                             'create-update-metrics-drawer--data-settings-block--date-picker'
@@ -1047,7 +1046,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                           }}
                         />
                       </div>
-                    </CustomPopover>
+                    </WuPopover>
                   </div>
                   <div className={'create-update-metrics-drawer--data-points-block'}>
                     <div className={'create-update-metrics-drawer--data-points-block--header'}>
