@@ -20,10 +20,11 @@ import {
 } from '@/api/mutations/generated/updateAiJourneyModel.generated.ts';
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import { AttachmentsEnum } from '@/api/types';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
-import CustomInput from '@/Components/Shared/CustomInput';
 import CustomMultiSelectDropDown from '@/Components/Shared/CustomMultiSelectDropDown';
 import { querySlateTime } from '@/Constants';
 import {
@@ -274,20 +275,34 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
               <Controller
                 name={element.name}
                 control={control}
-                render={({ field: { onChange, value } }) => (
-                  <CustomInput
-                    data-testid={`create-ai-model-${element.name}-input-test-id`}
-                    inputType={'primary'}
-                    placeholder={element.placeholder}
-                    id={element.name}
-                    type={element.type}
-                    onChange={onChange}
-                    // disabled={!!interview || isLoadingCreateInterview}
-                    value={value || ''}
-                    rows={4}
-                    multiline={element.isMultiline}
-                  />
-                )}
+                render={({ field: { onChange, value } }) =>
+                  element.name === 'name' ? (
+                    <BaseWuInput
+                      data-testid={`create-ai-model-${element.name}-input-test-id`}
+                      className={
+                        errors[element.name]?.message ? 'create-ai-model--error-input' : ''
+                      }
+                      maxLength={50}
+                      placeholder={element.placeholder}
+                      id={element.name}
+                      type={element.type}
+                      onChange={onChange}
+                      disabled={isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel}
+                      value={value || ''}
+                      isIconInput={false}
+                    />
+                  ) : (
+                    <BaseWuTextarea
+                      data-testid={`create-ai-model-${element.name}-input-test-id`}
+                      placeholder={element.placeholder}
+                      id={element.name}
+                      onChange={onChange}
+                      disabled={isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel}
+                      value={value || ''}
+                      rows={4}
+                    />
+                  )
+                }
               />
               <span className={'validation-error'}>
                 {(errors && errors[element.name]?.message) || ''}
@@ -355,6 +370,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                 id={'universal'}
                 data-testid={'create-update-ai-model-modal-switch-test-id'}
                 checked={value}
+                disabled={isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel}
                 onChange={onChange}
                 className="wu-toggle-container wu-toggle-label"
               />

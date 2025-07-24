@@ -19,9 +19,9 @@ import {
   useGetPersonaGalleryQuery,
 } from '@/api/queries/generated/getPersonaGallery.generated.ts';
 import { ActionEnum, AttachmentsEnum } from '@/api/types.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
-import CustomInput from '@/Components/Shared/CustomInput';
 import Pagination from '@/Components/Shared/Pagination';
 import { PERSONA_FILE_TYPES } from '@/Constants';
 import { BOARDS_LIMIT, PERSONAS_GALLERY_LIMIT } from '@/Constants/pagination.ts';
@@ -351,9 +351,8 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
         <div className={'persona-gallery-modal'}>
           <div className={'persona-gallery-modal--header'}>
             <div className={'persona-gallery-modal--header--search-block'}>
-              <CustomInput
+              <BaseWuInput
                 isIconInput={true}
-                inputType={'primary'}
                 placeholder="search..."
                 name={'search'}
                 value={search}

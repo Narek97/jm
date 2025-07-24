@@ -29,7 +29,7 @@ import {
   useUpdateLayerMutation,
 } from '@/api/mutations/generated/updateLayer.generated.ts';
 import { ActionEnum } from '@/api/types.ts';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import { queryClient } from '@/Providers/constants.ts';
 import { UPDATE_LAYER_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
@@ -382,32 +382,11 @@ const JourneyMapLayersModal: FC<IJourneyMapLayers> = ({
                         name={'name'}
                         control={control}
                         render={({ field: { onChange, value } }) => (
-                          <CustomInput
+                          <BaseWuInput
                             value={value || ''}
                             data-testid="layer-title"
                             id={'layer-title'}
-                            sxStyles={{
-                              '&:hover': {
-                                '& .MuiInput-underline::before': {
-                                  borderBottom: `1px solid #D8D8D8 !important`,
-                                },
-                              },
-                              '& .MuiInput-underline:after': {
-                                borderBottom: `1px solid #1B87E6`,
-                              },
-                              background: '#ffffff',
-                              '& .MuiInput-input': {
-                                fontSize: '12px',
-                                background: '#F5F5F5',
-                              },
-
-                              '& .MuiInput-underline::before': {
-                                borderBottom: `1px solid #D8D8D8`,
-                              },
-                            }}
                             onChange={onChange}
-                            onFocus={() => {}}
-                            onBlur={() => {}}
                             onKeyDown={event => {
                               if (event.keyCode === 13) {
                                 event.preventDefault();

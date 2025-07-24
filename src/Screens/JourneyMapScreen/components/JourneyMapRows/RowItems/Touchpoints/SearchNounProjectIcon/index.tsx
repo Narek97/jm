@@ -8,8 +8,8 @@ import {
   GetNounProjectIconsQuery,
   useGetNounProjectIconsQuery,
 } from '@/api/queries/generated/getNounProjectIcons.generated.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomError from '@/Components/Shared/CustomError';
-import CustomInput from '@/Components/Shared/CustomInput';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
@@ -51,7 +51,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
   return (
     <div className={'search-icon-section'}>
       <div>
-        <CustomInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
+        <BaseWuInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
         {iconSearchText && isOpenNounProjectIconsPopup ? (
           <ClickAwayListener
             onClickAway={() => {

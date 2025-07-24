@@ -9,7 +9,7 @@ import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import DragHandle from '@/Components/Shared/DragHandle';
 import PersonaImages from '@/Features/PersonaImages';
@@ -132,7 +132,7 @@ const JourneyCard: FC<IJourneyCard> = ({
                 <div
                   className={'journey-card--name'}
                   data-testid={'journey-card-name-input-test-id'}>
-                  <CustomInput
+                  <BaseWuInput
                     value={cardName}
                     onChange={onHandleNameChange}
                     inputRef={inputRef}

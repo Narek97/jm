@@ -26,7 +26,7 @@ import ProsIcon from '@/Assets/public/mapRow/pros.svg';
 import TextIcon from '@/Assets/public/mapRow/text.svg';
 import TouchpointIcon from '@/Assets/public/mapRow/touchpoint.svg';
 import VideoIcon from '@/Assets/public/mapRow/video.svg';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import RowActionsDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock/RowActionsDrawer';
@@ -63,7 +63,6 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
 
     const { mapOutcomeGroups, updateMapOutcomeGroups } = useJourneyMapStore();
     const { undoActions, updateUndoActions, updateRedoActions } = useUndoRedoStore();
-    const [isFocused, setIsFocused] = useState(false);
 
     const [labelValue, setLabelValue] = useState<string>(rowItem?.label || '');
 
@@ -285,55 +284,13 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                 <div {...dragHandleProps} />
               )}
               {/*todo*/}
-              <WuTooltip
-                content={labelValue}
-                showArrow
-                position="top"
-                // componentsProps={{
-                //   tooltip: {
-                //     sx: {
-                //       maxWidth: '11rem',
-                //     },
-                //   },
-                // }}
-              >
+              <WuTooltip content={labelValue} showArrow position="top">
                 <div>
-                  <CustomInput
-                    sxStyles={{
-                      width: '4.8rem',
-                      background: 'transparent',
-                      '& .MuiInputBase-root': {
-                        padding: 0,
-                        border: 'none',
-                        '& fieldset': {
-                          border: 'none',
-                        },
-                        overflow: 'hidden',
-                      },
-                      '&:hover': {
-                        '& .MuiInput-underline::before': {
-                          borderBottom: `1px solid #00000033 !important`,
-                        },
-                      },
-                      '& .MuiInput-underline:after': {
-                        borderBottom: `1px solid  #1b87e6`,
-                      },
-                      '& .MuiInputBase-input': {
-                        textAlign: 'center',
-                        textOverflow: isFocused ? 'unset' : 'ellipsis',
-                        overflow: isFocused ? 'visible' : 'hidden',
-                        display: isFocused ? 'block' : '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2,
-                        whiteSpace: isFocused ? 'nowrap' : 'normal',
-                        wordBreak: 'break-word',
-                      },
-                    }}
+                  <BaseWuInput
+                    className={'border-[none] w-[76px] p-0 text-[0.75rem]!'}
                     id={(rowItem.rowFunction?.toLowerCase() || 'row-input') + '-input'}
                     value={labelValue}
                     disabled={disabled || rowItem?.isDisabled}
-                    onBlur={() => setIsFocused(false)}
-                    onFocus={() => setIsFocused(true)}
                     onChange={e => {
                       setLabelValue(e.target.value);
                       updateLabel({
@@ -348,10 +305,6 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
                         (event.target as HTMLElement).blur();
                       }
                     }}
-                    multiline
-                    maxRows={2}
-                    variant="outlined"
-                    padding={0}
                   />
                 </div>
               </WuTooltip>

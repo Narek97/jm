@@ -3,7 +3,7 @@ import { FC, lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'r
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWuShowToast, WuButton, WuToggle } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton, WuPopover, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -49,11 +49,11 @@ import {
 } from '@/api/queries/generated/getDataPoints.generated.ts';
 import { MetricsDateRangeEnum, MetricsSourceEnum, MetricsTypeEnum } from '@/api/types';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
+import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
-import CustomPopover from '@/Components/Shared/CustomPopover';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap';
@@ -779,7 +779,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     name={'name'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <CustomInput
+                      <BaseWuInput
                         id={'name'}
                         value={value}
                         data-testid={'create-update-metrics-name-test-id'}
@@ -825,13 +825,12 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     name={'description'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <CustomInput
+                      <BaseWuTextarea
                         placeholder={'Description of your metric'}
                         data-testid={'create-update-metrics-description-test-id'}
                         autoFocus={true}
-                        multiline={true}
                         rows={3}
-                        value={value}
+                        value={value || ''}
                         onChange={onChange}
                       />
                     )}
@@ -932,8 +931,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                         className={
                           'create-update-metrics-drawer--data-settings-block--date-picker'
                         }>
-                        <CustomPopover
-                          popoverButton={
+                        <WuPopover
+                          Trigger={
                             <div
                               className={
                                 'create-update-metrics-drawer--data-settings-block--date-picker'
@@ -963,7 +962,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                               }}
                             />
                           </div>
-                        </CustomPopover>
+                        </WuPopover>
                       </div>
                     </div>
                   ) : null}
@@ -983,16 +982,13 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     name={'goal'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <CustomInput
+                      <BaseWuInput
                         id={'goal'}
                         placeholder={'Type NPS Goal here'}
                         data-testid={'create-update-metrics-goal-test-id'}
                         type={'number'}
                         min={0}
                         max={100}
-                        sxStyles={{
-                          width: '12.5rem',
-                        }}
                         value={(+value).toString()}
                         onChange={e => {
                           if (+e.target.value >= 0 && +e.target.value <= 100) {
@@ -1015,8 +1011,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                       Date range
                     </label>
 
-                    <CustomPopover
-                      popoverButton={
+                    <WuPopover
+                      Trigger={
                         <div
                           className={
                             'create-update-metrics-drawer--data-settings-block--date-picker'
@@ -1047,7 +1043,7 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                           }}
                         />
                       </div>
-                    </CustomPopover>
+                    </WuPopover>
                   </div>
                   <div className={'create-update-metrics-drawer--data-points-block'}>
                     <div className={'create-update-metrics-drawer--data-points-block--header'}>

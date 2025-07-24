@@ -11,9 +11,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { CustomMetricsFormType, CustomMetricsType } from '../../types';
 
 import { MetricsTypeEnum } from '@/api/types.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
-import CustomInput from '@/Components/Shared/CustomInput';
 import { ADD_CUSTOM_METRICS_VALIDATION_SCHEMA } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 
 interface IAddCustomMetricsModal {
@@ -87,9 +87,8 @@ const AddCustomMetricsModal: FC<IAddCustomMetricsModal> = ({
                 name={'value'}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <CustomInput
+                  <BaseWuInput
                     data-testid={`metrics-value-data-point-input-test-id`}
-                    inputType={'primary'}
                     placeholder={'Write metrics value'}
                     id={'metricsValue'}
                     type={'number'}

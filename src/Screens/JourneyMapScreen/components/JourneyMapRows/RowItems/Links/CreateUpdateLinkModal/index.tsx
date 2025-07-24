@@ -23,9 +23,9 @@ import {
   useUpdateMapLinkMutation,
 } from '@/api/mutations/generated/updateLink.generated.ts';
 import { AddLinkInput, EditLinkInput, LinkTypeEnum } from '@/api/types';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
 import { querySlateTime } from '@/Constants';
 import { JOURNEY_MAP_LINKS_MAPS_LIMIT } from '@/Constants/pagination';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
@@ -318,13 +318,12 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                     name={'title'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <CustomInput
-                        inputType={'primary'}
+                      <BaseWuInput
                         data-testid="create-update-link-label-input-test-id"
                         placeholder={'Add label'}
                         onChange={onChange}
                         disabled={isLoadingCreateLink || isLoadingUpdateLink}
-                        value={value}
+                        value={value || ''}
                       />
                     )}
                   />
@@ -341,13 +340,12 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                     name={'url'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <CustomInput
-                        inputType={'primary'}
+                      <BaseWuInput
                         data-testid="create-update-link-url-input-test-id"
                         placeholder={'Add url'}
                         onChange={onChange}
                         disabled={isLoadingCreateLink || isLoadingUpdateLink}
-                        value={value}
+                        value={value || ''}
                       />
                     )}
                   />

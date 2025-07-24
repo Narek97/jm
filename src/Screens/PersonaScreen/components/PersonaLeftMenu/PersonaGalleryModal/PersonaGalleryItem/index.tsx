@@ -9,7 +9,7 @@ import {
   UpdateAttachmentNameMutation,
   useUpdateAttachmentNameMutation,
 } from '@/api/mutations/generated/updateAttachmentName.generated.ts';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import { IMAGE_ASPECT } from '@/Constants';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -115,17 +115,11 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
         />
       </div>
       {isEditTitleModeOn ? (
-        <CustomInput
+        <BaseWuInput
           data-testid="gallery-image-item-name-test-id"
           style={{
             background: 'none',
             paddingLeft: '0.625rem',
-          }}
-          sxStyles={{
-            '& .MuiInputBase-input': {
-              padding: '0.438rem',
-              lineHeight: '0.625rem',
-            },
           }}
           aria-label={galleryName}
           className={'board-card--name-block-input'}

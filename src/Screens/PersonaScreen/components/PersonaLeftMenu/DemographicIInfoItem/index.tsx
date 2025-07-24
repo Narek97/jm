@@ -4,8 +4,8 @@ import './style.scss';
 
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { PERSONA_GENDER_MENU_ITEMS } from '@/Screens/PersonaScreen/constants.tsx';
 import { DemographicInfoFieldsType } from '@/Screens/PersonaScreen/types.ts';
@@ -71,15 +71,15 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
           <p className={'demographic-info-item--key-section-content'}>{demographicInfo.key}</p>
         ) : (
           <div className={'demographic-info-item--options-block'}>
-            <CustomInput
+            <BaseWuInput
               disabled={
                 selectedDemographicInfoId !== demographicInfo.id || demographicInfo.isHidden!
               }
               inputRef={ref}
               placeholder={'label'}
-              inputType={'secondary'}
               value={demographicInfo.key}
-              sxStyles={{
+              style={{
+                background: 'none',
                 opacity: demographicInfo.isHidden ? 0.5 : 1,
               }}
               onBlur={onHandleRemoveSelectedDemographicInfoId}
@@ -163,13 +163,13 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
             placeholder={'Select'}
           />
         ) : (
-          <CustomInput
+          <BaseWuInput
             disabled={demographicInfo.isHidden!}
             type={demographicInfo.type === 'TEXT' ? 'text' : 'number'}
             placeholder={'type here...'}
             min={0}
             inputRef={inputRef}
-            value={demographicInfo.value}
+            value={demographicInfo.value || ''}
             data-testid={`${demographicInfo.id}-test-id`}
             onChange={e => {
               const config = fieldConfigs[demographicInfo.key] || fieldConfigs.default;
@@ -192,7 +192,8 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
                 );
               }
             }}
-            sxStyles={{
+            style={{
+              background: 'none',
               opacity: demographicInfo.isHidden ? 0.5 : 1,
             }}
             onKeyDown={event => {

@@ -1,7 +1,7 @@
 import { FC, UIEvent, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
-import { WuCheckbox, WuDateRangePicker } from '@npm-questionpro/wick-ui-lib';
+import { WuCheckbox, WuDateRangePicker, WuPopover } from '@npm-questionpro/wick-ui-lib';
 
 import {
   GetPersonasQuery,
@@ -11,7 +11,6 @@ import {
   GetPersonaGroupsModelQuery,
   useGetPersonaGroupsModelQuery,
 } from '@/api/queries/generated/getPersonaGroups.generated.ts';
-import CustomPopover from '@/Components/Shared/CustomPopover';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
@@ -123,13 +122,10 @@ const JourneysFilter: FC<IJourneysFilter> = ({
   };
 
   return (
-    <CustomPopover
-      openedPopoverButtonColor={'#EEEEEE'}
-      sxStyles={{
-        zIndex: 49,
-      }}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      popoverButton={
+    <WuPopover
+      className="w-114 !mt-22"
+      side="right"
+      Trigger={
         <div className="journeys-filter--button">
           <span className={'wm-filter-alt'} />
         </div>
@@ -193,7 +189,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                       key={personaGroup.id}
                       className={`journeys-filter--container--personas-item`}
                       onClick={() => setPersonaGroupId(personaGroup.id)}>
-                      {personaGroup.name}
+                      {personaGroup.name?.trim() || 'Undefined'}
                     </li>
                   ))}
                 </ul>
@@ -214,7 +210,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
           }}
         />
       </div>
-    </CustomPopover>
+    </WuPopover>
   );
 };
 
