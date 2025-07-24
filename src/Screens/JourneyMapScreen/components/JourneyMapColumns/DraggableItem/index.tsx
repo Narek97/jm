@@ -21,7 +21,7 @@ import {
   DeleteMapColumnMutation,
   useDeleteMapColumnMutation,
 } from '@/api/mutations/generated/deleteMapColumn.generated.ts';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
@@ -88,8 +88,6 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const columnItemRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [isFocused, setIsFocused] = useState(false);
 
   const onHandleUpdateJourneyMap = async () => {
     await Promise.all([
@@ -400,57 +398,15 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
             className="column-draggable-item--input-block"
             ref={sectionRef}>
             <WuTooltip className={'wu-tooltip-content'} content={labelValue} position="top">
-              <CustomInput
+              <BaseWuInput
+                className={'border-[none] bg-transparent text-[0.75rem]!'}
                 inputRef={inputRef}
                 id={String(column.id)}
-                sxStyles={{
-                  '&.Mui-focused': {
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      border: `5px dotted red`,
-                    },
-                  },
-                  background: 'transparent',
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    border: `5px solid green`,
-                  },
-                  '& .MuiInputBase-input': {
-                    maxHeight: '25px !important',
-                    padding: '0 10px',
-                    fontWeight: '500',
-                    fontSize: '0.9rem',
-                    letterSpacing: '0.5px',
-                    textAlign: 'center',
-                    WebkitBoxOrient: 'vertical',
-                    WebkitLineClamp: 2,
-                    wordBreak: 'break-word',
-                    color: getTextColorBasedOnBackground(columnColor),
-                    ...(isFocused
-                      ? {
-                          textOverflow: 'unset',
-                          overflow: 'visible',
-                          display: 'block',
-                          whiteSpace: 'nowrap',
-                        }
-                      : {
-                          textOverflow: 'ellipsis',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          whiteSpace: 'normal',
-                        }),
-                  },
-                }}
-                inputType="secondary"
                 placeholder="text..."
                 value={labelValue}
                 disabled={column?.isDisabled}
-                onBlur={() => {
-                  onClickInput();
-                  setIsFocused(false);
-                }}
-                onFocus={() => {
-                  onClickInput();
-                  setIsFocused(true);
-                }}
+                onBlur={onClickInput}
+                onFocus={onClickInput}
                 onChange={e => {
                   onHandleChangeLabel(e.target.value);
                 }}
@@ -460,8 +416,6 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
                     (event.target as HTMLElement).blur();
                   }
                 }}
-                multiline
-                maxRows={2}
                 readOnly={!isActiveInput}
               />
             </WuTooltip>

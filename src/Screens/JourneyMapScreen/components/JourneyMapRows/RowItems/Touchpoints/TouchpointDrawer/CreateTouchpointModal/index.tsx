@@ -14,10 +14,10 @@ import {
 } from '@/api/mutations/generated/createIconAttachment.generated';
 import { useUpdateAttachmentTouchPointMutation } from '@/api/mutations/generated/updateAttachmentTouchPoint.generated.ts';
 import { AttachmentsEnum, MapRowTypeEnum, UpdateAttachmentTouchPointInput } from '@/api/types';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import CustomFileUploader2 from '@/Components/Shared/CustomFileUploader/index2.tsx';
-import CustomInput from '@/Components/Shared/CustomInput';
 import { validateFile } from '@/Screens/JourneyMapScreen/helpers/validateFile.ts';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
@@ -352,12 +352,11 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
         <div className={'create-touchpoint-modal--content'}>
           <div className={'create-touchpoint-modal--name-block'}>
             <label htmlFor="touchpoint-name">Name</label>
-            <CustomInput
+            <BaseWuInput
               value={fileName}
               onChange={e => setFileName(e.target.value)}
               id={'touchpoint-name'}
               data-testid={'create-touchpoint-name-test-id'}
-              sxStyles={{ marginTop: '0.5rem' }}
             />
           </div>
           <div className={'create-touchpoint-modal--icon-block'}>

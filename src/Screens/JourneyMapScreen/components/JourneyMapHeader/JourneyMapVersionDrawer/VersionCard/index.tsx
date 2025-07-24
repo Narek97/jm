@@ -14,7 +14,7 @@ import {
   UpdateMapVersionNameMutation,
   useUpdateMapVersionNameMutation,
 } from '@/api/mutations/generated/updateMapVersionName.generated.ts';
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey';
@@ -134,10 +134,9 @@ const VersionCard: FC<IVersionCard> = ({
         className={`flex items-center justify-between m-3 px-2 py-2 leading-6 ${isDisabled ? 'cursor-not-allowed text-[#878f99] hover:bg-transparent' : 'cursor-pointer text-[#545e6b] hover:bg-[#f5f5f5]'}`}>
         <div>
           {isEditName ? (
-            <CustomInput
+            <BaseWuInput
               disabled={isDisabled}
               inputRef={inputRef}
-              inputType={'secondary'}
               type="text"
               value={versionName}
               onChange={e => onHandleEditName(e.target.value)}

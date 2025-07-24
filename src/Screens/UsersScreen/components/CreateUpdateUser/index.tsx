@@ -8,7 +8,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { CREATE_USER_VALIDATION_SCHEMA } from '../../constants';
 import { CreateUserFormElementType, CreateUserFormType } from '../../types';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 
 interface ICreateUpdateUser {
   createButtonText: string;
@@ -64,9 +64,8 @@ const CreateUpdateUser: FC<ICreateUpdateUser> = ({
               name={element.name}
               control={control}
               render={({ field: { onChange, value } }) => (
-                <CustomInput
+                <BaseWuInput
                   className={errors[element.name]?.message ? 'create-user--error-input' : ''}
-                  inputType={'primary'}
                   maxLength={50}
                   placeholder={element.placeholder}
                   id={element.name}

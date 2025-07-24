@@ -4,7 +4,7 @@ import './style.scss';
 
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import CustomInput from '@/Components/Shared/CustomInput';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { EditableInputType, MenuOptionsType } from '@/types';
@@ -80,16 +80,16 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
     <div className={'editable-input'}>
       {isTitleEditMode ? (
         <>
-          <CustomInput
+          <BaseWuInput
             maxLength={maxLength}
             minLength={1}
             data-testid="board-name-section-test-id"
+            aria-label={inputValue}
             style={{
               background: 'none',
               borderBottom: '1px solid #1b87e6',
               paddingRight: maxLength ? '3.125rem' : 'initial',
             }}
-            aria-label={inputValue}
             className={'editable-input-input'}
             onClick={e => {
               e.preventDefault();

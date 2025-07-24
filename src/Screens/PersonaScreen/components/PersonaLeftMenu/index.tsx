@@ -35,9 +35,9 @@ import {
   useUpdateDemographicInfoPositionMutation,
 } from '@/api/mutations/generated/updateDemographicInfoPosition.generated';
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
+import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import CustomColorPicker from '@/Components/Shared/CustomColorPicker';
 import CustomDropDown from '@/Components/Shared/CustomDropDown';
-import CustomInput from '@/Components/Shared/CustomInput';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import DemographicInfoItem from '@/Screens/PersonaScreen/components/PersonaLeftMenu/DemographicIInfoItem';
@@ -368,14 +368,8 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             {personaInfo?.type !== PersonaTypeEnum.Customer &&
               personaInfo?.type !== PersonaTypeEnum.Employee && (
                 <div className={'custom-type-input'}>
-                  <CustomInput
+                  <BaseWuInput
                     data-testid="custom-user-type"
-                    sxStyles={{
-                      background: 'white',
-                      '& .Mui-focused': {
-                        backgroundColor: 'white',
-                      },
-                    }}
                     inputRef={personaTypeInputRef}
                     value={otherTypeText}
                     onChange={onHandleAddOtherType}
@@ -478,7 +472,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
                 : ''
             }`}
             onSubmit={onHandleCreateDemographicInfo}>
-            <CustomInput
+            <BaseWuInput
               inputRef={inputRef}
               value={name}
               data-testid={'demographic-info-name-test-id'}
