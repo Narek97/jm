@@ -1,9 +1,7 @@
 import { FC, UIEvent, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
-import { FormControlLabel } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import { WuDateRangePicker, WuPopover } from '@npm-questionpro/wick-ui-lib';
+import { WuCheckbox, WuDateRangePicker, WuPopover } from '@npm-questionpro/wick-ui-lib';
 
 import {
   GetPersonasQuery,
@@ -13,7 +11,6 @@ import {
   GetPersonaGroupsModelQuery,
   useGetPersonaGroupsModelQuery,
 } from '@/api/queries/generated/getPersonaGroups.generated.ts';
-import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
@@ -159,31 +156,13 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                     <>
                       <ul ref={childRef} data-testid="persona-list">
                         {personaData?.map(persona => (
-                          <FormControlLabel
+                          <WuCheckbox
+                            label={persona?.name?.trim() || 'Untitled'}
                             key={persona?.id}
-                            label={persona?.name}
-                            // label={truncateName(persona?.name)}
+                            checked={personaIds?.some(item => item === +persona?.id) || false}
+                            onChange={() => handleChangeFilter(+persona?.id)}
                             data-testid={'persona-list-item'}
-                            onClick={() => {
-                              handleChangeFilter(+persona?.id);
-                            }}
-                            sx={{
-                              color: '#545E6B',
-                              '& .MuiFormControlLabel-label': {
-                                fontSize: '0.75rem', // Set desired font size here
-                              },
-                            }}
-                            control={
-                              <Checkbox
-                                icon={<CustomCheckboxIcon />}
-                                sx={{
-                                  color: '#545E6B',
-                                  fontSize: '0.75rem',
-                                }}
-                                value={personaIds?.some(item => item === +persona?.id)}
-                                checked={personaIds?.some(item => item === +persona?.id) || false}
-                              />
-                            }
+                            className="wu-checkbox-container wu-checkbox-label wu-checkbox"
                           />
                         ))}
                       </ul>

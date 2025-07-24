@@ -56,9 +56,18 @@
       flex-wrap: wrap;
       margin-bottom: 1rem;
 
-      label {
-        @include reduce-text(100%);
-        max-width: 8.75rem;
+      ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        row-gap: 0.5rem;
+
+        .wu-checkbox-container {
+          label {
+            @include reduce-text(100%);
+            max-width: 8.75rem;
+          }
+        }
       }
 
       .empty-data-info {

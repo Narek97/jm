@@ -1,12 +1,10 @@
 import { FC, memo, useEffect, useState, useCallback } from 'react';
 import './style.scss';
 
-import { FormControlLabel, Checkbox } from '@mui/material';
+import { WuCheckbox } from '@npm-questionpro/wick-ui-lib';
 
 import { ActionEnum } from '@/api/types.ts';
-import CustomCheckboxIcon from '@/Components/Shared/CustomCheckboxIcon';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import { UNSELECT_ICON } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/constants.tsx';
 import {
   BoardTagType,
   LayerFormType,
@@ -19,12 +17,6 @@ interface IJourneyMapLayersModal {
   setValue: (name: keyof LayerFormType, value: LayerFormType[keyof LayerFormType]) => void;
   updatesCurrentLayer: (data: { tagIds: number[] }) => void;
 }
-
-const sxStyles = {
-  fontSize: '12px',
-  '&:hover svg rect': { stroke: '#1B87E6' },
-  '&.Mui-checked:hover svg': { fill: '#1B3380' },
-};
 
 const Tags: FC<IJourneyMapLayersModal> = ({
   mode,
@@ -69,53 +61,26 @@ const Tags: FC<IJourneyMapLayersModal> = ({
 
   return (
     <div data-testid="tags-rows" className={'rows'}>
-      <FormControlLabel
-        className="all-tags-option"
-        label="Tags"
-        sx={{
-          color: '#545E6B',
-          '& .MuiFormControlLabel-label': {
-            fontSize: '12px',
-            marginLeft: '16px',
-            fontWeight: '500',
-          },
-        }}
-        control={
-          <Checkbox
-            name={'all-tags'}
-            data-testid="all-tags"
-            onChange={() => handleSelectAllLanes()}
-            icon={
-              currentCheckedTags.length > 0 && currentCheckedTags.length < tags.length ? (
-                UNSELECT_ICON
-              ) : (
-                <CustomCheckboxIcon />
-              )
-            }
-            checked={isAllIdsSelected}
-          />
-        }
-      />
-
+      <div className="select-all-wrapper">
+        <WuCheckbox
+          label="Tags"
+          checked={isAllIdsSelected}
+          onChange={() => handleSelectAllLanes()}
+          name={'all-tags'}
+          data-testid="all-tags"
+        />
+      </div>
       <div className="rows-content">
         {tags?.length ? (
           tags.map(tag => {
             const isChecked = currentCheckedTags.includes(tag.id);
             return (
-              <FormControlLabel
+              <WuCheckbox
                 key={tag.id}
                 label={tag.name}
-                onClick={e => {
-                  e.preventDefault();
-                  handleSelectLane(tag.id, !isChecked);
-                }}
-                sx={{
-                  color: '#545E6B',
-                  '& .MuiFormControlLabel-label': { fontSize: '12px', marginLeft: '16px' },
-                }}
-                control={
-                  <Checkbox icon={<CustomCheckboxIcon />} checked={isChecked} sx={sxStyles} />
-                }
+                labelPosition="right"
+                checked={isChecked}
+                onChange={() => handleSelectLane(tag.id, !isChecked)}
               />
             );
           })

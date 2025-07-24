@@ -3,8 +3,7 @@ import { FC, lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'r
 import './style.scss';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Switch } from '@mui/material';
-import { useWuShowToast, WuButton, WuPopover } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton, WuPopover, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -811,10 +810,8 @@ const CreateUpdateMetricsDrawer: FC<ICreateMetricsDrawer> = ({
                     name={'descriptionEnabled'}
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Switch
+                      <WuToggle
                         id={'description'}
-                        color="primary"
-                        disableRipple={true}
                         data-testid={'create-update-metrics-switch-test-id'}
                         checked={value}
                         onChange={onChange}
