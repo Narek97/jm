@@ -1,10 +1,7 @@
-import { FC, useState } from 'react';
-
+import { useState } from 'react';
 import './style.scss';
 
-import Drawer from '@mui/material/Drawer';
-
-import { MapRowTypeEnum } from '@/api/types.ts';
+import { MapRowTypeEnum } from '@/api/types';
 import ConsIcon from '@/Assets/public/mapRow/cons.svg';
 import ConsInfoIcon from '@/Assets/public/mapRow/cons_info.svg';
 import DividerIcon from '@/Assets/public/mapRow/divider.svg';
@@ -35,26 +32,20 @@ import TouchpointInfoIcon from '@/Assets/public/mapRow/touchpoint_info.svg';
 import VideoIcon from '@/Assets/public/mapRow/video.svg';
 import VideoInfoIcon from '@/Assets/public/mapRow/video_info.svg';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
-import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import { useAddNewRow } from '@/Screens/JourneyMapScreen/hooks/useAddNewRow.tsx';
 import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
-import { useJourneyMapStore } from '@/Store/journeyMap.ts';
+import { useJourneyMapStore } from '@/Store/journeyMap';
 import { ObjectKeysType } from '@/types';
 
-interface IRowActionsDrawer {
-  index: number;
-}
+const JourneyMapCreateNewRow = () => {
+  const { mapOutcomeGroups, updateCreateNewRow, createNewRow } = useJourneyMapStore();
 
-const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
   const onToggleDrawer = () => {
-    setIsOpen(prev => !prev);
+    updateCreateNewRow(false, 0);
   };
-
-  const { mapOutcomeGroups } = useJourneyMapStore();
 
   const { createJourneyMapRow, isLoadingCreateRow } = useAddNewRow(onToggleDrawer);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [infoType, setInfoType] = useState<MapRowTypeEnum | null>(null);
 
   const analysis = [
@@ -160,109 +151,101 @@ const RowActionsDrawer: FC<IRowActionsDrawer> = ({ index }) => {
 
   const onHandleCreateRow = (type: MapRowTypeEnum, additionalFields?: ObjectKeysType) => {
     setInfoType(null);
-    createJourneyMapRow(index + 1, type, additionalFields);
+    createJourneyMapRow(createNewRow.rowIndex + 1, type, additionalFields);
   };
 
   return (
     <div
-      className={`row-actions-drawer`}
-      style={{
-        zIndex: index === 0 ? 20 : 21,
-      }}
+      className={'row-actions-drawer'}
+      onClick={onToggleDrawer}
       onMouseOver={() => {
         setInfoType(null);
       }}>
-      <Drawer anchor={'left'} data-testid="drawer-test-id" open={isOpen} onClose={onToggleDrawer}>
-        <div className={'row-actions-drawer--info-block'}>{infoType && infoIcon[infoType]}</div>
+      <div className={'row-actions-drawer--info-block'}>{infoType && infoIcon[infoType]}</div>
 
-        {isLoadingCreateRow && (
-          <div className={'row-actions-drawer--loading-block'}>
-            <BaseWuLoader />
-          </div>
-        )}
-
-        <div className={`row-actions-drawer--drawer`}>
-          <BaseWuModalHeader title={`Add lane`} />
-          <div className={`row-actions-drawer--drawer--content`}>
-            <ul className={`row-actions-drawer--drawer--groups`}>
-              <p className={`row-actions-drawer--drawer--groups-title`}>Analysis</p>
-              {analysis.map(row => (
-                <li
-                  key={row.title}
-                  className={`row-actions-drawer--drawer--groups-item`}
-                  onClick={() => onHandleCreateRow(row.type)}
-                  onMouseOver={e => {
-                    setInfoType(row.type);
-                    e.stopPropagation();
-                  }}>
-                  {row.icon}
-                  {row.title}
-                </li>
-              ))}
-            </ul>
-            <ul className={`row-actions-drawer--drawer--groups`}>
-              <p className={`row-actions-drawer--drawer--groups-title`}>Content & structure</p>
-
-              {contentAndStructure.map(row => (
-                <li
-                  key={row.title}
-                  className={`row-actions-drawer--drawer--groups-item`}
-                  onClick={() => onHandleCreateRow(row.type)}
-                  onMouseOver={e => {
-                    setInfoType(row.type);
-                    e.stopPropagation();
-                  }}>
-                  {row.icon}
-                  {row.title}
-                </li>
-              ))}
-            </ul>
-            {planning.length ? (
-              <ul
-                className={`row-actions-drawer--drawer--groups row-actions-drawer--drawer--outcome-groups`}>
-                <p className={`row-actions-drawer--drawer--groups-title`}>Planning</p>
-                {planning.map(row => (
-                  <li
-                    key={row.id}
-                    className={`row-actions-drawer--drawer--groups-item`}
-                    onClick={() =>
-                      onHandleCreateRow(row.type, { outcomeGroupId: row.id, label: row.pluralName })
-                    }
-                    onMouseOver={e => {
-                      setInfoType(row.type);
-                      e.stopPropagation();
-                    }}>
-                    <img
-                      src={row.icon}
-                      alt="Logo"
-                      style={{
-                        width: 16,
-                        height: 16,
-                      }}
-                    />
-                    {row.pluralName || row.title}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
+      {isLoadingCreateRow && (
+        <div className={'row-actions-drawer--loading-block'}>
+          <BaseWuLoader />
         </div>
-      </Drawer>
+      )}
 
-      <button
-        data-testid={'open-actions-drawer'}
-        aria-label={'Add'}
-        className={`row-actions-drawer--button`}
-        onClick={onToggleDrawer}>
-        <span
-          className={'wm-add'}
-          style={{
-            color: '#1B87E6',
-          }}
-        />
-      </button>
+      <div className={`row-actions-drawer--drawer`}>
+        <div className={'row-actions-drawer--header'}>
+          <p>Add lane</p>
+        </div>
+        <div
+          className={`row-actions-drawer--drawer--content`}
+          onClick={e => {
+            e.stopPropagation();
+          }}>
+          <ul className={`row-actions-drawer--drawer--groups`}>
+            <p className={`row-actions-drawer--drawer--groups-title`}>Analysis</p>
+            {analysis.map(row => (
+              <li
+                key={row.title}
+                className={`row-actions-drawer--drawer--groups-item`}
+                onClick={() => onHandleCreateRow(row.type)}
+                onMouseOver={e => {
+                  setInfoType(row.type);
+                  e.stopPropagation();
+                }}>
+                {row.icon}
+                {row.title}
+              </li>
+            ))}
+          </ul>
+          <ul className={`row-actions-drawer--drawer--groups`}>
+            <p className={`row-actions-drawer--drawer--groups-title`}>Content & structure</p>
+
+            {contentAndStructure.map(row => (
+              <li
+                key={row.title}
+                className={`row-actions-drawer--drawer--groups-item`}
+                onClick={() => onHandleCreateRow(row.type)}
+                onMouseOver={e => {
+                  setInfoType(row.type);
+                  e.stopPropagation();
+                }}>
+                {row.icon}
+                {row.title}
+              </li>
+            ))}
+          </ul>
+          {planning.length ? (
+            <ul
+              className={`row-actions-drawer--drawer--groups row-actions-drawer--drawer--outcome-groups`}>
+              <p className={`row-actions-drawer--drawer--groups-title`}>Planning</p>
+              {planning.map(row => (
+                <li
+                  key={row.id}
+                  className={`row-actions-drawer--drawer--groups-item`}
+                  onClick={() =>
+                    onHandleCreateRow(row.type, {
+                      outcomeGroupId: row.id,
+                      label: row.pluralName,
+                    })
+                  }
+                  onMouseOver={e => {
+                    setInfoType(row.type);
+                    e.stopPropagation();
+                  }}>
+                  <img
+                    src={row.icon}
+                    alt="Logo"
+                    style={{
+                      width: 16,
+                      height: 16,
+                    }}
+                  />
+                  {row.pluralName || row.title}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default RowActionsDrawer;
+export default JourneyMapCreateNewRow;

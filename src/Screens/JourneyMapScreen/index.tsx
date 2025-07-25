@@ -2,12 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './styles.scss';
 
-import Drawer from '@mui/material/Drawer';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 import { v4 as uuidv4 } from 'uuid';
 
-import CommentsDrawer from './components/JourneyMapCardCommentsDrawer';
 import JourneyMapFooter from './components/JourneyMapFooter';
 
 import {
@@ -53,12 +51,15 @@ import {
 import { MapRowTypeEnum } from '@/api/types.ts';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import CustomDrawer from '@/Components/Shared/CustomDrawer';
 import CustomError from '@/Components/Shared/CustomError';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import { JOURNEY_MAP_LIMIT, USERS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
+import JourneyMapCardComments from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments';
 import JourneyMapColumns from '@/Screens/JourneyMapScreen/components/JourneyMapColumns';
+import JourneyMapCreateNewRow from '@/Screens/JourneyMapScreen/components/JourneyMapCreateNewRow';
 import JourneyMapHeader from '@/Screens/JourneyMapScreen/components/JourneyMapHeader';
 import JourneyMapRows from '@/Screens/JourneyMapScreen/components/JourneyMapRows';
 import JourneyMapSelectedPersona from '@/Screens/JourneyMapScreen/components/JourneyMapSelectedPersona';
@@ -96,6 +97,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     journeyMapVersion,
     mapAssignedPersonas,
     selectedJourneyMapPersona,
+    createNewRow,
     updateJourneyMap,
     updateJourneyMapVersion,
     updateMapAssignedPersonas,
@@ -104,6 +106,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     updateJourneyMapRowsCount,
     updateIsOpenSelectedJourneyMapPersonaInfo,
     updateMapOutcomeGroups,
+    updateCreateNewRow,
   } = useJourneyMapStore();
 
   const { currentLayer, setCurrentLayer, setLayers } = useLayerStore();
@@ -471,6 +474,10 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
     });
   };
 
+  const onHandleCloseCreateNewRowDrawer = () => {
+    updateCreateNewRow(false, 0);
+  };
+
   const mapColumns = useMemo(() => {
     return journeyMap?.columns || [];
   }, [journeyMap?.columns]);
@@ -668,14 +675,25 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
         </BaseWuModal>
       )}
       <ErrorBoundary>
-        <Drawer
+        <CustomDrawer
           anchor={'left'}
           data-testid="drawer-test-id"
           open={notesAndCommentsDrawer.isOpen}
           onClose={onHandleCloseDrawer}>
-          <CommentsDrawer onClose={onHandleCloseDrawer} />
-        </Drawer>
+          <JourneyMapCardComments onClose={onHandleCloseDrawer} />
+        </CustomDrawer>
       </ErrorBoundary>
+
+      <ErrorBoundary>
+        <CustomDrawer
+          anchor={'left'}
+          data-testid="drawer-test-id"
+          open={createNewRow.isOpenCreateNewRow}
+          onClose={onHandleCloseCreateNewRowDrawer}>
+          <JourneyMapCreateNewRow />
+        </CustomDrawer>
+      </ErrorBoundary>
+
       <JourneyMapHeader
         title={journeyMap?.title}
         mapId={+mapId}

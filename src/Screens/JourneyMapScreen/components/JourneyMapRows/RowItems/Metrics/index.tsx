@@ -3,13 +3,13 @@ import React, { FC, useCallback, useState } from 'react';
 import './style.scss';
 
 import { Draggable, Droppable } from '@hello-pangea/dnd';
-import { Drawer } from '@mui/material';
 
 import MetricsCard from './MetricsCard';
 import AddRowBoxElementBtn from '../../components/AddRowBoxElementBtn';
 
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CardFlip from '@/Components/Shared/CardFlip';
+import CustomDrawer from '@/Components/Shared/CustomDrawer';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
@@ -63,7 +63,7 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
 
   return (
     <div className={'journey-map-metrics'} data-testid={`metrics-row-${row.id}-test-id`}>
-      <Drawer
+      <CustomDrawer
         anchor={'left'}
         open={isOpenCreateMetricsDrawer}
         onClose={() => onHandleToggleCreateMetricsDrawer()}>
@@ -74,7 +74,7 @@ const Metrics: FC<IMetrics> = ({ width, row, rowIndex, disabled }) => {
           selectedMetrics={selectedMetrics}
           onHandleCloseDrawer={onHandleToggleCreateMetricsDrawer}
         />
-      </Drawer>
+      </CustomDrawer>
 
       {row?.boxes?.map((boxItem: BoxType, boxIndex) => (
         <React.Fragment

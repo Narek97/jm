@@ -15,6 +15,10 @@ interface JourneyMapState {
   selectedJourneyMapPersona: MapSelectedPersonasType | null;
   isOpenSelectedJourneyMapPersonaInfo: boolean;
   isDragging: boolean;
+  createNewRow: {
+    isOpenCreateNewRow: boolean;
+    rowIndex: number;
+  };
   mapAssignedPersonas: MapSelectedPersonasType[];
   mapOutcomeGroups: MapOutcomeGroupsForRowCreationType[];
   updateJourneyMap: (updates: Partial<JourneyMapType>) => void;
@@ -24,6 +28,7 @@ interface JourneyMapState {
   updateSelectedJourneyMapPersona: (persona: MapSelectedPersonasType | null) => void;
   updateIsOpenSelectedJourneyMapPersonaInfo: (isOpen: boolean) => void;
   updateIsDragging: (isDragging: boolean) => void;
+  updateCreateNewRow: (isOpen: boolean, index: number) => void;
   updateMapAssignedPersonas: (personas: MapSelectedPersonasType[]) => void;
   updateMapOutcomeGroups: (outcomeGroups: MapOutcomeGroupsForRowCreationType[]) => void;
 }
@@ -41,6 +46,10 @@ export const useJourneyMapStore = create<JourneyMapState>(set => ({
   selectedJourneyMapPersona: null,
   isOpenSelectedJourneyMapPersonaInfo: false,
   isDragging: false,
+  createNewRow: {
+    isOpenCreateNewRow: false,
+    rowIndex: 0,
+  },
   mapAssignedPersonas: [],
   mapOutcomeGroups: [],
   updateJourneyMap: updates =>
@@ -54,6 +63,13 @@ export const useJourneyMapStore = create<JourneyMapState>(set => ({
   updateIsOpenSelectedJourneyMapPersonaInfo: isOpen =>
     set({ isOpenSelectedJourneyMapPersonaInfo: isOpen }),
   updateIsDragging: isDragging => set({ isDragging }),
+  updateCreateNewRow: (isOpen, index) =>
+    set({
+      createNewRow: {
+        isOpenCreateNewRow: isOpen,
+        rowIndex: index,
+      },
+    }),
   updateMapAssignedPersonas: personas => set({ mapAssignedPersonas: personas }),
   updateMapOutcomeGroups: outcomeGroups => set({ mapOutcomeGroups: outcomeGroups }),
 }));

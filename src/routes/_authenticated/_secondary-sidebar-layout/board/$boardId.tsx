@@ -6,6 +6,7 @@ import {
   GetBoardByIdQuery,
   useGetBoardByIdQuery,
 } from '@/api/queries/generated/getBoardById.generated';
+import CustomError from '@/Components/Shared/CustomError';
 import { querySlateTime } from '@/Constants';
 import { MENU_PANEL_BOTTOM_TABS } from '@/Constants/tabs.tsx';
 import SidebarLayout from '@/Features/SidebarLayout';
@@ -25,7 +26,7 @@ function RouteComponent() {
 
   const { setWorkspace } = useWorkspaceStore();
 
-  const { data: dataBoard } = useGetBoardByIdQuery<GetBoardByIdQuery, Error>(
+  const { data: dataBoard, error } = useGetBoardByIdQuery<GetBoardByIdQuery, Error>(
     {
       id: +boardId,
     },
@@ -42,6 +43,10 @@ function RouteComponent() {
       setWorkspace(dataBoard?.getBoardById.workspace);
     }
   }, [dataBoard?.getBoardById, setWorkspace]);
+
+  if (error) {
+    return <CustomError error={error.message} />;
+  }
 
   return (
     <SidebarLayout topTabs={topTabs} bottomTabs={MENU_PANEL_BOTTOM_TABS}>

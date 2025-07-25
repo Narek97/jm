@@ -1,5 +1,6 @@
+import { CommentType } from '../types';
+
 import { ActionEnum } from '@/api/types.ts';
-import { CommentType } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/types.ts';
 
 export const commentSocket = (socketData: any, commentsData: CommentType[]) => {
   switch (socketData?.action) {

@@ -7,6 +7,8 @@
   height: 100%;
   width: 30vw;
   min-width: 18.75rem;
+  padding-top: 48px;
+  background-color: $BASE-WHITE-COLOR;
   color: $BASE_GRAY_COLOR;
 
   &--header {
@@ -56,9 +58,5 @@
       height: 0.0625rem;
       background-color: $BASE-LIGHT-GRAY-COLOR-2;
     }
-  }
-
-  .add-update-outcome-form {
-    height: 100vh;
   }
 }

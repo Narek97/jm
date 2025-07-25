@@ -8,6 +8,7 @@ import fromNow from 'dayjs/plugin/relativeTime';
 import CommentInput from './CommentInput';
 import useKeepScrollPosition from './hooks/useKeepScrollPosition';
 import useOnScreen from './hooks/useOnScreen';
+import { CommentType } from './types';
 import { emitToSocketMap, socketMap } from '../../helpers/socketConnection';
 
 import {
@@ -32,21 +33,20 @@ import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuModalHeader from '@/Components/Shared/BaseWuModalHeader';
 import { COMMENTS_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
-import CommentItem from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/CommentItem';
-import { commentSocket } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/helpers/commentSocket.ts';
-import { CommentType } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/types.ts';
+import CommentItem from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments/CommentItem';
+import { commentSocket } from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments/helpers/commentSocket.ts';
 import { useUpdateCommentOrTagsCount } from '@/Screens/JourneyMapScreen/hooks/useUpdateCommentOrTagsCount.tsx';
 import { useNotesAndCommentsDrawerStore } from '@/Store/comments.ts';
 import { useUserStore } from '@/Store/user.ts';
 import { CommentEventsEnum } from '@/types/enum';
 
-interface ICommentsDrawer {
+interface IJourneyMapCardComments {
   onClose: () => void;
 }
 
 dayjs.extend(fromNow);
 
-const CommentsDrawer: FC<ICommentsDrawer> = ({ onClose }) => {
+const JourneyMapCardComments: FC<IJourneyMapCardComments> = ({ onClose }) => {
   const { updateCommentOrTagsCount } = useUpdateCommentOrTagsCount();
   const { notesAndCommentsDrawer } = useNotesAndCommentsDrawerStore();
 
@@ -381,4 +381,4 @@ const CommentsDrawer: FC<ICommentsDrawer> = ({ onClose }) => {
   );
 };
 
-export default CommentsDrawer;
+export default JourneyMapCardComments;

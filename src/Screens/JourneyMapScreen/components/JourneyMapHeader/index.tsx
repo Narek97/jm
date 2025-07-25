@@ -2,7 +2,6 @@ import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useRef, useStat
 
 import './style.scss';
 
-import Drawer from '@mui/material/Drawer';
 import {
   useWuShowToast,
   WuButton,
@@ -31,6 +30,7 @@ import {
 } from '@/api/queries/generated/getParentMapChildren.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import CustomDrawer from '@/Components/Shared/CustomDrawer';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { querySlateTime } from '@/Constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -279,23 +279,23 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
           />
         )}
         <ErrorBoundary>
-          <Drawer
+          <CustomDrawer
             anchor={'right'}
             data-testid="drawer-test-id"
             open={isOpenHistoryDrawer}
             onClose={onHandleToggleHistoryDrawer}>
             <HistoryDrawer mapID={mapId} onHandleClose={onHandleToggleHistoryDrawer} />
-          </Drawer>
+          </CustomDrawer>
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Drawer
+          <CustomDrawer
             anchor={'right'}
             data-testid="version-drawer-test-id"
             open={isOpenVersionDrawer}
             onClose={onHandleToggleVersionDrawer}>
             <VersionDrawer mapID={mapId} onHandleClose={onHandleToggleVersionDrawer} />
-          </Drawer>
+          </CustomDrawer>
         </ErrorBoundary>
 
         <div className={'journey-map-header--top-block'}>

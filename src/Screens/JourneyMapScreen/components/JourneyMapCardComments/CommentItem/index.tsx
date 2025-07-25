@@ -8,7 +8,7 @@ import CommentInput from '../CommentInput';
 import { CommentType } from '../types';
 
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { COMMENT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapCardCommentsDrawer/constants.tsx';
+import { COMMENT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments/constants.tsx';
 import { useUserStore } from '@/Store/user.ts';
 import { MenuViewTypeEnum } from '@/types/enum.ts';
 

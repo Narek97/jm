@@ -2,9 +2,9 @@ import { FC, useCallback } from 'react';
 
 import './style.scss';
 
-import Drawer from '@mui/material/Drawer';
 import { v4 as uuidv4 } from 'uuid';
 
+import CustomDrawer from '@/Components/Shared/CustomDrawer';
 import { OutcomeType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Outcomes/types.ts';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap.tsx';
 import { OutcomeGroupType } from '@/Screens/JourneyMapScreen/types.ts';
@@ -150,7 +150,7 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
   );
 
   return (
-    <Drawer
+    <CustomDrawer
       anchor={'left'}
       data-testid={'outcome-drawer-test-id'}
       open={isOpenDrawer}
@@ -177,7 +177,7 @@ const OutcomeDrawer: FC<IOutcomeDrawer> = ({
           handleClose={onHandleClose}
         />
       </div>
-    </Drawer>
+    </CustomDrawer>
   );
 };
 

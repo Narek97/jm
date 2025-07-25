@@ -2,7 +2,7 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 
 import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -74,6 +74,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
     selectedColumnStepId,
     create,
     update,
+    handleClose,
     handleChangeIsLoading,
     formRef,
   }) => {
@@ -600,6 +601,14 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               <span className={'validation-error'}>{errors?.persona?.message}</span>
             )}
           </div>
+        </div>
+        <div className={'base-modal-footer'}>
+          <WuButton type={'button'} variant="secondary" onClick={handleClose}>
+            Cancel
+          </WuButton>
+          <WuButton type={'submit'} data-testid="save-outcome-test-id">
+            Save
+          </WuButton>
         </div>
       </form>
     );

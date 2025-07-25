@@ -1,0 +1,33 @@
+@use '@/Assets/styles/variables' as *;
+@use '@/Assets/styles/mixins' as *;
+
+.create-new-row {
+  @include flex-center-center;
+  position: absolute;
+  top: -0.625rem;
+  left: 25%;
+  width: 50%;
+  height: 1.125rem;
+  color: $BASE_GRAY_COLOR;
+
+  &:hover {
+    .create-new-row--button {
+      visibility: visible;
+    }
+  }
+
+  &--button {
+    @include flex-center-center;
+    visibility: hidden;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 0.125rem solid $BASE_BLUE_COLOR;
+
+    &:hover {
+      background-color: $BASE_BLUE_COLOR;
+      outline: 0.125rem solid rgba(27, 135, 230, 0.5);
+      @include svg-fill($BASE_WHITE-COLOR);
+    }
+  }
+}

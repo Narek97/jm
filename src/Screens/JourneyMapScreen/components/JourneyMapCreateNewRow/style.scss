@@ -2,21 +2,7 @@
 @use '@/Assets/styles/mixins' as *;
 
 .row-actions-drawer {
-  @include flex-center-center;
-  position: absolute;
-  top: -0.625rem;
-  left: 50%;
-  width: 50%;
-  height: 1.125rem;
-  z-index: 20;
-  color: $BASE_GRAY_COLOR;
-  transform: translate(-50%, 0);
-
-  &:hover {
-    .row-actions-drawer--button {
-      visibility: visible;
-    }
-  }
+  width: 100dvw;
 
   &--loading-block {
     position: fixed;
@@ -32,19 +18,10 @@
     transform: translate(-30%, -50%);
   }
 
-  &--button {
-    @include flex-center-center;
-    visibility: hidden;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 0.125rem solid $BASE_BLUE_COLOR;
-
-    &:hover {
-      background-color: $BASE_BLUE_COLOR;
-      outline: 0.125rem solid rgba(27, 135, 230, 0.5);
-      @include svg-fill($BASE_WHITE-COLOR);
-    }
+  &--header {
+    width: 20.5rem;
+    padding: 0.5rem;
+    background-color: #eee;
   }
 
   &--drawer {
@@ -54,6 +31,7 @@
       display: flex;
       gap: 0.625rem;
       flex-wrap: wrap;
+      background-color: $BASE-WHITE-COLOR;
     }
 
     .modal-header {

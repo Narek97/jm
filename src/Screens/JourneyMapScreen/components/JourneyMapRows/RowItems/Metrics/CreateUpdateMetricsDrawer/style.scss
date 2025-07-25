@@ -4,7 +4,9 @@
 .create-update-metrics-drawer {
   width: 31.25rem;
   height: 100%;
+  padding-top: 48px;
   color: $BASE_GRAY_COLOR;
+  background-color: $BASE-WHITE-COLOR;
 
   &--form {
     height: calc(100% - 2.5rem);

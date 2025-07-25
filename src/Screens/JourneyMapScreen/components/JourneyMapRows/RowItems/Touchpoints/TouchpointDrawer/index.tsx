@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 
 import './style.scss';
 
-import Drawer from '@mui/material/Drawer';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLocation } from '@tanstack/react-router';
@@ -17,6 +16,7 @@ import {
   useGetTouchPointIconsQuery,
 } from '@/api/queries/generated/getTouchPointIcons.generated.ts';
 import BaseTabs from '@/Components/Shared/BaseTabs';
+import CustomDrawer from '@/Components/Shared/CustomDrawer';
 import { TOUCHPOINT_ICONS_LIMIT } from '@/Constants/pagination';
 import {
   JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS,
@@ -190,7 +190,7 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
   }, [dataTouchPointIcons, setTouchPointCustomIcons]);
 
   return (
-    <Drawer
+    <CustomDrawer
       anchor={'left'}
       open={isOpenDrawer}
       onClose={() => !isLoadingTouchPoints && onHandleClose()}>
@@ -308,7 +308,7 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
           </>
         )}
       </div>
-    </Drawer>
+    </CustomDrawer>
   );
 };
 

@@ -7,6 +7,8 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
+import CreateNewRowButton from './CreateNewRowButton';
+
 import {
   DeleteMapRowMutation,
   useDeleteMapRowMutation,
@@ -29,7 +31,6 @@ import VideoIcon from '@/Assets/public/mapRow/video.svg';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import RowActionsDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock/RowActionsDrawer';
 import { JOURNEY_MAP_COLUM_ROW_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes';
@@ -378,10 +379,10 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
             </div>
             {!isLayerModeOn && (
               <>
-                {index > 1 && <RowActionsDrawer index={index} />}
+                {index > 1 && <CreateNewRowButton index={index} />}
                 {index === rowsLength && (
                   <div className={'last-long-menu'}>
-                    <RowActionsDrawer index={index + 1} />
+                    <CreateNewRowButton index={index + 1} />
                   </div>
                 )}
               </>

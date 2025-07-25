@@ -60,16 +60,14 @@ const Touchpoints: FC<ITouchpoints> = ({ width, row, rowIndex, disabled }) => {
 
   return (
     <div className={'journey-map-touchpoints'}>
-      {!disabled && (
-        <TouchpointDrawer
-          rowItemID={row.id}
-          mapId={+mapId}
-          setSelectedStepId={setSelectedStepId}
-          selectedColumnId={selectedColumnId}
-          isOpenDrawer={isOpenDrawer}
-          onHandleToggleTouchpointDrawer={onHandleToggleTouchpointDrawer}
-        />
-      )}
+      <TouchpointDrawer
+        rowItemID={row.id}
+        mapId={+mapId}
+        setSelectedStepId={setSelectedStepId}
+        selectedColumnId={selectedColumnId}
+        isOpenDrawer={isOpenDrawer}
+        onHandleToggleTouchpointDrawer={onHandleToggleTouchpointDrawer}
+      />
 
       {row?.boxes?.map((boxItem: BoxType, boxIndex) => (
         <React.Fragment
