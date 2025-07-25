@@ -43,8 +43,8 @@ import {
   useGetPersonaSectionsQuery,
 } from '@/api/queries/generated/getPersonaSections.generated.ts';
 import { DemographicInfoTypeEnum } from '@/api/types.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 import PersonaLeftMenu from '@/Screens/PersonaScreen/components/PersonaLeftMenu';
@@ -425,7 +425,7 @@ const PersonaScreen = () => {
   if (isFetchingPersona || isFetchingDemographicInfos) {
     return (
       <div className="persona-container">
-        <WuBaseLoader />
+        <BaseWuLoader />
       </div>
     );
   }

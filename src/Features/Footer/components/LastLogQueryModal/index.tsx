@@ -7,8 +7,8 @@ import {
   GetUserLastPerformanceLogQuery,
   useGetUserLastPerformanceLogQuery,
 } from '@/api/queries/generated/getUserLastPerformanceLog.generated.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 
 const wickUiVersion = (packageJson.devDependencies['@npm-questionpro/wick-ui-lib'] || '').replace(
   /^[^\d]*/,
@@ -58,7 +58,7 @@ const LastLogQueryModal: FC<ILastLogQueryModal> = ({ handleClose, isOpen }) => {
       modalSize={'md'}>
       <div className={'last-user-query-modal'} data-testid="last-user-query-modal-test-id">
         {isLoadingQuery ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : (
           <>
             <div className={'last-user-query-modal--query-item'}>

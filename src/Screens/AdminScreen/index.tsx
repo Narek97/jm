@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 
 import { ADMIN_TABS } from './constants';
 
-import CustomTabs from '@/Components/Shared/CustomTabs';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseTabs from '@/Components/Shared/BaseTabs';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { AdminRoute } from '@/routes/_authenticated/_primary-sidebar-layout/admin';
 import { ADMIN_TAB_PANELS } from '@/Screens/AdminScreen/constants.tsx';
 import { useUserStore } from '@/Store/user';
-import { SearchParamsType } from '@/types';
+import { SearchParamsType, TabType } from '@/types';
 
 const SuperAdmin = lazy(() => import('./components/SuperAdmin'));
 const CopyMap = lazy(() => import('./components/CopyMap'));
@@ -20,15 +20,15 @@ const AiModel = lazy(() => import('./components/AiModel'));
 const AdminScreen = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { tab } = AdminRoute.useSearch();
+  const { tab = 'error-logs' } = AdminRoute.useSearch();
   const { user } = useUserStore();
 
-  const onSelectTab = (tabValue: string) => {
+  const onSelectTab = (tab: TabType) => {
     navigate({
       to: '.',
       search: (prev: SearchParamsType) => ({
         ...prev,
-        tab: tabValue,
+        tab: tab.value,
       }),
     }).then();
   };
@@ -36,11 +36,13 @@ const AdminScreen = () => {
   const tabs = [...ADMIN_TABS];
   const tabPanels = [...ADMIN_TAB_PANELS];
 
+  const activeTab = tabs.findIndex(t => t.value === tab) || 0;
+
   if (user?.emailAddress === 'ani.badalyan@questionpro.com') {
     tabs.push({ label: 'Super admin', value: 'super-admin' });
     tabPanels.push({
       page: (
-        <Suspense fallback={<WuBaseLoader />}>
+        <Suspense fallback={<BaseWuLoader />}>
           <SuperAdmin />
         </Suspense>
       ),
@@ -53,7 +55,7 @@ const AdminScreen = () => {
     tabPanels.push(
       {
         page: (
-          <Suspense fallback={<WuBaseLoader />}>
+          <Suspense fallback={<BaseWuLoader />}>
             <CopyMap />
           </Suspense>
         ),
@@ -61,7 +63,7 @@ const AdminScreen = () => {
       },
       {
         page: (
-          <Suspense fallback={<WuBaseLoader />}>
+          <Suspense fallback={<BaseWuLoader />}>
             <AiModel />
           </Suspense>
         ),
@@ -76,15 +78,12 @@ const AdminScreen = () => {
         <h3 className={'base-title !text-heading-2'}>{t('admin.title')}</h3>
       </div>
       <div className={'!mt-8'}>
-        <CustomTabs
-          tabValue={tab || 'error-logs'}
-          setTabValue={onSelectTab}
-          showTabsBottomLine={true}
-          activeColor={'#545E6B'}
-          inactiveColor={'#9B9B9B'}
-          tabsBottomBorderColor={'#D8D8D8'}
+        <BaseTabs
           tabs={tabs}
           tabPanels={tabPanels}
+          setActiveTab={onSelectTab}
+          defaultValue={activeTab}
+          tab={tab}
         />
       </div>
     </div>

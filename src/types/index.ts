@@ -19,6 +19,7 @@ export type UserType = User & {
 export type TabType = {
   label: string | ReactNode;
   value: string;
+  icon?: ReactNode;
 };
 
 export type TabPanelType = {

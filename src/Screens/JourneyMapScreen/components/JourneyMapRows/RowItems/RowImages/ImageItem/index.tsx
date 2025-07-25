@@ -1,7 +1,7 @@
 import { FC, memo, useState } from 'react';
 
 import './style.scss';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { FILE_TYPE_CONFIG } from '@/Constants';
 import RowFileUploader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowFileUploader';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
@@ -58,7 +58,7 @@ const ImagesItem: FC<IImagesItem> = memo(({ boxItem, rowId, disabled, row, boxIn
           <>
             {isUploading ? (
               <div className={'row-images-item--card-block--loading'}>
-                <WuBaseLoader />
+                <BaseWuLoader />
               </div>
             ) : (
               <>

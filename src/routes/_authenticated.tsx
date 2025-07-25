@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { GetMeQuery, useGetMeQuery } from '@/api/queries/generated/getMe.generated.ts';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { LOGIN_ERROR_NAME, TOKEN_NAME } from '@/Constants';
 import Header from '@/Features/Header';
 import PermissionLayout from '@/Features/PermissionLayout';
@@ -81,7 +81,7 @@ function Authenticated() {
   }, []);
 
   if (isLoading) {
-    return <WuBaseLoader />;
+    return <BaseWuLoader />;
   }
 
   return (

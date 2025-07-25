@@ -22,11 +22,11 @@ import {
   useGetPersonaGroupsModelQuery,
 } from '@/api/queries/generated/getPersonaGroups.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { PERSONAS_LIMIT } from '@/Constants/pagination';
 import { PersonaType } from '@/Screens/JourneyMapScreen/components/JourneyMapFooter/types.ts';
@@ -233,7 +233,7 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({ workspaceId, ma
           <div className={'assign-persona-to-map--content'}>
             {isLoadingPersonaGroup || isFetching ? (
               <div className={'assign-persona-to-map-loading-section'}>
-                <WuBaseLoader />
+                <BaseWuLoader />
               </div>
             ) : (
               <>

@@ -16,11 +16,11 @@ import {
   GetPersonaGroupsWithPersonasQuery,
   useGetPersonaGroupsWithPersonasQuery,
 } from '@/api/queries/generated/getPersonaGroupsWithPersonas.generated.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
 import EditableItemForm from '@/Components/Shared/EditableItemForm';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { PERSONA_GROUP_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -286,7 +286,7 @@ const PersonaGroups = () => {
       </div>
       <div className={'persona-groups--body'}>
         {isPendingPersonaGroups ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : (
           <>
             {personaGroups.length ? (

@@ -7,6 +7,7 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import Skeleton from 'react-loading-skeleton';
+import { PieChart } from 'react-minimal-pie-chart';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -24,7 +25,6 @@ import GoalIcon from '@/Assets/public/base/goal.svg';
 import GoalArrowIcon from '@/Assets/public/base/goalArrow.svg';
 import NpsArrowIcon from '@/Assets/public/base/npsArrow.svg';
 import MetricsIcon from '@/Assets/public/mapRow/metrics.svg';
-import CustomPieChart from '@/Components/Shared/CustomPieChart';
 import CardHeader from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader';
 import { JOURNEY_MAP_METRICS_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/constants.tsx';
 import { MetricsType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
@@ -449,7 +449,7 @@ const MetricsCard: FC<IMetricsCard> = memo(
               ) : (
                 <>
                   <div className={'metrics-item--chart-block'}>
-                    <CustomPieChart
+                    <PieChart
                       data={
                         metricsValue
                           ? metrics.source === MetricsSourceEnum.Custom

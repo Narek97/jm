@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { TabPanelType, TabType } from '@/types';
 
 const ErrorLogs = lazy(() => import('./components/ErrorLogs'));
@@ -20,7 +20,7 @@ const ADMIN_TABS: TabType[] = [
 const ADMIN_TAB_PANELS: TabPanelType[] = [
   {
     page: (
-      <Suspense fallback={<WuBaseLoader />}>
+      <Suspense fallback={<BaseWuLoader />}>
         <ErrorLogs />
       </Suspense>
     ),
@@ -28,7 +28,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
   },
   {
     page: (
-      <Suspense fallback={<WuBaseLoader />}>
+      <Suspense fallback={<BaseWuLoader />}>
         <PerformanceLogs />
       </Suspense>
     ),
@@ -36,7 +36,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
   },
   {
     page: (
-      <Suspense fallback={<WuBaseLoader />}>
+      <Suspense fallback={<BaseWuLoader />}>
         <Organizations />
       </Suspense>
     ),
@@ -44,7 +44,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
   },
   {
     page: (
-      <Suspense fallback={<WuBaseLoader />}>
+      <Suspense fallback={<BaseWuLoader />}>
         <Maps />
       </Suspense>
     ),
@@ -53,7 +53,7 @@ const ADMIN_TAB_PANELS: TabPanelType[] = [
 
   {
     page: (
-      <Suspense fallback={<WuBaseLoader />}>
+      <Suspense fallback={<BaseWuLoader />}>
         <Users />
       </Suspense>
     ),

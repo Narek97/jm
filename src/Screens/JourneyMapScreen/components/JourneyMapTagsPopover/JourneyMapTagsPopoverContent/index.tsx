@@ -27,8 +27,8 @@ import {
   useGetCardAttachedTagsQuery,
 } from '@/api/queries/generated/getCardAttachedTags.generated.ts';
 import { MapCardTypeEnum } from '@/api/types.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { BOARD_TAGS_LIMIT } from '@/Constants/pagination';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
@@ -441,7 +441,7 @@ const JourneyMapTagsPopoverContent: FC<IJourneyMapCardNote> = ({
       <div onClick={e => e.stopPropagation()}>
         {isLoadingBoardTags || isLoadingAttachedTagsData ? (
           <div className={'board-tags-section'}>
-            <WuBaseLoader />
+            <BaseWuLoader />
           </div>
         ) : (
           <div className={'board-tags-section'}>

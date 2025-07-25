@@ -11,8 +11,8 @@ import { LinkType } from './types';
 import AddRowBoxElementBtn from '../../components/AddRowBoxElementBtn';
 import UnMergeColumnsButton from '../../components/UnmergeColumnsBtn';
 
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CardFlip from '@/Components/Shared/CardFlip';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
@@ -80,7 +80,7 @@ const Links: FC<ILinks> = ({ width, row, rowIndex, disabled }) => {
               <>
                 {boxItem.isLoading ? (
                   <div className={'journey-map-row--loading'}>
-                    <WuBaseLoader />
+                    <BaseWuLoader />
                   </div>
                 ) : (
                   <Droppable

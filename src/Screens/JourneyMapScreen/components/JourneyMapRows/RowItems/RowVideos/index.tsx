@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import './style.scss';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import MergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MergeColumnsBtn';
 import VideoItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowVideos/VideoItem';
@@ -30,7 +30,7 @@ const RowVideos: FC<IRowVideos> = ({ row, disabled }) => {
             <React.Fragment key={boxItem.id + '_' + index}>
               {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'} data-testid="video-row-loading-test-id">
-                  <WuBaseLoader />
+                  <BaseWuLoader />
                 </div>
               ) : (
                 <ErrorBoundary>

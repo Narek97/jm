@@ -1,6 +1,6 @@
 import { useGetUserSessionQuery } from '@/api/queries/generated/getUserSession.generated.ts';
-import PaginatedSearchTable from '@/Components/Shared/PaginatedSearchTable';
 import { ADMIN_USERS_LIMIT } from '@/Constants/pagination.ts';
+import PaginatedSearchTable from '@/Features/PaginatedSearchTable';
 import { USERS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/Users/constants.tsx';
 
 const Users = () => {

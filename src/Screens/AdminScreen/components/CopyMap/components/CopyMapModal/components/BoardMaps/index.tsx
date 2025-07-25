@@ -8,8 +8,8 @@ import {
   GetJourneysForCopyQuery,
   useInfiniteGetJourneysForCopyQuery,
 } from '@/api/infinite-queries/generated/getJourniesForCopy.generated.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { JourneysForCopyType } from '@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/components/BoardMaps/types.ts';
@@ -84,7 +84,7 @@ const BoardMaps: FC<IWorkspaceBoardsModal> = ({ boardId }) => {
       <div className={'boards-list--content'}>
         {journeysForCopyIsLoading && !renderedJourneysForCopyData?.length ? (
           <div className={'boards-list-loading-section'}>
-            <WuBaseLoader />
+            <BaseWuLoader />
           </div>
         ) : (
           <>

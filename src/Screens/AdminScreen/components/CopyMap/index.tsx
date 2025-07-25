@@ -3,9 +3,9 @@ import { ChangeEvent, lazy, Suspense, useCallback, useMemo, useState } from 'rea
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { ORGS_TABLE_COLUMNS } from '@/Screens/AdminScreen/components/CopyMap/constants.tsx';
@@ -85,7 +85,7 @@ const CopyMap = () => {
       </div>
 
       {isLoadingOrgs ? (
-        <WuBaseLoader />
+        <BaseWuLoader />
       ) : !isLoadingOrgs && !rows?.length ? (
         <EmptyDataInfo message="Map not found" />
       ) : (

@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 
 import './style.scss';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 
 interface IDivider {
@@ -15,7 +15,7 @@ const Divider: FC<IDivider> = memo(({ row }) => {
         <React.Fragment key={index}>
           {boxItem.isLoading ? (
             <div className={'journey-map-row--loading'}>
-              <WuBaseLoader />
+              <BaseWuLoader />
             </div>
           ) : (
             <div

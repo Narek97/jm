@@ -18,10 +18,10 @@ import {
 } from '@/api/queries/generated/getOutcomeGroup.generated.ts';
 import { OrderByEnum, OutcomeListEnum, SortByEnum } from '@/api/types';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { OUTCOMES_LIMIT } from '@/Constants/pagination.ts';
 import {
   useRemoveQueriesByKey,
@@ -264,7 +264,7 @@ const OutcomeScreen = () => {
   }, [setBreadcrumbs]);
 
   if (isLoadingOutcomesGroup && !outcomesGroup.length) {
-    return <WuBaseLoader />;
+    return <BaseWuLoader />;
   }
 
   if (errorOutcomesGroup) {

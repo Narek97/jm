@@ -40,8 +40,8 @@ import {
   useUpdateTouchPointMutation,
 } from '@/api/mutations/generated/updateTouchPoint.generated.ts';
 import { MapRowTypeEnum, UpdateOutcomePositionInput } from '@/api/types';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced400 } from '@/Hooks/useDebounce';
 import JourneyMapRegularRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapRegularRow';
 import JourneyMapSentimentRow from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow';
@@ -602,7 +602,7 @@ const JourneyMapRows: FC<IJourneyMapRows> = memo(
           isFetchingNextPageJourneyMapRows && (
             <div
               className={`journey-map-rows--loading-block  ${!currentLayer.isBase ? 'rows-loading-base-mode' : ''}`}>
-              <WuBaseLoader />
+              <BaseWuLoader />
             </div>
           )}
       </div>

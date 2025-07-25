@@ -9,8 +9,8 @@ import {
   useGetNounProjectIconsQuery,
 } from '@/api/queries/generated/getNounProjectIcons.generated';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { NOUN_PROJECT_ICONS_LIMIT } from '@/Constants/pagination';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
@@ -62,7 +62,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
               {errorNounProjectIcons ? (
                 <CustomError />
               ) : isLoadingNounProjectIcons ? (
-                <WuBaseLoader />
+                <BaseWuLoader />
               ) : (
                 <>
                   {nounProjectIcons.icons?.length ? (

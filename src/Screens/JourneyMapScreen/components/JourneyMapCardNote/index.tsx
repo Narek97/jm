@@ -14,8 +14,8 @@ import {
   useGetItemNoteQuery,
 } from '@/api/queries/generated/getItemNote.generated.ts';
 import { CommentAndNoteModelsEnum } from '@/api/types';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
 import { useNote, useSetNote } from '@/Store/note.ts';
@@ -118,7 +118,7 @@ const JourneyMapCardNote: FC<IJourneyMapCardNote> = ({
         className={'note-section'}
         data-testid={`note-${itemId}-test-id`}>
         {isLoadingNote ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : (
           <>
             <div className="note-section--content">

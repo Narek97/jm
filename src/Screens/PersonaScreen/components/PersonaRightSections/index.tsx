@@ -25,8 +25,8 @@ import {
   UpdatePersonaSectionMutation,
   useUpdatePersonaSectionMutation,
 } from '@/api/mutations/generated/updatePersonSections.generated';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import PersonaEditor from '@/Components/Shared/Editors/PersonaEditor';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { PersonSectionType } from '@/Screens/JourneyMapScreen/types.ts';
 import { getIsDarkColor } from '@/utils/getIsDarkColor.ts';
@@ -298,7 +298,7 @@ const SectionCard: FC<ISectionCard> = memo(
             color,
             background: getIsDarkColor(layout.color) ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.04)',
           }}>
-          {isDeleting && <WuBaseLoader />}
+          {isDeleting && <BaseWuLoader />}
           <div className={'persona-sections--section-menu--left-actions'}>
             <span className={'persona-sections--section-menu--drag-drop-btn drag-handle'}>
               <span className={'wm-drag-indicator'} />

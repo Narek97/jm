@@ -1,7 +1,0 @@
-@use '@/Assets/styles/variables' as *;
-@use '@/Assets/styles/mixins' as *;
-
-.wu-loader-section {
-  z-index: 10;
-  @include absolute-center;
-}

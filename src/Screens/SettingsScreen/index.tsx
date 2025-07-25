@@ -1,22 +1,24 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
-import CustomTabs from '@/Components/Shared/CustomTabs';
+import BaseTabs from '@/Components/Shared/BaseTabs';
 import { SettingsRoute } from '@/routes/_authenticated/_primary-sidebar-layout/settings';
 import { SETTINGS_TAB_PANELS, SETTINGS_TABS } from '@/Screens/SettingsScreen/constants.tsx';
-import { SearchParamsType } from '@/types';
+import { SearchParamsType, TabType } from '@/types';
 
 const SettingsScreen = () => {
   const { t } = useTranslation();
-  const { tab } = SettingsRoute.useSearch();
+  const { tab = 'outcomes' } = SettingsRoute.useSearch();
   const navigate = useNavigate();
 
-  const onSelectTab = (tabValue: string) => {
+  const activeTab = SETTINGS_TABS.findIndex(t => t.value === tab) || 0;
+
+  const onSelectTab = (tab: TabType) => {
     navigate({
       to: '.',
       search: (prev: SearchParamsType) => ({
         ...prev,
-        tab: tabValue,
+        tab: tab.value,
       }),
     }).then();
   };
@@ -27,15 +29,12 @@ const SettingsScreen = () => {
         <h3 className={'base-title !text-heading-2'}>{t('settings.title')}</h3>
       </div>
       <div className={'!mt-8'}>
-        <CustomTabs
-          tabValue={tab || 'outcomes'}
-          setTabValue={onSelectTab}
-          showTabsBottomLine={true}
-          activeColor={'#545E6B'}
-          inactiveColor={'#9B9B9B'}
-          tabsBottomBorderColor={'#D8D8D8'}
+        <BaseTabs
           tabs={SETTINGS_TABS}
           tabPanels={SETTINGS_TAB_PANELS}
+          setActiveTab={onSelectTab}
+          defaultValue={activeTab}
+          tab={tab}
         />
       </div>
     </div>

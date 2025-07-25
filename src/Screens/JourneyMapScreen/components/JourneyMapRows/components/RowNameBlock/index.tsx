@@ -27,8 +27,8 @@ import TextIcon from '@/Assets/public/mapRow/text.svg';
 import TouchpointIcon from '@/Assets/public/mapRow/touchpoint.svg';
 import VideoIcon from '@/Assets/public/mapRow/video.svg';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import RowActionsDrawer from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock/RowActionsDrawer';
 import { JOURNEY_MAP_COLUM_ROW_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
@@ -178,7 +178,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
       <>
         {rowItem.isLoading ? (
           <div className={'journey-map-row-name--loading'} data-testid="row-item-loading-test-id">
-            <WuBaseLoader />
+            <BaseWuLoader />
           </div>
         ) : (
           <>

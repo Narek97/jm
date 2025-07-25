@@ -22,9 +22,9 @@ import {
   useDeleteMapColumnMutation,
 } from '@/api/mutations/generated/deleteMapColumn.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import {
   JOURNEY_MAP_COLUM_OPTIONS,
@@ -354,7 +354,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
       {column.isLoading ? (
         <div className={'column-draggable-item--loading'}>
           <div {...dragHandleProps} />
-          <WuBaseLoader />
+          <BaseWuLoader />
         </div>
       ) : (
         <div

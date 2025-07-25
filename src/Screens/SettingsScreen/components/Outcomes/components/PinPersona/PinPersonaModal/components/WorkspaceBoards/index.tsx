@@ -8,8 +8,8 @@ import {
   GetBoardsForOutcomeGroupQuery,
   useInfiniteGetBoardsForOutcomeGroupQuery,
 } from '@/api/infinite-queries/generated/getBoardsForOutcomeGroup.generated';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { BOARDS_LIMIT } from '@/Constants/pagination';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { useOutcomePinBoardsStore } from '@/Store/outcomePinBoards';
@@ -116,7 +116,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
     <div className={'boards-list--content'}>
       {organizationBoardsIsLoading && !boards?.length ? (
         <div className={'boards-list-loading-section'}>
-          <WuBaseLoader />
+          <BaseWuLoader />
         </div>
       ) : (
         <>

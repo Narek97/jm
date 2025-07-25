@@ -9,8 +9,8 @@ import OutcomeCard from './OutcomeCard';
 import MergeColumnsButton from '../../components/MergeColumnsBtn';
 import UnMergeColumnsButton from '../../components/UnmergeColumnsBtn';
 
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CardFlip from '@/Components/Shared/CardFlip';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import AddRowBoxElementBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/AddRowBoxElementBtn';
 import MapRowItemBackCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/MapRowItemBackCard';
@@ -83,7 +83,7 @@ const Outcomes: FC<ITouchpoints> = ({ width, row, rowIndex, disabled }) => {
             <>
               {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'}>
-                  <WuBaseLoader />
+                  <BaseWuLoader />
                 </div>
               ) : (
                 <Droppable

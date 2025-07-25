@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import './style.scss';
 import MergeColumnsButton from '../../components/MergeColumnsBtn';
 
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import RowMediaItem from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias/RowMediaItem';
 import { findPreviousBox } from '@/Screens/JourneyMapScreen/helpers/findPreviousBox.ts';
@@ -31,7 +31,7 @@ const RowMedias: FC<IRowMedias> = ({ row, disabled }) => {
             <React.Fragment key={boxItem.id + '_' + index}>
               {boxItem.isLoading ? (
                 <div className={'journey-map-row--loading'} data-testid="media-row-loading-test-id">
-                  <WuBaseLoader />
+                  <BaseWuLoader />
                 </div>
               ) : (
                 <ErrorBoundary>

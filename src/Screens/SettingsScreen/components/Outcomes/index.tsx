@@ -21,10 +21,10 @@ import {
 } from '@/api/queries/generated/getOutcomeGroups.generated.ts';
 import { OrderByEnum, OutcomeGroup, OutcomeGroupSortByEnum } from '@/api/types.ts';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { DEFAULT_OUTCOME_ICON, querySlateTime } from '@/Constants';
 import { OUTCOME_GROUPS_LIMIT } from '@/Constants/pagination.ts';
 import {
@@ -431,7 +431,7 @@ const Outcomes = () => {
         </div>
       </div>
 
-      {isLoadingOutcomes && <WuBaseLoader />}
+      {isLoadingOutcomes && <BaseWuLoader />}
 
       {!isLoadingOutcomes && !isLoadingDeleteOrUpdateOutcome && !outcomeGroups.length && (
         <EmptyDataInfo message="There are no outcomes yet" />

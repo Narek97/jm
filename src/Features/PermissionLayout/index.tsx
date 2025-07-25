@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { TOKEN_NAME } from '@/Constants';
 import { useUserStore } from '@/Store/user.ts';
 import { deleteCookie } from '@/utils/cookieHelper.ts';
@@ -36,7 +36,7 @@ const PermissionLayout: FC<IPermissionLayout> = ({ children }) => {
         <>{children}</>
       ) : (
         <>
-          <WuBaseLoader />
+          <BaseWuLoader />
         </>
       )}
     </>

@@ -4,7 +4,7 @@ import './style.scss';
 import MediaViewModal from './MediaViewModal';
 import RowFileUploader from '../../../components/RowFileUploader';
 
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { FILE_TYPE_CONFIG } from '@/Constants';
 import UnMergeColumnsButton from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/UnmergeColumnsBtn';
 import MediaCard from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/RowMedias/RowMediaItem/MediaCard';
@@ -74,7 +74,7 @@ const RowMediaItem: FC<IRowMediaItem> = memo(({ boxItem, rowId, disabled, row, b
             <>
               {isUploading ? (
                 <div className={'row-media-item--card-block--loading'}>
-                  <WuBaseLoader />
+                  <BaseWuLoader />
                 </div>
               ) : (
                 <>

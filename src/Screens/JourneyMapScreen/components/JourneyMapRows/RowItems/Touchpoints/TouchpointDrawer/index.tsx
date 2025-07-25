@@ -16,7 +16,7 @@ import {
   GetTouchPointIconsQuery,
   useGetTouchPointIconsQuery,
 } from '@/api/queries/generated/getTouchPointIcons.generated.ts';
-import CustomTabs from '@/Components/Shared/CustomTabs';
+import BaseTabs from '@/Components/Shared/BaseTabs';
 import { TOUCHPOINT_ICONS_LIMIT } from '@/Constants/pagination';
 import {
   JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS,
@@ -26,6 +26,7 @@ import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useTouchpointsStore } from '@/Store/touchpoints.ts';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
+import { TabType } from '@/types';
 import { ActionsEnum, JourneyMapRowTypesEnum, TouchpointIconsEnum } from '@/types/enum.ts';
 
 interface ITouchpointDrawer {
@@ -88,8 +89,8 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
       },
     });
 
-  const onSelectTab = (tabValue: string) => {
-    setSelectedTab(tabValue as TouchpointIconsEnum);
+  const onSelectTab = (tab: TabType) => {
+    setSelectedTab(tab.value as TouchpointIconsEnum);
   };
 
   const onHandleDeleteTouchpoint = (uuid?: string) => {
@@ -211,17 +212,15 @@ const TouchpointDrawer: FC<ITouchpointDrawer> = ({
             </div>
             <div className={'add-touchpoint-drawer--content'}>
               <div className={'add-touchpoint-drawer--tabs'}>
-                <CustomTabs
+                <BaseTabs
                   orientation={'vertical'}
-                  tabValue={selectedTab}
-                  setTabValue={onSelectTab}
-                  activeColor={'#545E6B'}
-                  inactiveColor={'#9B9B9B'}
-                  tabsBottomBorderColor={'#FFFFFF'}
                   tabs={JOURNEY_TOUCHPOINT_SETTINGS_TABS(
                     dataTouchPointIcons?.getTouchPointIcons.count || 0,
                   )}
                   tabPanels={JOURNEY_TOUCHPOINT_SETTINGS_TAB_PANELS}
+                  setActiveTab={onSelectTab}
+                  defaultValue={0}
+                  tab={selectedTab}
                 />
               </div>
 

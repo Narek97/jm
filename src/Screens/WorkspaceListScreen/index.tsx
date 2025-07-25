@@ -10,10 +10,10 @@ import {
   GetWorkspacesByOrganizationIdQuery,
   useGetWorkspacesByOrganizationIdQuery,
 } from '@/api/queries/generated/getWorkspaces.generated.ts';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { WORKSPACES_LIMIT } from '@/Constants/pagination.ts';
 import ErrorBoundary from '@/Features/ErrorBoundary';
@@ -92,7 +92,7 @@ const WorkspaceListScreen = () => {
           )}
         </div>
         {isLoadingWorkspaces ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : !workspaces?.length ? (
           <EmptyDataInfo message="There are no organizations" />
         ) : (

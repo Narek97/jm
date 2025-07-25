@@ -25,7 +25,7 @@ import {
   useGetJourneyMapRowsAndColumnsQuery,
 } from '@/api/queries/generated/getJourneyMapRowsAndColumns.generated';
 import { ActionEnum } from '@/api/types.ts';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { LayerFormType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useLayerStore } from '@/Store/layers.ts';
@@ -168,7 +168,7 @@ const StagesAndLanes: FC<IJourneyMapLayersModal & { ref: any }> = forwardRef(
     return (
       <div className={'journey-map--layers-modal--content--right-columns-rows'}>
         {isLoadingRowsAndColumns || isLoadingBoardTags ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : (
           <>
             <Stages

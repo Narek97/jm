@@ -13,12 +13,12 @@ import {
 } from '@/api/queries/generated/getParentMapsByBoardId.generated.ts';
 import { OrderByEnum } from '@/api/types';
 import BaseWuDataTable from '@/Components/Shared/BaseWuDataTable';
+import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CustomError from '@/Components/Shared/CustomError';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { ModalConfirmButton } from '@/Components/Shared/ModalConfirmButton';
 import Pagination from '@/Components/Shared/Pagination';
-import WuBaseLoader from '@/Components/Shared/WuBaseLoader';
 import { querySlateTime } from '@/Constants';
 import { JOURNIES_LIMIT } from '@/Constants/pagination.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
@@ -202,7 +202,7 @@ const ConvertChildModal: FC<IJourneyMapLayers> = ({
         )}
 
         {(isLoadingGetJourneys || isFetchingGetJourneys) && !journeysData.length ? (
-          <WuBaseLoader />
+          <BaseWuLoader />
         ) : journeysData?.length ? (
           <div
             style={{
