@@ -3,13 +3,13 @@ import { ChangeEvent, FC, MouseEvent, useCallback, useEffect, useRef, useState }
 import './style.scss';
 
 import { useSortable } from '@dnd-kit/sortable';
-import { ClickAwayListener } from '@mui/material';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import DragHandle from '@/Components/Shared/DragHandle';
 import PersonaImages from '@/Features/PersonaImages';
@@ -128,7 +128,7 @@ const JourneyCard: FC<IJourneyCard> = ({
         <WuTooltip className="wu-tooltip-content" content={cardName}>
           <div className={'journey-card--name-block'}>
             {isEditName ? (
-              <ClickAwayListener onClickAway={() => setIsEditName(false)}>
+              <CustomClickAwayListener onClickAway={() => setIsEditName(false)}>
                 <div
                   className={'journey-card--name'}
                   data-testid={'journey-card-name-input-test-id'}>
@@ -145,7 +145,7 @@ const JourneyCard: FC<IJourneyCard> = ({
                     // }}
                   />
                 </div>
-              </ClickAwayListener>
+              </CustomClickAwayListener>
             ) : (
               <p className={'journey-card--name'} data-testid={'journey-card-name-text-test-id'}>
                 {cardName}

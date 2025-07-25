@@ -1,8 +1,9 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
 import './style.scss';
-import { ClickAwayListener } from '@mui/material';
 import { HexColorPicker as Colorful } from 'react-colorful';
+
+import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
 
 interface ICustomColorPicker {
   defaultColor: string;
@@ -71,7 +72,7 @@ const CustomColorPicker = forwardRef<ColorPickerRef, ICustomColorPicker>(
           onClick={openColorPicker}
         />
         {showColorsWheel && (
-          <ClickAwayListener onClickAway={closeColorPicker}>
+          <CustomClickAwayListener onClickAway={closeColorPicker}>
             <div className={'wheel-color-picker'} data-testid="wheel-color-picker-test-id">
               <Colorful
                 color={selectedColor}
@@ -80,7 +81,7 @@ const CustomColorPicker = forwardRef<ColorPickerRef, ICustomColorPicker>(
                 }}
               />
             </div>
-          </ClickAwayListener>
+          </CustomClickAwayListener>
         )}
       </div>
     );

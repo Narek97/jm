@@ -2,7 +2,6 @@ import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 
-import { ClickAwayListener } from '@mui/material';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
@@ -15,6 +14,7 @@ import {
   useUpdateMapVersionNameMutation,
 } from '@/api/mutations/generated/updateMapVersionName.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
 import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey';
@@ -129,7 +129,7 @@ const VersionCard: FC<IVersionCard> = ({
   }, [onHandleDelete, onHandleEdit, onHandleRestore]);
 
   return (
-    <ClickAwayListener onClickAway={() => setIsEditName(false)}>
+    <CustomClickAwayListener onClickAway={() => setIsEditName(false)}>
       <div
         className={`flex items-center justify-between m-3 px-2 py-2 leading-6 ${isDisabled ? 'cursor-not-allowed text-[#878f99] hover:bg-transparent' : 'cursor-pointer text-[#545e6b] hover:bg-[#f5f5f5]'}`}>
         <div>
@@ -168,7 +168,7 @@ const VersionCard: FC<IVersionCard> = ({
           )}
         </div>
       </div>
-    </ClickAwayListener>
+    </CustomClickAwayListener>
   );
 };
 

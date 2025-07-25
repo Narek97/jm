@@ -2,14 +2,13 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import './style.scss';
 
-import { ClickAwayListener } from '@mui/material';
-
 import {
   GetNounProjectIconsQuery,
   useGetNounProjectIconsQuery,
 } from '@/api/queries/generated/getNounProjectIcons.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
+import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
 import CustomError from '@/Components/Shared/CustomError';
 import { debounced400 } from '@/Hooks/useDebounce';
 import { JourneyMapNounProjectIconsType } from '@/types';
@@ -53,7 +52,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
       <div>
         <BaseWuInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
         {iconSearchText && isOpenNounProjectIconsPopup ? (
-          <ClickAwayListener
+          <CustomClickAwayListener
             onClickAway={() => {
               setIsOpenNounProjectIconsPopup(false);
             }}>
@@ -87,7 +86,7 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
                 </>
               )}
             </ul>
-          </ClickAwayListener>
+          </CustomClickAwayListener>
         ) : null}
       </div>
     </div>

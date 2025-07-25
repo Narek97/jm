@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 
 import './style.scss';
 
-import { ClickAwayListener } from '@mui/material';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 
 import {
@@ -16,6 +15,7 @@ import {
 import { CommentAndNoteModelsEnum } from '@/api/types';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import BaseWuTextarea from '@/Components/Shared/BaseWuTextarea';
+import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKeyAdvanced } from '@/Hooks/useQueryKey.ts';
 import { useNote, useSetNote } from '@/Store/note.ts';
@@ -110,7 +110,7 @@ const JourneyMapCardNote: FC<IJourneyMapCardNote> = ({
   }, [dataNote?.getItemNote, itemId, setNote, type]);
 
   return (
-    <ClickAwayListener onClickAway={onClickAway}>
+    <CustomClickAwayListener onClickAway={onClickAway}>
       <div
         onClick={e => {
           e.stopPropagation();
@@ -147,7 +147,7 @@ const JourneyMapCardNote: FC<IJourneyMapCardNote> = ({
           </>
         )}
       </div>
-    </ClickAwayListener>
+    </CustomClickAwayListener>
   );
 };
 
