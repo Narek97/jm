@@ -8,13 +8,7 @@ import React, {
 } from 'react';
 
 import './style.scss';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
+
 import { useWuShowToast, WuCheckbox } from '@npm-questionpro/wick-ui-lib';
 
 import {
@@ -305,116 +299,116 @@ const Stages: FC<IStages & { ref: any }> = forwardRef(
             }}
           />
         </div>
-        <div data-testid={'layer-columns'} className={'rows-content'}>
-          {stagesAndLanesForLayer.stages?.map(column => (
-            <Accordion
-              key={column.id}
-              disableGutters
-              expanded={expendedList.some(itm => itm === column.id)}
-              onChange={handleAccordionChange(column.id)}
-              sx={{
-                boxShadow: 'none',
-                '&::before': {
-                  backgroundColor: '#d8d8d8',
-                  borderRadius: '0',
-                },
-                borderBottom: '1px solid #d8d8d8',
-                '&:last-of-type': {
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
-                },
-                '&:hover': {
-                  backgroundColor: '#f5f5f5',
-                },
-                borderRadius: '0',
-              }}>
-              <AccordionSummary
-                expandIcon={<span className={'wm-keyboard-arrow-down'} />}
-                sx={{
-                  '& .MuiAccordionSummary-content': {
-                    padding: '0 !important',
-                    margin: '0 !important',
-                    alignItems: 'center',
-                    overflow: 'hidden',
-                    backgroundColor: 'transparent',
-                    borderBottom: 'none',
-                  },
-                  '& .MuiFormControlLabel-root': {
-                    borderBottom: 'none !important',
-                  },
-                  borderBottom: 'none',
-                  padding: '0 8px 0 0 !important',
-                  minHeight: 'unset',
-                }}>
-                <FormControlLabel
-                  key={column.id}
-                  label={column?.label}
-                  onClick={e => e.preventDefault()}
-                  sx={{
-                    color: '#545E6B',
-                    '& .MuiFormControlLabel-label': {
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    },
-                  }}
-                  control={
-                    <Checkbox
-                      icon={<CustomCheckboxIcon />}
-                      checked={currentCheckedStages?.some(item => item === +column?.id)}
-                      onClick={e => e.stopPropagation()}
-                      onChange={() => {
-                        handleSelectStage(
-                          +column?.id,
-                          !currentCheckedStages?.some(item => item === +column?.id),
-                        );
-                      }}
-                      sx={checkboxSxStyles}
-                    />
-                  }
-                />
-              </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  '& .MuiFormControlLabel-root': {
-                    borderBottom: 'none !important',
-                  },
-                }}>
-                <div className={'columns-content-summary'}>
-                  {currentColumnIds.includes(column.id) && isFetching && <BaseWuLoader />}
-                  {stagesStepsForLayer[column.id]?.map((stepItem: any) => (
-                    <FormControlLabel
-                      key={stepItem.id}
-                      label={stepItem?.name?.trim() || 'Untitled'}
-                      onClick={e => e.preventDefault()}
-                      sx={{
-                        color: '#545E6B',
-                        '& .MuiFormControlLabel-label': {
-                          fontSize: '12px',
-                          marginLeft: '16px',
-                        },
-                      }}
-                      control={
-                        <Checkbox
-                          icon={<CustomCheckboxIcon />}
-                          checked={currentCheckedSteps?.some(item => item === +stepItem?.id)}
-                          onClick={e => e.stopPropagation()}
-                          onChange={() => {
-                            handleSelectStep(
-                              +stepItem?.id,
-                              !currentCheckedSteps?.some(item => item === +stepItem?.id),
-                              column.id,
-                            );
-                          }}
-                          sx={checkboxSxStyles}
-                        />
-                      }
-                    />
-                  ))}
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </div>
+        {/*<div data-testid={'layer-columns'} className={'rows-content'}>*/}
+        {/*  {stagesAndLanesForLayer.stages?.map(column => (*/}
+        {/*    <Accordion*/}
+        {/*      key={column.id}*/}
+        {/*      disableGutters*/}
+        {/*      expanded={expendedList.some(itm => itm === column.id)}*/}
+        {/*      onChange={handleAccordionChange(column.id)}*/}
+        {/*      sx={{*/}
+        {/*        boxShadow: 'none',*/}
+        {/*        '&::before': {*/}
+        {/*          backgroundColor: '#d8d8d8',*/}
+        {/*          borderRadius: '0',*/}
+        {/*        },*/}
+        {/*        borderBottom: '1px solid #d8d8d8',*/}
+        {/*        '&:last-of-type': {*/}
+        {/*          borderBottomLeftRadius: 0,*/}
+        {/*          borderBottomRightRadius: 0,*/}
+        {/*        },*/}
+        {/*        '&:hover': {*/}
+        {/*          backgroundColor: '#f5f5f5',*/}
+        {/*        },*/}
+        {/*        borderRadius: '0',*/}
+        {/*      }}>*/}
+        {/*      <AccordionSummary*/}
+        {/*        expandIcon={<span className={'wm-keyboard-arrow-down'} />}*/}
+        {/*        sx={{*/}
+        {/*          '& .MuiAccordionSummary-content': {*/}
+        {/*            padding: '0 !important',*/}
+        {/*            margin: '0 !important',*/}
+        {/*            alignItems: 'center',*/}
+        {/*            overflow: 'hidden',*/}
+        {/*            backgroundColor: 'transparent',*/}
+        {/*            borderBottom: 'none',*/}
+        {/*          },*/}
+        {/*          '& .MuiFormControlLabel-root': {*/}
+        {/*            borderBottom: 'none !important',*/}
+        {/*          },*/}
+        {/*          borderBottom: 'none',*/}
+        {/*          padding: '0 8px 0 0 !important',*/}
+        {/*          minHeight: 'unset',*/}
+        {/*        }}>*/}
+        {/*        <FormControlLabel*/}
+        {/*          key={column.id}*/}
+        {/*          label={column?.label}*/}
+        {/*          onClick={e => e.preventDefault()}*/}
+        {/*          sx={{*/}
+        {/*            color: '#545E6B',*/}
+        {/*            '& .MuiFormControlLabel-label': {*/}
+        {/*              fontSize: '12px',*/}
+        {/*              marginLeft: '16px',*/}
+        {/*            },*/}
+        {/*          }}*/}
+        {/*          control={*/}
+        {/*            <Checkbox*/}
+        {/*              icon={<CustomCheckboxIcon />}*/}
+        {/*              checked={currentCheckedStages?.some(item => item === +column?.id)}*/}
+        {/*              onClick={e => e.stopPropagation()}*/}
+        {/*              onChange={() => {*/}
+        {/*                handleSelectStage(*/}
+        {/*                  +column?.id,*/}
+        {/*                  !currentCheckedStages?.some(item => item === +column?.id),*/}
+        {/*                );*/}
+        {/*              }}*/}
+        {/*              sx={checkboxSxStyles}*/}
+        {/*            />*/}
+        {/*          }*/}
+        {/*        />*/}
+        {/*      </AccordionSummary>*/}
+        {/*      <AccordionDetails*/}
+        {/*        sx={{*/}
+        {/*          '& .MuiFormControlLabel-root': {*/}
+        {/*            borderBottom: 'none !important',*/}
+        {/*          },*/}
+        {/*        }}>*/}
+        {/*        <div className={'columns-content-summary'}>*/}
+        {/*          {currentColumnIds.includes(column.id) && isFetching && <BaseWuLoader />}*/}
+        {/*          {stagesStepsForLayer[column.id]?.map((stepItem: any) => (*/}
+        {/*            <FormControlLabel*/}
+        {/*              key={stepItem.id}*/}
+        {/*              label={stepItem?.name?.trim() || 'Untitled'}*/}
+        {/*              onClick={e => e.preventDefault()}*/}
+        {/*              sx={{*/}
+        {/*                color: '#545E6B',*/}
+        {/*                '& .MuiFormControlLabel-label': {*/}
+        {/*                  fontSize: '12px',*/}
+        {/*                  marginLeft: '16px',*/}
+        {/*                },*/}
+        {/*              }}*/}
+        {/*              control={*/}
+        {/*                <Checkbox*/}
+        {/*                  icon={<CustomCheckboxIcon />}*/}
+        {/*                  checked={currentCheckedSteps?.some(item => item === +stepItem?.id)}*/}
+        {/*                  onClick={e => e.stopPropagation()}*/}
+        {/*                  onChange={() => {*/}
+        {/*                    handleSelectStep(*/}
+        {/*                      +stepItem?.id,*/}
+        {/*                      !currentCheckedSteps?.some(item => item === +stepItem?.id),*/}
+        {/*                      column.id,*/}
+        {/*                    );*/}
+        {/*                  }}*/}
+        {/*                  sx={checkboxSxStyles}*/}
+        {/*                />*/}
+        {/*              }*/}
+        {/*            />*/}
+        {/*          ))}*/}
+        {/*        </div>*/}
+        {/*      </AccordionDetails>*/}
+        {/*    </Accordion>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
       </div>
     );
   },

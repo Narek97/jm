@@ -14,7 +14,7 @@ import PPT_SVG from '@/Assets/public/media/PPT.svg';
 import PPTX_SVG from '@/Assets/public/media/PPTX.svg';
 import XLS_SVG from '@/Assets/public/media/XLS.svg';
 import XLSX_SVG from '@/Assets/public/media/XLSX.svg';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
@@ -22,7 +22,6 @@ import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMap
 import { JOURNEY_MAP_MEDIA_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useNote } from '@/Store/note.ts';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IMediaCard {
   boxItem: BoxType;
@@ -144,24 +143,7 @@ const MediaCard: FC<IMediaCard> = ({
             </div>
 
             <div className={'media-card--header--menu'}>
-              <CustomLongMenu
-                type={MenuViewTypeEnum.VERTICAL}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                item={commentRelatedData}
-                options={options}
-                disabled={disabled}
-                sxStyles={{
-                  display: 'inline-block',
-                  background: 'transparent',
-                }}
-              />
+              <BaseWuMenu item={commentRelatedData} options={options} disabled={disabled} />
             </div>
           </div>
         )}

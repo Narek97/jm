@@ -5,8 +5,7 @@ import { AI_MODEL_CARD_OPTIONS } from '../../constants';
 import { AiModelType } from '../../types';
 
 import QPLogo from '@/Assets/public/base/qp-logo.svg';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 
 interface IAiModelCard {
   aiModel: AiModelType;
@@ -25,23 +24,7 @@ const AiModelCard: FC<IAiModelCard> = ({ aiModel, onHandleDelete, onHandleEdit }
   return (
     <div className={'ai-model-card'}>
       <div className={'ai-model-card--menu'}>
-        <CustomLongMenu
-          type={MenuViewTypeEnum.VERTICAL}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          item={aiModel}
-          options={options}
-          sxStyles={{
-            display: 'inline-block',
-            background: 'transparent',
-          }}
-        />
+        <BaseWuMenu item={aiModel} options={options} />
       </div>
 
       {aiModel.attachmentUrl ? (

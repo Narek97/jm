@@ -30,8 +30,8 @@ import {
 } from '@/api/queries/generated/getParentMapChildren.generated';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import CustomDrawer from '@/Components/Shared/CustomDrawer';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { querySlateTime } from '@/Constants';
 import ErrorBoundary from '@/Features/ErrorBoundary';
 import { debounced400 } from '@/Hooks/useDebounce';
@@ -46,7 +46,7 @@ import { LayerType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useLayerStore } from '@/Store/layers.ts';
 import { useUserStore } from '@/Store/user.ts';
-import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ImageSizeEnum } from '@/types/enum.ts';
 import { isDateFormat } from '@/utils/isDateFormat.ts';
 
 interface IJourneyMapHeader {
@@ -245,13 +245,23 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
     const layersOptions = useMemo(() => {
       return (
         layers?.map((layerItem, index) => ({
-          id: layerItem?.id,
-          name: layerItem?.name,
-          value: layerItem?.id,
+          id: layerItem.id,
+          name: layerItem.name,
+          value: layerItem.id,
           onClick: () => openLayer(layerItem, index === 0),
         })) || []
       );
     }, [layers, openLayer]);
+
+    const topOptions = useMemo(() => {
+      return [
+        {
+          id: 'manage-layers',
+          name: 'Manage layers',
+          onClick: toggleLayersModal,
+        },
+      ];
+    }, []);
 
     useEffect(() => {
       setTitleValue(title.trim() || 'Untitled');
@@ -390,35 +400,10 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
               {!isGuest && (
                 <>
                   <div className={'map-layers'}>
-                    <CustomLongMenu
+                    <BaseWuMenu
                       options={layersOptions}
-                      defaultValue={currentLayer?.id}
-                      buttonId={'map-journey-map-layers-modal'}
-                      fixedButton={close => (
-                        <button
-                          data-testid={'manage-journey-map-layers'}
-                          aria-label={'manage-journey-map-layers-modal'}
-                          onClick={() => {
-                            close();
-                            toggleLayersModal();
-                          }}
-                          className={'manage-layers-btn'}>
-                          Manage layers
-                        </button>
-                      )}
-                      menuHeight={240}
-                      customButton={value => (
-                        <div className={'map-layers--text'}>{value || 'Base Layer'}</div>
-                      )}
-                      type={MenuViewTypeEnum.VERTICAL}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
+                      topOptions={topOptions}
+                      name={'Base layers'}
                     />
                   </div>
                   {journeyMapVersion ? null : (
@@ -456,20 +441,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
                       </WuTooltip>
                     </>
                   )}
-
-                  <CustomLongMenu
-                    options={options}
-                    type={MenuViewTypeEnum.VERTICAL}
-                    isDefaultOpen={true}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                  />
+                  <BaseWuMenu options={options} />
                 </>
               )}
             </div>

@@ -17,12 +17,12 @@ import CreateTouchpointModal from '../CreateTouchpointModal';
 import DeleteTouchPointConfirmModal from '../DeleteTouchpointConfirmModal';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import EmptyDataInfo from '@/Components/Shared/EmptyDataInfo';
 import { JourneyMapTouchpointIconsType } from '@/Screens/JourneyMapScreen/types';
 import { useTouchpointsStore } from '@/Store/touchpoints.ts';
 import { AttachmentType, ObjectKeysType } from '@/types';
-import { MenuViewTypeEnum, TouchpointIconsEnum } from '@/types/enum';
+import { TouchpointIconsEnum } from '@/types/enum';
 
 interface ITouchpointIcons {
   type: TouchpointIconsEnum;
@@ -188,23 +188,7 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
                       }
                     }}>
                     <div className={'touchpoint--menu'}>
-                      <CustomLongMenu
-                        type={MenuViewTypeEnum.VERTICAL}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        item={icon}
-                        options={options}
-                        sxStyles={{
-                          display: 'inline-block',
-                          background: 'transparent',
-                        }}
-                      />
+                      <BaseWuMenu item={icon} options={options} />
                     </div>
                     <img
                       src={

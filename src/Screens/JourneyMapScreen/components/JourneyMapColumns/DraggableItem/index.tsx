@@ -23,7 +23,7 @@ import {
 } from '@/api/mutations/generated/deleteMapColumn.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import {
@@ -37,7 +37,7 @@ import { JourneyMapColumnType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useLayerStore } from '@/Store/layers.ts';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
-import { ActionsEnum, JourneyMapRowActionEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 import { lightenColor } from '@/utils/lightenColor.ts';
 
@@ -372,25 +372,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
           )}
           <div className={'column-draggable-item--menu'}>
             {parentType === 'columns' && !isLayerModeOn && (
-              <CustomLongMenu
-                type={MenuViewTypeEnum.VERTICAL}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                item={column}
-                buttonColor={columnColor}
-                options={options}
-                disabled={column?.isDisabled}
-                sxStyles={{
-                  display: 'inline-block',
-                  background: 'transparent',
-                }}
-              />
+              <BaseWuMenu options={options} item={column} disabled={column?.isDisabled} />
             )}
           </div>
           <div

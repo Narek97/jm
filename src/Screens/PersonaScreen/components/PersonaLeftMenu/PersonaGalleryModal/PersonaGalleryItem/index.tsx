@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import './style.scss';
 import {
@@ -10,9 +10,10 @@ import {
   useUpdateAttachmentNameMutation,
 } from '@/api/mutations/generated/updateAttachmentName.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import { IMAGE_ASPECT } from '@/Constants';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
-import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
+import { GALLERY_IMAGE_OPTIONS } from '@/Screens/PersonaScreen/constants';
 import { AttachmentType } from '@/types';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
@@ -53,8 +54,8 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   }, []);
 
   const onHandleDelete = useCallback(
-    (item: PersonaDemographicInfoType) => {
-      mutateDeleteAttachment({ id: item.id });
+    (item?: AttachmentType) => {
+      mutateDeleteAttachment({ id: item!.id });
     },
     [mutateDeleteAttachment],
   );
@@ -70,6 +71,13 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
     },
     [item?.id, updateAttachmentName],
   );
+
+  const options = useMemo(() => {
+    return GALLERY_IMAGE_OPTIONS({
+      onHandleRename,
+      onHandleDelete,
+    });
+  }, [onHandleDelete, onHandleRename]);
 
   useEffect(() => {
     if (isEditTitleModeOn && inputRef.current) {
@@ -139,28 +147,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
         </figcaption>
       )}
       <div className={'persona-gallery-modal--gallery--item--menu'}>
-        {/*// Menu should be WuMenu (currently we have conflict between WuModal and Material's menu)*/}
-        {/*<CustomLongMenu*/}
-        {/*  type={MenuViewTypeEnum.VERTICAL}*/}
-        {/*  anchorOrigin={{*/}
-        {/*    vertical: 'bottom',*/}
-        {/*    horizontal: 'right',*/}
-        {/*  }}*/}
-        {/*  transformOrigin={{*/}
-        {/*    vertical: 'top',*/}
-        {/*    horizontal: 'right',*/}
-        {/*  }}*/}
-        {/*  options={options}*/}
-        {/*  item={item}*/}
-        {/*  buttonColor={'#00000'}*/}
-        {/*  sxStyles={{*/}
-        {/*    display: 'inline-block',*/}
-        {/*    background: 'transparent',*/}
-        {/*  }}*/}
-        {/*  rootStyles={{*/}
-        {/*    marginLeft: '0',*/}
-        {/*  }}*/}
-        {/*/>*/}
+        <BaseWuMenu options={options} item={item} />
       </div>
     </figure>
   );

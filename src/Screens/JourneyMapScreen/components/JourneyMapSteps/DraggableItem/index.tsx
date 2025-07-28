@@ -24,7 +24,7 @@ import {
   useDeleteColumnStepMutation,
 } from '@/api/mutations/generated/deleteColumnStep.generated.ts';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import StepColumnDrag from '@/Components/Shared/StepColumnDrag';
 import { debounced800 } from '@/Hooks/useDebounce.ts';
 import { JOURNEY_MAP_STEP_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
@@ -33,7 +33,7 @@ import { BoxType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useLayerStore } from '@/Store/layers.ts';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
-import { ActionsEnum, JourneyMapRowActionEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ActionsEnum, JourneyMapRowActionEnum } from '@/types/enum.ts';
 import { getTextColorBasedOnBackground } from '@/utils/getTextColorBasedOnBackground.ts';
 import { lightenColor } from '@/utils/lightenColor.ts';
 
@@ -289,27 +289,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
           </div>
 
           <div className={'step-draggable-item--menu'}>
-            {!isLayerModeOn && (
-              <CustomLongMenu
-                type={MenuViewTypeEnum.VERTICAL}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                item={stepItem}
-                options={options}
-                disabled={isGuest}
-                buttonColor={stepColor || columnColor}
-                sxStyles={{
-                  display: 'inline-block',
-                  background: 'transparent',
-                }}
-              />
-            )}
+            {!isLayerModeOn && <BaseWuMenu item={stepItem} options={options} disabled={isGuest} />}
           </div>
 
           {canAddNewItem && !isLayerModeOn && (

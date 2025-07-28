@@ -5,15 +5,14 @@ import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { EditableInputType, MenuOptionsType } from '@/types';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IEditableTitle<T extends { id: string | number; name: string }> {
   item: T;
   onHandleUpdate: (data: EditableInputType) => void;
-  onHandleDelete: (data: T) => void;
+  onHandleDelete: (data?: T) => void;
   maxLength?: number;
 }
 
@@ -22,8 +21,8 @@ const EDITABLE_INPUT_OPTIONS = <T extends { id: string | number; name: string }>
   onHandleDelete,
 }: {
   onHandleEdit: () => void;
-  onHandleDelete: (data: T) => void;
-}): Array<MenuOptionsType> => {
+  onHandleDelete: (data?: T) => void;
+}): Array<MenuOptionsType<T>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,
@@ -123,23 +122,7 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
           </WuTooltip>
 
           <div className={'editable-input--menu'}>
-            <CustomLongMenu
-              type={MenuViewTypeEnum.VERTICAL}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              item={item}
-              options={options}
-              sxStyles={{
-                display: 'inline-block',
-                background: 'transparent',
-              }}
-            />
+            <BaseWuMenu item={item} options={options} />
           </div>
         </div>
       )}

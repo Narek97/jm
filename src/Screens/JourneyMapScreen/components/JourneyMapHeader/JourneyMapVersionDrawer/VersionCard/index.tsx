@@ -14,13 +14,12 @@ import {
   useUpdateMapVersionNameMutation,
 } from '@/api/mutations/generated/updateMapVersionName.generated.ts';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { debounced400 } from '@/Hooks/useDebounce.ts';
 import { useSetQueryDataByKey } from '@/Hooks/useQueryKey';
 import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 import { isDateFormat } from '@/utils/isDateFormat.ts';
 
 dayjs.extend(fromNow);
@@ -151,20 +150,7 @@ const VersionCard: FC<IVersionCard> = ({
         </div>
         <div>
           {journeyMapVersion?.id !== version.id && !isDisabled && (
-            <CustomLongMenu
-              disabled={isDisabled}
-              options={options}
-              type={MenuViewTypeEnum.VERTICAL}
-              isDefaultOpen={true}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            />
+            <BaseWuMenu disabled={isDisabled} options={options} />
           )}
         </div>
       </div>

@@ -6,7 +6,7 @@ import { useLocation } from '@tanstack/react-router';
 import Skeleton from 'react-loading-skeleton';
 
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import NoteBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/NoteBtn';
@@ -14,7 +14,6 @@ import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMap
 import { JOURNEY_MAP_VIDEO_OPTIONS } from '@/Screens/JourneyMapScreen/constants';
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useNote } from '@/Store/note.ts';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface IVideoCard {
   boxItem: BoxType;
@@ -111,24 +110,7 @@ const VideoCard: FC<IVideoCard> = ({
             </div>
 
             <div className={'video-card--header--menu'}>
-              <CustomLongMenu
-                type={MenuViewTypeEnum.VERTICAL}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                item={commentRelatedData}
-                options={options}
-                disabled={disabled}
-                sxStyles={{
-                  display: 'inline-block',
-                  background: 'transparent',
-                }}
-              />
+              <BaseWuMenu item={commentRelatedData} options={options} disabled={disabled} />
             </div>
           </div>
         )}

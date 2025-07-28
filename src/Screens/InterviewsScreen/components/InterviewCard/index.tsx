@@ -6,8 +6,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { INTERVIEW_CARD_OPTIONS } from '../../constants';
 import { InterviewType } from '../../types';
 
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 
 interface IInterviewCard {
   interview: InterviewType;
@@ -35,23 +34,7 @@ const InterviewCard: FC<IInterviewCard> = ({ interview, onHandleView, onHandleDe
   return (
     <li className={'interview-card'} data-testid="interview-card-test-id">
       <div className={'interview-card--menu'}>
-        <CustomLongMenu
-          type={MenuViewTypeEnum.VERTICAL}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          item={interview}
-          options={options}
-          sxStyles={{
-            display: 'inline-block',
-            background: 'transparent',
-          }}
-        />
+        <BaseWuMenu options={options} />
       </div>
 
       <p className={'interview-card--name'} data-testid="interview-card-name-test-id">

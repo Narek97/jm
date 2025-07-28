@@ -240,7 +240,7 @@ const PersonaRightSections: FC<
             const color = getTextColorBasedOnBackground(layout.color || '#545e6b');
             return (
               <div
-                key={layout.i}
+                key={layout.id}
                 data-testid={`persona-section-${index}`}
                 data-grid={layout}
                 className={`persona-sections--section ${layout.isHidden ? 'disabled-section-menu' : ''} `}

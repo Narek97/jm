@@ -30,19 +30,14 @@ import TouchpointIcon from '@/Assets/public/mapRow/touchpoint.svg';
 import VideoIcon from '@/Assets/public/mapRow/video.svg';
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import { JOURNEY_MAP_COLUM_ROW_OPTIONS } from '@/Screens/JourneyMapScreen/constants.tsx';
 import { useUpdateMap } from '@/Screens/JourneyMapScreen/hooks/useUpdateMap';
 import { useUpdatesStagesAndLanes } from '@/Screens/JourneyMapScreen/hooks/useUpdatesStagesAndLanes';
 import { JourneyMapRowType } from '@/Screens/JourneyMapScreen/types';
 import { useJourneyMapStore } from '@/Store/journeyMap';
 import { useUndoRedoStore } from '@/Store/undoRedo.ts';
-import {
-  ActionsEnum,
-  JourneyMapRowActionEnum,
-  JourneyMapRowTypesEnum,
-  MenuViewTypeEnum,
-} from '@/types/enum';
+import { ActionsEnum, JourneyMapRowActionEnum, JourneyMapRowTypesEnum } from '@/types/enum';
 import { getPageContentByKey } from '@/utils/getPageContentByKey.ts';
 
 interface IRowNameBlock {
@@ -312,24 +307,7 @@ const RowNameBlock: FC<IRowNameBlock> = memo(
 
               <div className="journey-map-row-name--collapse-and-options">
                 <div className={'journey-map-row-name--collapse-and-options--menu'}>
-                  <CustomLongMenu
-                    type={MenuViewTypeEnum.VERTICAL}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    item={rowItem}
-                    options={rowOptions}
-                    disabled={disabled}
-                    sxStyles={{
-                      display: 'inline-block',
-                      background: 'transparent',
-                    }}
-                  />
+                  <BaseWuMenu item={rowItem} options={rowOptions} disabled={disabled} />
                 </div>
                 {rowItem.isLocked ? (
                   <button

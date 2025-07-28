@@ -7,7 +7,7 @@ import NoteBtn from './NoteBtn';
 
 import { CommentAndNoteModelsEnum, MapCardTypeEnum } from '@/api/types';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
 import JourneyMapCardTags from '@/Screens/JourneyMapScreen/components/JourneyMapTagsPopover';
@@ -15,7 +15,7 @@ import { CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useLayerStore } from '@/Store/layers.ts';
 import { CroppedAreaType, MenuOptionsType } from '@/types';
-import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ImageSizeEnum } from '@/types/enum.ts';
 
 interface ICardHeader {
   cardType: MapCardTypeEnum;
@@ -45,7 +45,7 @@ interface ICardHeader {
   };
   menu: {
     item: any;
-    options: Array<MenuOptionsType>;
+    options: Array<MenuOptionsType<MapCardTypeEnum>>;
     disabled?: boolean;
     onCloseFunction?: () => void;
   };
@@ -144,23 +144,10 @@ const CardHeader: FC<ICardHeader> = ({
         </div>
 
         <div className={'card-header--menu'}>
-          <CustomLongMenu
-            type={MenuViewTypeEnum.VERTICAL}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
+          <BaseWuMenu
             item={menu.item}
             options={menu.options}
             disabled={menu.disabled}
-            sxStyles={{
-              display: 'inline-block',
-              background: 'transparent',
-            }}
             onCloseFunction={menu.onCloseFunction}
           />
         </div>

@@ -7,10 +7,9 @@ import dayjs from 'dayjs';
 import CommentInput from '../CommentInput';
 import { CommentType } from '../types';
 
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import { COMMENT_ITEM_OPTIONS } from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments/constants.tsx';
 import { useUserStore } from '@/Store/user.ts';
-import { MenuViewTypeEnum } from '@/types/enum.ts';
 
 interface ICommentItem {
   isFirstLevel: boolean;
@@ -131,25 +130,7 @@ const CommentItem: FC<ICommentItem> = ({
         </button>
       )}
 
-      {user?.userID === comment?.owner?.userId && (
-        <CustomLongMenu
-          type={MenuViewTypeEnum.VERTICAL}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          item={{ id: 1 }}
-          options={options}
-          sxStyles={{
-            display: 'inline-block',
-            background: 'transparent',
-          }}
-        />
-      )}
+      {user?.userID === comment?.owner?.userId && <BaseWuMenu item={{ id: 1 }} options={options} />}
     </div>
   );
 };

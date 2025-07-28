@@ -54,26 +54,6 @@ interface StagesComponent extends HTMLInputElement {
   setLayerData: (data: LayerType) => void;
 }
 
-const sxStyles = {
-  fontSize: '12px',
-  '&:hover svg rect': {
-    stroke: '#1B87E6',
-  },
-  '&.Mui-checked:hover svg': {
-    fill: '#1B3380',
-  },
-};
-
-const unSelectStyles = {
-  fontSize: '12px',
-  '&:hover svg rect': {
-    stroke: 'transparent',
-  },
-  '&.Mui-checked:hover svg': {
-    fill: '#1B3380',
-  },
-};
-
 const StagesAndLanes: FC<IJourneyMapLayersModal & { ref: any }> = forwardRef(
   ({ mode, updatesCurrentLayer, setValue, selectedLayer }, ref) => {
     const { boardId, mapId } = useParams({
@@ -177,9 +157,7 @@ const StagesAndLanes: FC<IJourneyMapLayersModal & { ref: any }> = forwardRef(
               handleUpdateIsComponentRendered={() => {
                 setIsReady(true);
               }}
-              checkboxSxStyles={sxStyles}
               mode={mode}
-              unSelectStyles={unSelectStyles}
               setValue={setValue}
               updatesCurrentLayer={updatesCurrentLayer}
               defaultSelectedStages={defaultSelectedStages || []}

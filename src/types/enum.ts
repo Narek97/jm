@@ -15,11 +15,6 @@ export enum CopyMapLevelTemplateEnum {
   MAPS = 'MAPS',
 }
 
-export enum MenuViewTypeEnum {
-  VERTICAL = 'VERTICAL',
-  HORIZONTAL = 'HORIZONTAL',
-}
-
 export enum MenuItemIconPositionEnum {
   START = 'START',
   END = 'END',

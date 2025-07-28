@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 
-import { createRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { redirect, useNavigate, createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
-
-import { rootRoute } from '../__root';
 
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import { TOKEN_NAME } from '@/Constants';
@@ -14,9 +12,7 @@ interface TokenResponse {
   access_token: string;
 }
 
-export const Route = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/authorization/callback',
+export const Route = createFileRoute('/authorization/callback')({
   beforeLoad: async ({ search }: { search: Record<string, string | undefined> }) => {
     const code = search.code;
 
