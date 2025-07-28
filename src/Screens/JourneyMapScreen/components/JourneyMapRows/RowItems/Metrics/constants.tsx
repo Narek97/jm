@@ -6,6 +6,7 @@ import CustomDatePicker from '@/Components/Shared/CustomDatePicker';
 import {
   CustomMetricsType,
   DatapointType,
+  MetricsType,
   NPSDataPointElementType,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Metrics/types.ts';
 import { MenuOptionsType, TableColumnOptionType } from '@/types';
@@ -53,7 +54,7 @@ const JOURNEY_MAP_METRICS_OPTIONS = ({
 }: {
   onHandleEdit: () => void;
   onHandleDelete: () => void;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<MetricsType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

@@ -373,7 +373,7 @@ const CreateUpdateLinkModal: FC<ICreateUpdateLinkModal> = ({
                         onChange((data as LinkMapsByBoardType).mapId);
                       }}
                       disabled={isLoadingCreateLink || isLoadingUpdateLink || isFetchingMaps}
-                      // onScroll={onHandleFetchMaps}
+                      onScroll={onHandleFetchMaps}
                     />
                   )}
                 />

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { WuSelect } from '@npm-questionpro/wick-ui-lib';
 
 interface IBaseWuSelect<T> {
@@ -7,6 +9,7 @@ interface IBaseWuSelect<T> {
     value: string;
   };
   onSelect: (data: T | T[]) => void;
+  onScroll?: (e: React.UIEvent<HTMLElement>) => void;
   disabled?: boolean;
   multiple?: boolean;
   defaultValue?: T | T[];

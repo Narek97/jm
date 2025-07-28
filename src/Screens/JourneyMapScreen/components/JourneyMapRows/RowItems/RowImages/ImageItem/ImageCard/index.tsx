@@ -170,8 +170,10 @@ const ImageCard: FC<IImageCard> = memo(
           setIsOpenCropModal(true);
         },
         onHandleDelete: item => {
-          deleteImage(item?.itemId);
-          setIsLoading(true);
+          if (item) {
+            deleteImage(item.itemId);
+            setIsLoading(true);
+          }
         },
       });
     }, [deleteImage, handleUpdateFile, onHandleChangeImgScale]);

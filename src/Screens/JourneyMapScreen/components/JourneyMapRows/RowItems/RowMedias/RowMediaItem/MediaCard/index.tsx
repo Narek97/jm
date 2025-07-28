@@ -96,8 +96,10 @@ const MediaCard: FC<IMediaCard> = ({
         });
       },
       onHandleDelete: item => {
-        deleteMedia(item?.itemId);
-        setIsLoading(true);
+        if (item) {
+          deleteMedia(item.itemId);
+          setIsLoading(true);
+        }
       },
     });
   }, [boxMedia?.text, deleteMedia, handleUpdateFile, viewMedia]);

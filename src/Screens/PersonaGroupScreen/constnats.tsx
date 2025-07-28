@@ -11,8 +11,8 @@ const PERSONA_OPTIONS = ({
 }: {
   onHandleEdit: () => void;
   onHandleCopy: () => void;
-  onHandleDelete: (data: PersonaType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleDelete: (data?: PersonaType) => void;
+}): Array<MenuOptionsType<PersonaType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

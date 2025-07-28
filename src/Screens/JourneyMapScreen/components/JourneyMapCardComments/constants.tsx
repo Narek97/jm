@@ -1,13 +1,14 @@
+import { CommentType } from '@/Screens/JourneyMapScreen/components/JourneyMapCardComments/types.ts';
 import { MenuOptionsType } from '@/types';
 
 const COMMENT_ITEM_OPTIONS = ({
   onHandleDelete,
   onHandleEdit,
 }: {
-  onHandleEdit: (data?: any) => void;
-  onHandleDelete: (data: any) => void;
+  onHandleEdit: (comment?: CommentType) => void;
+  onHandleDelete: (comment?: CommentType) => void;
   color?: string;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<CommentType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

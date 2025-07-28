@@ -49,8 +49,8 @@ const PERSONA_DEMOGRAPHIC_INFO_OPTIONS = ({
   onHandleEdit,
   onHandleDelete,
 }: {
-  onHandleEdit: (data: PersonaDemographicInfoType) => void;
-  onHandleDelete: (data: PersonaDemographicInfoType) => void;
+  onHandleEdit: (persona?: PersonaDemographicInfoType) => void;
+  onHandleDelete: (persona?: PersonaDemographicInfoType) => void;
 }): Array<MenuOptionsType<PersonaDemographicInfoType>> => {
   return [
     {

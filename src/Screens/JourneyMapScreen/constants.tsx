@@ -12,7 +12,12 @@ import {
 
 import { FILE_TYPE_CONFIG } from '@/Constants';
 import TouchpointIcons from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Touchpoints/TouchpointDrawer/TouchpointIcons';
-import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
+import {
+  BoxType,
+  CommentButtonItemType,
+  JourneyMapColumnType,
+  JourneyMapRowType,
+} from '@/Screens/JourneyMapScreen/types.ts';
 import { MenuOptionsType, TabPanelType, TabType } from '@/types';
 import { FileTypeEnum, TouchpointIconsEnum } from '@/types/enum';
 
@@ -34,7 +39,7 @@ const MAP_HEADER_OPTIONS = ({
   onHandleToggleVersionDrawer: () => void;
   onHandleToggleConvertChildModal: () => void;
   onHandleDownloadPdf: () => void;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<unknown>> => {
   const options = [
     {
       icon: <span className={'wm-share-windows'} />,
@@ -82,12 +87,12 @@ const JOURNEY_MAP_COLUM_OPTIONS = ({
   isDeleteDisable,
   color,
 }: {
-  onHandleDelete: (data: BoxType) => void;
+  onHandleDelete: (data?: JourneyMapColumnType) => void;
   onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
   isDeleteDisable: boolean;
   color?: string;
-}): Array<MenuOptionsType> => {
-  const list: Array<MenuOptionsType> = [
+}): Array<MenuOptionsType<JourneyMapColumnType>> => {
+  const list: Array<MenuOptionsType<JourneyMapColumnType>> = [
     {
       icon: (
         <>
@@ -124,7 +129,7 @@ const JOURNEY_MAP_COLUM_OPTIONS = ({
     list.unshift({
       icon: <span className={'wm-delete'} />,
       name: 'Delete',
-      onClick: item => onHandleDelete(item),
+      onClick: onHandleDelete,
     });
   }
   return list;
@@ -136,12 +141,12 @@ const JOURNEY_MAP_STEP_OPTIONS = ({
   color,
   isSingleStep,
 }: {
-  onHandleDelete: (data: BoxType) => void;
+  onHandleDelete: (data?: BoxType) => void;
   onHandleChangeColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
   isSingleStep: boolean;
-}): Array<MenuOptionsType> => {
-  const list: Array<MenuOptionsType> = [
+}): Array<MenuOptionsType<BoxType>> => {
+  const list: Array<MenuOptionsType<BoxType>> = [
     {
       icon: (
         <>
@@ -192,7 +197,7 @@ const JOURNEY_MAP_COLUM_ROW_OPTIONS = ({
   isDisabled: boolean;
   onHandleDelete: () => void;
   onHandleLock: () => void;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<JourneyMapRowType>> => {
   return [
     {
       icon: <span className={'wm-delete'} />,
@@ -232,11 +237,11 @@ const JOURNEY_MAP_IMAGE_OPTIONS = ({
 }: {
   onHandleOpenViewModal: () => void;
   onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
-  onHandleFit: (data: CommentButtonItemType) => void;
-  onHandleFill: (data: CommentButtonItemType) => void;
-  onHandleCrop: (data: CommentButtonItemType) => void;
-  onHandleDelete: (data: CommentButtonItemType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleFit: (data?: CommentButtonItemType) => void;
+  onHandleFill: (data?: CommentButtonItemType) => void;
+  onHandleCrop: (data?: CommentButtonItemType) => void;
+  onHandleDelete: (data?: CommentButtonItemType) => void;
+}): Array<MenuOptionsType<CommentButtonItemType>> => {
   return [
     {
       icon: <span className={'wm-eye-tracking'} />,
@@ -273,22 +278,22 @@ const JOURNEY_MAP_IMAGE_OPTIONS = ({
     {
       icon: <span className={'wm-zoom-in-map'} />,
       name: 'Fit',
-      onClick: item => onHandleFit(item),
+      onClick: onHandleFit,
     },
     {
       icon: <span className={'wm-zoom-out-map'} />,
       name: 'Fill',
-      onClick: item => onHandleFill(item),
+      onClick: onHandleFill,
     },
     {
       icon: <span className={'wm-crop'} />,
       name: 'Crop',
-      onClick: item => onHandleCrop(item),
+      onClick: onHandleCrop,
     },
     {
       icon: <span className={'wm-delete'} />,
       name: 'Delete',
-      onClick: item => onHandleDelete(item),
+      onClick: onHandleDelete,
     },
   ];
 };
@@ -300,8 +305,8 @@ const JOURNEY_MAP_VIDEO_OPTIONS = ({
 }: {
   onHandleOpenViewModal: () => void;
   onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
-  onHandleDelete: (data: CommentButtonItemType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleDelete: (data?: CommentButtonItemType) => void;
+}): Array<MenuOptionsType<CommentButtonItemType>> => {
   return [
     {
       icon: <span className={'wm-eye-tracking'} />,
@@ -338,7 +343,7 @@ const JOURNEY_MAP_VIDEO_OPTIONS = ({
     {
       icon: <span className={'wm-delete'} />,
       name: 'Delete',
-      onClick: item => onHandleDelete(item),
+      onClick: onHandleDelete,
     },
   ];
 };
@@ -350,8 +355,8 @@ const JOURNEY_MAP_MEDIA_OPTIONS = ({
 }: {
   onHandleOpenViewModal: () => void;
   onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, type: FileTypeEnum) => void;
-  onHandleDelete: (data: CommentButtonItemType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleDelete: (data?: CommentButtonItemType) => void;
+}): Array<MenuOptionsType<CommentButtonItemType>> => {
   return [
     {
       icon: <span className={'wm-eye-tracking'} />,
@@ -398,10 +403,10 @@ const JOURNEY_MAP_TEXT_FIELD_OPTIONS = ({
   onHandleChangeBgColor,
   color,
 }: {
-  onHandleDelete: (data: { itemId: number }) => void;
+  onHandleDelete: (data?: { itemId: number }) => void;
   onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<{ itemId: number }>> => {
   return [
     {
       icon: (

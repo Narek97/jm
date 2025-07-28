@@ -14,10 +14,10 @@ const LINK_ITEM_OPTIONS = ({
   color,
 }: {
   onHandleEdit: () => void;
-  onHandleDelete: (data: LinkType) => void;
+  onHandleDelete: (link?: LinkType) => void;
   onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<LinkType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

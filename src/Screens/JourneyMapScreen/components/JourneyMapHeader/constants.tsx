@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
 
+import { MapVersionType } from '@/Screens/JourneyMapScreen/components/JourneyMapHeader/types.ts';
 import { MenuOptionsType } from '@/types';
 
 const UPDATE_LAYER_VALIDATION_SCHEMA = yup
@@ -93,7 +94,7 @@ const JOURNEY_MAP_VERSION_CARD_OPTIONS = ({
   onHandleEdit: () => void;
   onHandleRestore: () => void;
   onHandleDelete: () => void;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<MapVersionType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,
@@ -112,13 +113,6 @@ const JOURNEY_MAP_VERSION_CARD_OPTIONS = ({
     },
   ];
 };
-
-export const UNSELECT_ICON = (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1B87E6" xmlns="http://www.w3.org/2000/svg">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <rect x="7" y="10.5" width="10" height="3" rx="1" fill="white" />
-  </svg>
-);
 
 export {
   UPDATE_LAYER_VALIDATION_SCHEMA,

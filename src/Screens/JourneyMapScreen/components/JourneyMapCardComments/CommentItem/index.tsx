@@ -130,7 +130,7 @@ const CommentItem: FC<ICommentItem> = ({
         </button>
       )}
 
-      {user?.userID === comment?.owner?.userId && <BaseWuMenu item={{ id: 1 }} options={options} />}
+      {user?.userID === comment?.owner?.userId && <BaseWuMenu item={comment} options={options} />}
     </div>
   );
 };

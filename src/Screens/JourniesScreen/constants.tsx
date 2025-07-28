@@ -95,10 +95,10 @@ const JOURNEY_MAP_OPTIONS = ({
   onHandleCopyShareUrl,
   onHandleCopy,
 }: {
-  onHandleDelete: (journey: JourneyType) => void;
-  onHandleCopyShareUrl: (journey: JourneyType) => void;
-  onHandleCopy: (journey: JourneyType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleDelete: (journey?: JourneyType) => void;
+  onHandleCopyShareUrl: (journey?: JourneyType) => void;
+  onHandleCopy: (journey?: JourneyType) => void;
+}): Array<MenuOptionsType<JourneyType>> => {
   return [
     {
       icon: <span className={'wm-content-copy'} />,
@@ -113,7 +113,7 @@ const JOURNEY_MAP_OPTIONS = ({
     {
       icon: <span className={'wm-delete'} />,
       name: 'Delete',
-      onClick: item => onHandleDelete(item),
+      onClick: onHandleDelete,
     },
   ];
 };

@@ -9,9 +9,9 @@ const AI_MODEL_CARD_OPTIONS = ({
   onHandleEdit,
   onHandleDelete,
 }: {
-  onHandleEdit: (board: AiJourneyModelResponse) => void;
-  onHandleDelete: (board: AiJourneyModelResponse) => void;
-}): Array<MenuOptionsType> => {
+  onHandleEdit: (board?: AiJourneyModelResponse) => void;
+  onHandleDelete: (board?: AiJourneyModelResponse) => void;
+}): Array<MenuOptionsType<AiJourneyModelResponse>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

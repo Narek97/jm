@@ -9,10 +9,10 @@ const JOURNEY_MAP_OUTCOME_ITEM_OPTIONS = ({
   color,
 }: {
   onHandleEdit: () => void;
-  onHandleDelete: (data: NotesAndCommentsDrawerType) => void;
+  onHandleDelete: (data?: NotesAndCommentsDrawerType) => void;
   onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<NotesAndCommentsDrawerType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,

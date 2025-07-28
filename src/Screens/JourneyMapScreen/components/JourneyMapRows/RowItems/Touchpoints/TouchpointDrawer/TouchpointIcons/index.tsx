@@ -97,23 +97,27 @@ const TouchpointIcons: FC<ITouchpointIcons> = ({ type }) => {
   const options = useMemo(() => {
     return TOUCHPOINT_OPTIONS({
       onHandleEdit: data => {
-        setIsOpenCreateTouchpointModal(true);
-        setCurrentAttachmentData({
-          id: +data.id,
-          uuid: uuidv4(),
-          url:
-            data?.type === 'NOUN_PROJECT_ICON'
-              ? data?.url
-              : `${import.meta.env.VITE_AWS_URL}/${data?.url}/large${data?.key}`,
-          key: data.key,
-          name: data.name,
-          type: data.type,
-          attachmentId: +data?.id,
-        });
+        if (data) {
+          setIsOpenCreateTouchpointModal(true);
+          setCurrentAttachmentData({
+            id: +data.id,
+            uuid: uuidv4(),
+            url:
+              data?.type === 'NOUN_PROJECT_ICON'
+                ? data?.url
+                : `${import.meta.env.VITE_AWS_URL}/${data.url}/large${data.key}`,
+            key: data.key,
+            name: data.name,
+            type: data.type,
+            attachmentId: +data.id,
+          });
+        }
       },
       onHandleDelete: data => {
-        setIsOpenDeleteConfirmationModal(true);
-        setCurrentAttachmentData(data);
+        if (data) {
+          setIsOpenDeleteConfirmationModal(true);
+          setCurrentAttachmentData(data);
+        }
       },
     });
   }, []);

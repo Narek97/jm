@@ -210,8 +210,10 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     );
   };
 
-  const onHandleEditDemographicInfoItem = useCallback((item: DemographicInfoFieldsType) => {
-    setSelectedDemographicInfoId(item.id);
+  const onHandleEditDemographicInfoItem = useCallback((item?: DemographicInfoFieldsType) => {
+    if (item) {
+      setSelectedDemographicInfoId(item.id);
+    }
   }, []);
 
   const onHandleRemoveSelectedDemographicInfoId = useCallback(() => {
@@ -219,8 +221,10 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   }, []);
 
   const onHandleDeleteDemographicInfoItem = useCallback(
-    (item: DemographicInfoFieldsType) => {
-      onHandleDeleteDemographicInfo(item.id, item.type);
+    (item?: DemographicInfoFieldsType) => {
+      if (item) {
+        onHandleDeleteDemographicInfo(item.id, item.type);
+      }
     },
     [onHandleDeleteDemographicInfo],
   );

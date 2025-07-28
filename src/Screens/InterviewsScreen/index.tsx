@@ -73,13 +73,15 @@ const InterviewsScreen = () => {
     setSelectedInterview(null);
   }, []);
 
-  const onHandleView = useCallback((interview: InterviewType) => {
-    setSelectedInterview(interview);
-    setIsOpenCreateModal(true);
+  const onHandleView = useCallback((interview?: InterviewType) => {
+    if (interview) {
+      setSelectedInterview(interview);
+      setIsOpenCreateModal(true);
+    }
   }, []);
 
-  const onToggleDeleteModal = useCallback((interview: InterviewType | null) => {
-    setSelectedInterview(interview);
+  const onToggleDeleteModal = useCallback((interview?: InterviewType | null) => {
+    setSelectedInterview(interview || null);
     setIsOpenDeleteModal(prev => !prev);
   }, []);
 

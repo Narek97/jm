@@ -276,7 +276,7 @@ export class UploadFile {
               const uploadedPart = {
                 PartNumber: part.PartNumber,
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
+                // @ts-ignore
                 ETag: ETag.replaceAll('"', ''),
               };
 

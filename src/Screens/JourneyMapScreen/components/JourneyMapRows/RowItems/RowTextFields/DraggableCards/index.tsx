@@ -90,12 +90,14 @@ const DraggableCards: FC<IDraggableCards> = ({
   };
 
   const onHandleDeleteBoxElement = useCallback(
-    ({ itemId }: { itemId: number }) => {
-      removeBoxElement({
-        removeBoxElementInput: {
-          boxElementId: itemId!,
-        },
-      });
+    (data?: { itemId: number }) => {
+      if (data) {
+        removeBoxElement({
+          removeBoxElementInput: {
+            boxElementId: data.itemId,
+          },
+        });
+      }
     },
     [removeBoxElement],
   );

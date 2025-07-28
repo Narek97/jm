@@ -21,7 +21,7 @@ import { JourneyViewTypeEnum } from '@/types/enum.ts';
 interface SortableJourneyItemProps {
   boardId: number;
   map: JourneyType;
-  options: Array<MenuOptionsType>;
+  options: Array<MenuOptionsType<JourneyType>>;
   onNameChange: (data: JourneyMapNameChangeType) => void;
 }
 
@@ -62,7 +62,7 @@ interface SortableJourneysProps {
   boardId: number;
   currentPage: number;
   maps: Array<JourneyType>;
-  options: Array<MenuOptionsType>;
+  options: Array<MenuOptionsType<JourneyType>>;
   onNameChange: (data: JourneyMapNameChangeType) => void;
 }
 

@@ -9,8 +9,8 @@ import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 
 interface IAiModelCard {
   aiModel: AiModelType;
-  onHandleDelete: (aiModel: AiModelType) => void;
-  onHandleEdit: (aiModel: AiModelType) => void;
+  onHandleDelete: (aiModel?: AiModelType) => void;
+  onHandleEdit: (aiModel?: AiModelType) => void;
 }
 
 const AiModelCard: FC<IAiModelCard> = ({ aiModel, onHandleDelete, onHandleEdit }) => {

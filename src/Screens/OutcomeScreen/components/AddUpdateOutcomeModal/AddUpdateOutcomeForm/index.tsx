@@ -525,7 +525,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                       name={'stage'}
                       placeholder={'Select'}
                       disabled={!selectedMapIdWatch}
-                      // onScroll={onHandleFetchStages}
+                      onScroll={onHandleFetchStages}
                     />
                   )}
                 />
@@ -555,7 +555,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                       name={'steps'}
                       placeholder={'Select'}
                       disabled={!selectedStageIdWatch}
-                      // onScroll={onHandleFetchSteps}
+                      onScroll={onHandleFetchSteps}
                     />
                   )}
                 />
@@ -591,7 +591,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                       }}
                       name={'persona'}
                       placeholder={'Select'}
-                      // onScroll={onHandleFetchPersonas}
+                      onScroll={onHandleFetchPersonas}
                     />
                   )}
                 />

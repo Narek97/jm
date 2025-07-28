@@ -63,7 +63,7 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
     });
   };
 
-  const handleFileUpload = (file: File | null) => {
+  const handleFileUpload = (file: File | File[]) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = event => {
@@ -72,10 +72,10 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
         const sheet = workbook.Sheets[sheetName];
         const sheetData = XLSX.utils.sheet_to_json(sheet);
         onHandleSetUploadFile(processDates(sheetData) as ObjectKeysType[]);
-        setFileName(file?.name);
+        setFileName((file as File).name);
         setIsFileUpload(true);
       };
-      reader.readAsBinaryString(file);
+      reader.readAsBinaryString(file as File);
     }
   };
 
@@ -117,7 +117,6 @@ const ImportDataPointModal: FC<IImportDataPointModal> = ({
         </p>
         <div className={'import-data-point-modal--file-upload'}>
           <FileUploader
-            id={'touchpoint-name'}
             classes={`attachments--file-uploader`}
             multiple={false}
             handleChange={handleFileUpload}

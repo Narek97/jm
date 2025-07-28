@@ -10,8 +10,8 @@ import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 
 interface IInterviewCard {
   interview: InterviewType;
-  onHandleView: (interview: InterviewType) => void;
-  onHandleDelete: (interview: InterviewType) => void;
+  onHandleView: (interview?: InterviewType) => void;
+  onHandleDelete: (interview?: InterviewType) => void;
 }
 
 const InterviewCard: FC<IInterviewCard> = ({ interview, onHandleView, onHandleDelete }) => {

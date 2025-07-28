@@ -45,7 +45,7 @@ interface ICardHeader {
   };
   menu: {
     item: any;
-    options: Array<MenuOptionsType<MapCardTypeEnum>>;
+    options: Array<MenuOptionsType<any>>;
     disabled?: boolean;
     onCloseFunction?: () => void;
   };

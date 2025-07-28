@@ -126,9 +126,12 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
     });
   };
 
-  const onHandleFileSelect = async (file: File) => {
+  const onHandleFileSelect = async (file: File | File[]) => {
     if (file) {
-      const { valid, extension, allowedExtensions } = await validateFile(file, FileTypeEnum.IMAGE);
+      const { valid, extension, allowedExtensions } = await validateFile(
+        file as File,
+        FileTypeEnum.IMAGE,
+      );
       if (!valid || !extension) {
         showToast({
           variant: 'warning',
@@ -136,7 +139,7 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
         });
         return;
       }
-      setSelectedFile(file);
+      setSelectedFile(file as File);
       setFileExtension(extension);
       setIsNounProjectIcon(false);
       const reader = new FileReader();
@@ -363,7 +366,6 @@ const CreateTouchpointModal: FC<ICreateTouchpointModal> = ({
             <label htmlFor="touchpoint-icon">Icon</label>
             <div className={'create-touchpoint-modal--icon-frame'}>
               <FileUploader
-                id={'touchpoint-name'}
                 classes={`attachments--file-uploader`}
                 multiple={false}
                 handleChange={onHandleFileSelect}

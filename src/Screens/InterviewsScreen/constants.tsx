@@ -9,9 +9,9 @@ const INTERVIEW_CARD_OPTIONS = ({
   onHandleDelete,
 }: {
   onHandleNavigateToMap: () => void;
-  onHandleView: (interview: InterviewType) => void;
-  onHandleDelete: (interview: InterviewType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleView: (interview?: InterviewType) => void;
+  onHandleDelete: (interview?: InterviewType) => void;
+}): Array<MenuOptionsType<InterviewType>> => {
   return [
     {
       icon: <span className={'wm-share-windows'} />,

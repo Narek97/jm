@@ -69,8 +69,10 @@ const VideoCard: FC<IVideoCard> = ({
         });
       },
       onHandleDelete: item => {
-        deleteVideo(item?.itemId);
-        setIsLoading(true);
+        if (item) {
+          deleteVideo(item.itemId);
+          setIsLoading(true);
+        }
       },
     });
   }, [boxVideo?.text, deleteVideo, handleUpdateFile, viewVideo]);

@@ -128,8 +128,8 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
   );
 
   const onHandleDelete = useCallback(
-    (deletedStepItem: BoxType) => {
-      if (deletedStepItem.step) {
+    (deletedStepItem?: BoxType) => {
+      if (deletedStepItem?.step) {
         deleteColumnStepMutate(
           {
             id: deletedStepItem.step.id,

@@ -187,10 +187,13 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
   );
 
   const handleUploadFiles = useCallback(
-    async (file: File) => {
+    async (file: File | File[]) => {
       if (!file) return;
 
-      const { valid, extension, allowedExtensions } = await validateFile(file, FileTypeEnum.IMAGE);
+      const { valid, extension, allowedExtensions } = await validateFile(
+        file as File,
+        FileTypeEnum.IMAGE,
+      );
       if (!valid || !extension) {
         showToast({
           variant: 'warning',

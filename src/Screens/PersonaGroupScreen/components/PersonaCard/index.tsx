@@ -16,7 +16,7 @@ import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 interface IPersonaCard {
   persona: PersonaType;
   workspaceId: number;
-  onToggleDeletePersonaModal: (persona: PersonaType) => void;
+  onToggleDeletePersonaModal: (persona?: PersonaType) => void;
 }
 
 const PersonaCard: FC<IPersonaCard> = memo(

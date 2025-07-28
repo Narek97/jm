@@ -406,9 +406,9 @@ const TOUCHPOINT_OPTIONS = ({
   onHandleEdit,
   onHandleDelete,
 }: {
-  onHandleEdit: (data: JourneyMapTouchpointIconsType) => void;
-  onHandleDelete: (data: JourneyMapTouchpointIconsType) => void;
-}): Array<MenuOptionsType> => {
+  onHandleEdit: (data?: JourneyMapTouchpointIconsType) => void;
+  onHandleDelete: (data?: JourneyMapTouchpointIconsType) => void;
+}): Array<MenuOptionsType<JourneyMapTouchpointIconsType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,
@@ -428,10 +428,10 @@ const TOUCHPOINT_ITEM_OPTIONS = ({
   onHandleChangeBgColor,
   color,
 }: {
-  onHandleDelete: (data: TouchPointType) => void;
+  onHandleDelete: (data?: TouchPointType) => void;
   onHandleChangeBgColor: (e: ChangeEvent<HTMLInputElement>) => void;
   color?: string;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<TouchPointType>> => {
   return [
     {
       icon: <span className={'wm-delete'} />,

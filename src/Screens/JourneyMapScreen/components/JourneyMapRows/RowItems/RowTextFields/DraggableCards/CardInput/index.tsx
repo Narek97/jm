@@ -91,7 +91,7 @@ interface ICardInput {
   columnId: number;
   disabled: boolean;
   isLoading: boolean;
-  onHandleDeleteBoxElement: ({ itemId }: { itemId: number }) => void;
+  onHandleDeleteBoxElement: (data?: { itemId: number }) => void;
   dragHandleProps?: any;
 }
 

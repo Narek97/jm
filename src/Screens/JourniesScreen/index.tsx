@@ -340,24 +340,28 @@ const JourniesScreen = () => {
   );
 
   const onHandleCopyMap = useCallback(
-    (journey: JourneyType) => {
-      setCopyMapState({
-        mapId: journey.id,
-      });
-      onToggleMapCopyModal();
+    (journey?: JourneyType) => {
+      if (journey) {
+        setCopyMapState({
+          mapId: journey.id,
+        });
+        onToggleMapCopyModal();
+      }
     },
     [onToggleMapCopyModal, setCopyMapState],
   );
 
   const onHandleCopyShareUrl = useCallback(
-    async (journey: JourneyType) => {
-      await navigator.clipboard?.writeText(
-        `${import.meta.env.VITE_APP_URL}/guest/board/${boardId}/journey-map/${journey.id}`,
-      );
-      showToast({
-        variant: 'success',
-        message: 'The page URL was copied successfully.',
-      });
+    async (journey?: JourneyType) => {
+      if (journey) {
+        await navigator.clipboard?.writeText(
+          `${import.meta.env.VITE_APP_URL}/guest/board/${boardId}/journey-map/${journey.id}`,
+        );
+        showToast({
+          variant: 'success',
+          message: 'The page URL was copied successfully.',
+        });
+      }
     },
     [boardId, showToast],
   );

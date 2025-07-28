@@ -64,14 +64,18 @@ const AiModel = () => {
     [dataAiModels?.getAiJourneyModels.aiJourneyModels],
   );
 
-  const onToggleCreateUpdateModal = useCallback((aiModel: AiModelType | null) => {
-    setSelectedAiModel(aiModel);
-    setIsOpenCreateUpdateModal(prev => !prev);
+  const onToggleCreateUpdateModal = useCallback((aiModel?: AiModelType | null) => {
+    if (aiModel) {
+      setSelectedAiModel(aiModel);
+      setIsOpenCreateUpdateModal(prev => !prev);
+    }
   }, []);
 
-  const onToggleDeleteModal = useCallback((aiModel: AiModelType | null) => {
-    setSelectedAiModel(aiModel);
-    setIsOpenDeleteModal(prev => !prev);
+  const onToggleDeleteModal = useCallback((aiModel?: AiModelType | null) => {
+    if (aiModel) {
+      setSelectedAiModel(aiModel);
+      setIsOpenDeleteModal(prev => !prev);
+    }
   }, []);
 
   const onHandleAddNewAiModel = useCallback(

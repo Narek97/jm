@@ -199,10 +199,10 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
     }
   };
 
-  const onHandleSelectFiles = async (newFile: File | null) => {
+  const onHandleSelectFiles = async (newFile: File | File[]) => {
     if (newFile) {
-      setSelectedImage(URL.createObjectURL(newFile));
-      setFile(newFile);
+      setSelectedImage(URL.createObjectURL(newFile as File));
+      setFile(newFile as File);
     }
   };
 
@@ -319,7 +319,6 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
               </button>
             )}
             <FileUploader
-              id={'touchpoint-name'}
               classes={`attachments--file-uploader`}
               handleChange={onHandleSelectFiles}
               name="file"
