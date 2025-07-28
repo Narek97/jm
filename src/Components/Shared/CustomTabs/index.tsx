@@ -122,7 +122,7 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({
     return orientation === 'vertical' ? 'flex-1' : 'mt-4';
   };
   return (
-    <div className={`${getLayoutClasses()} ${className} overflow-auto`}>
+    <div className={`${getLayoutClasses()} ${className}`}>
       <div className={getTabsContainerClasses()}>
         <div className={`flex relative ${orientation === 'vertical' ? 'flex-col' : ''}`}>
           {tabItems}
