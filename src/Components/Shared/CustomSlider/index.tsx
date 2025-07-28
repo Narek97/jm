@@ -111,14 +111,14 @@ const CustomSlider: React.FC<ICustomSlider> = ({
         <div
           className="absolute w-5 h-5 bg-white border-2 border-blue-500 rounded-full transform -translate-y-1/2 -translate-x-1/2 cursor-grab"
           style={{
-            left: `${percentage}%`,
-            top: '50%',
+            left: `calc(${percentage}% + 10px)`,
+            top: '14px',
           }}>
           {/* Tooltip */}
           {isDragging && (
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+            <div className="w-[40px] absolute bottom-8 -left-[12px] transform  bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
               {valueLabelFormat ? valueLabelFormat(currentValue) : `${Math.round(percentage)}%`}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45 -mt-1" />
+              <div className="absolute  transform  w-2 h-2 bg-gray-800 [rotate:45deg] top-[20px] left-[15px]" />
             </div>
           )}
         </div>
