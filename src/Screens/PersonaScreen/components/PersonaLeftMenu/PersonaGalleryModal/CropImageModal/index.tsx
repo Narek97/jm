@@ -1,12 +1,12 @@
 import { FC, memo, useCallback, useState } from 'react';
 
 import './style.scss';
-import Slider from '@mui/material/Slider';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import Cropper from 'react-easy-crop';
 
 import { ActionEnum } from '@/api/types.ts';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
+import CustomSlider from '@/Components/Shared/CustomSlider';
 
 const CROP_AREA_ASPECT = 3 / 3;
 
@@ -47,8 +47,9 @@ const CropImageModal: FC<ICropImageModal> = memo(
       closeModal();
     };
 
-    const handleChange = (_: Event, newValue: number | number[]) => {
-      setZoom(newValue as number);
+    const handleChange = (newValue: number) => {
+      console.log(newValue);
+      setZoom(newValue);
     };
 
     const valueLabelFormat = (value: number) => {
@@ -69,49 +70,6 @@ const CropImageModal: FC<ICropImageModal> = memo(
       },
       [zoom],
     );
-
-    const sliderSx = {
-      width: 292,
-      MuiSlider: {
-        thumb: {
-          '&$focused, &$activated, &$jumped, &:hover': {
-            boxShadow: 'none',
-          },
-        },
-      },
-      color: '#D8D8D8',
-      height: 6,
-      '& .MuiSlider-track': {
-        height: 4,
-        backgroundColor: '#D8D8D8',
-      },
-      '& .MuiSlider-rail': {
-        height: 4,
-        borderRadius: 0,
-        backgroundColor: '#D8D8D8',
-        opacity: 1,
-        boxShadow: 'inherit !important',
-      },
-      '& .MuiSlider-thumb': {
-        backgroundColor: '#1B87E6',
-        width: 16,
-        height: 16,
-        boxShadow: 'inherit !important',
-      },
-      '& .MuiSlider-valueLabel': {
-        backgroundColor: '#555555',
-        width: 38,
-        height: 32,
-        fontSize: 12,
-        '&::before': {
-          top: -8,
-          left: 14,
-        },
-        '&.MuiSlider-valueLabelOpen': {
-          transform: 'translate(14%, 105%) scale(1)',
-        },
-      },
-    };
 
     return (
       <BaseWuModal
@@ -147,17 +105,12 @@ const CropImageModal: FC<ICropImageModal> = memo(
                 onClick={() => zoomInAndOut('out')}>
                 <span className={'wm-chrome-minimize'} />
               </button>
-              <Slider
-                className={'!w-full'}
-                aria-label="Small steps"
-                defaultValue={3}
+              <CustomSlider
+                value={zoom}
+                onChange={handleChange}
                 min={1}
                 max={7}
                 step={0.01}
-                value={zoom}
-                onChange={handleChange}
-                valueLabelDisplay="auto"
-                sx={sliderSx}
                 valueLabelFormat={valueLabelFormat}
               />
               <button

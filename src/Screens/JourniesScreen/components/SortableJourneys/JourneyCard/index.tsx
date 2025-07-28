@@ -9,18 +9,14 @@ import dayjs from 'dayjs';
 import fromNow from 'dayjs/plugin/relativeTime';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import CustomClickAwayListener from '@/Components/Shared/CustomClickAwayListener';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import DragHandle from '@/Components/Shared/DragHandle';
 import PersonaImages from '@/Features/PersonaImages';
 import { JourneyMapNameChangeType, JourneyType } from '@/Screens/JourniesScreen/types.ts';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
 import { MenuOptionsType } from '@/types';
-import {
-  JourneyViewTypeEnum,
-  MenuViewTypeEnum,
-  SelectedPersonasViewModeEnum,
-} from '@/types/enum.ts';
+import { JourneyViewTypeEnum, SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 dayjs.extend(fromNow);
 
@@ -28,7 +24,7 @@ interface IJourneyCard {
   map: JourneyType;
   viewType: JourneyViewTypeEnum;
   boardId: number;
-  options: Array<MenuOptionsType>;
+  options: Array<MenuOptionsType<JourneyType>>;
   onNameChange?: (data: JourneyMapNameChangeType) => void;
   sortableAttributes?: ReturnType<typeof useSortable>['attributes'];
   sortableListeners?: ReturnType<typeof useSortable>['listeners'];
@@ -97,16 +93,7 @@ const JourneyCard: FC<IJourneyCard> = ({
           <>
             <DragHandle {...sortableAttributes} {...sortableListeners} />
             <div className={'journey-card--menu'}>
-              <CustomLongMenu
-                type={MenuViewTypeEnum.VERTICAL}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+              <BaseWuMenu
                 item={map}
                 options={[
                   {
@@ -116,10 +103,6 @@ const JourneyCard: FC<IJourneyCard> = ({
                   },
                   ...options,
                 ]}
-                sxStyles={{
-                  display: 'inline-block',
-                  background: 'transparent',
-                }}
               />
             </div>
           </>

@@ -1,6 +1,6 @@
 import { DemographicInfoTypeEnum } from '@/api/types';
 import { PersonaDemographicInfoType } from '@/Screens/JourneyMapScreen/types.ts';
-import { MenuOptionsType } from '@/types';
+import { AttachmentType, MenuOptionsType } from '@/types';
 import { PersonaGenderEnum, PersonaTypeEnum } from '@/types/enum';
 
 const PERSONA_TYPE_MENU_ITEMS = [
@@ -51,12 +51,33 @@ const PERSONA_DEMOGRAPHIC_INFO_OPTIONS = ({
 }: {
   onHandleEdit: (data: PersonaDemographicInfoType) => void;
   onHandleDelete: (data: PersonaDemographicInfoType) => void;
-}): Array<MenuOptionsType> => {
+}): Array<MenuOptionsType<PersonaDemographicInfoType>> => {
   return [
     {
       icon: <span className={'wm-edit'} />,
       name: 'Edit',
       onClick: onHandleEdit,
+    },
+    {
+      icon: <span className={'wm-delete'} />,
+      name: 'Delete',
+      onClick: onHandleDelete,
+    },
+  ];
+};
+
+const GALLERY_IMAGE_OPTIONS = ({
+  onHandleRename,
+  onHandleDelete,
+}: {
+  onHandleRename: () => void;
+  onHandleDelete: (galleryItem?: AttachmentType) => void;
+}): Array<MenuOptionsType<AttachmentType>> => {
+  return [
+    {
+      icon: <span className={'wm-edit'} />,
+      name: 'Rename',
+      onClick: onHandleRename,
     },
     {
       icon: <span className={'wm-delete'} />,
@@ -72,4 +93,5 @@ export {
   DEMOGRAPHIC_INFO_POPOVER,
   PERSONA_FIELD_SECTIONS_TYPES,
   PERSONA_DEMOGRAPHIC_INFO_OPTIONS,
+  GALLERY_IMAGE_OPTIONS,
 };

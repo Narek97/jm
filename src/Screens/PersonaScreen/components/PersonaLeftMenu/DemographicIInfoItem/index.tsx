@@ -5,12 +5,12 @@ import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import BaseWuSelect from '@/Components/Shared/BaseWuSelect';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { PERSONA_GENDER_MENU_ITEMS } from '@/Screens/PersonaScreen/constants.tsx';
 import { DemographicInfoFieldsType } from '@/Screens/PersonaScreen/types.ts';
 import { MenuOptionsType } from '@/types';
-import { MenuViewTypeEnum, PersonaFieldCategoryTypeEnum } from '@/types/enum';
+import { PersonaFieldCategoryTypeEnum } from '@/types/enum';
 
 interface IDemographicInfoItem {
   demographicInfo: DemographicInfoFieldsType;
@@ -23,7 +23,7 @@ interface IDemographicInfoItem {
     categoryType: PersonaFieldCategoryTypeEnum,
   ) => void;
   onHandleRemoveSelectedDemographicInfoId: () => void;
-  options: Array<MenuOptionsType>;
+  options: Array<MenuOptionsType<DemographicInfoFieldsType>>;
 }
 
 interface FieldConfig {
@@ -125,16 +125,7 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
               )}
             </button>
           </WuTooltip>
-          <CustomLongMenu
-            type={MenuViewTypeEnum.VERTICAL}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
+          <BaseWuMenu
             item={demographicInfo}
             options={
               !demographicInfo.isDefault ? options : options.filter(itm => itm.name !== 'Edit')

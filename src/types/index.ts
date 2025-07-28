@@ -36,17 +36,17 @@ export type TableColumnOptionType<T = unknown> = {
   onHandleRowChange?: (item: T, value: string | number, key: string) => void;
 };
 
-export type MenuOptionsType = {
-  id?: number;
+export type MenuOptionsType<T> = {
+  id?: number | string;
   icon?: ReactNode;
   children?: ReactNode;
   label?: ReactNode;
-  name?: any;
+  name?: string;
   isSubOption?: boolean;
   disabled?: boolean;
   isFileUpload?: boolean;
   isColorPicker?: boolean;
-  onClick?: (item?: any) => void;
+  onClick?: (item?: T) => void;
 };
 
 export type SearchParamsType = {

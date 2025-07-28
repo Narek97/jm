@@ -6,15 +6,10 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import DeleteAssignedPersona from '@/Components/Feature/DeleteAssignedPersona';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import { RowWithPersonasType } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow/types.ts';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
-import {
-  ImageSizeEnum,
-  MenuItemIconPositionEnum,
-  MenuViewTypeEnum,
-  SelectedPersonasViewModeEnum,
-} from '@/types/enum.ts';
+import { ImageSizeEnum, SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 interface IPersonaImages {
   mapId: number;
@@ -136,28 +131,10 @@ const PersonaImages: FC<IPersonaImages> = ({
       ))}
       {!showFullItems && personas?.length > sliceCount && (
         <>
-          <CustomLongMenu
+          <BaseWuMenu
+            options={options}
             disabled={disableDisconnect}
-            type={MenuViewTypeEnum.VERTICAL}
-            menuItemIconPosition={MenuItemIconPositionEnum.END}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            onCloseFunction={() => {
-              setIsMenuActive(false);
-            }}
-            rootStyles={{
-              height: '10rem',
-              marginLeft: '0',
-              marginTop: '0',
-            }}
-            sxStyles={{ minWidth: '3rem', minHeight: '3rem' }}
-            customButton={
+            trigger={
               <div
                 className={`more-items  ${isMenuActive ? 'active-menu-button' : ''}`}
                 onClick={() => {
@@ -166,7 +143,6 @@ const PersonaImages: FC<IPersonaImages> = ({
                 +{personas.length - sliceCount}
               </div>
             }
-            options={options}
           />
         </>
       )}

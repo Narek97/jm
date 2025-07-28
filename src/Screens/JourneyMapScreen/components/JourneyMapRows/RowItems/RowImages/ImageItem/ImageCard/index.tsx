@@ -15,9 +15,9 @@ import {
   useUpdateAttachmentScaleTypeMutation,
 } from '@/api/mutations/generated/updateAttachmentScaleType.generated.ts';
 import { CommentAndNoteModelsEnum, ImgScaleTypeEnum, MapCardTypeEnum } from '@/api/types.ts';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import BaseWuModal from '@/Components/Shared/BaseWuModal';
 import CropImage from '@/Components/Shared/CropImage';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { IMAGE_ASPECT } from '@/Constants';
 import JourneyMapCardNote from '@/Screens/JourneyMapScreen/components/JourneyMapCardNote';
 import CommentBtn from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/CardHeader/CommentBtn';
@@ -29,7 +29,7 @@ import { useCrudMapBoxElement } from '@/Screens/JourneyMapScreen/hooks/useCRUDMa
 import { BoxType, CommentButtonItemType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useNote } from '@/Store/note.ts';
 import { CroppedAreaType } from '@/types';
-import { ActionsEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ActionsEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 const CROP_AREA_ASPECT = 3 / 3;
@@ -273,24 +273,7 @@ const ImageCard: FC<IImageCard> = memo(
               </div>
 
               <div className={'image-card--header--menu'}>
-                <CustomLongMenu
-                  type={MenuViewTypeEnum.VERTICAL}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  item={commentRelatedData}
-                  options={options}
-                  disabled={disabled}
-                  sxStyles={{
-                    display: 'inline-block',
-                    background: 'transparent',
-                  }}
-                />
+                <BaseWuMenu item={commentRelatedData} options={options} disabled={disabled} />
               </div>
             </div>
           )}

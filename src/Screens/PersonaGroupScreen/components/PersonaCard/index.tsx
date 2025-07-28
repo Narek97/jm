@@ -5,12 +5,12 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.generated.ts';
 import PersonaImageBox from '@/Components/Feature/PersonaImageBox';
+import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
 import CropImage from '@/Components/Shared/CropImage';
-import CustomLongMenu from '@/Components/Shared/CustomLongMenu';
 import { IMAGE_ASPECT } from '@/Constants';
 import { PERSONA_OPTIONS } from '@/Screens/PersonaGroupScreen/constnats.tsx';
 import { PersonaType } from '@/Screens/PersonaGroupScreen/types.ts';
-import { ImageSizeEnum, MenuViewTypeEnum } from '@/types/enum.ts';
+import { ImageSizeEnum } from '@/types/enum.ts';
 import { getResizedFileName } from '@/utils/getResizedFileName.ts';
 
 interface IPersonaCard {
@@ -61,23 +61,7 @@ const PersonaCard: FC<IPersonaCard> = memo(
           id={persona.id.toString()}
           data-testid={`persona-card-${persona.id}`}>
           <div className={'persona-card--menu'}>
-            <CustomLongMenu
-              type={MenuViewTypeEnum.VERTICAL}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              item={persona}
-              options={options}
-              sxStyles={{
-                display: 'inline-block',
-                background: 'transparent',
-              }}
-            />
+            <BaseWuMenu item={persona} options={options} />
           </div>
           <div className={'persona-card--frame-block'}>
             {persona?.croppedArea ? (
