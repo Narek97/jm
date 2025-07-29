@@ -1,7 +1,5 @@
 import { ChangeEvent, FC, useState } from 'react';
 
-import './style.scss';
-
 import {
   GetNounProjectIconsQuery,
   useGetNounProjectIconsQuery,
@@ -49,46 +47,57 @@ const SearchNounProjectIcon: FC<ISearchNounProjectIcon> = ({ onIconSelect }) => 
   };
 
   return (
-    <div className={'search-icon-section'} data-testid="search-icon-section-id">
-      <div>
-        <BaseWuInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
-        {iconSearchText && isOpenNounProjectIconsPopup ? (
-          <CustomClickAwayListener
-            onClickAway={() => {
-              setIsOpenNounProjectIconsPopup(false);
-            }}>
-            <ul className={'noun-project-icons-block'} data-testid={'noun-project-icons-test-id'}>
-              {errorNounProjectIcons ? (
-                <CustomError />
-              ) : isLoadingNounProjectIcons ? (
-                <BaseWuLoader />
-              ) : (
-                <>
-                  {nounProjectIcons.icons?.length ? (
-                    nounProjectIcons.icons.map((icon: JourneyMapNounProjectIconsType) => (
-                      <li
-                        key={icon.id}
-                        className={'noun-project-icon'}
-                        onClick={() => onHandleIconSelect(icon)}>
-                        <img
-                          src={icon.thumbnail_url}
-                          alt={icon.term}
-                          style={{
-                            width: '1rem',
-                            height: '1rem',
-                          }}
-                        />
-                      </li>
-                    ))
-                  ) : (
-                    <span className={'no-result'}>No Result</span>
-                  )}
-                </>
-              )}
-            </ul>
-          </CustomClickAwayListener>
-        ) : null}
-      </div>
+    <div className={'h-[9.6rem]'} data-testid="search-icon-section-id">
+      <BaseWuInput placeholder={'Look for an icon here'} onChange={onHandleSearchIcons} />
+      {iconSearchText && isOpenNounProjectIconsPopup ? (
+        <CustomClickAwayListener
+          onClickAway={() => {
+            setIsOpenNounProjectIconsPopup(false);
+          }}>
+          <ul
+            className={
+              'flex flex-wrap gap-4 relative p-[0.9375rem]! w-full h-[7.5rem] overflow-auto z-[1] bg-[var(--background)]'
+            }
+            data-testid={'noun-project-icons-test-id'}>
+            {errorNounProjectIcons ? (
+              <CustomError />
+            ) : isLoadingNounProjectIcons ? (
+              <BaseWuLoader />
+            ) : (
+              <>
+                {nounProjectIcons.icons?.length ? (
+                  nounProjectIcons.icons.map((icon: JourneyMapNounProjectIconsType) => (
+                    <li
+                      key={icon.id}
+                      className={'noun-project-icon'}
+                      onClick={() => onHandleIconSelect(icon)}>
+                      <img
+                        src={icon.thumbnail_url}
+                        alt={icon.term}
+                        style={{
+                          width: '1rem',
+                          height: '1rem',
+                        }}
+                      />
+                    </li>
+                  ))
+                ) : (
+                  <span className={'absolute-center'}>No Result</span>
+                )}
+              </>
+            )}
+          </ul>
+        </CustomClickAwayListener>
+      ) : (
+        <div className={'relative w-full z-[1] h-[7.5rem] bg-[var(--background)]'}>
+          <div
+            className={
+              'text-[var(--text-light)] text-center text-[1rem] font-light absolute-center'
+            }>
+            Type to see available icons here.
+          </div>
+        </div>
+      )}
     </div>
   );
 };

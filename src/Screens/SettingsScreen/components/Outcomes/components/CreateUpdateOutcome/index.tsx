@@ -108,24 +108,21 @@ const CreateUpdateOutcome: FC<ICreateUpdateOutcome> = ({
   }, [formData, reset]);
 
   return (
-    <div className={'create-update-outcome-form-block'}>
+    <div className={'flex items-start'}>
       <form
         data-testid="create-update-outcome-form-block-test-id"
-        className={`create-update-outcome-form-block--content ${
-          isOpenCreateUpdateItem ? 'create-update-outcome-form-block--open-content' : ''
+        className={`flex gap-4 overflow-hidden [transition:.5s] ${
+          isOpenCreateUpdateItem ? 'w-[30rem]' : 'w-0'
         }`}
         onSubmit={handleSubmit(onSaveOutcome)}>
         {OUTCOMES_FORM_ELEMENTS.map(outcomeElement => (
-          <div
-            className={'create-update-outcome-form-block--content-input'}
-            key={outcomeElement.name}>
+          <div key={outcomeElement.name}>
             <Controller
               name={outcomeElement.name}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <WuInput
                   data-testid="create-update-outcome-form-input"
-                  className={errors[outcomeElement.name]?.message ? 'create-user--error-input' : ''}
                   maxLength={50}
                   placeholder={outcomeElement.placeholder}
                   id={outcomeElement.name}
@@ -148,11 +145,6 @@ const CreateUpdateOutcome: FC<ICreateUpdateOutcome> = ({
         <div>
           <WuButton
             data-testid="create-update-item-open-btn-test-id"
-            className={`create-update-outcome-form-block--content-save-btn ${
-              !isOpenCreateUpdateItem
-                ? 'create-update-outcome-form-block--content--closed-mode'
-                : ''
-            }`}
             type={'submit'}
             loading={isLoading}>
             Save
@@ -163,7 +155,6 @@ const CreateUpdateOutcome: FC<ICreateUpdateOutcome> = ({
         <div className={'close-form'}>
           <WuButton
             aria-label={'close-button'}
-            className={'close-form--btn'}
             onClick={() => onToggleCreateUpdateFunction()}
             Icon={<span className="wm-close" />}
             variant="iconOnly"
@@ -174,9 +165,7 @@ const CreateUpdateOutcome: FC<ICreateUpdateOutcome> = ({
         data-testid="create-update-item-open-btn-test-id"
         Icon={<span className="wm-add" />}
         iconPosition="left"
-        className={`create-update-outcome-form-block--open-btn ${
-          isOpenCreateUpdateItem && 'create-update-outcome-form-block--open-btn--closed-mode'
-        }`}
+        className={`${isOpenCreateUpdateItem ? 'hidden' : 'visible'}`}
         variant="primary"
         onClick={() => {
           onToggleCreateUpdateFunction();

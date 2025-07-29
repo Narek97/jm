@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import './style.scss';
-
 import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import PinPersonaModal from './PinPersonaModal';

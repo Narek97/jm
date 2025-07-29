@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 
-import './style.scss';
-
 import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import WorkspaceBoards from './components/WorkspaceBoards';
@@ -116,18 +114,20 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
           Apply
         </WuButton>
       }>
-      <div className={'pin-persona-modal-container'}>
+      <div className={'h-[24rem]'}>
         {errorWorkspaces ? (
-          <div className={'pin-persona-error'}>
-            <div className={'pin-persona-error--text'}>{errorWorkspaces?.message}</div>
+          <div className={'m-[1.375rem]! mb-0!'}>
+            <div className={'text-[var(--error)]'}>{errorWorkspaces?.message}</div>
           </div>
         ) : (
           <>
-            <div className={'info-text'}>Choose workspace for selecting boards</div>
+            <div className={'mx-[1rem]!'}>Choose workspace for selecting boards</div>
             {selectedIdList?.length > 0 && (
-              <div className={'pinned-boards'}>
+              <div className={'mt-4! mx-[1.375rem]!'}>
                 There are
-                <span className={'pinned-boards-count'}>{selectedIdList?.length}</span>
+                <span className={'mx-1! text-[var(--primary)] font-[var(--font-weight-medium)]'}>
+                  {selectedIdList?.length}
+                </span>
                 selected boards
               </div>
             )}
@@ -140,45 +140,35 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
                 workspaceId={workspaceId}
               />
             ) : (
-              <div className={'workspaces-list'}>
-                <div className={'workspaces-list--content'}>
-                  {isLoadingWorkspaces && !workspaces?.length ? (
-                    <div className={'workspaces-list-loading-section'}>
-                      <BaseWuLoader />
-                    </div>
-                  ) : (
-                    <>
-                      {dataWorkspaces?.getWorkspacesByOrganizationId?.workspaces?.length ? (
-                        <ul className={'workspaces-list--content-workspaces'}>
-                          {workspaces?.map(itm => (
-                            <li
-                              key={itm?.id}
-                              data-testid="workspace-item-test-id"
-                              className={`workspaces-list--content-workspaces-item`}
-                              onClick={() => {
-                                setWorkspaceId(itm?.id);
-                              }}>
-                              <div className="workspaces-list--content-workspaces-item--left">
-                                <div className={'persona-text-info'}>
-                                  <div className={'persona-text-info'}>
-                                    <WuTooltip
-                                      className="wu-tooltip-content"
-                                      content={itm?.name}
-                                      position="bottom">
-                                      <div className={'persona-text-info--title'}>{itm?.name}</div>
-                                    </WuTooltip>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <EmptyDataInfo message={'There are no workspaces yet'} />
-                      )}
-                    </>
-                  )}
-                </div>
+              <div className={'px-8! py-4! min-h-[22rem] h-[22rem] overflow-auto'}>
+                {isLoadingWorkspaces && !workspaces?.length ? (
+                  <BaseWuLoader />
+                ) : (
+                  <>
+                    {dataWorkspaces?.getWorkspacesByOrganizationId?.workspaces?.length ? (
+                      <ul>
+                        {workspaces?.map(itm => (
+                          <li
+                            key={itm?.id}
+                            data-testid="workspace-item-test-id"
+                            className={`card-borders mb-4! pt-[0.625rem]! px-[0.75rem]! pb-[0.75rem]!`}
+                            onClick={() => {
+                              setWorkspaceId(itm?.id);
+                            }}>
+                            <WuTooltip
+                              className="wu-tooltip-content"
+                              content={itm?.name}
+                              position="bottom">
+                              <div>{itm?.name}</div>
+                            </WuTooltip>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <EmptyDataInfo message={'There are no workspaces yet'} />
+                    )}
+                  </>
+                )}
               </div>
             )}
           </>

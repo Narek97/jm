@@ -1,4 +1,6 @@
-@import 'tailwindcss';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities);
 @import './variables.scss';
 @import './utilities.css';
 @import './components.css';
@@ -11,8 +13,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-
 
 body {
   font-family: var(--font-family), serif;
@@ -61,4 +61,3 @@ a {
 ul {
   list-style-type: none;
 }
-

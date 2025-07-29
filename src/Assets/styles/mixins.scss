@@ -692,12 +692,6 @@
 
 @mixin create-update-user-outcome {
   &--content {
-    width: 0;
-    display: flex;
-    gap: 1rem;
-    overflow: hidden;
-    transition: 0.5s;
-
     &--open-btn {
       min-width: 12.5rem;
     }
@@ -717,10 +711,6 @@
     &-input {
       width: 11.25rem;
     }
-  }
-
-  &--open-content {
-    width: 30rem;
   }
 
   .close-form {

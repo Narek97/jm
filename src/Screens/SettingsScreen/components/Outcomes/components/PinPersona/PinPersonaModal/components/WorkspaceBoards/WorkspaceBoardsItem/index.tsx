@@ -1,9 +1,8 @@
 import { FC, memo } from 'react';
 
-import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
-import { truncateName } from '@/utils/truncateName';
+import { truncateName } from '@/utils/truncateName.ts';
 
 interface IWorkspaceBoardItem {
   itm: any;
@@ -16,7 +15,7 @@ const WorkspaceBoardItem: FC<IWorkspaceBoardItem> = memo(
     return (
       <li
         data-testid={`board-item-test-id-${itm?.id}`}
-        className={`board-item ${isSelected ? 'selected-persona' : ''}`}
+        className={`card-borders mb-4! pt-[0.625rem]! px-[0.75rem]! pb-[0.75rem]! ${isSelected ? 'selected-card-borders' : ''}`}
         onClick={() => handleSelectBoard(itm?.id, !isSelected)}>
         <div>
           <div className={'board-item-text-info'}>

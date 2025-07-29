@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './style.scss';
 
 import { useWuShowToast, WuPopover, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
@@ -379,11 +378,14 @@ const Outcomes = () => {
   }
 
   return (
-    <div className={'outcomes'}>
-      <div className={'create-update-top-section'}>
+    <>
+      <div
+        className={
+          'flex items-start md:items-center py-4 md:pb-8 border-b border-[var(--light-gray)]'
+        }>
         <div
-          className={`create-update-top-section--icon ${
-            isOpenCreateUpdateBoard ? `opened-${!iconUrl ? 'default-' : ''}icon-state` : ''
+          className={`h-[1.875rem] cursor-pointer ${
+            isOpenCreateUpdateBoard ? 'max-w-[2.5rem] w-[2.5rem] visible' : 'max-w-[0] invisible'
           }`}>
           <WuPopover
             Trigger={
@@ -406,11 +408,10 @@ const Outcomes = () => {
               </div>
             }>
             <SearchNounProjectIcon onIconSelect={handleSelectIcon} />
-            <div className={'search-icons-placeholder-text'}>Type to see available icons here.</div>
           </WuPopover>
         </div>
 
-        <div className="create-update-top-section--pagination-section">
+        <div className="flex items-center justify-between w-full">
           <CreateUpdateOutcome
             formData={selectedOutcomeGroup}
             isLoading={isLoadingCrateOrUpdateOutcome}
@@ -438,11 +439,11 @@ const Outcomes = () => {
       )}
 
       {outcomeGroups.length ? (
-        <div className="outcomes--table-container">
+        <div className="mt-[1.125rem]! h-[calc(100dvh-21rem)]">
           <BaseWuDataTable data={outcomeGroups} columns={columns} onHandleSort={sortTableByField} />
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 

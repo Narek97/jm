@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 
-import './style.scss';
-
-import WorkspaceBoardItem from '../WorkspaceBoardsItem';
+import WorkspaceBoardItem from './WorkspaceBoardsItem';
 
 import {
   GetBoardsForOutcomeGroupQuery,
@@ -113,23 +111,23 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ handleClose, workspaceId, outco
   }, [data]);
 
   return (
-    <div className={'boards-list--content'}>
+    <div className={'h-[24rem]'}>
       {organizationBoardsIsLoading && !boards?.length ? (
-        <div className={'boards-list-loading-section'}>
-          <BaseWuLoader />
-        </div>
+        <BaseWuLoader />
       ) : (
         <>
-          <div onClick={handleClose} className={'go-back'}>
-            <div className={'go-back--icon'}>
-              <span className="wm-arrow-back-ios-new"></span>
-            </div>
+          <div
+            onClick={handleClose}
+            className={
+              'w-[10rem] mx-[1rem]! mt-[1rem]! flex items-center justify-center gap-2 cursor-pointer'
+            }>
+            <span className="wm-arrow-back-ios-new"></span>
             <div className={'go-back--text'}>Go to workspaces</div>
           </div>
           {boards?.length ? (
             <div
               data-testid={'boards-list--content-boards'}
-              className={'boards-list--content-boards'}
+              className={'px-8! py-4! h-[22rem] overflow-auto'}
               onScroll={e => {
                 onHandleFetch(e, childRef.current?.offsetHeight || 0);
               }}>
