@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './style.scss';
 
 import { WuToggle } from '@npm-questionpro/wick-ui-lib';
 
@@ -20,8 +19,8 @@ const UserDebug = () => {
   };
 
   return (
-    <div className={'user-debug-settings'}>
-      <label className={'user-debug-settings--switcher--label'} htmlFor="userDebugMode">
+    <div className={'flex items-center gap-4 px-0 py-5'}>
+      <label className={'text-[--font-size-sm]'} htmlFor="userDebugMode">
         User debug mode
       </label>
       <WuToggle

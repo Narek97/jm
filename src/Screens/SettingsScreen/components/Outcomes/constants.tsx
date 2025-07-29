@@ -50,7 +50,13 @@ const WORKSPACE_OUTCOMES_COLUMNS = ({
     header: 'Created by',
     enableSorting: true,
     cell: ({ cell }: { cell: any }) => {
-      return <>{cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName} </>;
+      return (
+        <>
+          {cell.row.original.user
+            ? cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName
+            : 'default'}{' '}
+        </>
+      );
     },
   },
   {

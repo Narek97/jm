@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import './style.scss';
 import { WuButton, WuInput } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 

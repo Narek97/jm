@@ -21,7 +21,6 @@ const PinPersona = ({
 
   return (
     <div className={'pin-persona'}>
-      {' '}
       {isOpen && (
         <PinPersonaModal
           handleClose={() => {
