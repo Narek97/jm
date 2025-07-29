@@ -80,7 +80,7 @@ function Authenticated() {
     };
   }, []);
 
-  if (isLoading) {
+  if (isLoading || true) {
     return <BaseWuLoader />;
   }
 

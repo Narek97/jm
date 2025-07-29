@@ -1,0 +1,13 @@
+@layer utilities {
+  .card-borders {
+    border: 0.0625rem solid var(--medium-light-gray) !important;
+    border-left: 0.375rem solid var(--medium-light-gray) !important;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    cursor: pointer;
+    &:hover {
+      border: 0.0625rem solid var(--primary) !important;
+      border-left: 0.375rem solid var(--primary) !important;
+    }
+  }
+}

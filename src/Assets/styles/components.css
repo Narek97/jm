@@ -1,0 +1,24 @@
+.wicki-button:focus {
+  background-color: transparent !important;
+  --tw-ring-opacity: 0 !important;
+  outline: transparent !important;
+  border-width: 0 !important;
+}
+
+.wm-delete {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.wu-tooltip-content {
+  word-break: break-all;
+
+  svg {
+    margin-right: 0.4rem;
+    display: inline-block;
+  }
+}
+
+.wu-input-container {
+  width: 100%;
+}

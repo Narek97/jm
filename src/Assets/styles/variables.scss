@@ -1,21 +1,76 @@
-$BASE_BG_COLOR: #f2f2f4;
-$HEADER_BG_COLOR: #404040;
+$BASE_BLUE_COLOR: #1b87e6;
 $DARK_BLUE: #1b3380;
+$BASE-ERROR-COLOR: #e53251;
+$POSITIVE-COLOR: #51b87a;
+$BASE_GRAY_COLOR: #545e6b;
+$BASE-WHITE-COLOR: #ffffff;
+$NEUTRAL-COLOR: #ffa04a;
+
+
+
+$BASE_BG_COLOR: #f2f2f4;
+
 $LIGHT_BLUE: #d9dff2;
 $LIGHT_BLUE_2: #f0f2fa;
-$BASE_BLUE_COLOR: #1b87e6;
-$BASE_GRAY_COLOR: #545e6b;
 $BASE_GRAY_COLOR_2: #878f99;
-$BASE-WHITE-COLOR: #ffffff;
 $BASE-LIGHT-GRAY-COLOR: #f5f5f5;
 $BASE-LIGHT-GRAY-COLOR-2: #d8d8d8;
 $BASE-EXTRA-LIGHT-GRAY: #f8f8f8;
 $BASE-EXTRA-LIGHT-GRAY-2: #e8e8e8;
-$BASE-ERROR-COLOR: #e53251;
-$POSITIVE-COLOR: #51b87a;
-$NEGATIVE-COLOR: #c50000;
-$NEUTRAL-COLOR: #ffa04a;
-$NONE-COLOR: #b7b7b7;
+
+
+
 $BASE-FONT-SIZE: 0.75rem;
 $MEDIUM-FONT-SIZE: 0.875rem;
 $BASE-LARGE-SIZE: 1.5rem;
+
+
+
+
+/* src/styles/variables.css */
+:root {
+  /* Colors */
+  --primary: #1b87e6; /* Light Blue */
+  --secondary: #1b3380; /* Dark Blue */
+  --background: #ffffff; /* White */
+  --text: #545e6b; /* Dark gray */
+  --text-light: #878f99; /* Light gray */
+  --error: #e53251; /* Red */
+  --success: #51b87a; /* Green */
+  --warning: #ffa04a; /* Yellow */
+
+  --light-blue-gray: #d9dff2; /* Light Blue-Gray */
+  --very-light-blue: #f0f2fa; /* Very Light Blue */
+  --medium-gray: #878f99; /* Medium Gray */
+  --light-gray: #f5f5f5; /* Light Gray */
+  --medium-light-gray: #d8d8d8; /* Medium Light Gray */
+  --very-light-gray: #f8f8f8; /* Very Light Gray */
+  --soft-gray: #e8e8e8; /* Soft Gray */
+
+  /* Typography */
+  --font-family: 'Fira Sans', sans-serif;
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.25rem; /* 20px */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+
+  /* Border Radius */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 1rem; /* 16px */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}

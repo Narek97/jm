@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import './style.scss';
-
 import { useTranslation } from 'react-i18next';
 
 import WorkspaceCard from './components/WorkspaceCard';
@@ -81,7 +79,7 @@ const WorkspaceListScreen = () => {
         </h3>
       </div>
       <>
-        <div className="workspaces-pagination-container">
+        <div className="max-w-[73rem] flex justify-end">
           {workspacesCount > WORKSPACES_LIMIT && (
             <Pagination
               perPage={WORKSPACES_LIMIT}
@@ -96,7 +94,7 @@ const WorkspaceListScreen = () => {
         ) : !workspaces?.length ? (
           <EmptyDataInfo message="There are no organizations" />
         ) : (
-          <ul className="workspaces-container">
+          <ul className="flex flex-col gap-4 mt-8!">
             {workspaces.map(workspace => (
               <ErrorBoundary key={workspace.id}>
                 <WorkspaceCard workspace={workspace} />
