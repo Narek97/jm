@@ -1,6 +1,5 @@
 import { FC, MouseEvent, useCallback } from 'react';
 
-import './style.scss';
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 
@@ -78,8 +77,12 @@ const GroupCard: FC<IGroupCard> = ({
   };
 
   return (
-    <div className={'group-card'} onClick={onNavigatePersonaPage}>
-      <div className={'group-card--left'}>
+    <div
+      className={
+        'card-borders flex gap-4 relative w-full h-[10.625rem] px-6 py-4 pl-3.5 mt-4 overflow-auto'
+      }
+      onClick={onNavigatePersonaPage}>
+      <div className={'w-[14rem] max-w-[14rem]'}>
         <EditableTitle
           item={group}
           onHandleUpdate={onHandleUpdate}
@@ -87,20 +90,20 @@ const GroupCard: FC<IGroupCard> = ({
           maxLength={100}
         />
       </div>
-      <div className={'group-card--right'}>
+      <div className={'flex items-center gap-4'}>
         {group?.persona.length ? (
           <>
-            <ul className={'group-card--right-personas'}>
+            <ul className={'flex gap-4'}>
               {group.persona.slice(0, maxCardNumber)?.map(persona => (
                 <ErrorBoundary key={persona.id}>
                   <li
                     onClick={e => onNavigateSinglePersonaPage(e, persona.id)}
-                    className={'group-card--persona-card'}>
+                    className={'w-[15rem] h-[8.5rem] px-6 py-4 pl-3.5 card-borders'}>
                     <div>
-                      <p className={'group-card--persona-card--name'}>{persona.name}</p>
-                      <span className={'group-card--persona-card--type'}>
-                        {persona.type?.toLocaleLowerCase()}
-                      </span>
+                      <p className={'font-[var(--font-weight-medium)] text-[var(--primary)]'}>
+                        {persona.name}
+                      </p>
+                      <span className={'text-[0.75rem]'}>{persona.type?.toLocaleLowerCase()}</span>
                     </div>
 
                     <PersonaImageBox
@@ -121,8 +124,8 @@ const GroupCard: FC<IGroupCard> = ({
               ))}
             </ul>
             {group?.persona.length > maxCardNumber && (
-              <div className={'group-card--persona-card'}>
-                <span>and {group?.persona.length - maxCardNumber} more</span>
+              <div className={'w-[15rem] h-[8.5rem] px-6 py-4 pl-3.5 card-borders'}>
+                <span>And {group?.persona.length - maxCardNumber} more</span>
               </div>
             )}
           </>

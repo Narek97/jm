@@ -1,4 +1,3 @@
-import './style.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
@@ -253,7 +252,7 @@ const PersonaGroups = () => {
   }
 
   return (
-    <div className={'persona-groups'}>
+    <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
       {selectedPersonaGroup && (
         <PersonaGroupDeleteModal
           isOpen={!!selectedPersonaGroup}
@@ -262,35 +261,36 @@ const PersonaGroups = () => {
           handleClose={onTogglePersonaGroupDeleteModal}
         />
       )}
-      <div className={'persona-groups--header'}>
-        <div className="base-page-header">
-          <h3 className={'base-title !text-heading-2'}>Persona Group</h3>
-        </div>
-        <div className="persona-groups--create-section">
-          <EditableItemForm
-            createButtonText={'New persona group'}
-            inputPlaceholder={'Persona group name'}
-            value={''}
-            isLoading={isLoadingCreatePersonaGroup}
-            onHandleCreate={onHandleCreatePersonaGroup}
+      <h3 className={'base-title !text-heading-2'}>Persona Group</h3>
+
+      <div className="flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]">
+        <EditableItemForm
+          createButtonText={'New persona group'}
+          inputPlaceholder={'Persona group name'}
+          value={''}
+          isLoading={isLoadingCreatePersonaGroup}
+          onHandleCreate={onHandleCreatePersonaGroup}
+        />
+        {personaGroupsCount > PERSONA_GROUP_LIMIT && (
+          <Pagination
+            perPage={PERSONA_GROUP_LIMIT}
+            currentPage={currentPage}
+            allCount={personaGroupsCount}
+            changePage={onHandleChangePage}
           />
-          {personaGroupsCount > PERSONA_GROUP_LIMIT && (
-            <Pagination
-              perPage={PERSONA_GROUP_LIMIT}
-              currentPage={currentPage}
-              allCount={personaGroupsCount}
-              changePage={onHandleChangePage}
-            />
-          )}
-        </div>
+        )}
       </div>
-      <div className={'persona-groups--body'}>
-        {isPendingPersonaGroups ? (
-          <BaseWuLoader />
-        ) : (
-          <>
-            {personaGroups.length ? (
-              personaGroups.map(group => (
+
+      {isPendingPersonaGroups ? (
+        <BaseWuLoader />
+      ) : (
+        <>
+          {personaGroups.length ? (
+            <div
+              className={
+                'h-[calc(100dvh-16rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'
+              }>
+              {personaGroups.map(group => (
                 <ErrorBoundary key={group.id}>
                   <GroupCard
                     group={group}
@@ -299,13 +299,13 @@ const PersonaGroups = () => {
                     onTogglePersonaGroupDeleteModal={onTogglePersonaGroupDeleteModal}
                   />
                 </ErrorBoundary>
-              ))
-            ) : (
-              <EmptyDataInfo message={'There are no persona groups yet'} />
-            )}
-          </>
-        )}
-      </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyDataInfo message={'There are no persona groups yet'} />
+          )}
+        </>
+      )}
     </div>
   );
 };
