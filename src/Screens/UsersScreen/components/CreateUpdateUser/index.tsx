@@ -1,6 +1,5 @@
 import { FC, useCallback } from 'react';
 
-import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -51,21 +50,20 @@ const CreateUpdateUser: FC<ICreateUpdateUser> = ({
   );
 
   return (
-    <div className={'create-update-user-form-block'}>
+    <div className={'flex items-start'}>
       <form
         data-testid="create-update-user-form-block-test-id"
-        className={`create-update-user-form-block--content ${
-          isOpenCreateUpdateItem ? 'create-update-user-form-block--open-content' : ''
+        className={`flex gap-4 overflow-hidden [transition:.5s] ${
+          isOpenCreateUpdateItem ? 'w-[30rem]' : 'w-0'
         }`}
         onSubmit={handleSubmit(onSaveForm)}>
         {formElements.map(element => (
-          <div className={'create-update-user-form-block--content-input'} key={element.name}>
+          <div key={element.name}>
             <Controller
               name={element.name}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <BaseWuInput
-                  className={errors[element.name]?.message ? 'create-user--error-input' : ''}
                   maxLength={50}
                   placeholder={element.placeholder}
                   id={element.name}
@@ -97,20 +95,18 @@ const CreateUpdateUser: FC<ICreateUpdateUser> = ({
       </form>
       {isOpenCreateUpdateItem && (
         <div className={'close-form'}>
-          <button
+          <WuButton
             data-testid="close-form-btn-id"
-            className={'close-form--btn'}
-            type={'button'}
-            onClick={() => onToggleCreateUpdateFunction()}>
-            <span className={'wm-close-small'} />
-          </button>
+            aria-label={'close-button'}
+            onClick={() => onToggleCreateUpdateFunction()}
+            Icon={<span className="wm-close" />}
+            variant="iconOnly"
+          />
         </div>
       )}
       <WuButton
         data-testid="create-update-item-open-btn-test-id"
-        className={`create-update-user-form-block--open-btn ${
-          isOpenCreateUpdateItem && 'create-update-user-form-block--open-btn--closed-mode'
-        }`}
+        className={`${isOpenCreateUpdateItem ? 'hidden' : 'visible'}`}
         onClick={() => {
           onToggleCreateUpdateFunction();
           reset(defaultValues);

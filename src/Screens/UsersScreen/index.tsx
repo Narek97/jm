@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import './style.scss';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import dayjs from 'dayjs';
@@ -28,7 +27,6 @@ import { useSetQueryDataByKey } from '@/Hooks/useQueryKey.ts';
 const UsersScreen = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchUserText, setSearchUserText] = useState<string>('');
-  const [isCreateUser, setIsCreateUser] = useState<boolean>(false);
   const [isOpenCreateUser, setIsOpenCreateUser] = useState<boolean>(false);
 
   const { showToast } = useWuShowToast();
@@ -40,7 +38,7 @@ const UsersScreen = () => {
     CreateUserMutation
   >({
     onSuccess: () => {
-      onToggleCreateUser();
+      onToggleCreateUpdate();
     },
     onError: error => {
       showToast({
@@ -83,10 +81,6 @@ const UsersScreen = () => {
         })) ?? []
     );
   }, [data?.getOrganizationUsers?.users, searchUserText]);
-
-  const onToggleCreateUser = useCallback(() => {
-    setIsCreateUser(prev => !prev);
-  }, []);
 
   const onHandleChangePage = useCallback((page: number) => {
     setCurrentPage(page);
@@ -141,9 +135,8 @@ const UsersScreen = () => {
 
   const onToggleCreateUpdate = useCallback(() => {
     onUserSearch('');
-    onToggleCreateUser();
     setIsOpenCreateUser(prev => !prev);
-  }, [onToggleCreateUser, onUserSearch]);
+  }, [onUserSearch]);
 
   const columns = useMemo(() => {
     return USER_TABLE_COLUMNS;
@@ -154,16 +147,12 @@ const UsersScreen = () => {
   }
 
   return (
-    <div className={'org-users'}>
-      <div className={'base-page-header'}>
-        <h3 className={'base-title !text-heading-2'}>Users</h3>
-      </div>
-      <div className={'org-users--main'}>
-        <div className={`org-users--search-block `}>
-          <div
-            className={`org-users--search-block-input ${
-              isCreateUser ? 'org-users--disable-search-block' : ''
-            } `}>
+    <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
+      <h3 className={'base-title !text-heading-2'}>Users</h3>
+
+      <div className={'!mt-8'}>
+        <div className={`flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]`}>
+          <div className={'min-w-[200px]'}>
             <BaseWuInput
               isIconInput={true}
               data-testid="user-search-field-test-id"
@@ -191,24 +180,27 @@ const UsersScreen = () => {
             onHandleCreateFunction={onHandleCreateUser}
             onHandleUpdateFunction={() => {}}
           />
+
+          <div className={'flex justify-end flex-1/2'}>
+            {data?.getOrganizationUsers && data?.getOrganizationUsers.count - 1 > USERS_LIMIT && (
+              <Pagination
+                currentPage={currentPage}
+                perPage={USERS_LIMIT}
+                allCount={data?.getOrganizationUsers.count - 1}
+                changePage={onHandleChangePage}
+              />
+            )}
+          </div>
         </div>
       </div>
       {isPending ? (
         <BaseWuLoader />
       ) : (
-        <div className={'org-users--table-block'}>
+        <div className={'mt-[1.125rem]! h-[calc(100dvh-21rem)]'}>
           {usersData?.length ? (
             <BaseWuDataTable data={usersData} columns={columns} />
           ) : (
             <EmptyDataInfo message={'No org-users Yet'} />
-          )}
-          {data?.getOrganizationUsers.count - 1 > USERS_LIMIT && (
-            <Pagination
-              currentPage={currentPage}
-              perPage={USERS_LIMIT}
-              allCount={data?.getOrganizationUsers.count - 1}
-              changePage={onHandleChangePage}
-            />
           )}
         </div>
       )}

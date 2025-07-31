@@ -1,7 +1,0 @@
-@use '@/Assets/styles/variables' as *;
-@use '@/Assets/styles/mixins' as *;
-
-.create-update-user-form-block {
-  display: flex;
-  @include create-update-user-outcome();
-}
