@@ -1,6 +1,5 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, UIEvent, useCallback, useMemo, useState } from 'react';
 
-import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { Controller, useForm } from 'react-hook-form';
@@ -88,9 +87,9 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
 
   const {
     data: dataBoards,
-    // isFetching: isFetchingBoards,
-    // fetchNextPage: fetchNextPageBoards,
-    // hasNextPage: hasNextPageBoards,
+    isFetching: isFetchingBoards,
+    fetchNextPage: fetchNextPageBoards,
+    hasNextPage: hasNextPageBoards,
   } = useInfiniteGetMyBoardsQuery<{ pages: Array<GetMyBoardsQuery> }, Error>(
     {
       getMyBoardsInput: {
@@ -156,19 +155,18 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
     [clearErrors, interview, setValue],
   );
 
-  // todo
-  // const onHandleFetchBoards = useCallback(
-  //   async (e: React.UIEvent<HTMLElement>) => {
-  //     const bottom =
-  //       e.currentTarget.scrollHeight <=
-  //       e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
-  //
-  //     if (bottom && !isFetchingBoards && hasNextPageBoards) {
-  //       await fetchNextPageBoards();
-  //     }
-  //   },
-  //   [fetchNextPageBoards, hasNextPageBoards, isFetchingBoards],
-  // );
+  const onHandleFetchBoards = useCallback(
+    async (e: UIEvent<HTMLElement>) => {
+      const bottom =
+        e.currentTarget.scrollHeight <=
+        e.currentTarget.scrollTop + e.currentTarget.clientHeight + 100;
+
+      if (bottom && !isFetchingBoards && hasNextPageBoards) {
+        await fetchNextPageBoards();
+      }
+    },
+    [fetchNextPageBoards, hasNextPageBoards, isFetchingBoards],
+  );
 
   const onHandleCreateInterview = (formData: InterviewFormType) => {
     mutateInterview({
@@ -195,117 +193,98 @@ const CreateInterviewModal: FC<ICreateInterviewModal> = ({
           Add
         </WuButton>
       }>
-      <div className={'create-interview-modal'}>
-        <form
-          className={'create-interview-modal--form'}
-          onSubmit={handleSubmit(onHandleCreateInterview)}
-          id="linkform">
-          <div className={'create-interview-modal--content-top'}>
-            <div
-              className={`create-interview-modal--content-input create-interview-modal--content-top-item`}>
-              <label className={'create-interview-modal--content-input--label'} htmlFor="name">
-                Name
-              </label>
-              <Controller
-                name={'name'}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <BaseWuInput
-                    data-testid={'create-interview-name-input-test-id'}
-                    placeholder={'Name'}
-                    id={'name'}
-                    onChange={onChange}
-                    disabled={!!interview || isLoadingCreateInterview}
-                    value={value || ''}
-                  />
-                )}
-              />
-              <span className={'validation-error'} data-testid={'name-error-test-id'}>
-                {(errors && errors.name?.message) || ''}
-              </span>
-            </div>
-            <div
-              className={
-                'create-interview-modal--content-dropdown create-interview-modal--content-top-item'
-              }>
-              <label className={'create-interview-modal--content-input--label'} htmlFor="name">
-                Board
-              </label>
-              <Controller
-                name={'boardId'}
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <BaseWuSelect<BoardsType>
-                    name={'board'}
-                    accessorKey={{
-                      label: 'name',
-                      value: 'id',
-                    }}
-                    data={renderedBoardsData}
-                    onSelect={data => {
-                      onChange((data as BoardsType).id);
-                    }}
-                    // onScroll={onHandleFetchBoards}
-                    disabled={!!interview || isLoadingCreateInterview}
-                    placeholder={'Select board'}
-                  />
-                )}
-              />
-              <span className={'validation-error'}>{errors.boardId?.message}</span>
-            </div>
-          </div>
-
-          <div className={'create-interview-modal--content-dropdown'}>
-            <label
-              className={'create-interview-modal--content-input--label'}
-              htmlFor="aiJourneyModelId">
-              Ai Model
-            </label>
-
-            {isLoadingAiModels ? (
-              <Skeleton height={'12.5rem'} />
-            ) : (
-              <SlickCarousel
-                cards={aiModels}
-                renderFunction={card => (
-                  <SliderCard
-                    card={card}
-                    selectedSliderCardId={selectedSliderCardId}
-                    onHandleSelectAiModel={onHandleSelectAiModel}
-                  />
-                )}
-                restSettings={{
-                  slidesToShow: aiModels.length > 5 ? 5 : aiModels.length,
-                }}
-              />
-            )}
-
-            <span className={'validation-error'}>{errors.aiJourneyModelId?.message}</span>
-          </div>
-
-          <div className={`create-interview-modal--content-input`} key={'transcript'}>
-            <label className={'create-interview-modal--content-input--label'} htmlFor="transcript">
-              Transcript
-            </label>
+      <form onSubmit={handleSubmit(onHandleCreateInterview)} id="linkform">
+        <div className={'flex gap-5 w-full'}>
+          <div className={`flex-1`}>
+            <label htmlFor="name">Name</label>
             <Controller
-              name={'text'}
+              name={'name'}
               control={control}
               render={({ field: { onChange, value } }) => (
-                <BaseWuTextarea
-                  data-testid={`create-interview-name-input-test-id`}
-                  placeholder={'Transcript'}
-                  id={'transcript'}
+                <BaseWuInput
+                  data-testid={'create-interview-name-input-test-id'}
+                  placeholder={'Name'}
+                  id={'name'}
                   onChange={onChange}
                   disabled={!!interview || isLoadingCreateInterview}
                   value={value || ''}
-                  rows={6}
                 />
               )}
             />
-            <span className={'validation-error'}>{(errors && errors.text?.message) || ''}</span>
+            <span className={'validation-error'} data-testid={'name-error-test-id'}>
+              {(errors && errors.name?.message) || ''}
+            </span>
           </div>
-        </form>
-      </div>
+          <div className={'flex-1'}>
+            <label htmlFor="name">Board</label>
+            <Controller
+              name={'boardId'}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <BaseWuSelect<BoardsType>
+                  name={'board'}
+                  accessorKey={{
+                    label: 'name',
+                    value: 'id',
+                  }}
+                  data={renderedBoardsData}
+                  onSelect={data => {
+                    onChange((data as BoardsType).id);
+                  }}
+                  onScroll={onHandleFetchBoards}
+                  disabled={!!interview || isLoadingCreateInterview}
+                  placeholder={'Select board'}
+                />
+              )}
+            />
+            <span className={'validation-error'}>{errors.boardId?.message}</span>
+          </div>
+        </div>
+
+        <div className={'mt-[1.25rem]! mb-[1.25rem]!'}>
+          <label htmlFor="aiJourneyModelId">Ai Model</label>
+
+          {isLoadingAiModels ? (
+            <Skeleton height={'12.5rem'} />
+          ) : (
+            <SlickCarousel
+              cards={aiModels}
+              renderFunction={card => (
+                <SliderCard
+                  card={card}
+                  selectedSliderCardId={selectedSliderCardId}
+                  onHandleSelectAiModel={onHandleSelectAiModel}
+                />
+              )}
+              restSettings={{
+                slidesToShow: aiModels.length > 5 ? 5 : aiModels.length,
+              }}
+            />
+          )}
+
+          <span className={'validation-error'}>{errors.aiJourneyModelId?.message}</span>
+        </div>
+
+        <div key={'transcript'}>
+          <label htmlFor="transcript">Transcript</label>
+          <Controller
+            name={'text'}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <BaseWuTextarea
+                data-testid={`create-interview-name-input-test-id`}
+                placeholder={'Transcript'}
+                id={'transcript'}
+                onChange={onChange}
+                disabled={!!interview || isLoadingCreateInterview}
+                value={value || ''}
+                rows={6}
+              />
+            )}
+          />
+          <span className={'validation-error'}>{(errors && errors.text?.message) || ''}</span>
+        </div>
+      </form>
     </BaseWuModal>
   );
 };

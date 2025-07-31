@@ -1,6 +1,5 @@
 import { FC, useCallback, useMemo } from 'react';
 
-import './style.scss';
 import { useNavigate } from '@tanstack/react-router';
 
 import { INTERVIEW_CARD_OPTIONS } from '../../constants';
@@ -32,15 +31,17 @@ const InterviewCard: FC<IInterviewCard> = ({ interview, onHandleView, onHandleDe
   }, [onHandleDelete, onHandleNavigateToMap, onHandleView]);
 
   return (
-    <li className={'interview-card'} data-testid="interview-card-test-id">
-      <div className={'interview-card--menu'}>
-        <BaseWuMenu options={options} />
+    <li
+      className={'group card-borders w-[17.75rem] h-[12.5rem] p-4'}
+      data-testid="interview-card-test-id">
+      <div className={'absolute right-2 top-2 invisible group-hover:visible!'}>
+        <BaseWuMenu options={options} item={interview} />
       </div>
 
-      <p className={'interview-card--name'} data-testid="interview-card-name-test-id">
+      <p className={'reduce-text text-[var(--primary)]'} data-testid="interview-card-name-test-id">
         {interview.name}
       </p>
-      <p className={'interview-card--text'} data-testid="interview-card-text-test-id">
+      <p className={'line-clamp-4 mt-4 text-[0.875rem]'} data-testid="interview-card-text-test-id">
         {interview.text}
       </p>
     </li>

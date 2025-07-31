@@ -1,4 +1,3 @@
-import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
@@ -181,7 +180,7 @@ const InterviewsScreen = () => {
   }
 
   return (
-    <div className={'interviews-container'}>
+    <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
       {isOpenCreateModal ? (
         <CreateInterviewModal
           isOpen={isOpenCreateModal}
@@ -199,47 +198,43 @@ const InterviewsScreen = () => {
           handleClose={onToggleDeleteModal}
         />
       ) : null}
-      <div className={'interviews-container--header'}>
-        <div className={'base-page-header'}>
-          <h3 className={'base-title !text-heading-2'}>Interviews</h3>
-        </div>
-        <div className={'interviews-container--create-section'}>
-          <WuButton data-testid={'create-interview-btn-test-id'} onClick={onToggleCreateModal}>
-            New interview
-          </WuButton>
-          {interviewsDataCount > INTERVIEWS_LIMIT && (
-            <Pagination
-              perPage={INTERVIEWS_LIMIT}
-              currentPage={currentPage}
-              allCount={interviewsDataCount}
-              changePage={onHandleChangePage}
-            />
-          )}
-        </div>
-      </div>
-      <div className={'interviews-container--body'}>
-        {isLoadingInterviews && !renderedInterviewsData.length ? (
-          <BaseWuLoader />
-        ) : (
-          <>
-            {renderedInterviewsData.length ? (
-              <ul className={'interviews-container--body--list'}>
-                {renderedInterviewsData.map(interview => (
-                  <ErrorBoundary key={interview.id}>
-                    <InterviewCard
-                      interview={interview}
-                      onHandleView={onHandleView}
-                      onHandleDelete={onToggleDeleteModal}
-                    />
-                  </ErrorBoundary>
-                ))}
-              </ul>
-            ) : (
-              <EmptyDataInfo message={'There are no interviews yet'} />
-            )}
-          </>
+      <h3 className={'base-title !text-heading-2'}>Interviews</h3>
+
+      <div className={'flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]'}>
+        <WuButton data-testid={'create-interview-btn-test-id'} onClick={onToggleCreateModal}>
+          New interview
+        </WuButton>
+        {interviewsDataCount > INTERVIEWS_LIMIT && (
+          <Pagination
+            perPage={INTERVIEWS_LIMIT}
+            currentPage={currentPage}
+            allCount={interviewsDataCount}
+            changePage={onHandleChangePage}
+          />
         )}
       </div>
+
+      {isLoadingInterviews && !renderedInterviewsData.length ? (
+        <BaseWuLoader />
+      ) : (
+        <>
+          {renderedInterviewsData.length ? (
+            <ul className={'h-[calc(100dvh-21rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'}>
+              {renderedInterviewsData.map(interview => (
+                <ErrorBoundary key={interview.id}>
+                  <InterviewCard
+                    interview={interview}
+                    onHandleView={onHandleView}
+                    onHandleDelete={onToggleDeleteModal}
+                  />
+                </ErrorBoundary>
+              ))}
+            </ul>
+          ) : (
+            <EmptyDataInfo message={'There are no interviews yet'} />
+          )}
+        </>
+      )}
     </div>
   );
 };
