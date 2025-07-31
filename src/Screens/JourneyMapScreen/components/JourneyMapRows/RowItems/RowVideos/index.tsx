@@ -37,7 +37,7 @@ const RowVideos: FC<IRowVideos> = ({ row, disabled }) => {
                   <div
                     className={'row-video-item'}
                     style={{
-                      width: `${boxItem.mergeCount * 17.438 + boxItem.mergeCount - 1}px`,
+                      width: `${boxItem.mergeCount * 279 + boxItem.mergeCount - 1}px`,
                       minWidth: `279px`,
                     }}>
                     <VideoItem
