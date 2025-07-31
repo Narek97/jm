@@ -1,6 +1,5 @@
 import { FC, memo, useCallback, useMemo } from 'react';
 
-import './style.scss';
 import { useNavigate } from '@tanstack/react-router';
 
 import { useCopyPersonaMutation } from '@/api/mutations/generated/copyPersona.generated.ts';
@@ -54,61 +53,57 @@ const PersonaCard: FC<IPersonaCard> = memo(
     }, [onHandleCopy, onHandleNavigate, onToggleDeletePersonaModal]);
 
     return (
-      <>
-        <li
-          className={'persona-card'}
-          onClick={onHandleNavigate}
-          id={persona.id.toString()}
-          data-testid={`persona-card-${persona.id}`}>
-          <div className={'persona-card--menu'}>
-            <BaseWuMenu item={persona} options={options} />
-          </div>
-          <div className={'persona-card--frame-block'}>
-            {persona?.croppedArea ? (
-              <div
-                className={'persona-cropped-image'}
-                style={{ borderColor: persona?.color || '#545e6b' }}>
-                <CropImage
-                  imageSource={`${import.meta.env.VITE_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}
-                  croppedArea={persona?.croppedArea}
-                  CROP_AREA_ASPECT={3 / 3}
-                />
-              </div>
-            ) : (
-              <PersonaImageBox
-                title={''}
-                imageItem={{
-                  color: persona?.color || '',
-                  attachment: {
-                    id: persona?.attachment?.id || 0,
-                    url: persona?.attachment?.url || '',
-                    key: persona?.attachment?.key || '',
-                    croppedArea: persona?.croppedArea,
-                  },
-                }}
-                size={ImageSizeEnum.LG}
+      <li
+        className={'group card-borders w-[17.75rem] h-[17rem] px-4 py-0'}
+        onClick={onHandleNavigate}
+        id={persona.id.toString()}
+        data-testid={`persona-card-${persona.id}`}>
+        <div className={'absolute right-2 top-2 invisible group-hover:visible!'}>
+          <BaseWuMenu item={persona} options={options} />
+        </div>
+        <div className={'flex items-center justify-center h-40'}>
+          {persona?.croppedArea ? (
+            <div
+              className={'persona-cropped-image'}
+              style={{ borderColor: persona?.color || '#545e6b' }}>
+              <CropImage
+                imageSource={`${import.meta.env.VITE_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}
+                croppedArea={persona?.croppedArea}
+                CROP_AREA_ASPECT={3 / 3}
               />
-            )}
-          </div>
-
-          <div className={'persona-card--info'}>
-            <p className={'persona-card--info--name'}>{persona.name}</p>
-            <p className={'persona-card--info--type'}>{persona.type?.toLocaleLowerCase()}</p>
-          </div>
-
-          <div className={'persona-card--footer'}>
-            <div className={'persona-card--footer--journies'}>
-              <span className="wm-map" />
-              <span>
-                {persona.journeys || 0}{' '}
-                {persona.journeys && persona.journeys > 1 ? 'Journeys' : 'Journey'}
-              </span>
             </div>
+          ) : (
+            <PersonaImageBox
+              title={''}
+              imageItem={{
+                color: persona?.color || '',
+                attachment: {
+                  id: persona?.attachment?.id || 0,
+                  url: persona?.attachment?.url || '',
+                  key: persona?.attachment?.key || '',
+                  croppedArea: persona?.croppedArea,
+                },
+              }}
+              size={ImageSizeEnum.LG}
+            />
+          )}
+        </div>
 
-            <div className={'persona-card--emotion'}></div>
-          </div>
-        </li>
-      </>
+        <div>
+          <p className={'reduce-text text-[var(--primary)] font-[var(--font-weight-medium)]'}>
+            {persona.name}
+          </p>
+          <p className={'text-[0.75rem]'}>{persona.type?.toLocaleLowerCase()}</p>
+        </div>
+
+        <div className={'flex items-center gap-1 mt-8! text-xs'}>
+          <span className="wm-map" />
+          <span>
+            {persona.journeys || 0}{' '}
+            {persona.journeys && persona.journeys > 1 ? 'Journeys' : 'Journey'}
+          </span>
+        </div>
+      </li>
     );
   },
 );

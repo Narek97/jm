@@ -1,5 +1,4 @@
 import { lazy, useCallback, useEffect, useMemo, useState } from 'react';
-import './style.scss';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
@@ -169,7 +168,7 @@ const PersonaGroupScreen = () => {
     );
   }
   return (
-    <div className={'persona-group'}>
+    <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
       {selectedPersona && (
         <PersonaDeleteModal
           isOpen={!!selectedPersona.id}
@@ -179,48 +178,47 @@ const PersonaGroupScreen = () => {
         />
       )}
 
-      <div className={'persona-group--header'}>
-        <div className={'base-page-header'}>
-          <h3 className={'base-title !text-heading-2'}>Personas</h3>
-        </div>
-        <div className={'persona-group--create-section'}>
-          <div className={'flex gap-1'}>
-            <WuButton
-              onClick={onHandleCreatePersona}
-              disabled={isLoadingCreatePersona}
-              data-testid={'create-persona-btn-test-id'}>
-              New persona
-            </WuButton>
-            <PersonaAIModal workspaceId={+workspaceId} personaGroupId={+personaGroupId} />
-          </div>
+      <h3 className={'base-title !text-heading-2'}>Personas</h3>
 
-          {personasDataCount > PERSONAS_LIMIT && (
-            <Pagination
-              perPage={PERSONAS_LIMIT}
-              currentPage={currentPage}
-              allCount={personasDataCount}
-              changePage={onHandleChangePage}
-            />
-          )}
+      <div className={'flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]'}>
+        <div className={'flex gap-1'}>
+          <WuButton
+            onClick={onHandleCreatePersona}
+            disabled={isLoadingCreatePersona}
+            data-testid={'create-persona-btn-test-id'}>
+            New persona
+          </WuButton>
+          <PersonaAIModal workspaceId={+workspaceId} personaGroupId={+personaGroupId} />
         </div>
-      </div>
-      <ul className={'persona-group--body'}>
-        {personasData?.length ? (
-          <>
-            {personasData?.map(persona => (
-              <ErrorBoundary key={persona.id}>
-                <PersonaCard
-                  persona={persona}
-                  workspaceId={workspaceId}
-                  onToggleDeletePersonaModal={onToggleDeletePersonaModal}
-                />
-              </ErrorBoundary>
-            ))}
-          </>
-        ) : (
-          <EmptyDataInfo message={'There are no personas yet'} />
+
+        {personasDataCount > PERSONAS_LIMIT && (
+          <Pagination
+            perPage={PERSONAS_LIMIT}
+            currentPage={currentPage}
+            allCount={personasDataCount}
+            changePage={onHandleChangePage}
+          />
         )}
-      </ul>
+      </div>
+
+      {personasData?.length ? (
+        <ul
+          className={
+            'h-[calc(100dvh-16rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'
+          }>
+          {personasData?.map(persona => (
+            <ErrorBoundary key={persona.id}>
+              <PersonaCard
+                persona={persona}
+                workspaceId={workspaceId}
+                onToggleDeletePersonaModal={onToggleDeletePersonaModal}
+              />
+            </ErrorBoundary>
+          ))}
+        </ul>
+      ) : (
+        <EmptyDataInfo message={'There are no personas yet'} />
+      )}
     </div>
   );
 };
