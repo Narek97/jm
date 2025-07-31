@@ -27,6 +27,7 @@ const BaseTabs: FC<IBaseTabs> = ({
   return (
     <>
       <CustomTabs
+        variant={'scrollable'}
         defaultValue={defaultValue}
         onChange={onHandleTabChange}
         orientation={orientation}>

@@ -19,17 +19,27 @@ const getStyle = (value: number | string) => {
 
 const PERFORMANCE_LOGS_TABLE_COLUMNS = ({
   onHandleRowDelete,
+  onHandleRowClick,
 }: TableColumnOptionType<PerformanceLogsType>) => {
   return [
     {
       accessorKey: 'path',
       header: 'Path',
+      cell: ({ cell }: { cell: any }) => {
+        return (
+          <div
+            onClick={() => onHandleRowClick && onHandleRowClick(cell.row.original)}
+            className={`cursor-pointer text-[var(--primary)]`}>
+            {cell.row.original.path}
+          </div>
+        );
+      },
     },
     {
       accessorKey: 'createdAt',
       header: 'Date',
       cell: ({ cell }: { cell: any }) => {
-        return <>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</>;
+        return <div>{dayjs(cell.row.original.createdAt)?.format('YYYY-MM-DD HH:mm:ss')}</div>;
       },
     },
     {

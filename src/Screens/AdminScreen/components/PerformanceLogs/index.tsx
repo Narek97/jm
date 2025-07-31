@@ -78,7 +78,11 @@ const PerformanceLogs = () => {
         />
       )}
 
-      <BaseWuDataTable isLoading={isLoading} columns={columns} data={performanceLogs} />
+      <BaseWuDataTable<PerformanceLogsType>
+        isLoading={isLoading}
+        columns={columns}
+        data={performanceLogs}
+      />
     </div>
   );
 };
