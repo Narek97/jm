@@ -36,7 +36,6 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
         formRef.current.requestSubmit();
       }
     };
-
     return (
       <BaseWuModal
         headerTitle={`${selectedOutcome ? 'Update' : 'New'} ${singularName}`}
@@ -62,7 +61,6 @@ const AddUpdateOutcomeItemModal: FC<IAddUpdateOutcomeItem> = memo(
           selectedOutcome={selectedOutcome}
           create={create}
           update={update}
-          handleClose={handleClose}
           handleChangeIsLoading={() => {
             setIsLoadingCrateUpdate(prev => !prev);
           }}

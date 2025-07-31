@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
 
@@ -272,7 +271,7 @@ const OutcomeScreen = () => {
   }
 
   return (
-    <div className={'outcome-container'}>
+    <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
       {isOpenCreateUpdateModal && (
         <AddUpdateOutcomeItemModal
           isOpen={isOpenCreateUpdateModal}
@@ -286,32 +285,32 @@ const OutcomeScreen = () => {
         />
       )}
 
-      <div className="outcome-container--header">
-        <div className="base-page-header">
-          <h3 className="base-title !text-heading-2">{pluralName}</h3>
-        </div>
-        <div className="outcome-container--create-section">
-          {name && (
-            <WuButton onClick={toggleOpenModal} className="outcome-add-btn">
-              Add new {name}
-            </WuButton>
-          )}
-          {outcomeGroupCount > OUTCOMES_LIMIT && (
-            <Pagination
-              currentPage={currentPage}
-              perPage={OUTCOMES_LIMIT}
-              allCount={outcomeGroupCount}
-              changePage={onHandleChangePage}
-            />
-          )}
-        </div>
+      <h3 className="base-title !text-heading-2">{pluralName}</h3>
+
+      <div className="flex justify-between gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]">
+        {name && (
+          <WuButton
+            Icon={<span className="wm-add" />}
+            onClick={toggleOpenModal}
+            className="outcome-add-btn">
+            Add new {name}
+          </WuButton>
+        )}
+        {outcomeGroupCount > OUTCOMES_LIMIT && (
+          <Pagination
+            currentPage={currentPage}
+            perPage={OUTCOMES_LIMIT}
+            allCount={outcomeGroupCount}
+            changePage={onHandleChangePage}
+          />
+        )}
       </div>
 
       {!isLoadingOutcomesGroup && !outcomesGroup.length && (
         <EmptyDataInfo message={`There are no ${pluralName} yet`} />
       )}
       {outcomesGroup.length > 0 && (
-        <div className="outcome-container--body">
+        <div className="mt-[1.125rem]! h-[calc(100dvh-21rem)]">
           <BaseWuDataTable
             isLoading={isLoadingOutcomesGroup}
             columns={columns}

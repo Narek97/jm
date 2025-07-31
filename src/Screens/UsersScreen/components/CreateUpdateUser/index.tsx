@@ -105,6 +105,7 @@ const CreateUpdateUser: FC<ICreateUpdateUser> = ({
         </div>
       )}
       <WuButton
+        Icon={<span className="wm-add" />}
         data-testid="create-update-item-open-btn-test-id"
         className={`${isOpenCreateUpdateItem ? 'hidden' : 'visible'}`}
         onClick={() => {

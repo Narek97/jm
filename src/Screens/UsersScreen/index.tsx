@@ -150,49 +150,48 @@ const UsersScreen = () => {
     <div className={'h-full !pt-8 !px-16 !pb-[0]'}>
       <h3 className={'base-title !text-heading-2'}>Users</h3>
 
-      <div className={'!mt-8'}>
-        <div className={`flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]`}>
-          <div className={'min-w-[200px]'}>
-            <BaseWuInput
-              isIconInput={true}
-              data-testid="user-search-field-test-id"
-              placeholder={`search user...`}
-              value={searchUserText}
-              onChange={e => onUserSearch(e.target.value)}
-              onKeyDown={event => {
-                if (event.keyCode === 13) {
-                  event.preventDefault();
-                  (event.target as HTMLElement).blur();
-                }
-              }}
-            />
-          </div>
-          <CreateUpdateUser
-            formElements={CREATE_USER_FORM_ELEMENTS}
-            defaultValues={{ firstName: '', lastName: '', emailAddress: '' }}
-            createButtonText={'New user'}
-            inputPlaceholder={''}
-            isDisabledInput={isLoadingCreateUser}
-            isDisabledButton={isLoadingCreateUser}
-            isLoading={isLoadingCreateUser}
-            onToggleCreateUpdateFunction={onToggleCreateUpdate}
-            isOpenCreateUpdateItem={isOpenCreateUser}
-            onHandleCreateFunction={onHandleCreateUser}
-            onHandleUpdateFunction={() => {}}
+      <div className={`flex gap-4 py-4 md:pb-8 border-b border-[var(--light-gray)]`}>
+        <div className={'min-w-[200px]'}>
+          <BaseWuInput
+            isIconInput={true}
+            data-testid="user-search-field-test-id"
+            placeholder={`search user...`}
+            value={searchUserText}
+            onChange={e => onUserSearch(e.target.value)}
+            onKeyDown={event => {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+                (event.target as HTMLElement).blur();
+              }
+            }}
           />
+        </div>
+        <CreateUpdateUser
+          formElements={CREATE_USER_FORM_ELEMENTS}
+          defaultValues={{ firstName: '', lastName: '', emailAddress: '' }}
+          createButtonText={'New user'}
+          inputPlaceholder={''}
+          isDisabledInput={isLoadingCreateUser}
+          isDisabledButton={isLoadingCreateUser}
+          isLoading={isLoadingCreateUser}
+          onToggleCreateUpdateFunction={onToggleCreateUpdate}
+          isOpenCreateUpdateItem={isOpenCreateUser}
+          onHandleCreateFunction={onHandleCreateUser}
+          onHandleUpdateFunction={() => {}}
+        />
 
-          <div className={'flex justify-end flex-1/2'}>
-            {data?.getOrganizationUsers && data?.getOrganizationUsers.count - 1 > USERS_LIMIT && (
-              <Pagination
-                currentPage={currentPage}
-                perPage={USERS_LIMIT}
-                allCount={data?.getOrganizationUsers.count - 1}
-                changePage={onHandleChangePage}
-              />
-            )}
-          </div>
+        <div className={'flex justify-end flex-1/2'}>
+          {data?.getOrganizationUsers && data?.getOrganizationUsers.count - 1 > USERS_LIMIT && (
+            <Pagination
+              currentPage={currentPage}
+              perPage={USERS_LIMIT}
+              allCount={data?.getOrganizationUsers.count - 1}
+              changePage={onHandleChangePage}
+            />
+          )}
         </div>
       </div>
+
       {isPending ? (
         <BaseWuLoader />
       ) : (

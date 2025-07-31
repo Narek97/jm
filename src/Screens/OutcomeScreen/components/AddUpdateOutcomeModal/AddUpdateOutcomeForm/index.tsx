@@ -1,8 +1,7 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 
-import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
+import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -57,7 +56,6 @@ interface IAddUpdateOutcomeFormType {
   } | null;
   create: (data: OutcomeGroupOutcomeType) => void;
   update: (data: OutcomeGroupOutcomeType) => void;
-  handleClose: () => void;
   handleChangeIsLoading?: () => void;
   formRef?: React.RefObject<HTMLFormElement | null>;
 }
@@ -74,7 +72,6 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
     selectedColumnStepId,
     create,
     update,
-    handleClose,
     handleChangeIsLoading,
     formRef,
   }) => {
@@ -420,29 +417,27 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
         data-testid="add-update-outcome-modal-test-id"
         onSubmit={handleSubmit(onHandleSaveOutcome)}
         className={'add-update-outcome-form'}>
-        <div className={'add-update-outcome-form--content'}>
-          <div className={'outcome-field'}>
-            <div className={'outcome-field--content'}>
-              <label className={'element-label'}>Name</label>
-              <div className={'element-input'} data-testid="outcome-name-test-id">
-                <Controller
-                  name={'name'}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <BaseWuInput
-                      id={'outcome-name'}
-                      placeholder={'Text here'}
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
-              </div>
+        <div className={'flex flex-col gap-[1.125rem]'}>
+          <div>
+            <label className="text-[0.75rem]">Name</label>
+            <div data-testid="outcome-name-test-id">
+              <Controller
+                name={'name'}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <BaseWuInput
+                    id={'outcome-name'}
+                    placeholder={'Text here'}
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
             <span className={'validation-error'}>{errors?.name?.message}</span>
           </div>
-          <div className={'outcome-description'} data-testid="outcome-description-test-id">
-            <label className={'element-label'}>Description</label>
+          <div data-testid="outcome-description-test-id">
+            <label className="text-[0.75rem]">Description</label>
             <Controller
               name={'description'}
               control={control}
@@ -457,59 +452,57 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               )}
             />
           </div>
-          <div className={'outcome-field'}>
-            <div className={'outcome-field--content'}>
-              <label className={'element-label'}>Status</label>
-              <div className={'read-only-field'}>
-                {selectedOutcome?.status || OutcomeStatusEnum.Backlog}
-              </div>
+          <div className={'flex items-center justify-center'}>
+            <label className="text-[0.75rem] w-20">Status</label>
+            <div className={'flex-1 text-[0.75rem]'}>
+              {selectedOutcome?.status || OutcomeStatusEnum.Backlog}
             </div>
           </div>
           {level === OutcomeLevelEnum.WORKSPACE && (
-            <div className={'outcome-field'}>
-              <div className={'outcome-field--content'}>
-                <label className={'element-label'}>Maps</label>
-                <div className={'element-input'}>
-                  <Controller
-                    name={'map'}
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <BaseWuSelect<WorkspaceMapsType>
-                        data={maps}
-                        onSelect={data => {
-                          onChange((data as WorkspaceMapsType).id);
-                          if ((data as WorkspaceMapsType).id !== selectedMapId) {
-                            setStages([]);
-                            setSteps([]);
-                            setPersonas([defaultPersonaOption]);
-                            setSelectedMapId((data as WorkspaceMapsType).id);
-                            setValue('stage', null);
-                          }
-                        }}
-                        accessorKey={{
-                          label: 'title',
-                          value: 'id',
-                        }}
-                        name={'map'}
-                        placeholder={'Select'}
-                        // onScroll={onHandleFetch}
-                      />
-                    )}
-                  />
-                </div>
+            <div className={'flex items-center justify-center'}>
+              <label className="text-[0.75rem] w-20">Maps</label>
+              <div className={'flex-1 text-[0.75rem]'}>
+                <Controller
+                  name={'map'}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <BaseWuSelect<WorkspaceMapsType>
+                      data={maps}
+                      defaultValue={maps.find(m => m.id === value)}
+                      onSelect={data => {
+                        onChange((data as WorkspaceMapsType).id);
+                        if ((data as WorkspaceMapsType).id !== selectedMapId) {
+                          setStages([]);
+                          setSteps([]);
+                          setPersonas([defaultPersonaOption]);
+                          setSelectedMapId((data as WorkspaceMapsType).id);
+                          setValue('stage', null);
+                        }
+                      }}
+                      accessorKey={{
+                        label: 'title',
+                        value: 'id',
+                      }}
+                      name={'map'}
+                      placeholder={'Select'}
+                      // onScroll={onHandleFetch}
+                    />
+                  )}
+                />
               </div>
             </div>
           )}
-          <div className={'outcome-field'}>
-            <div className={'outcome-field--content'}>
-              <label className={'element-label'}>Stage</label>
-              <div className={'element-input'}>
+          <div>
+            <div className={'flex items-center justify-center'}>
+              <label className="text-[0.75rem] w-20">Stage</label>
+              <div className={'flex-1 text-[0.75rem]'}>
                 <Controller
                   name={'stage'}
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { onChange, value } }) => (
                     <BaseWuSelect<MapColumnsForOutcomeType>
                       data={stages}
+                      defaultValue={stages.find(s => s.id === value)}
                       onSelect={data => {
                         onChange((data as MapColumnsForOutcomeType).id);
                         if ((data as MapColumnsForOutcomeType).id !== currentColumnId) {
@@ -532,19 +525,21 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               </div>
             </div>
             {errors?.stage?.message && (
-              <span className={'validation-error'}>{errors?.stage?.message}</span>
+              <span className={'validation-error ml-20!'}>{errors?.stage?.message}</span>
             )}
           </div>
-          <div className={'outcome-field'}>
-            <div className={'outcome-field--content'}>
-              <label className={'element-label'}>Steps</label>
-              <div className={'element-input'}>
+
+          <div>
+            <div className={'flex items-center justify-center'}>
+              <label className="text-[0.75rem] w-20">Steps</label>
+              <div className={'flex-1 text-[0.75rem]'}>
                 <Controller
                   name={'step'}
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { onChange, value } }) => (
                     <BaseWuSelect<ColumnStepsType>
                       data={steps}
+                      defaultValue={steps.find(s => s.id === value)}
                       onSelect={data => {
                         onChange((data as ColumnStepsType).id);
                       }}
@@ -562,21 +557,21 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               </div>
             </div>
             {errors?.step?.message && (
-              <span className={'validation-error'}>{errors?.step?.message}</span>
+              <span className={'validation-error ml-20!'}>{errors?.step?.message}</span>
             )}
           </div>
 
-          <div className={'outcome-field'}>
-            <div className={'outcome-field--content'}>
-              <label className={'element-label'}>Personas</label>
-
-              <div className={'element-input'}>
+          <div>
+            <div className={'flex items-center justify-center'}>
+              <label className="text-[0.75rem] w-20">Personas</label>
+              <div className={'flex-1 text-[0.75rem]'}>
                 <Controller
                   name={'persona'}
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { onChange, value } }) => (
                     <BaseWuSelect<MapPersonasForOutcomeType>
                       data={personas}
+                      defaultValue={personas.find(p => p.id === value) || personas[0]}
                       onSelect={data => {
                         onChange((data as MapPersonasForOutcomeType).id);
                         if ((data as MapPersonasForOutcomeType).name === 'Overview') {
@@ -586,7 +581,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
                         }
                       }}
                       accessorKey={{
-                        label: 'title',
+                        label: 'name',
                         value: 'id',
                       }}
                       name={'persona'}
@@ -598,17 +593,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
               </div>
             </div>
             {errors?.step?.message && (
-              <span className={'validation-error'}>{errors?.persona?.message}</span>
+              <span className={'validation-error ml-20!'}>{errors?.persona?.message}</span>
             )}
           </div>
-        </div>
-        <div className={'base-modal-footer'}>
-          <WuButton type={'button'} variant="secondary" onClick={handleClose}>
-            Cancel
-          </WuButton>
-          <WuButton type={'submit'} data-testid="save-outcome-test-id">
-            Save
-          </WuButton>
         </div>
       </form>
     );

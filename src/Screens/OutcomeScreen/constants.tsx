@@ -21,14 +21,14 @@ const OUTCOME_TABLE_COLUMNS = ({
     accessorKey: 'mapName',
     header: 'Map Name',
     cell: ({ cell }: { cell: any }) => {
-      return <>{cell.row.original.map.title} </>;
+      return <>{cell.row.original.map?.title} </>;
     },
   },
   {
     accessorKey: 'column',
     header: 'Stage Name',
     cell: ({ cell }: { cell: any }) => {
-      return <>{cell.row.original.column.label}</>;
+      return <>{cell.row.original.column?.label}</>;
     },
   },
   {
@@ -36,7 +36,13 @@ const OUTCOME_TABLE_COLUMNS = ({
     header: 'Created by',
     enableSorting: true,
     cell: ({ cell }: { cell: any }) => {
-      return <>{cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName} </>;
+      return (
+        <>
+          {cell.row.original.user
+            ? cell.row.original.user.firstName + ' / ' + cell.row.original.user.lastName
+            : '-'}
+        </>
+      );
     },
   },
   {
