@@ -189,7 +189,7 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                       key={personaGroup.id}
                       className={`journeys-filter--container--personas-item`}
                       onClick={() => setPersonaGroupId(personaGroup.id)}>
-                      {personaGroup.name?.trim() || 'Undefined'}
+                      {personaGroup.name?.trim() || 'Untitled'}
                     </li>
                   ))}
                 </ul>
