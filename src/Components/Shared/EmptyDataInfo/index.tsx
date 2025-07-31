@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import './style.scss';
 
 interface IEmptyDataInfo {
   message: string | ReactNode;
@@ -8,9 +7,11 @@ interface IEmptyDataInfo {
 
 const EmptyDataInfo: FC<IEmptyDataInfo> = ({ message, icon }) => {
   return (
-    <div className={'empty-data-info'} data-testid="empty-data-test-id">
-      <div className={'empty-data-info--message'}>{message}</div>
-      <div className={'empty-data-info--icon'}>{icon}</div>
+    <div
+      className={'flex flex-col justify-center items-center w-full mt-5 min-h-[20.625rem]'}
+      data-testid="empty-data-test-id">
+      <div className={'text-lg font-semibold mt-8'}>{message}</div>
+      <div className={'mt-5!'}>{icon}</div>
     </div>
   );
 };

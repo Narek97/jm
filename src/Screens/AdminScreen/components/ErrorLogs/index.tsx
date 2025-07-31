@@ -62,21 +62,19 @@ const ErrorLogs = () => {
   }
 
   return (
-    <div className={`error-logs ${logsDataCount > ERROR_LOGS_LIMIT ? 'with-pagination' : ''}`}>
+    <div className={`h-[calc(100dvh-16rem)] flex flex-col items-end`}>
       {isOpenDeleteModal && (
         <Suspense fallback={''}>
           <ErrorLogDeleteModal handleClose={toggleDeleteModal} isOpen={isOpenDeleteModal} />
         </Suspense>
       )}
       {logsDataCount > ERROR_LOGS_LIMIT && (
-        <div className="logs-pagination">
-          <Pagination
-            perPage={ERROR_LOGS_LIMIT}
-            currentPage={currentPage}
-            allCount={logsDataCount}
-            changePage={onHandleChangePage}
-          />
-        </div>
+        <Pagination
+          perPage={ERROR_LOGS_LIMIT}
+          currentPage={currentPage}
+          allCount={logsDataCount}
+          changePage={onHandleChangePage}
+        />
       )}
       <BaseWuDataTable isLoading={isLoading} columns={columns} data={logsData} />
     </div>

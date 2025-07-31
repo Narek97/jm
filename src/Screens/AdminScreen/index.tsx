@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react';
-import './style.scss';
 
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';

@@ -1,7 +1,5 @@
 import { FC, useMemo, useState } from 'react';
 
-import './style.scss';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useWuShowToast, WuButton, WuToggle } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
@@ -221,7 +219,7 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
   const menuItems = useMemo(
     () =>
       orgsData?.getOrgs.map(org => ({
-        id: org.id,
+        id: org.orgId,
         name: org.name?.trim() || 'Untitled',
       })) || [],
     [orgsData?.getOrgs],
@@ -249,25 +247,22 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
           data-testid={'submit-interview-btn-test-id'}
           disabled={
             isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel || !!uploadProgress
-          }>
+          }
+          onClick={handleSubmit(onHandleSaveLink)}>
           {aiModel ? 'Update' : 'Create'}
         </WuButton>
       }>
-      <div className={'create-update-ai-model-modal'} data-testid={'create-update-ai-model-modal'}>
+      <div data-testid={'create-update-ai-model-modal'}>
         <form
           className={'create-update-ai-model-modal--form'}
           onSubmit={handleSubmit(onHandleSaveLink)}
           id="interviewform">
           {AI_MODEL_FORM_ELEMENTS.map(element => (
-            <div
-              className={`create-update-ai-model-modal--content-input ${element.name}`}
-              key={element.name}>
-              <label
-                className={'create-update-ai-model-modal--content-input--label'}
-                htmlFor="name">
+            <div className={`mb-5!`} key={element.name}>
+              <label className={'mb-2.5!'} htmlFor="name">
                 {element.title}
               </label>
-              <div className={'create-update-ai-model-modal--prompt-info'}>
+              <div className={'italic text-[var(--error)] mb-2.5!'}>
                 {element.name === 'prompt' &&
                   '* please add prompt text before or after the [interview transcript] and never delete it so that the model works as expected.'}
               </div>
@@ -309,10 +304,13 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
             </div>
           ))}
 
-          <div className={'create-update-ai-model-modal--file-upload'}>
+          <div
+            className={
+              'relative h-[8rem] border border-dashed border-[var(--medium-light-gray)] mb-2.5!'
+            }>
             {attachmentUrl && (
               <button
-                className={'create-update-ai-model-modal--delete-file-icon'}
+                className={'absolute top-[1rem] right-[calc(50%-5.5rem)] p-0.5 z-10'}
                 aria-label={'Delete'}
                 onClick={onHandleDelete}>
                 <span className={'wm-delete'} />
@@ -327,29 +325,24 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
                 uploadProgress={uploadProgress}
                 content={
                   selectedImage ? (
-                    <div
+                    <img
                       data-testid={'ai-model-selected-image'}
-                      className={'create-update-ai-model-modal--file-container'}>
-                      <img
-                        src={selectedImage}
-                        alt="Img"
-                        style={{
-                          width: '11.25rem',
-                          height: '5.625rem',
-                        }}
-                      />
-                    </div>
+                      src={selectedImage}
+                      alt="Img"
+                      style={{
+                        width: '11.25rem',
+                        height: '5.625rem',
+                      }}
+                    />
                   ) : attachmentUrl ? (
-                    <div className={'create-update-ai-model-modal--file-container'}>
-                      <img
-                        src={`${import.meta.env.VITE_AWS_URL}/${attachmentUrl}`}
-                        alt="Img"
-                        style={{
-                          width: '11.25rem',
-                          height: '5.625rem',
-                        }}
-                      />
-                    </div>
+                    <img
+                      src={`${import.meta.env.VITE_AWS_URL}/${attachmentUrl}`}
+                      alt="Img"
+                      style={{
+                        width: '11.25rem',
+                        height: '5.625rem',
+                      }}
+                    />
                   ) : (
                     <CustomFileUploader2 title={'Choose image'} />
                   )
@@ -357,23 +350,25 @@ const CreateUpdateAiModelModal: FC<ICreateUpdateAiModelModal> = ({
               />
             </FileUploader>
           </div>
+          <div className={'mb-4!'}>
+            <Controller
+              name={'universal'}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <WuToggle
+                  label="Universal"
+                  labelPosition="left"
+                  id={'universal'}
+                  data-testid={'create-update-ai-model-modal-switch-test-id'}
+                  checked={value}
+                  disabled={isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel}
+                  onChange={onChange}
+                  className="wu-toggle-container wu-toggle-label "
+                />
+              )}
+            />
+          </div>
 
-          <Controller
-            name={'universal'}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <WuToggle
-                label="Universal"
-                labelPosition="left"
-                id={'universal'}
-                data-testid={'create-update-ai-model-modal-switch-test-id'}
-                checked={value}
-                disabled={isLoadingCreateAiJourneyModel || isLoadingUpdateAiJourneyModel}
-                onChange={onChange}
-                className="wu-toggle-container wu-toggle-label"
-              />
-            )}
-          />
           {universal ? null : (
             <>
               {isLoadingOrgsData ? (

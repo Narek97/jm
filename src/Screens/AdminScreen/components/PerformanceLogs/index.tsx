@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import './style.scss';
 
 import {
   GetPerformanceLogsQuery,
@@ -67,7 +66,7 @@ const PerformanceLogs = () => {
   }
 
   return (
-    <div className={`performance-logs`}>
+    <div className={`h-[calc(100dvh-16rem)]`}>
       {isOpenDeleteModal && (
         <PerformanceLogsDeleteModal handleClose={toggleDeleteModal} isOpen={isOpenDeleteModal} />
       )}

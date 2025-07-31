@@ -59,7 +59,7 @@ const CopyMap = () => {
   }
 
   return (
-    <div className={'copy-map'}>
+    <div className={'h-[calc(100dvh-16rem)] flex flex-col items-end'}>
       {orgId && (
         <Suspense fallback={''}>
           <CopyMapModal
@@ -74,14 +74,12 @@ const CopyMap = () => {
         </Suspense>
       )}
 
-      <div className="copy-map--search">
-        <div className="copy-map--search--input">
-          <BaseWuInput
-            isIconInput={true}
-            placeholder={'Search for an map'}
-            onChange={onHandleSearchOrgs}
-          />
-        </div>
+      <div className="mx-0! my-5!">
+        <BaseWuInput
+          isIconInput={true}
+          placeholder={'Search for an map'}
+          onChange={onHandleSearchOrgs}
+        />
       </div>
 
       {isLoadingOrgs ? (

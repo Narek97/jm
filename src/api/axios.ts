@@ -68,6 +68,14 @@ export const axiosRequest =
         return res.data;
       })
       .catch(error => {
+        if (error.response?.data?.errors.length) {
+          throw {
+            message: error.response?.data?.errors[0]?.message,
+            status: error.response.status,
+            query,
+            variables,
+          };
+        }
         if (error.message) {
           throw {
             message: error.message,

@@ -1,4 +1,3 @@
-import './style.scss';
 import { useCallback, useMemo, useState } from 'react';
 
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
@@ -65,17 +64,13 @@ const AiModel = () => {
   );
 
   const onToggleCreateUpdateModal = useCallback((aiModel?: AiModelType | null) => {
-    if (aiModel) {
-      setSelectedAiModel(aiModel);
-      setIsOpenCreateUpdateModal(prev => !prev);
-    }
+    setSelectedAiModel(aiModel || null);
+    setIsOpenCreateUpdateModal(prev => !prev);
   }, []);
 
   const onToggleDeleteModal = useCallback((aiModel?: AiModelType | null) => {
-    if (aiModel) {
-      setSelectedAiModel(aiModel);
-      setIsOpenDeleteModal(prev => !prev);
-    }
+    setSelectedAiModel(aiModel || null);
+    setIsOpenDeleteModal(prev => !prev);
   }, []);
 
   const onHandleAddNewAiModel = useCallback(
@@ -201,7 +196,7 @@ const AiModel = () => {
   }
 
   return (
-    <div className={'ai-model'}>
+    <div className={'h-[calc(100dvh-16rem)]'}>
       {isOpenCreateUpdateModal && (
         <CreateUpdateAiModelModal
           isOpen={isOpenCreateUpdateModal}
@@ -221,8 +216,9 @@ const AiModel = () => {
         />
       ) : null}
 
-      <div className={'ai-model--create-section'}>
+      <div className={'flex justify-between items-center w-full'}>
         <WuButton
+          Icon={<span className="wm-add" />}
           data-testid={'create-ai-model-btn-test-id'}
           onClick={() => onToggleCreateUpdateModal(null)}>
           New Ai model
@@ -242,7 +238,9 @@ const AiModel = () => {
       ) : (
         <>
           {aiJourneyModels.length ? (
-            <div className={'ai-model--list'} data-testid={'ai-model-list'}>
+            <div
+              className={'h-[calc(100dvh-20.625rem)] flex flex-wrap gap-4 mt-5! overflow-auto'}
+              data-testid={'ai-model-list'}>
               {aiJourneyModels.map(aiModel => (
                 <ErrorBoundary key={aiModel.id}>
                   <AiModelCard

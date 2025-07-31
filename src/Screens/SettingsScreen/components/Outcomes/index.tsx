@@ -79,7 +79,7 @@ const Outcomes = () => {
       staleTime: querySlateTime,
     },
   );
-
+  console.log(errorOutcomes, 'errorOutcomes');
   const { isPending: isLoadingCrateOrUpdateOutcome, mutate: createOutcome } =
     useCreateOrUpdateOutcomeGroupMutation<Error, CreateOrUpdateOutcomeGroupMutation>();
 
