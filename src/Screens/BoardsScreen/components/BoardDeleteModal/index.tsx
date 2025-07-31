@@ -71,7 +71,7 @@ const BoardDeleteModal: FC<IBoardDeleteModal> = ({
       }>
       <DeleteModalTemplate
         item={{
-          type: 'Board',
+          type: 'board',
           name: 'board',
         }}
       />

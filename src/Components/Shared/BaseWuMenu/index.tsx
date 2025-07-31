@@ -35,46 +35,51 @@ const BaseWuMenu = <T,>({
   };
 
   return (
-    <WuMenu
-      name={name}
-      Trigger={name ? undefined : trigger}
-      side={side}
-      align={align}
-      disabled={disabled}
-      onOpenChange={isOpen => {
-        if (!isOpen && onCloseFunction) {
-          onCloseFunction();
-        }
-      }}
-      className={`${className} w-[fit-content]`}>
-      {topOptions && (
-        <>
-          {topOptions.map((option, index) => {
-            return (
-              <WuMenuItem
-                className={'cursor-pointer'}
-                key={index}
-                onSelect={() => onHandleSelect(option)}>
-                <>{option.icon}</>
-                <>{option.name}</>
-              </WuMenuItem>
-            );
-          })}
-          <WuMenuSeparatorItem />
-        </>
-      )}
-      {options.map((option, index) => {
-        return (
-          <WuMenuItem
-            className={'cursor-pointer'}
-            key={index}
-            onSelect={() => onHandleSelect(option)}>
-            <>{option.icon}</>
-            <>{option.name}</>
-          </WuMenuItem>
-        );
-      })}
-    </WuMenu>
+    <div
+      onClick={e => {
+        e.stopPropagation();
+      }}>
+      <WuMenu
+        name={name}
+        Trigger={name ? undefined : trigger}
+        side={side}
+        align={align}
+        disabled={disabled}
+        onOpenChange={isOpen => {
+          if (!isOpen && onCloseFunction) {
+            onCloseFunction();
+          }
+        }}
+        className={`${className} w-[fit-content]`}>
+        {topOptions && (
+          <>
+            {topOptions.map((option, index) => {
+              return (
+                <WuMenuItem
+                  className={'cursor-pointer'}
+                  key={index}
+                  onSelect={() => onHandleSelect(option)}>
+                  <>{option.icon}</>
+                  <>{option.name}</>
+                </WuMenuItem>
+              );
+            })}
+            <WuMenuSeparatorItem />
+          </>
+        )}
+        {options.map((option, index) => {
+          return (
+            <WuMenuItem
+              className={'cursor-pointer'}
+              key={index}
+              onSelect={() => onHandleSelect(option)}>
+              <>{option.icon}</>
+              <>{option.name}</>
+            </WuMenuItem>
+          );
+        })}
+      </WuMenu>
+    </div>
   );
 };
 
