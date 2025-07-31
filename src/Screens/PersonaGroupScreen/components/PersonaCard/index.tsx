@@ -64,7 +64,7 @@ const PersonaCard: FC<IPersonaCard> = memo(
         <div className={'flex items-center justify-center h-40'}>
           {persona?.croppedArea ? (
             <div
-              className={'persona-cropped-image'}
+              className={'w-[7rem] h-[7rem] p-1 border-4! border-solid rounded'}
               style={{ borderColor: persona?.color || '#545e6b' }}>
               <CropImage
                 imageSource={`${import.meta.env.VITE_AWS_URL}/${persona?.attachment?.url}/large${persona.attachment?.hasResizedVersions ? getResizedFileName(persona?.attachment?.key, IMAGE_ASPECT) : persona?.attachment?.key}`}

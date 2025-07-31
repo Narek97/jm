@@ -48,7 +48,6 @@ const CropImageModal: FC<ICropImageModal> = memo(
     };
 
     const handleChange = (newValue: number) => {
-      console.log(newValue);
       setZoom(newValue);
     };
 

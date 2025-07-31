@@ -203,15 +203,6 @@ const PersonaScreen = () => {
     [dataPersonaInfo?.getPersonaById, mutatePersona, personaId, setPersona],
   );
 
-  const onHandleUpdateSelectedGalleryItem = useCallback((value: number) => {
-    // todo
-    // personaInfoState &&
-    //   personaInfoState &&
-    //   setPersonaInfoState(() => ({
-    //     ...personaInfoState,
-    //     attachment: { ...personaInfoState.attachment!, id: value },
-    //   }));
-  }, []);
 
   const onHandleChangeDemographicInfo = useCallback(
     (
@@ -455,7 +446,6 @@ const PersonaScreen = () => {
             personaInfo={dataPersonaInfo?.getPersonaById || null}
             demographicInfos={demographicInfos}
             onHandleUpdateInfo={onHandleUpdateInfo}
-            onHandleUpdateSelectedGalleryItem={onHandleUpdateSelectedGalleryItem}
             onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
             onHandleAddNewDemographicInfo={onHandleAddNewDemographicInfo}
             onHandleDeleteDemographicInfo={onHandleDeleteDemographicInfo}

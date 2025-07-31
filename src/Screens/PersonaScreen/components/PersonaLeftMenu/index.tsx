@@ -56,7 +56,6 @@ interface IPersonaLeftMenu {
   personaInfo: PersonaInfoType | null;
   demographicInfos: DemographicInfosType;
   onHandleUpdateInfo: (key: string, value: string) => void;
-  onHandleUpdateSelectedGalleryItem: (id: number) => void;
   onHandleChangeDemographicInfo: (
     demographicInfoId: number,
     value: any,
@@ -80,7 +79,6 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   personaInfo,
   demographicInfos,
   onHandleUpdateInfo,
-  onHandleUpdateSelectedGalleryItem,
   onHandleChangeDemographicInfo,
   onHandleAddNewDemographicInfo,
   onHandleDeleteDemographicInfo,
@@ -142,29 +140,6 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
     [onHandleChangeDemographicInfo],
   );
 
-  const updateGallery = useCallback(
-    (data: AttachmentType) => {
-      const itemId = currentUpdatedImageComponent.itemId;
-      switch (currentUpdatedImageComponent.type) {
-        case 'avatar':
-          onHandleUpdateSelectedGalleryItem(data.id);
-          break;
-        case 'personaField':
-          if (itemId) {
-            onHandleUpdateSectionItemAttachment(data, itemId);
-            onHandleToggleGalleryModal();
-          }
-          break;
-      }
-    },
-    [
-      currentUpdatedImageComponent.itemId,
-      currentUpdatedImageComponent.type,
-      onHandleUpdateSectionItemAttachment,
-      onHandleUpdateSelectedGalleryItem,
-    ],
-  );
-
   const onHandleChangeAvatar = useCallback(
     (data: AttachmentType, croppedArea?: CroppedAreaType): Promise<void> => {
       return new Promise(resolve => {
@@ -174,17 +149,25 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             setAvatarKey(source);
             setAvatarCroppedArea(croppedArea || data.croppedArea || null);
             break;
-          case 'personaField':
+          case 'personaField': {
+            const itemId = currentUpdatedImageComponent.itemId;
+            if (itemId) {
+              onHandleUpdateSectionItemAttachment({ ...data, croppedArea }, itemId);
+            }
             onHandleToggleGalleryModal();
-            updateGallery({ ...data, croppedArea });
             break;
+          }
         }
         setTimeout(() => {
           resolve();
         }, 1500);
       });
     },
-    [currentUpdatedImageComponent.type, updateGallery],
+    [
+      currentUpdatedImageComponent?.itemId,
+      currentUpdatedImageComponent?.type,
+      onHandleUpdateSectionItemAttachment,
+    ],
   );
 
   const onHandleToggleGalleryModal = () => {
