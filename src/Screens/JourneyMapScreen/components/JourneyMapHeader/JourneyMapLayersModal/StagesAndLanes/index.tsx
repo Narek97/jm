@@ -152,7 +152,7 @@ const StagesAndLanes: FC<IJourneyMapLayersModal & { ref: any }> = forwardRef(
         ) : (
           <>
             <Stages
-              mapId={mapId}
+              mapId={+mapId}
               ref={stagesRef}
               handleUpdateIsComponentRendered={() => {
                 setIsReady(true);

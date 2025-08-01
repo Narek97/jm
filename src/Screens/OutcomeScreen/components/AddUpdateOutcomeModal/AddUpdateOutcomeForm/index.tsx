@@ -56,8 +56,9 @@ interface IAddUpdateOutcomeFormType {
   } | null;
   create: (data: OutcomeGroupOutcomeType) => void;
   update: (data: OutcomeGroupOutcomeType) => void;
-  handleChangeIsLoading?: () => void;
   formRef?: React.RefObject<HTMLFormElement | null>;
+  handleChangeIsLoading?: () => void;
+  handleClose?: () => void;
 }
 
 const defaultPersonaOption = { id: 0, name: 'Overview', value: 'Overview' };
@@ -72,8 +73,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
     selectedColumnStepId,
     create,
     update,
-    handleChangeIsLoading,
     formRef,
+    handleChangeIsLoading,
+    handleClose,
   }) => {
     const { user } = useUserStore();
     const { showToast } = useWuShowToast();
@@ -319,6 +321,9 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
           },
           {
             onSuccess: response => {
+              if (handleClose) {
+                handleClose();
+              }
               if (handleChangeIsLoading) {
                 handleChangeIsLoading();
               }
@@ -351,20 +356,7 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
           },
         );
       },
-      [
-        selectedOutcome,
-        handleChangeIsLoading,
-        creatUpdateOutcome,
-        defaultMapId,
-        outcomeGroupId,
-        workspaceId,
-        selectedJourneyMapPersona?.id,
-        update,
-        user?.firstName,
-        user?.lastName,
-        create,
-        showToast,
-      ],
+      [selectedOutcome, handleChangeIsLoading, creatUpdateOutcome, defaultMapId, outcomeGroupId, workspaceId, selectedJourneyMapPersona?.id, handleClose, update, user?.firstName, user?.lastName, create, showToast],
     );
 
     useEffect(() => {

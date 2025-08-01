@@ -210,7 +210,7 @@ const PersonaGroupScreen = () => {
             <ErrorBoundary key={persona.id}>
               <PersonaCard
                 persona={persona}
-                workspaceId={workspaceId}
+                workspaceId={+workspaceId}
                 onToggleDeletePersonaModal={onToggleDeletePersonaModal}
               />
             </ErrorBoundary>

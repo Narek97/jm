@@ -4,18 +4,21 @@ import path from 'path';
 
 import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
     tailwindcss(),
     tanstackRouter({
+      target: 'react',
+      autoCodeSplitting: true,
       routesDirectory: './src/routes',
       generatedRouteTree: './src/routeTree.gen.ts',
     }),
+    react(),
   ],
   optimizeDeps: {
     include: ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],

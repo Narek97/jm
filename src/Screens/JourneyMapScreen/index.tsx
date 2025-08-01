@@ -751,7 +751,7 @@ const JourneyMapScreen = ({ isGuest }: { isGuest: boolean }) => {
       <JourneyMapFooter
         isGuest={isGuest}
         workspaceId={dataBoardById?.getBoardById.workspace.id}
-        mapId={mapId}
+        mapId={+mapId}
       />
     </>
   );

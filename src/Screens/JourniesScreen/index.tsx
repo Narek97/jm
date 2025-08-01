@@ -61,6 +61,10 @@ const CopyMapModal = lazy(
   () => import('@/Screens/AdminScreen/components/CopyMap/components/CopyMapModal/index.tsx'),
 );
 
+interface JourniesSearchParams {
+  tab?: string;
+}
+
 dayjs.extend(fromNow);
 
 const JourniesScreen = () => {
@@ -76,7 +80,7 @@ const JourniesScreen = () => {
   const { showToast } = useWuShowToast();
   const { setCopyMapState } = useCopyMapStore();
 
-  const { tab = 'list' } = JourniesRoute.useSearch();
+  const { tab = 'list' } = JourniesRoute.useSearch() as JourniesSearchParams;
 
   const { user } = useUserStore();
 
@@ -430,7 +434,7 @@ const JourniesScreen = () => {
               level={CopyMapLevelEnum.WORKSPACE}
               isOpen={isOpenCopyPasteMapModal}
               handleClose={onToggleMapCopyModal}
-              currentBoardId={boardId}
+              currentBoardId={+boardId}
               handleOnSuccess={handleCopySuccess}
             />
           </Suspense>
@@ -533,7 +537,7 @@ const JourniesScreen = () => {
                 {tab === 'grid' ? (
                   <>
                     <SortableJourneys
-                      boardId={boardId}
+                      boardId={+boardId}
                       currentPage={currentPage}
                       maps={journeysData}
                       options={options}

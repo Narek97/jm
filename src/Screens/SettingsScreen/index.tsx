@@ -6,9 +6,13 @@ import { SettingsRoute } from '@/routes/_authenticated/_primary-sidebar-layout/s
 import { SETTINGS_TAB_PANELS, SETTINGS_TABS } from '@/Screens/SettingsScreen/constants.tsx';
 import { SearchParamsType, TabType } from '@/types';
 
+interface SettingsSearchParams {
+  tab?: string;
+}
+
 const SettingsScreen = () => {
   const { t } = useTranslation();
-  const { tab = 'outcomes' } = SettingsRoute.useSearch();
+  const { tab = 'outcomes' } = SettingsRoute.useSearch() as SettingsSearchParams;
   const navigate = useNavigate();
 
   const activeTab = SETTINGS_TABS.findIndex(t => t.value === tab) || 0;

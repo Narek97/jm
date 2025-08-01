@@ -16,10 +16,14 @@ const SuperAdmin = lazy(() => import('./components/SuperAdmin'));
 const CopyMap = lazy(() => import('./components/CopyMap'));
 const AiModel = lazy(() => import('./components/AiModel'));
 
+interface AdminSearchParams {
+  tab?: string;
+}
+
 const AdminScreen = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { tab = 'error-logs' } = AdminRoute.useSearch();
+  const { tab = 'error-logs' } = AdminRoute.useSearch() as AdminSearchParams;
   const { user } = useUserStore();
 
   const onSelectTab = (tab: TabType) => {

@@ -435,7 +435,7 @@ const PersonaScreen = () => {
       <PersonaHeader
         personaInfo={dataPersonaInfo?.getPersonaById || null}
         isLoadingPersonaSection={isLoadingPersonaSection}
-        workspaceId={workspaceId}
+        workspaceId={+workspaceId}
         onHandleUpdateInfo={onHandleUpdateInfo}
         onHandleAddSection={onHandleAddSection}
       />

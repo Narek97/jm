@@ -185,7 +185,7 @@ const InterviewsScreen = () => {
         <CreateInterviewModal
           isOpen={isOpenCreateModal}
           interview={selectedInterview}
-          workspaceId={workspaceId}
+          workspaceId={+workspaceId}
           onHandleAddNewInterview={onHandleAddNewInterview}
           handleClose={onToggleCreateModal}
         />

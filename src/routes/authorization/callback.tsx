@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { redirect, useNavigate, createFileRoute } from '@tanstack/react-router';
+import { useNavigate, createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
 
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
@@ -18,29 +18,21 @@ export const Route = createFileRoute('/authorization/callback')({
 
     // Check if code is missing
     if (!code) {
-      throw redirect({
-        to: '/error',
-        search: { message: 'Authorization code is missing' },
-        replace: true,
-      });
-    }
+      window.location.href = `${import.meta.env.VITE_AUTHORIZATION_URL}/?state=null&redirect_uri=${import.meta.env.VITE_CALLBACK_URL}&response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}`;
+    } else {
+      try {
+        // Make the API call to generate the token
+        const response = await axios.get<TokenResponse>(
+          `${import.meta.env.VITE_API_URL}/auth/generate-token?code=${encodeURIComponent(code)}`,
+        );
 
-    try {
-      // Make the API call to generate the token
-      const response = await axios.get<TokenResponse>(
-        `${import.meta.env.VITE_API_URL}/auth/generate-token?code=${encodeURIComponent(code)}`,
-      );
-
-      // Set the token in a cookie
-      setCookie(TOKEN_NAME, response.data.access_token);
-    } catch (error) {
-      console.error(error, 'Error generating token');
-      // Handle API errors by redirecting to an error page
-      throw redirect({
-        to: '/error',
-        search: { message: 'Failed to generate token' },
-        replace: true,
-      });
+        // Set the token in a cookie
+        setCookie(TOKEN_NAME, response.data.access_token);
+      } catch (error) {
+        console.error(error, 'Error generating token');
+        // Handle API errors by redirecting to an error page
+        window.location.href = `${import.meta.env.VITE_AUTHORIZATION_URL}/?state=null&redirect_uri=${import.meta.env.VITE_CALLBACK_URL}&response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}`;
+      }
     }
   },
   component: RouteComponent,
