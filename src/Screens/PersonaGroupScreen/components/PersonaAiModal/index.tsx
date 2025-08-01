@@ -1,6 +1,5 @@
-import { FC } from 'react';
+import { FC, useRef, useState } from 'react';
 
-import './style.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   WuIcon,
@@ -17,6 +16,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import DemographicInfo from './DemographicInfo';
 import InfoIcon from './InfoIcon';
+import ProgressBar from './ProgressBar';
 import TemplateCards from './TemplateCards';
 
 import { useCreatePersonaByAiMutation } from '@/api/mutations/generated/createPersonaByAI.generated';
@@ -32,6 +32,9 @@ interface IPersonaAIModal {
 const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) => {
   const navigate = useNavigate();
   const { showToast } = useWuShowToast();
+  const [showProgressBar, setShowProgressBar] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const progressRef = useRef<NodeJS.Timeout | null>(null);
 
   const {
     control,
@@ -48,11 +51,20 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
 
   const { mutate, isPending } = useCreatePersonaByAiMutation<Error, CreatePersonaByAiMutation>({
     onSuccess: response => {
+      if (progressRef.current) {
+        clearInterval(progressRef.current);
+      }
+      setGenerationProgress(100);
       navigate({
         to: `/workspace/${workspaceId}/persona/${response.createPersonaByAi}`,
       }).then();
     },
     onError: () => {
+      if (progressRef.current) {
+        clearInterval(progressRef.current);
+      }
+      setShowProgressBar(false);
+      setGenerationProgress(0);
       showToast({
         message: 'Failed to create AI persona.',
         variant: 'error',
@@ -70,6 +82,19 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
       variant: 'info',
       message: 'AI  persona creation is in progress. It may take a few seconds.',
     });
+    const hasImageGeneration = data.templateCards.includes(AiCardsEnum.ProfilePicture);
+    const intervalSpeed = hasImageGeneration ? 2500 : 400;
+
+    setShowProgressBar(true);
+    setGenerationProgress(0);
+
+    progressRef.current = setInterval(() => {
+      setGenerationProgress(prev => {
+        if (prev >= 90) return prev;
+        return prev + Math.floor(Math.random() * 5) + 1;
+      });
+    }, intervalSpeed);
+
     mutate({
       createPersonaByAiInput: {
         ...data,
@@ -91,14 +116,17 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
       }>
       <WuModalHeader data-testid="modal-header-title-test-id">QuestionPro AI</WuModalHeader>
       <WuModalContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="ai-container">
-          <div className="ai-container--header">
-            <div className="ai-container--info">
-              <WuIcon icon="wc-ai" />
-              <h4>QuestionPro AI</h4>
+        {showProgressBar && <ProgressBar generationProgress={generationProgress} />}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="relative !px-8 !py-4 transition-opacity duration-300 ease-in-out [&.blurred]:opacity-40 [&.blurred]:pointer-events-none">
+          <div className="!mb-4">
+            <div className="flex items-center">
+              <WuIcon icon="wc-ai" className="text-[2rem] !mr-1" />
+              <h4 className="text-md !mr-4 font-semibold">QuestionPro AI</h4>
               <InfoIcon />
             </div>
-            <p>Define the context of the user persona</p>
+            <p className="!ml-9">Define the context of the user persona</p>
           </div>
           <Controller
             control={control}
@@ -109,7 +137,7 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
                 data-testid={'ai-user-input'}
                 placeholder="Type persona content"
                 variant="flat"
-                className="ai-container--user-input"
+                className="w-full p-3 min-h-24 max-h-24 max-w-[43.25rem]"
               />
             )}
           />
@@ -128,7 +156,7 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
             )}
           />
 
-          <div className="ai-container--demographic-create-section">
+          <div className="flex items-center justify-between !mt-6">
             <Controller
               control={control}
               name="needDemographicData"
@@ -150,7 +178,7 @@ const PersonaAIModal: FC<IPersonaAIModal> = ({ personaGroupId, workspaceId }) =>
         </form>
       </WuModalContent>
       <WuModalFooter>
-        <span className="ai-persona-footer">
+        <span className="text-xs">
           QuestionPro AI may make mistakes. Your organization's data is not used to train AI models.
         </span>
       </WuModalFooter>

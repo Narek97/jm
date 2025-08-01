@@ -219,7 +219,10 @@ const InterviewsScreen = () => {
       ) : (
         <>
           {renderedInterviewsData.length ? (
-            <ul className={'h-[calc(100dvh-21rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'}>
+            <ul
+              className={
+                'h-[calc(100dvh-21rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'
+              }>
               {renderedInterviewsData.map(interview => (
                 <ErrorBoundary key={interview.id}>
                   <InterviewCard
