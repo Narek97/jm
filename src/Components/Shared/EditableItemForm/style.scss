@@ -11,6 +11,11 @@
     gap: 1rem;
     transition: 0.3s;
     overflow: hidden;
+    .editable-input--max-length {
+      @include flex-center-center;
+      min-width: 3.5rem;
+      position: inherit;
+    }
   }
 
   &--open-content {

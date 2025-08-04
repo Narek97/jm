@@ -307,6 +307,7 @@ const BoardsScreen = () => {
             value={''}
             isLoading={isLoadingCreateBoard}
             onHandleCreate={onHandleCreateBoard}
+            maxLength={100}
           />
           {boardsDataCount > BOARDS_LIMIT && (
             <Pagination
