@@ -46,7 +46,7 @@ const BoardCard: FC<IBoardCard> = ({
 
   return (
     <div
-      className="board-card"
+      className="board-card group"
       data-testid={`board-card-${board?.id}`}
       onClick={onNavigateWhiteboardPage}>
       <DragHandle {...sortableAttributes} {...sortableListeners} />
