@@ -1,8 +1,6 @@
 import { FC, useEffect, useRef } from 'react';
 
-import './style.scss';
-
-import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
+import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
 import BaseWuInput from '@/Components/Shared/BaseWuInput';
 import BaseWuMenu from '@/Components/Shared/BaseWuMenu';
@@ -42,7 +40,6 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
   options,
 }) => {
   const ref = useRef<HTMLInputElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const fieldConfigs: Record<string, FieldConfig> = {
     Age: {
@@ -56,6 +53,8 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
     },
   };
 
+  const isDisable = selectedDemographicInfoId !== demographicInfo.id || demographicInfo.isHidden!;
+
   useEffect(() => {
     if (selectedDemographicInfoId === demographicInfo.id) {
       ref.current?.focus();
@@ -63,45 +62,41 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
   }, [demographicInfo.id, selectedDemographicInfoId]);
 
   return (
-    <div
-      className={`demographic-info-item ${demographicInfo.isHidden ? 'hidden-demographic-info-item' : ''}`}
-      data-testid={`demographic-info-item-${index}-test-id`}>
-      <div className={'demographic-info-item--key-section'}>
+    <div data-testid={`demographic-info-item-${index}-test-id`} className={'group'}>
+      <div className={'opacity-60 w-full min-h-8 flex items-center justify-between gap-4 text-xs'}>
         {demographicInfo.isDefault ? (
-          <p className={'demographic-info-item--key-section-content'}>{demographicInfo.key}</p>
+          <p>{demographicInfo.key}</p>
         ) : (
-          <div className={'demographic-info-item--options-block'}>
-            <BaseWuInput
-              disabled={
-                selectedDemographicInfoId !== demographicInfo.id || demographicInfo.isHidden!
-              }
-              inputRef={ref}
-              placeholder={'label'}
-              value={demographicInfo.key}
-              style={{
-                background: 'none',
-                opacity: demographicInfo.isHidden ? 0.5 : 1,
-              }}
-              onBlur={onHandleRemoveSelectedDemographicInfoId}
-              onChange={e =>
-                onHandleChangeDemographicInfo(
-                  demographicInfo.id,
-                  e.target.value,
-                  'key',
-                  PersonaFieldCategoryTypeEnum.DEMOGRAPHIC_INFO_FIELDS,
-                )
-              }
-            />
-          </div>
+          <BaseWuInput
+            className={`${isDisable ? 'border-none' : ''}`}
+            disabled={isDisable}
+            inputRef={ref}
+            placeholder={'label'}
+            value={demographicInfo.key}
+            style={{
+              background: 'none',
+              opacity: demographicInfo.isHidden ? 0.5 : 1,
+            }}
+            onBlur={onHandleRemoveSelectedDemographicInfoId}
+            onChange={e =>
+              onHandleChangeDemographicInfo(
+                demographicInfo.id,
+                e.target.value,
+                'key',
+                PersonaFieldCategoryTypeEnum.DEMOGRAPHIC_INFO_FIELDS,
+              )
+            }
+          />
         )}
-        <div className={'demographic-info-item--key-section-actions'}>
+        <div className={'flex gap-[1rem] invisible group-hover:visible!'}>
           <WuTooltip
             className="wu-tooltip-content"
             content={`${demographicInfo.isHidden ? 'Show' : 'Hide'} demographic`}
             dir="ltr"
             duration={200}
             position="bottom">
-            <button
+            <WuButton
+              variant="iconOnly"
               onClick={() => {
                 onHandleChangeDemographicInfo(
                   demographicInfo.id,
@@ -114,18 +109,23 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
               data-testid={`item-${demographicInfo.id}-hide-show`}>
               {demographicInfo.isHidden ? (
                 <span
-                  className={'wm-eye-tracking'}
+                  className={'wm-visibility-off'}
                   data-testid={`pin-persona-info-${index}-eye-test-id`}
                 />
               ) : (
                 <span
-                  className={'wm-eye-tracking'}
+                  className={'wm-visibility'}
                   data-testid={`pin-persona-info-${index}-close-eye-test-id`}
                 />
               )}
-            </button>
+            </WuButton>
           </WuTooltip>
           <BaseWuMenu
+            trigger={
+              <WuButton variant="iconOnly">
+                <span className={'wm-more-vert cursor-pointer'} />
+              </WuButton>
+            }
             item={demographicInfo}
             options={
               !demographicInfo.isDefault ? options : options.filter(itm => itm.name !== 'Edit')
@@ -164,7 +164,6 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
             type={demographicInfo.type === 'TEXT' ? 'text' : 'number'}
             placeholder={'type here...'}
             min={0}
-            inputRef={inputRef}
             value={demographicInfo.value || ''}
             data-testid={`${demographicInfo.id}-test-id`}
             onChange={e => {

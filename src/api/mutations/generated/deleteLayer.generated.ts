@@ -6,7 +6,10 @@ export type DeleteLayerMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteLayerMutation = { __typename?: 'Mutation'; deleteLayer: number };
+
+export type DeleteLayerMutation = { __typename?: 'Mutation', deleteLayer: number };
+
+
 
 export const DeleteLayerDocument = `
     mutation DeleteLayer($id: Int!) {
@@ -14,16 +17,17 @@ export const DeleteLayerDocument = `
 }
     `;
 
-export const useDeleteLayerMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<DeleteLayerMutation, TError, DeleteLayerMutationVariables, TContext>,
-) => {
-  return useMutation<DeleteLayerMutation, TError, DeleteLayerMutationVariables, TContext>({
+export const useDeleteLayerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteLayerMutation, TError, DeleteLayerMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteLayerMutation, TError, DeleteLayerMutationVariables, TContext>(
+      {
     mutationKey: ['DeleteLayer'],
-    mutationFn: axiosRequest<DeleteLayerMutation, DeleteLayerMutationVariables>(
-      DeleteLayerDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<DeleteLayerMutation, DeleteLayerMutationVariables>(DeleteLayerDocument),
+    ...options
+  }
+    )};
 
 useDeleteLayerMutation.getKey = () => ['DeleteLayer'];

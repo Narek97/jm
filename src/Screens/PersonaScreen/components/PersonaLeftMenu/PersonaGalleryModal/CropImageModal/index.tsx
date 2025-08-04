@@ -1,6 +1,5 @@
 import { FC, memo, useCallback, useState } from 'react';
 
-import './style.scss';
 import { WuButton } from '@npm-questionpro/wick-ui-lib';
 import Cropper from 'react-easy-crop';
 
@@ -82,45 +81,43 @@ const CropImageModal: FC<ICropImageModal> = memo(
             {mode === ActionEnum.Add ? 'Upload' : 'Update'}
           </WuButton>
         }>
-        <div className="persona-image-card-cropper-modal">
-          <div className="persona-image-card-cropper-modal--content">
-            <div className="image-card-cropper">
-              <Cropper
-                minZoom={1}
-                maxZoom={7}
-                image={imageFile}
-                aspect={CROP_AREA_ASPECT}
-                crop={crop}
-                zoom={zoom}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-              />
-            </div>
-            <div className="controls">
-              <button
-                data-testid={'zoom-out'}
-                className={'zoom-out-btn'}
-                onClick={() => zoomInAndOut('out')}>
-                <span className={'wm-chrome-minimize'} />
-              </button>
-              <CustomSlider
-                value={zoom}
-                onChange={handleChange}
-                min={1}
-                max={7}
-                step={0.01}
-                valueLabelFormat={valueLabelFormat}
-              />
-              <button
-                data-testid={'zoom-in'}
-                className={'zoom-in-btn'}
-                onClick={() => zoomInAndOut('in')}>
-                <span className={'wm-add'} />
-              </button>
-            </div>
+        <>
+          <div className="relative h-[25rem] w-full">
+            <Cropper
+              minZoom={1}
+              maxZoom={7}
+              image={imageFile}
+              aspect={CROP_AREA_ASPECT}
+              crop={crop}
+              zoom={zoom}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
           </div>
-        </div>
+          <div className="my-4 text-center flex items-center justify-center p-0.5 gap-3">
+            <button
+              data-testid={'zoom-out'}
+              className={'zoom-out-btn'}
+              onClick={() => zoomInAndOut('out')}>
+              <span className={'wm-chrome-minimize'} />
+            </button>
+            <CustomSlider
+              value={zoom}
+              onChange={handleChange}
+              min={1}
+              max={7}
+              step={0.01}
+              valueLabelFormat={valueLabelFormat}
+            />
+            <button
+              data-testid={'zoom-in'}
+              className={'zoom-in-btn'}
+              onClick={() => zoomInAndOut('in')}>
+              <span className={'wm-add'} />
+            </button>
+          </div>
+        </>
       </BaseWuModal>
     );
   },

@@ -29,7 +29,14 @@ const CustomFileUploader = ({
             content
           ) : (
             <>
-              {icon || <span className={'wm-image'} />}
+              {icon || (
+                <span
+                  className={'wm-image'}
+                  style={{
+                    fontSize: '32px',
+                  }}
+                />
+              )}
               {showText && <p className={'upload-text'}>Add picture</p>}
             </>
           )}

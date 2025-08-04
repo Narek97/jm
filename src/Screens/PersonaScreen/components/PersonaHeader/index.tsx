@@ -1,6 +1,5 @@
 import { FC, useCallback, useState } from 'react';
 
-import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 
@@ -84,7 +83,10 @@ const PersonaHeader: FC<IPersonaHeader> = ({
   };
 
   return (
-    <div className={'persona-header'}>
+    <div
+      className={
+        'flex items-center justify-between px-5 py-0 h-12 border-b border-solid border-[var(--medium-light-gray)]'
+      }>
       {isOpenSelectedPersonasModal && (
         <PersonaContainsJourneysModal
           personaId={personaInfo?.id as number}
@@ -92,11 +94,11 @@ const PersonaHeader: FC<IPersonaHeader> = ({
           handleClose={toggleJourneysModal}
         />
       )}
-      <div className={'persona-header--left-block'}>
-        <button
-          aria-label={'Back'}
-          className={'persona-header--go-back-btn'}
-          onClick={onHandleGoBack}>
+      <div
+        className={
+          'flex items-center justify-center gap-4 text-2xl flex-1 mr-4 w-[calc(100%-18rem)]'
+        }>
+        <button aria-label={'Back'} onClick={onHandleGoBack}>
           <span
             className={'wm-arrow-back'}
             style={{
@@ -109,6 +111,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
           type="text"
           autoFocus={true}
           placeholder={'name...'}
+          className={'text-[1.5rem] bg-transparent'}
           value={personaInfo?.name}
           onChange={e => {
             onHandleUpdateInfo('name', e.target.value);
@@ -122,7 +125,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
           }}
         />
       </div>
-      <div className={'persona-header--right-block'}>
+      <div className={'flex items-center justify-center gap-4'}>
         {journeysCount > 0 && (
           <WuButton
             Icon={
@@ -148,7 +151,7 @@ const PersonaHeader: FC<IPersonaHeader> = ({
           data-testid={'add-section-test-id'}
           aria-label={'add section'}
           onClick={() => onHandleAddSection(null)}
-          variant={'secondary'}
+          variant={'outline'}
           disabled={isLoadingPersonaSection}>
           Add card
         </WuButton>

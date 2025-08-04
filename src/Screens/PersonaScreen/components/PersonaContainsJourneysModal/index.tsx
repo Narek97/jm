@@ -1,6 +1,5 @@
 import React, { FC, useMemo, useRef } from 'react';
 
-import './style.scss';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
@@ -109,56 +108,54 @@ const PersonaContainsJourneysModal: FC<IAssignPersonaToMapModal> = ({
       canCloseWithOutsideClick={!mapsDataIsLoading}
       modalSize={'md'}
       isProcessing={mapsDataIsLoading}>
-      <div className={'journeys-contains-current-maps'}>
-        <div className={'journeys-contains-current-maps--content'}>
+      <>
+        <div
+          className={
+            'h-[22.5rem] p-4 mb-4 overflow-x-auto border-b border-solid border-[var(--medium-light-gray)]'
+          }
+          onScroll={e => onHandleFetch(e, childRef.current?.offsetHeight || 0)}>
           {mapsDataIsLoading && !renderedMaps?.length ? (
-            <div className={'journeys-contains-current-maps-loading-section'}>
-              <BaseWuLoader />
-            </div>
+            <BaseWuLoader />
           ) : (
             <>
               {renderedMaps?.length ? (
-                <div
-                  className={'journeys-contains-current-maps--content-journeys'}
-                  onScroll={e => onHandleFetch(e, childRef.current?.offsetHeight || 0)}>
-                  <ul data-testid={'maps-ul-list'} ref={childRef}>
-                    {renderedMaps?.map(itm => (
-                      <ErrorBoundary key={itm?.id}>
-                        <li
-                          data-testid="journey-item-test-id"
-                          className={`journeys-contains-current-maps--content-journeys-item`}
-                          onClick={() => handleOpenPersona(itm?.id, itm.boardId)}>
-                          <div className="journeys-contains-current-maps--content-journeys-item--left">
-                            <div className={'persona-text-info'}>
-                              <WuTooltip content={itm?.title} position="bottom" showArrow>
-                                <div className={'persona-text-info--title'}>{itm?.title}</div>
-                              </WuTooltip>
-                              <div className={'persona-text-info--dates'}>
-                                <div>Created at {dayjs(itm?.createdAt).format('MMM D, YYYY')}</div>
-                                <div>
-                                  Last Updated {dayjs(itm?.updatedAt).format('MMM D, YYYY')}
-                                </div>
+                <ul data-testid={'maps-ul-list'} ref={childRef}>
+                  {renderedMaps?.map(itm => (
+                    <ErrorBoundary key={itm?.id}>
+                      <li
+                        data-testid="journey-item-test-id"
+                        className={`card-borders mb-4! px-3 py-2 flex justify-between items-end`}
+                        onClick={() => handleOpenPersona(itm?.id, itm.boardId)}>
+                        <div className="w-1/2">
+                          <div className={'persona-text-info'}>
+                            <WuTooltip content={itm?.title} position="bottom" showArrow>
+                              <div className={'reduce-text text-[var(--primary)] mb-4!'}>
+                                {itm?.title}
                               </div>
+                            </WuTooltip>
+                            <div className={'text-[0.75rem]'}>
+                              <div>Created at {dayjs(itm?.createdAt).format('MMM D, YYYY')}</div>
+                              <div>Last Updated {dayjs(itm?.updatedAt).format('MMM D, YYYY')}</div>
                             </div>
                           </div>
-                          <PersonaImages
-                            mapId={itm.id}
-                            disableDisconnect={true}
-                            viewMode={SelectedPersonasViewModeEnum.MAP}
-                            personas={itm.selectedPersonas as PersonaType[]}
-                          />
-                        </li>
-                      </ErrorBoundary>
-                    ))}
-                  </ul>
-                </div>
+                        </div>
+                        <PersonaImages
+                          mapId={itm.id}
+                          disableDisconnect={true}
+                          viewMode={SelectedPersonasViewModeEnum.MAP}
+                          personas={itm.selectedPersonas as PersonaType[]}
+                        />
+                      </li>
+                    </ErrorBoundary>
+                  ))}
+                </ul>
               ) : (
                 <EmptyDataInfo message={'There are no journeys yet'} />
               )}
             </>
           )}
         </div>
-      </div>
+      </>
     </BaseWuModal>
   );
 };

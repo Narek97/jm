@@ -6,7 +6,10 @@ export type DeleteAttachmentMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteAttachmentMutation = { __typename?: 'Mutation'; deleteAttachment: number };
+
+export type DeleteAttachmentMutation = { __typename?: 'Mutation', deleteAttachment: number };
+
+
 
 export const DeleteAttachmentDocument = `
     mutation DeleteAttachment($id: Int!) {
@@ -14,23 +17,17 @@ export const DeleteAttachmentDocument = `
 }
     `;
 
-export const useDeleteAttachmentMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteAttachmentMutation,
-    TError,
-    DeleteAttachmentMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<DeleteAttachmentMutation, TError, DeleteAttachmentMutationVariables, TContext>(
-    {
-      mutationKey: ['DeleteAttachment'],
-      mutationFn: axiosRequest<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>(
-        DeleteAttachmentDocument,
-      ),
-      ...options,
-    },
-  );
-};
+export const useDeleteAttachmentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteAttachmentMutation, TError, DeleteAttachmentMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteAttachmentMutation, TError, DeleteAttachmentMutationVariables, TContext>(
+      {
+    mutationKey: ['DeleteAttachment'],
+    mutationFn: axiosRequest<DeleteAttachmentMutation, DeleteAttachmentMutationVariables>(DeleteAttachmentDocument),
+    ...options
+  }
+    )};
 
 useDeleteAttachmentMutation.getKey = () => ['DeleteAttachment'];

@@ -288,7 +288,7 @@ const PersonaGroups = () => {
           {personaGroups.length ? (
             <div
               className={
-                'h-[calc(100dvh-16rem)] flex flex-wrap gap-4 mt-[1.125rem]! pr-5! overflow-auto'
+                'h-[calc(100dvh-16rem)] flex flex-col gap-4 mt-[1.125rem]! pr-5! overflow-auto'
               }>
               {personaGroups.map(group => (
                 <ErrorBoundary key={group.id}>

@@ -1,7 +1,5 @@
 import { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import './style.scss';
-
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { FileUploader } from 'react-drag-drop-files';
 import Skeleton from 'react-loading-skeleton';
@@ -350,80 +348,75 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
       handleClose={onHandleCloseModal}
       canCloseWithOutsideClick={!isLoadingAttachImageToPersona}
       modalSize={'lg'}>
-      <div>
-        <div className={'persona-gallery-modal'}>
-          <div className={'persona-gallery-modal--header'}>
-            <div className={'persona-gallery-modal--header--search-block'}>
-              <BaseWuInput
-                isIconInput={true}
-                placeholder="search..."
-                name={'search'}
-                value={search}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-              />
-            </div>
-            {galleryCount > PERSONAS_GALLERY_LIMIT && (
-              <Pagination
-                currentPage={currentPage}
-                allCount={galleryCount}
-                perPage={PERSONAS_GALLERY_LIMIT}
-                changePage={onHandleChangePage}
-              />
-            )}
+      <>
+        <div className={'flex justify-between'}>
+          <div className={'w-1/4'}>
+            <BaseWuInput
+              isIconInput={true}
+              placeholder="search..."
+              name={'search'}
+              value={search}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+            />
           </div>
-          <div className={'persona-gallery-modal--gallery'}>
-            {isLoadingPersonaGallery ? (
-              <>
-                {Array(14)
-                  .fill('')
-                  .map((_, index) => (
-                    <div className={'persona-gallery-modal--gallery--item'} key={index}>
-                      <Skeleton width={160} height={160} />
-                    </div>
-                  ))}
-              </>
-            ) : (
-              <>
-                <div className={'persona-gallery-modal--gallery--item'}>
-                  <FileUploader
-                    classes={`attachments--file-uploader`}
-                    multiple={false}
-                    handleChange={handleUploadFiles}
-                    name="file"
-                    types={PERSONA_FILE_TYPES}>
-                    <CustomFileUploader
-                      uploadProgress={uploadProgress}
-                      icon={
-                        <span
-                          className={'wm-add'}
-                          style={{
-                            fontSize: '4rem',
-                            color: '#1B87E6',
-                          }}
-                        />
-                      }
-                      showText={false}
-                    />
-                  </FileUploader>
-                </div>
-                {gallery.map(item => (
-                  <PersonaGalleryItem
-                    key={item?.id}
-                    item={item}
-                    selectedPersonaImgId={selectedPersonaImgId}
-                    onHandleUpdateCroppedArea={onHandleUpdateCroppedArea}
-                    onDeleteSuccess={onDeleteSuccess}
-                  />
-                ))}
-              </>
-            )}
-          </div>
-
-          <div className={'persona-gallery-modal--footer'}>
-            <p>To upload, drag files on the upload box.</p>
-          </div>
+          {galleryCount > PERSONAS_GALLERY_LIMIT && (
+            <Pagination
+              currentPage={currentPage}
+              allCount={galleryCount}
+              perPage={PERSONAS_GALLERY_LIMIT}
+              changePage={onHandleChangePage}
+            />
+          )}
         </div>
-      </div>
+        <div className={'flex flex-wrap gap-4 mt-8! h-[400px] overflow-auto'}>
+          {isLoadingPersonaGallery ? (
+            <>
+              {Array(14)
+                .fill('')
+                .map((_, index) => (
+                  <div key={index}>
+                    <Skeleton width={160} height={160} />
+                  </div>
+                ))}
+            </>
+          ) : (
+            <>
+              <FileUploader
+                classes={`w-40 h-40 bg-[#f5f5f5] border border-solid  hover:border hover:border-[#1b87e6]!`}
+                multiple={false}
+                handleChange={handleUploadFiles}
+                name="file"
+                types={PERSONA_FILE_TYPES}>
+                <CustomFileUploader
+                  uploadProgress={uploadProgress}
+                  icon={
+                    <span
+                      className={'wm-add'}
+                      style={{
+                        fontSize: '4rem',
+                        color: '#1B87E6',
+                      }}
+                    />
+                  }
+                  showText={false}
+                />
+              </FileUploader>
+              {gallery.map(item => (
+                <PersonaGalleryItem
+                  key={item?.id}
+                  item={item}
+                  selectedPersonaImgId={selectedPersonaImgId}
+                  onHandleUpdateCroppedArea={onHandleUpdateCroppedArea}
+                  onDeleteSuccess={onDeleteSuccess}
+                />
+              ))}
+            </>
+          )}
+        </div>
+
+        <p className={'mt-4 text-[0.75rem]'}>To upload, drag files on the upload box.</p>
+
+      </>
       {cropModalData?.source && (
         <CropImageModal
           mode={cropModalData?.mode}

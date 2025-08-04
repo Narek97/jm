@@ -10,8 +10,6 @@ import {
   useState,
 } from 'react';
 
-import './style.scss';
-
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { WuButton, WuMenu, WuMenuItem, WuPopover } from '@npm-questionpro/wick-ui-lib';
 import Skeleton from 'react-loading-skeleton';
@@ -304,7 +302,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
   };
 
   return (
-    <div className={'persona-left-menu'}>
+    <div>
       {isOpenDeleteDemographicInfoSectionConfirmModal && (
         <DeleteDemographicInfosSectionConfirmModal
           personaId={personaId}
@@ -320,14 +318,16 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
           isOpen={isOpenGalleryModal}
           personaId={personaId}
           currentUpdatedImageComponent={currentUpdatedImageComponent}
-          selectedGalleryItemId={null}
+          selectedGalleryItemId={currentUpdatedImageComponent.attachment?.id || null}
           onHandleCloseModal={onHandleToggleGalleryModal}
           onHandleChangeAvatar={onHandleChangeAvatar}
         />
       )}
-      <div className={'persona-left-menu--content'}>
+      <div className={'flex gap-2 text-sm p-2 rounded-lg bg-[var(--background)]'}>
         <div
-          className={'persona-left-menu--avatar-frame'}
+          className={
+            'flex items-center justify-center w-[7.5rem] min-w-[7.5rem] h-[7.5rem] p-1 rounded-lg overflow-hidden cursor-pointer'
+          }
           data-testid={'persona-left-menu--avatar-frame'}
           style={{ border: `4px solid ${personaInfo?.color}` }}
           onClick={() => {
@@ -348,26 +348,24 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             isTemplate
           />
         </div>
-        <div className={'persona-left-menu--color-type-block'}>
-          <div className={'persona-left-menu--type-block'}>
+        <div className={'w-full relative text-xs flex flex-col justify-between'}>
+          <div className={''}>
             <p>Type</p>
             {personaInfo?.type !== PersonaTypeEnum.Customer &&
               personaInfo?.type !== PersonaTypeEnum.Employee && (
-                <div className={'custom-type-input'}>
-                  <BaseWuInput
-                    data-testid="custom-user-type"
-                    inputRef={personaTypeInputRef}
-                    value={otherTypeText}
-                    onChange={onHandleAddOtherType}
-                    onBlur={() => setIsAutoFocusOn(false)}
-                    onKeyDown={event => {
-                      if (event.keyCode === 13) {
-                        event.preventDefault();
-                        (event.target as HTMLElement).blur();
-                      }
-                    }}
-                  />
-                </div>
+                <BaseWuInput
+                  data-testid="custom-user-type"
+                  inputRef={personaTypeInputRef}
+                  value={otherTypeText}
+                  onChange={onHandleAddOtherType}
+                  onBlur={() => setIsAutoFocusOn(false)}
+                  onKeyDown={event => {
+                    if (event.keyCode === 13) {
+                      event.preventDefault();
+                      (event.target as HTMLElement).blur();
+                    }
+                  }}
+                />
               )}
             <BaseWuSelect
               data={PERSONA_TYPE_MENU_ITEMS}
@@ -392,9 +390,13 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               )}
             />
           </div>
-          <div className={'persona-left-menu--color-block'}>
+          <div className={''}>
             <p>Color</p>
             <CustomColorPicker
+              position={{
+                top: 40,
+                left: -30,
+              }}
               defaultColor={personaInfo?.color || '#1b87e6'}
               onChange={colorData => {
                 onHandleUpdateInfo('color', colorData);
@@ -405,18 +407,19 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
       </div>
 
       {demographicInfos.demographicInfoFields?.length > 0 ? (
-        <div className={'persona-left-menu--block-2'}>
-          <div data-testid={'delete-demographic-infos'}>
+        <div className={'relative mt-8! bg-white rounded-lg p-2'}>
+          <div
+            data-testid={'delete-demographic-infos'}
+            className={'w-8 h-8 absolute flex items-center justify-center right-4'}>
             <WuButton
-              className={'delete-demographic-info-section'}
               onClick={() => setIsOpenDeleteDemographicInfoSectionConfirmModal(true)}
               Icon={<span className="wm-delete" />}
               variant="iconOnly"
             />
           </div>
-          <p className={'persona-left-menu--block-2-title !text-heading-3'}>Demographic info</p>
+          <p className={'!text-heading-3'}>Demographic info</p>
           <div
-            className={'persona-left-menu--demographic-info-block'}
+            className={'flex flex-col gap-4 mt-2! mb-4!'}
             ref={demographicInfoRef}
             data-testid="demographic-info-section">
             {demographicInfos.demographicInfoFields.map((demographicInfo, index) => (
@@ -438,7 +441,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               DemographicInfoTypeEnum.Text,
               DemographicInfoTypeEnum.Number,
             ]?.includes(selectedDemographicInfoType) && (
-              <div className={'persona-left-menu--demographic-info-create-loading-block'}>
+              <div className={'relative h-[2.125rem] mx-0 my-4! mb-4!'}>
                 <Skeleton width={'18.2rem'} height={'2.688rem'} />
               </div>
             )}
@@ -446,13 +449,9 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
             autoComplete="off"
             className={`${
               isLoadingCreateDemographicInfo
-                ? 'persona-left-menu--demographic-none-info-create-block'
-                : 'persona-left-menu--demographic-info-create-block'
-            }  ${
-              selectedDemographicInfoType
-                ? 'persona-left-menu--demographic-open-info-create-block'
-                : ''
-            }`}
+                ? 'hidden'
+                : 'flex items-center justify-center gap-[1.125rem] h-0 overflow-hidden mx-0 my-2 transition duration-300'
+            }  ${selectedDemographicInfoType ? 'h-[2.125rem] mb-4!' : ''}`}
             onSubmit={onHandleCreateDemographicInfo}>
             <BaseWuInput
               inputRef={inputRef}
@@ -460,7 +459,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               data-testid={'demographic-info-name-test-id'}
               onChange={e => setName(e.target.value)}
             />
-            <div className={'persona-left-menu--demographic-info-actions'}>
+            <div className={'flex items-center justify-center gap-[1.125rem]'}>
               <button
                 type={'submit'}
                 aria-label={'Tick'}
@@ -476,6 +475,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
               </button>
             </div>
           </form>
+
           <WuPopover
             side="left"
             Trigger={<WuButton variant="outline" className="wm-add min-w-0 px-2.5"></WuButton>}
@@ -488,7 +488,7 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
                 <li
                   key={item.id}
                   data-testid={`${item.type.toLowerCase()}-test-id`}
-                  className={'persona-left-menu--demographic-info-popover-item'}
+                  className={'h-8 p-2 text-xs cursor-pointer hover:bg-[#eeeeee]'}
                   onClick={() => onHandleSelectDemographicInfo(item.type)}>
                   {item.name}
                 </li>
@@ -498,76 +498,71 @@ const PersonaLeftMenu: FC<IPersonaLeftMenu> = ({
         </div>
       ) : (
         <WuButton
+          className={'mt-8! w-full'}
           data-testid={'add-demographic-info-test-id'}
           color="primary"
           Icon={null}
-          className={'add-default-demographic-fields'}
           iconPosition="left"
           onClick={onHandleAddDefaultDemographicFields}
           size="md"
-          style={{
-            width: '200px',
-          }}
           variant="outline">
           Add demographics
         </WuButton>
       )}
 
-      <div className="persona-left-menu--block-2 demographic-sections">
-        <div className={'persona-left-menu--demographic-info-block'}>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {provided => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {demographicInfos?.personaFieldSections?.map((demographicInfo, index) => (
-                    <Draggable
-                      key={demographicInfo.id}
-                      draggableId={String(demographicInfo.id)}
-                      index={index}>
-                      {provided => (
-                        <SectionField
-                          provided={provided}
-                          key={demographicInfo.id}
-                          onHandleToggleGalleryModal={() => {
-                            setCurrentUpdatedImageComponent({
-                              itemId: demographicInfo.id,
-                              attachment: demographicInfo?.attachment || null,
-                              type: 'personaField',
-                            });
-                            onHandleToggleGalleryModal();
-                          }}
-                          onHandleDeleteDemographicInfoItem={onHandleDeleteDemographicInfoItem}
-                          onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
-                          item={demographicInfo}
-                          index={index}
-                          type={demographicInfo.type}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
-        <WuMenu
-          Trigger={
-            <WuButton variant="outline" className="add-demographic-field">
-              Add Section
-            </WuButton>
-          }>
-          {PERSONA_FIELD_SECTIONS_TYPES.map(sectionType => (
-            <WuMenuItem
-              onSelect={() => {
-                onHandleAddSection(sectionType.type);
-              }}
-              key={sectionType.type}>
-              {sectionType.label}
-            </WuMenuItem>
-          ))}
-        </WuMenu>
+      <div className="bg-none py-2 rounded-lg">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {provided => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {demographicInfos?.personaFieldSections?.map((demographicInfo, index) => (
+                  <Draggable
+                    key={demographicInfo.id}
+                    draggableId={String(demographicInfo.id)}
+                    index={index}>
+                    {provided => (
+                      <SectionField
+                        provided={provided}
+                        key={demographicInfo.id}
+                        onHandleToggleGalleryModal={() => {
+                          setCurrentUpdatedImageComponent({
+                            itemId: demographicInfo.id,
+                            attachment: demographicInfo?.attachment || null,
+                            type: 'personaField',
+                          });
+                          onHandleToggleGalleryModal();
+                        }}
+                        onHandleDeleteDemographicInfoItem={onHandleDeleteDemographicInfoItem}
+                        onHandleChangeDemographicInfo={onHandleChangeDemographicInfo}
+                        item={demographicInfo}
+                        index={index}
+                        type={demographicInfo.type}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
+      <WuMenu
+        Trigger={
+          <WuButton variant="outline" className="w-full">
+            Add Section
+          </WuButton>
+        }>
+        {PERSONA_FIELD_SECTIONS_TYPES.map(sectionType => (
+          <WuMenuItem
+            onSelect={() => {
+              onHandleAddSection(sectionType.type);
+            }}
+            key={sectionType.type}>
+            {sectionType.label}
+          </WuMenuItem>
+        ))}
+      </WuMenu>
     </div>
   );
 };

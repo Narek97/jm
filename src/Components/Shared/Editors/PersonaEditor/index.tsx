@@ -26,7 +26,7 @@ const PersonaEditor: FC<IMapEditor> = ({
   onHandleTextChange,
   disabled = false,
   color = '#545e6b',
-  customClass,
+  customClass='',
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
@@ -59,7 +59,7 @@ const PersonaEditor: FC<IMapEditor> = ({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layoutId]);
+  }, [layoutId, disabled]);
 
   const onSaveEditorValue = useCallback(
     (value: string) => {

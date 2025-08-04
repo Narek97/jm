@@ -1,6 +1,5 @@
 import { FC, memo } from 'react';
 
-import './style.scss';
 import CropImage from '@/Components/Shared/CropImage';
 import CustomFileUploader from '@/Components/Shared/CustomFileUploader';
 import { IMAGE_ASPECT } from '@/Constants';
@@ -26,32 +25,22 @@ const ImageViewAndUpload: FC<IImageViewAndUpload> = memo(
       return onlyView ? (
         <div>No image</div>
       ) : (
-        <div className={'upload-frame'}>
+        <>
           <CustomFileUploader uploadProgress={0} />
-        </div>
+        </>
       );
     }
 
     return (
-      <div className="image-sections">
-        <div className="avatar-border">
-          <div className="avatar-border-content">
-            {croppedArea ? (
-              <>
-                <CropImage
-                  imageSource={imageUrl}
-                  croppedArea={croppedArea}
-                  CROP_AREA_ASPECT={3 / 3}
-                />
-              </>
-            ) : (
-              <>
-                <img className="avatar" src={imageUrl} alt="Avatar" width={100} height={100} />
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+      <>
+        {croppedArea ? (
+          <>
+            <CropImage imageSource={imageUrl} croppedArea={croppedArea} CROP_AREA_ASPECT={3 / 3} />
+          </>
+        ) : (
+          <img className="w-full h-full object-cover" src={imageUrl} alt="Avatar" />
+        )}
+      </>
     );
   },
 );

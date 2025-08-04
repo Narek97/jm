@@ -1,6 +1,5 @@
 import React, { FC, memo, useRef, useState } from 'react';
 
-import './style.scss';
 import { DraggableProvided } from '@hello-pangea/dnd';
 import { WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
@@ -72,12 +71,12 @@ const SectionField: FC<ISectionField> = memo(
         data-testid={`demographic-field-${index}`}
         ref={provided.innerRef}
         {...provided.draggableProps}
-        className={`field-section ${item?.isHidden ? 'hidden-field' : ''}`}>
+        className={`group relative bg-white p-2 rounded-[0.3rem] mb-4 ${item?.isHidden ? 'opacity-60' : ''}`}>
         <span className={'field-section--drag'} {...provided.dragHandleProps}>
           <span className={'wm-drag-indicator'} />
         </span>
-        <div className={'field-section-header'}>
-          <div className={'field-section-header--input'}>
+        <div className={'relative flex gap-2'}>
+          <div className={'w-[calc(100%-5rem)]'}>
             <BaseWuInput
               inputRef={ref}
               placeholder={'label'}
@@ -97,14 +96,15 @@ const SectionField: FC<ISectionField> = memo(
               }
             />
           </div>
-          <div className={'field-section-header--options-block'}>
+          <div className={'flex items-center gap-2 ml-2 invisible group-hover:visible!'}>
             <WuTooltip
               className="wu-tooltip-content"
               content={`${item.isHidden ? 'Show' : 'Hide'} demographic`}
               dir="ltr"
               duration={200}
               position="bottom">
-              <button
+              <WuButton
+                variant="iconOnly"
                 onClick={() => {
                   onHandleChangeDemographicInfo(
                     item.id,
@@ -113,7 +113,6 @@ const SectionField: FC<ISectionField> = memo(
                     PersonaFieldCategoryTypeEnum.PERSONA_FIELD_SECTIONS,
                   );
                 }}
-                className={'hide-show-info-button'}
                 data-testid={`item-${item.id}-hide-show`}>
                 {item.isHidden ? (
                   <span
@@ -126,10 +125,10 @@ const SectionField: FC<ISectionField> = memo(
                     data-testid={`pin-persona-${item.id}-info-${index}-close-eye-test-id`}
                   />
                 )}
-              </button>
+              </WuButton>
             </WuTooltip>
+
             <WuButton
-              className={'delete-section'}
               onClick={() => onHandleDeleteDemographicInfoItem(item)}
               Icon={<span className="wm-delete" />}
               variant="iconOnly"
@@ -140,6 +139,7 @@ const SectionField: FC<ISectionField> = memo(
         {type === DemographicInfoTypeEnum.Content ? (
           <>
             <div
+              className={'bg-[#f4f4f4] rounded-[0.2rem] mt-[8px]! p-2'}
               style={{
                 height: `${height}px`,
                 position: 'relative',
@@ -160,12 +160,16 @@ const SectionField: FC<ISectionField> = memo(
                 customClass={'persona-editor-block'}
               />
             </div>
-            <div className={'filter-section-resize'} onMouseDown={handleMouseDown}>
+            <div
+              className={
+                'cursor-ns-resize absolute right-[0] bottom-[-2px] w-fit h-fit z-20 rotate-[225deg]'
+              }
+              onMouseDown={handleMouseDown}>
               <span className={'wm-arrow-back-ios'} />
             </div>
           </>
         ) : (
-          <div className={'image-field-section'} onClick={onHandleToggleGalleryModal}>
+          <div className={'bg-[#f4f4f4] rounded-[0.2rem] mt-[8px]! h-[288px]'} onClick={onHandleToggleGalleryModal}>
             <ImageViewAndUpload
               hasResizedVersions={false}
               croppedArea={null}

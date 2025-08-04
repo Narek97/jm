@@ -1,4 +1,3 @@
-import './style.scss';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
@@ -202,7 +201,6 @@ const PersonaScreen = () => {
     },
     [dataPersonaInfo?.getPersonaById, mutatePersona, personaId, setPersona],
   );
-
 
   const onHandleChangeDemographicInfo = useCallback(
     (
@@ -431,7 +429,7 @@ const PersonaScreen = () => {
   }
 
   return (
-    <div className={'persona-container'}>
+    <div>
       <PersonaHeader
         personaInfo={dataPersonaInfo?.getPersonaById || null}
         isLoadingPersonaSection={isLoadingPersonaSection}
@@ -439,8 +437,9 @@ const PersonaScreen = () => {
         onHandleUpdateInfo={onHandleUpdateInfo}
         onHandleAddSection={onHandleAddSection}
       />
-      <div className={'persona-container--body'}>
-        <div className={'persona-container--left-menu'}>
+      <div className={'flex h-[calc(100dvh-8.55rem)]'}>
+        <div
+          className={'relative p-4 min-w-[21.375rem] w-[21.375rem] bg-[#f2f2f4] overflow-y-auto'}>
           <PersonaLeftMenu
             personaId={+personaId}
             personaInfo={dataPersonaInfo?.getPersonaById || null}
@@ -454,7 +453,7 @@ const PersonaScreen = () => {
             demographicInfoRef={demographicInfoRef}
           />
         </div>
-        <div className={'persona-container--right-sections'} ref={rightSectionRef}>
+        <div className={'relative w-full p-4 overflow-auto'} ref={rightSectionRef}>
           <PersonaRightSections
             ref={personaRef}
             dataPersonaSections={dataPersonaSections?.getPersonaSections || []}

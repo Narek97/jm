@@ -9,7 +9,6 @@ import {
   useState,
 } from 'react';
 
-import './style.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { useWuShowToast, WuTooltip } from '@npm-questionpro/wick-ui-lib';
@@ -220,7 +219,7 @@ const PersonaRightSections: FC<
       );
     }
     return (
-      <div className={'persona-sections'}>
+      <div>
         <ResponsiveGridLayout
           layouts={layouts as any}
           rowHeight={128}
@@ -243,12 +242,12 @@ const PersonaRightSections: FC<
                 key={layout.id}
                 data-testid={`persona-section-${index}`}
                 data-grid={layout}
-                className={`persona-sections--section ${layout.isHidden ? 'disabled-section-menu' : ''} `}
+                className={`group border border-solid border-transparent rounded`}
                 style={{ backgroundColor: layout.color }}>
                 <SectionCard
                   color={color}
                   layout={layout}
-                  isDisable={false}
+                  isDisable={layout.isHidden}
                   changeVersion={changeVersion}
                   onHandleCopyPersonaSection={() => onHandleCopyPersonaSection(layout)}
                   onHandleDeletePersonaSection={onHandleDeletePersonaSection}
@@ -291,16 +290,16 @@ const SectionCard: FC<ISectionCard> = memo(
     return (
       <>
         <div
-          className={`persona-sections--section-menu  ${
-            isOpenPopover ? 'persona-sections--open-section-menu' : ''
+          className={`flex items-center justify-between h-12 p-2  ${
+            layout.isHidden ? 'pointer-events-none' : ''
           }  `}
           style={{
             color,
             background: getIsDarkColor(layout.color) ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.04)',
           }}>
           {isDeleting && <BaseWuLoader />}
-          <div className={'persona-sections--section-menu--left-actions'}>
-            <span className={'persona-sections--section-menu--drag-drop-btn drag-handle'}>
+          <div className={'flex items-center gap-2'}>
+            <span className={'drag-handle cursor-move'}>
               <span className={'wm-drag-indicator'} />
             </span>
 
@@ -314,19 +313,18 @@ const SectionCard: FC<ISectionCard> = memo(
               customClass={'persona-label-block'}
             />
           </div>
-          <div className={'persona-sections--section-menu--right-actions'}>
-            <div className={`persona-sections--section-menu--change-color-block`}>
+          <div className={'flex items-center gap-2 invisible group-hover:visible!'}>
+            <div className={`flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm`}>
               <label
                 onClick={() => setIsOpenPopover(true)}
                 htmlFor={layout.id?.toString()}
-                className={`${getIsDarkColor(layout.color) ? 'dark-mode-icon' : ''} persona-sections--section-menu--change-color-btn ${
-                  isOpenPopover ? '' : ''
-                }`}>
+                className={`${getIsDarkColor(layout.color) ? 'hover:bg-black/20!' : ''} flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm`}>
                 <span className={'wm-colors'} />
               </label>
               {isOpenPopover && (
-                <div className={'persona-sections--section-menu--change-color-block--picker'}>
+                <div className={'w-[25rem] h-[25rem] absolute right-[-30px] top-10 '}>
                   <input
+                    className={'absolute top-0 opacity-0 h-0 w-0'}
                     id={layout.id?.toString()}
                     data-testid={'color-picker'}
                     type={'color'}
@@ -341,7 +339,7 @@ const SectionCard: FC<ISectionCard> = memo(
             <button
               disabled={isDisable}
               aria-label={'copy'}
-              className={`${getIsDarkColor(layout.color) ? 'dark-mode-icon' : ''} persona-sections--section-menu--copy-btn`}
+              className={`${getIsDarkColor(layout.color) ? 'hover:bg-black/20!' : ''} flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm`}
               onClick={onHandleCopyPersonaSection}>
               <span className={'wm-content-copy'} />
             </button>
@@ -354,7 +352,7 @@ const SectionCard: FC<ISectionCard> = memo(
               <button
                 disabled={isDisable}
                 aria-label={'copy'}
-                className={`${getIsDarkColor(layout.color) ? 'dark-mode-icon' : ''} persona-sections--section-menu--hide-btn`}
+                className={`${getIsDarkColor(layout.color) ? 'hover:bg-black/20!' : ''} flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm`}
                 onClick={() => onHandleTextChange(!layout.isHidden, layout.id, 'isHidden')}>
                 {layout?.isHidden ? (
                   <span className={'wm-eye-tracking'} />
@@ -367,7 +365,7 @@ const SectionCard: FC<ISectionCard> = memo(
             <button
               disabled={isDisable}
               aria-label={'delete'}
-              className={`${getIsDarkColor(layout.color) ? 'dark-mode-icon' : ''} persona-sections--section-menu--delete-btn`}
+              className={`${getIsDarkColor(layout.color) ? 'hover:bg-black/20!' : ''} flex items-center justify-center w-8 h-8 cursor-pointer rounded-sm`}
               onClick={() => {
                 setIsDeleting(true);
                 onHandleDeletePersonaSection(layout.id);
@@ -377,7 +375,7 @@ const SectionCard: FC<ISectionCard> = memo(
           </div>
         </div>
         <div
-          className={`persona-sections--section-input-block persona-item-content  ${getIsDarkColor(layout.color) ? 'dark-mode-editor' : ''}`}>
+          className={`p-2 h-[calc(100%-3.125rem)]  ${getIsDarkColor(layout.color) ? 'dark-mode-editor' : ''}`}>
           <PersonaEditor
             layoutId={String(changeVersion) + layout.y + '_' + layout.x}
             disabled={isDisable}
@@ -386,7 +384,6 @@ const SectionCard: FC<ISectionCard> = memo(
             }}
             initValue={layout.content || ''}
             color={color}
-            customClass={'persona-editor-block'}
           />
         </div>
       </>

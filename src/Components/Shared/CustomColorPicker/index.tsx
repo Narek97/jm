@@ -11,6 +11,10 @@ interface ICustomColorPicker {
   onChange?: (color: string) => void;
   className?: string;
   isOpen?: boolean;
+  position?: {
+    top: number;
+    left: number;
+  };
 }
 
 interface ColorPickerRef {
@@ -18,7 +22,7 @@ interface ColorPickerRef {
 }
 
 const CustomColorPicker = forwardRef<ColorPickerRef, ICustomColorPicker>(
-  ({ defaultColor, onSelect, onChange, className = '', isOpen = false }, ref) => {
+  ({ defaultColor, onSelect, onChange, className = '', isOpen = false, position }, ref) => {
     const [selectedColor, setSelectedColor] = useState<string>(defaultColor);
     const [showColorsWheel, setShowColorsWheel] = useState<boolean>(isOpen);
 
@@ -73,7 +77,12 @@ const CustomColorPicker = forwardRef<ColorPickerRef, ICustomColorPicker>(
         />
         {showColorsWheel && (
           <CustomClickAwayListener onClickAway={closeColorPicker}>
-            <div className={'wheel-color-picker'} data-testid="wheel-color-picker-test-id">
+            <div
+              className={'wheel-color-picker'}
+              style={{
+                ...position,
+              }}
+              data-testid="wheel-color-picker-test-id">
               <Colorful
                 color={selectedColor}
                 onChange={color => {

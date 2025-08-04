@@ -111,8 +111,8 @@ const CustomSlider: React.FC<ICustomSlider> = ({
         <div
           className="absolute w-5 h-5 bg-white border-2 border-blue-500 rounded-full transform [-translate-y-1/2] [-translate-x-1/2] cursor-grab"
           style={{
-            left: `calc(${percentage}% + 10px)`,
-            top: '14px',
+            left: `calc(${percentage}% - 11px)`,
+            top:'-6px'
           }}>
           {/* Tooltip */}
           {isDragging && (

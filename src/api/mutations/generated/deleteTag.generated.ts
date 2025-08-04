@@ -6,7 +6,10 @@ export type DeleteTagMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteTagMutation = { __typename?: 'Mutation'; deleteTag: number };
+
+export type DeleteTagMutation = { __typename?: 'Mutation', deleteTag: number };
+
+
 
 export const DeleteTagDocument = `
     mutation DeleteTag($id: Int!) {
@@ -14,14 +17,17 @@ export const DeleteTagDocument = `
 }
     `;
 
-export const useDeleteTagMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<DeleteTagMutation, TError, DeleteTagMutationVariables, TContext>,
-) => {
-  return useMutation<DeleteTagMutation, TError, DeleteTagMutationVariables, TContext>({
+export const useDeleteTagMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteTagMutation, TError, DeleteTagMutationVariables, TContext>) => {
+    
+    return useMutation<DeleteTagMutation, TError, DeleteTagMutationVariables, TContext>(
+      {
     mutationKey: ['DeleteTag'],
     mutationFn: axiosRequest<DeleteTagMutation, DeleteTagMutationVariables>(DeleteTagDocument),
-    ...options,
-  });
-};
+    ...options
+  }
+    )};
 
 useDeleteTagMutation.getKey = () => ['DeleteTag'];

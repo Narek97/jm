@@ -6,7 +6,10 @@ export type UpdatePersonaMutationVariables = Types.Exact<{
   updatePersonaInput: Types.UpdatePersonaInput;
 }>;
 
-export type UpdatePersonaMutation = { __typename?: 'Mutation'; updatePersona: number };
+
+export type UpdatePersonaMutation = { __typename?: 'Mutation', updatePersona: number };
+
+
 
 export const UpdatePersonaDocument = `
     mutation UpdatePersona($updatePersonaInput: UpdatePersonaInput!) {
@@ -14,21 +17,17 @@ export const UpdatePersonaDocument = `
 }
     `;
 
-export const useUpdatePersonaMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    UpdatePersonaMutation,
-    TError,
-    UpdatePersonaMutationVariables,
-    TContext
-  >,
-) => {
-  return useMutation<UpdatePersonaMutation, TError, UpdatePersonaMutationVariables, TContext>({
+export const useUpdatePersonaMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdatePersonaMutation, TError, UpdatePersonaMutationVariables, TContext>) => {
+    
+    return useMutation<UpdatePersonaMutation, TError, UpdatePersonaMutationVariables, TContext>(
+      {
     mutationKey: ['UpdatePersona'],
-    mutationFn: axiosRequest<UpdatePersonaMutation, UpdatePersonaMutationVariables>(
-      UpdatePersonaDocument,
-    ),
-    ...options,
-  });
-};
+    mutationFn: axiosRequest<UpdatePersonaMutation, UpdatePersonaMutationVariables>(UpdatePersonaDocument),
+    ...options
+  }
+    )};
 
 useUpdatePersonaMutation.getKey = () => ['UpdatePersona'];

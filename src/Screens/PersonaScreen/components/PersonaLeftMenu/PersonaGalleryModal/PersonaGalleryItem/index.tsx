@@ -1,6 +1,5 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import './style.scss';
 import {
   DeleteAttachmentMutation,
   useDeleteAttachmentMutation,
@@ -88,28 +87,28 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   useEffect(() => {
     setGalleryName(item?.name || '');
   }, [item?.name]);
-
+  console.log(selectedPersonaImgId,'selectedPersonaImgId');
+  console.log(item.id,'item.id');
   return (
     <figure
-      key={item.id}
       data-testid={`persona-gallery-test-id-${item.id}`}
-      className={`persona-gallery-modal--gallery--item ${
+      className={`group flex flex-col justify-between  relative w-40 h-40 overflow-hidden cursor-pointer ${
         selectedPersonaImgId === item.id
-          ? 'persona-gallery-modal--gallery--item--selected-item'
-          : ''
+          ? 'bg-[var(--soft-gray)] border border-solid border-[var(--primary)]!'
+          : 'bg-[var(--light-gray)] border border-solid border-transparent!'
       }`}
       onClick={() => {
         onHandleUpdateCroppedArea(item);
       }}>
-      <div className={'persona-gallery-modal--gallery--item--image-box'}>
+      <div className={'w-full h-[8rem] overflow-hidden'}>
         <img
+          className={"w-full h-full object-cover"}
           src={`${
             item.url
               ? `${import.meta.env.VITE_AWS_URL}/${item.url}/large${item?.hasResizedVersions ? getResizedFileName(item.key, IMAGE_ASPECT) : item.key}`
               : `${import.meta.env.VITE_AWS_URL}/${item?.hasResizedVersions ? getResizedFileName(item.key, IMAGE_ASPECT) : item.key}`
           }`}
-          width={200}
-          height={200}
+
           alt={item.name || 'img'}
         />
       </div>
@@ -142,12 +141,12 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
           }}
         />
       ) : (
-        <figcaption className={'persona-gallery-modal--gallery--item--image-title'}>
+        <figcaption className={'reduce-text w-full text-[0.75rem] px-[10px]!'}>
           {galleryName}
         </figcaption>
       )}
-      <div className={'persona-gallery-modal--gallery--item--menu'}>
-        <BaseWuMenu options={options} item={item} />
+      <div className={'flex items-center justify-center w-[32px] h-[32px] absolute top-2 right-2 invisible group-hover:visible! hover:bg-black/20'}>
+        <BaseWuMenu options={options} item={item} trigger={ <span className={'wm-more-vert cursor-pointer text-white'} />} />
       </div>
     </figure>
   );

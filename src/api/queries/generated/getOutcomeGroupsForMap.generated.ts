@@ -6,16 +6,10 @@ export type GetMapOutcomeGroupsForRowCreationQueryVariables = Types.Exact<{
   mapId: Types.Scalars['Int']['input'];
 }>;
 
-export type GetMapOutcomeGroupsForRowCreationQuery = {
-  __typename?: 'Query';
-  getMapOutcomeGroupsForRowCreation: Array<{
-    __typename?: 'OutcomeGroup';
-    id: number;
-    name: string;
-    pluralName: string;
-    icon: string;
-  }>;
-};
+
+export type GetMapOutcomeGroupsForRowCreationQuery = { __typename?: 'Query', getMapOutcomeGroupsForRowCreation: Array<{ __typename?: 'OutcomeGroup', id: number, name: string, pluralName: string, icon: string }> };
+
+
 
 export const GetMapOutcomeGroupsForRowCreationDocument = `
     query GetMapOutcomeGroupsForRowCreation($mapId: Int!) {
@@ -29,27 +23,19 @@ export const GetMapOutcomeGroupsForRowCreationDocument = `
     `;
 
 export const useGetMapOutcomeGroupsForRowCreationQuery = <
-  TData = GetMapOutcomeGroupsForRowCreationQuery,
-  TError = unknown,
->(
-  variables: GetMapOutcomeGroupsForRowCreationQueryVariables,
-  options?: Omit<
-    UseQueryOptions<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>,
-    'queryKey'
-  > & {
-    queryKey?: UseQueryOptions<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>['queryKey'];
-  },
-) => {
-  return useQuery<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>({
+      TData = GetMapOutcomeGroupsForRowCreationQuery,
+      TError = unknown
+    >(
+      variables: GetMapOutcomeGroupsForRowCreationQueryVariables,
+      options?: Omit<UseQueryOptions<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetMapOutcomeGroupsForRowCreationQuery, TError, TData>(
+      {
     queryKey: ['GetMapOutcomeGroupsForRowCreation', variables],
-    queryFn: axiosRequest<
-      GetMapOutcomeGroupsForRowCreationQuery,
-      GetMapOutcomeGroupsForRowCreationQueryVariables
-    >(GetMapOutcomeGroupsForRowCreationDocument).bind(null, variables),
-    ...options,
-  });
-};
+    queryFn: axiosRequest<GetMapOutcomeGroupsForRowCreationQuery, GetMapOutcomeGroupsForRowCreationQueryVariables>(GetMapOutcomeGroupsForRowCreationDocument).bind(null, variables),
+    ...options
+  }
+    )};
 
-useGetMapOutcomeGroupsForRowCreationQuery.getKey = (
-  variables: GetMapOutcomeGroupsForRowCreationQueryVariables,
-) => ['GetMapOutcomeGroupsForRowCreation', variables];
+useGetMapOutcomeGroupsForRowCreationQuery.getKey = (variables: GetMapOutcomeGroupsForRowCreationQueryVariables) => ['GetMapOutcomeGroupsForRowCreation', variables];

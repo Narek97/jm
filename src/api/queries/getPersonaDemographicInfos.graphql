@@ -29,6 +29,7 @@ query GetPersonaDemographicInfos(
         y
       }
       attachment {
+        id
         hasResizedVersions
         url
         key

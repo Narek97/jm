@@ -17,7 +17,7 @@ export type PersonaFieldSectionsType =
 export type PersonaImageContainedComponentType = {
   type: 'avatar' | 'personaField' | null;
   itemId: number | null;
-  attachment: Pick<AttachmentType, 'url' | 'key' | 'croppedArea'> | null;
+  attachment: Pick<AttachmentType, 'id' | 'url' | 'key' | 'croppedArea'> | null;
 };
 
 export type PersonaSectionType = GetPersonaSectionsQuery['getPersonaSections'][number];
