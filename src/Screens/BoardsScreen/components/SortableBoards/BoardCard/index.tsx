@@ -45,9 +45,12 @@ const BoardCard: FC<IBoardCard> = ({
 
   return (
     <div
-      className="relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem] !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
-         border border-[#e5e7eb] border-l-[0.375rem] rounded text-[#545e6b] cursor-pointer
-         flex items-start justify-center gap-4 overflow-hidden hover:!border-[var(--primary)] hover:border-l-[0.375rem] group"
+      className="
+        relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem]
+        !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
+        card-borders !border-l-0 rounded cursor-pointer
+        flex items-start justify-center gap-4 overflow-hidden group
+      "
       data-testid={`board-card-${board?.id}`}
       onClick={onNavigateWhiteboardPage}>
       <DragHandle {...sortableAttributes} {...sortableListeners} />
@@ -62,7 +65,6 @@ const BoardCard: FC<IBoardCard> = ({
           <WorkspaceAnalytics
             className="!gap-4"
             showType="horizontal-type"
-            fontSize="small-font-size"
             data={{
               journeyMapCount: board?.journeyMapCount || 0,
               personasCount: board?.personasCount || 0,
@@ -90,7 +92,7 @@ const BoardCard: FC<IBoardCard> = ({
                 ))}
             </div>
             {board?.journeyMapCount > maxCardNumber && (
-              <li className="min-w-[8.5rem] h-[8.5rem] border border-[#d8d8d8] hover:!border-[var(--primary)] rounded text-[var(--primary)] font-medium flex items-center justify-center">
+              <li className="min-w-[8.5rem] h-[8.5rem] border border-[var(--medium-light-gray)] hover:!border-[var(--primary)] rounded text-[var(--primary)] font-medium flex items-center justify-center">
                 and {board?.journeyMapCount - maxCardNumber} more
               </li>
             )}

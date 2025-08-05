@@ -299,7 +299,7 @@ const BoardsScreen = () => {
       )}
       <div>
         <h3 className={'base-title !text-heading-2'}>{workspace?.name}</h3>
-        <div className="flex items-center justify-between !pt-4 !pb-8 border-b border-[#d8d8d8]">
+        <div className="flex items-center justify-between !pt-4 !pb-8 border-b border-[var(--medium-light-gray)]">
           <EditableItemForm
             createButtonText={'New board'}
             inputPlaceholder={'Board Name'}

@@ -442,7 +442,7 @@ const JourniesScreen = () => {
         <div className="journeys--top-section">
           <div className="journeys--top-section--name-block">
             <div className={'journeys--top-section--name-block--container'}>
-              <p className={'base-title !text-heading-2'}>
+              <p className={'base-title !text-heading-2 truncate max-w-[80%]'}>
                 {dataBoard?.getBoardById.name?.trim() || 'Untitled'}
               </p>
               {dataBoard?.getBoardById.workspace.id && (

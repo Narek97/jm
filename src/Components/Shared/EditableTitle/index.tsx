@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import './style.scss';
+import './style.css';
 
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
