@@ -6,10 +6,10 @@ export type CreateUserMutationVariables = Types.Exact<{
   createUserInput: Types.CreateUserInput;
 }>;
 
-
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'Member', id: number, userId: number, createdAt: any, updatedAt: any } };
-
-
+export type CreateUserMutation = {
+  __typename?: 'Mutation';
+  createUser: { __typename?: 'Member'; id: number; userId: number; createdAt: any; updatedAt: any };
+};
 
 export const CreateUserDocument = `
     mutation createUser($createUserInput: CreateUserInput!) {
@@ -22,17 +22,14 @@ export const CreateUserDocument = `
 }
     `;
 
-export const useCreateUserMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => {
-    
-    return useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
-      {
+export const useCreateUserMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>,
+) => {
+  return useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>({
     mutationKey: ['createUser'],
     mutationFn: axiosRequest<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument),
-    ...options
-  }
-    )};
+    ...options,
+  });
+};
 
 useCreateUserMutation.getKey = () => ['createUser'];

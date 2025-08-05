@@ -6,10 +6,16 @@ export type CreateJourneyMapColumnMutationVariables = Types.Exact<{
   createColumnInput: Types.CreateColumnInput;
 }>;
 
-
-export type CreateJourneyMapColumnMutation = { __typename?: 'Mutation', createJourneyMapColumn: { __typename?: 'CreateColumnResponse', id: number, index: number, label?: string | null, stepId: number } };
-
-
+export type CreateJourneyMapColumnMutation = {
+  __typename?: 'Mutation';
+  createJourneyMapColumn: {
+    __typename?: 'CreateColumnResponse';
+    id: number;
+    index: number;
+    label?: string | null;
+    stepId: number;
+  };
+};
 
 export const CreateJourneyMapColumnDocument = `
     mutation CreateJourneyMapColumn($createColumnInput: CreateColumnInput!) {
@@ -22,17 +28,27 @@ export const CreateJourneyMapColumnDocument = `
 }
     `;
 
-export const useCreateJourneyMapColumnMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateJourneyMapColumnMutation, TError, CreateJourneyMapColumnMutationVariables, TContext>) => {
-    
-    return useMutation<CreateJourneyMapColumnMutation, TError, CreateJourneyMapColumnMutationVariables, TContext>(
-      {
+export const useCreateJourneyMapColumnMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateJourneyMapColumnMutation,
+    TError,
+    CreateJourneyMapColumnMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    CreateJourneyMapColumnMutation,
+    TError,
+    CreateJourneyMapColumnMutationVariables,
+    TContext
+  >({
     mutationKey: ['CreateJourneyMapColumn'],
-    mutationFn: axiosRequest<CreateJourneyMapColumnMutation, CreateJourneyMapColumnMutationVariables>(CreateJourneyMapColumnDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<
+      CreateJourneyMapColumnMutation,
+      CreateJourneyMapColumnMutationVariables
+    >(CreateJourneyMapColumnDocument),
+    ...options,
+  });
+};
 
 useCreateJourneyMapColumnMutation.getKey = () => ['CreateJourneyMapColumn'];

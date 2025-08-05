@@ -415,7 +415,6 @@ const PersonaGalleryModal: FC<IPersonaGalleryModal> = ({
         </div>
 
         <p className={'mt-4 text-[0.75rem]'}>To upload, drag files on the upload box.</p>
-
       </>
       {cropModalData?.source && (
         <CropImageModal

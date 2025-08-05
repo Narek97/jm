@@ -6,10 +6,17 @@ export type CreateBoardMutationVariables = Types.Exact<{
   createBoardInput: Types.CreateBoardInput;
 }>;
 
-
-export type CreateBoardMutation = { __typename?: 'Mutation', createBoard: { __typename?: 'Board', id: number, name: string, defaultMapId?: number | null, createdAt: any, updatedAt: any } };
-
-
+export type CreateBoardMutation = {
+  __typename?: 'Mutation';
+  createBoard: {
+    __typename?: 'Board';
+    id: number;
+    name: string;
+    defaultMapId?: number | null;
+    createdAt: any;
+    updatedAt: any;
+  };
+};
 
 export const CreateBoardDocument = `
     mutation CreateBoard($createBoardInput: CreateBoardInput!) {
@@ -23,17 +30,16 @@ export const CreateBoardDocument = `
 }
     `;
 
-export const useCreateBoardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>) => {
-    
-    return useMutation<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>(
-      {
+export const useCreateBoardMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>,
+) => {
+  return useMutation<CreateBoardMutation, TError, CreateBoardMutationVariables, TContext>({
     mutationKey: ['CreateBoard'],
-    mutationFn: axiosRequest<CreateBoardMutation, CreateBoardMutationVariables>(CreateBoardDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<CreateBoardMutation, CreateBoardMutationVariables>(
+      CreateBoardDocument,
+    ),
+    ...options,
+  });
+};
 
 useCreateBoardMutation.getKey = () => ['CreateBoard'];

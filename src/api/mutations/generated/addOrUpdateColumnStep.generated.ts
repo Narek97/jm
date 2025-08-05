@@ -6,10 +6,19 @@ export type AddOrUpdateColumnStepMutationVariables = Types.Exact<{
   addOrUpdateColumnStepInput: Types.AddOrUpdateColumnStepInput;
 }>;
 
-
-export type AddOrUpdateColumnStepMutation = { __typename?: 'Mutation', addOrUpdateColumnStep: { __typename?: 'CreateUpdateStepModel', columnStep: { __typename?: 'ColumnStep', id: number, columnId: number, index: number }, createdColumnStep?: { __typename?: 'ColumnStep', id: number, columnId: number, index: number } | null } };
-
-
+export type AddOrUpdateColumnStepMutation = {
+  __typename?: 'Mutation';
+  addOrUpdateColumnStep: {
+    __typename?: 'CreateUpdateStepModel';
+    columnStep: { __typename?: 'ColumnStep'; id: number; columnId: number; index: number };
+    createdColumnStep?: {
+      __typename?: 'ColumnStep';
+      id: number;
+      columnId: number;
+      index: number;
+    } | null;
+  };
+};
 
 export const AddOrUpdateColumnStepDocument = `
     mutation AddOrUpdateColumnStep($addOrUpdateColumnStepInput: AddOrUpdateColumnStepInput!) {
@@ -28,17 +37,26 @@ export const AddOrUpdateColumnStepDocument = `
 }
     `;
 
-export const useAddOrUpdateColumnStepMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AddOrUpdateColumnStepMutation, TError, AddOrUpdateColumnStepMutationVariables, TContext>) => {
-    
-    return useMutation<AddOrUpdateColumnStepMutation, TError, AddOrUpdateColumnStepMutationVariables, TContext>(
-      {
+export const useAddOrUpdateColumnStepMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    AddOrUpdateColumnStepMutation,
+    TError,
+    AddOrUpdateColumnStepMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    AddOrUpdateColumnStepMutation,
+    TError,
+    AddOrUpdateColumnStepMutationVariables,
+    TContext
+  >({
     mutationKey: ['AddOrUpdateColumnStep'],
-    mutationFn: axiosRequest<AddOrUpdateColumnStepMutation, AddOrUpdateColumnStepMutationVariables>(AddOrUpdateColumnStepDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<AddOrUpdateColumnStepMutation, AddOrUpdateColumnStepMutationVariables>(
+      AddOrUpdateColumnStepDocument,
+    ),
+    ...options,
+  });
+};
 
 useAddOrUpdateColumnStepMutation.getKey = () => ['AddOrUpdateColumnStep'];
