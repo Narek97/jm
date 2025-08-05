@@ -6,31 +6,10 @@ interface IDragHandle {
 
 const DragHandle: FC<IDragHandle> = props => (
   <div
-    className="
-        w-4
-h-inherit
-    bg-[#d8d8d8]
- group-hover:bg-[#1B87E6]
-       absolute
-    top-[-0px]
-    left-[-1px]
-    z-10
-h-full
-    rounded-l
-    hover:cursor-grab
-flex items-center justify-center
-
-  "
+    className="absolute left-[-1px] top-0 z-10 flex h-full w-4 items-center justify-center rounded-l bg-[var(--medium-light-gray)] hover:cursor-grab group-hover:bg-[var(--primary)]"
     aria-label="drag"
     {...props}>
-    <span
-      className="
-        wm-drag-indicator
-         opacity-0
-        group-hover:opacity-100
-        text-white
-      "
-    />
+    <span className="wm-drag-indicator opacity-0 text-white group-hover:opacity-100" />
   </div>
 );
 

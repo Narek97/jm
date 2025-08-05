@@ -109,7 +109,7 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
             }}
           />
           {maxLength && (
-            <span className={'absolute top-2 right-0 text-xs text-[#878f99]\n'}>
+            <span className={'absolute top-2 right-0 text-xs text-[var(--text-light)]\n'}>
               {inputValue?.length} / {maxLength}
             </span>
           )}
@@ -119,7 +119,7 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
           <WuTooltip className={'wu-tooltip-content'} content={inputValue || 'Untitled'}>
             <p
               className={
-                'font-medium text-[#1b87e6] truncate max-w-[17.625rem]'
+                'font-medium text-[var(--primary)] truncate max-w-[17.625rem]'
               }>
               {inputValue?.trim() || 'Untitled'}
             </p>

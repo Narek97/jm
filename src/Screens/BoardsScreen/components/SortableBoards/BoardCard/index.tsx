@@ -47,7 +47,7 @@ const BoardCard: FC<IBoardCard> = ({
     <div
       className="relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem] !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
          border border-[#e5e7eb] border-l-[0.375rem] rounded text-[#545e6b] cursor-pointer
-         flex items-start justify-center gap-4 overflow-hidden hover:!border-[#1b87e6] hover:border-l-[0.375rem] group"
+         flex items-start justify-center gap-4 overflow-hidden hover:!border-[var(--primary)] hover:border-l-[0.375rem] group"
       data-testid={`board-card-${board?.id}`}
       onClick={onNavigateWhiteboardPage}>
       <DragHandle {...sortableAttributes} {...sortableListeners} />
@@ -90,15 +90,15 @@ const BoardCard: FC<IBoardCard> = ({
                 ))}
             </div>
             {board?.journeyMapCount > maxCardNumber && (
-              <li
-                className="min-w-[8.5rem] h-[8.5rem] border border-[#d8d8d8] hover:!border-[#1b87e6] rounded text-[#1b87e6] font-medium flex items-center justify-center">
+              <li className="min-w-[8.5rem] h-[8.5rem] border border-[#d8d8d8] hover:!border-[var(--primary)] rounded text-[var(--primary)] font-medium flex items-center justify-center">
                 and {board?.journeyMapCount - maxCardNumber} more
               </li>
-
             )}
           </>
         ) : (
-          <div className="flex items-center h-full text-[0.75rem] text-[#878f99]">No journey maps yet</div>
+          <div className="flex items-center h-full text-[0.75rem] text-[#878f99]">
+            No journey maps yet
+          </div>
         )}
       </ul>
     </div>
