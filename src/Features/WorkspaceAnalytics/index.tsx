@@ -14,6 +14,7 @@ interface IWorkspaceAnalytics {
   outcomeGroups?: GetBoardOutcomesStatQuery['getBoardOutcomesStat']['outcomeStats'];
   pinnedOutcomeGroupCount?: number;
   viewAll?: () => void;
+  className?: string;
 }
 
 const WorkspaceAnalytics: FC<IWorkspaceAnalytics> = ({
@@ -23,11 +24,14 @@ const WorkspaceAnalytics: FC<IWorkspaceAnalytics> = ({
   showType,
   viewAll,
   pinnedOutcomeGroupCount,
+  className,
 }) => {
   const onHandleClick = () => {};
 
   return (
-    <ul className={'workspace--analytics'} data-testid="workspace--analytics-test-id">
+    <ul
+      className={`workspace--analytics ${className || ''}`}
+      data-testid="workspace--analytics-test-id">
       {data &&
         WORKSPACE_ANALYTICS_ITEMS(onHandleClick)?.map(item => (
           <li
