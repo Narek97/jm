@@ -45,12 +45,9 @@ const BoardCard: FC<IBoardCard> = ({
 
   return (
     <div
-      className="
-        relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem]
-        !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
-        card-borders !border-l-0 rounded cursor-pointer
-        flex items-start justify-center gap-4 overflow-hidden group
-      "
+      className="relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem] !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
+       border border-[#e5e7eb] border-l-[0.375rem] rounded text-[#545e6b] cursor-pointer
+       flex items-start justify-center gap-4 overflow-hidden hover:!border-[#1b87e6] hover:border-l-[0.375rem] group"
       data-testid={`board-card-${board?.id}`}
       onClick={onNavigateWhiteboardPage}>
       <DragHandle {...sortableAttributes} {...sortableListeners} />
