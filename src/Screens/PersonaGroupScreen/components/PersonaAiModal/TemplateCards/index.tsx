@@ -1,5 +1,3 @@
-import './style.scss';
-
 import { useCallback } from 'react';
 
 import { WuIcon } from '@npm-questionpro/wick-ui-lib';
@@ -29,11 +27,13 @@ const TemplateCards = ({
 
   return (
     <>
-      <div className="template-cards-header">
-        <WuIcon icon="wm-cards" />
-        <h4 data-testid="template-cards">Template cards</h4>
+      <div className="flex gap-1 !my-8">
+        <WuIcon icon="wm-cards" className="text-[3rem]" />
+        <h4 className="text-md font-semibold" data-testid="template-cards">
+          Template cards
+        </h4>
       </div>
-      <div className="template-cards-container">
+      <div className="grid grid-cols-3 gap-4">
         {AI_CARD_OPTIONS.map(({ key, title, description }) => (
           <Card
             id={key}
