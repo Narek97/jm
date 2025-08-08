@@ -134,7 +134,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
             {renderedOrganizationBoardsData?.length ? (
               <div
                 className={
-                  'h-[21.5rem] p-4 mb-4 overflow-x-auto border-b-[0.0625rem] border-b-[#e8e8e8]'
+                  'h-[21.5rem] p-4 mb-4 overflow-x-auto border-b-[0.0625rem] border-b-[var(--soft-gray)]'
                 }
                 onScroll={e => {
                   onHandleFetchWorkspaces(e, childRef.current?.offsetHeight || 0);

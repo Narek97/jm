@@ -163,7 +163,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ map, createMap, onHandleDeleteJourn
                     {item.index === 'addButton' ? (
                       <div
                         className={
-                          'add-new-child-btn !flex !items-center !justify-center !rounded-[0.1rem] !text-[0.875rem] !w-full !border-[0.08rem] !border-[#1b87e6] !text-[#1b87e6] !box-content !p-[0.403rem] gap-[0.4rem] opacity-0 hover:bg-[#1b87e6] hover:!text-[#ffffff]'
+                          'add-new-child-btn !flex !items-center !justify-center !rounded-[0.1rem] !text-[0.875rem] !w-full !border-[0.08rem] !border-[#1b87e6] !text-[var(--primary)] !box-content !p-[0.403rem] gap-[0.4rem] opacity-0 hover:bg-[var(--primary)] hover:!text-[var(--background)]'
                         }
                         onClick={() => createMap(map?.id)}>
                         <span className="wm-add" />

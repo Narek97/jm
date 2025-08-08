@@ -76,9 +76,7 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
           )}
           <div data-testid="workspaces-list-id" className={'p-2 h-[26rem]'}>
             {isLoadingWorkspaces && !workspaces?.length ? (
-              <div>
-                <BaseWuLoader />
-              </div>
+              <BaseWuLoader />
             ) : (
               <>
                 {workspaces?.length ? (

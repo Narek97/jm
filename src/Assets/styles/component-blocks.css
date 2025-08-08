@@ -1,9 +1,0 @@
-.selectable-item {
-  @apply mb-4 flex justify-between items-center cursor-pointer
-    border border-[var(--medium-light-gray)]
-    border-l-[0.375rem] rounded
-    px-3 py-[0.639rem] pb-3
-    text-[var(--text)]
-    hover:border-[var(--primary)]
-    hover:border-l-[0.375rem] hover:border-l-[var(--primary)];
-}
