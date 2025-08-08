@@ -1,4 +1,3 @@
-import './style.scss';
 import { WuToggle } from '@npm-questionpro/wick-ui-lib';
 
 const DemographicInfo = ({
@@ -9,7 +8,7 @@ const DemographicInfo = ({
   onChange: (value: boolean) => void;
 }) => {
   return (
-    <div className="demographic-info-container">
+    <div className="flex items-center">
       <WuToggle
         label="Demographic information"
         labelPosition="right"

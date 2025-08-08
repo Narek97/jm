@@ -87,8 +87,7 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
   useEffect(() => {
     setGalleryName(item?.name || '');
   }, [item?.name]);
-  console.log(selectedPersonaImgId,'selectedPersonaImgId');
-  console.log(item.id,'item.id');
+  
   return (
     <figure
       data-testid={`persona-gallery-test-id-${item.id}`}
@@ -102,13 +101,12 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
       }}>
       <div className={'w-full h-[8rem] overflow-hidden'}>
         <img
-          className={"w-full h-full object-cover"}
+          className={'w-full h-full object-cover'}
           src={`${
             item.url
               ? `${import.meta.env.VITE_AWS_URL}/${item.url}/large${item?.hasResizedVersions ? getResizedFileName(item.key, IMAGE_ASPECT) : item.key}`
               : `${import.meta.env.VITE_AWS_URL}/${item?.hasResizedVersions ? getResizedFileName(item.key, IMAGE_ASPECT) : item.key}`
           }`}
-
           alt={item.name || 'img'}
         />
       </div>
@@ -145,8 +143,15 @@ const PersonaGalleryItem: FC<IPersonaGalleryItem> = ({
           {galleryName}
         </figcaption>
       )}
-      <div className={'flex items-center justify-center w-[32px] h-[32px] absolute top-2 right-2 invisible group-hover:visible! hover:bg-black/20'}>
-        <BaseWuMenu options={options} item={item} trigger={ <span className={'wm-more-vert cursor-pointer text-white'} />} />
+      <div
+        className={
+          'flex items-center justify-center w-[32px] h-[32px] absolute top-2 right-2 invisible group-hover:visible! hover:bg-black/20'
+        }>
+        <BaseWuMenu
+          options={options}
+          item={item}
+          trigger={<span className={'wm-more-vert cursor-pointer text-white'} />}
+        />
       </div>
     </figure>
   );

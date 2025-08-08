@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './style.scss';
 
 import { useWuShowToast } from '@npm-questionpro/wick-ui-lib';
 import { useParams } from '@tanstack/react-router';
@@ -282,7 +281,7 @@ const BoardsScreen = () => {
   }
 
   return (
-    <div className={'boards'} data-testid={'boards-test-id'}>
+    <div className={'!py-2 !px-8 !h-full'} data-testid={'boards-test-id'}>
       {isOpenBoardDeleteModal && (
         <BoardDeleteModal
           isOpen={isOpenBoardDeleteModal}
@@ -298,15 +297,16 @@ const BoardsScreen = () => {
           boardId={selectedBoardId}
         />
       )}
-      <div className={'boards--header'}>
+      <div>
         <h3 className={'base-title !text-heading-2'}>{workspace?.name}</h3>
-        <div className="boards--create-section">
+        <div className="flex items-center justify-between !pt-4 !pb-8 border-b border-[var(--medium-light-gray)]">
           <EditableItemForm
             createButtonText={'New board'}
             inputPlaceholder={'Board Name'}
             value={''}
             isLoading={isLoadingCreateBoard}
             onHandleCreate={onHandleCreateBoard}
+            maxLength={100}
           />
           {boardsDataCount > BOARDS_LIMIT && (
             <Pagination
@@ -318,7 +318,7 @@ const BoardsScreen = () => {
           )}
         </div>
       </div>
-      <div className={'boards--body'}>
+      <div className={'[height:calc(100dvh-15rem)] !mt-4 overflow-auto'}>
         {isLoadingBoards && !boardsData.length ? (
           <BaseWuLoader />
         ) : (

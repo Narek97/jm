@@ -6,10 +6,10 @@ export type RetrieveRowMutationVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type RetrieveRowMutation = { __typename?: 'Mutation', retrieveRow: { __typename?: 'MapRow', id: number } };
-
-
+export type RetrieveRowMutation = {
+  __typename?: 'Mutation';
+  retrieveRow: { __typename?: 'MapRow'; id: number };
+};
 
 export const RetrieveRowDocument = `
     mutation RetrieveRow($id: Int!) {
@@ -19,17 +19,16 @@ export const RetrieveRowDocument = `
 }
     `;
 
-export const useRetrieveRowMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RetrieveRowMutation, TError, RetrieveRowMutationVariables, TContext>) => {
-    
-    return useMutation<RetrieveRowMutation, TError, RetrieveRowMutationVariables, TContext>(
-      {
+export const useRetrieveRowMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<RetrieveRowMutation, TError, RetrieveRowMutationVariables, TContext>,
+) => {
+  return useMutation<RetrieveRowMutation, TError, RetrieveRowMutationVariables, TContext>({
     mutationKey: ['RetrieveRow'],
-    mutationFn: axiosRequest<RetrieveRowMutation, RetrieveRowMutationVariables>(RetrieveRowDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<RetrieveRowMutation, RetrieveRowMutationVariables>(
+      RetrieveRowDocument,
+    ),
+    ...options,
+  });
+};
 
 useRetrieveRowMutation.getKey = () => ['RetrieveRow'];

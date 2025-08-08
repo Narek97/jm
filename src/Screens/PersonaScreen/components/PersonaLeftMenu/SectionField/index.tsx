@@ -169,7 +169,9 @@ const SectionField: FC<ISectionField> = memo(
             </div>
           </>
         ) : (
-          <div className={'bg-[#f4f4f4] rounded-[0.2rem] mt-[8px]! h-[288px]'} onClick={onHandleToggleGalleryModal}>
+          <div
+            className={'bg-[#f4f4f4] rounded-[0.2rem] mt-[8px]! h-[288px]'}
+            onClick={onHandleToggleGalleryModal}>
             <ImageViewAndUpload
               hasResizedVersions={false}
               croppedArea={null}

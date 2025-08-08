@@ -13,6 +13,7 @@ interface IEditableItemForm {
   isEdit?: boolean;
   onHandleCreate: (value: string, callback?: () => void) => Promise<boolean>;
   onHandleUpdate?: (value: string, callback?: () => void) => Promise<boolean>;
+  maxLength?: number;
 }
 
 const EditableItemForm: FC<IEditableItemForm> = ({
@@ -23,6 +24,7 @@ const EditableItemForm: FC<IEditableItemForm> = ({
   isEdit,
   onHandleCreate,
   onHandleUpdate,
+  maxLength,
 }) => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -57,6 +59,11 @@ const EditableItemForm: FC<IEditableItemForm> = ({
           placeholder={inputPlaceholder}
           maxLength={100}
         />
+        {isOpen && maxLength && (
+          <span className={'editable-input--max-length'}>
+            {inputValue?.length} / {maxLength}
+          </span>
+        )}
         <WuButton
           disabled={isLoading || !inputValue.trim().length}
           className={isLoading ? 'disabled-btn' : ''}

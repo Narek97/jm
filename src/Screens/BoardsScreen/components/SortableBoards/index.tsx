@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 
-import './style.scss';
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -54,7 +53,7 @@ const SortableBoardItem: FC<SortableBoardItemProps> = ({
   };
 
   return (
-    <li ref={setNodeRef} style={style} className="sortable-boards--list">
+    <li ref={setNodeRef} style={style} className="mt-4">
       <ErrorBoundary>
         <BoardCard
           board={board}
@@ -125,7 +124,7 @@ const SortableBoards: FC<SortableBoardsProps> = ({
       <SortableContext
         items={sortableBoards.map(item => item.id)}
         strategy={verticalListSortingStrategy}>
-        <ul className="sortable-boards">
+        <ul>
           {sortableBoards.map(board => (
             <SortableBoardItem
               key={board.id}

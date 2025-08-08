@@ -442,7 +442,7 @@ const JourniesScreen = () => {
         <div className="max-[1000px]:flex-col flex justify-between items-start">
           <div className="min-w-[12.5rem] max-w-[calc(100%-32.5rem)] truncate">
             <div className={'flex gap-2'}>
-              <p className={'!text-heading-2'}>
+              <p className={'!text-heading-2 truncate max-w-[80%]'}>
                 {dataBoard?.getBoardById.name?.trim() || 'Untitled'}
               </p>
               {dataBoard?.getBoardById.workspace.id && (

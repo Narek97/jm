@@ -17,6 +17,7 @@ import { useDeleteMapRowMutation } from '@/api/mutations/generated/deleteMapRow.
 import { useDeleteMetricsMutation } from '@/api/mutations/generated/deleteMetrics.generated';
 import { useDeleteOutcomeMutation } from '@/api/mutations/generated/deleteOutcome.generated';
 import { useDeleteTouchPointMutation } from '@/api/mutations/generated/deleteTouchPoint.generated';
+import { useDisablePersonaForRowMutation } from '@/api/mutations/generated/disablePersonaForRow.generated';
 import { useMergeJourneyMapColumnMutation } from '@/api/mutations/generated/mergeJourneyMapColumn.generated';
 import { useRemoveBoxElementMutation } from '@/api/mutations/generated/removeBoxElement.generated';
 import { useRestoreMetricsMutation } from '@/api/mutations/generated/restoreMetrics.generated';
@@ -32,6 +33,7 @@ import { useUpdateJourneyMapRowMutation } from '@/api/mutations/generated/update
 import { useUpdateMapLinkMutation } from '@/api/mutations/generated/updateLink.generated';
 import { useUpdateLinkBgColorMutation } from '@/api/mutations/generated/updateLinkBGColor.generated';
 import { useUpdateMetricsMutation } from '@/api/mutations/generated/updateMetrics.generated';
+import { useUpdatePersonaStateMutation } from '@/api/mutations/generated/updatePersonaState.generated';
 import { useUpdateTouchPointMutation } from '@/api/mutations/generated/updateTouchPoint.generated';
 import { LinkTypeEnum } from '@/api/types.ts';
 import { onDragEndMap } from '@/Screens/JourneyMapScreen/helpers/onDragEndMap.ts';
@@ -84,6 +86,8 @@ export const useUpdateMap = () => {
   const { mutate: removeColumnStep } = useDeleteColumnStepMutation();
   const { mutate: unMergeColumns } = useUnMergeJourneyMapColumnMutation();
   const { mutate: mergeColumns } = useMergeJourneyMapColumnMutation();
+  const { mutate: updatePersonaState } = useUpdatePersonaStateMutation();
+  const { mutate: toggleDisablePersona } = useDisablePersonaForRowMutation();
 
   const queryClient = useQueryClient();
 
@@ -219,6 +223,87 @@ export const useUpdateMap = () => {
           });
 
           updateJourneyMap({ rows });
+
+          break;
+        }
+        case JourneyMapRowActionEnum.SENTIMENT: {
+          switch (action) {
+            case ActionsEnum.UPDATE: {
+              if (undoRedo) {
+                updatePersonaState({
+                  updatePersonaStateInput: {
+                    stepId: data.stepId,
+                    personaId: data.personaId,
+                    state: undoRedo === UndoRedoEnum.UNDO ? data.previousState : data.state,
+                    rowId: data.rowId,
+                  },
+                });
+              }
+
+              const rows = journeyMap.rows.map(row => {
+                if (row.id !== data.rowId) return row;
+
+                return {
+                  ...row,
+                  rowWithPersonas: row.rowWithPersonas.map(persona => {
+                    if (persona.id !== data.personaId) return persona;
+
+                    return {
+                      ...persona,
+                      personaStates: persona.personaStates?.map(state => {
+                        if (state.stepId !== data.stepId) return state;
+
+                        return {
+                          ...state,
+                          state: undoRedo === UndoRedoEnum.UNDO ? data.previousState : data.state,
+                        };
+                      }),
+                    };
+                  }),
+                };
+              });
+              updateJourneyMap({ rows });
+
+              break;
+            }
+
+            case ActionsEnum.DISABLE: {
+              if (undoRedo) {
+                toggleDisablePersona({
+                  disablePersonaInput: {
+                    rowId: data.rowId,
+                    disablePersonaForRowInput: {
+                      id: data.personaId,
+                      disable: undoRedo === UndoRedoEnum.UNDO ? data.previousState : data.disable,
+                    },
+                  },
+                });
+              }
+
+              const rows = journeyMap.rows.map(row => {
+                if (row.id !== data.rowId) return row;
+
+                return {
+                  ...row,
+                  rowWithPersonas: row.rowWithPersonas.map(persona => {
+                    if (persona.id !== data.personaId) return persona;
+
+                    return {
+                      ...persona,
+                      isDisabledForThisRow:
+                        undoRedo === UndoRedoEnum.UNDO ? data.previousState : data.disable,
+                    };
+                  }),
+                };
+              });
+              updateJourneyMap({ rows });
+
+              break;
+            }
+
+            default:
+              break;
+          }
 
           break;
         }
@@ -713,32 +798,6 @@ export const useUpdateMap = () => {
                         stepId: data.stepId,
                       };
                       addMapNewItem(newData, 'metrics');
-
-                      updateUndoActions(
-                        undoActions.map(el => {
-                          if (el.data.id === data.id) {
-                            return {
-                              ...el,
-                              data: { ...el.data, ...response?.restoreMetrics },
-                            };
-                          }
-                          return el;
-                        }),
-                      );
-                      updateRedoActions(
-                        redoActions.map(el => {
-                          if (el.data.id === data.id) {
-                            return {
-                              ...el,
-                              data: {
-                                ...el.data,
-                                ...response?.restoreMetrics,
-                              },
-                            };
-                          }
-                          return el;
-                        }),
-                      );
                     },
                   },
                 );
@@ -790,32 +849,6 @@ export const useUpdateMap = () => {
                       };
 
                       updateMapMetrics(newData);
-
-                      updateUndoActions(
-                        undoActions.map(el => {
-                          if (el.data.id === data.id) {
-                            return {
-                              ...el,
-                              data: { ...el.data, ...response?.retrieveMetricsData },
-                            };
-                          }
-                          return el;
-                        }),
-                      );
-                      updateRedoActions(
-                        redoActions.map(el => {
-                          if (el.data.id === data.id) {
-                            return {
-                              ...el,
-                              data: {
-                                ...el.data,
-                                ...response?.retrieveMetricsData,
-                              },
-                            };
-                          }
-                          return el;
-                        }),
-                      );
                     },
                   },
                 );
@@ -838,12 +871,6 @@ export const useUpdateMap = () => {
               retryMetrics({
                 id: data.id,
                 previous: undoRedo === UndoRedoEnum.UNDO,
-              });
-              updateMetrics({
-                updateMetricsInput: {
-                  id: data?.id as number,
-                  positionInput: data.undoPositionInput,
-                },
               });
               onHandleDrag(data, 'METRICS', undoRedo);
               break;

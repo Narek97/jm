@@ -6,6 +6,7 @@ mutation CreateMetrics($createMetricsInput: CreateMetricsInput!, $createDataPoin
     columnId
     name
     commentsCount
+    tagsCount
     descriptionEnabled
     description
     type

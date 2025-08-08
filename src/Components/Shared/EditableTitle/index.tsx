@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import './style.scss';
+import './style.css';
 
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 
@@ -76,7 +76,7 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
   }, [isTitleEditMode]);
 
   return (
-    <div className={'editable-input'}>
+    <div className={'relative'}>
       {isTitleEditMode ? (
         <>
           <BaseWuInput
@@ -89,7 +89,6 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
               borderBottom: '1px solid #1b87e6',
               paddingRight: maxLength ? '3.125rem' : 'initial',
             }}
-            className={'editable-input-input'}
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
@@ -110,18 +109,22 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
             }}
           />
           {maxLength && (
-            <span className={'editable-input--max-length'}>
+            <span className={'absolute top-2 right-0 text-xs text-[var(--text-light)]\n'}>
               {inputValue?.length} / {maxLength}
             </span>
           )}
         </>
       ) : (
-        <div className={'editable-input--name-option-block'}>
+        <div className={'editable-input--name-option-block flex items-center'}>
           <WuTooltip className={'break-all'} content={inputValue || 'Untitled'}>
-            <p className={'editable-input--name'}>{inputValue?.trim() || 'Untitled'}</p>
+            <p
+              className={
+                'font-medium text-[var(--primary)] truncate max-w-[17.625rem]'
+              }>
+              {inputValue?.trim() || 'Untitled'}
+            </p>
           </WuTooltip>
-
-          <div className={'editable-input--menu'}>
+          <div className={'ml-4'}>
             <BaseWuMenu item={item} options={options} />
           </div>
         </div>
