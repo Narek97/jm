@@ -288,7 +288,7 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({ workspaceId, ma
                                 <div
                                   className={'assign-persona-to-map--content--personas-item-info'}>
                                   <WuTooltip
-                                    className={'wu-tooltip-content'}
+                                    className={'break-all'}
                                     positionOffset={10}
                                     content={persona?.name}
                                     position={'bottom'}>
@@ -340,7 +340,7 @@ const AssignPersonaToMapModal: FC<IAssignPersonaToMapModal> = ({ workspaceId, ma
                                 'assign-persona-to-map--content--personas-item-info--title'
                               }>
                               <WuTooltip
-                                className={'wu-tooltip-content'}
+                                className={'break-all'}
                                 positionOffset={10}
                                 content={personaGroup.name?.trim() || 'Untitled'}
                                 position={'bottom'}>

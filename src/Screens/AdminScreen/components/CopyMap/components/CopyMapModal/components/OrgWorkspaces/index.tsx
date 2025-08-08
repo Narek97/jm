@@ -1,7 +1,5 @@
 import { FC, useCallback, useMemo } from 'react';
 
-import './style.scss';
-
 import WorkspaceItem from './WorkspaceItem';
 
 import { useGetWorkspacesForPastQuery } from '@/api/queries/generated/getWorkspacesForPaste.generated';
@@ -52,8 +50,10 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
   return (
     <>
       {errorWorkspaces ? (
-        <div className={'workspaces-error'}>
-          <div className={'workspaces-error--text'}>{errorWorkspaces?.message}</div>
+        <div className={'h-[23.3rem]'}>
+          <div className={'pb-[3.75rem] px-5 !pt-[1rem] pb-15 !text-[color:var(--error)]'}>
+            {errorWorkspaces?.message}
+          </div>
         </div>
       ) : (
         <>
@@ -67,34 +67,33 @@ const OrgWorkspace: FC<IOrgWorkspace> = ({ orgId, level }) => {
                   workspaceId: null,
                 });
               }}
-              className={'go-back'}>
+              className={
+                'w-40 !my-[0.625rem] mb-4 ml-1 flex items-center justify-center gap-2 text-[var(--BASE_GRAY_COLOR)] hover:cursor-pointer hover:!text-[var(--primary)] group'
+              }>
               <span className={'wm-arrow-back'} />
-
-              <div className={'go-back--text'}>Go to Orgs</div>
+              <div>Go to Orgs</div>
             </div>
           )}
-          <div data-testid="workspaces-list-id" className={'workspaces-list'}>
-            <div className={'workspaces-list--content'}>
-              {isLoadingWorkspaces && !workspaces?.length ? (
-                <div className={'workspaces-list-loading-section'}>
-                  <BaseWuLoader />
-                </div>
-              ) : (
-                <>
-                  {workspaces?.length ? (
-                    <ul className={'workspaces-list--content-workspaces'}>
-                      {workspaces?.map(workspace => (
-                        <ErrorBoundary key={workspace.id}>
-                          <WorkspaceItem workspace={workspace} handleClick={workspaceItemCLick} />
-                        </ErrorBoundary>
-                      ))}
-                    </ul>
-                  ) : (
-                    <EmptyDataInfo message={'There are no workspaces yet'} />
-                  )}
-                </>
-              )}
-            </div>
+          <div data-testid="workspaces-list-id" className={'p-2 h-[26rem]'}>
+            {isLoadingWorkspaces && !workspaces?.length ? (
+              <div>
+                <BaseWuLoader />
+              </div>
+            ) : (
+              <>
+                {workspaces?.length ? (
+                  <ul className={'h-full p-4 overflow-x-auto'}>
+                    {workspaces?.map(workspace => (
+                      <ErrorBoundary key={workspace.id}>
+                        <WorkspaceItem workspace={workspace} handleClick={workspaceItemCLick} />
+                      </ErrorBoundary>
+                    ))}
+                  </ul>
+                ) : (
+                  <EmptyDataInfo message={'There are no workspaces yet'} />
+                )}
+              </>
+            )}
           </div>
         </>
       )}

@@ -344,7 +344,7 @@ const SectionCard: FC<ISectionCard> = memo(
               <span className={'wm-content-copy'} />
             </button>
             <WuTooltip
-              className="wu-tooltip-content"
+              className="break-all"
               content={`${layout.isHidden ? 'Show' : 'Hide'} demographic`}
               dir="ltr"
               duration={200}

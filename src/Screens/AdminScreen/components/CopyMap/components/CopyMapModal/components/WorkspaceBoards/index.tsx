@@ -1,6 +1,4 @@
-import { FC, useCallback, useMemo, useRef, useState } from 'react';
-
-import './style.scss';
+import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import BoardItem from './BoardItem';
 import { WorkspaceBoardsType } from './types';
@@ -111,31 +109,33 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
   return (
     <div
       data-testid="boards-list-id"
-      className={`boards-list ${isLoadingCopyMap ? 'disabled-section' : ''}`}>
-      <div className={'boards-list--content'}>
+      className={`p-2 h-[26rem] ${isLoadingCopyMap ? 'pointer-events-none hover:cursor-pointer hover:text-[var(--text)] hover:path:stroke-[var(--text)]' : ''}`}>
+      <div>
         {workspaceBoardsIsLoading && !renderedOrganizationBoardsData?.length ? (
-          <div className={'boards-list-loading-section'}>
+          <div>
             <BaseWuLoader />
           </div>
         ) : (
           <>
             <div
+              data-testid="go-back-org"
               onClick={() => {
                 setCopyMapState({
                   template: CopyMapLevelTemplateEnum.WORKSPACES,
                   boardId: null,
                 });
               }}
-              className={`go-back`}>
+              className={
+                'w-40 !my-[0.625rem] mb-4 ml-1 flex items-center justify-center gap-2 text-[var(--BASE_GRAY_COLOR)] hover:cursor-pointer hover:!text-[var(--primary)] group'
+              }>
               <span className={'wm-arrow-back'} />
-
-              <button disabled={isLoadingCopyMap} className={`go-back--text`}>
-                Go to workspaces
-              </button>
+              <button disabled={isLoadingCopyMap}>Go to workspaces</button>
             </div>
             {renderedOrganizationBoardsData?.length ? (
               <div
-                className={'boards-list--content-boards'}
+                className={
+                  'h-[21.5rem] p-4 mb-4 overflow-x-auto border-b-[0.0625rem] border-b-[#e8e8e8]'
+                }
                 onScroll={e => {
                   onHandleFetchWorkspaces(e, childRef.current?.offsetHeight || 0);
                 }}>
@@ -153,7 +153,7 @@ const WorkspaceBoards: FC<IWorkspaceBoards> = ({ workspaceId, isLoadingCopyMap }
                 </ul>
               </div>
             ) : (
-              <EmptyDataInfo message={'There are no workspaces yet'} />
+              <EmptyDataInfo message={'There are no boards yet'} />
             )}
           </>
         )}

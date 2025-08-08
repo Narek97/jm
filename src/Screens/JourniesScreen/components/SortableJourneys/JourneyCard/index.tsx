@@ -1,7 +1,5 @@
 import { ChangeEvent, FC, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-import './style.scss';
-
 import { useSortable } from '@dnd-kit/sortable';
 import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate } from '@tanstack/react-router';
@@ -85,14 +83,17 @@ const JourneyCard: FC<IJourneyCard> = ({
     <>
       <div
         onClick={onHandleNavigateJourneyMap}
-        className={`journey-card ${
-          viewType === JourneyViewTypeEnum.BOARD ? 'journey-card-board-view' : ''
-        }`}
+        className={`bg-white relative text-[var(--base-gray-color)] bg-[var(--base-white-color)] px-6 py-2
+         !border-l-[0.0625rem]  ${
+           viewType === JourneyViewTypeEnum.BOARD
+             ? 'w-[15rem] h-[8.5rem] border-l-[0.0625rem]  '
+             : ''
+         }  hover:!border-[var(--primary)] hover:border-l-[0.375rem] group border border-[#e5e7eb] border-l-[0.375rem] rounded`}
         data-testid={`journey-card-${map?.id}`}>
         {viewType === JourneyViewTypeEnum.STANDARD && (
           <>
             <DragHandle {...sortableAttributes} {...sortableListeners} />
-            <div className={'journey-card--menu'}>
+            <div className={'absolute right-2 top-2'}>
               <BaseWuMenu
                 item={map}
                 options={[
@@ -108,12 +109,12 @@ const JourneyCard: FC<IJourneyCard> = ({
           </>
         )}
 
-        <WuTooltip className="wu-tooltip-content" content={cardName}>
-          <div className={'journey-card--name-block'}>
+        <WuTooltip className="break-all" content={cardName}>
+          <div className={'leading-8 max-w-full truncate'}>
             {isEditName ? (
               <CustomClickAwayListener onClickAway={() => setIsEditName(false)}>
                 <div
-                  className={'journey-card--name'}
+                  className={'w-fit max-w-[90%] truncate font-medium text-[var(--primary)]'}
                   data-testid={'journey-card-name-input-test-id'}>
                   <BaseWuInput
                     value={cardName}
@@ -130,25 +131,27 @@ const JourneyCard: FC<IJourneyCard> = ({
                 </div>
               </CustomClickAwayListener>
             ) : (
-              <p className={'journey-card--name'} data-testid={'journey-card-name-text-test-id'}>
+              <p
+                className={'w-fit max-w-[90%] truncate font-medium text-[var(--primary)]'}
+                data-testid={'journey-card-name-text-test-id'}>
                 {cardName}
               </p>
             )}
           </div>
         </WuTooltip>
         <div
-          className={`journey-card--content ${
-            viewType === JourneyViewTypeEnum.BOARD ? 'board-view' : ''
+          className={`${
+            viewType === JourneyViewTypeEnum.BOARD ? 'flex flex-col-reverse' : ''
           }`}>
           {viewType === JourneyViewTypeEnum.STANDARD && (
-            <div className={'journey-card--content--create-details'}>
+            <div className={'text-xs leading-4'}>
               <div>
                 {map?.owner?.firstName} {map?.owner?.lastName}
               </div>
               <div> {dayjs(map?.createdAt)?.format('MMM D, YYYY')}</div>
             </div>
           )}
-          <div className={'journey-card--content--children-info'}>
+          <div className={'flex items-center text-[0.75rem] min-h-[1.5rem] gap-[0.2rem] mt-[0.2rem] justify-start'}>
             {map?.childMaps && map?.childMaps?.length > 0 && (
               <>
                 <span className={'wc-level-child'} />
@@ -157,7 +160,7 @@ const JourneyCard: FC<IJourneyCard> = ({
             )}
           </div>
 
-          <div className={'journey-card--content--images-block'}>
+          <div className={'h-8 !mb-[2.2rem] !my-[0.3rem]'}>
             <PersonaImages
               mapId={map?.id}
               viewMode={SelectedPersonasViewModeEnum.MAP}
@@ -167,7 +170,7 @@ const JourneyCard: FC<IJourneyCard> = ({
               }}
             />
           </div>
-          <div className={'journey-card--content--last-update'}>
+          <div className={'text-[0.75rem] !my-[0.3rem]'}>
             Last updated {dayjs(map?.updatedAt)?.format('MMM D, YYYY')}
           </div>
         </div>

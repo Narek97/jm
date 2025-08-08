@@ -1,6 +1,6 @@
 import { ChangeEvent, lazy, Suspense, useCallback, useMemo, useState } from 'react';
 
-import './style.scss';
+import './style.css';
 import { useWuShowToast, WuButton, WuTooltip } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from '@tanstack/react-router';
@@ -403,7 +403,7 @@ const JourniesScreen = () => {
   }
 
   return (
-    <div className={'journeys'} data-testid="journeys-test-id">
+    <div className={'pt-2 pr-8 pb-0 pl-8 cursor-pointer flex flex-col h-[calc(100dvh-5.75rem)]'} data-testid="journeys-test-id">
       <>
         {isOpenDeleteMapModal && (
           <Suspense fallback={''}>
@@ -439,10 +439,10 @@ const JourniesScreen = () => {
             />
           </Suspense>
         )}
-        <div className="journeys--top-section">
-          <div className="journeys--top-section--name-block">
-            <div className={'journeys--top-section--name-block--container'}>
-              <p className={'base-title !text-heading-2'}>
+        <div className="max-[1000px]:flex-col flex justify-between items-start">
+          <div className="min-w-[12.5rem] max-w-[calc(100%-32.5rem)] truncate">
+            <div className={'flex gap-2'}>
+              <p className={'!text-heading-2'}>
                 {dataBoard?.getBoardById.name?.trim() || 'Untitled'}
               </p>
               {dataBoard?.getBoardById.workspace.id && (
@@ -457,11 +457,11 @@ const JourniesScreen = () => {
                 />
               )}
             </div>
-            <div className={'journeys--top-section--name-block--date'}>
+            <div className={'text-[0.75rem] text-[var(--text)] mt-2'}>
               {dayjs(dataBoard?.getBoardById.createdAt)?.format('MMM D, YYYY')}
             </div>
           </div>
-          <div className="journeys--top-section--analytics">
+          <div className="flex items-center">
             <WorkspaceAnalytics
               showType={WorkspaceAnalyticsEnumType.BIG}
               outcomeGroups={pinnedOutcomes?.getBoardOutcomesStat?.outcomeStats}
@@ -474,7 +474,7 @@ const JourniesScreen = () => {
             />
           </div>
         </div>
-        <div className={'journeys--header'}>
+        <div className={'flex justify-between items-center gap-5 py-8 pt-4'}>
           <WuButton
             Icon={<span className="wm-add" />}
             data-testid={'create-new-journey-test-id'}
@@ -493,17 +493,17 @@ const JourniesScreen = () => {
             variant="primary">
             New journey
           </WuButton>
-          <div className={'journeys--header--search-pagination-block'}>
-            <ul className={'journeys--header--view-list-block'}>
+          <div className={'flex justify-center items-center gap-2'}>
+            <ul className={'flex gap-2'}>
               {JOURNEYS_VIEW_TABS?.map(({ iconClassName, name, tooltipContent }) => (
                 <WuTooltip
-                  className="wu-tooltip-content"
+                  className="break-all"
                   content={tooltipContent}
                   position="top"
                   key={name}>
-                  <li data-testid={name} className={'journeys--header--view-list-block--list'}>
+                  <li data-testid={name} className={'w-8 h-8 flex justify-center items-center cursor-pointer'}>
                     <WuButton
-                      className={`${tab === name ? 'active-tab' : ''} `}
+                      className={`${tab === name ? 'bg-gray-200' : ''} `}
                       onClick={() => onHandleChangeViewType(name)}
                       Icon={<span className={iconClassName} />}
                       variant="iconOnly"

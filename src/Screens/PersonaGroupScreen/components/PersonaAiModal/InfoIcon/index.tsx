@@ -4,7 +4,7 @@ import { WuTooltip } from '@npm-questionpro/wick-ui-lib';
 const InfoIcon = () => {
   return (
     <WuTooltip
-      className="wu-tooltip-content"
+      className="break-all"
       content="Add behavioural and usage context"
       position="right">
       <span className="wm-info"></span>

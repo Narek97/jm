@@ -1,7 +1,5 @@
 import { ChangeEvent, FC, useCallback, useMemo, useState } from 'react';
 
-import './style.scss';
-
 import OrgItem from './OrgItem';
 
 import { GetOrgsQuery, useGetOrgsQuery } from '@/api/queries/generated/getOrgs.generated.ts';
@@ -50,8 +48,8 @@ const Orgs: FC = () => {
 
   return (
     <>
-      <div className="org-users--search" data-testid="admin-orgs">
-        <div className="org-users--search-input">
+      <div className="w-full flex justify-end px-[2.125rem] mt-4 " data-testid="admin-orgs">
+        <div className="w-[16.25rem] !mr-[1.6rem]">
           <BaseWuInput
             isIconInput={true}
             placeholder={'Search for an organization'}
@@ -60,21 +58,21 @@ const Orgs: FC = () => {
         </div>
       </div>
       {errorOrgs ? (
-        <div className={'orgs-error'}>
-          <div className={'orgs-error--text'}>{errorOrgs?.message}</div>
+        <div>
+          <div className={'px-5 pt-5 pb-15 text-[color:var(--base-error-color)]'}>
+            {errorOrgs?.message}
+          </div>
         </div>
       ) : (
         <>
-          <div className={'orgs-list'}>
-            <div className={'orgs-list--content'}>
+          <div className={'p-2 h-[23.125rem]'}>
+            <div className={'h-full overflow-x-auto'}>
               {isLoadingOrgs && !orgs?.length ? (
-                <div className={'orgs-list-loading-section'}>
-                  <BaseWuLoader />
-                </div>
+                <BaseWuLoader />
               ) : (
                 <>
                   {orgs?.length ? (
-                    <ul className={'orgs-list--content-orgs'}>
+                    <ul className={'p-4'}>
                       {orgs?.map(org => (
                         <ErrorBoundary key={org?.orgId}>
                           <OrgItem search={searchedText} org={org} handleClick={orgItemCLick} />

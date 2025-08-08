@@ -1,6 +1,6 @@
 import { FC, UIEvent, useMemo, useRef, useState } from 'react';
 
-import './style.scss';
+import './style.css';
 import { WuCheckbox, WuDateRangePicker, WuPopover } from '@npm-questionpro/wick-ui-lib';
 
 import {
@@ -126,18 +126,18 @@ const JourneysFilter: FC<IJourneysFilter> = ({
       className="w-114 !mt-22"
       side="right"
       Trigger={
-        <div className="journeys-filter--button">
+        <div className="min-w-[2rem] h-[2rem] rounded-[0.125rem] flex items-center justify-center hover:bg-[#eeeeee]">
           <span className={'wm-filter-alt'} />
         </div>
       }>
-      <div className="journeys-filter--container">
+      <div className="relative p-4 w-[28.25rem] h-[16rem] text-sm">
         <>
           {personaGroupId ? (
             <>
-              <p className={'journeys-filter--container--persona-title'}>Persona</p>
-              <div className={'journeys-filter--container--go-back-btn-block'}>
+              <p className={'!mb-2'}>Persona</p>
+              <div className={'w-[90%] bg-white'}>
                 <button
-                  className={'journeys-filter--container--go-back-btn'}
+                  className={'flex items-center justify-center text-[var(--primary)]'}
                   onClick={() => setPersonaGroupId(null)}>
                   <span
                     className={'wm-arrow-back-ios'}
@@ -148,13 +148,13 @@ const JourneysFilter: FC<IJourneysFilter> = ({
                   Go back
                 </button>
               </div>
-              <div className="journeys-filter--container--personas-block" onScroll={onHandleFetch}>
+              <div className="!h-32 !overflow-y-auto !flex gap-1.5 !flex-wrap mb-4" onScroll={onHandleFetch}>
                 <>
                   {!personaData.length && !isFetching ? (
-                    <EmptyDataInfo message={'There are no persona group yet'} />
+                      <EmptyDataInfo message={'There are no persona group yet'} minHeight={'4rem'} />
                   ) : (
                     <>
-                      <ul ref={childRef} data-testid="persona-list">
+                      <ul ref={childRef} data-testid="persona-list" className={'grid grid-cols-2 w-full gap-y-2'}>
                         {personaData?.map(persona => (
                           <WuCheckbox
                             label={persona?.name?.trim() || 'Untitled'}
@@ -178,16 +178,15 @@ const JourneysFilter: FC<IJourneysFilter> = ({
             </>
           ) : (
             <>
-              <p className={`journeys-filter--container--persona-group-title`}>Persona Group</p>
-
+              <p>Persona Group</p>
               {isLoadingPersonaGroup ? (
                 <BaseWuLoader />
               ) : (
-                <ul className="journeys-filter--container--persona-group">
+                <ul className="h-[9.4rem] p-4 mb-4 overflow-auto">
                   {dataPersonaGroup?.getPersonaGroups.personaGroups.map(personaGroup => (
                     <li
                       key={personaGroup.id}
-                      className={`journeys-filter--container--personas-item`}
+                      className={`selectable-item`}
                       onClick={() => setPersonaGroupId(personaGroup.id)}>
                       {personaGroup.name?.trim() || 'Untitled'}
                     </li>

@@ -1,0 +1,8 @@
+:root {
+  --rct-color-tree-bg: transparent !important;
+  --rct-color-focustree-item-selected-bg: transparent !important;
+  --rct-color-tree-focus-outline: transparent !important;
+  --rct-color-focustree-item-focused-border: transparent !important;
+  --rct-color-nonfocustree-item-selected-bg: transparent !important;
+  --rct-color-nonfocustree-item-focused-border: transparent !important;
+}

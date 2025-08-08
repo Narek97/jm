@@ -117,7 +117,7 @@ const EditableTitle: FC<IEditableTitle<any>> = <T extends { id: string | number;
         </>
       ) : (
         <div className={'editable-input--name-option-block'}>
-          <WuTooltip className={'wu-tooltip-content'} content={inputValue || 'Untitled'}>
+          <WuTooltip className={'break-all'} content={inputValue || 'Untitled'}>
             <p className={'editable-input--name'}>{inputValue?.trim() || 'Untitled'}</p>
           </WuTooltip>
 

@@ -34,7 +34,7 @@ const JourneyMapCardTags: FC<IJourneyMapCardNote> = ({
   const handleMouseLeave = () => setIsHovered(false);
   return (
     <WuTooltip
-      className="wu-tooltip-content"
+      className="break-all"
       position={'bottom'}
       positionOffset={10}
       content={'Tag'}>

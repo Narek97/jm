@@ -156,7 +156,7 @@ const PinPersonaModal: FC<IPinPersonaModal> = ({ isOpen, outcomeGroupId, handleC
                               setWorkspaceId(itm?.id);
                             }}>
                             <WuTooltip
-                              className="wu-tooltip-content"
+                              className="break-all"
                               content={itm?.name}
                               position="bottom">
                               <div>{itm?.name}</div>

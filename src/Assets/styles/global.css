@@ -2,6 +2,7 @@
 @import './variables.scss';
 @import './utilities.css';
 @import './components.css';
+@import './component-blocks.css';
 
 @source "../../src/**/*";
 /*@plugin "tailwindcss-animate";*/

@@ -98,7 +98,7 @@ const SectionField: FC<ISectionField> = memo(
           </div>
           <div className={'flex items-center gap-2 ml-2 invisible group-hover:visible!'}>
             <WuTooltip
-              className="wu-tooltip-content"
+              className="break-all"
               content={`${item.isHidden ? 'Show' : 'Hide'} demographic`}
               dir="ltr"
               duration={200}

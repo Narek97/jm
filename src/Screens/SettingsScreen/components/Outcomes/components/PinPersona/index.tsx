@@ -32,7 +32,7 @@ const PinPersona = ({
         />
       )}
       <WuTooltip
-        className="wu-tooltip-content"
+        className="break-all"
         content={`Pin`}
         dir="ltr"
         duration={200}

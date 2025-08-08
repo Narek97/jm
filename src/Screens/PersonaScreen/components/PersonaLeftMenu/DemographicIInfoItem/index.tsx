@@ -90,7 +90,7 @@ const DemographicInfoItem: FC<IDemographicInfoItem> = ({
         )}
         <div className={'flex gap-[1rem] invisible group-hover:visible!'}>
           <WuTooltip
-            className="wu-tooltip-content"
+            className="break-all"
             content={`${demographicInfo.isHidden ? 'Show' : 'Hide'} demographic`}
             dir="ltr"
             duration={200}
