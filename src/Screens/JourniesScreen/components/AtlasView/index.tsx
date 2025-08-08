@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import './style.scss';
 import ParentMapItem from '@/Screens/JourniesScreen/components/AtlasView/ParentMapItem';
 import { JourneyType } from '@/Screens/JourniesScreen/types.ts';
 
@@ -16,7 +15,7 @@ const AtlasView: FC<IAtlasView> = ({ maps, createMap, onHandleDeleteJourney }) =
   );
 
   return (
-    <div className={'atlas-view--maps'}>
+    <div className={'mt-4 w-full flex justify-start gap-8 flex-wrap'}>
       {parentMaps.map(map => (
         <ParentMapItem
           key={map?.id}

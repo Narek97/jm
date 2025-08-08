@@ -1,0 +1,61 @@
+.interactive-component-content:hover .journeys-count {
+  display: none;
+}
+
+.interactive-component-content:hover .journeys-menu {
+  display: block;
+}
+
+.child-map:nth-of-type(1) {
+  margin: 1rem 1.125rem 0 1.125rem;
+}
+
+.child-map::before {
+  content: '';
+  width: 0.5rem;
+  background: #d9d9d9;
+  height: 0.125em;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -0.5rem;
+}
+
+.button-node::before {
+  width: 0;
+}
+
+.rct-tree-root {
+  padding: 0 !important;
+}
+
+.rct-tree-items-container {
+  position: relative;
+}
+
+.rct-tree-items-container::before {
+  content: '';
+  position: absolute;
+  width: 0.125em;
+  height: calc(100% - 4.15rem);
+  left: 0.6rem;
+  background: #d9d9d9;
+}
+
+.rct-tree-items-container .rct-tree-item-li {
+  background: #eeeeee !important;
+}
+
+.expanded-item .rct-tree-items-container .rct-tree-items-container {
+  position: static;
+  margin-top: -0.1rem;
+  border: 1px solid var(--medium-light-gray);
+}
+
+.expanded-item .rct-tree-items-container .rct-tree-items-container::before {
+  width: 0;
+}
+
+.expanded-item .rct-tree-items-container .rct-tree-items-container:hover .add-new-child-btn {
+  opacity: 1;
+}

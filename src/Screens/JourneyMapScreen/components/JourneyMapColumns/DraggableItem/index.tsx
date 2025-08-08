@@ -379,7 +379,7 @@ const DraggableItem = forwardRef<ChildRef, IDraggableItem>((props, ref) => {
             style={{ userSelect: 'none', overflow: 'hidden' }}
             className="column-draggable-item--input-block"
             ref={sectionRef}>
-            <WuTooltip className={'wu-tooltip-content'} content={labelValue} position="top">
+            <WuTooltip className={'break-all'} content={labelValue} position="top">
               <BaseWuInput
                 className={'border-[none] bg-transparent text-[0.75rem]!'}
                 inputRef={inputRef}

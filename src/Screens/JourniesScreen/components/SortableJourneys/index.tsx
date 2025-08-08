@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import './style.scss';
 
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, rectSortingStrategy } from '@dnd-kit/sortable';
@@ -123,7 +122,10 @@ const SortableJourneys: FC<SortableJourneysProps> = ({
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={sortableMaps.map(item => item.id)} strategy={rectSortingStrategy}>
-        <ul className="journeys-list">
+        <ul
+          className="grid gap-4 h-[calc(100dvh-15rem)] overflow-y-auto overflow-x-hidden grid-cols-[repeat(1,100%)]
+          sm:grid-cols-[repeat(2,calc(50%-0.5rem))] md:grid-cols-[repeat(2,calc(50%-0.5rem))]
+          lg:grid-cols-[repeat(3,calc(33.3%-0.65rem))] xl:grid-cols-[repeat(4,calc(24%+0.125rem))]">
           {sortableMaps.map(map => (
             <SortableJourneyItem
               key={map.id}

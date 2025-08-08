@@ -334,7 +334,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
               <div>
                 {mapDetailsData?.getMapDetails?.isChildMap && (
                   <WuTooltip
-                    className={'wu-tooltip-content'}
+                    className={'break-all'}
                     content={'Go to ' + mapDetailsData?.getMapDetails?.parentMap?.title}
                     position="bottom">
                     <WuButton
@@ -409,7 +409,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
                   {journeyMapVersion ? null : (
                     <>
                       <WuTooltip
-                        className="wu-tooltip-content"
+                        className="break-all"
                         content={`Undo`}
                         dir="ltr"
                         duration={200}
@@ -425,7 +425,7 @@ const JourneyMapHeader: FC<IJourneyMapHeader> = memo(
                       </WuTooltip>
 
                       <WuTooltip
-                        className="wu-tooltip-content"
+                        className="break-all"
                         content={`Redo`}
                         dir="ltr"
                         duration={200}

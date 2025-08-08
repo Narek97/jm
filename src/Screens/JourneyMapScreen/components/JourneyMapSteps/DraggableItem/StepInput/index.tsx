@@ -30,7 +30,7 @@ const StepInput: FC<IStepInput> = memo(
     }, [label]);
 
     return (
-      <WuTooltip className="wu-tooltip-content" content={labelValue} position="top">
+      <WuTooltip className="break-all" content={labelValue} position="top">
         <BaseWuInput
           className={'border-[none] bg-transparent text-[0.75rem]!'}
           id={String(id)}

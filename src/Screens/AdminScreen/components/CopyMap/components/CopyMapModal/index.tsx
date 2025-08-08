@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import './style.scss';
 import { useWuShowToast, WuButton } from '@npm-questionpro/wick-ui-lib';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -123,7 +122,7 @@ const CopyMapModal: FC<IAssignPersonaToMapModal> = ({
           Copy
         </WuButton>
       }>
-      <div className={'copy-map-modal--info'}>
+      <div className={'text-text ml-[1.375rem] mt-4 font-semibold'}>
         {mapId
           ? ' * Select workspace, then board for pasting the map'
           : 'Choose workspaces, then boards for paste the map'}

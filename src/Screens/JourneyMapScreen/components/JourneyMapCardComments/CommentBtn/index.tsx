@@ -26,7 +26,7 @@ const CommentBtn: FC<ICommentBtn> = ({ item, commentsCount }) => {
 
   return (
     <WuTooltip
-      className="wu-tooltip-content"
+      className="break-all"
       positionOffset={10}
       position={'bottom'}
       content={'Comment'}>

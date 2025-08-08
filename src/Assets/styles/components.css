@@ -10,10 +10,6 @@
   cursor: pointer;
 }
 
-.wu-tooltip-content {
-  word-break: break-all;
-}
-
 .wu-input-container {
   width: 100%;
 }

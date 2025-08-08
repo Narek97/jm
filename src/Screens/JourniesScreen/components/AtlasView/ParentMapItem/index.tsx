@@ -1,6 +1,6 @@
 import { FC, useState, useMemo } from 'react';
 
-import './style.scss';
+import './style.css';
 import { WuButton, WuMenu, WuMenuItem } from '@npm-questionpro/wick-ui-lib';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { ControlledTreeEnvironment, Tree, TreeItem, TreeItemIndex } from 'react-complex-tree';
@@ -105,7 +105,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ map, createMap, onHandleDeleteJourn
   };
 
   return (
-    <div className={`atlas-view--maps--item ${isExpanded ? 'expanded-item' : ''}`}>
+    <div className={`w-[18%] !min-h-8 relative ${isExpanded ? 'expanded-item' : ''}`}>
       <ControlledTreeEnvironment
         canDragAndDrop={false}
         canDropOnFolder={false}
@@ -131,7 +131,7 @@ const ParentMapItem: FC<IParentMapItem> = ({ map, createMap, onHandleDeleteJourn
                     context.toggleExpandedState();
                   }}
                   className={`${context.isExpanded ? 'wm-keyboard-arrow-up' : 'wm-keyboard-arrow-right'}
-                     icon-button`}
+                     text-[1.8rem] flex items-center justify-center min-w-[2rem] min-h-[2rem]`}
                 />
               );
             }
@@ -155,36 +155,48 @@ const ParentMapItem: FC<IParentMapItem> = ({ map, createMap, onHandleDeleteJourn
               <>
                 <li
                   data-testid={`tree-item-arrow-${item?.data?.id}`}
-                  className={`atlas-view--maps--item-content ${item.index === 'addButton' ? 'button-node' : ''} ${depth === 1 ? 'child-map' : ''}`}
+                  className={`bg-[var(--soft-gray)] text-[var(--text)] leading-[1.07rem] relative hover:bg-[var(--soft-gray)] ${item.index === 'addButton' ? 'button-node !p-0 !mb-4 !bg-transparent !leading-[1.1]' : ''} ${depth === 1 ? 'child-map !mt-2 !mx-[1.125rem] pl-2 cursor-pointer ' : ''}`}
                   {...context.itemContainerWithChildrenProps}>
                   <InteractiveComponent
                     data-testid={`map-item-${item?.data?.id}`}
-                    className={'atlas-view--maps--item-content--interactive-component'}>
+                    className={'flex'}>
                     {item.index === 'addButton' ? (
-                      <div className={'add-new-child-btn'} onClick={() => createMap(map?.id)}>
+                      <div
+                        className={
+                          'add-new-child-btn !flex !items-center !justify-center !rounded-[0.1rem] !text-[0.875rem] !w-full !border-[0.08rem] !border-[#1b87e6] !text-[var(--primary)] !box-content !p-[0.403rem] gap-[0.4rem] opacity-0 hover:bg-[var(--primary)] hover:!text-[var(--background)]'
+                        }
+                        onClick={() => createMap(map?.id)}>
                         <span className="wm-add" />
                       </div>
                     ) : (
                       <div
-                        className={'atlas-view--maps--item-content--interactive-component-content'}>
+                        className={
+                          'interactive-component-content !group flex items-center justify-between gap-[0.25rem] w-full'
+                        }>
                         {item?.data?.isParent && arrow}
-                        <div className={'left-section'}>
+                        <div
+                          className={`${depth === 1 ? 'w-full' : 'w-[calc(100%-3rem)]'} gap-[0.4rem] flex justify-between items-center
+`}>
                           <div
                             onClick={() => onNavigateMap(item?.data?.id)}
-                            className={'node-title'}>
+                            className={'text-[0.75rem] truncate hover:text-[#1b87e6]'}>
                             {(title as string)?.trim() || 'Untitled'}
                           </div>
 
                           <WuMenu
                             Trigger={
                               <WuButton
-                                className={'child-option wicki-button journeys-hover-wrapper'}
+                                className={`${depth === 1 ? 'w-6 h-6' : 'w-8 h-8'} wicki-button`}
                                 onClick={e => e.stopPropagation()}
                                 Icon={
                                   <>
-                                    <span className={'wm-more-vert journeys-menu'} />
+                                    <span
+                                      className={'text-[1rem] wm-more-vert journeys-menu hidden'}
+                                    />
                                     {item?.data?.isParent && (
-                                      <div className={'journeys-count'}>{item?.data?.mapCount}</div>
+                                      <div className={'journeys-count block text-[0.75rem]'}>
+                                        {item?.data?.mapCount}
+                                      </div>
                                     )}
                                   </>
                                 }

@@ -391,7 +391,7 @@ const Outcomes = () => {
             Trigger={
               <div>
                 <WuTooltip
-                  className="wu-tooltip-content"
+                  className="break-all"
                   content="Select an icon"
                   position="bottom">
                   <div className={'selected-icon'}>
