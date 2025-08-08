@@ -6,10 +6,23 @@ export type GetOutcomeGroupsQueryVariables = Types.Exact<{
   getOutcomeGroupsInput: Types.GetOutcomeGroupsInput;
 }>;
 
-
-export type GetOutcomeGroupsQuery = { __typename?: 'Query', getOutcomeGroups: { __typename?: 'GetOutcomeGroupModel', count?: number | null, outcomeGroups: Array<{ __typename?: 'OutcomeGroup', name: string, pluralName: string, id: number, createdAt: any, icon: string, isDefault: boolean, user?: { __typename?: 'Member', firstName: string, lastName: string } | null }> } };
-
-
+export type GetOutcomeGroupsQuery = {
+  __typename?: 'Query';
+  getOutcomeGroups: {
+    __typename?: 'GetOutcomeGroupModel';
+    count?: number | null;
+    outcomeGroups: Array<{
+      __typename?: 'OutcomeGroup';
+      name: string;
+      pluralName: string;
+      id: number;
+      createdAt: any;
+      icon: string;
+      isDefault: boolean;
+      user?: { __typename?: 'Member'; firstName: string; lastName: string } | null;
+    }>;
+  };
+};
 
 export const GetOutcomeGroupsDocument = `
     query GetOutcomeGroups($getOutcomeGroupsInput: GetOutcomeGroupsInput!) {
@@ -31,20 +44,22 @@ export const GetOutcomeGroupsDocument = `
 }
     `;
 
-export const useGetOutcomeGroupsQuery = <
-      TData = GetOutcomeGroupsQuery,
-      TError = unknown
-    >(
-      variables: GetOutcomeGroupsQueryVariables,
-      options?: Omit<UseQueryOptions<GetOutcomeGroupsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetOutcomeGroupsQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetOutcomeGroupsQuery, TError, TData>(
-      {
+export const useGetOutcomeGroupsQuery = <TData = GetOutcomeGroupsQuery, TError = unknown>(
+  variables: GetOutcomeGroupsQueryVariables,
+  options?: Omit<UseQueryOptions<GetOutcomeGroupsQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetOutcomeGroupsQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetOutcomeGroupsQuery, TError, TData>({
     queryKey: ['GetOutcomeGroups', variables],
-    queryFn: axiosRequest<GetOutcomeGroupsQuery, GetOutcomeGroupsQueryVariables>(GetOutcomeGroupsDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<GetOutcomeGroupsQuery, GetOutcomeGroupsQueryVariables>(
+      GetOutcomeGroupsDocument,
+    ).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetOutcomeGroupsQuery.getKey = (variables: GetOutcomeGroupsQueryVariables) => ['GetOutcomeGroups', variables];
+useGetOutcomeGroupsQuery.getKey = (variables: GetOutcomeGroupsQueryVariables) => [
+  'GetOutcomeGroups',
+  variables,
+];

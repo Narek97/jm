@@ -6,10 +6,7 @@ export type PinDemographicInfoMutationVariables = Types.Exact<{
   pinDemographicInfoInput: Types.PinInput;
 }>;
 
-
-export type PinDemographicInfoMutation = { __typename?: 'Mutation', pinDemographicInfo: number };
-
-
+export type PinDemographicInfoMutation = { __typename?: 'Mutation'; pinDemographicInfo: number };
 
 export const PinDemographicInfoDocument = `
     mutation PinDemographicInfo($pinDemographicInfoInput: PinInput!) {
@@ -17,17 +14,26 @@ export const PinDemographicInfoDocument = `
 }
     `;
 
-export const usePinDemographicInfoMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<PinDemographicInfoMutation, TError, PinDemographicInfoMutationVariables, TContext>) => {
-    
-    return useMutation<PinDemographicInfoMutation, TError, PinDemographicInfoMutationVariables, TContext>(
-      {
+export const usePinDemographicInfoMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    PinDemographicInfoMutation,
+    TError,
+    PinDemographicInfoMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    PinDemographicInfoMutation,
+    TError,
+    PinDemographicInfoMutationVariables,
+    TContext
+  >({
     mutationKey: ['PinDemographicInfo'],
-    mutationFn: axiosRequest<PinDemographicInfoMutation, PinDemographicInfoMutationVariables>(PinDemographicInfoDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<PinDemographicInfoMutation, PinDemographicInfoMutationVariables>(
+      PinDemographicInfoDocument,
+    ),
+    ...options,
+  });
+};
 
 usePinDemographicInfoMutation.getKey = () => ['PinDemographicInfo'];
