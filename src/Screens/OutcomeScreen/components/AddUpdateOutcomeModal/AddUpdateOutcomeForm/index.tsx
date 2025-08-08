@@ -356,7 +356,21 @@ const AddUpdateOutcomeForm: FC<IAddUpdateOutcomeFormType> = memo(
           },
         );
       },
-      [selectedOutcome, handleChangeIsLoading, creatUpdateOutcome, defaultMapId, outcomeGroupId, workspaceId, selectedJourneyMapPersona?.id, handleClose, update, user?.firstName, user?.lastName, create, showToast],
+      [
+        selectedOutcome,
+        handleChangeIsLoading,
+        creatUpdateOutcome,
+        defaultMapId,
+        outcomeGroupId,
+        workspaceId,
+        selectedJourneyMapPersona?.id,
+        handleClose,
+        update,
+        user?.firstName,
+        user?.lastName,
+        create,
+        showToast,
+      ],
     );
 
     useEffect(() => {

@@ -96,6 +96,7 @@ export enum JourneyMapRowActionEnum {
   BOX_ELEMENT = 'BOX_ELEMENT',
   BOX_TEXT_ELEMENT = 'BOX_TEXT_ELEMENT',
   MERGE_UNMERGE_COLUMNS = 'MERGE_UNMERGE_COLUMNS',
+  SENTIMENT = 'SENTIMENT',
 }
 
 export enum ActionsEnum {

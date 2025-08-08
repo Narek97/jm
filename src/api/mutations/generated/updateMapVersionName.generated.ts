@@ -6,10 +6,10 @@ export type UpdateMapVersionNameMutationVariables = Types.Exact<{
   updateMapVersionInput: Types.UpdateMapVersionInput;
 }>;
 
-
-export type UpdateMapVersionNameMutation = { __typename?: 'Mutation', updateMapVersionName: { __typename?: 'MapVersion', id: number } };
-
-
+export type UpdateMapVersionNameMutation = {
+  __typename?: 'Mutation';
+  updateMapVersionName: { __typename?: 'MapVersion'; id: number };
+};
 
 export const UpdateMapVersionNameDocument = `
     mutation UpdateMapVersionName($updateMapVersionInput: UpdateMapVersionInput!) {
@@ -19,17 +19,26 @@ export const UpdateMapVersionNameDocument = `
 }
     `;
 
-export const useUpdateMapVersionNameMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateMapVersionNameMutation, TError, UpdateMapVersionNameMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateMapVersionNameMutation, TError, UpdateMapVersionNameMutationVariables, TContext>(
-      {
+export const useUpdateMapVersionNameMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateMapVersionNameMutation,
+    TError,
+    UpdateMapVersionNameMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdateMapVersionNameMutation,
+    TError,
+    UpdateMapVersionNameMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdateMapVersionName'],
-    mutationFn: axiosRequest<UpdateMapVersionNameMutation, UpdateMapVersionNameMutationVariables>(UpdateMapVersionNameDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<UpdateMapVersionNameMutation, UpdateMapVersionNameMutationVariables>(
+      UpdateMapVersionNameDocument,
+    ),
+    ...options,
+  });
+};
 
 useUpdateMapVersionNameMutation.getKey = () => ['UpdateMapVersionName'];

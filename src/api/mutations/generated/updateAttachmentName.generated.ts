@@ -6,10 +6,10 @@ export type UpdateAttachmentNameMutationVariables = Types.Exact<{
   updateAttachmentNameInput: Types.UpdateAttachmentNameInput;
 }>;
 
-
-export type UpdateAttachmentNameMutation = { __typename?: 'Mutation', updateAttachmentName: string };
-
-
+export type UpdateAttachmentNameMutation = {
+  __typename?: 'Mutation';
+  updateAttachmentName: string;
+};
 
 export const UpdateAttachmentNameDocument = `
     mutation UpdateAttachmentName($updateAttachmentNameInput: UpdateAttachmentNameInput!) {
@@ -17,17 +17,26 @@ export const UpdateAttachmentNameDocument = `
 }
     `;
 
-export const useUpdateAttachmentNameMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateAttachmentNameMutation, TError, UpdateAttachmentNameMutationVariables, TContext>) => {
-    
-    return useMutation<UpdateAttachmentNameMutation, TError, UpdateAttachmentNameMutationVariables, TContext>(
-      {
+export const useUpdateAttachmentNameMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateAttachmentNameMutation,
+    TError,
+    UpdateAttachmentNameMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdateAttachmentNameMutation,
+    TError,
+    UpdateAttachmentNameMutationVariables,
+    TContext
+  >({
     mutationKey: ['UpdateAttachmentName'],
-    mutationFn: axiosRequest<UpdateAttachmentNameMutation, UpdateAttachmentNameMutationVariables>(UpdateAttachmentNameDocument),
-    ...options
-  }
-    )};
+    mutationFn: axiosRequest<UpdateAttachmentNameMutation, UpdateAttachmentNameMutationVariables>(
+      UpdateAttachmentNameDocument,
+    ),
+    ...options,
+  });
+};
 
 useUpdateAttachmentNameMutation.getKey = () => ['UpdateAttachmentName'];

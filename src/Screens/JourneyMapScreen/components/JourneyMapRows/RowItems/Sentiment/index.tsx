@@ -29,8 +29,10 @@ import {
   drawDividers,
   haveIntersection,
 } from '@/Screens/JourneyMapScreen/components/JourneyMapRows/JourneyMapSentimentRow/helpers';
+import { useUpdateSentiment } from '@/Screens/JourneyMapScreen/hooks/useUpdateSentiment';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { ObjectKeysType } from '@/types';
+import { ActionsEnum } from '@/types/enum';
 
 interface ISentiment {
   sentimentData: SentimentBoxType[];
@@ -71,6 +73,8 @@ const Sentiment: FC<ISentiment> = ({
     Error,
     UpdatePersonaStateMutation
   >();
+
+  const { updateSentiment } = useUpdateSentiment();
 
   const creatConnectorsBetweenEmojis = useCallback(() => {
     const emojisData: ObjectKeysType = {};
@@ -481,6 +485,13 @@ const Sentiment: FC<ISentiment> = ({
                   emoji.parent?.setAttr('x', emoji.parent.x() + 8);
                   emoji.children[1].setAttr('data', EMOJIS[type].path);
 
+                  const currentState = journeyMap?.rows
+                    ?.find(row => row.id === rowId)
+                    ?.rowWithPersonas?.find(persona => persona.id === emoji?.attrs?.data?.personaId)
+                    ?.personaStates?.find(
+                      state => state.stepId === emoji?.attrs?.data?.stepId,
+                    )?.state;
+
                   onHandleUpdateJourneyMap({
                     emojiId: emoji.attrs.id,
                     state: type,
@@ -508,6 +519,17 @@ const Sentiment: FC<ISentiment> = ({
                       rowId,
                     },
                   });
+
+                  updateSentiment(
+                    {
+                      stepId: emoji?.attrs?.data?.stepId,
+                      personaId: emoji?.attrs?.data?.personaId,
+                      state: type,
+                      rowId,
+                      previousState: currentState,
+                    },
+                    ActionsEnum.UPDATE,
+                  );
                 }
               }
             });

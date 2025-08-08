@@ -6,10 +6,26 @@ export type GetInterviewsByWorkspaceIdQueryVariables = Types.Exact<{
   getInterviewsInput: Types.GetInterviewsInput;
 }>;
 
-
-export type GetInterviewsByWorkspaceIdQuery = { __typename?: 'Query', getInterviewsByWorkspaceId: { __typename?: 'GetBoardInterviewsModel', count?: number | null, offset: number, limit: number, interviews: Array<{ __typename?: 'Interview', id: number, boardId: number, name: string, aiJourneyModelId?: number | null, text: string, mapId: number, createdAt: any, updatedAt: any }> } };
-
-
+export type GetInterviewsByWorkspaceIdQuery = {
+  __typename?: 'Query';
+  getInterviewsByWorkspaceId: {
+    __typename?: 'GetBoardInterviewsModel';
+    count?: number | null;
+    offset: number;
+    limit: number;
+    interviews: Array<{
+      __typename?: 'Interview';
+      id: number;
+      boardId: number;
+      name: string;
+      aiJourneyModelId?: number | null;
+      text: string;
+      mapId: number;
+      createdAt: any;
+      updatedAt: any;
+    }>;
+  };
+};
 
 export const GetInterviewsByWorkspaceIdDocument = `
     query GetInterviewsByWorkspaceId($getInterviewsInput: GetInterviewsInput!) {
@@ -32,19 +48,24 @@ export const GetInterviewsByWorkspaceIdDocument = `
     `;
 
 export const useGetInterviewsByWorkspaceIdQuery = <
-      TData = GetInterviewsByWorkspaceIdQuery,
-      TError = unknown
-    >(
-      variables: GetInterviewsByWorkspaceIdQueryVariables,
-      options?: Omit<UseQueryOptions<GetInterviewsByWorkspaceIdQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetInterviewsByWorkspaceIdQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetInterviewsByWorkspaceIdQuery, TError, TData>(
-      {
+  TData = GetInterviewsByWorkspaceIdQuery,
+  TError = unknown,
+>(
+  variables: GetInterviewsByWorkspaceIdQueryVariables,
+  options?: Omit<UseQueryOptions<GetInterviewsByWorkspaceIdQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetInterviewsByWorkspaceIdQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetInterviewsByWorkspaceIdQuery, TError, TData>({
     queryKey: ['GetInterviewsByWorkspaceId', variables],
-    queryFn: axiosRequest<GetInterviewsByWorkspaceIdQuery, GetInterviewsByWorkspaceIdQueryVariables>(GetInterviewsByWorkspaceIdDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<
+      GetInterviewsByWorkspaceIdQuery,
+      GetInterviewsByWorkspaceIdQueryVariables
+    >(GetInterviewsByWorkspaceIdDocument).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetInterviewsByWorkspaceIdQuery.getKey = (variables: GetInterviewsByWorkspaceIdQueryVariables) => ['GetInterviewsByWorkspaceId', variables];
+useGetInterviewsByWorkspaceIdQuery.getKey = (
+  variables: GetInterviewsByWorkspaceIdQueryVariables,
+) => ['GetInterviewsByWorkspaceId', variables];

@@ -16,11 +16,12 @@ import {
 import BaseWuLoader from '@/Components/Shared/BaseWuLoader';
 import RowNameBlock from '@/Screens/JourneyMapScreen/components/JourneyMapRows/components/RowNameBlock';
 import Sentiment from '@/Screens/JourneyMapScreen/components/JourneyMapRows/RowItems/Sentiment';
+import { useUpdateSentiment } from '@/Screens/JourneyMapScreen/hooks/useUpdateSentiment';
 import { BoxType, JourneyMapRowType } from '@/Screens/JourneyMapScreen/types.ts';
 import { useJourneyMapStore } from '@/Store/journeyMap.ts';
 import { useLayerStore } from '@/Store/layers.ts';
 import { ObjectKeysType } from '@/types';
-import { SelectedPersonasViewModeEnum } from '@/types/enum.ts';
+import { ActionsEnum, SelectedPersonasViewModeEnum } from '@/types/enum.ts';
 
 interface IJourneyMapSentimentRow {
   dragHandleProps: DraggableProvidedDragHandleProps | null;
@@ -54,6 +55,7 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
     Error,
     DisablePersonaForRowMutation
   >();
+  const { updateSentiment } = useUpdateSentiment();
 
   const toggleSelectAverage = () => {
     const isDisabled = !rowItem.isPersonaAverageDisabled;
@@ -102,11 +104,21 @@ const JourneyMapSentimentRow: FC<IJourneyMapSentimentRow> = ({
             },
           });
 
+          updateSentiment(
+            {
+              rowId: rowItem.id,
+              personaId: id,
+              disable: newDisabledState,
+              previousState: !newDisabledState,
+            },
+            ActionsEnum.DISABLE,
+          );
+
           updateJourneyMap(journeyMapCopy);
         }
       }
     },
-    [journeyMap, rowItem.id, toggleDisablePersona, updateJourneyMap],
+    [journeyMap, rowItem.id, toggleDisablePersona, updateJourneyMap, updateSentiment],
   );
 
   const sentimentData = useMemo(() => {

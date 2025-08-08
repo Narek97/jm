@@ -1,7 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
-
 import '@npm-questionpro/wick-ui-icon/dist/wu-icon.css';
 import '@npm-questionpro/wick-ui-lib/dist/style.css';
 import 'react-loading-skeleton/dist/skeleton.css';

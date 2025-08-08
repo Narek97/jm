@@ -6,10 +6,21 @@ export type GetWhiteboardQueryVariables = Types.Exact<{
   id: Types.Scalars['Int']['input'];
 }>;
 
-
-export type GetWhiteboardQuery = { __typename?: 'Query', getWhiteboard: { __typename?: 'GetWhiteboardModel', id: number, name: string, ownerId: number, canvasId?: number | null, isLocked: boolean, sharingPolicy: Types.SharingPolicyEnum, type: Types.WhiteboardTypeEnum, helpLink?: string | null, folderId: number } };
-
-
+export type GetWhiteboardQuery = {
+  __typename?: 'Query';
+  getWhiteboard: {
+    __typename?: 'GetWhiteboardModel';
+    id: number;
+    name: string;
+    ownerId: number;
+    canvasId?: number | null;
+    isLocked: boolean;
+    sharingPolicy: Types.SharingPolicyEnum;
+    type: Types.WhiteboardTypeEnum;
+    helpLink?: string | null;
+    folderId: number;
+  };
+};
 
 export const GetWhiteboardDocument = `
     query GetWhiteboard($id: Int!) {
@@ -27,20 +38,22 @@ export const GetWhiteboardDocument = `
 }
     `;
 
-export const useGetWhiteboardQuery = <
-      TData = GetWhiteboardQuery,
-      TError = unknown
-    >(
-      variables: GetWhiteboardQueryVariables,
-      options?: Omit<UseQueryOptions<GetWhiteboardQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetWhiteboardQuery, TError, TData>['queryKey'] }
-    ) => {
-    
-    return useQuery<GetWhiteboardQuery, TError, TData>(
-      {
+export const useGetWhiteboardQuery = <TData = GetWhiteboardQuery, TError = unknown>(
+  variables: GetWhiteboardQueryVariables,
+  options?: Omit<UseQueryOptions<GetWhiteboardQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<GetWhiteboardQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<GetWhiteboardQuery, TError, TData>({
     queryKey: ['GetWhiteboard', variables],
-    queryFn: axiosRequest<GetWhiteboardQuery, GetWhiteboardQueryVariables>(GetWhiteboardDocument).bind(null, variables),
-    ...options
-  }
-    )};
+    queryFn: axiosRequest<GetWhiteboardQuery, GetWhiteboardQueryVariables>(
+      GetWhiteboardDocument,
+    ).bind(null, variables),
+    ...options,
+  });
+};
 
-useGetWhiteboardQuery.getKey = (variables: GetWhiteboardQueryVariables) => ['GetWhiteboard', variables];
+useGetWhiteboardQuery.getKey = (variables: GetWhiteboardQueryVariables) => [
+  'GetWhiteboard',
+  variables,
+];
