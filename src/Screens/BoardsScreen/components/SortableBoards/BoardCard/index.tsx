@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import './style.scss';
 import { useSortable } from '@dnd-kit/sortable';
 import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
@@ -46,21 +45,23 @@ const BoardCard: FC<IBoardCard> = ({
 
   return (
     <div
-      className="board-card"
+      className="relative bg-white w-[calc(100%-0.5rem)] h-[10.625rem] !pt-4 !pr-[2.5rem] !pb-4 !pl-[1.5rem]
+       border border-[#e5e7eb] border-l-[0.375rem] rounded text-[#545e6b] cursor-pointer
+       flex items-start justify-center gap-4 overflow-hidden hover:!border-[#1b87e6] hover:border-l-[0.375rem] group"
       data-testid={`board-card-${board?.id}`}
       onClick={onNavigateWhiteboardPage}>
       <DragHandle {...sortableAttributes} {...sortableListeners} />
-      <div className="board-card--left">
+      <div className="w-[17.625rem]">
         <EditableTitle
           item={board}
           onHandleUpdate={updateBoardName}
           onHandleDelete={onToggleBoardDeleteModal}
           maxLength={100}
         />
-        <div className="board-card--analytics">
+        <div className="!mt-[1.375rem] flex justify-start gap-2">
           <WorkspaceAnalytics
+            className="!gap-4"
             showType="horizontal-type"
-            fontSize="small-font-size"
             data={{
               journeyMapCount: board?.journeyMapCount || 0,
               personasCount: board?.personasCount || 0,
@@ -71,10 +72,10 @@ const BoardCard: FC<IBoardCard> = ({
           />
         </div>
       </div>
-      <ul className="board-card--right">
+      <ul className="w-[calc(100%-18.375rem)] h-full flex justify-start items-center gap-4">
         {board?.journeyMapCount > 0 ? (
           <>
-            <div className="board-card--right-journies">
+            <div className="flex items-center gap-4">
               {board?.maps
                 ?.slice(0, maxCardNumber)
                 ?.map(mapItem => (
@@ -88,13 +89,15 @@ const BoardCard: FC<IBoardCard> = ({
                 ))}
             </div>
             {board?.journeyMapCount > maxCardNumber && (
-              <li className="board-card--right-more-block">
+              <li className="min-w-[8.5rem] h-[8.5rem] border border-[var(--medium-light-gray)] hover:!border-[var(--primary)] rounded text-[var(--primary)] font-medium flex items-center justify-center">
                 and {board?.journeyMapCount - maxCardNumber} more
               </li>
             )}
           </>
         ) : (
-          <div className="no-maps-info">No journey maps yet</div>
+          <div className="flex items-center h-full text-[0.75rem] text-[#878f99]">
+            No journey maps yet
+          </div>
         )}
       </ul>
     </div>

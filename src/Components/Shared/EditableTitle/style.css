@@ -1,0 +1,8 @@
+.editable-input--name-option-block span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 500;
+  max-width: 84%;
+  color: var(--primary);
+}

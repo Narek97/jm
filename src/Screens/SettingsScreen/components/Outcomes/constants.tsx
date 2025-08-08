@@ -118,7 +118,7 @@ export const OUTCOMES_FORM_ELEMENTS: Array<OutcomesElementType> = [
 ];
 
 export const DEFAULT_GET_OUTCOMES_PARAMS = {
-  sortBy: OutcomeGroupSortByEnum.createdBy,
+  sortBy: OutcomeGroupSortByEnum.CreatedBy,
   orderBy: OrderByEnum.Desc,
 };
 
